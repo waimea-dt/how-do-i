@@ -1,0 +1,48 @@
+.jotted {
+    --dark-border: #2e393f;
+    --dark-back: #37464d;
+    --dark-text: #ccc;
+
+    --dark-back-loading: #30331f;
+    --dark-back-error: #371010;
+}
+
+.jotted {
+    border-color: var(--dark-border);
+}
+
+.jotted-plugin-pen .jotted-pane-title {
+    color: var(--dark-text);
+    background: var(--dark-back);
+    border-color: var(--dark-border);
+}
+
+.jotted-plugin-pen.jotted-has-html .jotted-pane-result,
+.jotted-plugin-pen.jotted-has-css .jotted-pane-result,
+.jotted-plugin-pen.jotted-has-js .jotted-pane-result {
+    border-color: var(--dark-border);
+}
+
+.jotted-plugin-pen-expander,
+.jotted-pane-result .jotted-plugin-pen-expander {
+    border-color: var(--dark-border);
+}
+
+
+/* STATUS PANEL */
+
+.jotted-status {
+    background-color: var(--dark-back);
+}
+
+.jotted-status p {
+    color: var(--dark-text);
+}
+
+.jotted-status-loading {
+    background-color: var(--dark-back-loading);
+}
+
+.jotted-status-error {
+    background-color: var(--dark-back-error);
+}

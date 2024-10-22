@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+
+.jotted {
+    width: 100%;
+    border-radius: 0px;
+}
+
+.CodeMirror {
+    font-size: 0.9rem;
+    line-height: 1.1;
+    font-family: 'Fira Code', monospace;
+}
+
+
+.CodeMirror-scrollbar-filler,
+.CodeMirror-gutter-filler {
+    background: none;
+}
+
+.CodeMirror-overlayscroll-horizontal div,
+.CodeMirror-overlayscroll-vertical div {
+    background: #546e7a91;
+}
+
+
+/* ----------------------------------------------------------
+ * PEN PLUGIN MODIFIED BY STEVE COPLEY FOR VERTICAL RESIZING
+ * ----------------------------------------------------------
+ */
+
+.jotted-plugin-pen {
+    --width-code: 40%;
+    --width-result: calc(100% - var(--width-code));
+    --width-resize: 5px;
+    --title-height: 1.6rem;
+}
+
+.jotted-plugin-pen {
+    min-height: 30em;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.jotted-plugin-pen .jotted-pane-title {
+    line-height: var(--title-height);
+    font-size: calc(var(--title-height) / 2);
+}
+
+
+.jotted-plugin-pen .jotted-editor .CodeMirror {
+    height: calc(100% - var(--title-height));
+}
+
+.jotted-plugin-pen .jotted-pane {
+    padding-top: 0;
+    height: 100%;
+}
+
+.jotted-plugin-pen.jotted-has-html .jotted-pane-html   { order: 1; }
+.jotted-plugin-pen.jotted-has-css  .jotted-pane-css    { order: 2; }
+.jotted-plugin-pen.jotted-has-js   .jotted-pane-js     { order: 3; }
+.jotted-plugin-pen                 .jotted-pane-result { order: 5; }
+
+.jotted-plugin-pen.jotted-has-html .jotted-pane-result,
+.jotted-plugin-pen.jotted-has-css  .jotted-pane-result,
+.jotted-plugin-pen.jotted-has-js   .jotted-pane-result {
+    max-width: var(--width-result);
+    width: var(--width-result);
+    border-left: var(--width-resize) solid #33333340;
+}
+
+.jotted-plugin-pen.jotted-has-html .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-css  .jotted-pane-css,
+.jotted-plugin-pen.jotted-has-js   .jotted-pane-js,
+.jotted-plugin-pen.jotted-has-html.jotted-has-css .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-html.jotted-has-js  .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-css.jotted-has-js   .jotted-pane-js,
+.jotted-plugin-pen.jotted-has-html.jotted-has-css .jotted-pane-css,
+.jotted-plugin-pen.jotted-has-css.jotted-has-js   .jotted-pane-css,
+.jotted-plugin-pen.jotted-has-html.jotted-has-js  .jotted-pane-js,
+.jotted-plugin-pen.jotted-has-html.jotted-has-css.jotted-has-js .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-html.jotted-has-css.jotted-has-js .jotted-pane-js,
+.jotted-plugin-pen.jotted-has-html.jotted-has-css.jotted-has-js .jotted-pane-css {
+    width: var(--width-code);
+    max-width: var(--width-code);
+}
+
+.jotted-plugin-pen.jotted-has-html .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-css  .jotted-pane-css,
+.jotted-plugin-pen.jotted-has-js   .jotted-pane-js {
+    height: 100%;
+}
+
+.jotted-plugin-pen.jotted-has-html.jotted-has-css .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-html.jotted-has-js  .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-css.jotted-has-js   .jotted-pane-js {
+    height: 50%;
+}
+
+.jotted-plugin-pen.jotted-has-html.jotted-has-css .jotted-pane-css,
+.jotted-plugin-pen.jotted-has-css.jotted-has-js   .jotted-pane-css,
+.jotted-plugin-pen.jotted-has-html.jotted-has-js  .jotted-pane-js {
+    height: 50%;
+}
+
+.jotted-plugin-pen.jotted-has-html.jotted-has-css.jotted-has-js .jotted-pane-html,
+.jotted-plugin-pen.jotted-has-html.jotted-has-css.jotted-has-js .jotted-pane-js,
+.jotted-plugin-pen.jotted-has-html.jotted-has-css.jotted-has-js .jotted-pane-css {
+    height: 33.3%;
+}
+
+
+
+.jotted-plugin-pen-expander {
+    position: absolute;
+    width: 100%;
+    height: var(--title-height);
+    z-index: 5;
+    cursor: row-resize;
+    border-top: 1px solid #33333340;
+    border-left: none;
+}
+
+.jotted-pane-result .jotted-plugin-pen-expander {
+    left: calc(var(--width-resize) * -1);
+    width: calc(var(--width-resize) * 3);
+    height: 100%;
+    z-index: 5;
+    cursor: col-resize;
+    border-top: none;
+}

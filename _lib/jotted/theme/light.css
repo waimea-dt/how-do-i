@@ -1,0 +1,28 @@
+.jotted {
+    --light-border: #CFD8DC;
+    --light-back: #ECEFF1;
+    --light-text: #333;
+}
+
+.jotted {
+    border-color: var(--light-border);
+}
+
+.jotted-plugin-pen .jotted-pane-title {
+    color: var(--light-text);
+    background: var(--light-back);
+    border-color: var(--light-border);
+}
+
+.jotted-plugin-pen.jotted-has-html .jotted-pane-result,
+.jotted-plugin-pen.jotted-has-css .jotted-pane-result,
+.jotted-plugin-pen.jotted-has-js .jotted-pane-result {
+    border-color: var(--light-border);
+}
+
+.jotted-plugin-pen-expander,
+.jotted-pane-result .jotted-plugin-pen-expander {
+    border-color: var(--light-border);
+}
+
+

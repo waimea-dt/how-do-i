@@ -1,0 +1,144 @@
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    font-family: sans-serif;
+    font-size: 22px;
+
+    scroll-behavior: smooth;    /* smooth scrolling - yum! */
+    scroll-padding-top: 5rem;   /* leave space for sticky header */
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    position: sticky;           /* stick to top of window on scroll */
+    top: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    background-color: #ccc;
+}
+
+header h1 {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Mobile menu button */
+#menu-open {
+    background: none;           /* Strip off normal button look */
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: 1.2rem;
+}
+
+/* Links in the menu */
+#menu-links li {
+    width: 100%;                /* full width for bigger click target */
+}
+
+#menu-links a {
+    display: block;             /* full width for bigger link target */
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* The list of links */
+#menu-links {
+    position: fixed;            /* will sit before page and not scroll */
+    top: 0;                     /* full height, from top to bottom */
+    bottom: 0;
+
+    width: 12rem;               /* presently positioned off right side */
+    right: -12rem;
+
+    display: flex;              /* vertical menu */
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem 1.5rem;
+
+    margin: 0;                  /* remove normal list styling */
+    padding: 1rem;
+    list-style: none;
+
+    background-color: #369;
+    color: #fff;
+
+    transition: all 300ms ease-out;
+}
+
+/* Slide in from right when shown */
+#main-menu.show #menu-links {
+    right: 0;
+}
+
+/* Create a pseudo-element to shade the page content */
+#main-menu::before {
+    content: '';
+
+    position: fixed;            /* cover whole of screen */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    pointer-events: none;       /* allow mouse events to pass through */
+
+    background-color: #000;
+
+    opacity: 0;                 /* initially transparent */
+    transition: all 500ms;
+}
+
+/* Animate the shade's opacity when menu shown */
+#main-menu.show::before {
+    opacity: 0.8;
+}
+
+/* Changes applied for desktop viewing */
+@media screen and (min-width: 850px) {
+
+    #menu-links {
+        position: static;               /* turns off fixed positioning */
+        width: auto;                    /* and the fixed width */
+        padding: 0;                     /* and the mobile padding */
+
+        flex-direction: row;            /* switch to horizontal menu */
+
+        background-color: transparent;  /* remove mobile menu styling */
+        color: inherit;
+
+        transition: none;               /* no more animations needed */
+    }
+
+    #menu-open {
+        display: none;                  /* hide the mobile button */
+    }
+
+    #main-menu.show::before {
+        opacity: 0;                     /* make sure overlay is off */
+    }
+}
+
+
+main {
+    padding: 1rem;
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+
+
+
+

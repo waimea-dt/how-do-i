@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="250px" height="125px" viewBox="0 0 250 125" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path d="M250 0L250 0L250 125L0 125L0 0L250 0Z" id="path_1" />
+    <path d="M18 12.491C18 7.52043 21.5817 3.491 26 3.491C30.4183 3.491 34 7.52043 34 12.491C34 17.4616 30.4183 21.491 26 21.491C21.5817 21.491 18 17.4616 18 12.491Z" id="path_2" />
+    <path d="M20.3338 12.5631C20.3338 7.59253 23.9155 3.56309 28.3338 3.56309C32.7521 3.56309 36.3338 7.59253 36.3338 12.5631C36.3338 17.5337 32.7521 21.5631 28.3338 21.5631C23.9155 21.5631 20.3338 17.5337 20.3338 12.5631Z" id="path_3" />
+    <clipPath id="clip_1">
+      <use xlink:href="#path_1" clip-rule="evenodd" fill-rule="evenodd" />
+    </clipPath>
+    <clipPath id="clip_2">
+      <use xlink:href="#path_2" />
+    </clipPath>
+    <clipPath id="clip_3">
+      <use xlink:href="#path_3" />
+    </clipPath>
+  </defs>
+  <g id="blob" clip-path="url(#clip_1)">
+    <path d="M250 0L250 0L250 125L0 125L0 0L250 0Z" id="blob" fill="none" stroke="none" />
+    <g id="Blob" transform="translate(3 33.546707)">
+      <g id="body" transform="matrix(0 -1 1 0 0 88.90658)">
+        <path d="M29.9066 118C62.4914 118 88.9066 91.5848 88.9066 59C88.9066 26.4152 62.4914 0 29.9066 0C-2.67823 0 0.0564957 27.6755 0.0564957 60.2603C0.0564957 92.8451 -2.67823 118 29.9066 118L29.9066 118Z" id="Shadow" fill="#22759f" stroke="none" />
+        <path d="M33.2158 107.5C70.9691 106.018 86.9068 86.8247 86.9068 57.0008C86.9068 27.177 61.8687 2 32.2158 2C0.437711 2.125 3.01027 19.2355 4.45329 57.0008C5.62691 87.7159 5.99765 108.569 33.2158 107.5Z" id="Light-Fill" fill="#2d9bd2" stroke="none" />
+        <path d="M29.9066 118C62.4914 118 88.9066 91.5848 88.9066 59C88.9066 26.4152 62.4914 0 29.9066 0C-2.67823 0 0.0564957 27.6755 0.0564957 60.2603C0.0564957 92.8451 -2.67823 118 29.9066 118L29.9066 118Z" id="Outline" fill="none" stroke="#0E1320" stroke-width="4" />
+      </g>
+      <path d="M59.5 77.7583C69.165 77.7583 77 69.9233 77 60.2583C77 50.5933 69.6887 55.915 60.0237 55.915C50.3588 55.915 42 50.5933 42 60.2583C42 69.9233 49.835 77.7583 59.5 77.7583L59.5 77.7583Z" id="Mouth" fill="#000000" fill-rule="evenodd" stroke="none" />
+      <path d="M12 37.4533C12 36.3487 12.8954 35.4533 14 35.4533C15.1046 35.4533 16 36.3487 16 37.4533C16 38.5579 15.1046 39.4533 14 39.4533C12.8954 39.4533 12 38.5579 12 37.4533ZM19.0557 33.635C18.7658 34.0964 18.2284 34.1462 17.8424 33.7322L16.4911 32.2832C16.1109 31.8755 16.0418 31.159 16.3302 30.7014C16.3302 30.7014 19.8917 24.5491 25.0349 19.7706C30.1781 14.9922 36.9031 11.5877 36.9031 11.5877C37.3672 11.3101 38.0457 11.4093 38.4317 11.8233L39.783 13.2723C40.1631 13.68 40.081 14.218 39.5911 14.4831C39.5911 14.4831 34.4963 15.9711 27.7374 22.3841C22.6449 27.216 19.0557 33.635 19.0557 33.635L19.0557 33.635Z" id="Light" fill="#FFFFFF" fill-rule="evenodd" stroke="none" />
+      <path d="M76 37.4533C76 33.5873 79.134 30.4533 83 30.4533C86.866 30.4533 90 33.5873 90 37.4533C90 41.3193 86.866 44.4533 83 44.4533C79.134 44.4533 76 41.3193 76 37.4533Z" id="Right-Eye" fill="#000000" fill-rule="evenodd" stroke="none" />
+      <path d="M32 37.4533C32 33.5873 35.134 30.4533 39 30.4533C42.866 30.4533 46 33.5873 46 37.4533C46 41.3193 42.866 44.4533 39 44.4533C35.134 44.4533 32 41.3193 32 37.4533Z" id="Left-Eye" fill="#000000" fill-rule="evenodd" stroke="none" />
+    </g>
+    <g id="Speech" transform="translate(128.4996 2.9999714)">
+      <path d="M118.5 37.1061C118.5 12.2569 107.33 -1.34954 57.5963 0.105917C22.0954 1.14486 3.435 10.4228 3.49093 37.1061C3.5074 44.962 5.74775 52.0924 9.00002 56.0925C6.25229 65.0926 1.76579e-06 73.1064 1.76579e-06 73.1064C1.76579e-06 73.1064 9.24099 74.5926 18.491 69.0926C29.0541 71.7982 36.946 73.5632 62.6397 73.1065C104.642 72.3598 118.5 61.9553 118.5 37.1061Z" id="Speech-Bubble" fill="#FFFFFF" stroke="#0E1320" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <g id="" transform="matrix(0.9396926 0.34202015 -0.34202015 0.9396926 95.91194 28.776289)">
+        <path d="M12.234 26.4102C12.234 25.5321 12.9849 24.8203 13.9113 24.8203C14.8376 24.8203 15.5885 25.5321 15.5885 26.4102C15.5885 27.2882 14.8376 28 13.9113 28C12.9849 28 12.234 27.2882 12.234 26.4102Z" id="Oval-3" fill="#000000" fill-rule="evenodd" stroke="none" />
+        <path d="M0.325787 6.53721C-1.91027 0.907308 7.95969 -2.95212 11.7858 2.96008C15.612 8.87228 8.29261 12.8966 8.29261 12.8966L11.7858 21.1076" id="Line-5" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+      <g id="..." transform="matrix(0.9975641 -0.06975647 0.06975647 0.9975641 80.40576 58.46968)">
+        <path d="M5 1.58984C5 0.711794 5.75092 0 6.67722 0C7.60352 0 8.35444 0.711794 8.35444 1.58984C8.35444 2.46788 7.60352 3.17967 6.67722 3.17967C5.75092 3.17967 5 2.46788 5 1.58984Z" id="Oval-3" fill="#000000" fill-rule="evenodd" stroke="none" />
+        <path d="M10 1.58984C10 0.711794 10.7509 0 11.6772 0C12.6035 0 13.3544 0.711794 13.3544 1.58984C13.3544 2.46788 12.6035 3.17967 11.6772 3.17967C10.7509 3.17967 10 2.46788 10 1.58984Z" id="Oval-4" fill="#000000" fill-rule="evenodd" stroke="none" />
+        <path d="M0 1.58984C0 0.711794 0.750917 0 1.67722 0C2.60352 0 3.35444 0.711794 3.35444 1.58984C3.35444 2.46788 2.60352 3.17967 1.67722 3.17967C0.750917 3.17967 0 2.46788 0 1.58984Z" id="Oval-3" fill="#000000" fill-rule="evenodd" stroke="none" />
+      </g>
+      <g id="Do" transform="translate(24.500397 41.509033)">
+        <path d="M5.01652e-06 19.993L0 0.316073C0 0.316073 14.0849 -2.64769 13.9996 9.5758C13.9225 20.6368 5.01652e-06 19.993 5.01652e-06 19.993Z" id="Oval-3" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <g id="Oval-2">
+          <g clip-path="url(#clip_2)">
+            <use xlink:href="#path_2" fill="none" stroke="#000000" stroke-width="8" />
+          </g>
+        </g>
+      </g>
+      <g id="I" transform="translate(66.5004 38.50003)">
+        <path d="M4 0.25L3.75 21.75" id="Line-4" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M0 22.5L7 22" id="Line-5" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M0 0L7 0.5" id="Line-6" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+      <g id="How" transform="matrix(0.9986295 0.05233596 -0.05233596 0.9986295 29.927948 7.98827)">
+        <g id="W" transform="translate(39.5838 3.5630913)">
+          <path d="M17.5 0L14.5 12.5" id="Line-7" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M9 4L14.5 12.75" id="Line-6" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M8.75 3.75L5 13.25" id="Line-5" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M0 2.25L4.75 13.5" id="Line-4" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+        <g id="H" transform="matrix(0.9975641 0.06975647 -0.06975647 0.9975641 1.7090302 0)">
+          <path d="M12.75 0L17 21.25" id="Line-2" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M0 3.75L4.75 24.5" id="Line" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2.5 14.75L14.25 11.5" id="Line-3" fill="none" fill-rule="evenodd" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+        <g id="Oval">
+          <g clip-path="url(#clip_3)">
+            <use xlink:href="#path_3" fill="none" stroke="#000000" stroke-width="8" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
