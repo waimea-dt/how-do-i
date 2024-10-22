@@ -1,4 +1,4 @@
-![](_media/blob-speak.svg)
+![](media/blob-speak.svg)
 
 # DT How To...
 

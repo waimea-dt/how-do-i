@@ -7,7 +7,7 @@ The Digital Technologies Server is a place for you to create awesome websites, o
 
 How do you create cool things? How do you add colour to your website? How do you even create a website?!
 
-![How to blob](_media/blob-speak.svg)
+![How to blob](media/blob-speak.svg)
 
 Well, this is a great place for you to get help...
 
