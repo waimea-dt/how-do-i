@@ -1,3 +1,0 @@
-# Your Home Directory
-
-

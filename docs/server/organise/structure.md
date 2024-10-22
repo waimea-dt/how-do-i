@@ -1,6 +1,0 @@
-# Structuring Your Home Directory
-
-
-
-
-

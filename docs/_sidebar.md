@@ -1,10 +1,3 @@
-- <span class="material-icons">storage</span> The DT Server
-
-    - [About the Server](server/intro/about.md)
-    - [Access the Server](server/connect/access.md)
-    - [Connect VS Code](server/connect/vscode.md)
-    - [My Home Directory](server/organise/home.md )
-
 - <span class="material-icons">account_tree</span> Algorithms
 
     - [What is Algorithmic Thinking?](algo/intro/about.md)
@@ -55,84 +48,63 @@
 
         - [What is HTMX?](htmx/intro/about.md)
 
-    - PHP
+    - Flask (Back-End)
 
-        - [What is PHP?](php/intro/about.md)
-        - [How Does PHP Work?](php/intro/request.md)
+        - [What is Flask?](flask/intro/about.md)
+        - [How Does Flask Work?](flask/intro/request.md)
 
-        - PHP Basics
-            - [PHP Blocks](php/basics/block.md)
-            - [PHP Comments](php/basics/comments.md)
-            - [PHP Data and Varaiables](php/basics/variables.md)
-            - [PHP Operators](php/basics/operators.md)
-            - [PHP Loops](php/basics/loops.md)
-            - [PHP Branching](php/basics/branching.md)
-            - [PHP Arrays](php/basics/arrays.md)
-            - [PHP Constants](php/basics/constants.md)
-            - [PHP Includes](php/basics/includes.md)
-            - [PHP Error Handling](php/basics/errors.md)
+        - Flask Basics
+            - [Setup](flask/basics/setup.md)
+            - [Routes](flask/basics/routes.md)
 
-        - PHP Form Handling
-            - [Form Actions](php/forms/action.md)
-            - [GET and POST](php/forms/get_post.md)
-            - [File Uploads](php/forms/get_post.md)
+    - SQL
 
-        - PHP and MySQL
-            - [PHP PDO](php/mysql/about.md)
-            - [Connecting](php/mysql/connect.md)
-            - [SELECT Queries](php/mysql/select-simple.md)
-            - [SELECT with Data Values](php/mysql/select-values.md)
-            - [Prepared Statements](php/mysql/prepared.md)
-            - [SQL Injection Attacks](php/mysql/injection.md)
+        - [What is SQL?](sql/intro/about.md)
+        - [Database Terminology](sql/intro/database.md)
 
-        - PHP Sessions
-            - [What is a Session?](php/session/about.md)
-            - [Creating a Session](php/session/create.md)
-            - [Storing Session Data](php/session/store.md)
-            - [Removing Session Data](php/session/remove.md)
-
-        - PHP Account Security
-            - [User Accounts](php/security/about.md)
-            - [Don't Store Passwords!](php/security/passwords.md)
-            - [Password Hash and Salt](php/security/hash-salt.md)
-            - [Logging in a User](php/security/login.md)
-            - [Tracking Login State](php/security/state.md)
-            - [Logging Out a User](php/security/login.md)
-
-        - PHP URL Routing
-            - [What is Routing?](php/routing/about.md)
-            - [Initial Setup](php/routing/setup.md)
-            - [URL Parsing](php/routing/parsing.md)
-            - [Route View Setup](php/routing/views.md)
-            - [Page Layout View](php/routing/layout.md)
-            - [Loading Views](php/routing/loading.md)
-            - [Parameters](php/routing/params.md)
-
-    - MySQL
-
-        - [What is MySQL?](mysql/intro/about.md)
-        - [Database Terminology](mysql/intro/database.md)
+        - Creating Tables
+            - [CREATE TABLE](sql/tables/create.md)
+            - [Foreign Keys](sql/tables/foreign.md)
 
         - Creating Records [INSERT]
-            - [INSERT Queries](mysql/queries/insert.md)
+            - [INSERT Queries](sql/queries/insert.md)
 
         - Reading Records [SELECT]
-            - [SELECT Queries](mysql/queries/select-basic.md)
-            - [SELECT with WHERE](mysql/queries/select-where.md)
-            - [SELECT with ORDER BY](mysql/queries/select-order.md)
-            - [SELECT with Summaries](mysql/queries/select-summary.md)
-            - [SELECT with Table JOINs](mysql/queries/select-join.md)
+            - [SELECT Queries](sql/queries/select-basic.md)
+            - [SELECT with WHERE](sql/queries/select-where.md)
+            - [SELECT with ORDER BY](sql/queries/select-order.md)
+            - [SELECT with Summaries](sql/queries/select-summary.md)
+            - [SELECT with Table JOINs](sql/queries/select-join.md)
 
         - Updating Records [UPDATE]
-            - [UPDATE Queries](mysql/queries/update.md)
+            - [UPDATE Queries](sql/queries/update.md)
 
         - Deleting Records [DELETE]
-            - [DELETE Queries](mysql/queries/delete.md)
+            - [DELETE Queries](sql/queries/delete.md)
 
     - Ideas and Snippets
 
         - [CSS Reset](web/reset.md)
         - [Responsive Navigation](web/nav.md)
+
+- <span class="material-icons">data_object</span> Python Programming
+
+    - [What is Python?](python/intro/about.md)
+
+    - Kotlin Basics
+        - [Python Blocks](python/basics/block.md)
+        - [Python Comments](python/basics/comments.md)
+        - [Python Data and Variables](python/basics/variables.md)
+        - [Python Operators](python/basics/operators.md)
+        - [Python Loops](python/basics/loops.md)
+        - [Python Branching](python/basics/branching.md)
+        - [Python Arrays](python/basics/arrays.md)
+        - [Python Constants](python/basics/constants.md)
+        - [Python Error Handling](python/basics/errors.md)
+
+    - GUIs with SimpleGUI
+
+        - [What is SimpleGUI?](python/gui/simple.md)
 
 - <span class="material-icons">data_object</span> Kotlin Programming
 
@@ -141,7 +113,7 @@
     - Kotlin Basics
         - [Kotlin Blocks](kotlin/basics/block.md)
         - [Kotlin Comments](kotlin/basics/comments.md)
-        - [Kotlin Data and Varaiables](kotlin/basics/variables.md)
+        - [Kotlin Data and Variables](kotlin/basics/variables.md)
         - [Kotlin Operators](kotlin/basics/operators.md)
         - [Kotlin Loops](kotlin/basics/loops.md)
         - [Kotlin Branching](kotlin/basics/branching.md)
@@ -149,9 +121,10 @@
         - [Kotlin Constants](kotlin/basics/constants.md)
         - [Kotlin Error Handling](kotlin/basics/errors.md)
 
-    - Compose Multi-Platform
+    - GUIs with Swing and FlatLAF
 
-        - [What is Compose MP?](compose/intro/about.md)
+        - [What is Swing?](kotlin/gui/swing.md)
+        - [What is FlatLAF?](kotlin/gui/flatlaf.md)
 
 - <span class="material-icons">view_in_ar</span> Minecraft
 
