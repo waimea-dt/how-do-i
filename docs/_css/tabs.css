@@ -1,0 +1,6 @@
+:root {
+    --docsifytabs-tab-background--active: hsl(201, 18%, 21%);
+    --docsifytabs-content-background:     hsl(201, 18%, 21%);
+    --docsifytabs-content-padding: 1em;
+}
+

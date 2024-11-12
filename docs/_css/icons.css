@@ -1,0 +1,8 @@
+.material-icons,
+.material-icons-outlined {
+    vertical-align: text-bottom;
+    color: var(--theme-color);
+    font-weight: normal;
+    font-size: 1.2em;
+}
+

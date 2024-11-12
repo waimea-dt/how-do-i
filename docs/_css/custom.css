@@ -96,13 +96,6 @@ pre[class*="language-"] {
     background: hsl(220, 10%, 6%);
 }
 
-.material-icons {
-    font-size: 1.0em;
-    vertical-align: middle;
-    padding-bottom: 0.1em;
-    color: var(--theme-color);
-}
-
 .sidebar-nav>ul>li {
     color: var(--sidebar-nav-section-color);
     margin: 0;
