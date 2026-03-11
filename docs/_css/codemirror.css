@@ -1,0 +1,155 @@
+.CodeMirror span {
+    font-style: normal !important;
+    font-weight: normal !important;
+    text-decoration: none !important;
+}
+
+.CodeMirror span.cm-meta       { color: var(--code-color-yellow) !important; }
+.CodeMirror span.cm-number     { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-keyword    { color: var(--code-color-purple) !important; }
+.CodeMirror span.cm-def        { color: var(--code-color-purple) !important; }
+.CodeMirror span.cm-variable   { color: var(--code-color-normal) !important; }
+.CodeMirror span.cm-variable-2 { color: var(--code-color-red)    !important; }
+.CodeMirror span.cm-variable-3 { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-type       { color: var(--code-color-cyan)   !important; }
+.CodeMirror span.cm-property   { color: var(--code-color-normal) !important; }
+.CodeMirror span.cm-operator   { color: var(--code-color-cyan)   !important; }
+.CodeMirror span.cm-string     { color: var(--code-color-green)  !important; }
+.CodeMirror span.cm-string-2   { color: var(--code-color-green)  !important; }
+.CodeMirror span.cm-comment    { color: var(--code-color-muted)  !important; }
+.CodeMirror span.cm-link       { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-atom       { color: var(--code-color-normal) !important; }
+.CodeMirror span.cm-error      { color: var(--code-color-red)    !important; }
+.CodeMirror span.cm-tag        { color: var(--code-color-red)    !important; }
+.CodeMirror span.cm-attribute  { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-qualifier  { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-bracket    { color: var(--code-color-bright) !important; }
+.CodeMirror span.cm-builtin    { color: var(--code-color-cyan)   !important; }
+.CodeMirror span.cm-special    { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-callee     { color: var(--code-color-cyan)   !important; }
+
+.CodeMirror span.cm-matchhighlight,
+.CodeMirror span.cm-searching  {
+    color: var(--code-color-normal) !important;
+    background-color: var(--code-matching-back) !important;
+}
+
+
+/* Tweaks to get editor and code to match ---------------------------- */
+
+.CodeMirror span.cm-property + span.cm-keyword { color: var(--code-color-orange) !important; }
+/* .CodeMirror span.cm-number   + span.cm-atom    { color: var(--code-color-normal) !important; } */
+.CodeMirror span.cm-atom     + span.cm-keyword { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-keyword  + span.cm-def     { color: var(--code-color-orange) !important; }
+
+.CodeMirror span.cm-property   ~ span.cm-atom,
+.CodeMirror span.cm-variable-2 ~ span.cm-atom  { color: var(--code-color-orange) !important; }
+.CodeMirror span.cm-property   + span + span.cm-atom + span.cm-atom,
+.CodeMirror span.cm-variable-2 + span + span.cm-atom + span.cm-atom  { color: var(--code-color-cyan) !important; }
+
+/* Specific tweaks for Python ---------------------------------------- */
+
+.language-python .CodeMirror span.cm-keyword + span.cm-def { color: var(--code-color-blue) !important; }
+
+
+/* General ---------------------------------------- */
+
+.CodeMirror {
+    font-size: 1em !important;
+    font-family: unset !important;
+    background-color: var(--md-code-bg-color) !important;
+    color: var(--md-code-fg-color) !important;
+}
+
+.CodeMirror-sizer {
+    /* margin-left: 0 !important; */
+}
+
+
+/* Cursor ---------------------------------------- */
+
+.CodeMirror .CodeMirror-cursor {
+    border-color: var(--md-code-fg-color) !important;
+    border-left-width: 2px !important;
+}
+
+
+/* Gutters / numbers ---------------------------------*/
+
+.CodeMirror .CodeMirror-gutters {
+    background: var(--md-code-bg-color) !important;
+    border-right: 1px solid var(--md-border-color) !important;
+}
+
+.CodeMirror .CodeMirror-guttermarker        { color: var(--code-color-yellow) !important }
+.CodeMirror .CodeMirror-guttermarker-subtle { color: var(--code-color-normal) !important }
+
+.CodeMirror-linenumber {
+    padding-right: 6px !important;
+    color: var(--code-color-muted) !important;
+    text-align: right !important;
+}
+
+
+/* Code Lines ---------------------------------*/
+
+.CodeMirror-lines {
+    padding: 0 0 0.1em !important;
+}
+
+.CodeMirror-lines:last-of-type {
+    padding-bottom: 0.5em !important;
+}
+
+.CodeMirror pre.CodeMirror-line,
+.CodeMirror pre.CodeMirror-line-like {
+    padding-left: 0.75em !important;
+}
+
+
+/* Selection ---------------------------------*/
+
+.CodeMirror-selected {
+    background-color: var(--code-selection-back) !important;
+}
+
+
+/* Matching Tags / Brackets ---------------------------------*/
+
+.CodeMirror-matchingtag,
+.CodeMirror-matchingbracket {
+    background-color: transparent !important;
+}
+
+/* When focussed */
+.CodeMirror-focused .CodeMirror-matchingtag,
+.CodeMirror-focused .CodeMirror-matchingbracket {
+    background-color: var(--code-matching-back) !important;
+    color: var(--code-matching-color) !important;
+    font-weight: bold !important;
+}
+
+
+/* Active Line ---------------------------------*/
+
+.CodeMirror-activeline-background {
+    background-color: transparent !important;
+}
+
+/* When focussed */
+.CodeMirror-focused .CodeMirror-activeline-gutter,
+.CodeMirror-focused .CodeMirror-activeline-background {
+        background-color: var(--code-active-line-back) !important;
+}
+
+
+/* Selected for editing ---------------------------------*/
+
+.highlight .CodeMirror {
+    border: 1px solid transparent;
+}
+
+.highlight:has(.CodeMirror-focused) .CodeMirror {
+    border-color: var(--md-accent-fg-color--vivid);
+}
+

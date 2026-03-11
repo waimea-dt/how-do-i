@@ -31,7 +31,7 @@
 
 code[class*="language-"],
 pre[class*="language-"] {
-    background: hsl(220, 5%, 11%);
+    background: hsl(204 0 0);
     color: hsl(220, 14%, 71%);
     text-shadow: 0 1px rgba(0, 0, 0, 0.3);
     font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
@@ -62,12 +62,7 @@ body .docsify-copy-code-button:after {
 /* Selection */
 code[class*="language-"]::-moz-selection,
 code[class*="language-"] *::-moz-selection,
-pre[class*="language-"] *::-moz-selection {
-    background: hsl(220, 13%, 28%);
-    color: inherit;
-    text-shadow: none;
-}
-
+pre[class*="language-"] *::-moz-selection,
 code[class*="language-"]::selection,
 code[class*="language-"] *::selection,
 pre[class*="language-"] *::selection {
@@ -89,14 +84,6 @@ pre[class*="language-"] {
     padding: 0.2em 0.3em;
     border-radius: 0.3em;
     white-space: normal;
-}
-
-/* Print */
-@media print {
-    code[class*="language-"],
-    pre[class*="language-"] {
-        text-shadow: none;
-    }
 }
 
 .token.comment,
