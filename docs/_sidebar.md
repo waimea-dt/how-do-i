@@ -1,22 +1,6 @@
-- <span class="material-icons">account_tree</span> Algorithms
-
-    - [What is Algorithmic Thinking?](algo/intro/about.md)
-    - [What is an Algorithm?](algo/intro/algos.md)
-
-- <span class="material-icons">brush</span> Design Theory
-
-    - [What is Design Theory?](design/intro/about.md)
-
-    - Colour Theory
-        - [What is Colour Theory?](design/colour/about.md)
-
-    - Layout
-        - [What is Layout?](design/layout/about.md)
-
-    - Typography
-        - [What is Typography?](design/typo/about.md)
-
 - <span class="material-icons">ads_click</span> Web Development
+
+    - [What is Web Dev?](web/intro/about.md)
 
     - HTML
 
@@ -70,11 +54,12 @@
             - [INSERT Queries](sql/queries/insert.md)
 
         - Reading Records [SELECT]
-            - [SELECT Queries](sql/queries/select-basic.md)
+            - [SELECT Queries](sql/queries/select-simple.md)
             - [SELECT with WHERE](sql/queries/select-where.md)
             - [SELECT with ORDER BY](sql/queries/select-order.md)
             - [SELECT with Summaries](sql/queries/select-summary.md)
             - [SELECT with Table JOINs](sql/queries/select-join.md)
+            - [SELECT with Data Values](sql/queries/select-values.md)
 
         - Updating Records [UPDATE]
             - [UPDATE Queries](sql/queries/update.md)
@@ -84,14 +69,14 @@
 
     - Ideas and Snippets
 
-        - [CSS Reset](web/reset.md)
-        - [Responsive Navigation](web/nav.md)
+        - [CSS Reset](web/utils/reset.md)
+        - [Responsive Navigation](web/utils/nav.md)
 
 - <span class="material-icons">data_object</span> Python Programming
 
     - [What is Python?](python/intro/about.md)
 
-    - Kotlin Basics
+    - Python Basics
         - [Python Blocks](python/basics/block.md)
         - [Python Comments](python/basics/comments.md)
         - [Python Data and Variables](python/basics/variables.md)
@@ -126,6 +111,26 @@
         - [What is Swing?](kotlin/gui/swing.md)
         - [What is FlatLAF?](kotlin/gui/flatlaf.md)
 
+<!--
+
+- <span class="material-icons">account_tree</span> Algorithms
+
+    - [What is Algorithmic Thinking?](algo/intro/about.md)
+    - [What is an Algorithm?](algo/intro/algos.md)
+
+- <span class="material-icons">brush</span> Design Theory
+
+    - [What is Design Theory?](design/intro/about.md)
+
+    - Colour Theory
+        - [What is Colour Theory?](design/colour/about.md)
+
+    - Layout
+        - [What is Layout?](design/layout/about.md)
+
+    - Typography
+        - [What is Typography?](design/typo/about.md)
+
 - <span class="material-icons">view_in_ar</span> Minecraft
 
     - [Commands in Minecraft](minecraft/intro/about.md)
@@ -134,3 +139,4 @@
 
     - [The Wick Editor](wick/intro/about.md)
 
+ -->

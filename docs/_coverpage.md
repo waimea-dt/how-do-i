@@ -1,9 +1,7 @@
-![](_media/blob-speak.svg)
+![](_assets/macs/macintosh.svg)
 
-# DT How To...
+# DT Notes
 
-> Lots of advice and code to help you do things on the DT Server so that you can become a DT ninja...
-
-How to connect to the DT Server, organise your home directory, create a simple website, connect to a database, make your web pages interactive, write server-side scripts using PHP, etc.
+> Lots of help and examples to help you do creative things in Digital Technologies and become a DT ninja!
 
 [Let's Go!](index.md)
