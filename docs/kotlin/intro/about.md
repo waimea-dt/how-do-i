@@ -2,7 +2,15 @@
 
 ```kotlin
 fun main() {
+    val name = "Dave"
     println("Hello, World!")
+    println("Hello, ${name}!")
+
+    when (name) {
+        "Dave" -> println("Yo!")
+        null -> println("???")
+        else -> println("Boo!")
+    }
 }
 ```
 

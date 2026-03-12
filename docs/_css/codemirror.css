@@ -57,6 +57,7 @@
 .CodeMirror {
     font-size: 1em !important;
     font-family: unset !important;
+    line-height: unset !important;
     background-color: var(--md-code-bg-color) !important;
     color: var(--md-code-fg-color) !important;
 }

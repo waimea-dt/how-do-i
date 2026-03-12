@@ -10,7 +10,7 @@
             if (!kotlinCodeBlocks.length) return
 
             kotlinCodeBlocks.forEach(codeBlock => {
-                codeBlock.setAttribute('theme', 'darcula')
+                codeBlock.setAttribute('theme', 'dark')
                 codeBlock.setAttribute('auto-indent', 'true')
                 codeBlock.setAttribute('data-autocomplete', 'true')
                 codeBlock.setAttribute('highlight-on-fly', 'true')

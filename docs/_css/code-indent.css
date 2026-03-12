@@ -1,0 +1,104 @@
+:root {
+    --code-indent1:          hsla(204, 40%, 57%, 0.6);
+    --code-indent1-light:    hsla(204, 40%, 57%, 0.2);
+    --code-indent2:          hsla(140, 40%, 57%, 0.6);
+    --code-indent2-light:    hsla(140, 40%, 57%, 0.2);
+    --code-indent3:          hsla(76,  40%, 57%, 0.6);
+    --code-indent3-light:    hsla(76,  40%, 57%, 0.2);
+    --code-indent4:          hsla(12,  40%, 57%, 0.6);
+    --code-indent4-light:    hsla(12,  40%, 57%, 0.2);
+
+    --code-indent1-color:        var(--code-indent1);
+    --code-indent1-color--light: var(--code-indent1-light);
+    --code-indent2-color:        var(--code-indent2);
+    --code-indent2-color--light: var(--code-indent2-light);
+    --code-indent3-color:        var(--code-indent3);
+    --code-indent3-color--light: var(--code-indent3-light);
+    --code-indent4-color:        var(--code-indent4);
+    --code-indent4-color--light: var(--code-indent4-light);
+}
+
+
+
+/* Indent highlighting -------------------------------------------*/
+
+.highlight.show-indent .w,
+.highlight.show-indent .whitespace {
+        background-image: linear-gradient(
+        to right,
+
+        var(--code-indent1-color--light) 0,
+        var(--code-indent1-color--light) calc(4ch - 5px),
+        var(--code-indent1-color)        calc(4ch - 5px),
+        var(--code-indent1-color)        calc(4ch - 3px),
+        transparent                         calc(4ch - 3px),
+        transparent                         4ch,
+
+        var(--code-indent2-color--light) 4ch,
+        var(--code-indent2-color--light) calc(8ch - 5px),
+        var(--code-indent2-color)        calc(8ch - 5px),
+        var(--code-indent2-color)        calc(8ch - 3px),
+        transparent                         calc(8ch - 3px),
+        transparent                         8ch,
+
+        var(--code-indent3-color--light) 4ch,
+        var(--code-indent3-color--light) calc(12ch - 5px),
+        var(--code-indent3-color)        calc(12ch - 5px),
+        var(--code-indent3-color)        calc(12ch - 3px),
+        transparent                         calc(12ch - 3px),
+        transparent                         12ch,
+
+        var(--code-indent4-color--light) 4ch,
+        var(--code-indent4-color--light) calc(16ch - 5px),
+        var(--code-indent4-color)        calc(16ch - 5px),
+        var(--code-indent4-color)        calc(16ch - 3px),
+        transparent                         calc(16ch - 3px),
+        transparent                         16ch,
+
+        transparent 100%
+    );
+}
+
+
+/* Tweaks so editor and code match --------------------------------------- */
+
+.highlight .k  { color: var(--code-color-normal); }
+.highlight .kc { color: var(--code-color-orange); }
+.highlight .kt { color: var(--code-color-orange); }
+.highlight .n  { color: var(--code-color-normal); }
+.highlight .nt { color: var(--code-color-red); }
+.highlight .nb { color: var(--code-color-cyan); }
+.highlight .nf { color: var(--code-color-blue); }
+.highlight .nn { color: var(--code-color-blue); }
+.highlight .nc { color: var(--code-color-orange); }
+.highlight .nv { color: var(--code-color-red); }
+.highlight .nx { color: var(--code-color-normal); }
+.highlight .mh { color: var(--code-color-cyan); }
+.highlight .ow { color: var(--code-color-purple); }
+
+
+/* Specific tweaks for HTML/CSS/JS --------------------------------------- */
+
+.highlight .p:has( + .nn) { color: var(--code-color-blue); }
+.highlight .p:has( + .nc) { color: var(--code-color-orange); }
+
+.highlight .p + .k        { color: var(--code-color-purple); }
+/* .highlight .p:has( + .k)  { color: var(--code-color-purple); } */
+
+.highlight .k  + .w + .nt { color: var(--code-color-orange); }
+.highlight .kd + .w + .nx { color: var(--code-color-orange); }
+
+.language-js.highlight .nx { color: var(--code-color-red); }
+
+.language-html pre > code {
+    white-space: break-spaces;  /* Allow text wrapping */
+}
+
+
+/* Specific tweaks for SQL ----------------------------------------------- */
+
+.language-sql.highlight .k       { color: var(--code-color-purple); }
+/* .language-sql.highlight .p + .k  { color: var(--code-color-normal); } */
+
+
+
