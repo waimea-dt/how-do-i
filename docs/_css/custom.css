@@ -222,11 +222,3 @@ img[src*="macintosh"] {
     border-color: var(--sidebar-nav-link-border-color--active, var(--sidebar-nav-link-border-color));
 }
 
-
-/* CODE BLOCKS ----------------------------------------- */
-
-code[class*="language-"],
-pre[class*="language-"] {
-    background: hsl(220, 10%, 6%);
-}
-

@@ -1,35 +1,46 @@
 :root {
-    --code-color-back:       hsl(204 0 0);
+    --code-font-family:          "JetBrains Mono", "Consolas";
+    --code-font-size:            1em;
+    --code-line-height:          1.3;
 
-    --code-color-normal:     #cdd3df;
-    --code-color-bright:     #ABB2BF;
-    --code-color-muted:      #7F848E;
+    --code-color-back:          hsl(220 10% 6%);
 
-    --code-color-red:        #E06C75;
-    --code-color-orange:     #D19A66;
-    --code-color-yellow:     #E5C07B;
-    --code-color-green:      #98C379;
-    --code-color-sage:       #56c299;
-    --code-color-cyan:       #56B6C2;
-    --code-color-blue:       #61AFEF;
-    --code-color-purple:     #C678DD;
+    --code-color-normal:        #cdd3df;
+    --code-color-bright:        #ABB2BF;
+    --code-color-muted:         #7F848E;
+    --code-color-dark:          #3f4146;
+    --code-color-darker:        #232325;
 
-    --code-active-line-back: #7774;
-    --code-selection-back:   hsla(204, 80%, 57%, 0.4);
-    --code-matching-color:   #ff0;
-    --code-matching-back:    #ff03;
+    --code-color-red:           #e18c8c;
+    --code-color-orange:        #e3b489;
+    --code-color-yellow:        #dfda87;
+    --code-color-green:         #aee387;
+    --code-color-sage:          #79dbb5;
+    --code-color-cyan:          #81e0e3;
+    --code-color-blue:          #75a5e0;
+    --code-color-purple:        #b28adf;
+    --code-color-pink:          #e79cce;
 
-    --code-high-mark:        hsla(204, 80%, 57%, 1.0);
-    --code-high-back:        hsla(204, 80%, 57%, 0.2);
+    --code-active-line-back:    #7774;
+    --code-selection-back:      hsla(204, 80%, 57%, 0.4);
+    --code-matching-color:      #ff0;
+    --code-matching-back:       #ff03;
 
-    --code-border-color:            var(--code-color-green);
+    --code-warning-color:       rgb(222, 222, 52);
+    --code-error-color:         rgb(221, 49, 49);
 
-    --code-control-color:           var(--code-color-muted);
-    --code-control-color--high:     var(--code-color-normal);
-    --code-control-back-color:      var(--code-color-back);
-    --code-control-info-color:      var(--code-color-orange);
+    --code-high-mark:           hsla(204, 80%, 57%, 1.0);
+    --code-high-back:           hsla(204, 80%, 57%, 0.2);
 
-    --code-font-family:          "JetBrains Mono";
+    --code-popup-color:          var(--code-color-normal);
+    --code-popup-back-color:     var(--code-color-darker);
+    --code-popup-active-color:   var(--code-color-dark);
+    --code-border-color:         var(--code-color-dark);
+
+    --code-control-color:        var(--code-color-muted);
+    --code-control-color--high:  var(--code-color-normal);
+    --code-control-back-color:   var(--code-color-back);
+    --code-control-info-color:   var(--code-color-muted);
 
     --code-fg-color:             var(--code-color-normal);
     --code-bg-color:             var(--code-color-back);
@@ -37,15 +48,28 @@
     --code-hl-number-color:      var(--code-color-orange);
     --code-hl-special-color:     var(--code-color-sage);
     --code-hl-function-color:    var(--code-color-blue);
-    --code-hl-constant-color:    var(--code-color-yellow);
+    --code-hl-doctype-color:     var(--code-color-purple);
+    --code-hl-tag-color:         var(--code-color-blue);
+    --code-hl-constant-color:    var(--code-color-red);
     --code-hl-keyword-color:     var(--code-color-purple);
     --code-hl-string-color:      var(--code-color-green);
     --code-hl-name-color:        var(--code-color-red);
     --code-hl-operator-color:    var(--code-color-cyan);
     --code-hl-punctuation-color: var(--code-color-bright);
     --code-hl-comment-color:     var(--code-color-muted);
+    --code-hl-attribute-color:   var(--code-color-yellow);
+    --code-hl-property-color:    var(--code-color-blue);
+    --code-hl-parameter-color:   var(--code-color-red);
+    --code-hl-selector-color:    var(--code-color-red);
+    --code-hl-interpol-color:    var(--code-color-pink);
+    --code-hl-atrule-color:      var(--code-color-normal);
+    --code-hl-rule-color:        var(--code-color-purple);
     --code-hl-generic-color:     var(--code-color-bright);
     --code-hl-variable-color:    var(--code-color-bright);
+    --code-hl-type-color:        var(--code-color-yellow);
+    --code-hl-url-color:         var(--code-color-cyan);
+    --code-hl-new-color:         var(--code-color-green);
+    --code-hl-alert-color:       var(--code-color-red);
 
     --code-hl-color:             var(--code-high-mark);
     --code-hl-color--light:      var(--code-high-back);
@@ -55,14 +79,17 @@
 /****************************************************************************/
 
 .markdown-section code[class*="language-"],
-.markdown-section pre[class*="language-"] {
+.markdown-section pre[class*="language-"],
+.markdown-section .code-output {
+    color: var(--code-color-normal);
+    background-color: var(--code-color-back);
     font-family: var(--code-font-family), monospace;
-    font-size: 1em;
+    font-size: var(--code-font-size);
     font-weight: normal;
     font-optical-sizing: auto;
     font-variant-ligatures: none;
     word-break: normal;
-    line-height: 1.8;
+    line-height: var(--code-line-height);
     direction: ltr;
     text-align: left;
     white-space: pre;
@@ -84,40 +111,17 @@
 }
 
 .markdown-section code[class*="language-"] {
-    border-radius: 0;
+    border-radius: 0.3em;
     padding: 0.1em 0.3em 0.2em;
 }
 
-.markdown-section .compiler-info {
-    display: none;
-}
-
-.markdown-section .code-output {
-    font-family: var(--code-font-family), monospace;
-    font-size: 1em;
-    font-weight: normal;
-    font-optical-sizing: auto;
-    font-variant-ligatures: none;
-    word-break: normal;
-    line-height: 1.3;
-    direction: ltr;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    -moz-tab-size: 2;
-    -o-tab-size: 2;
-    tab-size: 2;
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-}
-
-
 /* Inline code */
+.markdown-section code:not([class*="lang-"]):not([class*="language-"]),
 .markdown-section :not(pre) > code[class*="language-"] {
-    padding: 0.2em 0.3em;
+    color: var(--code-color-normal);
+    background-color: var(--code-color-back);
+    font-family: var(--code-font-family), monospace;
+    padding: 0.2em 0.5em;
     border: 1px solid var(--code-border-color);
     border-radius: 0.3em;
 }
@@ -138,162 +142,54 @@
 /****************************************************************************/
 
 
-.token.comment,
-.token.prolog,
-.token.cdata {
-    color: var(--code-hl-comment-color);
-}
+.token.comment                  { color: var(--code-hl-comment-color); }
+.token.prolog                   { color: var(--code-hl-comment-color); }
+.token.cdata                    { color: var(--code-hl-comment-color); }
 
-.token.doctype,
-.token.punctuation,
-.token.entity {
-    color: var(--code-hl-punctuation-color);
-}
+.token.keyword                  { color: var(--code-hl-keyword-color); }
+.token.variable                 { color: var(--code-hl-variable-color); }
+.token.operator                 { color: var(--code-hl-operator-color); }
+.token.function                 { color: var(--code-hl-function-color); }
+.token.symbol                   { color: var(--code-hl-name-color); }
+.token.builtin                  { color: var(--code-hl-name-color); }
+.token.attr-name                { color: var(--code-hl-attribute-color); }
+.token.class-name               { color: var(--code-hl-attribute-color); }
+.token.property                 { color: var(--code-hl-property-color); }
+.token.parameter                { color: var(--code-hl-parameter-color); }
+.token.selector                 { color: var(--code-hl-selector-color); }
 
-.token.attr-name,
-.token.class-name,
-.token.boolean,
-.token.constant,
-.token.number,
-.token.atrule {
-    color: hsl(29, 54%, 61%);
-}
+.token.boolean                  { color: var(--code-hl-constant-color); }
+.token.constant                 { color: var(--code-hl-constant-color); }
+.token.number                   { color: var(--code-hl-number-color); }
+.token.string                   { color: var(--code-hl-string-color); }
+.token.char                     { color: var(--code-hl-string-color); }
+.token.regex                    { color: var(--code-hl-string-color); }
+.token.attr-value               { color: var(--code-hl-string-color); }
 
-.token.keyword {
-    color: hsl(286, 60%, 67%);
-}
+.token.punctuation              { color: var(--code-hl-punctuation-color); }
+.token.entity                   { color: var(--code-hl-punctuation-color); }
 
-.token.property,
-.token.tag,
-.token.symbol,
-.token.deleted,
-.token.important {
-    color: hsl(355, 65%, 65%);
-}
+.token.atrule                   { color: var(--code-hl-atrule-color); }
+.token.rule                     { color: var(--code-hl-rule-color); }
 
-.token.selector,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted,
-.token.regex,
-.token.attr-value,
-.token.attr-value > .token.punctuation {
-    color: hsl(95, 38%, 62%);
-}
+.token.doctype                  { color: var(--code-hl-doctype-color); }
+.token.doctype > .token.name    { color: var(--code-hl-attribute-color); }
+.token.tag                      { color: var(--code-hl-tag-color); }
 
-.token.variable,
-.token.operator,
-.token.function {
-    color: hsl(207, 82%, 66%);
-}
+.token.url                      { color: var(--code-hl-url-color); }
 
-.token.url {
-    color: hsl(187, 47%, 55%);
-}
+.token.deleted                  { color: var(--code-hl-alert-color); }
+.token.important                { color: var(--code-hl-alert-color); }
+.token.inserted                 { color: var(--code-hl-new-color); }
 
-/* HTML overrides */
-.token.attr-value > .token.punctuation.attr-equals,
-.token.special-attr > .token.attr-value > .token.value.css {
-    color: hsl(220, 14%, 71%);
-}
+.token.interpolation > .token.punctuation { color: var(--code-hl-interpol-color); }
 
-/* CSS overrides */
-.language-css .token.selector {
-    color: hsl(355, 65%, 65%);
-}
-
-.language-css .token.property {
-    color: hsl(220, 14%, 71%);
-}
-
-.language-css .token.function,
-.language-css .token.url > .token.function {
-    color: hsl(187, 47%, 55%);
-}
-
-.language-css .token.url > .token.string.url {
-    color: hsl(95, 38%, 62%);
-}
-
-.language-css .token.important,
-.language-css .token.atrule .token.rule {
-    color: hsl(286, 60%, 67%);
-}
-
-/* JS overrides */
-.language-javascript .token.operator {
-    color: hsl(286, 60%, 67%);
-}
-
-.language-javascript .token.template-string > .token.interpolation > .token.interpolation-punctuation.punctuation {
-    color: hsl(5, 48%, 51%);
-}
-
-/* JSON overrides */
-.language-json .token.operator {
-    color: hsl(220, 14%, 71%);
-}
-
-.language-json .token.null.keyword {
-    color: hsl(29, 54%, 61%);
-}
-
-/* MD overrides */
-.language-markdown .token.url,
-.language-markdown .token.url > .token.operator,
-.language-markdown .token.url-reference.url > .token.string {
-    color: hsl(220, 14%, 71%);
-}
-
-.language-markdown .token.url > .token.content {
-    color: hsl(207, 82%, 66%);
-}
-
-.language-markdown .token.url > .token.url,
-.language-markdown .token.url-reference.url {
-    color: hsl(187, 47%, 55%);
-}
-
-.language-markdown .token.blockquote.punctuation,
-.language-markdown .token.hr.punctuation {
-    color: hsl(220, 10%, 40%);
-    font-style: italic;
-}
-
-.language-markdown .token.code-snippet {
-    color: hsl(95, 38%, 62%);
-}
-
-.language-markdown .token.bold .token.content {
-    color: hsl(29, 54%, 61%);
-}
-
-.language-markdown .token.italic .token.content {
-    color: hsl(286, 60%, 67%);
-}
-
-.language-markdown .token.strike .token.content,
-.language-markdown .token.strike .token.punctuation,
-.language-markdown .token.list.punctuation,
-.language-markdown .token.title.important > .token.punctuation {
-    color: hsl(355, 65%, 65%);
-}
 
 /* General */
-.token.bold {
-    font-weight: bold;
-}
 
-.token.comment,
-.token.italic {
-    font-style: italic;
-}
+.token.bold         { font-weight: bold; }
+.token.italic       { font-style: italic; }
 
-.token.entity {
-    cursor: help;
-}
+.token.entity       { cursor: help; }
 
-.token.namespace {
-    opacity: 0.8;
-}
+.token.namespace    { opacity: 0.8; }

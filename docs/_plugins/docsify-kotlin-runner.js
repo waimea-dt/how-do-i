@@ -10,7 +10,7 @@
             if (!kotlinCodeBlocks.length) return
 
             kotlinCodeBlocks.forEach(codeBlock => {
-                codeBlock.setAttribute('theme', 'dark')
+                codeBlock.setAttribute('theme', 'darcula')
                 codeBlock.setAttribute('auto-indent', 'true')
                 codeBlock.setAttribute('data-autocomplete', 'true')
                 codeBlock.setAttribute('highlight-on-fly', 'true')
@@ -18,9 +18,9 @@
                 codeBlock.setAttribute('match-brackets', 'true')
             })
 
-            KotlinPlayground(
-                kotlinCode
-            )
+            KotlinPlayground(kotlinCode).catch(function (err) {
+                if (!(err instanceof DOMException && err.name === 'AbortError')) throw err
+            })
         })
     }
 

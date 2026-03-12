@@ -71,6 +71,7 @@
 }
 
 .console-close {
+    background-color: transparent !important;
     right: 0.3em !important;
     top: 0.3em;
     cursor: pointer;
@@ -78,12 +79,12 @@
 }
 
 .console-close:hover {
-    background-color: transparent !important;
     opacity: 1;
 }
 
 .compiler-info,
 .compiler-info a {
+    display: none;
     color: var(--code-control-info-color) !important;
     padding: 0 0.2em;
 }
