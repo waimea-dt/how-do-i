@@ -96,10 +96,10 @@
     - [What is Kotlin?](kotlin/intro/about.md)
 
     - Kotlin Basics
-        - [Kotlin Blocks](kotlin/basics/block.md)
+        - [Variables & Types](kotlin/basics/01.variables.md)
+        - [Operators](kotlin/basics/02.operators.md)
         - [Kotlin Comments](kotlin/basics/comments.md)
         - [Kotlin Data and Variables](kotlin/basics/variables.md)
-        - [Kotlin Operators](kotlin/basics/operators.md)
         - [Kotlin Loops](kotlin/basics/loops.md)
         - [Kotlin Branching](kotlin/basics/branching.md)
         - [Kotlin Arrays](kotlin/basics/arrays.md)
