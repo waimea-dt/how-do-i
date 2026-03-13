@@ -6,6 +6,10 @@
     order: 1;
 }
 
+.fold-button {
+    opacity: 0.1;
+}
+
 .output-wrapper {
     background-color: var(--md-code-bg-color) !important;
     font-size: unset !important;

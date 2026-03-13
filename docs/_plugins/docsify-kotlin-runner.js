@@ -11,7 +11,7 @@
                     // main() is not there?
                     if (!/fun\s+main\s*\(/.test(body)) {
                         const indented = body.replace(/^(.+)/gm, '    $1')
-                        body = 'fun main() {\n//sampleStart\n' + indented + '//sampleEnd\n}\n'
+                        body = 'import kotlin.math.*\nfun main() {\n//sampleStart\n' + indented + '//sampleEnd\n}\n'
                     }
                     return '<div class="kotlin-run">\n\n```kotlin\n' + body + '```\n\n</div>'
                 }

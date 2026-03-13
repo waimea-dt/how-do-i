@@ -1,0 +1,82 @@
+/* SIDE NAV ----------------------------------------- */
+
+.sidebar-nav>ul>li {
+    color: var(--sidebar-nav-section-color);
+    margin: 0;
+}
+
+.sidebar-nav>ul>li p {
+    margin: 0;
+}
+
+.sidebar-nav li {
+    position: relative;
+    margin: 0.5em 0;
+    cursor: pointer;
+    line-height: 1.3;
+}
+
+
+.sidebar-nav ul>li {
+    padding: var(--sidebar-nav-padding);
+}
+
+.sidebar-nav ul>li::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -0.5em;
+}
+
+.sidebar-nav ul>li.file::before {
+    content: '•';
+    color: var(--sidebar-nav-file-indicator);
+}
+
+.sidebar-nav ul>li.file.active::before,
+.sidebar-nav ul>li.file.open::before {
+    color: var(--link-color);
+}
+
+.sidebar-nav>ul>li.folder {
+    padding: var(--sidebar-nav-folder-padding);
+}
+
+.sidebar-nav ul>li.folder::before {
+    top: 0.4em;
+    left: -0.6em;
+    height: 0.5em;
+    width: 0.5em;
+    border-right: 2px solid var(--sidebar-nav-folder-indicator);
+    border-bottom: 2px solid var(--sidebar-nav-folder-indicator);
+    transform: rotate(-45deg);
+    transition: all .1s;
+}
+
+.sidebar-nav ul>li.folder.open::before {
+    transform: rotate(45deg);
+    border-color: var(--link-color);
+}
+
+.sidebar-nav ul>li.folder.collapse::before {
+    transform: rotate(-45deg);
+}
+
+.sidebar-nav ul>li.folder.open>p,
+.sidebar-nav ul>li.folder.open>p>strong {
+    color: var(--sidebar-nav-link-color--active);
+}
+
+.sidebar-nav ul>li.folder:hover>p,
+.sidebar-nav ul>li.folder:hover>p>strong {
+    color: var(--sidebar-nav-link-color--hover);
+}
+
+.sidebar-nav ul>li.file.open>p.active>a {
+    color: var(--sidebar-nav-link-color--active);
+    border-width: var(--sidebar-nav-link-border-width--active, var(--sidebar-nav-link-border-width));
+    border-style: var(--sidebar-nav-link-border-style--active, var(--sidebar-nav-link-border-style));
+    border-color: var(--sidebar-nav-link-border-color--active, var(--sidebar-nav-link-border-color));
+}
+

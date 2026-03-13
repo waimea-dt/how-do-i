@@ -1,8 +1,20 @@
-.material-icons,
-.material-icons-outlined {
-    vertical-align: text-bottom;
+.lucide.icon,
+i.si {
+    display: inline-block;
+    margin-bottom: 0.2em;
+    margin-right: 0.5em;
+    vertical-align: middle;
     color: var(--theme-color);
-    font-weight: normal;
-    font-size: 1.2em;
+}
+
+.lucide.icon{
+    width: 1.2em;
+    height: 1.2em;
+}
+
+i.si {
+    font-size: 1em;
+    line-height: 1;
+    margin-bottom: 0.1em;
 }
 

@@ -67,10 +67,6 @@
     color: var(--md-code-fg-color) !important;
 }
 
-.CodeMirror-sizer {
-    /* margin-left: 0 !important; */
-}
-
 
 /* Cursor ---------------------------------------- */
 
