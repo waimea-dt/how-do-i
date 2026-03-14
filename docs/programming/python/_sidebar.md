@@ -1,4 +1,5 @@
 - [<i class="si si-python"></i>What is Python?](programming/python/index.md)
+    - [<i data-lucide="info"></i>Python Cheatsheet](programming/python/cheatsheet.md)
 
 - <i data-lucide="scooter"></i>Python Basics
     - [<i data-lucide="variable"></i>Variables & Types](programming/python/basics/variables.md)
