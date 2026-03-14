@@ -87,8 +87,12 @@
 }
 
 .compiler-info,
+.compiler-info__open-editor {
+    display: none !important;
+}
+
+.compiler-info,
 .compiler-info a {
-    display: none;
     color: var(--code-control-info-color) !important;
     padding: 0 0.2em;
 }

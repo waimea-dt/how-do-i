@@ -6,12 +6,12 @@ The most commonly used numeric types are:
 |------|-------------|-------|-----|
 | `Int` | for integer, whole numbers | 32 | ±2,147,483,647 |
 | `Long` | for very large whole numbers | 64 | ±9,223,372,036,854,775,807 |
-| `Double` | for decimal numbers | 64 | ±1.7976931348623157×10<sup>308</sup> |
+| `Double` | for decimal numbers | 64 | ±very large! (10<sup>308</sup>) |
 
 
-## Numeric Literal Values
+## Writing Numeric Values
 
-When working with literal values...
+When writing literal numbers in code...
 
 ```kotlin
 val score: Int = 2000                  // Plain number
@@ -76,7 +76,7 @@ println("Take home:  $takeHome")
 ```
 
 ?> An **Int divided by an Int** will result in an **Int** value - any decimal places will be lost.
-To get the exact decimal answer, at least one value needs to be a **Double**. So, in the above example we should do this: `payRate = total.toDouble() / hours`. Try editing the code and see how the result changes
+To get the exact decimal answer, at least one value needs to be a **Double**. So, in the above example we should change the line to: `val payRate = total.toDouble() / hours`. Try editing the code and see how the result changes
 
 
 Example of **modulus** operator...

@@ -80,15 +80,23 @@
 
 .markdown-section code[class*="language-"],
 .markdown-section pre[class*="language-"],
-.markdown-section .code-output {
+.markdown-section .code-output,
+.markdown-section code:not([class*="lang-"]):not([class*="language-"]),
+.markdown-section :not(pre) > code[class*="language-"] {
     color: var(--code-color-normal);
     background-color: var(--code-color-back);
     font-family: var(--code-font-family), monospace;
-    font-size: var(--code-font-size);
-    font-weight: normal;
     font-optical-sizing: auto;
     font-variant-ligatures: none;
     word-break: normal;
+}
+
+
+.markdown-section code[class*="language-"],
+.markdown-section pre[class*="language-"],
+.markdown-section .code-output {
+    font-size: var(--code-font-size);
+    font-weight: normal;
     line-height: var(--code-line-height);
     direction: ltr;
     text-align: left;
@@ -118,9 +126,6 @@
 /* Inline code */
 .markdown-section code:not([class*="lang-"]):not([class*="language-"]),
 .markdown-section :not(pre) > code[class*="language-"] {
-    color: var(--code-color-normal);
-    background-color: var(--code-color-back);
-    font-family: var(--code-font-family), monospace;
     padding: 0.05em 0.5em;
     border: 1px solid var(--code-border-color);
     border-radius: 0.3em;

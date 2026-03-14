@@ -1,70 +1,142 @@
-# Branching / Decisions in PHP
+# Branching / Decisions in Kotlin
 
-TODO: Finish this page with full explanations
+Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `true` or `false`.
+
+?> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/kotlin/basics/logic.md) page for a full reference.
 
 
 ## If Statement
 
-Only do something if a condition is true...
+Only run a block of code if a condition is `true`:
 
-```php
+```kotlin
 if (condition) {
-    // do something
+    // code runs if condition is true
 }
 ```
 
-## If ... Else Statement
+For example...
 
-Do something if a condition is true, or something else if it is false...
+```kotlin run
+val score = 85
 
-```php
+if (score >= 50) {
+    println("You passed!")
+}
+```
+
+
+## If...Else Statement
+
+Run one block if a condition is `true`, or a different block if it is `false`:
+
+```kotlin
 if (condition) {
-    // do something
-}
-else {
-    // do something else
+    // runs if true
+} else {
+    // runs if false
 }
 ```
 
-## Multiple If Statement
+For example...
 
-Do something if a condition is true, something else if another conditions is true, or something else if all conditions are false...
+```kotlin run
+val lives = 0
 
-```php
-if (condition 1) {
-    // do something
-}
-else if (condition 2) {
-    // do something else
-}
-else {
-    // do something else
+if (lives > 0) {
+    println("Keep playing!")
+} else {
+    println("Game over!")
 }
 ```
 
 
-## Switch Statement
+## If...Else If...Else Statement
 
-Compare a variable to a set of values and run different code blocks if it matches, or a final code block if nothing matches...
+Check multiple conditions in sequence - the first one that is `true` wins:
 
-```php
-switch ($variable) {
-    case value21:
-        // do something
-        break;
+```kotlin
+if (condition1) {
+    // runs if condition1 is true
+} else if (condition2) {
+    // runs if condition2 is true
+} else {
+    // runs if no condition matched
+}
+```
 
-    case value 2:
-        // do something
-        break;
+For example...
 
-    case value 3:
-        // do something
-        break;
+```kotlin run
+val score = 72
 
-    default:
-        // nothing matched
+if (score >= 90) {
+    println("Excellence")
+} else if (score >= 75) {
+    println("Merit")
+} else if (score >= 60) {
+    println("Achieved")
+} else {
+    println("Not Achieved")
+}
+```
+
+?> It is often more readable to use a `when` statement instead of `if...else if...else if...else`
+
+
+## When Statement
+
+`when` is Kotlin's alternative to a traditional switch statement. It compares a value against multiple options and runs the matching branch:
+
+```kotlin
+when (variable) {
+    value1 -> // runs if variable == value1
+    value2 -> // runs if variable == value2
+    else   -> // runs if nothing matched
+}
+```
+
+For example...
+
+```kotlin run
+val day = 3
+
+when (day) {
+    1    -> println("Monday")
+    2    -> println("Tuesday")
+    3    -> println("Wednesday")
+    4    -> println("Thursday")
+    5    -> println("Friday")
+    6, 7 -> println("Weekend")
+    else -> println("Invalid day")
+}
+```
+
+?> Multiple values can share the same branch by separating them with commas: `6, 7 -> ...`
+
+`when` can also match **ranges** and **conditions**:
+
+```kotlin run
+val score = 82
+
+when {
+    score in 90..100 -> println("Excellence")
+    score in 75..89  -> println("Merit")
+    score in 60..74  -> println("Achieved")
+    else             -> println("Not Achieved")
 }
 ```
 
 
+## If as an Expression
 
+In Kotlin, `if` can return a value, so it can be used directly in an assignment - removing the need for a separate variable and block:
+
+```kotlin run
+val age = 20
+val status = if (age >= 18) "Adult" else "Minor"
+
+println(status)
+```
+
+?> `when` can also be used as an expression the same way: `val label = when (score) { ... }`

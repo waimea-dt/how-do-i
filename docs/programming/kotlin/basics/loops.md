@@ -1,153 +1,133 @@
-# Looping / Iteration in PHP
+# Looping / Iteration in Kotlin
 
-## While Loops
+Loops allow you to **repeat a block of code** multiple times, either a set number of times or until a condition is no longer true.
 
-A `while (...)` loop will keep looping as long as a given contion remains true.
+## For Loop
 
-```php
-while (condition is true) {
-    // do something
+A `for` loop repeats once **for each value in a range or collection**:
+
+```kotlin
+for (variable in range) {
+    // code to repeat
 }
 ```
 
-The condition can be any bit of code that equates to a boolean true / false value...
+Looping over a **range of numbers**...
 
-### Infinite Loop
-
-This loop will never stop since the condition is (literally!) always true:
-
-```php
-// Loop forever
-while (true) {
-    // do someting
+```kotlin run
+for (i in 1..5) {
+    println("Count: $i")
 }
 ```
 
-### Loop with a counter
+Looping over a **list**...
 
-This will loop 100 times, since the counter variable, `$i`, is incremented by 1 every time the loop loops:
+```kotlin run
+val fruits = listOf("Apple", "Banana", "Cherry")
 
-```php
-// Setup loop counter
-$i = 0;
-// Loop until counter hits 100
-while ($i < 100) {
-    // do something
-    $i++;
+for (fruit in fruits) {
+    println(fruit)
 }
 ```
 
-### Loop Until Dead
-
-This will keep looping until the `$alive` variable changes to false (e.g. because the player is killed):
-
-```php
-// Start off alive
-$alive = true;
-// Keep looping until dead
-while ($alive) {
-    // do something
-    // $alive will get set to false when player dies
-}
-// At this point, the player has died
-```
+?> See the **Numbers** page for more on ranges using `..` and `..<`
 
 
-## For Loops
+## While Loop
 
-A `for (...)` loop is a shorthand way of creating a loop with a counter variable.
+A `while` loop repeats **as long as a condition is true**. The condition is checked **before** each iteration:
 
-It hase three parts to it:
-
-1. The creation and initialisation of the loop variable
-2. The condition that must be true for the loop to continue
-3. The update code that us run every time the loop loops
-
-
-### Typical Loop
-
-This is a pretty typical for loop, with a counter variable called `$i` (but it could be called anything):
-
-```php
-// Loop 100 times
-for ($i = 0; $i < 100; $i++) {
-    // do something
+```kotlin
+while (condition) {
+    // code to repeat
 }
 ```
 
-### Indexing Through an Array
+For example...
 
-For loops are often used to work through every element of an [array](php/basics/arrays.md) using the loop variable to index the array:
+```kotlin run
+var lives = 3
 
-```php
-// An array of things, with length/count of 4 and indicies: 0, 1, 2, 3
-$things = ['Apple', 'Banana', 'Cat', 'Dog'];
+while (lives > 0) {
+    println("Lives remaining: $lives")
+    lives--
+}
 
-// Loop through the array
-for ($i = 0; $i < count($things); $i++) {
-    // do something with $things[$i], for example...
-    echo $things[$i];
+println("Game over!")
+```
+
+?> Make sure the loop has a way to eventually make the condition `false`, otherwise you will create an **infinite loop**
+
+
+## Do...While Loop
+
+A `do...while` loop is similar to `while`, but the condition is checked **after** each iteration - so the body always runs **at least once**:
+
+```kotlin
+do {
+    // code to repeat
+} while (condition)
+```
+
+For example...
+
+```kotlin run
+var attempts = 0
+
+do {
+    attempts++
+    println("Attempt $attempts")
+} while (attempts < 3)
+```
+
+
+## Break and Continue
+
+Two keywords let you control the flow inside a loop:
+
+- `break` - **exits** the loop immediately
+- `continue` - **skips** the rest of the current iteration and jumps to the next one
+
+Example of **break** - stop as soon as a target is found...
+
+```kotlin run
+val numbers = listOf(4, 7, 2, 9, 1, 6)
+
+for (n in numbers) {
+    if (n == 9) {
+        println("Found 9, stopping!")
+        break
+    }
+    println("Checked: $n")
 }
 ```
 
-### Counting Backwards
+Example of **continue** - skip odd numbers...
 
-This loop counts down from 10 to 0:
-
-```php
-// Countdown loop
-for ($count = 10; $count >= 0; $count--) {
-    // do something
-}
-```
-
-
-## ForEach Loop
-
-A `foreach (...)` loop is typically used to work through an [array](php/basics/arrays.md), one element at a time.
-
-It works by setting a variable to the value of each element of the array in turn, until no more elements are left...
-
-### Working Through Array Values
-
-In a typical, indexed array, you could work through every value:
-
-```php
-// An array of people
-$people = [
-    'Adam',
-    'Barbara',
-    'Clive',
-    'Danni'
-];
-
-// Loop through the array
-foreach ($people as $person) {
-    // do something with $person, for example...
-    echo $person;
+```kotlin run
+for (i in 1..10) {
+    if (i % 2 != 0) continue
+    println("Even: $i")
 }
 ```
 
 
-### Working Through Key / Value Pairs in an Associative Array
+## Repeat
 
-In an associative array (sometimes called a 'dictionary'), made up of key / value pairs, you could work through every key and value:
+For a simple fixed number of repetitions, `repeat` is a concise alternative to `for`:
 
-```php
-// An array of settings
-$settings = [
-    'mode' => 'dark',
-    'sound' => true,
-    'fullscreen' => false
-];
-
-// Loop through the array
-foreach ($settings as $setting => $value) {
-    // do something with $setting and $value, for example...
-    echo $setting . ' is set to ' . $value;
+```kotlin
+repeat(n) {
+    // code to repeat
 }
 ```
 
+For example...
 
+```kotlin run
+repeat(5) {
+    println("Hello!")
+}
+```
 
-
+?> Inside a `repeat` block, the current iteration index (starting from `0`) is available as `it`: `repeat(5) { println(it) }`

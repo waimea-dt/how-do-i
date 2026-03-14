@@ -78,4 +78,6 @@ val birth_place = "London"   // Incorrect convention
 var likes cats = true        // Can't have spaces
 ```
 
+?> Kotlin variables **cannot hold `null` by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](programming/kotlin/advanced/errors.md) page.
+
 

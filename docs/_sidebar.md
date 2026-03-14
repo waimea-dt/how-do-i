@@ -4,4 +4,4 @@
 - [<i data-lucide="binary"></i>Computer Science](cs/index.md)
 - [<i data-lucide="paintbrush"></i>Design Theory](design/index.md)
 - [<i data-lucide="bug-play"></i>Animation](wick/index.md)
-- [<i data-lucide="blocks"></i>Minecraft](minecraft/index.md)
+- [<i data-lucide="boxes"></i>Minecraft](minecraft/index.md)

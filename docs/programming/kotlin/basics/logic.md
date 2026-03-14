@@ -6,7 +6,7 @@ When comparing two values, use:
 
 - `==` is **equal** to
 - `!=` is **not equal** to
-- `>` is **greater**
+- `>` is **greater** than
 - `>=` is **greater or equal** to
 - `<` is **less** than
 - `<=` is **less or equal** to
@@ -16,25 +16,36 @@ When comparing two values, use:
 
 For example...
 
-```kotlin
+```kotlin run
+val score = 35000
+
 if (score >= 20000) {
-    // do something
+    println("High score!")
 }
 ```
 
 or...
 
-```kotlin
+```kotlin run
+var answer = "Banana"
+
 while (answer != "Apple") {
-    // do something
+    println("$answer is wrong, try again...")
+    answer = "Apple"    // simulate a correct guess
 }
+
+println("Correct!")
 ```
 
 or...
 
-```kotlin
+```kotlin run
+val grade = "C"
+
 if (grade !in "ABCDEF") {
-    // do something
+    println("Invalid grade")
+} else {
+    println("Grade: $grade")
 }
 ```
 
@@ -47,19 +58,21 @@ To create a range of values, the range operators can be used:
 
 For example...
 
-```kotlin
-// Show values 1 to 10
-for (i in 1..10) {
+```kotlin run
+// Show values 1 to 5
+for (i in 1..5) {
     println(i)
 }
 ```
 
 or...
 
-```kotlin
-// Index through all values in a list, using index
-for (i in 0..<list.size) {
-    println(list[i])
+```kotlin run
+// Index through a list
+val colours = listOf("Red", "Green", "Blue")
+
+for (i in 0..<colours.size) {
+    println("$i: ${colours[i]}")
 }
 ```
 
@@ -73,60 +86,35 @@ For logical operations on boolean values:
 
 AND example...
 
-```kotlin
-// Is the user logged in AND an admin?
+```kotlin run
+val loggedIn = true
+val isAdmin  = true
+
 if (loggedIn && isAdmin) {
-    // do something
+    println("Welcome, admin!")
 }
 ```
 
 OR example...
 
-```kotlin
-// Keep playing if alive OR have cheats enabled
-while (lives > 0 || cheatsOn) {
-    // doSomething
+```kotlin run
+var lives    = 0
+val cheatsOn = true
+
+if (lives > 0 || cheatsOn) {
+    println("Keep playing!")
+} else {
+    println("Game over!")
 }
 ```
 
 NOT example...
 
-```kotlin
-// Check if user is an admin
-if (!isAdmin) {
-    // doSomething
+```kotlin run
+val isBlocked = false
+
+if (!isBlocked) {
+    println("Access granted.")
 }
 ```
-
-
-## Conditional Assignment Operators
-
-These are syntactic shortcuts that can be used to check a logical condition, and then to select one of two values (much shorter to write that using `if ... else`)...
-
-### Ternary Operator, `?:`
-
-Checks a condition and select one value if the condition is true, or another value if false:
-
-```php
-$displayName = $loggedIn ? $username : 'Guest';
-```
-
-This will set the display name to:
-- the username if `$loggedIn` is true
-- the string 'Guest' if `$loggedIn` is false
-
-
-### Null Coalescing Operator, `??`
-
-Selects a value if it exists and is not null, otherwise selects an alternative value:
-
-```php
-$username = $_GET['user'] ?? 'Guest';
-```
-
-This will set the username to:
-- the value from the `$_GET` array if it exists and is not null
-- otherwise the string 'Guest'
-
-
 

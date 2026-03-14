@@ -1,60 +1,85 @@
-# Commenting Your PHP Code
+# Commenting Your Kotlin Code
 
-PHP has two ways to add comments to your code:
+Kotlin has two ways to add comments:
 
-- Inline comments - Used to add a note to a specific line of code
-- Block comments - Used to add more detailled notes to a large block of code
+- **Inline comments** - a short note on a single line
+- **Block comments** - a longer note spanning multiple lines
 
-## Inline Comments //
+## Inline Comments `//`
 
-Inline comments begin with a **double-slash**, `//`
+Inline comments begin with a **double-slash**, `//`. Kotlin ignores everything after `//` until the end of the line.
 
-The PHP engine will ignore everything after this, until the end of the line
-
-```php
+```kotlin
 // This is an inline comment
 
-$name = 'Steve';  // This is also an inline comment
-// $school = 'Waimea College';
+val name = "Steve"  // This is also an inline comment
+// val school = "Waimea College"
 ```
 
-?> Note the final line - a comment has been used to **disable a line of code**.  We call this *commenting out* the code and is useful when you want to temporarily remove some code, but not actually delete it.
-
-!> In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> will toggle on/off a comment for the current line
+?> The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
 
 
-## Block Comments /* ... */
+## Block Comments `/* ... */`
 
-Block comments begin with a **slash star**, `/*`, and end with **star slash**, `*/`
+Block comments begin with `/*` and end with `*/`. Everything between the markers is ignored, even across multiple lines.
 
-The PHP engine will ignore everything between these markers, even if they are on different lines
-
-```php
+```kotlin
 /* This is a block comment */
-$name = 'Steve';
 
-/* This is a much longer block comment that
-   spans multiple lines. All of this text is
-   ignored by the PHP engine */
-echo 'Hello world!';
-echo 'This is PHP';
-showUser($name);
+/* This is a longer block comment that
+   spans multiple lines. All of this
+   is ignored by Kotlin. */
+```
 
-/**
- * This style of block comment is usually used
- * to document a block of code like afunction
- * or a class definition
- *
- * @param string $name - The user's name
- *
- * @return nothing
- */
-function showUser($name) {
-    echo 'User: ' . $name;
+
+## What to Comment - and What Not To
+
+Good comments explain the **why**, not the **what**. If the code itself clearly shows *what* it does, a comment restating that adds no value.
+
+**Aim to write self-documenting code** - choose clear, descriptive names so the code speaks for itself:
+
+✗ Comment explaining *what* (unnecessary - the code already says this)...
+
+```kotlin
+// Add 1 to score
+score++
+
+// Loop through players
+for (player in players) {
+    // Print the player
+    println(player.name)
 }
 ```
 
-!> Note the **slash star star**, `/**`, start of the last block comment. This is clalled a **DocBlock** comment (see [here][docblock] for more info.) and should be used before every function, class, etc.
+✓ Comment explaining *why* (useful - context the code can't provide)...
+
+```kotlin
+score += bonusPoints * 2    // Double points during fever mode
+
+// Show the current player ranking
+for (player in players) {
+    println(player.name)
+}
+```
+
+?> A function or variable with a **good name often needs no comment** at all: `calculateTax(income)` is self-explanatory. Reach for a comment when the *reason* behind the code isn't obvious from reading it.
 
 
-[docblock]: https://docs.phpdoc.org/guide/getting-started/what-is-a-docblock.html
+## KDoc Comments `/** ... */`
+
+The `/**` style is used to document functions and classes. These are called **KDoc** comments and can be read by tools and IDEs to generate documentation automatically.
+
+```kotlin
+/**
+ * Calculates the final score after applying a multiplier.
+ *
+ * @param base The raw score before bonuses.
+ * @param multiplier The bonus multiplier to apply.
+ * @return The final calculated score.
+ */
+fun calculateScore(base: Int, multiplier: Double): Int {
+    return (base * multiplier).toInt()
+}
+```
+
+?> KDoc comments should be placed before every `fun`, `class`, or public property.
