@@ -1,60 +1,96 @@
-# Commenting Your PHP Code
+# Commenting Your Python Code
 
-PHP has two ways to add comments to your code:
+Python has two ways to add comments:
 
-- Inline comments - Used to add a note to a specific line of code
-- Block comments - Used to add more detailled notes to a large block of code
+- **Inline comments** - a short note on a single line with `#`
+- **Docstrings** - a longer description using `""" """`
 
-## Inline Comments //
 
-Inline comments begin with a **double-slash**, `//`
+## Inline Comments `#`
 
-The PHP engine will ignore everything after this, until the end of the line
+Start a comment with `#`. Python ignores everything after `#` until the end of the line.
 
-```php
-// This is an inline comment
+```python
+# This is an inline comment
 
-$name = 'Steve';  // This is also an inline comment
-// $school = 'Waimea College';
+name = "Steve"  # This is also an inline comment
+# school = "Waimea College"
 ```
 
-?> Note the final line - a comment has been used to **disable a line of code**.  We call this *commenting out* the code and is useful when you want to temporarily remove some code, but not actually delete it.
-
-!> In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> will toggle on/off a comment for the current line
+?> The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
 
 
-## Block Comments /* ... */
+## Multi-Line Comments
 
-Block comments begin with a **slash star**, `/*`, and end with **star slash**, `*/`
+Python doesn't have a block comment syntax like `/* ... */`. The convention is to use multiple `#` lines:
 
-The PHP engine will ignore everything between these markers, even if they are on different lines
-
-```php
-/* This is a block comment */
-$name = 'Steve';
-
-/* This is a much longer block comment that
-   spans multiple lines. All of this text is
-   ignored by the PHP engine */
-echo 'Hello world!';
-echo 'This is PHP';
-showUser($name);
-
-/**
- * This style of block comment is usually used
- * to document a block of code like afunction
- * or a class definition
- *
- * @param string $name - The user's name
- *
- * @return nothing
- */
-function showUser($name) {
-    echo 'User: ' . $name;
-}
+```python
+# This is a longer comment
+# that spans multiple lines.
+# All of these lines are ignored.
 ```
 
-!> Note the **slash star star**, `/**`, start of the last block comment. This is clalled a **DocBlock** comment (see [here][docblock] for more info.) and should be used before every function, class, etc.
+Alternatively, a triple-quoted string with `"""` is sometimes used for multi-line notes, though strictly these are **string literals** (not true comments):
+
+```python
+"""
+This is sometimes used as a multi-line comment.
+It works, but the # style above is more conventional.
+"""
+```
 
 
-[docblock]: https://docs.phpdoc.org/guide/getting-started/what-is-a-docblock.html
+## What to Comment - and What Not To
+
+Good comments explain the **why**, not the **what**. If the code clearly shows *what* it does, a comment restating it adds nothing.
+
+**Aim for self-documenting code** - choose clear names so the code speaks for itself:
+
+✗ Comments explaining *what* (unnecessary - the code already says this):
+
+```python
+# Add 1 to score
+score += 1
+
+# Loop through players
+for player in players:
+    # Print the player
+    print(player.name)
+```
+
+✓ Comments explaining *why* (useful - context the code can't provide):
+
+```python
+score += bonus_points * 2    # Double points during fever mode
+
+# Show the current player ranking
+for player in players:
+    print(player.name)
+```
+
+
+## Docstrings
+
+**Docstrings** are triple-quoted strings placed directly after a function or class definition. They describe what the function does:
+
+```python
+def calculate_tax(income):
+    """Return the tax owed on the given income."""
+    return income * 0.33
+```
+
+For longer descriptions:
+
+```python
+def greet(name, formal=False):
+    """
+    Return a greeting for the given name.
+
+    If formal is True, uses a formal greeting.
+    """
+    if formal:
+        return f"Good day, {name}."
+    return f"Hey, {name}!"
+```
+
+?> Docstrings are readable by tools and IDEs - hover over a function call in VS Code and you'll see the docstring as a tooltip.
