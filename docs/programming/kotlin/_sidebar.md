@@ -1,4 +1,5 @@
 - [<i class="si si-kotlin"></i>What is Kotlin?](programming/kotlin/index.md)
+    - [<i data-lucide="info"></i>Kotlin Cheatsheet](programming/kotlin/cheatsheet.md)
 
 - <i data-lucide="scooter"></i>Kotlin Basics
     - [<i data-lucide="variable"></i>Variables & Types](programming/kotlin/basics/variables.md)
