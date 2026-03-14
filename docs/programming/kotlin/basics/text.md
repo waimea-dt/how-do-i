@@ -204,3 +204,23 @@ for (letter in word) {
     print("$letter ")        // 'K', 'o', 't', etc.
 }
 ```
+
+
+## Useful String Methods Summary
+
+| Method | What it does |
+|--------|-------------|
+| `s.length` | Number of characters |
+| `s.uppercase()` | All uppercase |
+| `s.lowercase()` | All lowercase |
+| `s.trim()` | Remove surrounding whitespace |
+| `s.replace(a, b)` | Replace `a` with `b` |
+| `s.split(sep)` | Split into a list |
+| `s.indexOf(sub)` | Index of first match, or `-1` |
+| `s.contains(sub)` | `true` if `sub` is found |
+| `s.startsWith(sub)` | `true` if starts with `sub` |
+| `s.endsWith(sub)` | `true` if ends with `sub` |
+| `s.take(n)` | First `n` characters |
+| `s.drop(n)` | Everything after the first `n` characters |
+| `s.first()` | First character |
+| `s.last()` | Last character |

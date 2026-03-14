@@ -81,3 +81,66 @@ var likes cats = true        // Can't have spaces
 ?> Kotlin variables **cannot hold `null` by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](programming/kotlin/advanced/errors.md) page.
 
 
+## Variable Scope
+
+**Scope** determines where in your code a variable can be accessed.
+
+A variable only exists inside the **block** it was declared in - a block is any section of code wrapped in `{ }`.
+
+### Local Variables
+
+A variable declared inside a function, loop, or `if` block is **local** to that block. It cannot be accessed outside it:
+
+```kotlin run
+fun greet() {
+    val message = "Hello!"   // local to greet()
+    println(message)
+}
+
+greet()
+// println(message)   // ✗ Error - 'message' doesn't exist here
+```
+
+```kotlin run
+for (i in 1..3) {
+    val squared = i * i      // local to the loop body
+    println("$i² = $squared")
+}
+
+// println(squared)   // ✗ Error - 'squared' doesn't exist here
+```
+
+### Nested Scope
+
+Code inside an inner block **can** see variables from the outer block - but not the other way around:
+
+```kotlin run
+fun main() {
+    val player = "Alice"           // outer block
+
+    if (true) {
+        val bonus = 500            // inner block
+        println("$player gets $bonus points!")   // ✓ can see player
+    }
+
+    // println(bonus)   // ✗ Error - 'bonus' only exists in the if block
+}
+```
+
+### Top-Level Variables
+
+Variables declared **outside any function** are top-level - they can be accessed from anywhere in the file:
+
+```kotlin run
+val maxScore = 100     // top-level - visible everywhere
+
+fun showScore(score: Int) {
+    println("Score: $score / $maxScore")   // ✓ can see maxScore
+}
+
+showScore(72)
+```
+
+?> Keep variables as **local as possible** - declare them in the smallest block where they are needed. This prevents accidental changes from unrelated parts of your code.
+
+

@@ -124,3 +124,107 @@ cost  *= 2
 value /= 10
 ```
 
+
+## Converting Between Types
+
+Kotlin is strict about types — you can't use an `Int` where a `Double` is expected without explicitly converting it. Use the built-in conversion methods:
+
+```kotlin run
+val score: Int    = 42
+val price: Double = 9.99
+
+val scoreAsDouble = score.toDouble()   // 42.0
+val priceAsInt    = price.toInt()      // 9  — truncates, does not round
+val priceAsLong   = price.toLong()     // 9
+
+println(scoreAsDouble)
+println(priceAsInt)
+println(priceAsLong)
+```
+
+Converting between numbers and strings:
+
+```kotlin run
+val number = 42
+val text   = "100"
+
+val numberToString = number.toString()   // "42"
+val stringToInt    = text.toInt()        // 100
+val stringToDouble = "3.14".toDouble()   // 3.14
+
+println(numberToString)
+println(stringToInt + 1)
+println(stringToDouble)
+```
+
+?> `.toInt()` on a `Double` **truncates** — it drops the decimal part without rounding. To round to the nearest integer, use `round(n).toInt()` from `kotlin.math`.
+
+
+## Maths Functions
+
+Kotlin's `kotlin.math` library provides common mathematical functions. Import it at the top of your file:
+
+```kotlin
+import kotlin.math.*
+```
+
+**Rounding and absolute value:**
+
+```kotlin run
+import kotlin.math.*
+
+val price = 3.7489
+
+println(round(price))    // 4.0  — round to nearest
+println(floor(price))    // 3.0  — round down
+println(ceil(price))     // 4.0  — round up
+println(abs(-42))        // 42   — remove negative sign
+```
+
+**Power and roots:**
+
+```kotlin run
+import kotlin.math.*
+
+println(2.0.pow(8))     // 256.0  — 2 to the power of 8
+println(sqrt(144.0))    // 12.0   — square root
+```
+
+**Min, max, and clamping:**
+
+```kotlin run
+import kotlin.math.*
+
+println(min(10, 25))          // 10    — smaller of two values
+println(max(10, 25))          // 25    — larger of two values
+println(10.0.coerceIn(0.0, 1.0))  // 1.0  — clamp to a range
+```
+
+**Random numbers:**
+
+```kotlin run
+import kotlin.random.Random
+
+println(Random.nextInt(1, 7))       // random int: 1..6 (dice roll)
+println(Random.nextDouble(0.0, 1.0))  // random double between 0 and 1
+```
+
+?> `Random.nextInt(from, until)` — note that `until` is **exclusive**, so `nextInt(1, 7)` gives values 1–6.
+
+
+## Useful Maths Functions Summary
+
+| Function | What it does |
+|----------|-------------|
+| `abs(n)` | Absolute value (removes negative sign) |
+| `round(n)` | Round to nearest (returns `Double`) |
+| `floor(n)` | Round down |
+| `ceil(n)` | Round up |
+| `n.pow(exp)` | `n` to the power of `exp` |
+| `sqrt(n)` | Square root |
+| `min(a, b)` | Smaller of two values |
+| `max(a, b)` | Larger of two values |
+| `n.coerceIn(min, max)` | Clamp `n` between `min` and `max` |
+| `Random.nextInt(from, until)` | Random integer in range |
+| `Random.nextDouble(from, until)` | Random decimal in range |
+
