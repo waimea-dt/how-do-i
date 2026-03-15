@@ -150,7 +150,9 @@ text.last()               // last char           → 'n'
 text.take(3)              // first 3 chars       → "Kot"
 text.drop(4)              // chars after first 4 → "in"
 text.substring(2, 5)      // char index 2 to 4   → "tli"
+```
 
+```kotlin
 text.uppercase()          // all uppercase → "KOTLIN"
 text.lowercase()          // all lowercase → "kotlin"
 
@@ -276,29 +278,45 @@ val level = when {
 ## Loops
 
 ```kotlin
-repeat(3) { print("Boom!") }    // fixed number of times → Boom! Boom! Boom!
-repeat(3) { print("$it") }      // ... with index `it`   → 0 1 2 3 4
+repeat(3) {                  // fixed number of times → Boom! Boom! Boom!
+    print("Boom!")
+}
+
+repeat(5) {                  // ... with index `it`   → 0 1 2 3 4
+    print("$it")
+}
 ```
 
 ```kotlin
-for (i in 1..5) { print(i) }    // over an inclusive range → 1 2 3 4 5
+for (i in 1..5) {            // loop over an inclusive range → 1 2 3 4 5
+    print(i)
+}
 ```
 
 ```kotlin
-for (item in items)       { println(item) }      // loop over a list (by value)
-for (i in 0..<items.size) { println(items[i]) }  // loop over a list (by index)
+for (item in items) {        // loop over a list by value
+    println(item)
+}
+
+for (i in 0..<items.size) {  // loop over a list by index → 0 1 2 3 4 ...
+    println(items[i])
+}
 ```
 
 ```kotlin
-while (lives > 0) { lives-- }   // while loop repeats if condition true
+while (lives > 0) {          // while loop repeats if condition true
+    lives--
+}
 
-do { turn++ } while (turn < 3)  // do..while always runs at least once
+do {                         // do..while always runs at least once
+    turn++
+} while (turn < 3)
 ```
 
 ```kotlin
 for (n in numbers) {
-    if (n == 3) continue        // skip this item (restart loop code with next value)
-    if (n < 0) break            // exit loop (jump to code after loop)
+    if (n == 3) continue     // skip this item (restart loop code with next value)
+    if (n < 0) break         // exit loop (jump to code after loop)
 }
 ```
 
@@ -346,41 +364,49 @@ greet(greeting = "Hey", name = "Carol")  // named arguments - any order
 ## Lists
 
 ```kotlin
-// List - read-only
-val nums = listOf(10, 0, 25, 8, 88, 67)
+val nums = listOf(10, 0, 25, 8, 88, 67)    // List - read-only
 
 nums.size                       // number of items → 6
 
 nums[0]                         // value by index  → 10
 nums.first()                    // first value     → 10
 nums.last()                     // last value      → 67
+```
 
+```kotlin
 nums.sum()                      // total                   → 198
 nums.average()                  // mean value (Double)     → 33.0
 nums.min()                      // smallest                → 0
 nums.max()                      // largest                 → 88
-nums.minOrNull()                // smallest, null if empty → 0
-nums.maxOrNull()                // largest, null if empty  → 88
+```
 
-0 in nums                       // true if value in list     → true
+```kotlin
+67 in nums                      // true if value in list     → true
+
 nums.any    { it > 50 }         // true if any item matches  → true
 nums.all    { it > 0 }          // true if all items match   → false
 nums.count  { it > 50 }         // number matching condition → 2
 
-nums.filter { it > 10 }         // new list of matching items    → [25, 59, 67]
+nums.filter { it > 50 }         // new list of matching items    → [67, 88]
 nums.map    { it % 2 }          // new list of transformed items → [0, 0, 1, 0, 0, 1]
+```
 
-val sorted   = nums.sorted()    // new copy, sorted     → [0, 8, 10, 25, 67, 88]
-val shuffled = nums.shuffled()  // new copy, randomised → [10, 88, 0, 67, 8, 25]
+```kotlin
+val sorted   = nums.sorted()    // new copy, sorted      → [0, 8, 10, 25, 67, 88]
+val shuffled = nums.shuffled()  // new copy, randomised  → [10, 88, 0, 67, 8, 25]
+val pick     = nums.random()    // random item from list → 67
+```
 
+```kotlin
 for (num in nums)      { println(num) }
 for (i in 0..<nums.size) { println(nums[i]) }
 nums.forEachIndexed { i, num -> println("$i: $num") }
 ```
 
+## MutableLists
+
 ```kotlin
-// MutableList - can change
-val letters = mutableListOf('K', 'O', 'T')
+val letters = mutableListOf('K', 'O', 'T')   // MutableList - can change
 
 letters.add('I')           // append to end          → ['K', 'O', 'T', 'I']
 letters.add(3, 'L')        // insert at index 1      → ['K', 'O', 'T', 'L', 'I']
@@ -389,32 +415,46 @@ letters.remove('O'))       // remove by value        → ['K', 'T', 'L', 'I']
 letters.removeAt(1)        // remove by index        → ['K', 'L', 'I']
 
 letters[2] = 'A'           // update value by index  → ['K', 'L', 'A']
+```
 
+```kotlin
 letters.sort()             // sort list ascending    → ['A', 'K', 'L']
 letters.sortDescending()   // sort list descending   → ['L', 'K', 'A']
 letters.shuffle()          // randomise list order   → ['K', 'A', 'L']
 ```
 
 
-## Maps
+## Maps - Key/Value Pairs
 
 ```kotlin
-// MutableMap - key/value pairs
-val marks = mutableMapOf(42 to "A", 67 to "B", 33 to "C")
+val rgb = mapOf('R' to 255, 'G' to 128, 'B' to 64)   // Map - read-only
 
-marks.keys                 // set of all keys       → ["MAT", "DTD", "ART"]
-marks.values               // set of all values     → ["M", "E", "NA"]
+rgb.keys                // set of all keys       → ["R", "G", "B"]
+rgb.values              // set of all values     → [255, 128, 64]
 
-marks["ART"] = "A"         // update value by key   → {... "ART": "A"}
-marks["PHY"] = "E"         // add new key and value → {... "PHY": "E"}
-marks.remove("MAT")        // remove by key         → {... "ART": "A" ...}
+rgb['B']                // value by key          → 64
+```
 
-"DTD" in marks             // check if key exists   → true
-marks.containsValue("NA")  // check if value exists → true
+```kotlin
+'G' in rgb              // check if key exists   → true
+rgb.containsValue(128)  // check if value exists → true
 
-marks["GEO"] ?: "none"     // Elvis fallback for missing key → "none"
+rgb['A'] ?: "none"      // Elvis fallback for missing key → "none"
+```
 
-for ((key, value) in marks) { println("$key: $value") }
+```kotlin
+for ((key, value) in rgb) { println("$key: $value") }
+```
+
+
+## MutableMaps
+
+```kotlin
+val stats = mutableMapOf('S' to 5, 'D' to 3, 'I' to 7)   // MutableMap - can change
+
+stats['S'] = 10         // update value by key   → {'S':10, 'D':3, 'I':7}
+stats['W'] = 7          // add new key and value → {'S':10, 'D':3, 'I':7, 'W':7}
+stats.remove('D')       // remove by key         → {'S':10, 'I':7, 'W':7}
 ```
 
 
@@ -452,19 +492,21 @@ val len = name!!.length  // non-null assertion - use cautiously
 ```kotlin
 class Wizard(val name: String, var mana: Int) {
 
-    var spellsCast: Int = 0     // internal property (default value)
+    var spellsCast: Int = 0     // internal property with default value
 
+    // runs automatically when object is created
     init {
-        // runs automatically when object is created
         println("$name entered the realm!")
     }
 
+    // method (behaviour / api)
     fun castSpell(spell: String) {
         mana -= 10
         spellsCast++
         println("$name casts $spell! (mana: $mana)")
     }
 
+    // Provide human-readable text when printing object
     override fun toString() = "Wizard($name, mana=$mana)"
 }
 
@@ -473,7 +515,10 @@ val gandalf = Wizard("Gandalf", 100)
 val merlin  = Wizard("Merlin",   80)
 
 gandalf.castSpell("Fireball")  // call method
+
 println(gandalf.name)          // property access
+println(gandalf.spellsCast)    // property access
+
 println(gandalf)               // calls toString()
 ```
 
@@ -488,7 +533,7 @@ class Account(val owner: String) {
 
 // try to access a private property
 val myAccount = Account("Dave")
-myAccount.balance = 99999      // Error!
+myAccount.balance = 99999      // Error! Property is inaccessible
 ```
 
 ```kotlin
@@ -507,10 +552,8 @@ println(p1 == Point(3, 7))   // true (compares values, not reference)
 ```
 
 ```kotlin
-/*
-   multi-line
-   comment
-*/
+/* multi-line
+   comment */
 ```
 
 ```kotlin

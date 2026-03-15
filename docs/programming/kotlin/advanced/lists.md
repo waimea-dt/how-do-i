@@ -141,16 +141,19 @@ Use `sort()`, `sortDescending()`, and `shuffle()` to change a `MutableList` **in
 
 ```kotlin run
 val scores = mutableListOf(42, 7, 88, 15, 34)
-println("Original:   $scores")
+println("Original:    $scores")
 
 scores.sort()
-println("Sorted:     $scores")     // Sorted low → high
+println("Sorted:      $scores")   // Sorted low → high
 
 scores.sortDescending()
-println("Descending: $scores")     // Sorted high → low
+println("Descending:  $scores")   // Sorted high → low
 
 scores.shuffle()
-println("Shuffled:   $scores")     // Randomised
+println("Shuffled:    $scores")   // Randomised
+
+val pick = scores.random()
+println("Random Pick: $pick")     // Randomised
 ```
 
 To get a sorted or shuffled copy **without changing the original**, use `sorted()` and `shuffled()`:
