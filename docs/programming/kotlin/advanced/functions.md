@@ -155,6 +155,26 @@ fun main() {
 ```
 
 
+## Named Arguments
+
+When calling a function, you can name each argument - this lets you pass them in **any order** and skip parameters that have defaults:
+
+```kotlin run
+fun greet(name: String, greeting: String = "Hello", end: String = "!") {
+    println("$greeting, $name$end")
+}
+
+fun main() {
+    greet("Alice")                               // all defaults
+    greet("Bob", "Good morning")                 // positional
+    greet("Carol", end = ".")                    // skip greeting
+    greet(end="?", greeting="Hey", name="Dave")  // any order
+}
+```
+
+?> Named arguments are most useful when a function has **multiple parameters with default values** - you can supply just the ones you need, in any order, without having to know their position.
+
+
 ## Return Values
 
 A function can **return** a value back to the caller using the `return` keyword.

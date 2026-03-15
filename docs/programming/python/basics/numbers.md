@@ -116,7 +116,7 @@ print(string_as_int + 1)
 print(string_as_float)
 ```
 
-?> `int()` on a `float` **truncates** — it drops the decimal part without rounding. Use `round()` to round to the nearest integer instead.
+?> `int()` on a `float` **truncates** - it drops the decimal part without rounding. Use `round()` to round to the nearest integer instead.
 
 
 ## Maths Functions
@@ -134,30 +134,30 @@ import math
 
 price = 3.7489
 
-print(round(price))        # 4     — round to nearest integer (built-in, no import needed)
-print(round(price, 2))     # 3.75  — round to 2 decimal places
-print(math.floor(price))   # 3     — round down
-print(math.ceil(price))    # 4     — round up
-print(abs(-42))            # 42    — remove negative sign (built-in)
+print(round(price))        # 4     - round to nearest integer (built-in, no import needed)
+print(round(price, 2))     # 3.75  - round to 2 decimal places
+print(math.floor(price))   # 3     - round down
+print(math.ceil(price))    # 4     - round up
+print(abs(-42))            # 42    - remove negative sign (built-in)
 ```
 
-?> `round()` and `abs()` are built into Python — you don't need to import `math` to use them.
+?> `round()` and `abs()` are built into Python - you don't need to import `math` to use them.
 
 **Power and roots:**
 
 ```python
 import math
 
-print(2 ** 8)           # 256    — power (no import needed)
-print(math.sqrt(144))   # 12.0   — square root
+print(2 ** 8)           # 256    - power (no import needed)
+print(math.sqrt(144))   # 12.0   - square root
 ```
 
 **Min, max, and clamping:**
 
 ```python
-print(min(10, 25))              # 10  — smaller of two values
-print(max(10, 25))              # 25  — larger of two values
-print(max(0, min(100, 150)))    # 100 — clamp to range 0–100
+print(min(10, 25))              # 10  - smaller of two values
+print(max(10, 25))              # 25  - larger of two values
+print(max(0, min(100, 150)))    # 100 - clamp to range 0–100
 ```
 
 **Random numbers:**
@@ -169,7 +169,7 @@ print(random.randint(1, 6))          # random int: 1–6 (dice roll)
 print(random.uniform(0.0, 1.0))      # random float between 0 and 1
 ```
 
-?> `random.randint(a, b)` — both `a` and `b` are **inclusive**, so `randint(1, 6)` can return 1, 2, 3, 4, 5, or 6.
+?> `random.randint(a, b)` - both `a` and `b` are **inclusive**, so `randint(1, 6)` can return 1, 2, 3, 4, 5, or 6.
 
 
 ## Useful Maths Functions Summary

@@ -22,7 +22,7 @@ is_alive = True          # bool
 # type() checks the type of a value
 print(type(name))    # <class 'str'>
 
-# None — Python's "no value"
+# None - Python's "no value"
 result = None
 ```
 
@@ -66,7 +66,7 @@ e = 10 // 3   # 3     integer division (truncates)
 f = 10 % 3    # 1     remainder (modulus)
 g = 2 ** 8    # 256   exponentiation
 
-score += 100  # shorthand — score = score + 100
+score += 100  # shorthand - score = score + 100
 # also: -=  *=  /=  //=  **=  %=
 # Note: Python has no ++ or --
 ```
@@ -140,7 +140,7 @@ else:
     print("Failed")
 ```
 
-**`match` — cleaner for multiple exact values (Python 3.10+):**
+**`match` - cleaner for multiple exact values (Python 3.10+):**
 
 ```python
 match day:
@@ -234,7 +234,7 @@ def add(a: int, b: int) -> int:
 def greet(name: str, greeting: str = "Hello") -> None:
     print(f"{greeting}, {name}!")
 
-# lambda — single-expression shorthand
+# lambda - single-expression shorthand
 double = lambda n: n * 2
 ```
 
@@ -242,7 +242,7 @@ double = lambda n: n * 2
 ## Collections
 
 ```python
-# list — ordered, mutable
+# list - ordered, mutable
 colours = ["Red", "Green", "Blue"]
 colours[0]              # "Red"
 colours[-1]             # "Blue"
@@ -259,11 +259,11 @@ colours.sort()                      # sort ascending (in place)
 colours.sort(reverse=True)         # sort descending (in place)
 sorted_copy = sorted(colours)      # sorted copy, original unchanged
 
-# tuple — ordered, immutable
+# tuple - ordered, immutable
 point = (3, 7)
 point[0]                # 3   (read-only, no add/remove)
 
-# dict — key/value pairs
+# dict - key/value pairs
 player = {"name": "Steve", "score": 0}
 player["score"] = 100        # update
 player["level"] = 5          # add new key
@@ -392,7 +392,7 @@ class Account:
 ```python
 # single-line comment
 
-# multi-line — use multiple # lines
+# multi-line - use multiple # lines
 # like this
 
 def greet(name: str) -> str:

@@ -153,6 +153,29 @@ fun main() {
 ```
 
 
+## Overriding `toString()`
+
+By default, printing an object shows something unhelpful like `Wizard@5e91993f`. Override `toString()` to control how an object looks when printed:
+
+```kotlin run
+class Wizard(val name: String, var mana: Int) {
+
+    override fun toString(): String {
+        return "Wizard($name, mana=$mana)"
+    }
+}
+
+
+fun main() {
+    val gandalf = Wizard("Gandalf", 100)
+
+    println(gandalf)       // Shows → Wizard(Gandalf, mana=100)
+}
+```
+
+?> The `override` keyword means you are replacing a method that already exists in a parent class - all classes in Kotlin inherit `toString()` from `Any`, so you can always override it.
+
+
 ## `private` Properties and Methods
 
 By default, properties and methods can be accessed from **anywhere**. Mark them `private` to restrict access to **inside the class only**:

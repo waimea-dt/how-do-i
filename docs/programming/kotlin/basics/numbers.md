@@ -16,8 +16,11 @@ When writing literal numbers in code...
 ```kotlin
 val score: Int = 2000                  // Plain number
 val kmToNeptune: Long = 4500000000L    // 'L' suffix at end
+val kmFormatted: Long = 4_500_000_000L // Underscores for readability (ignored by Kotlin)
 var cost: Double = 123.45              // Decimal point
 ```
+
+?> Underscores can be placed anywhere in a numeric literal to make large numbers easier to read - they are ignored by Kotlin. `4_500_000_000L` is identical to `4500000000L`.
 
 ## Numeric Ranges
 
@@ -25,6 +28,8 @@ To create a range of values, the range operators can be used:
 
 - `A..B` give a range from A to B (inclusive of A and B)
 - `A..<B` give a range from A *up to* B (but not including B)
+- `A downTo B` give a range counting **down** from A to B
+- `A..B step N` give a range that advances by N each step
 
 For example...
 
@@ -43,6 +48,25 @@ for (i in 0..<10) {
     println(i)
 }
 ```
+
+or...
+
+```kotlin run
+// Count down from 10 to 1
+for (i in 10 downTo 1) {
+    println(i)
+}
+```
+
+or...
+
+```kotlin run
+// Every 5th value from 0 to 20
+for (i in 0..20 step 5) {
+    println(i)   // 0, 5, 10, 15, 20
+}
+```
+
 
 
 ## Arithmetic Operators
@@ -127,14 +151,14 @@ value /= 10
 
 ## Converting Between Types
 
-Kotlin is strict about types — you can't use an `Int` where a `Double` is expected without explicitly converting it. Use the built-in conversion methods:
+Kotlin is strict about types - you can't use an `Int` where a `Double` is expected without explicitly converting it. Use the built-in conversion methods:
 
 ```kotlin run
 val score: Int    = 42
 val price: Double = 9.99
 
 val scoreAsDouble = score.toDouble()   // 42.0
-val priceAsInt    = price.toInt()      // 9  — truncates, does not round
+val priceAsInt    = price.toInt()      // 9  - truncates, does not round
 val priceAsLong   = price.toLong()     // 9
 
 println(scoreAsDouble)
@@ -157,7 +181,7 @@ println(stringToInt + 1)
 println(stringToDouble)
 ```
 
-?> `.toInt()` on a `Double` **truncates** — it drops the decimal part without rounding. To round to the nearest integer, use `round(n).toInt()` from `kotlin.math`.
+?> `.toInt()` on a `Double` **truncates** - it drops the decimal part without rounding. To round to the nearest integer, use `round(n).toInt()` from `kotlin.math`.
 
 
 ## Maths Functions
@@ -175,10 +199,10 @@ import kotlin.math.*
 
 val price = 3.7489
 
-println(round(price))    // 4.0  — round to nearest
-println(floor(price))    // 3.0  — round down
-println(ceil(price))     // 4.0  — round up
-println(abs(-42))        // 42   — remove negative sign
+println(round(price))    // 4.0  - round to nearest
+println(floor(price))    // 3.0  - round down
+println(ceil(price))     // 4.0  - round up
+println(abs(-42))        // 42   - remove negative sign
 ```
 
 **Power and roots:**
@@ -186,8 +210,8 @@ println(abs(-42))        // 42   — remove negative sign
 ```kotlin run
 import kotlin.math.*
 
-println(2.0.pow(8))     // 256.0  — 2 to the power of 8
-println(sqrt(144.0))    // 12.0   — square root
+println(2.0.pow(8))     // 256.0  - 2 to the power of 8
+println(sqrt(144.0))    // 12.0   - square root
 ```
 
 **Min, max, and clamping:**
@@ -195,9 +219,9 @@ println(sqrt(144.0))    // 12.0   — square root
 ```kotlin run
 import kotlin.math.*
 
-println(min(10, 25))          // 10    — smaller of two values
-println(max(10, 25))          // 25    — larger of two values
-println(10.0.coerceIn(0.0, 1.0))  // 1.0  — clamp to a range
+println(min(10, 25))          // 10    - smaller of two values
+println(max(10, 25))          // 25    - larger of two values
+println(10.0.coerceIn(0.0, 1.0))  // 1.0  - clamp to a range
 ```
 
 **Random numbers:**
@@ -209,7 +233,7 @@ println(Random.nextInt(1, 7))       // random int: 1..6 (dice roll)
 println(Random.nextDouble(0.0, 1.0))  // random double between 0 and 1
 ```
 
-?> `Random.nextInt(from, until)` — note that `until` is **exclusive**, so `nextInt(1, 7)` gives values 1–6.
+?> `Random.nextInt(from, until)` - note that `until` is **exclusive**, so `nextInt(1, 7)` gives values 1–6.
 
 
 ## Useful Maths Functions Summary

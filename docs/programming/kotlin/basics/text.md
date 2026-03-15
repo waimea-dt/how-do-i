@@ -163,6 +163,30 @@ println(text.replace("cats", "dogs", ignoreCase = true))
 ```
 
 
+## Padding Strings
+
+`.padStart(length)` and `.padEnd(length)` extend a string to a given length by adding padding characters (spaces by default):
+
+```kotlin run
+// Right-align numbers by padding on the left
+println("Score: ${"42".padStart(6)}")
+println("Score: ${"1200".padStart(6)}")
+```
+
+A custom padding character can be passed as a second argument:
+
+```kotlin run
+// Zero-pad a number string
+println("42".padStart(5, '0'))    // "00042"
+println("7".padStart(5, '0'))     // "00007"
+
+// Pad on the right
+println("hi".padEnd(6, '.'))      // "hi...."
+```
+
+?> `padStart` and `padEnd` work on **strings**, not numbers. Convert first with `.toString()` if needed: `score.toString().padStart(6, '0')`.
+
+
 ## Splitting Strings
 
 `.split()` divides a string into a list at each occurrence of a separator:
@@ -211,16 +235,24 @@ for (letter in word) {
 | Method | What it does |
 |--------|-------------|
 | `s.length` | Number of characters |
-| `s.uppercase()` | All uppercase |
-| `s.lowercase()` | All lowercase |
-| `s.trim()` | Remove surrounding whitespace |
-| `s.replace(a, b)` | Replace `a` with `b` |
-| `s.split(sep)` | Split into a list |
-| `s.indexOf(sub)` | Index of first match, or `-1` |
-| `s.contains(sub)` | `true` if `sub` is found |
-| `s.startsWith(sub)` | `true` if starts with `sub` |
-| `s.endsWith(sub)` | `true` if ends with `sub` |
-| `s.take(n)` | First `n` characters |
-| `s.drop(n)` | Everything after the first `n` characters |
+| `s[i]` | Character at index `i` |
 | `s.first()` | First character |
 | `s.last()` | Last character |
+| `s.take(n)` | First `n` characters |
+| `s.drop(n)` | Everything after the first `n` characters |
+| `s.substring(a, b)` | Characters from index `a` up to (not including) `b` |
+| `s.trim()` | Remove surrounding whitespace |
+| `s.trimStart()` | Remove leading whitespace only |
+| `s.trimEnd()` | Remove trailing whitespace only |
+| `s.uppercase()` | All uppercase |
+| `s.lowercase()` | All lowercase |
+| `s.padStart(n)` | Pad left with spaces to width `n` |
+| `s.padStart(n, c)` | Pad left with character `c` to width `n` |
+| `s.padEnd(n)` | Pad right with spaces to width `n` |
+| `s.padEnd(n, c)` | Pad right with character `c` to width `n` |
+| `s.replace(a, b)` | Replace all occurrences of `a` with `b` |
+| `s.split(sep)` | Split into a list at each `sep` |
+| `s.startsWith(sub)` | `true` if starts with `sub` |
+| `s.endsWith(sub)` | `true` if ends with `sub` |
+| `s.contains(sub)` | `true` if `sub` is found |
+| `s.indexOf(sub)` | Index of first match, or `-1` |

@@ -16,7 +16,8 @@
 - <i data-lucide="rocket"></i>Kotlin Advanced
     - [<i data-lucide="triangle-alert"></i>Error Handling](programming/kotlin/advanced/errors.md)
     - [<i data-lucide="function-square"></i>Functions](programming/kotlin/advanced/functions.md)
-    - [<i data-lucide="brackets"></i>Data Collections](programming/kotlin/advanced/collections.md)
+    - [<i data-lucide="list"></i>Lists](programming/kotlin/advanced/lists.md)
+    - [<i data-lucide="book-key"></i>Maps](programming/kotlin/advanced/maps.md)
 
 - <i data-lucide="shapes"></i>Kotlin OOP
     - [<i data-lucide="circle-question-mark"></i>What is OOP?](programming/kotlin/oop/intro.md)

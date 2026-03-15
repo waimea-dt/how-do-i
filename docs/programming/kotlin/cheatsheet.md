@@ -3,16 +3,17 @@
 ## Variables
 
 ```kotlin
-val name  = "Gandalf"        // immutable (can't be reassigned)
-var score = 0                // mutable (can change)
-
-val lives: Int    = 3        // explicit type
-var health: Double           // declared without value - type required
+val name  = "Gandalf"   // 'val' → immutable (can't be reassigned)
+var score = 0           // 'var' → mutable (can change)
 ```
 
-**Types:** `String`, `Char`, `Int`, `Long`, `Double`, `Boolean`
+**Common Types:** `String`, `Char`, `Int`, `Long`, `Double`, `Boolean`
 
 ```kotlin
+val name: String        // explicit type
+val lives: Int = 3      // explicit type with assignment
+var height = 1.85       // type is inferred from assigned value (Double)
+
 val greeting: String  = "Hello"
 val initial:  Char    = 'G'
 var year:     Int     = 2026
@@ -21,68 +22,91 @@ var cost:     Double  = 9.99
 var isAlive:  Boolean = true
 ```
 
-?> Boolean names should read as questions: `isAlive`, `hasKey`, `canFly`
+?> Variable **names** should start with a **lowercase letter** and use **camelCase** for multiple words. Boolean names should read as questions: `isAlive`, `hasKey`, `canFly`
 
 
-## Output
+## Output to the Console
 
 ```kotlin
-println("Hello, world!")          // print + newline
-print("Loading... ")              // print, no newline
-println()                         // blank line
-
-val name = "Steve"
-val score = 1200
-println("$name scored $score")           // string template
-println("Double: ${score * 2}")          // expression in template
-println("Pi: ${"%.2f".format(3.14159)}") // formatted number
+println("Hello, world!")   // print + newline
+print("Loading... ")       // print, no newline
+println()                  // blank line
 ```
 
+**String templates:**
+
+```kotlin
+val name = "Steve"
+val age = 21
+println("$name is $age years old")        // string template, with variable,using $...
+println("Age in 10 years: ${age + 10}")   // template, with expression using ${...}
+```
+
+**Formatting numbers:**
+
+```kotlin
+val pi = 3.1415927
+val dist = 250000000
+println("Pi: ${"%.2f".format(pi)}")           // Double to 2dp   → "3.14"
+println("Dist: ${"%,d".format(distance)}km")  // Int with commas → "250,000,000"
+```
+
+**Escape characters:**
+
+```kotlin
+println("Name:\tSteve")          // \t = tab
+println("Line1\nLine2\nLine3")   // \n = newline
+println("She said \"hi\"")       // \" = double quote
+```
 
 ## Input
 
 ```kotlin
 print("Enter name: ")
-val name = readln()              // reads a String
+val name  = readln()             // reads a String
+
+val name  = readln().trim()      // remove any spaces at start/end
 
 val age   = readln().toInt()     // convert to Int
 val price = readln().toDouble()  // convert to Double
+
+val pick  = readln().first()     // get first Char
 ```
 
-?> Use `readlnOrNull()` with null safety — see the [Null Safety](#null-safety) section below.
+?> Use `readlnOrNull()` with null safety - see the [Null Safety](#null-safety) section below.
 
 
 ## Numbers
 
 ```kotlin
-val a = 10 + 3    // 13   addition
-val b = 10 - 3    // 7    subtraction
-val c = 10 * 3    // 30   multiplication
-val d = 10 / 3    // 3    integer division (truncates!)
-val e = 10.0 / 3  // 3.33 float division
-val f = 10 % 3    // 1    remainder (modulus)
+10 + 3          // addition            → 13
+10 - 3          // subtraction         → 7
+10 * 3          // multiplication      → 30
+10 / 3          // integer division    → 3 (discards the decimals)
+10.0 / 3        // double division     → 3.3333 (one value must be double)
+10 % 3          // modulus (remainder) → 1
 
-score++           // increment
-lives--           // decrement
-score += 100      // shorthand: score = score + 100
+score++         // increment by 1
+lives--         // decrement by 1
+score += 100    // shorthand → score = score + 100
 ```
 
 **Ranges:**
 
 ```kotlin
-1..10             // 1 to 10 inclusive
-0..<10            // 0 to 9 (exclusive upper bound)
-10 downTo 1       // 10 to 1
-0..20 step 5      // 0, 5, 10, 15, 20
+1..10           // 1 to 10 inclusive
+0..<10          // 0 to 9 (exclusive upper bound)
+10 downTo 1     // 10 to 1
+0..20 step 5    // 0, 5, 10, 15, 20
 ```
 
 **Type conversion:**
 
 ```kotlin
-val i = price.toInt()       // 9.99 → 9 (truncates)
-val d = score.toDouble()    // 42  → 42.0
-val s = score.toString()    // 42  → "42"
-val n = "100".toInt()       // "100" → 100
+9.99.toInt()    // 9.99  → 9 (truncates)
+42.toDouble()   // 42    → 42.0
+42.toString()   // 42    → "42"
+"100".toInt()   // "100" → 100
 ```
 
 **Maths (`kotlin.math.*`):**
@@ -90,88 +114,107 @@ val n = "100".toInt()       // "100" → 100
 ```kotlin
 import kotlin.math.*
 
-round(3.7)          // 4.0
-floor(3.7)          // 3.0
-ceil(3.2)           // 4.0
-abs(-5)             // 5
-sqrt(144.0)         // 12.0
-2.0.pow(8)          // 256.0
-min(4, 9)           // 4
-max(4, 9)           // 9
-5.coerceIn(1, 10)   // 5  (clamp to range)
+round(3.7)          // round up/down   → 4.0
+floor(3.7)          // round down to   → 3.0
+ceil(3.2)           // round up        → 4.0
+abs(-5)             // ignore +/- sign → 5
+sqrt(144.0)         // square root     → 12.0
+2.0.pow(8)          // to the power of → 256.0
+min(4, 9)           // lowest value    → 4
+max(4, 9)           // highest value   → 9
+13.coerceIn(1, 10)  // clamp to range  → 10
+```
 
+**Random values (`kotlin.random.*`):**
+
+```kotlin
 import kotlin.random.Random
-Random.nextInt(1, 7)         // random Int: 1–6
-Random.nextDouble(0.0, 1.0)  // random Double: 0.0–1.0
+
+Random.nextInt(1, 7)         // random Int → 1 up to 6 (7 not included)
+Random.nextDouble(0.0, 1.0)  // random Double → 0.0 up to 0.99999... (1.0 not included)
 ```
 
 
-## Text (Strings)
+## Text (Strings and Chars)
+
+?> **Strings** are wrapped in double-quotes, `"..."`. **Chars** are wrapped in single-quotes, `'.'`
 
 ```kotlin
-val s = "Kotlin"
+val text = "Kotlin"
 
-s.length              // 6
-s[0]                  // 'K'  (first char)
-s.first()             // 'K'
-s.last()              // 'n'
-s.take(3)             // "Kot"
-s.drop(4)             // "in"
-s.substring(2, 5)     // "tli"
+text.length               // number of chars in the string → 6
 
-s.uppercase()         // "KOTLIN"
-s.lowercase()         // "kotlin"
-s.trim()              // remove surrounding whitespace
-s.replace("K", "J")   // "Jotlin"
-s.split(",")          // split into List<String>
-s.startsWith("Ko")    // true
-s.endsWith("in")      // true
-s.contains("otl")     // true
-"otl" in s            // true (same as contains)
+text[0]                   // char by index       → 'K'
+text.first()              // first char          → 'K'
+text.last()               // last char           → 'n'
+text.take(3)              // first 3 chars       → "Kot"
+text.drop(4)              // chars after first 4 → "in"
+text.substring(2, 5)      // char index 2 to 4   → "tli"
+
+text.uppercase()          // all uppercase → "KOTLIN"
+text.lowercase()          // all lowercase → "kotlin"
+
+text.replace("K", "J")    // replace text     → "Jotlin"
+
+text.startsWith("Ko")     // true if starts with → true
+text.endsWith("on")       // true if ends with   → false
+text.contains("otl")      // true if contains    → true
+"otl" in text             // same as contains()  → true
+text.indexOf("tl")        // index of first match or -1 if none → 2
 ```
-
-
-## Branching
 
 ```kotlin
-if (score >= 50) {
-    println("Passed")
-} else if (score >= 40) {
-    println("Nearly")
-} else {
-    println("Failed")
-}
-```
+val text = "  Hi!  "
 
-**`when` — cleaner for multiple branches:**
+text.trim()               // remove surrounding whitespace   → "Hi!"
+text.trimStart()          // remove leading whitespace only  → "Hi!  "
+text.trimEnd()            // remove trailing whitespace only → "  Hi!"
+```
 
 ```kotlin
-when (day) {
-    1    -> println("Monday")
-    2    -> println("Tuesday")
-    6, 7 -> println("Weekend")     // multiple values
-    else -> println("Weekday")     // default
-}
+val text = "42"
 
-// when with ranges / conditions
-when {
-    score >= 90 -> println("Excellence")
-    score >= 75 -> println("Merit")
-    else        -> println("Achieved")
-}
+text.padStart(5)          // pad with spaces to width 5      → "   42"
+text.padStart(5, '0')     // pad with a character to width 5 → "00042"
+text.padEnd(5)            // pad with spaces on the right    → "42   "
+text.padEnd(5, '.')       // pad with character on the right → "42..."
+```
+
+```kotlin
+"Cat Dog Eel".split(" ")  // split into list at given text → ["Cat", "Dog", "Eel"]
+```
+
+**Chars:**
+
+```kotlin
+val c = 'K'
+
+c.isDigit()           // true if 0-9          → false
+c.isLetter()          // true if a-z or A-Z   → true
+c.isLowerCase()       // true if a-z          → false
+c.isUpperCase()       // true if A-Z          → true
+c.lowercaseChar()     // convert to lowercase → 'k'
+c.uppercaseChar()     // convert to uppercase → 'k'
+
+c  in "aeiou"         // true if char in string     → false
+c !in "aeiou"         // true if char not in string → true
+```
+
+```kotlin
+for (letter in "Kotlin") { print("$letter ") }  // Loop by char → K o t l i n
 ```
 
 
-## Logic
+## Conditional Logic
 
 ```kotlin
 // Comparison operators
 ==   !=   >   >=   <   <=
 
 // Boolean operators
-&&   // and — both must be true
-||   // or  — at least one must be true
-!    // not — reverses the value
+&&   // and - both must be true
+||   // or  - at least one must be true
+!    // not - reverses the value
 
 // Range check
 score in 1..100    // true if 1 ≤ score ≤ 100
@@ -179,102 +222,199 @@ item !in list      // true if not in list
 ```
 
 
-## Loops
+## Branching
 
 ```kotlin
-// for over a range
-for (i in 1..5) { println(i) }
+if (isLoggedIn) {
+    println("Welcome!")
+}
+```
 
-// for over a list (by value)
-for (item in items) { println(item) }
+```kotlin
+if (score >= 50) {
+    println("Passed")
+}
+else if (score >= 40) {
+    println("Nearly")
+}
+else {
+    println("Failed")
+}
+```
 
-// for over a list (by index)
-for (i in 0..<items.size) { println(items[i]) }
+**`when` - cleaner for multiple branches:**
 
-// repeat a fixed number of times
-repeat(3) { println("Loading...") }
+```kotlin
+when (day) {
+    1    -> println("Monday")
+    6, 7 -> println("Weekend")     // multiple values
+    else -> println("Weekday")     // default
+}
 
-// while
-while (lives > 0) { lives-- }
+// when with ranges / conditions
+when {
+    score in 85..100 -> println("Excellence")
+    score in 70..84  -> println("Merit")
+    score in 50..74  -> println("Achieved")
+    else             -> println("Not Achieved")
+}
+```
 
-// do-while (always runs at least once)
-do {
-    attempts++
-} while (attempts < 3)
+**As expressions - return a value directly:**
 
-// break and continue
-for (n in numbers) {
-    if (n == 0) continue    // skip this item
-    if (n < 0) break        // exit loop
+```kotlin
+val result = if (score >= 50) "Pass" else "Fail"
+
+val level = when {
+    exp >= 200 -> "Ninja"
+    exp >= 100 -> "Basic"
+    else       -> "Noob"
 }
 ```
 
 
+## Loops
+
+```kotlin
+repeat(3) { print("Boom!") }    // fixed number of times → Boom! Boom! Boom!
+repeat(3) { print("$it") }      // ... with index `it`   → 0 1 2 3 4
+```
+
+```kotlin
+for (i in 1..5) { print(i) }    // over an inclusive range → 1 2 3 4 5
+```
+
+```kotlin
+for (item in items)       { println(item) }      // loop over a list (by value)
+for (i in 0..<items.size) { println(items[i]) }  // loop over a list (by index)
+```
+
+```kotlin
+while (lives > 0) { lives-- }   // while loop repeats if condition true
+
+do { turn++ } while (turn < 3)  // do..while always runs at least once
+```
+
+```kotlin
+for (n in numbers) {
+    if (n == 3) continue        // skip this item (restart loop code with next value)
+    if (n < 0) break            // exit loop (jump to code after loop)
+}
+```
+
 ## Functions
 
 ```kotlin
-fun greet(name: String): String {
-    return "Hello, $name!"
+// simple function, no parameters or return value
+fun welcome() {
+    println("Hello, World!")
 }
+```
 
+```kotlin
+// function with a parameter, no return value
+fun showScore(score: Int) {
+    println("Score: $score")
+}
+```
+
+```kotlin
+// function with two parameters and a return value
+fun add(a: Int, b: Int): Int {
+    return a + b
+}
+```
+
+```kotlin
 // single-expression shorthand
-fun double(n: Int): Int = n * 2
+fun square(n: Int): Int = n * n
+```
 
+```kotlin
 // default parameter values
 fun greet(name: String, greeting: String = "Hello") {
     println("$greeting, $name!")
 }
 
-// no return value (Unit)
-fun printScore(score: Int) {
-    println("Score: $score")
-}
+// named arguments - any order; skip parameters that have defaults
+greet("Bob", "Hi")                       // both arguments
+greet("Alice")                           // first argument, uses default greeting
+greet(greeting = "Hey", name = "Carol")  // named arguments - any order
 ```
 
 
-## Collections
+## Lists
 
 ```kotlin
-// List — read-only
-val colours = listOf("Red", "Green", "Blue")
-colours[0]                   // "Red"
-colours.last()               // "Blue"
-colours.size                 // 3
-"Green" in colours           // true
+// List - read-only
+val nums = listOf(10, 0, 25, 8, 88, 67)
 
-// MutableList — can change
-val scores = mutableListOf(10, 25, 8)
-scores.add(42)               // append
-scores.add(0, 99)            // insert at index
-scores.remove(25)            // remove by value
-scores.removeAt(0)           // remove by index
-scores[1] = 100              // update
+nums.size                       // number of items → 6
 
-scores.sort()                // sort ascending (in place)
-scores.sortDescending()      // sort descending (in place)
-val sorted = scores.sorted() // sorted copy, original unchanged
+nums[0]                         // value by index  → 10
+nums.first()                    // first value     → 10
+nums.last()                     // last value      → 67
 
-// MutableMap — key/value pairs
-val player = mutableMapOf("name" to "Steve", "score" to 0)
-player["score"] = 100        // update
-player["level"] = 5          // add new key
-player.remove("level")       // remove key
-"name" in player             // true
+nums.sum()                      // total                   → 198
+nums.average()                  // mean value (Double)     → 33.0
+nums.min()                      // smallest                → 0
+nums.max()                      // largest                 → 88
+nums.minOrNull()                // smallest, null if empty → 0
+nums.maxOrNull()                // largest, null if empty  → 88
+
+0 in nums                       // true if value in list     → true
+nums.any    { it > 50 }         // true if any item matches  → true
+nums.all    { it > 0 }          // true if all items match   → false
+nums.count  { it > 50 }         // number matching condition → 2
+
+nums.filter { it > 10 }         // new list of matching items    → [25, 59, 67]
+nums.map    { it % 2 }          // new list of transformed items → [0, 0, 1, 0, 0, 1]
+
+val sorted   = nums.sorted()    // new copy, sorted     → [0, 8, 10, 25, 67, 88]
+val shuffled = nums.shuffled()  // new copy, randomised → [10, 88, 0, 67, 8, 25]
+
+for (num in nums)      { println(num) }
+for (i in 0..<nums.size) { println(nums[i]) }
+nums.forEachIndexed { i, num -> println("$i: $num") }
 ```
 
-**Useful collection methods:**
+```kotlin
+// MutableList - can change
+val letters = mutableListOf('K', 'O', 'T')
+
+letters.add('I')           // append to end          → ['K', 'O', 'T', 'I']
+letters.add(3, 'L')        // insert at index 1      → ['K', 'O', 'T', 'L', 'I']
+
+letters.remove('O'))       // remove by value        → ['K', 'T', 'L', 'I']
+letters.removeAt(1)        // remove by index        → ['K', 'L', 'I']
+
+letters[2] = 'A'           // update value by index  → ['K', 'L', 'A']
+
+letters.sort()             // sort list ascending    → ['A', 'K', 'L']
+letters.sortDescending()   // sort list descending   → ['L', 'K', 'A']
+letters.shuffle()          // randomise list order   → ['K', 'A', 'L']
+```
+
+
+## Maps
 
 ```kotlin
-items.forEachIndexed { i, item -> println("$i: $item") }
+// MutableMap - key/value pairs
+val marks = mutableMapOf(42 to "A", 67 to "B", 33 to "C")
 
-items.filter { it > 10 }     // new list with matching items
-items.map { it * 2 }         // new list with transformed items
-items.any { it > 50 }        // true if any item matches
-items.all { it > 0 }         // true if all items match
-items.count { it % 2 == 0 }  // number matching condition
-items.sum()                  // total (numeric lists)
-items.minOrNull()            // smallest, or null if empty
-items.maxOrNull()            // largest, or null if empty
+marks.keys                 // set of all keys       → ["MAT", "DTD", "ART"]
+marks.values               // set of all values     → ["M", "E", "NA"]
+
+marks["ART"] = "A"         // update value by key   → {... "ART": "A"}
+marks["PHY"] = "E"         // add new key and value → {... "PHY": "E"}
+marks.remove("MAT")        // remove by key         → {... "ART": "A" ...}
+
+"DTD" in marks             // check if key exists   → true
+marks.containsValue("NA")  // check if value exists → true
+
+marks["GEO"] ?: "none"     // Elvis fallback for missing key → "none"
+
+for ((key, value) in marks) { println("$key: $value") }
 ```
 
 
@@ -283,19 +423,27 @@ items.maxOrNull()            // largest, or null if empty
 ```kotlin
 var name: String  = null   // ✗ compile error
 var name: String? = null   // ✓ nullable type
+```
 
-// safe-call operator — returns null instead of crashing
-val length = name?.length
+```kotlin
+val length = name?.length                 // safe-call operator - only run if not null
 
-// elvis operator — fallback if null
-val display = name ?: "Unknown"
+val display = name ?: "Unknown"           // elvis operator - fallback if null
 
-// chain both
-val input = readlnOrNull()?.trim() ?: ""
+val input = readlnOrNull()?.trim() ?: ""  // Safely chained with fallback
+```
 
-// safe numeric conversion (returns null instead of crashing)
-val n = "abc".toIntOrNull()    // null
-val n = "42".toIntOrNull()     // 42
+```kotlin
+"42".toIntOrNull()       // 42
+"abc".toIntOrNull()      // null
+"3.14".toDoubleOrNull()  // 3.14
+
+name.isNullOrBlank()     // true if null, empty, or whitespace
+name?.firstOrNull()      // first char, or null
+```
+
+```kotlin
+val len = name!!.length  // non-null assertion - use cautiously
 ```
 
 
@@ -304,7 +452,12 @@ val n = "42".toIntOrNull()     // 42
 ```kotlin
 class Wizard(val name: String, var mana: Int) {
 
-    var spellsCast: Int = 0
+    var spellsCast: Int = 0     // internal property (default value)
+
+    init {
+        // runs automatically when object is created
+        println("$name entered the realm!")
+    }
 
     fun castSpell(spell: String) {
         mana -= 10
@@ -319,23 +472,50 @@ class Wizard(val name: String, var mana: Int) {
 val gandalf = Wizard("Gandalf", 100)
 val merlin  = Wizard("Merlin",   80)
 
-gandalf.castSpell("Fireball")
-println(gandalf.name)        // property access
-println(gandalf)             // calls toString()
+gandalf.castSpell("Fireball")  // call method
+println(gandalf.name)          // property access
+println(gandalf)               // calls toString()
+```
+
+```kotlin
+// private - restricts access to inside the class (encapsulation)
+class Account(val owner: String) {
+    private var balance = 0    // Not accessible outside
+
+    fun deposit(amount: Int) { balance += amount }
+    fun getBalance() = balance
+}
+
+// try to access a private property
+val myAccount = Account("Dave")
+myAccount.balance = 99999      // Error!
+```
+
+```kotlin
+// data class - for holding data; auto-generates equals, copy(), toString()
+data class Point(val x: Int, val y: Int)
+
+val p1 = Point(3, 7)
+val p2 = p1.copy(y = 10)     // Point(x=3, y=10)
+println(p1 == Point(3, 7))   // true (compares values, not reference)
 ```
 
 ## Comments
 
 ```kotlin
 // single-line comment
+```
 
+```kotlin
 /*
    multi-line
    comment
 */
+```
 
+```kotlin
 /**
- * KDoc — appears as a tooltip in your IDE.
+ * KDoc - appears as a tooltip in your IDE.
  * @param name The player's name
  * @return A greeting string
  */
