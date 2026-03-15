@@ -14,6 +14,8 @@ The same Swing code, just with FlatLAF applied:
 | Dated system appearance | Clean, professional look |
 | Looks different on every OS | Consistent across platforms |
 
+![FlatLAF example](_assets/flatlaf.png)
+
 ?> FlatLAF is used in production software - including JetBrains' own IDEs (IntelliJ IDEA, the tool you write Kotlin in). So what you're building with can look as polished as the tools professionals use.
 
 
