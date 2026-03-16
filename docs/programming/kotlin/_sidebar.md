@@ -1,5 +1,6 @@
 - [<i class="si si-kotlin"></i>What is Kotlin?](programming/kotlin/index.md)
     - [<i data-lucide="info"></i>Kotlin Cheatsheet](programming/kotlin/cheatsheet.md)
+    - [<i data-lucide="folder-tree"></i>Kotlin Project Setup](programming/kotlin/project.md)
 
 - <i data-lucide="scooter"></i>Kotlin Basics
     - [<i data-lucide="variable"></i>Variables & Types](programming/kotlin/basics/variables.md)
@@ -18,6 +19,7 @@
     - [<i data-lucide="function-square"></i>Functions](programming/kotlin/advanced/functions.md)
     - [<i data-lucide="list"></i>Lists](programming/kotlin/advanced/lists.md)
     - [<i data-lucide="book-key"></i>Maps](programming/kotlin/advanced/maps.md)
+    - [<i data-lucide="save"></i>Saving & Loading Data](programming/kotlin/advanced/saveload.md)
 
 - <i data-lucide="shapes"></i>Kotlin OOP
     - [<i data-lucide="circle-question-mark"></i>What is OOP?](programming/kotlin/oop/intro.md)
