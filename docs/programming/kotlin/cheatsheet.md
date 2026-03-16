@@ -57,6 +57,7 @@ println("Dist: ${"%,d".format(distance)}km")  // Int with commas → "250,000,00
 println("Name:\tSteve")          // \t = tab
 println("Line1\nLine2\nLine3")   // \n = newline
 println("She said \"hi\"")       // \" = double quote
+println("It costs \$200")        // \$ = literal dollar sign
 ```
 
 ## Input
@@ -184,6 +185,13 @@ text.padEnd(5, '.')       // pad with character on the right → "42..."
 
 ```kotlin
 "Cat Dog Eel".split(" ")  // split into list at given text → ["Cat", "Dog", "Eel"]
+```
+
+**Concatenation:**
+
+```kotlin
+"Spell: " + "Fireball"    // join strings with +  → "Spell: Fireball"
+"Player: " + name         // join with a variable → "Player: Nova"
 ```
 
 **Chars:**
@@ -314,6 +322,10 @@ do {                         // do..while always runs at least once
 ```
 
 ```kotlin
+while (true) {               // infinite loop - exits only via break
+    if (escaped) break
+}
+
 for (n in numbers) {
     if (n == 3) continue     // skip this item (restart loop code with next value)
     if (n < 0) break         // exit loop (jump to code after loop)
@@ -374,13 +386,15 @@ nums.last()                     // last value      → 67
 ```
 
 ```kotlin
-nums.sum()                      // total                   → 198
-nums.average()                  // mean value (Double)     → 33.0
-nums.min()                      // smallest                → 0
-nums.max()                      // largest                 → 88
+nums.sum()                      // total                → 198
+nums.average()                  // mean value (Double)  → 33.0
+nums.min()                      // smallest             → 0
+nums.max()                      // largest              → 88
 ```
 
 ```kotlin
+nums.isEmpty()                  // true if no items          → false
+
 67 in nums                      // true if value in list     → true
 
 nums.any    { it > 50 }         // true if any item matches  → true
@@ -407,6 +421,7 @@ nums.forEachIndexed { i, num -> println("$i: $num") }
 
 ```kotlin
 val letters = mutableListOf('K', 'O', 'T')   // MutableList - can change
+val empty   = mutableListOf<Char>()          // empty MutableList (type required)
 
 letters.add('I')           // append to end          → ['K', 'O', 'T', 'I']
 letters.add(3, 'L')        // insert at index 1      → ['K', 'O', 'T', 'L', 'I']
@@ -415,6 +430,8 @@ letters.remove('O'))       // remove by value        → ['K', 'T', 'L', 'I']
 letters.removeAt(1)        // remove by index        → ['K', 'L', 'I']
 
 letters[2] = 'A'           // update value by index  → ['K', 'L', 'A']
+
+letters.clear()            // remove all items       → []
 ```
 
 ```kotlin
