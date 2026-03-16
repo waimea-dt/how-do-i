@@ -177,7 +177,7 @@ These methods work on lists of numbers (`Int`, `Double`, etc.):
 
 ```kotlin run
 val prices = listOf(4.99, 12.50, 7.25)
-println(prices.sum())    // 24.74
+println(prices.sum())        // 24.74
 ```
 
 **`average()`** - returns the mean value as a `Double`:
@@ -191,8 +191,8 @@ println(scores.average())    // 67.5
 
 ```kotlin run
 val scores = listOf(60, 75, 90, 45)
-println(scores.min())    // 45
-println(scores.max())    // 90
+println(scores.min())        // 45
+println(scores.max())        // 90
 ```
 
 **`minOrNull()` and `maxOrNull()`** - same as above but return `null` instead of throwing if the list is empty - safer when the list might be empty:
@@ -201,8 +201,8 @@ println(scores.max())    // 90
 val scores = listOf(60, 75, 90, 45)
 val empty  = listOf<Int>()
 
-println(scores.minOrNull())    // 45
-println(empty.minOrNull())     // null
+println(scores.minOrNull())  // 45
+println(empty.minOrNull())   // null
 ```
 
 
@@ -222,8 +222,8 @@ println("High Scores: $highScores")    // Only high scores
 val names = listOf("Alice", "Bob", "Anna", "Charlie", "Amy")
 val aNames = names.filter { it.startsWith("A") }
 
-println("Original: $names")     // Unchanged
-println("A names:  $aNames")    // Only 'A' names
+println("Original: $names")            // Unchanged
+println("A names:  $aNames")           // Only 'A' names
 ```
 
 ?> `it` refers to the current item being tested - shorthand for a single-parameter lambda.
@@ -256,8 +256,8 @@ println(scores.all { it >= 50 })    // false - 45, 12, 33 don't match
 ```kotlin run
 val scores = listOf(45, 12, 78, 33, 91)
 
-println(scores.count { it >= 50 })    // 2  (78 and 91)
-println(scores.count { it % 2 == 0 }) // 1  (only 12 is even)
+println(scores.count { it >= 50 })     // 2  (78 and 91)
+println(scores.count { it % 2 == 0 })  // 1  (only 12 is even)
 ```
 
 
@@ -269,16 +269,16 @@ println(scores.count { it % 2 == 0 }) // 1  (only 12 is even)
 val names = listOf("alice", "bob", "charlie")
 val upper = names.map { it.uppercase() }
 
-println("Original: $names")    // Unchanged
-println("Mapped:   $upper")    // Uppercase copy
+println("Original: $names")     // Unchanged
+println("Mapped:   $upper")     // Uppercase copy
 ```
 
 ```kotlin run
 val prices = listOf(10.65, 25.05, 8.75)
 val withTax = prices.map { "%.2f".format(it * 1.15) }
 
-println("Prices:   $prices")     // Unchanged
-println("With tax: $withTax")    // Transformed copy
+println("Prices:   $prices")    // Unchanged
+println("With tax: $withTax")   // Transformed copy
 ```
 
 ?> `map()` is named after the mathematical idea of mapping one set of values to another - each item is passed through the transformation and the results are collected into a new list.

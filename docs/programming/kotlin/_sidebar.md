@@ -19,6 +19,7 @@
     - [<i data-lucide="function-square"></i>Functions](programming/kotlin/advanced/functions.md)
     - [<i data-lucide="list"></i>Lists](programming/kotlin/advanced/lists.md)
     - [<i data-lucide="book-key"></i>Maps](programming/kotlin/advanced/maps.md)
+    - [<i data-lucide="table-properties"></i>Presenting Data](programming/kotlin/advanced/layout.md)
     - [<i data-lucide="save"></i>Saving & Loading Data](programming/kotlin/advanced/saveload.md)
 
 - <i data-lucide="shapes"></i>Kotlin OOP

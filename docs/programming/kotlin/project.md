@@ -15,7 +15,7 @@ The project structure of a Gradle project is a little different to a simple Inte
 
 ![Gradle folder structure](_assets/gradle-folders.png)
 
-## Grade Setup File, `build.gradle.kts`
+## Gradle Setup File, `build.gradle.kts`
 
 Edit the `build.gradle.kts` file to have the following code:
 

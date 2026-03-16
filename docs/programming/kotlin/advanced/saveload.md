@@ -1,5 +1,7 @@
 # Saving and Loading App Data
 
+Most apps need to save data so it persists between runs - high scores, settings, player progress, and so on. Kotlin makes this straightforward using files. The right approach depends on how complex your data is.
+
 ## Saving Simple Data Values
 
 If you are simply saving some **individual values**:
@@ -52,7 +54,7 @@ fun saveData() {
     val file = File(dataFile)
     file.parentFile?.mkdirs()                   // Create save folder if needed
 
-    file.writeText(names.joinToString("\n"))   // Save values, one per line
+    file.writeText(names.joinToString("\n"))    // Save values, one per line
 }
 
 fun loadData() {
@@ -86,7 +88,7 @@ fun loadData() {
     if (!file.exists()) return
 
     scores.clear()
-    scores.addAll(file.readLines(),map { it.toInt() })   // Read lines and convert
+    scores.addAll(file.readLines().map { it.toInt() })   // Read lines and convert
 }
 ```
 
@@ -135,7 +137,7 @@ fun loadData() {
     names.clear()
     scores.clear()
     for (line in lines) {
-        val items = lines.split(",")  // Extract the comma-separated items
+        val items = line.split(",")   // Extract the comma-separated items
         names.add(items[0])           // Read each line back into list
         scores.add(items[1].toInt())
     }
@@ -192,17 +194,16 @@ class App {
     }
 
     companion object {
-        val gson: Gson? = GsonBuilder().setPrettyPrinting().create()
+        val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
         fun loadData(): App? {
             val file = File(dataFile)
             if (!file.exists()) return null      // Bail out if missing save file
 
-            val loadedApp = gson.fromJson(       // Load the JSON from the file
+            return gson.fromJson(                // Load JSON data as App object, or null
                 file.readText(),
                 App::class.java
             )
-            return loadedApp                     // Pass back App object or null
         }
     }
 
@@ -216,9 +217,9 @@ class App {
 
 
 fun main() {
-    val app = App.load() ?: App()   // Load existing save, or fallback fresh App
+    val app = App.loadData() ?: App()   // Load existing save, or fallback fresh App
 
-    app.saveData()                  // App data can be saved before app exit
+    app.saveData()                      // App data can be saved before app exit
 }
 ```
 
