@@ -1,4 +1,4 @@
-![](_assets/macs/macintosh.svg)
+![](_assets/macs/macintosh-happy.svg)
 
 # DT Notes
 
