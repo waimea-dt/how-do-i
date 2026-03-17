@@ -4,15 +4,17 @@ Documentation and Notes for **Digital Technologies** at [Waimea College](https:/
 
 ---
 
-<center>
-<a href="https://waimea-dt.github.io/dt-notes/#/">
+<div align="center">
 
-![Happy Mac](docs/_assets/macs/macintosh.svg)
+  <a href="https://waimea-dt.github.io/dt-notes/#/">
+  
+  ![Happy Mac](docs/_assets/macs/macintosh.svg)
+  
+  Click me to read the notes!
 
-### Click me to View the notes!
+  </a>
 
-</a>
-</center>
+</div>
 
 ---
 
