@@ -138,13 +138,17 @@ Random.nextDouble(0.0, 1.0)  // random Double → 0.0 up to 0.99999... (1.0 not 
 
 ## Text (Strings and Chars)
 
-?> **Strings** are wrapped in double-quotes, `"..."`. **Chars** are wrapped in single-quotes, `'.'`
+?> **Strings** are wrapped in double-quotes, `"..."`. **Chars** are wrapped in single-quotes, `'.'`. **Multi-line Strings** are wrapped in triple-quotes, `"""..."""`
 
 ```kotlin
 val text = "Kotlin"
 
 text.length               // number of chars in the string → 6
+```
 
+**Extracting parts of the text:**
+
+```kotlin
 text[0]                   // char by index       → 'K'
 text.first()              // first char          → 'K'
 text.last()               // last char           → 'n'
@@ -153,18 +157,26 @@ text.drop(4)              // chars after first 4 → "in"
 text.substring(2, 5)      // char index 2 to 4   → "tli"
 ```
 
+**Converting Text:**
+
 ```kotlin
 text.uppercase()          // all uppercase → "KOTLIN"
 text.lowercase()          // all lowercase → "kotlin"
 
 text.replace("K", "J")    // replace text     → "Jotlin"
+```
 
+**Inspecting the Text:**
+
+```kotlin
 text.startsWith("Ko")     // true if starts with → true
 text.endsWith("on")       // true if ends with   → false
 text.contains("otl")      // true if contains    → true
 "otl" in text             // same as contains()  → true
 text.indexOf("tl")        // index of first match or -1 if none → 2
 ```
+
+**Removing Surrounding Whitespace:**
 
 ```kotlin
 val text = "  Hi!  "
@@ -173,6 +185,8 @@ text.trim()               // remove surrounding whitespace   → "Hi!"
 text.trimStart()          // remove leading whitespace only  → "Hi!  "
 text.trimEnd()            // remove trailing whitespace only → "  Hi!"
 ```
+
+**Padding to a Fixed Width:**
 
 ```kotlin
 val text = "42"
@@ -183,8 +197,19 @@ text.padEnd(5)            // pad with spaces on the right    → "42   "
 text.padEnd(5, '.')       // pad with character on the right → "42..."
 ```
 
+**Converting to a List of Words / Paragraphs / Parts:**
+
 ```kotlin
-"Cat Dog Eel".split(" ")  // split into list at given text → ["Cat", "Dog", "Eel"]
+val sentence = "I like cheese"
+val colours = "red, green, blue"
+val multiLine = """
+    First line
+    Second line
+""".trimIndent()          // trimIndent removes any indents added for clarity
+
+sentence.split(" ")       // split text by spaces → ["I", "like", "cheese"]
+colours.split(", ")       // split text at commas → ["red", "green", "blue"]
+multiLine.split("\n")     // split into lines → ["First line", "Second line"]
 ```
 
 **Concatenation:**
