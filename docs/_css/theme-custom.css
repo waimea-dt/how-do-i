@@ -27,8 +27,9 @@ html {
 
     --mono-shade4: hsl(var(--mono-hue), var(--mono-saturation), 10%);
     --mono-shade5: hsl(var(--mono-hue), var(--mono-saturation), 5%);
+    --mono-tint4:  hsl(var(--mono-hue), var(--mono-saturation), 67%);
 
-    --base-font-size: 18px;
+    --base-fo--mono-tint3: hsl(var(--mono-hue), var(--mono-saturation), 43%);nt-size: 18px;
 
     --content-max-width: 60em;
 
@@ -78,6 +79,10 @@ html {
 
 
 /* HEADINGS ----------------------------------------- */
+
+.anchor {
+    display: none;
+}
 
 .markdown-section h1,
 .markdown-section h2,
@@ -177,5 +182,17 @@ img[src*="macintosh"] {
     font-size: 1.2rem;
 }
 
+ul.app-sub-sidebar {
+    line-height: 1.3;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.8rem;
+    color: var(--mono-tint3);
+    list-style: square;
+}
+
+ul.app-sub-sidebar a {
+    color: var(--mono-tint4);
+}
 
 

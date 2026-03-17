@@ -46,14 +46,7 @@
 
             loadSidebar: true,
             sidebarDisplayLevel: 1,
-
-            markdown: {
-                renderer: {
-                    heading(text, level) {
-                        return `<h${level}>${text}</h${level}>`;
-                    }
-                }
-            },
+            subMaxLevel: 2,
 
             lucide: {
                 size: 18,
@@ -62,14 +55,7 @@
                 class: 'inline-icon'
             },
 
-            plugins: [
-                function(hook) {
-                    hook.doneEach(function() {
-                        window.scrollTo(0, 0);
-                    });
-                }
-            ]
-        };
+        }
     </script>
 
     <script type="module">
@@ -104,6 +90,8 @@
     <script src="//unpkg.com/prismjs/components/prism-javascript.min.js"></script>
     <script src="//unpkg.com/prismjs/components/prism-sql.min.js"></script>
 
+    <script defer src="_plugins/docsify-scroll-to-top.js"></script>
+    <script defer src="_plugins/docsify-sidebar-scrollspy.js"></script>
     <script defer src="_plugins/docsify-lucide-icons.js"></script>
     <script defer src="_plugins/docsify-python-runner.js"></script>
     <script defer src="_plugins/docsify-kotlin-runner.js"></script>
