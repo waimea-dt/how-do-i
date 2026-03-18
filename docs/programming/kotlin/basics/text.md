@@ -49,6 +49,24 @@ println("Name length: ${name.length} characters")
 
 
 
+## Multi-line Strings
+
+A **multi-line string** is wrapped in **triple quotes**, `"""..."""`. It can span multiple lines without needing escape characters for newlines or quotes:
+
+```kotlin run
+val message = """
+    Welcome to Kotlin!
+    This spans multiple lines.
+    No escape characters needed.
+""".trimIndent()
+
+println(message)
+```
+
+?> `.trimIndent()` removes the common leading indentation from each line - useful when the string is indented inside your code for readability but you don't want those spaces in the actual output.
+
+
+
 ## String Length
 
 `.length` returns the number of characters in a string:
@@ -256,3 +274,4 @@ for (letter in word) {
 | `s.endsWith(sub)` | `true` if ends with `sub` |
 | `s.contains(sub)` | `true` if `sub` is found |
 | `s.indexOf(sub)` | Index of first match, or `-1` |
+| `s.trimIndent()` | Remove common leading indentation (used with multi-line strings) |

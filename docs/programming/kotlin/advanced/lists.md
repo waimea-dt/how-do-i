@@ -54,6 +54,16 @@ println("Pink"  in colours)    // false
 println("Pink" !in colours)    // true
 ```
 
+Check whether a list is **empty** using `isEmpty()`:
+
+```kotlin run
+val colours = listOf("Red", "Green", "Blue")
+val empty   = listOf<String>()
+
+println(colours.isEmpty())    // false
+println(empty.isEmpty())      // true
+```
+
 
 ## MutableList
 

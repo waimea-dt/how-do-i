@@ -61,6 +61,7 @@ Some special characters inside strings need an **escape sequence** - a backslash
 | `\t`   | Tab |
 | `\"`   | Double quote |
 | `\\`   | Backslash |
+| `\$`   | Dollar sign (literal `$` even in string template) |
 
 ```kotlin run
 println("Name:\tSteve")
@@ -86,7 +87,7 @@ println("$firstName $lastName, age $age")
 
 ## Formatting Numbers
 
-For controlling how numbers are displayed, use `String.format()` or `.format()`:
+For controlling how numbers are displayed, use `String.format()`:
 
 ```kotlin run
 val pi   = 3.14159265
@@ -96,4 +97,14 @@ println("Pi to 2dp: %.2f".format(pi))
 println("Cost: ${"%.2f".format(cost)}")
 ```
 
-?> `%.2f` means: format as a floating-point number with **2 decimal places**. Use `%d` for integers and `%s` for strings.
+`%.2f` means format as a floating-point number with **2 decimal places**. You can use `%d` for integers and `%s` for strings.
+
+Use `%,d` to format an integer with **comma separators** for large numbers:
+
+```kotlin run
+val population = 8200000
+
+println("Population: ${"%,d".format(population)}")
+```
+
+This would show `8,200,000`
