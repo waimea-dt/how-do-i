@@ -29,7 +29,7 @@ html {
     --mono-shade5: hsl(var(--mono-hue), var(--mono-saturation), 5%);
     --mono-tint4:  hsl(var(--mono-hue), var(--mono-saturation), 67%);
 
-    --base-fo--mono-tint3: hsl(var(--mono-hue), var(--mono-saturation), 43%);nt-size: 18px;
+    --base-font-size: 18px;
 
     --content-max-width: 60em;
 

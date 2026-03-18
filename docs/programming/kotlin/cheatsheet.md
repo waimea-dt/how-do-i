@@ -7,7 +7,7 @@ val name  = "Gandalf"   // 'val' → immutable (can't be reassigned)
 var score = 0           // 'var' → mutable (can change)
 ```
 
-**Common Types:** `String`, `Char`, `Int`, `Long`, `Double`, `Boolean`
+**Common types:** `String`, `Char`, `Int`, `Long`, `Double`, `Boolean`
 
 ```kotlin
 val name: String        // explicit type
@@ -157,7 +157,7 @@ text.drop(4)              // chars after first 4 → "in"
 text.substring(2, 5)      // char index 2 to 4   → "tli"
 ```
 
-**Converting Text:**
+**Converting text:**
 
 ```kotlin
 text.uppercase()          // all uppercase → "KOTLIN"
@@ -166,7 +166,7 @@ text.lowercase()          // all lowercase → "kotlin"
 text.replace("K", "J")    // replace text     → "Jotlin"
 ```
 
-**Inspecting the Text:**
+**Checking text content:**
 
 ```kotlin
 text.startsWith("Ko")     // true if starts with → true
@@ -176,7 +176,7 @@ text.contains("otl")      // true if contains    → true
 text.indexOf("tl")        // index of first match or -1 if none → 2
 ```
 
-**Removing Surrounding Whitespace:**
+**Removing surrounding whitespace:**
 
 ```kotlin
 val text = "  Hi!  "
@@ -186,7 +186,7 @@ text.trimStart()          // remove leading whitespace only  → "Hi!  "
 text.trimEnd()            // remove trailing whitespace only → "  Hi!"
 ```
 
-**Padding to a Fixed Width:**
+**Padding to a fixed width:**
 
 ```kotlin
 val text = "42"
@@ -197,7 +197,7 @@ text.padEnd(5)            // pad with spaces on the right    → "42   "
 text.padEnd(5, '.')       // pad with character on the right → "42..."
 ```
 
-**Converting to a List of Words / Paragraphs / Parts:**
+**Converting to a list of words / lines:**
 
 ```kotlin
 val sentence = "I like cheese"
@@ -212,14 +212,14 @@ colours.split(", ")       // split text at commas → ["red", "green", "blue"]
 multiLine.split("\n")     // split into lines → ["First line", "Second line"]
 ```
 
-**Concatenation:**
+**Concatenation (joining):**
 
 ```kotlin
 "Spell: " + "Fireball"    // join strings with +  → "Spell: Fireball"
 "Player: " + name         // join with a variable → "Player: Nova"
 ```
 
-**Chars:**
+**Chars (characters):**
 
 ```kotlin
 val c = 'K'
@@ -235,6 +235,8 @@ c  in "aeiou"         // true if char in string     → false
 c !in "aeiou"         // true if char not in string → true
 ```
 
+**Looping though all chars in a string:**
+
 ```kotlin
 for (letter in "Kotlin") { print("$letter ") }  // Loop by char → K o t l i n
 ```
@@ -242,28 +244,43 @@ for (letter in "Kotlin") { print("$letter ") }  // Loop by char → K o t l i n
 
 ## Conditional Logic
 
+**Comparison operators:**
+
 ```kotlin
-// Comparison operators
-==   !=   >   >=   <   <=
-
-// Boolean operators
-&&   // and - both must be true
-||   // or  - at least one must be true
-!    // not - reverses the value
-
-// Range check
-score in 1..100    // true if 1 ≤ score ≤ 100
-item !in list      // true if not in list
+A == B      // true if both the same
+A != B      // true if different
+A >  B      // true if A is greater than B
+A >= B      // true if A is great than or equal to B
+A <  B      // true if A is less than B
+A <= B      // true if A is less than or equal to B
 ```
 
+**Boolean operators:**
+
+```kotlin
+A && B      // and - true if both A and B are true
+A || B      // or  - true if either A or B are true (or both)
+!A          // not - true if A is false, false if A is true
+```
+
+**Range checking:**
+
+```kotlin
+score in 1..100    // true if 1 ≤ score ≤ 100
+item !in list      // true if item not in list
+```
 
 ## Branching
+
+**`if` statement:**
 
 ```kotlin
 if (isLoggedIn) {
     println("Welcome!")
 }
 ```
+
+**Alternative branches with `else`:**
 
 ```kotlin
 if (score >= 50) {
@@ -277,11 +294,10 @@ else {
 }
 ```
 
-**`when` - cleaner for multiple branches:**
+**`when` is cleaner for multiple branches:**
 
 ```kotlin
 when (day) {
-    1    -> println("Monday")
     6, 7 -> println("Weekend")     // multiple values
     else -> println("Weekday")     // default
 }
@@ -310,6 +326,8 @@ val level = when {
 
 ## Loops
 
+**Simple `repeat` loop:**
+
 ```kotlin
 repeat(3) {                  // fixed number of times → Boom! Boom! Boom!
     print("Boom!")
@@ -320,11 +338,15 @@ repeat(5) {                  // ... with index `it`   → 0 1 2 3 4
 }
 ```
 
+**`for` loops:**
+
 ```kotlin
 for (i in 1..5) {            // loop over an inclusive range → 1 2 3 4 5
     print(i)
 }
 ```
+
+**`for` loops over collections:**
 
 ```kotlin
 for (item in items) {        // loop over a list by value
@@ -335,6 +357,8 @@ for (i in 0..<items.size) {  // loop over a list by index → 0 1 2 3 4 ...
     println(items[i])
 }
 ```
+
+**`while` and `do..while` loops:**
 
 ```kotlin
 while (lives > 0) {          // while loop repeats if condition true
@@ -350,7 +374,11 @@ do {                         // do..while always runs at least once
 while (true) {               // infinite loop - exits only via break
     if (escaped) break
 }
+```
 
+**`continue` and `break`:**
+
+```kotlin
 for (n in numbers) {
     if (n == 3) continue     // skip this item (restart loop code with next value)
     if (n < 0) break         // exit loop (jump to code after loop)
@@ -366,23 +394,12 @@ fun welcome() {
 }
 ```
 
+**Parameters:**
+
 ```kotlin
-// function with a parameter, no return value
 fun showScore(score: Int) {
     println("Score: $score")
 }
-```
-
-```kotlin
-// function with two parameters and a return value
-fun add(a: Int, b: Int): Int {
-    return a + b
-}
-```
-
-```kotlin
-// single-expression shorthand
-fun square(n: Int): Int = n * n
 ```
 
 ```kotlin
@@ -397,6 +414,20 @@ greet("Alice")                           // first argument, uses default greetin
 greet(greeting = "Hey", name = "Carol")  // named arguments - any order
 ```
 
+**Return values:**
+
+```kotlin
+// function with two parameters and a return value
+fun add(a: Int, b: Int): Int {
+    return a + b
+}
+```
+
+```kotlin
+// single-expression shorthand
+fun square(n: Int): Int = n * n
+```
+
 
 ## Lists
 
@@ -404,11 +435,17 @@ greet(greeting = "Hey", name = "Carol")  // named arguments - any order
 val nums = listOf(10, 0, 25, 8, 88, 67)    // List - read-only
 
 nums.size                       // number of items → 6
+```
 
+**Accessing list elements:**
+
+```kotlin
 nums[0]                         // value by index  → 10
 nums.first()                    // first value     → 10
 nums.last()                     // last value      → 67
 ```
+
+**Mathematical Operations:**
 
 ```kotlin
 nums.sum()                      // total                → 198
@@ -416,6 +453,8 @@ nums.average()                  // mean value (Double)  → 33.0
 nums.min()                      // smallest             → 0
 nums.max()                      // largest              → 88
 ```
+
+**Checking Values:**
 
 ```kotlin
 nums.isEmpty()                  // true if no items          → false
@@ -430,15 +469,21 @@ nums.filter { it > 50 }         // new list of matching items    → [67, 88]
 nums.map    { it % 2 }          // new list of transformed items → [0, 0, 1, 0, 0, 1]
 ```
 
+**Reorganised copies:**
+
 ```kotlin
 val sorted   = nums.sorted()    // new copy, sorted      → [0, 8, 10, 25, 67, 88]
 val shuffled = nums.shuffled()  // new copy, randomised  → [10, 88, 0, 67, 8, 25]
 val pick     = nums.random()    // random item from list → 67
 ```
 
+**Looping through values:**
+
 ```kotlin
 for (num in nums)      { println(num) }
+
 for (i in 0..<nums.size) { println(nums[i]) }
+
 nums.forEachIndexed { i, num -> println("$i: $num") }
 ```
 
@@ -447,7 +492,11 @@ nums.forEachIndexed { i, num -> println("$i: $num") }
 ```kotlin
 val letters = mutableListOf('K', 'O', 'T')   // MutableList - can change
 val empty   = mutableListOf<Char>()          // empty MutableList (type required)
+```
 
+**Adding / removing / updating values:**
+
+```kotlin
 letters.add('I')           // append to end          → ['K', 'O', 'T', 'I']
 letters.add(3, 'L')        // insert at index 1      → ['K', 'O', 'T', 'L', 'I']
 
@@ -458,6 +507,8 @@ letters[2] = 'A'           // update value by index  → ['K', 'L', 'A']
 
 letters.clear()            // remove all items       → []
 ```
+
+**Rearranging values (in place):**
 
 ```kotlin
 letters.sort()             // sort list ascending    → ['A', 'K', 'L']
@@ -473,9 +524,15 @@ val rgb = mapOf('R' to 255, 'G' to 128, 'B' to 64)   // Map - read-only
 
 rgb.keys                // set of all keys       → ["R", "G", "B"]
 rgb.values              // set of all values     → [255, 128, 64]
+```
 
+**Accessing values:**
+
+```
 rgb['B']                // value by key          → 64
 ```
+
+**Checking values and keys:**
 
 ```kotlin
 'G' in rgb              // check if key exists   → true
@@ -483,6 +540,8 @@ rgb.containsValue(128)  // check if value exists → true
 
 rgb['A'] ?: "none"      // Elvis fallback for missing key → "none"
 ```
+
+**Looping over keys and values:**
 
 ```kotlin
 for ((key, value) in rgb) { println("$key: $value") }
@@ -493,19 +552,25 @@ for ((key, value) in rgb) { println("$key: $value") }
 
 ```kotlin
 val stats = mutableMapOf('S' to 5, 'D' to 3, 'I' to 7)   // MutableMap - can change
+```
 
+**Updating / adding / removing records:**
+
+```kotlin
 stats['S'] = 10         // update value by key   → {'S':10, 'D':3, 'I':7}
 stats['W'] = 7          // add new key and value → {'S':10, 'D':3, 'I':7, 'W':7}
 stats.remove('D')       // remove by key         → {'S':10, 'I':7, 'W':7}
 ```
 
 
-## Null Safety
+## Nullable Types and Null Safety
 
 ```kotlin
 var name: String  = null   // ✗ compile error
 var name: String? = null   // ✓ nullable type
 ```
+
+**Null safety operators:**
 
 ```kotlin
 val length = name?.length                 // safe-call operator - only run if not null
@@ -515,14 +580,22 @@ val display = name ?: "Unknown"           // elvis operator - fallback if null
 val input = readlnOrNull()?.trim() ?: ""  // Safely chained with fallback
 ```
 
+**Value conversions:**
+
 ```kotlin
 "42".toIntOrNull()       // 42
 "abc".toIntOrNull()      // null
 "3.14".toDoubleOrNull()  // 3.14
-
-name.isNullOrBlank()     // true if null, empty, or whitespace
 name?.firstOrNull()      // first char, or null
 ```
+
+**Null text checks:**
+
+```kotlin
+name.isNullOrBlank()     // true if null, empty, or whitespace
+```
+
+**Non-null assertion (when value can't be null):**
 
 ```kotlin
 val len = name!!.length  // non-null assertion - use cautiously
@@ -551,35 +624,71 @@ class Wizard(val name: String, var mana: Int) {
     // Provide human-readable text when printing object
     override fun toString() = "Wizard($name, mana=$mana)"
 }
-
-// create objects
-val gandalf = Wizard("Gandalf", 100)
-val merlin  = Wizard("Merlin",   80)
-
-gandalf.castSpell("Fireball")  // call method
-
-println(gandalf.name)          // property access
-println(gandalf.spellsCast)    // property access
-
-println(gandalf)               // calls toString()
 ```
 
-```kotlin
-// private - restricts access to inside the class (encapsulation)
-class Account(val owner: String) {
-    private var balance = 0    // Not accessible outside
+**Instantiating (creating) objects from a class:**
 
-    fun deposit(amount: Int) { balance += amount }
-    fun getBalance() = balance
+```kotlin
+val gandalf = Wizard("Gandalf", 100)
+val merlin  = Wizard("Merlin",  100)
+```
+
+**Accessing object properties:**
+
+```kotlin
+println(gandalf.name)
+println(gandalf.spellsCast)
+```
+
+**Calling object methods:**
+
+```kotlin
+gandalf.castSpell("Fireball")
+merlin.castSpell("Heal")
+```
+
+**Objects as strings:**
+
+```kotlin
+println(gandalf)    // calls toString() → "Wizard(Gandalf, mana=80)"
+```
+
+**Encapsulation with `private` properties / methods:**
+
+```kotlin
+class Account(val owner: String) {
+    private var balance = 0      // Private property, not accessible outside the class
+
+    fun getBalance() = balance   // Safely access property via 'getter' method
+
+    fun deposit(amount: Int) {
+        if (validateAmount(amount)) balance += amount
+    }
+
+    fun withdraw(amount: Int) {
+        if (validateAmount(amount) && amount <= balance) balance -= amount
+    }
+
+    // private method, only used within class, not accessible outside
+    private fun validateAmount(amount: Int): Boolean {
+        return amount > 0
+    }
 }
 
-// try to access a private property
 val myAccount = Account("Dave")
-myAccount.balance = 99999      // Error! Property is inaccessible
+
+myAccount.deposit(1500)         // Updates private property via method call
+myAccount.withdraw(200)         // Updates private property via method call
+
+// try to access a private property
+myAccount.balance = 99999       // Error! Property is inaccessible
+myAccount.validateAmount(20)    // Error! Method is inaccessible
 ```
 
+**Data classes**
+
 ```kotlin
-// data class - for holding data; auto-generates equals, copy(), toString()
+// data class auto-generates equals, copy(), toString()
 data class Point(val x: Int, val y: Int)
 
 val p1 = Point(3, 7)

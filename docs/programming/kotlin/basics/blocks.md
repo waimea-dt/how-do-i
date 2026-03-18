@@ -22,7 +22,8 @@ val score = 72
 
 if (score >= 50) {
     println("Passed!")     // this block runs
-} else {
+}
+else {
     println("Failed.")     // this block doesn't run
 }
 ```

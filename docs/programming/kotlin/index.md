@@ -8,7 +8,7 @@ fun main() {
 }
 ```
 
-## Why Kotlin?
+### Why Kotlin?
 
 - **Concise** - less code to write than in many languages to get the same result
 - **Safe** - catches common errors (like null pointer crashes) before your code even runs
@@ -18,7 +18,7 @@ fun main() {
 ?> Kotlin is the official language for Android development and is taught in many schools and universities as a first language for object-oriented programming.
 
 
-## What Can You Build?
+### What Can You Build?
 
 - **Console programs** - text-based programs that run in a terminal
 - **Desktop GUIs** - windowed apps using Swing or Compose
@@ -28,6 +28,6 @@ fun main() {
 ?> This guide focuses on **console programs** first to learn the fundamentals, then moves on to **desktop GUIs** using Swing.
 
 
-## Getting Started
+### Getting Started
 
 Use the sidebar to navigate the topics. If you're new to Kotlin, start with **Kotlin Basics** and work through the pages in order.
