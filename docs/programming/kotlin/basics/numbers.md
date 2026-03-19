@@ -236,6 +236,34 @@ println(Random.nextDouble(0.0, 1.0))  // random double between 0 and 1
 ?> `Random.nextInt(from, until)` - note that `until` is **exclusive**, so `nextInt(1, 7)` gives values 1–6.
 
 
+## Formatting Numbers
+
+To display large numbers with comma separators (e.g. `1,000,000`), use `"%,d".format()`:
+
+```kotlin run
+val score = 1234567
+println("%,d".format(score))    // 1,234,567
+```
+
+For decimal numbers, `"%,.2f"` adds commas and rounds to 2 decimal places:
+
+```kotlin run
+val cash = 9876543.219
+println("%,.2f".format(cash))   // 9,876,543.22
+```
+
+If you're displaying numbers a lot, it's worth making this an **extension function** so you can call it directly on any number:
+
+```kotlin run
+fun Number.commas(): String = "%,d".format(this)
+
+val score = 9001000
+println(score.commas())         // 9,001,000
+```
+
+?> An extension function adds a new method to an existing type without changing its source code. Here, `.commas()` works on `Int`, `Long`, or any other `Number` type.
+
+
 ## Useful Maths Functions Summary
 
 | Function | What it does |

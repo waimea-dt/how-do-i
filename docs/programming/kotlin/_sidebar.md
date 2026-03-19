@@ -21,6 +21,7 @@
     - [<i data-lucide="book-key"></i>Maps](programming/kotlin/advanced/maps.md)
     - [<i data-lucide="table-properties"></i>Presenting Data](programming/kotlin/advanced/layout.md)
     - [<i data-lucide="save"></i>Saving & Loading Data](programming/kotlin/advanced/saveload.md)
+    - [<i data-lucide="plug"></i>Extension Functions](programming/kotlin/advanced/extensions.md)
 
 - <i data-lucide="shapes"></i>Kotlin OOP
     - [<i data-lucide="circle-question-mark"></i>What is OOP?](programming/kotlin/oop/intro.md)
@@ -40,6 +41,9 @@
     - [<i data-lucide="image"></i>Adding Images](programming/kotlin/gui/images.md)
     - [<i data-lucide="volume-2"></i>Adding Sounds](programming/kotlin/gui/sounds.md)
     - [<i data-lucide="timer"></i>Using Timers](programming/kotlin/gui/timers.md)
+    - [<i data-lucide="square-mouse-pointer"></i>Dialogs](programming/kotlin/gui/dialogs.md)
+    - [<i data-lucide="mouse-pointer"></i>Mouse Cursor](programming/kotlin/gui/cursor.md)
+    - [<i data-lucide="pencil-ruler"></i>Drawing Graphics](programming/kotlin/gui/drawing.md)
     - [<i data-lucide="rocket"></i>Starter GUI App Code](programming/kotlin/gui/starter.md)
     
 - [<i data-lucide="arrow-big-left"></i>Back to Programming](programming/index.md)
