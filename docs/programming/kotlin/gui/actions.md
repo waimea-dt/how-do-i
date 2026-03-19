@@ -130,7 +130,8 @@ class MainWindow {
 
     private fun handleSubmit() {
         val name = nameField.text.trim()
-        resultLabel.text = if (name.isNotBlank()) "Hello, $name!" else "Type something first!"
+        resultLabel.text = if (name.isNotBlank()) "Hello, $name!"
+                                             else "Type something first!"
     }
 
     private fun handleHoverOn() {

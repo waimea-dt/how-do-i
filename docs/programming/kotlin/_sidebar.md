@@ -32,7 +32,6 @@
     - [<i data-lucide="blocks"></i>What is Swing?](programming/kotlin/gui/swing.md)
     - [<i data-lucide="paint-roller"></i>What is FlatLAF?](programming/kotlin/gui/flatlaf.md)
     - [<i data-lucide="folder-tree"></i>Setting Up a GUI Project](programming/kotlin/gui/setup.md)
-    - [<i data-lucide="rocket"></i>Starter GUI App Code](programming/kotlin/gui/starter.md)
     - [<i data-lucide="app-window"></i>Creating a Window](programming/kotlin/gui/window.md)
     - [<i data-lucide="layout-panel-left"></i>Adding UI Elements](programming/kotlin/gui/elements.md)
     - [<i data-lucide="mouse-pointer-click"></i>Actions & Events](programming/kotlin/gui/actions.md)
@@ -41,7 +40,8 @@
     - [<i data-lucide="image"></i>Adding Images](programming/kotlin/gui/images.md)
     - [<i data-lucide="volume-2"></i>Adding Sounds](programming/kotlin/gui/sounds.md)
     - [<i data-lucide="timer"></i>Using Timers](programming/kotlin/gui/timers.md)
-
+    - [<i data-lucide="rocket"></i>Starter GUI App Code](programming/kotlin/gui/starter.md)
+    
 - [<i data-lucide="arrow-big-left"></i>Back to Programming](programming/index.md)
 
 

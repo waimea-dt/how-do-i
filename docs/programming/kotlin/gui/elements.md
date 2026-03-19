@@ -15,10 +15,11 @@ Every component follows the same three steps:
 
 ```
 setBounds(x, y, width, height)
-         │  │   │      └─ height in pixels
-         │  │   └──────── width in pixels
-         │  └──────────── y position (distance from top of panel)
-         └─────────────── x position (distance from left of panel)
+          │  │   │      │
+          │  │   │      └─ height in pixels
+          │  │   └──────── width in pixels
+          │  └──────────── y position (distance from top of panel)
+          └─────────────── x position (distance from left of panel)
 ```
 
 ?> The top-left corner of the panel is `(0, 0)`. X increases to the right, Y increases downward.

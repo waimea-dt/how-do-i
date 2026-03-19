@@ -699,12 +699,13 @@ println(p1 == Point(3, 7))   // true (compares values, not reference)
 ## Comments
 
 ```kotlin
-// single-line comment
+// this is a single-line comment
 ```
 
 ```kotlin
-/* multi-line
-   comment */
+/* this is a multi-line
+   comment that can cover
+   more than one line */
 ```
 
 ```kotlin
