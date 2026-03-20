@@ -14,7 +14,7 @@ The same Swing code, just with FlatLAF applied:
 | Dated system appearance | Clean, professional look |
 | Looks different on every OS | Consistent across platforms |
 
-![FlatLAF example](_assets/flatlaf.png)
+![FlatLAF example](_assets/flatlaf-light.png)
 
 ?> FlatLAF is used in production software - including JetBrains' own IDEs (IntelliJ IDEA, the tool you write Kotlin in). So what you're building with can look as polished as the tools professionals use.
 
@@ -56,20 +56,29 @@ That single line is all it takes - every component in the app automatically uses
 
 ## Light and Dark Themes
 
-FlatLAF comes with four built-in themes (but there are also many variations on these):
+FlatLAF comes with built-in themes:
 
-| Class | Theme |
-|-------|-------|
-| `FlatLightLaf` | Clean light theme |
-| `FlatDarkLaf` | Dark theme |
-| `FlatIntelliJLaf` | IntelliJ-style light theme |
-| `FlatDarculaLaf` | Darcula dark theme (like IntelliJ's dark mode) |
+### `FlatLightLaf` - Clean light theme
+
+![FlatLAF Light Demo](_assets/demo-light.png)
 
 ```kotlin
-FlatLightLaf.setup()       // light
-FlatDarkLaf.setup()        // dark
-FlatDarculaLaf.setup()     // dark - IntelliJ's Darcula theme
+FlatLightLaf.setup()
+```
+
+### `FlatDarkLaf` - Modern dark theme
+
+![FlatLAF Dark Demo](_assets/demo-dark.png)
+
+```kotlin
+FlatDarkLaf.setup()
 ```
 
 ?> You only call one of these - whichever theme you want. Call it once, right at the start of `main()`, before creating any windows.
 
+
+### Other Themes
+
+There are also many variations on these themes. You can [see some of them here](https://www.formdev.com/flatlaf/screenshots/).
+
+![FlatLAF Themes](_assets/flatlaf-themes.png)

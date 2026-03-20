@@ -23,6 +23,9 @@ For the font family, use these built-in constants rather than hardcoding a font 
 | `Font.SERIF` | Traditional with serifs — more formal |
 | `Font.MONOSPACED` | Fixed-width — great for code or numbers |
 
+![Font Demo](_assets/font-demo.png)
+
+
 For the style, you can combine `BOLD` and `ITALIC` with `+`:
 
 ```kotlin
@@ -50,7 +53,20 @@ For full control, you can also construct a colour from RGB values (0–255):
 val purple = Color(148, 85, 211)
 ```
 
-?> `foreground` sets the text/icon colour. `background` sets the fill colour of the component. Not all components show their background by default — see the note on `isOpaque` below.
+![Colour Demo](_assets/colour-demo.png)
+
+
+?> `foreground` sets the text/icon colour. `background` sets the fill colour of the component. Not all components show their background by default (e.g. labels)
+
+
+### Background Colour on Labels
+
+By default, `JLabel` is transparent — setting `background` has no visible effect. To make the background colour show, set `isOpaque = true`:
+
+```kotlin
+tagLabel.background = Color(0xcc0055)
+tagLabel.isOpaque = true
+```
 
 
 ## Text Alignment
@@ -62,16 +78,6 @@ import javax.swing.SwingConstants
 
 titleLabel.horizontalAlignment = SwingConstants.CENTER  // Left, Center, Right
 titleLabel.verticalAlignment   = SwingConstants.CENTER  // Top, Center, Bottom
-```
-
-
-## Background Colour on Labels
-
-By default, `JLabel` is transparent — setting `background` has no visible effect. To make the background colour show, set `isOpaque = true`:
-
-```kotlin
-tagLabel.background = Color(0xcc0055)
-tagLabel.isOpaque = true
 ```
 
 
@@ -87,10 +93,10 @@ nameField.setBorder(BorderFactory.createLineBorder(Color(0x89b4fa), 2))
 
 // Empty border — useful as padding (top, left, bottom, right)
 textLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8))
-
-// Titled border — a labelled box around a group of components
-panel.setBorder(BorderFactory.createTitledBorder("Settings"))
 ```
+
+![Border Demo](_assets/border-demo.png)
+
 
 ?> FlatLAF overrides many default borders on buttons and text fields to give them its clean look. If you set a border on a `JButton`, it may conflict with the FlatLAF styling — use `isBorderPainted = false` to remove the default border first if needed.
 
@@ -98,6 +104,10 @@ panel.setBorder(BorderFactory.createTitledBorder("Settings"))
 ## Putting It Together
 
 Here's `setupStyles()` for a small app, following on from the [elements example](programming/kotlin/gui/elements.md):
+
+
+![Styling Demo](_assets/styles-demo.png)
+
 
 ```kotlin
 import java.awt.Color

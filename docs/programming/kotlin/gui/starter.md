@@ -11,6 +11,9 @@ This code for your `Main.kt` is a great starter for a GUI project. It has the fo
 - **`updateUI()` pattern** - a single method to refresh UI based on app state data
 
 
+![Starter App](_assets/starter.png)
+
+
 ```kotlin
 import com.formdev.flatlaf.themes.FlatMacDarkLaf
 import java.awt.Color

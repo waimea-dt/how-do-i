@@ -2,6 +2,8 @@
 
 Sometimes you need a small pop-up — to show a message, ask a yes/no question, or prompt for some input. Swing gives you two options: `JOptionPane` for quick built-in dialogs, and `JDialog` when you need something custom.
 
+![Dialog error demo](_assets/dialog-error.png)
+
 
 ## JOptionPane — Quick Built-In Dialogs
 
@@ -27,14 +29,22 @@ JOptionPane.showMessageDialog(
     "Success",
     JOptionPane.INFORMATION_MESSAGE
 )
+```
 
+![Dialog info demo](_assets/dialog-info.png)
+
+```kotlin
 JOptionPane.showMessageDialog(
     frame,
     "Something went wrong.",
     "Error",
     JOptionPane.ERROR_MESSAGE
 )
+```
 
+![Dialog error demo](_assets/dialog-error.png)
+
+```kotlin
 JOptionPane.showMessageDialog(
     frame,
     "Are you sure?",
@@ -42,6 +52,8 @@ JOptionPane.showMessageDialog(
     JOptionPane.WARNING_MESSAGE
 )
 ```
+![Dialog warning demo](_assets/dialog-warn.png)
+
 
 
 ### Asking a Yes/No Question
@@ -49,12 +61,18 @@ JOptionPane.showMessageDialog(
 `showConfirmDialog` returns an `Int` — compare against `JOptionPane.YES_OPTION`:
 
 ```kotlin
-val result = JOptionPane.showConfirmDialog(frame, "Start a new game?")
+val result = JOptionPane.showConfirmDialog(
+    frame,
+    "Start a new game?"
+)
+
 if (result == JOptionPane.YES_OPTION) {
     app.reset()
     updateUI()
 }
 ```
+
+![Dialog yes/no demo](_assets/dialog-yesno.png)
 
 
 ### Asking for Text Input
@@ -62,12 +80,18 @@ if (result == JOptionPane.YES_OPTION) {
 `showInputDialog` shows a text field and returns the typed string — or `null` if the user cancelled:
 
 ```kotlin
-val name = JOptionPane.showInputDialog(frame, "Enter your name:")
+val name = JOptionPane.showInputDialog(
+    frame,
+    "Enter your name:"
+)
+
 if (!name.isNullOrBlank()) {
     player.name = name.trim()
     updateUI()
 }
 ```
+
+![Dialog text demo](_assets/dialog-text.png)
 
 
 ## JDialog — Custom Dialogs

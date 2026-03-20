@@ -75,6 +75,10 @@ titleLabel.addMouseListener(object : java.awt.event.MouseAdapter() {
 
 Here's the full example from the [elements page](programming/kotlin/gui/elements.md), now with actions wired up:
 
+
+![Actions Demo](_assets/actions-demo.png)
+
+
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
 import java.awt.Dimension

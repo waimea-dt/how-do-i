@@ -254,10 +254,117 @@ class MainWindow(val app: App) {
     }
 
     fun updateUI() {
-        canvas.refresh()
+        canvas.repaint()
     }
 
     fun show() { frame.isVisible = true }
+}
+```
+
+
+## Shapes Demo
+
+A runnable demo showing every shape from the table above:
+
+![Graphics Shapes Demo](_assets/shapes-demo.png)
+
+
+```kotlin
+import com.formdev.flatlaf.FlatDarkLaf
+import java.awt.*
+import javax.swing.*
+
+fun main() {
+    FlatDarkLaf.setup()
+    SwingUtilities.invokeLater { ShapesDemo().show() }
+}
+
+
+class ShapesDemo {
+    private val frame  = JFrame("Shapes Demo")
+    private val canvas = ShapesPanel()
+
+    init {
+        frame.isResizable = false
+        frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+        frame.contentPane = canvas
+        canvas.preferredSize = Dimension(580, 370)
+        frame.pack()
+        frame.setLocationRelativeTo(null)
+    }
+
+    fun show() { frame.isVisible = true }
+}
+
+
+class ShapesPanel : JPanel() {
+    private val fill   = Color(0xff66aa)
+    private val stroke = Color(0x4499ff)
+    private val thick  = BasicStroke(4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+
+    override fun paintComponent(g: Graphics) {
+        super.paintComponent(g)
+        val g2 = g as Graphics2D
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g2.stroke = thick
+
+        background = Color(0x1e1e2e)
+
+        // label font
+        val labelFont = Font(Font.SANS_SERIF, Font.PLAIN, 13)
+
+        // --- Row 1: rect, fillRect, roundRect, fillRoundRect ---
+
+        g2.color = stroke; g2.drawRect(20, 20, 120, 70)
+        g2.font = labelFont; g2.drawString("drawRect", 20, 108)
+
+        g2.color = fill;   g2.fillRect(160, 20, 120, 70)
+        g2.color = stroke; g2.drawString("fillRect", 160, 108)
+
+        g2.color = stroke; g2.drawRoundRect(300, 20, 120, 70, 20, 20)
+        g2.drawString("drawRoundRect", 300, 108)
+
+        g2.color = fill;   g2.fillRoundRect(440, 20, 120, 70, 20, 20)
+        g2.color = stroke; g2.drawString("fillRoundRect", 440, 108)
+
+
+        // --- Row 2: oval, fillOval, arc, fillArc ---
+
+        g2.color = stroke; g2.drawOval(20, 130, 120, 80)
+        g2.drawString("drawOval", 20, 228)
+
+        g2.color = fill;   g2.fillOval(160, 130, 120, 80)
+        g2.color = stroke; g2.drawString("fillOval", 160, 228)
+
+        g2.color = stroke; g2.drawArc(300, 130, 120, 80, 30, 270)
+        g2.drawString("drawArc", 300, 228)
+
+        g2.color = fill;   g2.fillArc(440, 130, 120, 80, 30, 270)
+        g2.color = stroke; g2.drawString("fillArc", 440, 228)
+
+
+        // --- Row 3: line, text, polygon, fillPolygon ---
+
+        g2.color = stroke; g2.drawLine(20, 260, 140, 330)
+        g2.drawString("drawLine", 20, 358)
+
+        g2.color = fill
+        g2.font = Font(Font.SANS_SERIF, Font.BOLD, 28)
+        g2.drawString("Hello!", 162, 310)
+        g2.color = stroke
+        g2.font = labelFont
+        g2.drawString("drawString", 160, 358)
+
+        val dxs = intArrayOf(360, 420, 440, 380, 300)
+        val dys = intArrayOf(250, 255, 320, 340, 310)
+        g2.color = stroke; g2.drawPolygon(dxs, dys, 5)
+        g2.drawString("drawPolygon", 300, 358)
+
+        val fxs = intArrayOf(500, 560, 440)
+        val fys = intArrayOf(250, 340, 340)
+        g2.color = fill;   g2.fillPolygon(fxs, fys, 3)
+        g2.color = stroke; g2.drawString("fillPolygon", 440, 358)
+    }
 }
 ```
 

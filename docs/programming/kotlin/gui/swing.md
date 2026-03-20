@@ -1,15 +1,6 @@
 # The Swing GUI Library
 
-**Swing** is a library for building desktop GUIs - windows, buttons, text boxes, menus, and everything else you'd expect from an app.
-
-## A Brief History
-
-Swing was created by Sun Microsystems as part of **Java** in the late 1990s. The goal was simple: write your GUI code once, and it would run on Windows, Mac, and Linux without changes. This was a big deal at the time.
-
-Because Kotlin runs on the same platform as Java (the JVM), it can use Swing directly - no extra setup needed. Everything written for Swing in Java works in Kotlin too.
-
-?> Swing is a mature, well-documented library. It's been around for decades, which means there's an enormous amount of help, examples, and answers available online.
-
+**Swing** is a library for building desktop GUIs - windows, buttons, text boxes, menus, and everything else you'd expect from an app. It follows an **imperative** approach.
 
 ## Imperative vs Declarative GUIs
 
@@ -57,7 +48,7 @@ import javax.swing.JFrame
 
 fun main() {
     val window = JFrame("Hello Swing")
-    window.setSize(400, 300)
+    window.setSize(400, 200)
     window.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
     window.isVisible = true
 }
@@ -68,5 +59,18 @@ fun main() {
 - `defaultCloseOperation` - tells Swing to quit the program when the window is closed
 - `isVisible = true` - makes the window appear
 
+![Swing Demo](_assets/swing-demo.png)
+
+
 !> Swing code won't run in the browser-based Kotlin Playground used here, so the pages in this section show code snippets rather than runnable code. You'll need to run these snippets in an IDE like IntelliJ IDEA.
+
+
+## A Brief History
+
+Swing was created by Sun Microsystems as part of **Java** in the late 1990s. The goal was simple: write your GUI code once, and it would run on Windows, Mac, and Linux without changes. This was a big deal at the time.
+
+Because Kotlin runs on the same platform as Java (the **JVM**), it can use Swing directly - no extra setup needed. Everything written for Swing in Java works in Kotlin too.
+
+?> Swing is a mature, well-documented library. It's been around for decades, which means there's an enormous amount of help, examples, and answers available online.
+
 

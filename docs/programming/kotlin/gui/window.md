@@ -87,6 +87,10 @@ Once the layout is null, every component you add needs its position and size set
 
 Here's the full pattern — with `setupLayout()` stubbed in ready for content, and a background colour set on the panel:
 
+
+![Window Demo](_assets/window-demo.png)
+
+
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
 import java.awt.Color

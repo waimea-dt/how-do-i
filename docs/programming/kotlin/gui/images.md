@@ -115,6 +115,9 @@ cookieButton.isContentAreaFilled  = false
 
 ## Putting It Together
 
+![Image Demo](_assets/image-demo.png)
+
+
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
 import java.awt.Font

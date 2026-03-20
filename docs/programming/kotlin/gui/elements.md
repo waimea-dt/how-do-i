@@ -27,10 +27,14 @@ setBounds(x, y, width, height)
 
 ## JLabel — Displaying Text
 
-`JLabel` shows a piece of text on screen. Use it for titles, instructions, scores, status messages — anything that just needs to be *read*.
+`JLabel` shows a piece of **text** on screen. Use it for titles, instructions, scores, status messages — anything that just needs to be *read*.
+
+![Label demo](_assets/element-label.png)
+
+Create it like this:
 
 ```kotlin
-private val titleLabel = JLabel("Score: 0")
+private val titleLabel = JLabel("What is your name?")
 ```
 
 In `setupLayout()`:
@@ -43,13 +47,17 @@ panel.add(titleLabel)
 To update the text later (e.g. when the score changes):
 
 ```kotlin
-titleLabel.text = "Score: 9001"
+titleLabel.text = "Hello, there!"
 ```
 
 
 ## JButton — A Clickable Button
 
-`JButton` creates a button the user can click. You wire it up to do something on the [actions page](programming/kotlin/gui/actions.md).
+`JButton` creates a button the user can **click**. You wire it up to do something on the [actions page](programming/kotlin/gui/actions.md).
+
+![Button demo](_assets/element-button.png)
+
+Create it like this:
 
 ```kotlin
 private val launchButton = JButton("Launch!")
@@ -72,7 +80,11 @@ launchButton.isEnabled = true   // Re-enable it
 
 ## JTextField — A Text Input Box
 
-`JTextField` is a single-line box the user can type into. Use it to collect a name, a search term, or any short piece of text.
+`JTextField` is a single-line box the user can **type into**. Use it to collect a name, a search term, or any short piece of text.
+
+![Textbox demo](_assets/element-text.png)
+
+Create it like this:
 
 ```kotlin
 private val nameField = JTextField()
@@ -101,6 +113,9 @@ val nameField = JTextField("Enter your name...")
 ## Putting It Together
 
 Here's a complete example with all three components in one window:
+
+![Elements demo](_assets/elements-demo.png)
+
 
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
