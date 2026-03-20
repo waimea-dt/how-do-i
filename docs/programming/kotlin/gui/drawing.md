@@ -37,28 +37,61 @@ private fun setupWindow() {
 
 ## The Graphics Object
 
-`g: Graphics` is your drawing tool. Every draw call goes through it:
+`g: Graphics` is your drawing tool. Every draw call goes through it. Set a colour first, then call the shape methods:
 
 ```kotlin
-g.color = Color(0x89b4fa)           // Set the current colour (used by all draws below)
-
-// Rectangles
-g.fillRect(x, y, width, height)     // Filled rectangle
-g.drawRect(x, y, width, height)     // Outline only
-
-// Ovals and circles (use equal width/height for a circle)
-g.fillOval(x, y, width, height)     // Filled oval
-g.drawOval(x, y, width, height)     // Outline only
-
-// Lines
-g.drawLine(x1, y1, x2, y2)
-
-// Text
-g.font = Font(Font.SANS_SERIF, Font.BOLD, 24)
-g.drawString("Hello!", x, y)        // x, y is the bottom-left of the text
+g.color = Color(0x89b4fa)           // All draws below use this colour
+g.fillRect(50, 50, 200, 100)
 ```
 
 ?> All coordinates are in pixels from the top-left corner of the panel. X increases right, Y increases down.
+
+
+## Drawing Shapes
+
+Cast `g` to `Graphics2D` (see next section) for full control, but the core shape calls are the same on both:
+
+| Method | What it draws |
+|---|---|
+| `fillRect(x, y, w, h)` | Filled rectangle |
+| `drawRect(x, y, w, h)` | Rectangle outline |
+| `fillRoundRect(x, y, w, h, arcW, arcH)` | Filled rectangle with rounded corners |
+| `drawRoundRect(x, y, w, h, arcW, arcH)` | Rounded rectangle outline |
+| `fillOval(x, y, w, h)` | Filled oval (use equal `w`/`h` for a circle) |
+| `drawOval(x, y, w, h)` | Oval outline |
+| `drawLine(x1, y1, x2, y2)` | Straight line |
+| `drawArc(x, y, w, h, startAngle, arcAngle)` | Arc (portion of an oval outline) |
+| `fillArc(x, y, w, h, startAngle, arcAngle)` | Filled pie-slice arc |
+| `drawPolygon(xPoints, yPoints, n)` | Polygon outline from point arrays |
+| `fillPolygon(xPoints, yPoints, n)` | Filled polygon |
+| `drawString(text, x, y)` | Text — `x, y` is the **bottom-left** of the first character |
+
+```kotlin
+// Rounded rectangle — last two args are corner width and height
+g.fillRoundRect(40, 40, 200, 60, 20, 20)
+
+// Arc — angles in degrees, 0° = 3 o'clock, goes anti-clockwise
+g.drawArc(50, 50, 100, 100, 0, 270)    // three-quarter circle
+
+// Polygon — arrays of x and y coordinates
+val xs = intArrayOf(100, 150, 50)
+val ys = intArrayOf(50,  150, 150)
+g.fillPolygon(xs, ys, 3)               // filled triangle
+```
+
+
+## Colours and Fonts
+
+```kotlin
+g.color = Color(0x89b4fa)               // hex colour
+g.color = Color(100, 200, 100)          // RGB (0–255)
+g.color = Color(100, 200, 100, 128)     // RGBA — last arg is opacity (0 = invisible, 255 = solid)
+g.color = Color.WHITE                   // named colour constant
+
+g.font = Font(Font.SANS_SERIF, Font.PLAIN,  16)
+g.font = Font(Font.SANS_SERIF, Font.BOLD,   24)
+g.font = Font(Font.MONOSPACED, Font.ITALIC, 14)
+```
 
 
 ## Using Graphics2D for More Control
@@ -89,21 +122,20 @@ override fun paintComponent(g: Graphics) {
 Swing won't redraw the panel automatically when your data changes. Call `repaint()` to tell Swing to call `paintComponent()` again:
 
 ```kotlin
-private fun handleTick() {
-    game.update()
+private fun updateUI() {
     canvas.repaint()        // Triggers a fresh paint
 }
 ```
 
-Typically you call `repaint()` at the end of every game loop tick.
+Call `updateUI()` any time the app state changes — from a button handler, a timer tick, or after loading data.
 
 
 ## Passing Data to the Panel
 
-The drawing panel needs access to game state to know what to draw. Pass it in via the constructor:
+The drawing panel needs access to app data to know what to draw. Pass it in via the constructor:
 
 ```kotlin
-class DrawingPanel(val game: Game) : JPanel() {
+class DrawingPanel(val app: App) : JPanel() {
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
         val g2 = g as Graphics2D
@@ -112,30 +144,40 @@ class DrawingPanel(val game: Game) : JPanel() {
             RenderingHints.VALUE_ANTIALIAS_ON
         )
 
-        // Draw the player
-        g2.color = Color(0xa6e3a1)
-        g2.fillOval(game.playerX, game.playerY, 40, 40)
+        val fillWidth = (width * app.level / 100.0).toInt()
 
-        // Draw the score
-        g2.color = Color.WHITE
-        g2.font = Font(Font.SANS_SERIF, Font.BOLD, 20)
-        g2.drawString("Score: ${game.score}", 10, 25)
+        g2.color = Color(0x313244)          // background track
+        g2.fillRoundRect(0, 0, width, height, 20, 20)
+
+        g2.color = Color(0xa6e3a1)          // filled portion, sized by level
+        g2.fillRoundRect(0, 0, fillWidth, height, 20, 20)
     }
 }
 ```
 
-In `MainWindow`, create the panel with the game object:
+In `MainWindow`, create the panel with the app object:
 
 ```kotlin
-class MainWindow(val game: Game) {
-    private val frame  = JFrame("Space Dodger")
-    private val canvas = DrawingPanel(game)
-    // ...
+class MainWindow(val app: App) {
+    private val frame  = JFrame("Level Demo")
+    private val panel  = JPanel().apply { layout = null }
+    private val canvas = DrawingPanel(app)
+
+    private fun setupLayout() {
+        panel.preferredSize = Dimension(400, 160)
+        canvas.setBounds(30, 60, 340, 40)
+        panel.add(canvas)
+    }
 }
 ```
 
 
 ## Putting It Together
+
+The code below will use a canvas to draw a level meter that relates to the level state within the app:
+
+![Graphics Demo](_assets/graphics-demo.png)
+
 
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
@@ -144,25 +186,18 @@ import javax.swing.*
 
 fun main() {
     FlatDarkLaf.setup()
-    val game   = Game()
-    val window = MainWindow(game)
+    val app    = App()
+    val window = MainWindow(app)
     SwingUtilities.invokeLater { window.show() }
 }
 
 
-class Game {
-    var x = 100
-    var y = 100
-    val size = 40
-
-    fun moveRight() { x += 8 }
-    fun moveLeft()  { x -= 8 }
-    fun moveDown()  { y += 8 }
-    fun moveUp()    { y -= 8 }
+class App {
+    val level = 65      // 0–100
 }
 
 
-class DrawingPanel(val game: Game) : JPanel() {
+class DrawingPanel(val app: App) : JPanel() {
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
         val g2 = g as Graphics2D
@@ -171,46 +206,55 @@ class DrawingPanel(val game: Game) : JPanel() {
             RenderingHints.VALUE_ANTIALIAS_ON
         )
 
-        background = Color(0x1e1e2e)
+        val fillWidth = (width * app.level / 100.0).toInt()
 
-        g2.color = Color(0x89b4fa)
-        g2.fillOval(game.x, game.y, game.size, game.size)
+        // Background track
+        g2.color = Color(0x313244)
+        g2.fillRoundRect(0, 0, width, height, 20, 20)
+
+        // Filled portion — width scales with level
+        g2.color = Color(0xa6e3a1)
+        g2.fillRoundRect(0, 0, fillWidth, height, 20, 20)
     }
 }
 
 
-class MainWindow(val game: Game) {
-    private val frame  = JFrame("Drawing Demo")
-    private val canvas = DrawingPanel(game)
+class MainWindow(val app: App) {
+    private val frame       = JFrame("Level Demo")
+    private val panel       = JPanel().apply { layout = null }
+    private val levelLabel  = JLabel("Level: ${app.level}")
+    private val canvas      = DrawingPanel(app)
 
     init {
-        setupActions()
+        setupLayout()
+        setupStyles()
         setupWindow()
     }
 
-    private fun setupActions() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager()
-            .addKeyEventDispatcher { e ->
-                if (e.id == KeyEvent.KEY_PRESSED) {
-                    when (e.keyCode) {
-                        KeyEvent.VK_RIGHT -> game.moveRight()
-                        KeyEvent.VK_LEFT  -> game.moveLeft()
-                        KeyEvent.VK_DOWN  -> game.moveDown()
-                        KeyEvent.VK_UP    -> game.moveUp()
-                    }
-                    canvas.repaint()
-                }
-                false
-            }
+    private fun setupLayout() {
+        panel.preferredSize = Dimension(400, 130)
+
+        levelLabel.setBounds(30, 20, 340, 30)
+        canvas.setBounds(30, 60, 340, 40)
+
+        panel.add(levelLabel)
+        panel.add(canvas)
+    }
+
+    private fun setupStyles() {
+        levelLabel.font = Font(Font.SANS_SERIF, Font.BOLD, 18)
     }
 
     private fun setupWindow() {
-        canvas.preferredSize = Dimension(400, 400)
         frame.isResizable = false
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-        frame.contentPane = canvas
+        frame.contentPane = panel
         frame.pack()
         frame.setLocationRelativeTo(null)
+    }
+
+    fun updateUI() {
+        canvas.refresh()
     }
 
     fun show() { frame.isVisible = true }

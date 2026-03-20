@@ -51,7 +51,7 @@ JOptionPane.showMessageDialog(
 ```kotlin
 val result = JOptionPane.showConfirmDialog(frame, "Start a new game?")
 if (result == JOptionPane.YES_OPTION) {
-    game.reset()
+    app.reset()
     updateUI()
 }
 ```
@@ -79,7 +79,7 @@ import com.formdev.flatlaf.FlatDarkLaf
 import java.awt.*
 import javax.swing.*
 
-class InfoDialog(owner: JFrame, val game: Game) {
+class InfoDialog(owner: JFrame, val app: App) {
     private val dialog = JDialog(owner, "Game Info", false)  // false = non-modal
     private val panel  = JPanel().apply { layout = null }
 
@@ -121,7 +121,7 @@ class InfoDialog(owner: JFrame, val game: Game) {
     }
 
     fun updateUI() {
-        scoreLabel.text = "Score: ${game.score}"
+        scoreLabel.text = "Score: ${app.score}"
     }
 
     fun show() {
@@ -134,9 +134,9 @@ class InfoDialog(owner: JFrame, val game: Game) {
 Declare it in `MainWindow` and open it from a button handler:
 
 ```kotlin
-class MainWindow(val game: Game) {
+class MainWindow(val app: App) {
     // ...
-    private val infoDialog = InfoDialog(frame, game)
+    private val infoDialog = InfoDialog(frame, app)
 
     private fun setupActions() {
         infoButton.addActionListener { handleInfoClick() }

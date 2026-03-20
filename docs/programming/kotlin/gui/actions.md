@@ -105,7 +105,7 @@ class MainWindow {
     }
 
     private fun setupLayout() {
-        panel.preferredSize = Dimension(340, 220)
+        panel.preferredSize = Dimension(340, 250)
 
         titleLabel.setBounds(30, 30, 280, 30)
         nameField.setBounds(30, 80, 280, 40)
@@ -119,8 +119,8 @@ class MainWindow {
     }
 
     private fun setupActions() {
-        submitButton.addActionListener { handleSubmit() }
-        nameField.addActionListener { handleSubmit() }      // Also fires on Enter
+        submitButton.addActionListener { handleSubmit() }   // fires on mouse click
+        nameField.addActionListener { handleSubmit() }      // fires on Enter
 
         submitButton.addMouseListener(object : MouseAdapter() {
             override fun mouseEntered(e: MouseEvent) { handleHoverOn() }
