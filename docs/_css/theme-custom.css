@@ -78,6 +78,18 @@ html {
 }
 
 
+/* OVERALL LAYOUT ----------------------------------------- */
+
+.markdown-section {
+    padding: 2rem 1rem;
+}
+
+@media screen and (min-width: 48em) {
+    .markdown-section {
+        padding: 2rem 45px;
+    }
+}
+
 /* HEADINGS ----------------------------------------- */
 
 .anchor {
