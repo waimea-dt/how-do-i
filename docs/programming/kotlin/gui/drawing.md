@@ -49,7 +49,8 @@ g.fillRect(50, 50, 200, 100)
 
 ## Drawing Shapes
 
-Cast `g` to `Graphics2D` (see next section) for full control, but the core shape calls are the same on both:
+![Graphics Shapes Demo](_assets/shapes-demo.png)
+
 
 | Method | What it draws |
 |---|---|
@@ -78,6 +79,8 @@ val xs = intArrayOf(100, 150, 50)
 val ys = intArrayOf(50,  150, 150)
 g.fillPolygon(xs, ys, 3)               // filled triangle
 ```
+
+?> See the code demo below for examples of all these shapes
 
 
 ## Colours and Fonts
