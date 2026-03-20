@@ -1,5 +1,6 @@
-- [<i class="si si-kotlin"></i>What is Kotlin?](programming/kotlin/index.md)
-    - [<i data-lucide="info"></i>Kotlin Cheatsheet](programming/kotlin/cheatsheet.md)
+- <i class="si si-kotlin"></i>Kotlin Introduction
+    - [<i data-lucide="circle-question-mark"></i>What is Kotlin?](programming/kotlin/index.md)
+    - [<i data-lucide="file-text"></i>Kotlin Cheatsheet](programming/kotlin/cheatsheet.md)
     - [<i data-lucide="folder-tree"></i>Kotlin Project Setup](programming/kotlin/project.md)
 
 - <i data-lucide="scooter"></i>Kotlin Basics
@@ -45,7 +46,7 @@
     - [<i data-lucide="mouse-pointer"></i>Mouse Cursor](programming/kotlin/gui/cursor.md)
     - [<i data-lucide="pencil-ruler"></i>Drawing Graphics](programming/kotlin/gui/drawing.md)
     - [<i data-lucide="rocket"></i>Starter GUI App Code](programming/kotlin/gui/starter.md)
-    
+
 - [<i data-lucide="arrow-big-left"></i>Back to Programming](programming/index.md)
 
 

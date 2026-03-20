@@ -54,7 +54,7 @@
 
 /* Specific tweaks for Kotlin ---------------------------------------- */
 
-.language-python .CodeMirror span.cm-keyword + span.cm-def { color: var(--code-color-blue) !important; }
+/* .language-python .CodeMirror span.cm-keyword + span.cm-def { color: var(--code-color-blue) !important; } */
 
 
 /* General ---------------------------------------- */
