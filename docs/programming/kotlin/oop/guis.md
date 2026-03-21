@@ -39,7 +39,8 @@ submitButton.addActionListener {
 }
 ```
 
-?> This is encapsulation in action - the button object owns its own behaviour. Outside code just says *"when clicked, do this"* - it doesn't need to know how the button detects the click internally.
+> [!NOTE]
+> This is encapsulation in action - the button object owns its own behaviour. Outside code just says *"when clicked, do this"* - it doesn't need to know how the button detects the click internally.
 
 
 ## Components Are Arranged as a Hierarchy
@@ -56,5 +57,6 @@ JFrame (window)
 
 This is exactly the *objects as properties* pattern - a panel holds a list of components, a frame holds a panel, and so on.
 
-?> When you start building GUIs in Kotlin, you'll find that almost everything you create is a class, and almost every class you use is a component object. OOP isn't just useful for GUIs - it's the only practical way to build them.
+> [!NOTE]
+> When you start building GUIs in Kotlin, you'll find that almost everything you create is a class, and almost every class you use is a component object. OOP isn't just useful for GUIs - it's the only practical way to build them.
 

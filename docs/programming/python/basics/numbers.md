@@ -87,7 +87,8 @@ cost    *= 2
 value   /= 10
 ```
 
-!> Python does **not** have `++` or `--`. Use `+= 1` and `-= 1` instead.
+> [!IMPORTANT]
+> Python does **not** have `++` or `--`. Use `+= 1` and `-= 1` instead.
 
 
 ## Converting Between Types

@@ -22,7 +22,8 @@ var cost:     Double  = 9.99
 var isAlive:  Boolean = true
 ```
 
-?> Variable **names** should start with a **lowercase letter** and use **camelCase** for multiple words. Boolean names should read as questions: `isAlive`, `hasKey`, `canFly`
+> [!IMPORTANT]
+> Variable **names** should start with a **lowercase letter** and use **camelCase** for multiple words. Boolean names should read as questions: `isAlive`, `hasKey`, `canFly`
 
 
 ## Output to the Console
@@ -74,7 +75,8 @@ val price = readln().toDouble()  // convert to Double
 val pick  = readln().first()     // get first Char
 ```
 
-?> Use `readlnOrNull()` with null safety - see the [Null Safety](#null-safety) section below.
+> [!TIP]
+> Use `readlnOrNull()` with null safety - see the [Null Safety](#null-safety) section below.
 
 
 ## Numbers
@@ -138,7 +140,8 @@ Random.nextDouble(0.0, 1.0)  // random Double → 0.0 up to 0.99999... (1.0 not 
 
 ## Text (Strings and Chars)
 
-?> **Strings** are wrapped in double-quotes, `"..."`. **Chars** are wrapped in single-quotes, `'.'`. **Multi-line Strings** are wrapped in triple-quotes, `"""..."""`
+> [!NOTE]
+> **Strings** are wrapped in double-quotes, `"..."`. **Chars** are wrapped in single-quotes, `'.'`. **Multi-line Strings** are wrapped in triple-quotes, `"""..."""`
 
 ```kotlin
 val text = "Kotlin"

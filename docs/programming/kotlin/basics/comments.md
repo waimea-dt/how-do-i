@@ -16,7 +16,8 @@ val name = "Steve"  // This is also an inline comment
 // val school = "Waimea College"
 ```
 
-?> The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
+> [!TIP]
+> The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
 
 
 ## Block Comments `/* ... */`
@@ -62,7 +63,8 @@ for (player in players) {
 }
 ```
 
-?> A function or variable with a **good name often needs no comment** at all: `calculateTax(income)` is self-explanatory. Reach for a comment when the *reason* behind the code isn't obvious from reading it.
+> [!TIP]
+> A function or variable with a **good name often needs no comment** at all: `calculateTax(income)` is self-explanatory. Reach for a comment when the *reason* behind the code isn't obvious from reading it.
 
 
 ## KDoc Comments `/** ... */`
@@ -82,4 +84,5 @@ fun calculateScore(base: Int, multiplier: Double): Int {
 }
 ```
 
-?> KDoc comments should be placed before every `fun`, `class`, or public property.
+> [!TIP]
+> KDoc comments should be placed before every `fun`, `class`, or public property.

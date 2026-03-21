@@ -2,7 +2,8 @@
 
 Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `true` or `false`.
 
-?> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/kotlin/basics/logic.md) page for a full reference.
+> [!TIP]
+> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/kotlin/basics/logic.md) page for a full reference.
 
 
 ## If Statement
@@ -81,7 +82,8 @@ if (score >= 90) {
 }
 ```
 
-?> It is often more readable to use a `when` statement instead of `if...else if...else if...else`
+> [!TIP]
+> It is often more readable to use a `when` statement instead of `if...else if...else if...else`
 
 
 ## When Statement
@@ -112,7 +114,8 @@ when (day) {
 }
 ```
 
-?> Multiple values can share the same branch by separating them with commas: `6, 7 -> ...`
+> [!TIP]
+> Multiple values can share the same branch by separating them with commas: `6, 7 -> ...`
 
 `when` can also match **ranges** and **conditions**:
 
@@ -139,4 +142,5 @@ val status = if (age >= 18) "Adult" else "Minor"
 println(status)
 ```
 
-?> `when` can also be used as an expression the same way: `val label = when (score) { ... }`
+> [!TIP]
+> `when` can also be used as an expression the same way: `val label = when (score) { ... }`

@@ -123,7 +123,8 @@ if score >= 50:
 print(result)            # ✓ works - result was set when the if ran
 ```
 
-!> If the block never runs, the variable is never created and accessing it will cause a `NameError`:
+> [!IMPORTANT]
+> If the block never runs, the variable is never created and accessing it will cause a `NameError`:
 
 ```python
 score = 30

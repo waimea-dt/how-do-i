@@ -46,7 +46,8 @@ with_tax = price * 1.15
 print(f"With tax: £{with_tax:.2f}")
 ```
 
-!> If the user types something that isn't a valid number, `int()` and `float()` will crash. See the [Error Handling](programming/python/advanced/errors.md) page for how to handle this safely.
+> [!IMPORTANT]
+> If the user types something that isn't a valid number, `int()` and `float()` will crash. See the [Error Handling](programming/python/advanced/errors.md) page for how to handle this safely.
 
 
 ## Reading Multiple Values

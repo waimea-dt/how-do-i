@@ -57,5 +57,6 @@ private fun setupStyles() {
 }
 ```
 
-?> Cursor changes are purely cosmetic — they don't affect how events work. A label with a `HAND_CURSOR` doesn't automatically become clickable; you still need to add a listener.
+> [!NOTE]
+> Cursor changes are purely cosmetic — they don't affect how events work. A label with a `HAND_CURSOR` doesn't automatically become clickable; you still need to add a listener.
 

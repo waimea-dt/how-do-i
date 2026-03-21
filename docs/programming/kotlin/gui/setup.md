@@ -13,7 +13,8 @@ dependencies {
 }
 ```
 
-!> Make sure to update/sync your Gradle config by clicking the sync pop-up button
+> [!IMPORTANT]
+> Make sure to update/sync your Gradle config by clicking the sync pop-up button
 
 ## Testing Your Config
 

@@ -66,7 +66,8 @@ println("Well done.")
 }
 ```
 
-?> Most editors (including IntelliJ IDEA) will indent your code automatically as you type.
+> [!TIP]
+> Most editors (including IntelliJ IDEA) will indent your code automatically as you type.
 
 
 ## Blocks and Scope
@@ -82,4 +83,5 @@ if (true) {
 // println(bonus)   // ✗ Error - 'bonus' doesn't exist out here
 ```
 
-?> See the [Variables & Types](programming/kotlin/basics/variables.md) page for a full explanation of scope.
+> [!TIP]
+> See the [Variables & Types](programming/kotlin/basics/variables.md) page for a full explanation of scope.

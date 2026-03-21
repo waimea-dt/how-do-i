@@ -79,7 +79,8 @@ while lives > 0:
 print("Game over!")
 ```
 
-!> Make sure the loop has a way to eventually make the condition `False` - otherwise you'll create an **infinite loop**.
+> [!IMPORTANT]
+> Make sure the loop has a way to eventually make the condition `False` - otherwise you'll create an **infinite loop**.
 
 
 ## Break and Continue

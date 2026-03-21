@@ -33,7 +33,8 @@ Control the timer with:
 | `tickTimer.restart()` | Reset and start again from zero |
 | `tickTimer.isRunning` | `true` if currently running |
 
-?> Declare the timer at class level (not inside a function) so you can start and stop it from anywhere in the class.
+> [!TIP]
+> Declare the timer at class level (not inside a function) so you can start and stop it from anywhere in the class.
 
 
 ## Regular Events — Game Loop
@@ -134,7 +135,8 @@ private fun clearFeedback() {
 }
 ```
 
-?> Use `restart()` rather than `start()` for one-shot timers — it resets the delay each time, so rapid clicks don't cause the feedback to disappear too soon.
+> [!TIP]
+> Use `restart()` rather than `start()` for one-shot timers — it resets the delay each time, so rapid clicks don't cause the feedback to disappear too soon.
 
 
 

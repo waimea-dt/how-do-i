@@ -7,7 +7,8 @@ Create a new project in IntelliJ IDEA:
 - select **Gradle** as the build system
 - select the option to start with some **sample code**
 
-!> You must select **Gradle** as the build system - This is the recommended way to manage Kotlin projects. Gradle is a build automation tool which handles compiling code, managing dependencies, running tests, and packaging applications.
+> [!IMPORTANT]
+> You must select **Gradle** as the build system - This is the recommended way to manage Kotlin projects. Gradle is a build automation tool which handles compiling code, managing dependencies, running tests, and packaging applications.
 
 ![New IntelliJ project](_assets/new-project.png)
 
@@ -46,7 +47,8 @@ Then update Gradle by clicking the sync button that appears at the top-right:
 
 ![Gradle sync button](_assets/gradle-sync.png)
 
-?> You can safely delete the `test` folder and its contents from your project (this is for unit-testing, which we won't cover)
+> [!TIP]
+> You can safely delete the `test` folder and its contents from your project (this is for unit-testing, which we won't cover)
 
 
 ## Advanced Setup - Building JARs and Executables

@@ -22,7 +22,8 @@ println()         // move to next line
 println("Done.")
 ```
 
-?> `println()` with no argument just prints a **blank line** - useful for spacing output.
+> [!NOTE]
+> `println()` with no argument just prints a **blank line** - useful for spacing output.
 
 
 ## Printing Variables
@@ -82,7 +83,8 @@ val age       = 25
 println("$firstName $lastName, age $age")
 ```
 
-?> Prefer **string templates** over `+` concatenation - they are easier to read and less error-prone.
+> [!TIP]
+> Prefer **string templates** over `+` concatenation - they are easier to read and less error-prone.
 
 
 ## Formatting Numbers

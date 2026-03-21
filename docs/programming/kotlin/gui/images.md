@@ -16,7 +16,8 @@ src/
             └── background.png
 ```
 
-?> Use PNG for images that need transparency, and JPG for photos. Avoid GIF unless you need animation.
+> [!TIP]
+> Use PNG for images that need transparency, and JPG for photos. Avoid GIF unless you need animation.
 
 
 ## Loading an Image
@@ -27,7 +28,8 @@ Load images using `ClassLoader.getSystemResource()`, which finds files from the 
 val icon = ImageIcon(ClassLoader.getSystemResource("images/player.png"))
 ```
 
-!> Don't use a plain file path like `ImageIcon("src/main/resources/images/player.png")` — this breaks when the app is packaged into a JAR. Always use `ClassLoader`.
+> [!IMPORTANT]
+> Don't use a plain file path like `ImageIcon("src/main/resources/images/player.png")` — this breaks when the app is packaged into a JAR. Always use `ClassLoader`.
 
 
 ## Scaling Images

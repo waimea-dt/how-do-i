@@ -19,7 +19,8 @@ RewriteRule ^.*$ index.php
 Satisfy any
 ```
 
-!> Replace **username** with your username, and the rest of the **path** should match your website directory
+> [!IMPORTANT]
+> Replace **username** with your username, and the rest of the **path** should match your website directory
 
 ## What This Does
 

@@ -12,7 +12,8 @@ The old style of programming - long lists of instructions running top to bottom 
 
 **Object-Oriented Programming** (OOP) was the solution. Instead of one long list of instructions, OOP organises code around **objects** - self-contained units that each manage their own small piece of the program.
 
-?> Most major modern languages - Kotlin, Java, Python, C++, C#, Swift - are object-oriented. Learning OOP is one of the most valuable things you can do as a programmer.
+> [!INFO]
+> Most major modern languages - Kotlin, Java, Python, C++, C#, Swift - are object-oriented. Learning OOP is one of the most valuable things you can do as a programmer.
 
 
 ## Classes and Objects
@@ -80,7 +81,8 @@ fun main() {
 }
 ```
 
-?> `gandalf` and `merlin` are both `Wizard` objects, but each has its **own** `name` and `mana` - they are completely independent of each other.
+> [!NOTE]
+> `gandalf` and `merlin` are both `Wizard` objects, but each has its **own** `name` and `mana` - they are completely independent of each other.
 
 
 ## Encapsulation
@@ -125,7 +127,8 @@ fun main() {
 }
 ```
 
-?> The `private` keyword means `balance` can only be changed through `deposit()` and `withdraw()` - no outside code can set it to an arbitrary value.
+> [!NOTE]
+> The `private` keyword means `balance` can only be changed through `deposit()` and `withdraw()` - no outside code can set it to an arbitrary value.
 
 
 ## Sending 'Messages' Between Objects
@@ -168,7 +171,8 @@ fun main() {
 }
 ```
 
-?> The customer (the `main` function) only talks to the `Waiter`. It has no idea a `Chef` even exists - that's an internal detail. This is the key idea of OOP: objects hide their complexity and expose only what others need to know.
+> [!NOTE]
+> The customer (the `main` function) only talks to the `Waiter`. It has no idea a `Chef` even exists - that's an internal detail. This is the key idea of OOP: objects hide their complexity and expose only what others need to know.
 
 ```mermaid
 sequenceDiagram

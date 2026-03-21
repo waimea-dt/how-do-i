@@ -19,7 +19,8 @@ $stmt = $db->query($query);
 $user = $stmt->ftech();
 ```
 
-!> Here, the user supplied data in `$name` has been **concatenated directly** into the query. This opens up the posibility of **SQL injection**.
+> [!IMPORTANT]
+> Here, the user supplied data in `$name` has been **concatenated directly** into the query. This opens up the posibility of **SQL injection**.
 
 ### Do This Instead
 

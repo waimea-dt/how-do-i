@@ -33,7 +33,8 @@ private fun handleKeyPress(keyCode: Int) {
 }
 ```
 
-?> Returning `false` from the dispatcher lets the event carry on to whichever component normally would have received it. Return `true` to consume it (i.e. stop it going anywhere else) — useful if you don't want WASD keys typing into a text field.
+> [!NOTE]
+> Returning `false` from the dispatcher lets the event carry on to whichever component normally would have received it. Return `true` to consume it (i.e. stop it going anywhere else) — useful if you don't want WASD keys typing into a text field.
 
 
 ## Key Codes
@@ -82,7 +83,8 @@ private fun setupActions() {
 
 Use `WHEN_IN_FOCUSED_WINDOW` rather than `WHEN_FOCUSED` — the latter only fires if the panel itself has focus, which defeats the purpose.
 
-?> Key bindings are better for hotkeys (Escape, F5, Ctrl+Z). For continuous directional input like WASD, `KeyboardFocusManager` is simpler to work with.
+> [!TIP]
+> Key bindings are better for hotkeys (Escape, F5, Ctrl+Z). For continuous directional input like WASD, `KeyboardFocusManager` is simpler to work with.
 
 
 ## Tracking Held Keys

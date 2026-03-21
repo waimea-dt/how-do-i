@@ -102,5 +102,6 @@ else:
     easygui.msgbox(f"Hello, {name}!")
 ```
 
-!> Code in this section needs to run in a local Python environment with `easygui` installed (`pip install easygui`). It won't run in an online playground.
+> [!IMPORTANT]
+> Code in this section needs to run in a local Python environment with `easygui` installed (`pip install easygui`). It won't run in an online playground.
 

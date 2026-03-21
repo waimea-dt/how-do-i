@@ -21,7 +21,8 @@ class DrawingPanel : JPanel() {
 }
 ```
 
-!> Always call `super.paintComponent(g)` as the **first line**. It clears the previous frame. Skipping it causes old drawings to pile up on screen.
+> [!IMPORTANT]
+> Always call `super.paintComponent(g)` as the **first line**. It clears the previous frame. Skipping it causes old drawings to pile up on screen.
 
 Use this panel as the content pane, exactly like a regular `JPanel`:
 
@@ -44,7 +45,8 @@ g.color = Color(0x89b4fa)           // All draws below use this colour
 g.fillRect(50, 50, 200, 100)
 ```
 
-?> All coordinates are in pixels from the top-left corner of the panel. X increases right, Y increases down.
+> [!NOTE]
+> All coordinates are in pixels from the top-left corner of the panel. X increases right, Y increases down.
 
 
 ## Drawing Shapes
@@ -80,7 +82,8 @@ val ys = intArrayOf(50,  150, 150)
 g.fillPolygon(xs, ys, 3)               // filled triangle
 ```
 
-?> See the code demo below for examples of all these shapes
+> [!TIP]
+> See the code demo below for examples of all these shapes
 
 
 ## Colours and Fonts

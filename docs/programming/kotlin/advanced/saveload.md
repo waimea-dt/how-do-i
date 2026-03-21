@@ -164,7 +164,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 }
 ```
-?> See the [Project Setup page](programming/kotlin/project.md) for details about working with Gradle
+> [!TIP]
+> See the [Project Setup page](programming/kotlin/project.md) for details about working with Gradle
 
 
 The `saveData()` and `loadData()` methods should be placed within the App/Game class:

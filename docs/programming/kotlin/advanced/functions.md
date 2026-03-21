@@ -24,7 +24,8 @@ fun main() {
 }
 ```
 
-?> Every Kotlin program starts by running a function called `main()` - this is the **entry point** of your program.
+> [!NOTE]
+> Every Kotlin program starts by running a function called `main()` - this is the **entry point** of your program.
 
 
 ## Why Use Functions?
@@ -136,7 +137,8 @@ fun main() {
 }
 ```
 
-?> The terms **parameter** and **argument** are often used interchangeably. Strictly, a *parameter* is the variable in the function definition, and an *argument* is the actual value passed when calling it.
+> [!NOTE]
+> The terms **parameter** and **argument** are often used interchangeably. Strictly, a *parameter* is the variable in the function definition, and an *argument* is the actual value passed when calling it.
 
 
 ## Default Parameter Values
@@ -172,7 +174,8 @@ fun main() {
 }
 ```
 
-?> Named arguments are most useful when a function has **multiple parameters with default values** - you can supply just the ones you need, in any order, without having to know their position.
+> [!TIP]
+> Named arguments are most useful when a function has **multiple parameters with default values** - you can supply just the ones you need, in any order, without having to know their position.
 
 
 ## Return Values
@@ -217,7 +220,8 @@ fun main() {
 }
 ```
 
-?> If a function doesn't return a value, you can either leave out the return type entirely, or write `: Unit`. Most Kotlin developers simply leave it out.
+> [!TIP]
+> If a function doesn't return a value, you can either leave out the return type entirely, or write `: Unit`. Most Kotlin developers simply leave it out.
 
 
 ## Single-Expression Functions

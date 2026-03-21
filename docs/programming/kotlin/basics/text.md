@@ -19,7 +19,8 @@ message += " You are awesome!"
 println(message)
 ```
 
-?> Prefer **string templates** over `+` for combining variables and text - they are easier to read and less error-prone.
+> [!TIP]
+> Prefer **string templates** over `+` for combining variables and text - they are easier to read and less error-prone.
 
 
 ## String Templates
@@ -45,7 +46,8 @@ println("Total: ${price * qty}")
 println("Name length: ${name.length} characters")
 ```
 
-?> Use `${ }` whenever you need more than just a plain variable name - calculations, function calls, property access, etc.
+> [!TIP]
+> Use `${ }` whenever you need more than just a plain variable name - calculations, function calls, property access, etc.
 
 
 
@@ -63,7 +65,8 @@ val message = """
 println(message)
 ```
 
-?> `.trimIndent()` removes the common leading indentation from each line - useful when the string is indented inside your code for readability but you don't want those spaces in the actual output.
+> [!TIP]
+> `.trimIndent()` removes the common leading indentation from each line - useful when the string is indented inside your code for readability but you don't want those spaces in the actual output.
 
 
 
@@ -202,7 +205,8 @@ println("7".padStart(5, '0'))     // "00007"
 println("hi".padEnd(6, '.'))      // "hi...."
 ```
 
-?> `padStart` and `padEnd` work on **strings**, not numbers. Convert first with `.toString()` if needed: `score.toString().padStart(6, '0')`.
+> [!TIP]
+> `padStart` and `padEnd` work on **strings**, not numbers. Convert first with `.toString()` if needed: `score.toString().padStart(6, '0')`.
 
 
 ## Splitting Strings

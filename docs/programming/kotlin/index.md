@@ -11,7 +11,8 @@
 - **Interoperable** - works seamlessly alongside Java code and libraries (there are 1000s)
 - **Versatile** - used for Android apps, desktop apps, server-side code, and more
 
-?> Kotlin is the official language for **Android** development along with great front-end libraries like **Jetpack Compose**. Kotlin is taught in many schools and universities as a first language for object-oriented programming.
+> [!NOTE]
+> Kotlin is the official language for **Android** development along with great front-end libraries like **Jetpack Compose**. Kotlin is taught in many schools and universities as a first language for object-oriented programming.
 ![Kotlin and Android](_assets/kotlin-android.png)
 
 
@@ -22,7 +23,8 @@
 - **Android apps** - the language of choice for mobile development
 - **Web back-ends** - server-side apps using frameworks like Ktor
 
-?> This guide focuses on **console programs** first to learn the fundamentals, then moves on to **desktop GUIs** using Swing.
+> [!NOTE]
+> This guide focuses on **console programs** first to learn the fundamentals, then moves on to **desktop GUIs** using Swing.
 
 
 ### Getting Started

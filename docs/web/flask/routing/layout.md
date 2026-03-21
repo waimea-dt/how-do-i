@@ -42,7 +42,8 @@ Add this code to **_layout.php**...
 </html>
 ```
 
-!> Note that every **href** URL used in links starts with the **SITE_BASE** (the folder our site sits). This makes sure that the links work correctly, regardless of how deep we are into a route.
+> [!IMPORTANT]
+> Note that every **href** URL used in links starts with the **SITE_BASE** (the folder our site sits). This makes sure that the links work correctly, regardless of how deep we are into a route.
 
 
 ## Defining Constants for the Site

@@ -22,7 +22,8 @@ setBounds(x, y, width, height)
           └─────────────── x position (distance from left of panel)
 ```
 
-?> The top-left corner of the panel is `(0, 0)`. X increases to the right, Y increases downward.
+> [!NOTE]
+> The top-left corner of the panel is `(0, 0)`. X increases to the right, Y increases downward.
 
 
 ## JLabel — Displaying Text
@@ -171,7 +172,8 @@ class MainWindow {
 }
 ```
 
-?> Declare all your components at the **class level** (not inside a function). This means you can access them from `setupLayout()`, `setupStyles()`, `setupActions()`, and `updateUI()` — wherever they're needed.
+> [!TIP]
+> Declare all your components at the **class level** (not inside a function). This means you can access them from `setupLayout()`, `setupStyles()`, `setupActions()`, and `updateUI()` — wherever they're needed.
 
 Next up: [Listening and Responding to User Actions](programming/kotlin/gui/actions.md)
 

@@ -172,7 +172,8 @@ class MainWindow(val app: App) {
 }
 ```
 
-?> `setLocationRelativeTo(dialog.owner)` centres the dialog over its parent window. This is nicer than centring on screen when the parent window isn't centred itself.
+> [!TIP]
+> `setLocationRelativeTo(dialog.owner)` centres the dialog over its parent window. This is nicer than centring on screen when the parent window isn't centred itself.
 
 
 ## Modal vs Non-Modal

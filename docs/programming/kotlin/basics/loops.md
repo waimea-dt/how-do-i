@@ -30,7 +30,8 @@ for (fruit in fruits) {
 }
 ```
 
-?> See the **Numbers** page for more on ranges using `..` and `..<`
+> [!TIP]
+> See the **Numbers** page for more on ranges using `..` and `..<`
 
 
 ## While Loop
@@ -56,7 +57,8 @@ while (lives > 0) {
 println("Game over!")
 ```
 
-?> Make sure the loop has a way to eventually make the condition `false`, otherwise you will create an **infinite loop**
+> [!TIP]
+> Make sure the loop has a way to eventually make the condition `false`, otherwise you will create an **infinite loop**
 
 
 ## Do...While Loop
@@ -130,4 +132,5 @@ repeat(5) {
 }
 ```
 
-?> Inside a `repeat` block, the current iteration index (starting from `0`) is available as `it`: `repeat(5) { println(it) }`
+> [!TIP]
+> Inside a `repeat` block, the current iteration index (starting from `0`) is available as `it`: `repeat(5) { println(it) }`

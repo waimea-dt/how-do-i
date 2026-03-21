@@ -43,7 +43,8 @@ class MainWindow {
 }
 ```
 
-?> `SwingUtilities.invokeLater` makes sure the window is created on the correct thread. Swing is not thread-safe, so all UI work should happen on the **Event Dispatch Thread (EDT)**. This one line handles that for you.
+> [!NOTE]
+> `SwingUtilities.invokeLater` makes sure the window is created on the correct thread. Swing is not thread-safe, so all UI work should happen on the **Event Dispatch Thread (EDT)**. This one line handles that for you.
 
 
 ## Key Window Settings
@@ -69,7 +70,8 @@ private fun setupLayout() {
 }
 ```
 
-?> Always call `pack()` *after* setting `preferredSize`, and `setLocationRelativeTo(null)` *after* `pack()` — otherwise it won't have the correct size to centre from.
+> [!TIP]
+> Always call `pack()` *after* setting `preferredSize`, and `setLocationRelativeTo(null)` *after* `pack()` — otherwise it won't have the correct size to centre from.
 
 
 ## The Null Layout
@@ -135,6 +137,7 @@ class MainWindow {
 
 This gives you a clean, centred, correctly-sized window with a custom background colour — ready to have components added to it.
 
-?> The `init` block calls setup methods in order: layout first, then window configuration. This order matters — `setupWindow()` needs the panel to already have its `preferredSize` set before `pack()` is called.
+> [!IMPORTANT]
+> The `init` block calls setup methods in order: layout first, then window configuration. This order matters — `setupWindow()` needs the panel to already have its `preferredSize` set before `pack()` is called.
 
 Next up: [Adding UI Elements](programming/kotlin/gui/elements.md)

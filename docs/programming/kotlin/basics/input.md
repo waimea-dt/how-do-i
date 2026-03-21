@@ -16,7 +16,8 @@ val name = readln()
 println("Hello, $name!")
 ```
 
-?> `print()` keeps the cursor on the same line so the user types immediately after the prompt, rather than on the next line.
+> [!NOTE]
+> `print()` keeps the cursor on the same line so the user types immediately after the prompt, rather than on the next line.
 
 
 ## Cleaning Up Input
@@ -29,7 +30,8 @@ val input = readln().trim()
 println("You entered: '$input'")
 ```
 
-?> It's good practice to always `.trim()` text input before using it, since users often accidentally add leading or trailing spaces.
+> [!TIP]
+> It's good practice to always `.trim()` text input before using it, since users often accidentally add leading or trailing spaces.
 
 
 ## Reading a Character
@@ -42,7 +44,8 @@ val choice = readln().first()
 println("You chose: $choice")
 ```
 
-!> `.first()` will crash if the user presses Enter without typing anything. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to safely handle this with `.firstOrNull()`.
+> [!IMPORTANT]
+> `.first()` will crash if the user presses Enter without typing anything. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to safely handle this with `.firstOrNull()`.
 
 
 ## Reading Numbers
@@ -69,7 +72,8 @@ val withTax = price * 1.15
 println("With tax: ${"%.2f".format(withTax)}")
 ```
 
-!> If the user types something that isn't a valid number, `.toInt()` and `.toDouble()` will crash. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to handle this safely.
+> [!IMPORTANT]
+> If the user types something that isn't a valid number, `.toInt()` and `.toDouble()` will crash. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to handle this safely.
 
 
 ## Reading Multiple Values

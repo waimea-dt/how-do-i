@@ -14,7 +14,8 @@ To allow `null`, add `?` after the type - making it a **nullable type**:
 var name: String? = null   // ✓ String? can hold null
 ```
 
-?> This is Kotlin's **null safety** system. By distinguishing nullable from non-nullable types at compile time, Kotlin prevents the common `NullPointerException` crash.
+> [!NOTE]
+> This is Kotlin's **null safety** system. By distinguishing nullable from non-nullable types at compile time, Kotlin prevents the common `NullPointerException` crash.
 
 
 ## Reading User Input
@@ -91,7 +92,8 @@ while (true) {
 println("VALID. Value entered: $value")
 ```
 
-?> `toIntOrNull()` safely converts a string to an `Int?`, returning `null` if the string isn't a valid number. Similarly `toDoubleOrNull()` and `toLongOrNull()` do the same.
+> [!NOTE]
+> `toIntOrNull()` safely converts a string to an `Int?`, returning `null` if the string isn't a valid number. Similarly `toDoubleOrNull()` and `toLongOrNull()` do the same.
 
 You could extend this code to also check if the number input is **within a specific range**:
 

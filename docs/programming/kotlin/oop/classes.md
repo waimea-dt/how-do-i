@@ -95,7 +95,8 @@ fun main() {
 }
 ```
 
-?> `init` is useful for **validating data** too - for example, checking that mana isn't negative when the object is created.
+> [!TIP]
+> `init` is useful for **validating data** too - for example, checking that mana isn't negative when the object is created.
 
 
 ## Methods
@@ -173,7 +174,8 @@ fun main() {
 }
 ```
 
-?> The `override` keyword means you are replacing a method that already exists in a parent class - all classes in Kotlin inherit `toString()` from `Any`, so you can always override it.
+> [!NOTE]
+> The `override` keyword means you are replacing a method that already exists in a parent class - all classes in Kotlin inherit `toString()` from `Any`, so you can always override it.
 
 
 ## `private` Properties and Methods
@@ -215,7 +217,8 @@ fun main() {
 }
 ```
 
-?> Making `balance` private means the only way to change it is through `deposit()` and `withdraw()`. No code outside the class can set it to an arbitrary value - this is **encapsulation** in action.
+> [!NOTE]
+> Making `balance` private means the only way to change it is through `deposit()` and `withdraw()`. No code outside the class can set it to an arbitrary value - this is **encapsulation** in action.
 
 
 ## Data Classes
@@ -245,5 +248,5 @@ fun main() {
 }
 ```
 
-?> Use a **data class** when the object is just a container for data (coordinates, records, settings). Use a regular **class** when the object manages behaviour (like a `BankAccount` or `Wizard`).
-
+> [!TIP]
+> Use a **data class** when the object is just a container for data (coordinates, records, settings). Use a regular **class** when the object manages behaviour (like a `BankAccount` or `Wizard`).

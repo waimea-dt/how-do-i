@@ -7,7 +7,8 @@ A `Map` stores values as **key-value pairs** - like a dictionary. Each key is un
 | `Map` | ✗ Read-only | Contents cannot be changed after creation |
 | `MutableMap` | ✓ Yes | Entries can be added, updated, and removed |
 
-?> Use a **`Map`** when each value has a unique key (like a dictionary or lookup table).
+> [!TIP]
+> Use a **`Map`** when each value has a unique key (like a dictionary or lookup table).
 
 
 ## Map - Read-Only
@@ -35,7 +36,8 @@ println(capitals["France"])    // Paris
 println(capitals["Japan"])     // Tokyo
 ```
 
-?> Accessing a key that doesn't exist returns `null` rather than crashing. Use the Elvis operator to provide a fallback: `capitals["Spain"] ?: "Unknown"`.
+> [!TIP]
+> Accessing a key that doesn't exist returns `null` rather than crashing. Use the Elvis operator to provide a fallback: `capitals["Spain"] ?: "Unknown"`.
 
 Check whether a **key** or **value** exists:
 

@@ -45,7 +45,8 @@ fun main() {
 }
 ```
 
-?> Properties declared with `val` are fixed and cannot be changed after the object is created.
+> [!NOTE]
+> Properties declared with `val` are fixed and cannot be changed after the object is created.
 
 
 ## Creating Multiple Objects
@@ -133,5 +134,6 @@ fun main() {
 }
 ```
 
-?> The `Wizard` doesn't store the spell data itself - it just receives a `Spell` object and uses it. This keeps each class small and focused on its own job.
+> [!NOTE]
+> The `Wizard` doesn't store the spell data itself - it just receives a `Spell` object and uses it. This keeps each class small and focused on its own job.
 

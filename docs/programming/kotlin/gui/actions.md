@@ -23,7 +23,8 @@ private fun handleSubmit() {
 }
 ```
 
-?> Always call a named handler function from the listener (e.g. `handleSubmit()`) rather than putting the logic directly in the lambda. It keeps things readable and makes it easy to call the same handler from multiple places.
+> [!TIP]
+> Always call a named handler function from the listener (e.g. `handleSubmit()`) rather than putting the logic directly in the lambda. It keeps things readable and makes it easy to call the same handler from multiple places.
 
 
 ## The `updateUI()` Pattern
@@ -68,7 +69,8 @@ titleLabel.addMouseListener(object : java.awt.event.MouseAdapter() {
 })
 ```
 
-?> `MouseAdapter` is an abstract class that provides empty implementations of all the mouse methods. You only override the ones you need — if you used the `MouseListener` interface directly, you'd have to implement all of them.
+> [!NOTE]
+> `MouseAdapter` is an abstract class that provides empty implementations of all the mouse methods. You only override the ones you need — if you used the `MouseListener` interface directly, you'd have to implement all of them.
 
 
 ## Putting It Together

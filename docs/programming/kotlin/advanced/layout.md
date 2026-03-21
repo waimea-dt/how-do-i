@@ -30,7 +30,8 @@ println(label1.padEnd(10, '.') + value1.padStart(15, '.'))
 println(label2.padEnd(10, '.') + value2.padStart(15, '.'))
 ```
 
-?> `padStart` and `padEnd` only add padding — they **never truncate**. If the string is already longer than `n`, it is returned unchanged. Use `.take(n)` first if you need a hard limit.
+> [!TIP]
+> `padStart` and `padEnd` only add padding — they **never truncate**. If the string is already longer than `n`, it is returned unchanged. Use `.take(n)` first if you need a hard limit.
 
 
 ## Formatting Text and Numbers in Columns
@@ -96,7 +97,8 @@ These characters can create very neat borders:
 └───┘└───┘└───┘└───┘└┘
 ```
 
-?> You can paste these characters directly into your Kotlin strings. There are also [many more box-drawing characters](https://www.compart.com/en/unicode/block/U+2500): double-lined boxes, thicker lines, dashed lines and round corners.
+> [!TIP]
+> You can paste these characters directly into your Kotlin strings. There are also [many more box-drawing characters](https://www.compart.com/en/unicode/block/U+2500): double-lined boxes, thicker lines, dashed lines and round corners.
 
 A simple example drawing a box around a message:
 

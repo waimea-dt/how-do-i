@@ -61,8 +61,8 @@ fun main() {
 
 ![Swing Demo](_assets/swing-demo.png)
 
-
-!> Swing code won't run in the browser-based Kotlin Playground used here, so the pages in this section show code snippets rather than runnable code. You'll need to run these snippets in an IDE like IntelliJ IDEA.
+> [!IMPORTANT]
+> Swing code won't run in the browser-based Kotlin Playground used here, so the pages in this section show code snippets rather than runnable code. You'll need to run these snippets in an IDE like IntelliJ IDEA.
 
 
 ## A Brief History
@@ -71,6 +71,7 @@ Swing was created by Sun Microsystems as part of **Java** in the late 1990s. The
 
 Because Kotlin runs on the same platform as Java (the **JVM**), it can use Swing directly - no extra setup needed. Everything written for Swing in Java works in Kotlin too.
 
-?> Swing is a mature, well-documented library. It's been around for decades, which means there's an enormous amount of help, examples, and answers available online.
+> [!NOTE]
+> Swing is a mature, well-documented library. It's been around for decades, which means there's an enormous amount of help, examples, and answers available online.
 
 

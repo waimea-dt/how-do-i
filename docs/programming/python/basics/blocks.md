@@ -49,7 +49,8 @@ greet("Bob")
 
 Python uses **4 spaces** per indent level by convention (most editors insert 4 spaces when you press Tab).
 
-!> Indentation is **not optional** in Python - it defines the structure of your code. Getting it wrong will cause an `IndentationError` and your program won't run at all.
+> [!IMPORTANT]
+> Indentation is **not optional** in Python - it defines the structure of your code. Getting it wrong will cause an `IndentationError` and your program won't run at all.
 
 ```python
 # ✓ Correct - 4 spaces

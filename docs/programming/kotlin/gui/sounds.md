@@ -2,7 +2,8 @@
 
 Swing doesn't have a dedicated sound API, but the Java standard library includes `javax.sound.sampled` which handles WAV audio. It's a bit verbose, but it works well for playing short sound effects.
 
-?> Only **WAV** files are supported out of the box. For MP3 support you'd need a third-party library. For simple click sounds and effects, WAV is fine.
+> [!IMPORTANT]
+> Only **WAV** files are supported out of the box. For MP3 support you'd need a third-party library. For simple click sounds and effects, WAV is fine.
 
 
 ## Where to Put Sound Files

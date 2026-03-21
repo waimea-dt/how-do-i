@@ -100,5 +100,6 @@ class MainWindow {
 }
 ```
 
-?> Extension functions don't actually modify the class — they're just syntactic sugar. Kotlin compiles them to regular static functions behind the scenes. They can only access the public members of the type they extend.
+> [!NOTE]
+> Extension functions don't actually modify the class — they're just syntactic sugar. Kotlin compiles them to regular static functions behind the scenes. They can only access the public members of the type they extend.
 

@@ -20,7 +20,8 @@ val kmFormatted: Long = 4_500_000_000L // Underscores for readability (ignored b
 var cost: Double = 123.45              // Decimal point
 ```
 
-?> Underscores can be placed anywhere in a numeric literal to make large numbers easier to read - they are ignored by Kotlin. `4_500_000_000L` is identical to `4500000000L`.
+> [!TIP]
+> Underscores can be placed anywhere in a numeric literal to make large numbers easier to read - they are ignored by Kotlin. `4_500_000_000L` is identical to `4500000000L`.
 
 ## Numeric Ranges
 
@@ -99,8 +100,9 @@ println("Tax to pay: $tax")
 println("Take home:  $takeHome")
 ```
 
-?> An **Int divided by an Int** will result in an **Int** value - any decimal places will be lost.
-To get the exact decimal answer, at least one value needs to be a **Double**. So, in the above example we should change the line to: `val payRate = total.toDouble() / hours`. Try editing the code and see how the result changes
+> [!NOTE]
+> An **Int divided by an Int** will result in an **Int** value - any decimal places will be lost.
+> To get the exact decimal answer, at least one value needs to be a **Double**. So, in the above example we should change the line to: `val payRate = total.toDouble() / hours`. Try editing the code and see how the result changes
 
 
 Example of **modulus** operator...
@@ -181,7 +183,8 @@ println(stringToInt + 1)
 println(stringToDouble)
 ```
 
-?> `.toInt()` on a `Double` **truncates** - it drops the decimal part without rounding. To round to the nearest integer, use `round(n).toInt()` from `kotlin.math`.
+> [!TIP]
+> `.toInt()` on a `Double` **truncates** - it drops the decimal part without rounding. To round to the nearest integer, use `round(n).toInt()` from `kotlin.math`.
 
 
 ## Maths Functions
@@ -233,7 +236,8 @@ println(Random.nextInt(1, 7))       // random int: 1..6 (dice roll)
 println(Random.nextDouble(0.0, 1.0))  // random double between 0 and 1
 ```
 
-?> `Random.nextInt(from, until)` - note that `until` is **exclusive**, so `nextInt(1, 7)` gives values 1–6.
+> [!NOTE]
+> `Random.nextInt(from, until)` - note that `until` is **exclusive**, so `nextInt(1, 7)` gives values 1–6.
 
 
 ## Formatting Numbers
@@ -261,7 +265,8 @@ val score = 9001000
 println(score.commas())         // 9,001,000
 ```
 
-?> An extension function adds a new method to an existing type without changing its source code. Here, `.commas()` works on `Int`, `Long`, or any other `Number` type.
+> [!NOTE]
+> An extension function adds a new method to an existing type without changing its source code. Here, `.commas()` works on `Int`, `Long`, or any other `Number` type.
 
 
 ## Useful Maths Functions Summary

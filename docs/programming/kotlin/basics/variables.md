@@ -50,7 +50,8 @@ var cost: Double = 123.45
 var isAlive: Boolean = true
 ```
 
-?> In Kotlin, **Strings** are wrapped with **double speech marks**: `"Hello"`, while **Chars** are wrapped with **single speech marks**: `'Z'`
+> [!NOTE]
+> In Kotlin, **Strings** are wrapped with **double speech marks**: `"Hello"`, while **Chars** are wrapped with **single speech marks**: `'Z'`
 
 
 ## Naming Variables
@@ -78,7 +79,8 @@ val birth_place = "London"   // Incorrect convention
 var likes cats = true        // Can't have spaces
 ```
 
-?> Kotlin variables **cannot hold `null` by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](programming/kotlin/advanced/errors.md) page.
+> [!NOTE]
+> Kotlin variables **cannot hold `null` by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](programming/kotlin/advanced/errors.md) page.
 
 
 ## Variable Scope
@@ -141,6 +143,7 @@ fun showScore(score: Int) {
 showScore(72)
 ```
 
-?> Keep variables as **local as possible** - declare them in the smallest block where they are needed. This prevents accidental changes from unrelated parts of your code.
+> [!TIP]
+> Keep variables as **local as possible** - declare them in the smallest block where they are needed. This prevents accidental changes from unrelated parts of your code.
 
 

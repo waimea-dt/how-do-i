@@ -56,7 +56,8 @@ val purple = Color(148, 85, 211)
 ![Colour Demo](_assets/colour-demo.png)
 
 
-?> `foreground` sets the text/icon colour. `background` sets the fill colour of the component. Not all components show their background by default (e.g. labels)
+> [!NOTE]
+> `foreground` sets the text/icon colour. `background` sets the fill colour of the component. Not all components show their background by default (e.g. labels)
 
 
 ### Background Colour on Labels
@@ -98,7 +99,8 @@ textLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8))
 ![Border Demo](_assets/border-demo.png)
 
 
-?> FlatLAF overrides many default borders on buttons and text fields to give them its clean look. If you set a border on a `JButton`, it may conflict with the FlatLAF styling — use `isBorderPainted = false` to remove the default border first if needed.
+> [!TIP]
+> FlatLAF overrides many default borders on buttons and text fields to give them its clean look. If you set a border on a `JButton`, it may conflict with the FlatLAF styling — use `isBorderPainted = false` to remove the default border first if needed.
 
 
 ## Putting It Together

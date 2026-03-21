@@ -16,7 +16,8 @@ The same Swing code, just with FlatLAF applied:
 
 ![FlatLAF example](_assets/flatlaf-light.png)
 
-?> FlatLAF is used in production software - including JetBrains' own IDEs (IntelliJ IDEA, the tool you write Kotlin in). So what you're building with can look as polished as the tools professionals use.
+> [!NOTE]
+> FlatLAF is used in production software - including JetBrains' own IDEs (IntelliJ IDEA, the tool you write Kotlin in). So what you're building with can look as polished as the tools professionals use.
 
 
 ## What is a "Look and Feel"?
@@ -74,7 +75,8 @@ FlatLightLaf.setup()
 FlatDarkLaf.setup()
 ```
 
-?> You only call one of these - whichever theme you want. Call it once, right at the start of `main()`, before creating any windows.
+> [!IMPORTANT]
+> You only call one of these - whichever theme you want. Call it once, right at the start of `main()`, before creating any windows.
 
 
 ### Other Themes

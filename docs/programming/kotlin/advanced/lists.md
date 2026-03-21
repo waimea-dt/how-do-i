@@ -7,7 +7,8 @@ A `List` stores multiple values in a single variable, keeping items in a fixed o
 | `List` | ✗ Read-only | Contents cannot be changed after creation |
 | `MutableList` | ✓ Yes | Items can be added, removed, and updated |
 
-?> Use a **`List`** when the data won't change. Use a **`MutableList`** when you need to add, remove, or update items.
+> [!TIP]
+> Use a **`List`** when the data won't change. Use a **`MutableList`** when you need to add, remove, or update items.
 
 
 ## List - Read-Only
@@ -109,7 +110,8 @@ names[1] = "Barbara"      // replace item at index 1
 println(names)
 ```
 
-?> Start with `mutableListOf()` while building/editing a list, then consider switching to `listOf()` once the data is finalised - this makes your intent clear and prevents accidental changes.
+> [!TIP]
+> Start with `mutableListOf()` while building/editing a list, then consider switching to `listOf()` once the data is finalised - this makes your intent clear and prevents accidental changes.
 
 
 ## Looping Over Lists
@@ -236,7 +238,8 @@ println("Original: $names")            // Unchanged
 println("A names:  $aNames")           // Only 'A' names
 ```
 
-?> `it` refers to the current item being tested - shorthand for a single-parameter lambda.
+> [!NOTE]
+> `it` refers to the current item being tested - shorthand for a single-parameter lambda.
 
 
 ## Checking Items with any, all, and count
@@ -291,4 +294,5 @@ println("Prices:   $prices")    // Unchanged
 println("With tax: $withTax")   // Transformed copy
 ```
 
-?> `map()` is named after the mathematical idea of mapping one set of values to another - each item is passed through the transformation and the results are collected into a new list.
+> [!TIP]
+> `map()` is named after the mathematical idea of mapping one set of values to another - each item is passed through the transformation and the results are collected into a new list.

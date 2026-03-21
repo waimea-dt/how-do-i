@@ -12,7 +12,8 @@ When a web browser requests a web page with a **.php** file extension from the s
 
 ![PHP request](media/php-request.png)
 
-!> Note that PHP code never goes to the browser - the code is run on the server and it generates HTML code. *Only the server has access to the PHP code* - this is really important to understand and is essential for security.
+> [!IMPORTANT]
+> Note that PHP code never goes to the browser - the code is run on the server and it generates HTML code. *Only the server has access to the PHP code* - this is really important to understand and is essential for security.
 
 ## An Example
 
