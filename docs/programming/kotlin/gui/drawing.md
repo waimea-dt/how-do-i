@@ -1,6 +1,6 @@
 # Drawing and Custom Graphics
 
-Swing's standard components (buttons, labels, etc.) cover most UI needs, but for games or custom visuals you often need to draw things directly — shapes, lines, grids, sprites. You do this by overriding `paintComponent()` on a `JPanel`.
+Swing's standard components (buttons, labels, etc.) cover most UI needs, but for games or custom visuals you often need to draw things directly - shapes, lines, grids, sprites. You do this by overriding `paintComponent()` on a `JPanel`.
 
 
 ## The Drawing Panel
@@ -67,16 +67,16 @@ g.fillRect(50, 50, 200, 100)
 | `fillArc(x, y, w, h, startAngle, arcAngle)` | Filled pie-slice arc |
 | `drawPolygon(xPoints, yPoints, n)` | Polygon outline from point arrays |
 | `fillPolygon(xPoints, yPoints, n)` | Filled polygon |
-| `drawString(text, x, y)` | Text — `x, y` is the **bottom-left** of the first character |
+| `drawString(text, x, y)` | Text - `x, y` is the **bottom-left** of the first character |
 
 ```kotlin
-// Rounded rectangle — last two args are corner width and height
+// Rounded rectangle - last two args are corner width and height
 g.fillRoundRect(40, 40, 200, 60, 20, 20)
 
-// Arc — angles in degrees, 0° = 3 o'clock, goes anti-clockwise
+// Arc - angles in degrees, 0° = 3 o'clock, goes anti-clockwise
 g.drawArc(50, 50, 100, 100, 0, 270)    // three-quarter circle
 
-// Polygon — arrays of x and y coordinates
+// Polygon - arrays of x and y coordinates
 val xs = intArrayOf(100, 150, 50)
 val ys = intArrayOf(50,  150, 150)
 g.fillPolygon(xs, ys, 3)               // filled triangle
@@ -91,7 +91,7 @@ g.fillPolygon(xs, ys, 3)               // filled triangle
 ```kotlin
 g.color = Color(0x89b4fa)               // hex colour
 g.color = Color(100, 200, 100)          // RGB (0–255)
-g.color = Color(100, 200, 100, 128)     // RGBA — last arg is opacity (0 = invisible, 255 = solid)
+g.color = Color(100, 200, 100, 128)     // RGBA - last arg is opacity (0 = invisible, 255 = solid)
 g.color = Color.WHITE                   // named colour constant
 
 g.font = Font(Font.SANS_SERIF, Font.PLAIN,  16)
@@ -109,7 +109,7 @@ override fun paintComponent(g: Graphics) {
     super.paintComponent(g)
     val g2 = g as Graphics2D
 
-    // Anti-aliasing — smoother edges on shapes and text
+    // Anti-aliasing - smoother edges on shapes and text
     g2.setRenderingHint(
         RenderingHints.KEY_ANTIALIASING,
         RenderingHints.VALUE_ANTIALIAS_ON
@@ -133,7 +133,7 @@ private fun updateUI() {
 }
 ```
 
-Call `updateUI()` any time the app state changes — from a button handler, a timer tick, or after loading data.
+Call `updateUI()` any time the app state changes - from a button handler, a timer tick, or after loading data.
 
 
 ## Passing Data to the Panel
@@ -218,7 +218,7 @@ class DrawingPanel(val app: App) : JPanel() {
         g2.color = Color(0x313244)
         g2.fillRoundRect(0, 0, width, height, 20, 20)
 
-        // Filled portion — width scales with level
+        // Filled portion - width scales with level
         g2.color = Color(0xa6e3a1)
         g2.fillRoundRect(0, 0, fillWidth, height, 20, 20)
     }

@@ -1,6 +1,6 @@
 # Adding UI Elements to a Window
 
-Once you have a [window set up](programming/kotlin/gui/window.md), you can start adding things to it. Swing calls these things **components** — labels, buttons, text boxes, and so on.
+Once you have a [window set up](programming/kotlin/gui/window.md), you can start adding things to it. Swing calls these things **components** - labels, buttons, text boxes, and so on.
 
 This page covers the three most common ones: `JLabel`, `JButton`, and `JTextField`.
 
@@ -26,9 +26,9 @@ setBounds(x, y, width, height)
 > The top-left corner of the panel is `(0, 0)`. X increases to the right, Y increases downward.
 
 
-## JLabel — Displaying Text
+## JLabel - Displaying Text
 
-`JLabel` shows a piece of **text** on screen. Use it for titles, instructions, scores, status messages — anything that just needs to be *read*.
+`JLabel` shows a piece of **text** on screen. Use it for titles, instructions, scores, status messages - anything that just needs to be *read*.
 
 ![Label demo](_assets/element-label.png)
 
@@ -52,7 +52,7 @@ titleLabel.text = "Hello, there!"
 ```
 
 
-## JButton — A Clickable Button
+## JButton - A Clickable Button
 
 `JButton` creates a button the user can **click**. You wire it up to do something on the [actions page](programming/kotlin/gui/actions.md).
 
@@ -79,7 +79,7 @@ launchButton.isEnabled = true   // Re-enable it
 ```
 
 
-## JTextField — A Text Input Box
+## JTextField - A Text Input Box
 
 `JTextField` is a single-line box the user can **type into**. Use it to collect a name, a search term, or any short piece of text.
 
@@ -173,7 +173,7 @@ class MainWindow {
 ```
 
 > [!TIP]
-> Declare all your components at the **class level** (not inside a function). This means you can access them from `setupLayout()`, `setupStyles()`, `setupActions()`, and `updateUI()` — wherever they're needed.
+> Declare all your components at the **class level** (not inside a function). This means you can access them from `setupLayout()`, `setupStyles()`, `setupActions()`, and `updateUI()` - wherever they're needed.
 
 Next up: [Listening and Responding to User Actions](programming/kotlin/gui/actions.md)
 

@@ -41,7 +41,7 @@ fun playSound(name: String) {
 }
 ```
 
-The `addLineListener` call ensures the clip releases its resources as soon as it finishes playing — without this, you'll leak audio resources every time a sound plays.
+The `addLineListener` call ensures the clip releases its resources as soon as it finishes playing - without this, you'll leak audio resources every time a sound plays.
 
 
 ## Preloading Sounds

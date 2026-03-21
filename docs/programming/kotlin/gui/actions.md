@@ -1,11 +1,11 @@
 # Listening and Responding to User Actions
 
-Swing uses **listeners** to detect user interactions — clicks, key presses, mouse movement, and more. You attach a listener to a component, and Swing calls your code whenever that event happens.
+Swing uses **listeners** to detect user interactions - clicks, key presses, mouse movement, and more. You attach a listener to a component, and Swing calls your code whenever that event happens.
 
 All listeners are wired up in `setupActions()`, and each one calls a dedicated handler function.
 
 
-## ActionListener — Responding to Clicks
+## ActionListener - Responding to Clicks
 
 The most common listener is `addActionListener`. It fires when:
 - a `JButton` is clicked
@@ -46,9 +46,9 @@ private fun updateUI() {
 This means you always have one place to look if the UI isn't showing the right thing.
 
 
-## Mouse Listeners — Any Component
+## Mouse Listeners - Any Component
 
-Any Swing component can respond to mouse events using `addMouseListener`. This includes labels, panels, images — not just buttons. You pass in a `MouseAdapter` and override only the events you care about:
+Any Swing component can respond to mouse events using `addMouseListener`. This includes labels, panels, images - not just buttons. You pass in a `MouseAdapter` and override only the events you care about:
 
 | Method | When it fires |
 |---|---|
@@ -70,7 +70,7 @@ titleLabel.addMouseListener(object : java.awt.event.MouseAdapter() {
 ```
 
 > [!NOTE]
-> `MouseAdapter` is an abstract class that provides empty implementations of all the mouse methods. You only override the ones you need — if you used the `MouseListener` interface directly, you'd have to implement all of them.
+> `MouseAdapter` is an abstract class that provides empty implementations of all the mouse methods. You only override the ones you need - if you used the `MouseListener` interface directly, you'd have to implement all of them.
 
 
 ## Putting It Together

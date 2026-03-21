@@ -1,0 +1,61 @@
+:root {
+    --callout-note-color:             var(--secondary-color);
+    --callout-tip-color:              var(--theme-color);
+    --callout-important-color:        #d8dd47;
+    --callout-warning-color:          #e2ae47;
+    --callout-attention-color:        #e64848;
+}
+
+
+.note:is(.markdown-section .callout)      { --callout-color: var(--callout-note-color); }
+.tip:is(.markdown-section .callout)       { --callout-color: var(--callout-tip-color); }
+.important:is(.markdown-section .callout) { --callout-color: var(--callout-important-color); }
+.warning:is(.markdown-section .callout)   { --callout-color: var(--callout-warning-color); }
+.attention:is(.markdown-section .callout) { --callout-color: var(--callout-attention-color); }
+
+
+/* Remove Docsify theming */
+:is(.markdown-section .callout) {
+    border: none;
+    &::before {
+        display: none;
+    }
+}
+
+.markdown-section .callout {
+    --callout-color: currentColor;
+
+    border-left: 4px solid color-mix(in srgb, var(--callout-color), var(--color-mono-min) 0%);
+    border-radius: 0;
+    padding: 0.9em 1.1em;
+    margin: var(--margin-block) 0;
+    color: var(--text-color);
+
+    .title {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        margin: 0;
+        padding: 0;
+        font-weight: 600;
+        font-size: 0.85em;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--callout-color);
+
+        .icon {
+            flex-shrink: 0;
+            color: inherit;
+            width: 1.5em;
+            height: 1.5em;
+        }
+    }
+
+    & > p.title + p {
+        margin-top: 0.7em;
+    }
+
+    & > p:last-child {
+        margin-bottom: 0;
+    }
+}

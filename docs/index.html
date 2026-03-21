@@ -18,9 +18,8 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@^5.0.0-rc/dist/themes/core.min.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@^5.0.0-rc/dist/themes/addons/core-dark.min.css" />
 
-    <!-- <link rel="stylesheet" href="_css/theme-simple-dark.css"> -->
-    <!-- <link rel="stylesheet" href="_css/theme-custom.css"> -->
-    <link rel="stylesheet" href="_css/theme-dt-notes.css">
+    <link rel="stylesheet" href="_css/theme.css">
+    <link rel="stylesheet" href="_css/sidebar.css">
 
     <link rel="stylesheet" href="_css/code.css">
     <link rel="stylesheet" href="_css/codemirror.css">
@@ -30,6 +29,7 @@
     <link rel="stylesheet" href="_css/tabs.css">
     <link rel="stylesheet" href="_css/panels.css">
     <link rel="stylesheet" href="_css/accordian.css">
+    <link rel="stylesheet" href="_css/callouts.css">
     <!-- <link rel="stylesheet" href="_css/mermaid.css"> -->
     <!-- <link rel="stylesheet" href="_css/codepen.css"> -->
 </head>
@@ -60,8 +60,14 @@
                 strokeWidth: 2,
                 class: 'inline-icon'
             },
-            'flexible-alerts': {
-                style: 'flat'
+
+            flexibleAlerts: {
+                // style: 'flat',
+
+                important: {
+                    label: 'Yo!',
+                    icon: 'si si-kotlin'
+                }
             },
         }
     </script>
@@ -86,7 +92,7 @@
     <script src="//npkg.com/docsify/lib/plugins/search.min.js"></script>
     <script src="//npkg.com/docsify/lib/plugins/zoom-image.min.js"></script>
 
-    <script src="//unpkg.com/docsify-plugin-flexible-alerts"></script>
+    <!-- <script src="//unpkg.com/docsify-plugin-flexible-alerts"></script> -->
     <script src="//unpkg.com/docsify-tabs/dist/docsify-tabs.min.js"></script>
     <script src="//unpkg.com/docsify-accordion/src/index.js"></script>
     <script src="//unpkg.com/docsify-mermaid/dist/docsify-mermaid.js"></script>
@@ -107,6 +113,7 @@
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
 
+    <script defer src="_plugins/docsify-callouts.js"></script>
     <script defer src="_plugins/docsify-scroll-to-top.js"></script>
     <script defer src="_plugins/docsify-sidebar-scrollspy.js"></script>
     <script defer src="_plugins/docsify-lucide-icons.js"></script>

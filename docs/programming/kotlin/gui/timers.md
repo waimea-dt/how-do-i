@@ -1,6 +1,6 @@
 # Using Timers
 
-Swing's `Timer` class lets you run code on a regular interval — without blocking the UI or spawning threads manually. It fires on the Event Dispatch Thread, so it's safe to update UI components directly from a timer callback.
+Swing's `Timer` class lets you run code on a regular interval - without blocking the UI or spawning threads manually. It fires on the Event Dispatch Thread, so it's safe to update UI components directly from a timer callback.
 
 Common uses:
 - A **game loop** that moves things and redraws the screen every tick
@@ -37,7 +37,7 @@ Control the timer with:
 > Declare the timer at class level (not inside a function) so you can start and stop it from anywhere in the class.
 
 
-## Regular Events — Game Loop
+## Regular Events - Game Loop
 
 For a game loop, start the timer when the game begins and let it run. Each tick, update the game state and then call `updateUI()`:
 
@@ -136,7 +136,7 @@ private fun clearFeedback() {
 ```
 
 > [!TIP]
-> Use `restart()` rather than `start()` for one-shot timers — it resets the delay each time, so rapid clicks don't cause the feedback to disappear too soon.
+> Use `restart()` rather than `start()` for one-shot timers - it resets the delay each time, so rapid clicks don't cause the feedback to disappear too soon.
 
 
 

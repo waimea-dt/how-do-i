@@ -1,6 +1,6 @@
 # Creating a Window in Swing
 
-The [Swing intro page](programming/kotlin/gui/swing.md) showed the absolute bare minimum to get a window on screen. That's fine for a quick test, but a real app needs a bit more thought — choosing the right size, centering it on screen, making sure it closes properly, and keeping the code organised.
+The [Swing intro page](programming/kotlin/gui/swing.md) showed the absolute bare minimum to get a window on screen. That's fine for a quick test, but a real app needs a bit more thought - choosing the right size, centering it on screen, making sure it closes properly, and keeping the code organised.
 
 This page shows how to structure a window the right way, ready for content to be added.
 
@@ -30,7 +30,7 @@ class MainWindow {
     }
 
     private fun setupWindow() {
-        frame.isResizable = false                           // Fixed size — no resizing
+        frame.isResizable = false                           // Fixed size - no resizing
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE  // Quit when closed
         frame.contentPane = panel                           // Use our panel as the content
         frame.pack()
@@ -71,7 +71,7 @@ private fun setupLayout() {
 ```
 
 > [!TIP]
-> Always call `pack()` *after* setting `preferredSize`, and `setLocationRelativeTo(null)` *after* `pack()` — otherwise it won't have the correct size to centre from.
+> Always call `pack()` *after* setting `preferredSize`, and `setLocationRelativeTo(null)` *after* `pack()` - otherwise it won't have the correct size to centre from.
 
 
 ## The Null Layout
@@ -87,7 +87,7 @@ Once the layout is null, every component you add needs its position and size set
 
 ## A Complete Starter Window
 
-Here's the full pattern — with `setupLayout()` stubbed in ready for content, and a background colour set on the panel:
+Here's the full pattern - with `setupLayout()` stubbed in ready for content, and a background colour set on the panel:
 
 
 ![Window Demo](_assets/window-demo.png)
@@ -135,9 +135,9 @@ class MainWindow {
 }
 ```
 
-This gives you a clean, centred, correctly-sized window with a custom background colour — ready to have components added to it.
+This gives you a clean, centred, correctly-sized window with a custom background colour - ready to have components added to it.
 
 > [!IMPORTANT]
-> The `init` block calls setup methods in order: layout first, then window configuration. This order matters — `setupWindow()` needs the panel to already have its `preferredSize` set before `pack()` is called.
+> The `init` block calls setup methods in order: layout first, then window configuration. This order matters - `setupWindow()` needs the panel to already have its `preferredSize` set before `pack()` is called.
 
 Next up: [Adding UI Elements](programming/kotlin/gui/elements.md)

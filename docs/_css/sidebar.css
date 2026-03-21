@@ -1,0 +1,77 @@
+:root {
+    --sidebar-width:                  320px;
+
+    --sidebar-bg:                     var(--color-bg);
+    --sidebar-border-color:           var(--border-color);
+
+    --sidebar-link-spacing:           0.15em;
+    --sidebar-group-spacing:          1rem;
+    --sidebar-group-border:           1px solid var(--sidebar-border-color);
+
+    --sidebar-link-color-hover:       var(--theme-color-5);
+    --sidebar-link-color-active:      var(--theme-color-5);
+
+    --sidebar-sub-link-color:         var(--secondary-color-6);
+    --sidebar-sub-link-color-hover:   var(--secondary-color-8);
+    --sidebar-sub-link-color-active:  var(--theme-color-5);
+}
+
+
+/* Sidebar Nav */
+/* ========================================================================== */
+
+:is(.sidebar a[href]):hover {
+    color: var(--sidebar-link-color-hover);
+}
+
+:is(.sidebar li[aria-current]) > a {
+    color: var(--sidebar-link-color-active);
+    font-weight: 600;
+}
+
+/* Groups */
+
+:is(:is(.app-nav-merged, .sidebar-nav) > ul) > li {
+    padding-bottom: var(--sidebar-group-spacing);
+}
+
+.group:is(:is(:is(.app-nav-merged, .sidebar-nav) > ul) > li) {
+    padding-top: calc(0.25 * var(--sidebar-group-spacing));
+    padding-bottom: var(--sidebar-group-spacing);
+}
+
+/* Group Headings */
+
+:is(:is(.app-nav-merged, .sidebar-nav) li) > p {
+    font-size: 1.1em;
+    color: var(--secondary-color);
+}
+
+/* Section Sub-Links */
+
+:is(:is(.app-nav-merged, .sidebar-nav) > ul) ul.app-sub-sidebar {
+    padding-left: calc(var(--_sidebar-list-inset) * 3.5);
+    font-size: var(--font-size-s);
+    line-height: 1.2;
+    list-style: square;
+
+    a {
+        color: var(--sidebar-sub-link-color);
+        font-weight: normal;
+
+        &:hover {
+            color: var(--sidebar-sub-link-color-hover);
+            text-decoration-color: var(--sidebar-sub-link-color-hover);
+        }
+    }
+
+    li.active a {
+        color: var(--sidebar-sub-link-color-active);
+        font-weight: 600;
+
+        &:hover {
+            text-decoration-color: var(--sidebar-sub-link-color-active);
+        }
+    }
+}
+

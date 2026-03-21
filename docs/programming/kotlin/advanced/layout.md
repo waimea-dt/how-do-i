@@ -1,6 +1,6 @@
 # Laying Out Data in the Console
 
-Plain `println` output can quickly become hard to read. Kotlin gives you tools to align columns, pad values, and draw borders using box-drawing characters — turning raw output into something that looks intentional.
+Plain `println` output can quickly become hard to read. Kotlin gives you tools to align columns, pad values, and draw borders using box-drawing characters - turning raw output into something that looks intentional.
 
 ## Padding and Alignment
 
@@ -31,7 +31,7 @@ println(label2.padEnd(10, '.') + value2.padStart(15, '.'))
 ```
 
 > [!TIP]
-> `padStart` and `padEnd` only add padding — they **never truncate**. If the string is already longer than `n`, it is returned unchanged. Use `.take(n)` first if you need a hard limit.
+> `padStart` and `padEnd` only add padding - they **never truncate**. If the string is already longer than `n`, it is returned unchanged. Use `.take(n)` first if you need a hard limit.
 
 
 ## Formatting Text and Numbers in Columns
@@ -209,7 +209,7 @@ fun main() {
 }
 ```
 
-## Box-Drawing Characters as UIs
+## UIs Built with Box-Drawing Characters
 
 Box-drawing characters have been used for decades to create terminal UIs (TUIs). Before the rise of GUIs in the 80s, many computer applications looked like this:
 

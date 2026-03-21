@@ -1,6 +1,6 @@
 # Changing the Mouse Cursor
 
-By default, Swing uses the standard arrow cursor everywhere. You can change the cursor for any component to give users a visual hint about what they can do — a hand over a clickable element, a crosshair over a draw area, and so on.
+By default, Swing uses the standard arrow cursor everywhere. You can change the cursor for any component to give users a visual hint about what they can do - a hand over a clickable element, a crosshair over a draw area, and so on.
 
 
 ## Setting a Cursor
@@ -20,7 +20,7 @@ Set this in `setupStyles()` alongside fonts and colours.
 
 | Constant | Looks like | Typical use |
 |---|---|---|
-| `Cursor.DEFAULT_CURSOR` | Arrow | Default — most components |
+| `Cursor.DEFAULT_CURSOR` | Arrow | Default - most components |
 | `Cursor.HAND_CURSOR` | Hand / pointer | Clickable buttons, links |
 | `Cursor.CROSSHAIR_CURSOR` | Crosshair | Drawing or selection areas |
 | `Cursor.TEXT_CURSOR` | I-beam | Text input fields |
@@ -44,7 +44,7 @@ panel.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
 ```
 
 
-## Example — Styled Cursor in setupStyles()
+## Example - Styled Cursor in setupStyles()
 
 ```kotlin
 private fun setupStyles() {
@@ -58,5 +58,5 @@ private fun setupStyles() {
 ```
 
 > [!NOTE]
-> Cursor changes are purely cosmetic — they don't affect how events work. A label with a `HAND_CURSOR` doesn't automatically become clickable; you still need to add a listener.
+> Cursor changes are purely cosmetic - they don't affect how events work. A label with a `HAND_CURSOR` doesn't automatically become clickable; you still need to add a listener.
 

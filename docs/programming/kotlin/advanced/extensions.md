@@ -1,6 +1,6 @@
 # Extension Functions
 
-An **extension function** lets you add a new method to an existing type — without touching its source code. The result works just like a built-in method: you call it with dot notation on any value of that type.
+An **extension function** lets you add a new method to an existing type - without touching its source code. The result works just like a built-in method: you call it with dot notation on any value of that type.
 
 This is one of Kotlin's most useful features for keeping code readable.
 
@@ -22,7 +22,7 @@ println("hello".shout())          // HELLO!!!
 println("quiet please".shout())   // QUIET PLEASE!!!
 ```
 
-Inside the function body, `this` refers to the value being extended — in the example above, the `String` the method was called on.
+Inside the function body, `this` refers to the value being extended - in the example above, the `String` the method was called on.
 
 
 ## Why Use Them?
@@ -43,12 +43,12 @@ fun Number.commas(): String = "%,d".format(this)
 println(1000000.commas())    // 1,000,000
 ```
 
-The logic is identical — but the second version makes the intent obvious at the call site.
+The logic is identical - but the second version makes the intent obvious at the call site.
 
 
 ## Real Examples
 
-### `.commas()` — Formatting numbers with separators
+### `.commas()` - Formatting numbers with separators
 
 Used to display large numbers readably (e.g. a score or a price). See the [working with numbers](programming/kotlin/basics/numbers.md) page for more on number formatting.
 
@@ -65,7 +65,7 @@ println(price.commas())    // 1,234
 `Number` is the common parent type of `Int`, `Long`, `Double`, etc., so this works on all of them.
 
 
-### `.scaled()` — Resizing an ImageIcon
+### `.scaled()` - Resizing an ImageIcon
 
 Used when displaying images in a GUI. See the [adding images](programming/kotlin/gui/images.md) page.
 
@@ -101,5 +101,5 @@ class MainWindow {
 ```
 
 > [!NOTE]
-> Extension functions don't actually modify the class — they're just syntactic sugar. Kotlin compiles them to regular static functions behind the scenes. They can only access the public members of the type they extend.
+> Extension functions don't actually modify the class - they're just syntactic sugar. Kotlin compiles them to regular static functions behind the scenes. They can only access the public members of the type they extend.
 

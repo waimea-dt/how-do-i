@@ -1,0 +1,130 @@
+:root {
+    /* Color */
+    --color-bg:                      #1f2428;
+    --color-text:                    #eee;
+
+    --theme-color:                   #68bef8;
+    --secondary-color:               #f2d297;
+
+    --secondary-color-1:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 90%);
+    --secondary-color-2:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 75%);
+    --secondary-color-3:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 55%);
+    --secondary-color-4:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 30%);
+    --secondary-color-5:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 30%);
+    --secondary-color-6:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 55%);
+    --secondary-color-7:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 75%);
+    --secondary-color-8:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 90%);
+
+    --link-color:                     var(--theme-color);
+    --link-color-hover:               var(--theme-color-5);
+    --link-underline-color:           var(--theme-color-4);
+    --link-underline-color-hover:     var(--theme-color-6);
+
+    /* Typography */
+    --font-family:                    system-ui, sans-serif;
+    --font-family-mono:               'JetBrains Mono', ui-monospace, Consolas, monospace;
+    --font-size:                      18px;
+    --font-size-mono:                 1rem;
+    --line-height:                    1.5;
+
+    /* Common */
+    --border-color:                   var(--color-mono-2);
+    --border-radius:                  5px;
+    --margin-block:                   1.5rem;
+
+    /* Content */
+    --content-max-width:              80ch;
+    --content-margin-inline:          4%;
+    --content-margin-block:           45px;
+
+    /* Cover */
+    --cover-bg-overlay:               #1f2428;
+    --cover-title-color:              var(--strong-color);
+
+    /* Elements */
+    --button-bg:                      var(--theme-color-3);
+    --button-border-radius:           100vh;
+
+    --kbd-bg:                         var(--color-mono-2);
+    --kbd-color:                      var(--color-mono-8);
+
+    --mark-bg:                        #fde047;
+    --mark-color:                     var(--color-bg);
+
+    --em-color:                       var(--secondary-color-6);
+    --strong-color:                   var(--secondary-color-6);
+    --strong-font-weight:             600;
+
+    --table-row-alt-bg:               var(--color-mono-1);
+
+    color-scheme: dark;
+}
+
+
+/* Markdown Section */
+/* ========================================================================== */
+
+.markdown-section {
+    margin: var(--content-margin-block) auto 0 auto;
+}
+
+
+/* Headings */
+/* ========================================================================== */
+
+.markdown-section:where(h1, h2, h3, h4, h5, h6) {
+    text-wrap: balance;
+}
+
+.markdown-section:where(h2, h4, h6) {
+    color: var(--secondary-color);
+}
+
+.markdown-section:where(h3, h5) {
+    color: var(--theme-color-5);
+}
+
+
+/* Text */
+/* ========================================================================== */
+
+em {
+    color: var(--em-color);
+}
+
+
+/* Images */
+/* ========================================================================== */
+
+.markdown-section img,
+.markdown-section figure {
+    max-width: 100%;
+    display: block;
+    margin: var(--margin-block) auto;
+}
+
+img[src*="macintosh"] {
+    max-height: 10rem;
+}
+
+
+/* Cover */
+/* ========================================================================== */
+.cover-main a.button.secondary {
+    color: var(--color-text);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* Markdown */
+/* ========================================================================== */
+
+/* Force light mode for iframes in dark theme */
+iframe,
+iframe *,
+iframe[src],
+iframe[src] * {
+  color-scheme: light;
+}
+
+

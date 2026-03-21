@@ -1,6 +1,6 @@
 # Responding to Key Presses
 
-Adding a `KeyListener` to a button or label only works if that component currently has **focus** — the thing that determines which element receives keyboard input. In a game or interactive app, you usually want keys to work regardless of what's focused.
+Adding a `KeyListener` to a button or label only works if that component currently has **focus** - the thing that determines which element receives keyboard input. In a game or interactive app, you usually want keys to work regardless of what's focused.
 
 There are two good ways to do this in Swing.
 
@@ -34,12 +34,12 @@ private fun handleKeyPress(keyCode: Int) {
 ```
 
 > [!NOTE]
-> Returning `false` from the dispatcher lets the event carry on to whichever component normally would have received it. Return `true` to consume it (i.e. stop it going anywhere else) — useful if you don't want WASD keys typing into a text field.
+> Returning `false` from the dispatcher lets the event carry on to whichever component normally would have received it. Return `true` to consume it (i.e. stop it going anywhere else) - useful if you don't want WASD keys typing into a text field.
 
 
 ## Key Codes
 
-Use the constants on `KeyEvent` to identify keys — don't compare against character literals, as key codes represent physical keys rather than characters:
+Use the constants on `KeyEvent` to identify keys - don't compare against character literals, as key codes represent physical keys rather than characters:
 
 | Key | Constant |
 |---|---|
@@ -61,7 +61,7 @@ if (e.isControlDown) { /* ctrl was held */ }
 
 ## Approach 2: Key Bindings (window-scoped)
 
-Swing's **key bindings** system lets you attach an action to a key on a specific component, but with the `WHEN_IN_FOCUSED_WINDOW` condition it fires whenever the **window** is focused — regardless of which element is selected. It's a good fit for a small number of specific shortcuts.
+Swing's **key bindings** system lets you attach an action to a key on a specific component, but with the `WHEN_IN_FOCUSED_WINDOW` condition it fires whenever the **window** is focused - regardless of which element is selected. It's a good fit for a small number of specific shortcuts.
 
 ```kotlin
 import javax.swing.AbstractAction
@@ -81,7 +81,7 @@ private fun setupActions() {
 }
 ```
 
-Use `WHEN_IN_FOCUSED_WINDOW` rather than `WHEN_FOCUSED` — the latter only fires if the panel itself has focus, which defeats the purpose.
+Use `WHEN_IN_FOCUSED_WINDOW` rather than `WHEN_FOCUSED` - the latter only fires if the panel itself has focus, which defeats the purpose.
 
 > [!TIP]
 > Key bindings are better for hotkeys (Escape, F5, Ctrl+Z). For continuous directional input like WASD, `KeyboardFocusManager` is simpler to work with.

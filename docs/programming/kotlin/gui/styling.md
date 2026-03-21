@@ -1,6 +1,6 @@
 # Styling UI Elements
 
-Once your [elements are on screen](programming/kotlin/gui/elements.md), you can control how they look — font, size, colour, alignment, and borders. All of this happens in `setupStyles()`.
+Once your [elements are on screen](programming/kotlin/gui/elements.md), you can control how they look - font, size, colour, alignment, and borders. All of this happens in `setupStyles()`.
 
 
 ## Fonts
@@ -15,13 +15,13 @@ bodyLabel.font  = Font(Font.SANS_SERIF, Font.PLAIN, 16)
 noteLabel.font  = Font(Font.SANS_SERIF, Font.ITALIC, 14)
 ```
 
-For the font family, use these built-in constants rather than hardcoding a font name — they're guaranteed to work on every platform:
+For the font family, use these built-in constants rather than hardcoding a font name - they're guaranteed to work on every platform:
 
 | Constant | What you get |
 |---|---|
-| `Font.SANS_SERIF` | Clean, modern — good for most UIs |
-| `Font.SERIF` | Traditional with serifs — more formal |
-| `Font.MONOSPACED` | Fixed-width — great for code or numbers |
+| `Font.SANS_SERIF` | Clean, modern - good for most UIs |
+| `Font.SERIF` | Traditional with serifs - more formal |
+| `Font.MONOSPACED` | Fixed-width - great for code or numbers |
 
 ![Font Demo](_assets/font-demo.png)
 
@@ -35,7 +35,7 @@ label.font = Font(Font.SANS_SERIF, Font.BOLD + Font.ITALIC, 20)
 
 ## Colours
 
-Colours are set using the `Color` class. The easiest way is to pass a hex value — the same format used in CSS:
+Colours are set using the `Color` class. The easiest way is to pass a hex value - the same format used in CSS:
 
 ```kotlin
 import java.awt.Color
@@ -62,7 +62,7 @@ val purple = Color(148, 85, 211)
 
 ### Background Colour on Labels
 
-By default, `JLabel` is transparent — setting `background` has no visible effect. To make the background colour show, set `isOpaque = true`:
+By default, `JLabel` is transparent - setting `background` has no visible effect. To make the background colour show, set `isOpaque = true`:
 
 ```kotlin
 tagLabel.background = Color(0xcc0055)
@@ -92,7 +92,7 @@ import javax.swing.BorderFactory
 // Simple line border
 nameField.setBorder(BorderFactory.createLineBorder(Color(0x89b4fa), 2))
 
-// Empty border — useful as padding (top, left, bottom, right)
+// Empty border - useful as padding (top, left, bottom, right)
 textLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8))
 ```
 
@@ -100,7 +100,7 @@ textLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8))
 
 
 > [!TIP]
-> FlatLAF overrides many default borders on buttons and text fields to give them its clean look. If you set a border on a `JButton`, it may conflict with the FlatLAF styling — use `isBorderPainted = false` to remove the default border first if needed.
+> FlatLAF overrides many default borders on buttons and text fields to give them its clean look. If you set a border on a `JButton`, it may conflict with the FlatLAF styling - use `isBorderPainted = false` to remove the default border first if needed.
 
 
 ## Putting It Together

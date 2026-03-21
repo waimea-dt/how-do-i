@@ -1,6 +1,6 @@
 # Adding Images to Your UI
 
-Swing uses `ImageIcon` to display images. You can put one on a `JLabel` or a `JButton` — both support icons out of the box.
+Swing uses `ImageIcon` to display images. You can put one on a `JLabel` or a `JButton` - both support icons out of the box.
 
 
 ## Where to Put Image Files
@@ -29,7 +29,7 @@ val icon = ImageIcon(ClassLoader.getSystemResource("images/player.png"))
 ```
 
 > [!IMPORTANT]
-> Don't use a plain file path like `ImageIcon("src/main/resources/images/player.png")` — this breaks when the app is packaged into a JAR. Always use `ClassLoader`.
+> Don't use a plain file path like `ImageIcon("src/main/resources/images/player.png")` - this breaks when the app is packaged into a JAR. Always use `ClassLoader`.
 
 
 ## Scaling Images
@@ -84,7 +84,7 @@ avatarLabel.horizontalTextPosition = SwingConstants.CENTER
 avatarLabel.verticalTextPosition   = SwingConstants.BOTTOM
 ```
 
-Swap the icon at any time — useful for animation or state changes:
+Swap the icon at any time - useful for animation or state changes:
 
 ```kotlin
 avatarLabel.icon = playerIconHit    // Switch to the "hit" frame
@@ -94,7 +94,7 @@ avatarLabel.icon = playerIcon       // Switch back
 
 ## Images on a JButton
 
-`JButton` also has an `icon` property. This is handy for image buttons — a cookie to click, a card to flip, and so on. You can show text on top of the image by setting the text position:
+`JButton` also has an `icon` property. This is handy for image buttons - a cookie to click, a card to flip, and so on. You can show text on top of the image by setting the text position:
 
 ```kotlin
 val cookieButton = JButton(cookieIcon)

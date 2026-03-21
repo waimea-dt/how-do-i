@@ -1,13 +1,13 @@
 # Dialog (Pop-Up) Windows
 
-Sometimes you need a small pop-up — to show a message, ask a yes/no question, or prompt for some input. Swing gives you two options: `JOptionPane` for quick built-in dialogs, and `JDialog` when you need something custom.
+Sometimes you need a small pop-up - to show a message, ask a yes/no question, or prompt for some input. Swing gives you two options: `JOptionPane` for quick built-in dialogs, and `JDialog` when you need something custom.
 
 ![Dialog error demo](_assets/dialog-error.png)
 
 
-## JOptionPane — Quick Built-In Dialogs
+## JOptionPane - Quick Built-In Dialogs
 
-`JOptionPane` handles the most common cases with a single line of code. All of its methods are static — no object needed.
+`JOptionPane` handles the most common cases with a single line of code. All of its methods are static - no object needed.
 
 
 ### Showing a Message
@@ -18,7 +18,7 @@ Displays a message and an OK button. Blocks until the user dismisses it.
 JOptionPane.showMessageDialog(frame, "Game over! Better luck next time.")
 ```
 
-The first argument is the **parent window** — Swing uses it to centre the dialog over the right window. Pass `frame` from your `MainWindow`, or `null` to centre on screen.
+The first argument is the **parent window** - Swing uses it to centre the dialog over the right window. Pass `frame` from your `MainWindow`, or `null` to centre on screen.
 
 You can also set the dialog type to change the icon shown:
 
@@ -58,7 +58,7 @@ JOptionPane.showMessageDialog(
 
 ### Asking a Yes/No Question
 
-`showConfirmDialog` returns an `Int` — compare against `JOptionPane.YES_OPTION`:
+`showConfirmDialog` returns an `Int` - compare against `JOptionPane.YES_OPTION`:
 
 ```kotlin
 val result = JOptionPane.showConfirmDialog(
@@ -77,7 +77,7 @@ if (result == JOptionPane.YES_OPTION) {
 
 ### Asking for Text Input
 
-`showInputDialog` shows a text field and returns the typed string — or `null` if the user cancelled:
+`showInputDialog` shows a text field and returns the typed string - or `null` if the user cancelled:
 
 ```kotlin
 val name = JOptionPane.showInputDialog(
@@ -94,9 +94,9 @@ if (!name.isNullOrBlank()) {
 ![Dialog text demo](_assets/dialog-text.png)
 
 
-## JDialog — Custom Dialogs
+## JDialog - Custom Dialogs
 
-When you need a more complex pop-up — with multiple elements, your own layout, or specific behaviour — use `JDialog`. Structure it exactly like a `MainWindow`, but extending `JDialog` instead of wrapping a `JFrame`.
+When you need a more complex pop-up - with multiple elements, your own layout, or specific behaviour - use `JDialog`. Structure it exactly like a `MainWindow`, but extending `JDialog` instead of wrapping a `JFrame`.
 
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
