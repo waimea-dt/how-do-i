@@ -1,13 +1,13 @@
 # Responding to Key Presses
 
-Adding a `KeyListener` to a button or label only works if that component currently has **focus** - the thing that determines which element receives keyboard input. In a game or interactive app, you usually want keys to work regardless of what's focused.
+Adding a `KeyListener`(kotlin) to a button or label only works if that component currently has **focus** - the thing that determines which element receives keyboard input. In a game or interactive app, you usually want keys to work regardless of what's focused.
 
 There are two good ways to do this in Swing.
 
 
 ## Approach 1: KeyboardFocusManager (recommended)
 
-`KeyboardFocusManager` sits at the top of Swing's event pipeline. Adding a `KeyEventDispatcher` to it means you see **every key event** in the app before any component does.
+`KeyboardFocusManager`(kotlin) sits at the top of Swing's event pipeline. Adding a `KeyEventDispatcher`(kotlin) to it means you see **every key event** in the app before any component does.
 
 ```kotlin
 import java.awt.KeyboardFocusManager
@@ -34,22 +34,22 @@ private fun handleKeyPress(keyCode: Int) {
 ```
 
 > [!NOTE]
-> Returning `false` from the dispatcher lets the event carry on to whichever component normally would have received it. Return `true` to consume it (i.e. stop it going anywhere else) - useful if you don't want WASD keys typing into a text field.
+> Returning `false`(kotlin) from the dispatcher lets the event carry on to whichever component normally would have received it. Return `true`(kotlin) to consume it (i.e. stop it going anywhere else) - useful if you don't want WASD keys typing into a text field.
 
 
 ## Key Codes
 
-Use the constants on `KeyEvent` to identify keys - don't compare against character literals, as key codes represent physical keys rather than characters:
+Use the constants on `KeyEvent`(kotlin) to identify keys - don't compare against character literals, as key codes represent physical keys rather than characters:
 
 | Key | Constant |
 |---|---|
-| W A S D | `VK_W` `VK_A` `VK_S` `VK_D` |
-| Arrow keys | `VK_UP` `VK_DOWN` `VK_LEFT` `VK_RIGHT` |
-| Space | `VK_SPACE` |
-| Enter | `VK_ENTER` |
-| Escape | `VK_ESCAPE` |
-| 0–9 | `VK_0` … `VK_9` |
-| F1–F12 | `VK_F1` … `VK_F12` |
+| W A S D | `VK_W`(kotlin) `VK_A`(kotlin) `VK_S`(kotlin) `VK_D`(kotlin) |
+| Arrow keys | `VK_UP`(kotlin) `VK_DOWN`(kotlin) `VK_LEFT`(kotlin) `VK_RIGHT`(kotlin) |
+| Space | `VK_SPACE`(kotlin) |
+| Enter | `VK_ENTER`(kotlin) |
+| Escape | `VK_ESCAPE`(kotlin) |
+| 0–9 | `VK_0`(kotlin) … `VK_9`(kotlin) |
+| F1–F12 | `VK_F1`(kotlin) … `VK_F12`(kotlin) |
 
 Check for modifier keys (Shift, Ctrl, etc.) using the event's modifier flags:
 
@@ -61,7 +61,7 @@ if (e.isControlDown) { /* ctrl was held */ }
 
 ## Approach 2: Key Bindings (window-scoped)
 
-Swing's **key bindings** system lets you attach an action to a key on a specific component, but with the `WHEN_IN_FOCUSED_WINDOW` condition it fires whenever the **window** is focused - regardless of which element is selected. It's a good fit for a small number of specific shortcuts.
+Swing's **key bindings** system lets you attach an action to a key on a specific component, but with the `WHEN_IN_FOCUSED_WINDOW`(kotlin) condition it fires whenever the **window** is focused - regardless of which element is selected. It's a good fit for a small number of specific shortcuts.
 
 ```kotlin
 import javax.swing.AbstractAction
@@ -81,15 +81,15 @@ private fun setupActions() {
 }
 ```
 
-Use `WHEN_IN_FOCUSED_WINDOW` rather than `WHEN_FOCUSED` - the latter only fires if the panel itself has focus, which defeats the purpose.
+Use `WHEN_IN_FOCUSED_WINDOW`(kotlin) rather than `WHEN_FOCUSED`(kotlin) - the latter only fires if the panel itself has focus, which defeats the purpose.
 
 > [!TIP]
-> Key bindings are better for hotkeys (Escape, F5, Ctrl+Z). For continuous directional input like WASD, `KeyboardFocusManager` is simpler to work with.
+> Key bindings are better for hotkeys (Escape, F5, Ctrl+Z). For continuous directional input like WASD, `KeyboardFocusManager`(kotlin) is simpler to work with.
 
 
 ## Tracking Held Keys
 
-`KEY_PRESSED` fires once when a key goes down, then repeats after a short delay. For smooth game movement, track which keys are *currently held* using a set, updating it on both press and release:
+`KEY_PRESSED`(kotlin) fires once when a key goes down, then repeats after a short delay. For smooth game movement, track which keys are *currently held* using a set, updating it on both press and release:
 
 ```kotlin
 private val heldKeys = mutableSetOf<Int>()
@@ -121,5 +121,5 @@ private fun gameLoop() {
 }
 ```
 
-See the [timers page](programming/kotlin/gui/timers.md) for how to set up a game loop timer that calls `gameLoop()` repeatedly.
+See the [timers page](programming/kotlin/gui/timers.md) for how to set up a game loop timer that calls `gameLoop()`(kotlin) repeatedly.
 

@@ -26,15 +26,15 @@ Swing provides a collection of ready-made component classes. The most common one
 
 | Class | What it is |
 |-------|------------|
-| `JFrame` | The main application window |
-| `JPanel` | A container for grouping components |
-| `JLabel` | A piece of text displayed on screen |
-| `JButton` | A clickable button |
-| `JTextField` | A single-line text input |
-| `JTextArea` | A multi-line text input |
-| `JCheckBox` | A tick box |
-| `JComboBox` | A dropdown list |
-| `JList` | A selectable list of items |
+| `JFrame`(kotlin) | The main application window |
+| `JPanel`(kotlin) | A container for grouping components |
+| `JLabel`(kotlin) | A piece of text displayed on screen |
+| `JButton`(kotlin) | A clickable button |
+| `JTextField`(kotlin) | A single-line text input |
+| `JTextArea`(kotlin) | A multi-line text input |
+| `JCheckBox`(kotlin) | A tick box |
+| `JComboBox`(kotlin) | A dropdown list |
+| `JList`(kotlin) | A selectable list of items |
 
 You create objects from these classes, configure them, and add them to a window - that's essentially all there is to building a Swing GUI.
 
@@ -54,10 +54,10 @@ fun main() {
 }
 ```
 
-- `JFrame("Hello Swing")` - creates the window with a title bar
-- `setSize(400, 300)` - sets the width and height in pixels
-- `defaultCloseOperation` - tells Swing to quit the program when the window is closed
-- `isVisible = true` - makes the window appear
+- `JFrame("Hello Swing")`(kotlin) - creates the window with a title bar
+- `setSize(400, 300)`(kotlin) - sets the width and height in pixels
+- `defaultCloseOperation`(kotlin) - tells Swing to quit the program when the window is closed
+- `isVisible = true`(kotlin) - makes the window appear
 
 ![Swing Demo](_assets/swing-demo.png)
 

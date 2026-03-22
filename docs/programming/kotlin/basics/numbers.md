@@ -4,9 +4,9 @@ The most commonly used numeric types are:
 
 | Type | Description | Size (bits) | Range |
 |------|-------------|-------|-----|
-| `Int` | for integer, whole numbers | 32 | ±2,147,483,647 |
-| `Long` | for very large whole numbers | 64 | ±9,223,372,036,854,775,807 |
-| `Double` | for decimal numbers | 64 | ±very large! (10<sup>308</sup>) |
+| `Int`(kotlin) | for integer, whole numbers | 32 | ±2,147,483,647 |
+| `Long`(kotlin) | for very large whole numbers | 64 | ±9,223,372,036,854,775,807 |
+| `Double`(kotlin) | for decimal numbers | 64 | ±very large! (10<sup>308</sup>) |
 
 
 ## Writing Numeric Values
@@ -21,16 +21,16 @@ var cost: Double = 123.45              // Decimal point
 ```
 
 > [!TIP]
-> Underscores can be placed anywhere in a numeric literal to make large numbers easier to read - they are ignored by Kotlin. `4_500_000_000L` is identical to `4500000000L`.
+> Underscores can be placed anywhere in a numeric literal to make large numbers easier to read - they are ignored by Kotlin. `4_500_000_000L`(kotlin) is identical to `4500000000L`(kotlin).
 
 ## Numeric Ranges
 
 To create a range of values, the range operators can be used:
 
-- `A..B` give a range from A to B (inclusive of A and B)
-- `A..<B` give a range from A *up to* B (but not including B)
-- `A downTo B` give a range counting **down** from A to B
-- `A..B step N` give a range that advances by N each step
+- `A..B`(kotlin) give a range from A to B (inclusive of A and B)
+- `A..<B`(kotlin) give a range from A *up to* B (but not including B)
+- `A downTo B`(kotlin) give a range counting **down** from A to B
+- `A..B step N`(kotlin) give a range that advances by N each step
 
 For example...
 
@@ -74,13 +74,13 @@ for (i in 0..20 step 5) {
 
 For mathematical operations:
 
-- `+` for **addition**
-- `-` for **subtraction**
-- `*` for **multiplication**
-- `/` for **division**
-- `%` for **modulus** (remainder of a division)
-- `++` to **increment** by one
-- `--` to **decrement** by one
+- `+`(kotlin) for **addition**
+- `-`(kotlin) for **subtraction**
+- `*`(kotlin) for **multiplication**
+- `/`(kotlin) for **division**
+- `%`(kotlin) for **modulus** (remainder of a division)
+- `++`(kotlin) to **increment** by one
+- `--`(kotlin) to **decrement** by one
 
 Example of **arithmetic** operators...
 
@@ -102,7 +102,8 @@ println("Take home:  $takeHome")
 
 > [!NOTE]
 > An **Int divided by an Int** will result in an **Int** value - any decimal places will be lost.
-> To get the exact decimal answer, at least one value needs to be a **Double**. So, in the above example we should change the line to: `val payRate = total.toDouble() / hours`. Try editing the code and see how the result changes
+>
+> To get the exact decimal answer, at least one value needs to be a **Double**. So, in the above example we should change the line to: `val payRate = total.toDouble() / hours`(kotlin). Try editing the code and see how the result changes
 
 
 Example of **modulus** operator...
@@ -141,7 +142,7 @@ cost  = cost * 2
 value = value / 10
 ```
 
-... then there are shortened form: `+=`, `-=`, `*=`, etc...
+... then there are shortened form: `+=`(kotlin), `-=`(kotlin), `*=`(kotlin), etc...
 
 ```kotlin
 score += 100
@@ -153,7 +154,7 @@ value /= 10
 
 ## Converting Between Types
 
-Kotlin is strict about types - you can't use an `Int` where a `Double` is expected without explicitly converting it. Use the built-in conversion methods:
+Kotlin is strict about types - you can't use an `Int`(kotlin) where a `Double`(kotlin) is expected without explicitly converting it. Use the built-in conversion methods:
 
 ```kotlin run
 val score: Int    = 42
@@ -184,12 +185,12 @@ println(stringToDouble)
 ```
 
 > [!TIP]
-> `.toInt()` on a `Double` **truncates** - it drops the decimal part without rounding. To round to the nearest integer, use `round(n).toInt()` from `kotlin.math`.
+> `.toInt()`(kotlin) on a `Double`(kotlin) **truncates** - it drops the decimal part without rounding. To round to the nearest integer, use `round(n).toInt()`(kotlin) from `kotlin.math`(kotlin).
 
 
 ## Maths Functions
 
-Kotlin's `kotlin.math` library provides common mathematical functions. Import it at the top of your file:
+Kotlin's `kotlin.math`(kotlin) library provides common mathematical functions. Import it at the top of your file:
 
 ```kotlin
 import kotlin.math.*
@@ -237,7 +238,7 @@ println(Random.nextDouble(0.0, 1.0))  // random double between 0 and 1
 ```
 
 > [!NOTE]
-> `Random.nextInt(from, until)` - note that `until` is **exclusive**, so `nextInt(1, 7)` gives values 1–6.
+> `Random.nextInt(from, until)`(kotlin) - note that `until`(kotlin) is **exclusive**, so `nextInt(1, 7)`(kotlin) gives values 1–6.
 
 
 ## Formatting Numbers
@@ -266,22 +267,22 @@ println(score.commas())         // 9,001,000
 ```
 
 > [!NOTE]
-> An extension function adds a new method to an existing type without changing its source code. Here, `.commas()` works on `Int`, `Long`, or any other `Number` type.
+> An extension function adds a new method to an existing type without changing its source code. Here, `.commas()`(kotlin) works on `Int`(kotlin), `Long`(kotlin), or any other `Number`(kotlin) type.
 
 
 ## Useful Maths Functions Summary
 
 | Function | What it does |
 |----------|-------------|
-| `abs(n)` | Absolute value (removes negative sign) |
-| `round(n)` | Round to nearest (returns `Double`) |
-| `floor(n)` | Round down |
-| `ceil(n)` | Round up |
-| `n.pow(exp)` | `n` to the power of `exp` |
-| `sqrt(n)` | Square root |
-| `min(a, b)` | Smaller of two values |
-| `max(a, b)` | Larger of two values |
-| `n.coerceIn(min, max)` | Clamp `n` between `min` and `max` |
-| `Random.nextInt(from, until)` | Random integer in range |
-| `Random.nextDouble(from, until)` | Random decimal in range |
+| `abs(n)`(kotlin) | Absolute value (removes negative sign) |
+| `round(n)`(kotlin) | Round to nearest (returns `Double`) |
+| `floor(n)`(kotlin) | Round down |
+| `ceil(n)`(kotlin) | Round up |
+| `n.pow(exp)`(kotlin) | `n` to the power of `exp` |
+| `sqrt(n)`(kotlin) | Square root |
+| `min(a, b)`(kotlin) | Smaller of two values |
+| `max(a, b)`(kotlin) | Larger of two values |
+| `n.coerceIn(min, max)`(kotlin) | Clamp `n` between `min` and `max` |
+| `Random.nextInt(from, until)`(kotlin) | Random integer in range |
+| `Random.nextDouble(from, until)`(kotlin) | Random decimal in range |
 

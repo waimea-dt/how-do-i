@@ -33,7 +33,7 @@ Wizard: Merlin    ← another real Wizard
 Wizard: Saruman   ← another real Wizard
 ```
 
-In Kotlin, define a class with `class`, then create objects from it:
+In Kotlin, define a class with `class`(kotlin), then create objects from it:
 
 ```kotlin
 class Wizard {
@@ -82,7 +82,7 @@ fun main() {
 ```
 
 > [!NOTE]
-> `gandalf` and `merlin` are both `Wizard` objects, but each has its **own** `name` and `mana` - they are completely independent of each other.
+> `gandalf`(kotlin) and `merlin`(kotlin) are both `Wizard`(kotlin) objects, but each has its **own** `name`(kotlin) and `mana`(kotlin) - they are completely independent of each other.
 
 
 ## Encapsulation
@@ -128,7 +128,7 @@ fun main() {
 ```
 
 > [!NOTE]
-> The `private` keyword means `balance` can only be changed through `deposit()` and `withdraw()` - no outside code can set it to an arbitrary value.
+> The `private`(kotlin) keyword means `balance`(kotlin) can only be changed through `deposit()`(kotlin) and `withdraw()`(kotlin) - no outside code can set it to an arbitrary value.
 
 
 ## Sending 'Messages' Between Objects
@@ -172,7 +172,7 @@ fun main() {
 ```
 
 > [!NOTE]
-> The customer (the `main` function) only talks to the `Waiter`. It has no idea a `Chef` even exists - that's an internal detail. This is the key idea of OOP: objects hide their complexity and expose only what others need to know.
+> The customer (the `main`(kotlin) function) only talks to the `Waiter`(kotlin). It has no idea a `Chef`(kotlin) even exists - that's an internal detail. This is the key idea of OOP: objects hide their complexity and expose only what others need to know.
 
 ```mermaid
 sequenceDiagram

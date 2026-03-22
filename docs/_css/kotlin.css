@@ -1,3 +1,7 @@
+.markdown-section .kotlin-run {
+    margin-block: var(--margin-block);
+}
+
 .language-kotlin {
     /* margin-bottom: 2.5em; */
 }

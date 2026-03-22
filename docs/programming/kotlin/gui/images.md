@@ -1,6 +1,6 @@
 # Adding Images to Your UI
 
-Swing uses `ImageIcon` to display images. You can put one on a `JLabel` or a `JButton` - both support icons out of the box.
+Swing uses `ImageIcon`(kotlin) to display images. You can put one on a `JLabel`(kotlin) or a `JButton`(kotlin) - both support icons out of the box.
 
 
 ## Where to Put Image Files
@@ -22,14 +22,14 @@ src/
 
 ## Loading an Image
 
-Load images using `ClassLoader.getSystemResource()`, which finds files from the resources folder regardless of where the app is run from. Wrap it in `ImageIcon`:
+Load images using `ClassLoader.getSystemResource()`(kotlin), which finds files from the resources folder regardless of where the app is run from. Wrap it in `ImageIcon`(kotlin):
 
 ```kotlin
 val icon = ImageIcon(ClassLoader.getSystemResource("images/player.png"))
 ```
 
 > [!IMPORTANT]
-> Don't use a plain file path like `ImageIcon("src/main/resources/images/player.png")` - this breaks when the app is packaged into a JAR. Always use `ClassLoader`.
+> Don't use a plain file path like `ImageIcon("src/main/resources/images/player.png")`(kotlin) - this breaks when the app is packaged into a JAR. Always use `ClassLoader`(kotlin).
 
 
 ## Scaling Images
@@ -41,7 +41,7 @@ val icon = ImageIcon(ClassLoader.getSystemResource("images/player.png"))
 val scaled = ImageIcon(icon.image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH))
 ```
 
-`SCALE_SMOOTH` produces the best quality result. The alternative `SCALE_FAST` is quicker but lower quality.
+`SCALE_SMOOTH`(kotlin) produces the best quality result. The alternative `SCALE_FAST`(kotlin) is quicker but lower quality.
 
 Since you'll do this a lot, it's worth adding a small extension function at the top of your file:
 
@@ -59,7 +59,7 @@ val icon = ImageIcon(ClassLoader.getSystemResource("images/player.png")).scaled(
 
 ## Declaring Icons at Class Level
 
-Load icons as class-level properties so they're created once at startup, not every time the UI updates. Recreating `ImageIcon` objects repeatedly is slow:
+Load icons as class-level properties so they're created once at startup, not every time the UI updates. Recreating `ImageIcon`(kotlin) objects repeatedly is slow:
 
 ```kotlin
 class MainWindow {
@@ -72,7 +72,7 @@ class MainWindow {
 
 ## Images on a JLabel
 
-Set the `icon` property on a `JLabel`. You can have an icon alongside text, or just the icon on its own:
+Set the `icon`(kotlin) property on a `JLabel`(kotlin). You can have an icon alongside text, or just the icon on its own:
 
 ```kotlin
 // Icon only
@@ -94,7 +94,7 @@ avatarLabel.icon = playerIcon       // Switch back
 
 ## Images on a JButton
 
-`JButton` also has an `icon` property. This is handy for image buttons - a cookie to click, a card to flip, and so on. You can show text on top of the image by setting the text position:
+`JButton`(kotlin) also has an `icon`(kotlin) property. This is handy for image buttons - a cookie to click, a card to flip, and so on. You can show text on top of the image by setting the text position:
 
 ```kotlin
 val cookieButton = JButton(cookieIcon)

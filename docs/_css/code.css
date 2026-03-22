@@ -87,7 +87,6 @@
     background-color: var(--code-color-back);
     font-family: var(--code-font-family), monospace;
     font-optical-sizing: auto;
-    font-variant-ligatures: none;
     word-break: normal;
 }
 
@@ -129,6 +128,15 @@
     padding: 0.05em 0.5em;
     border: 1px solid var(--code-border-color);
     border-radius: 0.3em;
+}
+
+
+/* Turn off code ligatures for clarity */
+.markdown-section code[class*="language-"] *,
+.markdown-section pre[class*="language-"] *,
+.markdown-section .code-output {
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "calt" 0;
 }
 
 /* Selection */

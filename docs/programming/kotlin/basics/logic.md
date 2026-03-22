@@ -4,14 +4,14 @@
 
 When comparing two values, use:
 
-- `==` is **equal** to
-- `!=` is **not equal** to
-- `>` is **greater** than
-- `>=` is **greater or equal** to
-- `<` is **less** than
-- `<=` is **less or equal** to
-- `in` is **contained in**
-- `!in` is **not contained in**
+- `==`(kotlin) is **equal** to
+- `!=`(kotlin) is **not equal** to
+- `>`(kotlin) is **greater** than
+- `>=`(kotlin) is **greater or equal** to
+- `<`(kotlin) is **less** than
+- `<=`(kotlin) is **less or equal** to
+- `in`(kotlin) is **contained in**
+- `!in`(kotlin) is **not contained in**
 
 
 For example...
@@ -53,8 +53,8 @@ if (grade !in "ABCDEF") {
 
 To create a range of values, the range operators can be used:
 
-- `A..B` give a range from A to B (inclusive of A and B)
-- `A..<B` give a range from A *up to* B (but not including B)
+- `A..B`(kotlin) give a range from A to B (inclusive of A and B)
+- `A..<B`(kotlin) give a range from A *up to* B (but not including B)
 
 For example...
 
@@ -80,11 +80,11 @@ for (i in 0..<colours.size) {
 
 For logical operations on boolean values:
 
-- `&&` for **AND** (*both* values must be true)
-- `||` for **OR** (*at least one* value must be true)
-- `!` for **NOT** (*reverses* the value)
+- `&&`(kotlin) for **AND** (*both* values must be true)
+- `||`(kotlin) for **OR** (*at least one* value must be true)
+- `!`(kotlin) for **NOT** (*reverses* the value)
 
-AND example...
+**AND, `&&`(kotlin), example:**
 
 ```kotlin run
 val loggedIn = true
@@ -95,7 +95,7 @@ if (loggedIn && isAdmin) {
 }
 ```
 
-OR example...
+**OR, `||`(kotlin), example:**
 
 ```kotlin run
 var lives    = 0
@@ -108,7 +108,7 @@ if (lives > 0 || cheatsOn) {
 }
 ```
 
-NOT example...
+**NOT, `!`(kotlin), example:**
 
 ```kotlin run
 val isBlocked = false

@@ -3,8 +3,8 @@
 ## Variable Declaration
 
 Variables in Kotlin are declared using either:
-- `val` for immutable **val**ues which can't be altered
-- `var` for mutable **var**iables which can be changed
+- `val`(kotlin) for immutable **val**ues which can't be altered
+- `var`(kotlin) for mutable **var**iables which can be changed
 
 ```kotlin
 val name: String     // Value is fixed (immutable)
@@ -24,7 +24,7 @@ var score = 1000
 
 ## Variable Types
 
-If you are assigning a value at the same time as declaring a variable, you don't need to specify the variable type, Kotlin will infer it. But, if you are just declaring the variable, you must specify the type using `: Type`
+If you are assigning a value at the same time as declaring a variable, you don't need to specify the variable type, Kotlin will infer it. But, if you are just declaring the variable, you must specify the type using `: Type`(kotlin)
 
 ```kotlin
 val name: String               // String type specified
@@ -34,12 +34,12 @@ var likesCats = true           // Boolean type is inferred
 ```
 
 The most common types you will be using:
-- `String`- for text
-- `Char` - for single characters
-- `Int` - for integer, whole numbers
-- `Long` - for very large whole numbers
-- `Double` - for decimal numbers
-- `Boolean` - for true/false values
+- `String`(kotlin) - for text
+- `Char`(kotlin) - for single characters
+- `Int`(kotlin) - for integer, whole numbers
+- `Long`(kotlin) - for very large whole numbers
+- `Double`(kotlin) - for decimal numbers
+- `Boolean`(kotlin) - for true/false values
 
 ```kotlin
 val name: String = "Steve"
@@ -51,7 +51,7 @@ var isAlive: Boolean = true
 ```
 
 > [!NOTE]
-> In Kotlin, **Strings** are wrapped with **double speech marks**: `"Hello"`, while **Chars** are wrapped with **single speech marks**: `'Z'`
+> In Kotlin, **Strings** are wrapped with **double speech marks**: `"Hello"`(kotlin), while **Chars** are wrapped with **single speech marks**: `'Z'`(kotlin)
 
 
 ## Naming Variables
@@ -80,18 +80,18 @@ var likes cats = true        // Can't have spaces
 ```
 
 > [!NOTE]
-> Kotlin variables **cannot hold `null` by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](programming/kotlin/advanced/errors.md) page.
+> Kotlin variables **cannot hold `null`(kotlin) by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](programming/kotlin/advanced/errors.md) page.
 
 
 ## Variable Scope
 
 **Scope** determines where in your code a variable can be accessed.
 
-A variable only exists inside the **block** it was declared in - a block is any section of code wrapped in `{ }`.
+A variable only exists inside the **block** it was declared in - a block is any section of code wrapped in `{ }`(kotlin).
 
 ### Local Variables
 
-A variable declared inside a function, loop, or `if` block is **local** to that block. It cannot be accessed outside it:
+A variable declared inside a function, loop, or `if`(kotlin) block is **local** to that block. It cannot be accessed outside it:
 
 ```kotlin run
 fun greet() {
@@ -109,7 +109,7 @@ for (i in 1..3) {
     println("$i² = $squared")
 }
 
-// println(squared)   // ✗ Error - 'squared' doesn't exist here
+println(squared)   // ✗ Error - 'squared' doesn't exist here
 ```
 
 ### Nested Scope
@@ -125,13 +125,13 @@ fun main() {
         println("$player gets $bonus points!")   // ✓ can see player
     }
 
-    // println(bonus)   // ✗ Error - 'bonus' only exists in the if block
+    println(bonus)   // ✗ Error - 'bonus' only exists in the if block
 }
 ```
 
-### Top-Level Variables
+### Top-Level (Global) Variables
 
-Variables declared **outside any function** are top-level - they can be accessed from anywhere in the file:
+Variables declared **outside any function** are called 'top-level' or 'global' variables - they can be accessed from anywhere in the file:
 
 ```kotlin run
 val maxScore = 100     // top-level - visible everywhere

@@ -1,13 +1,13 @@
 # Dialog (Pop-Up) Windows
 
-Sometimes you need a small pop-up - to show a message, ask a yes/no question, or prompt for some input. Swing gives you two options: `JOptionPane` for quick built-in dialogs, and `JDialog` when you need something custom.
+Sometimes you need a small pop-up - to show a message, ask a yes/no question, or prompt for some input. Swing gives you two options: `JOptionPane`(kotlin) for quick built-in dialogs, and `JDialog`(kotlin) when you need something custom.
 
 ![Dialog error demo](_assets/dialog-error.png)
 
 
 ## JOptionPane - Quick Built-In Dialogs
 
-`JOptionPane` handles the most common cases with a single line of code. All of its methods are static - no object needed.
+`JOptionPane`(kotlin) handles the most common cases with a single line of code. All of its methods are static - no object needed.
 
 
 ### Showing a Message
@@ -18,7 +18,7 @@ Displays a message and an OK button. Blocks until the user dismisses it.
 JOptionPane.showMessageDialog(frame, "Game over! Better luck next time.")
 ```
 
-The first argument is the **parent window** - Swing uses it to centre the dialog over the right window. Pass `frame` from your `MainWindow`, or `null` to centre on screen.
+The first argument is the **parent window** - Swing uses it to centre the dialog over the right window. Pass `frame`(kotlin) from your `MainWindow`(kotlin), or `null`(kotlin) to centre on screen.
 
 You can also set the dialog type to change the icon shown:
 
@@ -58,7 +58,7 @@ JOptionPane.showMessageDialog(
 
 ### Asking a Yes/No Question
 
-`showConfirmDialog` returns an `Int` - compare against `JOptionPane.YES_OPTION`:
+`showConfirmDialog`(kotlin) returns an `Int`(kotlin) - compare against `JOptionPane.YES_OPTION`(kotlin):
 
 ```kotlin
 val result = JOptionPane.showConfirmDialog(
@@ -77,7 +77,7 @@ if (result == JOptionPane.YES_OPTION) {
 
 ### Asking for Text Input
 
-`showInputDialog` shows a text field and returns the typed string - or `null` if the user cancelled:
+`showInputDialog`(kotlin) shows a text field and returns the typed string - or `null`(kotlin) if the user cancelled:
 
 ```kotlin
 val name = JOptionPane.showInputDialog(
@@ -96,7 +96,7 @@ if (!name.isNullOrBlank()) {
 
 ## JDialog - Custom Dialogs
 
-When you need a more complex pop-up - with multiple elements, your own layout, or specific behaviour - use `JDialog`. Structure it exactly like a `MainWindow`, but extending `JDialog` instead of wrapping a `JFrame`.
+When you need a more complex pop-up - with multiple elements, your own layout, or specific behaviour - use `JDialog`(kotlin). Structure it exactly like a `MainWindow`(kotlin), but extending `JDialog`(kotlin) instead of wrapping a `JFrame`(kotlin).
 
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
@@ -173,17 +173,17 @@ class MainWindow(val app: App) {
 ```
 
 > [!TIP]
-> `setLocationRelativeTo(dialog.owner)` centres the dialog over its parent window. This is nicer than centring on screen when the parent window isn't centred itself.
+> `setLocationRelativeTo(dialog.owner)`(kotlin) centres the dialog over its parent window. This is nicer than centring on screen when the parent window isn't centred itself.
 
 
 ## Modal vs Non-Modal
 
-The third argument to `JDialog(owner, title, modal)` controls whether the dialog **blocks** the parent window:
+The third argument to `JDialog(owner, title, modal)`(kotlin) controls whether the dialog **blocks** the parent window:
 
 | Value | Behaviour |
 |---|---|
-| `true` (modal) | Parent window is frozen until the dialog is closed |
-| `false` (non-modal) | Parent window stays interactive while the dialog is open |
+| `true`(kotlin) (modal) | Parent window is frozen until the dialog is closed |
+| `false`(kotlin) (non-modal) | Parent window stays interactive while the dialog is open |
 
-Use modal for confirmations and alerts (`JOptionPane` dialogs are always modal). Use non-modal for info panels or tool windows that can stay open alongside the main window.
+Use modal for confirmations and alerts (`JOptionPane`(kotlin) dialogs are always modal). Use non-modal for info panels or tool windows that can stay open alongside the main window.
 

@@ -41,7 +41,7 @@ Dave
 
 ## Saving a String List
 
-If you are saving data from a **single `String` list**:
+If you are saving data from a **single `String`(kotlin) list**:
 
 ```kotlin
 import java.io.File
@@ -78,7 +78,7 @@ Sally
 
 ## Saving an Int List
 
-For a **single `Int` list** you need to convert values read in:
+For a **single `Int`(kotlin) list** you need to convert values read in:
 
 ```kotlin
 var scores = mutableListOf<Int>()
@@ -155,7 +155,7 @@ Sally,99
 
 ## Saving Complex Data (e.g. App Object)
 
-If your data is **more complex** still, involving **`App` classes**, you will need to **serialise** your data and save it as a JSON file. There are libraries to help with this such as Google's Gson, or JetBrains's KotlinX Serializable.
+If your data is **more complex** still, involving **`App`(kotlin) classes**, you will need to **serialise** your data and save it as a JSON file. There are libraries to help with this such as Google's Gson, or JetBrains's KotlinX Serializable.
 
 Add the **Gson library** to your Gradle dependencies in `build.gradle.kts`
 
@@ -168,7 +168,7 @@ dependencies {
 > See the [Project Setup page](programming/kotlin/project.md) for details about working with Gradle
 
 
-The `saveData()` and `loadData()` methods should be placed within the App/Game class:
+The `saveData()`(kotlin) and `loadData()`(kotlin) methods should be placed within the App/Game class:
 
 ```kotlin
 import com.google.gson.Gson

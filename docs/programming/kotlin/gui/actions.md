@@ -2,14 +2,14 @@
 
 Swing uses **listeners** to detect user interactions - clicks, key presses, mouse movement, and more. You attach a listener to a component, and Swing calls your code whenever that event happens.
 
-All listeners are wired up in `setupActions()`, and each one calls a dedicated handler function.
+All listeners are wired up in `setupActions()`(kotlin), and each one calls a dedicated handler function.
 
 
 ## ActionListener - Responding to Clicks
 
-The most common listener is `addActionListener`. It fires when:
-- a `JButton` is clicked
-- the user presses **Enter** in a `JTextField`
+The most common listener is `addActionListener`(kotlin). It fires when:
+- a `JButton`(kotlin) is clicked
+- the user presses **Enter** in a `JTextField`(kotlin)
 
 ```kotlin
 private fun setupActions() {
@@ -24,12 +24,12 @@ private fun handleSubmit() {
 ```
 
 > [!TIP]
-> Always call a named handler function from the listener (e.g. `handleSubmit()`) rather than putting the logic directly in the lambda. It keeps things readable and makes it easy to call the same handler from multiple places.
+> Always call a named handler function from the listener (e.g. `handleSubmit()`(kotlin)) rather than putting the logic directly in the lambda. It keeps things readable and makes it easy to call the same handler from multiple places.
 
 
-## The `updateUI()` Pattern
+## The `updateUI()`(kotlin) Pattern
 
-Rather than updating individual labels or buttons scattered throughout your handler functions, collect all UI updates into a single `updateUI()` method and call it at the end of every handler:
+Rather than updating individual labels or buttons scattered throughout your handler functions, collect all UI updates into a single `updateUI()`(kotlin) method and call it at the end of every handler:
 
 ```kotlin
 private fun handleSubmit() {
@@ -48,15 +48,15 @@ This means you always have one place to look if the UI isn't showing the right t
 
 ## Mouse Listeners - Any Component
 
-Any Swing component can respond to mouse events using `addMouseListener`. This includes labels, panels, images - not just buttons. You pass in a `MouseAdapter` and override only the events you care about:
+Any Swing component can respond to mouse events using `addMouseListener`(kotlin). This includes labels, panels, images - not just buttons. You pass in a `MouseAdapter`(kotlin) and override only the events you care about:
 
 | Method | When it fires |
 |---|---|
-| `mouseClicked` | Mouse button pressed and released on the component |
-| `mousePressed` | Mouse button pressed down |
-| `mouseReleased` | Mouse button released |
-| `mouseEntered` | Mouse cursor moves onto the component |
-| `mouseExited` | Mouse cursor moves off the component |
+| `mouseClicked`(kotlin) | Mouse button pressed and released on the component |
+| `mousePressed`(kotlin) | Mouse button pressed down |
+| `mouseReleased`(kotlin) | Mouse button released |
+| `mouseEntered`(kotlin) | Mouse cursor moves onto the component |
+| `mouseExited`(kotlin) | Mouse cursor moves off the component |
 
 ```kotlin
 titleLabel.addMouseListener(object : java.awt.event.MouseAdapter() {
@@ -70,7 +70,7 @@ titleLabel.addMouseListener(object : java.awt.event.MouseAdapter() {
 ```
 
 > [!NOTE]
-> `MouseAdapter` is an abstract class that provides empty implementations of all the mouse methods. You only override the ones you need - if you used the `MouseListener` interface directly, you'd have to implement all of them.
+> `MouseAdapter`(kotlin) is an abstract class that provides empty implementations of all the mouse methods. You only override the ones you need - if you used the `MouseListener`(kotlin) interface directly, you'd have to implement all of them.
 
 
 ## Putting It Together

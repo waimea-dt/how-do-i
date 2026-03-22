@@ -4,13 +4,13 @@
 
 ## Creating an Object
 
-To create an object, write the class name followed by `()`, and store it in a variable:
+To create an object, write the class name followed by `()`(kotlin), and store it in a variable:
 
 ```kotlin
 val gandalf = Wizard("Gandalf", 100)
 ```
 
-The values in `()` are passed into the class constructor as properties.
+The values in `()`(kotlin) are passed into the class constructor as properties.
 
 ```kotlin run
 class Wizard(val name: String, var mana: Int)
@@ -30,7 +30,7 @@ Each object you create is **completely independent** - changing the properties o
 
 ## Updating Properties
 
-Properties declared with `var` can be updated after creation using `.`:
+Properties declared with `var`(kotlin) can be updated after creation using `.`(kotlin):
 
 ```kotlin run
 class Wizard(val name: String, var mana: Int)
@@ -46,7 +46,7 @@ fun main() {
 ```
 
 > [!NOTE]
-> Properties declared with `val` are fixed and cannot be changed after the object is created.
+> Properties declared with `val`(kotlin) are fixed and cannot be changed after the object is created.
 
 
 ## Creating Multiple Objects
@@ -73,9 +73,9 @@ fun main() {
 
 ## Objects as Properties
 
-An object's properties don't have to be simple values like `Int` or `String` - they can hold references to **other objects** too.
+An object's properties don't have to be simple values like `Int`(kotlin) or `String`(kotlin) - they can hold references to **other objects** too.
 
-This is how you model real relationships: a `Hero` carries a `Weapon`, a `Dungeon` contains a `Monster`, and so on.
+This is how you model real relationships: a `Hero`(kotlin) carries a `Weapon`(kotlin), a `Dungeon`(kotlin) contains a `Monster`(kotlin), and so on.
 
 ```kotlin run
 class Weapon(val name: String, val damage: Int)
@@ -97,7 +97,7 @@ fun main() {
 }
 ```
 
-Notice that `weapon` is a property of `Hero`, and it holds a reference to a full `Weapon` object - so `hero.weapon.name` and `hero.weapon.damage` both work.
+Notice that `weapon`(kotlin) is a property of `Hero`(kotlin), and it holds a reference to a full `Weapon`(kotlin) object - so `hero.weapon.name`(kotlin) and `hero.weapon.damage`(kotlin) both work.
 
 
 ## Building Up a Scene
@@ -135,5 +135,5 @@ fun main() {
 ```
 
 > [!NOTE]
-> The `Wizard` doesn't store the spell data itself - it just receives a `Spell` object and uses it. This keeps each class small and focused on its own job.
+> The `Wizard`(kotlin) doesn't store the spell data itself - it just receives a `Spell`(kotlin) object and uses it. This keeps each class small and focused on its own job.
 

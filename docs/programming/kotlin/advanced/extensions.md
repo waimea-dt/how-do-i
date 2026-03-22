@@ -13,7 +13,7 @@ fun TypeName.functionName(parameters): ReturnType {
 }
 ```
 
-For example, adding a `shout()` method to `String`:
+For example, adding a `shout()`(kotlin) method to `String`(kotlin):
 
 ```kotlin run
 fun String.shout(): String = this.uppercase() + "!!!"
@@ -22,7 +22,7 @@ println("hello".shout())          // HELLO!!!
 println("quiet please".shout())   // QUIET PLEASE!!!
 ```
 
-Inside the function body, `this` refers to the value being extended - in the example above, the `String` the method was called on.
+Inside the function body, `this`(kotlin) refers to the value being extended - in the example above, the `String`(kotlin) the method was called on.
 
 
 ## Why Use Them?
@@ -48,7 +48,7 @@ The logic is identical - but the second version makes the intent obvious at the 
 
 ## Real Examples
 
-### `.commas()` - Formatting numbers with separators
+### `.commas()`(kotlin) - Formatting numbers with separators
 
 Used to display large numbers readably (e.g. a score or a price). See the [working with numbers](programming/kotlin/basics/numbers.md) page for more on number formatting.
 
@@ -62,10 +62,10 @@ println(score.commas())    // 9,001,000
 println(price.commas())    // 1,234
 ```
 
-`Number` is the common parent type of `Int`, `Long`, `Double`, etc., so this works on all of them.
+`Number`(kotlin) is the common parent type of `Int`(kotlin), `Long`(kotlin), `Double`(kotlin), etc., so this works on all of them.
 
 
-### `.scaled()` - Resizing an ImageIcon
+### `.scaled()`(kotlin) - Resizing an ImageIcon
 
 Used when displaying images in a GUI. See the [adding images](programming/kotlin/gui/images.md) page.
 
@@ -82,7 +82,7 @@ Without this extension, scaling an image requires three separate steps every tim
 
 ## Where to Put Extension Functions
 
-Declare extension functions at the **top of the file**, before `main()` and any class definitions. This keeps them easy to find and available everywhere in the file:
+Declare extension functions at the **top of the file**, before `main()`(kotlin) and any class definitions. This keeps them easy to find and available everywhere in the file:
 
 ```kotlin
 import ...

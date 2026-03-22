@@ -1,6 +1,6 @@
 # Adding Sounds to Your UI
 
-Swing doesn't have a dedicated sound API, but the Java standard library includes `javax.sound.sampled` which handles WAV audio. It's a bit verbose, but it works well for playing short sound effects.
+Swing doesn't have a dedicated sound API, but the Java standard library includes `javax.sound.sampled`(kotlin) which handles WAV audio. It's a bit verbose, but it works well for playing short sound effects.
 
 > [!IMPORTANT]
 > Only **WAV** files are supported out of the box. For MP3 support you'd need a third-party library. For simple click sounds and effects, WAV is fine.
@@ -23,7 +23,7 @@ src/
 
 ## Playing a Single Sound
 
-To play a WAV file, open an `AudioInputStream` from the file, get a `Clip`, open it, and start it. Auto-close the clip when it finishes using a `LineListener`:
+To play a WAV file, open an `AudioInputStream`(kotlin) from the file, get a `Clip`(kotlin), open it, and start it. Auto-close the clip when it finishes using a `LineListener`(kotlin):
 
 ```kotlin
 import javax.sound.sampled.AudioSystem
@@ -41,12 +41,12 @@ fun playSound(name: String) {
 }
 ```
 
-The `addLineListener` call ensures the clip releases its resources as soon as it finishes playing - without this, you'll leak audio resources every time a sound plays.
+The `addLineListener`(kotlin) call ensures the clip releases its resources as soon as it finishes playing - without this, you'll leak audio resources every time a sound plays.
 
 
 ## Preloading Sounds
 
-Loading a file from disk takes a small amount of time. If you do it on the fly when a button is clicked, you may get a noticeable delay before the sound plays. The fix is to **preload** all your sounds at startup by reading them into memory as `ByteArray`s:
+Loading a file from disk takes a small amount of time. If you do it on the fly when a button is clicked, you may get a noticeable delay before the sound plays. The fix is to **preload** all your sounds at startup by reading them into memory as `ByteArray`(kotlin)s:
 
 ```kotlin
 private val clickSound: ByteArray =

@@ -1,6 +1,6 @@
 # User Input from the Console in Kotlin
 
-`readln()` reads a line of text typed by the user and returns it as a `String`.
+`readln()`(kotlin) reads a line of text typed by the user and returns it as a `String`(kotlin).
 
 ## Reading Text
 
@@ -8,7 +8,7 @@
 val input = readln()
 ```
 
-Use `print()` (not `println()`) to show a prompt on the same line before the user types:
+Use `print()`(kotlin) (not `println()`(kotlin)) to show a prompt on the same line before the user types:
 
 ```kotlin run input="Jimmy"
 print("Enter your name: ")
@@ -17,12 +17,12 @@ println("Hello, $name!")
 ```
 
 > [!NOTE]
-> `print()` keeps the cursor on the same line so the user types immediately after the prompt, rather than on the next line.
+> `print()`(kotlin) keeps the cursor on the same line so the user types immediately after the prompt, rather than on the next line.
 
 
 ## Cleaning Up Input
 
-User input may have unwanted spaces at the start or end. Use `.trim()` to remove them:
+User input may have unwanted spaces at the start or end. Use `.trim()`(kotlin) to remove them:
 
 ```kotlin run input="  hello  "
 print("Enter text: ")
@@ -31,12 +31,12 @@ println("You entered: '$input'")
 ```
 
 > [!TIP]
-> It's good practice to always `.trim()` text input before using it, since users often accidentally add leading or trailing spaces.
+> It's good practice to always `.trim()`(kotlin) text input before using it, since users often accidentally add leading or trailing spaces.
 
 
 ## Reading a Character
 
-To read a single character (for example, a menu choice), use `.first()` to take just the first character from the input:
+To read a single character (for example, a menu choice), use `.first()`(kotlin) to take just the first character from the input:
 
 ```kotlin run input="Y"
 print("Continue? (Y/N): ")
@@ -45,12 +45,12 @@ println("You chose: $choice")
 ```
 
 > [!IMPORTANT]
-> `.first()` will crash if the user presses Enter without typing anything. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to safely handle this with `.firstOrNull()`.
+> `.first()`(kotlin) will crash if the user presses Enter without typing anything. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to safely handle this with `.firstOrNull()`(kotlin).
 
 
 ## Reading Numbers
 
-`readln()` always returns a `String`. To use the input as a number, convert it with `.toInt()` or `.toDouble()`:
+`readln()`(kotlin) always returns a `String`(kotlin). To use the input as a number, convert it with `.toInt()`(kotlin) or `.toDouble()`(kotlin):
 
 ```kotlin
 val age  = readln().toInt()
@@ -73,12 +73,12 @@ println("With tax: ${"%.2f".format(withTax)}")
 ```
 
 > [!IMPORTANT]
-> If the user types something that isn't a valid number, `.toInt()` and `.toDouble()` will crash. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to handle this safely.
+> If the user types something that isn't a valid number, `.toInt()`(kotlin) and `.toDouble()`(kotlin) will crash. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to handle this safely.
 
 
 ## Reading Multiple Values
 
-Call `readln()` once for each value you want to read:
+Call `readln()`(kotlin) once for each value you want to read:
 
 ```kotlin run input="Jimmy, Tickles, 10"
 print("First name: ")

@@ -2,7 +2,13 @@
 
 Once you have a [window set up](programming/kotlin/gui/window.md), you can start adding things to it. Swing calls these things **components** - labels, buttons, text boxes, and so on.
 
-This page covers the three most common ones: `JLabel`, `JButton`, and `JTextField`.
+This page covers the three most common ones: `JLabel()`(kotlin), `JButton()`(kotlin), and `JTextField()`(kotlin).
+
+| Component | What it does | Read / set with |
+|---|---|---|
+| `JLabel("text")`(kotlin) | Displays a piece of text | `.text`(kotlin) |
+| `JButton("text")`(kotlin) | A clickable button | `.isEnabled`(kotlin) |
+| `JTextField()`(kotlin) | Single-line text input box | `.text`(kotlin) |
 
 
 ## How Components Work
@@ -10,8 +16,8 @@ This page covers the three most common ones: `JLabel`, `JButton`, and `JTextFiel
 Every component follows the same three steps:
 
 1. **Declare** it as a class-level property
-2. **Position and size** it using `setBounds(x, y, width, height)` in `setupLayout()`
-3. **Add** it to the panel using `panel.add(...)` in `setupLayout()`
+2. **Position and size** it using `setBounds(x, y, width, height)`(kotlin) in `setupLayout()`(kotlin)
+3. **Add** it to the panel using `panel.add(...)`(kotlin) in `setupLayout()`(kotlin)
 
 ```
 setBounds(x, y, width, height)
@@ -23,12 +29,12 @@ setBounds(x, y, width, height)
 ```
 
 > [!NOTE]
-> The top-left corner of the panel is `(0, 0)`. X increases to the right, Y increases downward.
+> The top-left corner of the panel is `(0, 0)`(kotlin). X increases to the right, Y increases downward.
 
 
 ## JLabel - Displaying Text
 
-`JLabel` shows a piece of **text** on screen. Use it for titles, instructions, scores, status messages - anything that just needs to be *read*.
+`JLabel()`(kotlin) shows a piece of **text** on screen. Use it for titles, instructions, scores, status messages - anything that just needs to be *read*.
 
 ![Label demo](_assets/element-label.png)
 
@@ -38,7 +44,7 @@ Create it like this:
 private val titleLabel = JLabel("What is your name?")
 ```
 
-In `setupLayout()`:
+In `setupLayout()`(kotlin):
 
 ```kotlin
 titleLabel.setBounds(30, 30, 200, 40)
@@ -54,7 +60,7 @@ titleLabel.text = "Hello, there!"
 
 ## JButton - A Clickable Button
 
-`JButton` creates a button the user can **click**. You wire it up to do something on the [actions page](programming/kotlin/gui/actions.md).
+`JButton()`(kotlin) creates a button the user can **click**. You wire it up to do something on the [actions page](programming/kotlin/gui/actions.md).
 
 ![Button demo](_assets/element-button.png)
 
@@ -64,7 +70,7 @@ Create it like this:
 private val launchButton = JButton("Launch!")
 ```
 
-In `setupLayout()`:
+In `setupLayout()`(kotlin):
 
 ```kotlin
 launchButton.setBounds(30, 100, 160, 40)
@@ -81,7 +87,7 @@ launchButton.isEnabled = true   // Re-enable it
 
 ## JTextField - A Text Input Box
 
-`JTextField` is a single-line box the user can **type into**. Use it to collect a name, a search term, or any short piece of text.
+`JTextField()`(kotlin) is a single-line box the user can **type into**. Use it to collect a name, a search term, or any short piece of text.
 
 ![Textbox demo](_assets/element-text.png)
 
@@ -91,7 +97,7 @@ Create it like this:
 private val nameField = JTextField()
 ```
 
-In `setupLayout()`:
+In `setupLayout()`(kotlin):
 
 ```kotlin
 nameField.setBounds(30, 160, 200, 40)
@@ -173,7 +179,29 @@ class MainWindow {
 ```
 
 > [!TIP]
-> Declare all your components at the **class level** (not inside a function). This means you can access them from `setupLayout()`, `setupStyles()`, `setupActions()`, and `updateUI()` - wherever they're needed.
+> Declare all your components at the **class level** (not inside a function). This means you can access them from `setupLayout()`(kotlin), `setupStyles()`(kotlin), `setupActions()`(kotlin), and `updateUI()`(kotlin) - wherever they're needed.
 
 Next up: [Listening and Responding to User Actions](programming/kotlin/gui/actions.md)
+
+
+## More Components
+
+Swing has a lot more components. Here are some of the most useful ones:
+
+| Component | What it does | Key property / method |
+|---|---|---|
+| `JPanel()`(kotlin) | An invisible container for grouping other components | `.add(component)`(kotlin) |
+| `JTextArea()`(kotlin) | Multi-line text input box | `.text`(kotlin) |
+| `JPasswordField()`(kotlin) | Single-line input that hides what's typed | `.password`(kotlin) |
+| `JCheckBox("label")`(kotlin) | A checkbox the user can tick on or off | `.isSelected`(kotlin) |
+| `JRadioButton("label")`(kotlin) | One option from a group (use with `ButtonGroup`(kotlin)) | `.isSelected`(kotlin) |
+| `JComboBox(arrayOf(...))`(kotlin) | A dropdown list of choices | `.selectedItem`(kotlin) |
+| `JList(arrayOf(...))`(kotlin) | A scrollable list of items | `.selectedValue`(kotlin) |
+| `JSlider(min, max, value)`(kotlin) | A draggable slider for picking a number | `.value`(kotlin) |
+| `JSpinner(SpinnerNumberModel(...))`(kotlin) | A number box with up/down arrows | `.value`(kotlin) |
+| `JScrollPane(component)`(kotlin) | Wraps another component to add scrollbars | - |
+
+> [!TIP]
+> `JScrollPane()`(kotlin) is often paired with `JTextArea()`(kotlin) or `JList()`(kotlin) - just wrap the component: `JScrollPane(myTextArea)`(kotlin), then add the scroll pane to the panel instead.
+
 

@@ -1,14 +1,14 @@
 # Starter Code for a GUI App
 
-This code for your `Main.kt` is a great starter for a GUI project. It has the following features:
+This code for your `Main.kt`(kotlin) is a great starter for a GUI project. It has the following features:
 
-- **FlatLaf dark theme** - a modern dark look using `FlatMacDarkLaf`
-- **Separate `App` class** - app state data and logic separate from the UI code
-- **Main window** (`MainWindow`) - a **JFrame** with demo elements linked to app state data
-- **Child dialog** (`InfoWindow`) - a **JDialog** that is laos linked to app data
-- **Organised `init` blocks** - calling `setupLayout`, `setupStyles`, etc. in order
+- **FlatLaf dark theme** - a modern dark look using `FlatMacDarkLaf`(kotlin)
+- **Separate `App`(kotlin) class** - app state data and logic separate from the UI code
+- **Main window** (`MainWindow`(kotlin)) - a **JFrame** with demo elements linked to app state data
+- **Child dialog** (`InfoWindow`(kotlin)) - a **JDialog** that is laos linked to app data
+- **Organised `init`(kotlin) blocks** - calling `setupLayout`(kotlin), `setupStyles`(kotlin), etc. in order
 - **Event handling** - UI elements wired to handler functions
-- **`updateUI()` pattern** - a single method to refresh UI based on app state data
+- **`updateUI()`(kotlin) pattern** - a single method to refresh UI based on app state data
 
 
 ![Starter App](_assets/starter.png)

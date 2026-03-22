@@ -25,7 +25,7 @@ fun main() {
 ```
 
 > [!NOTE]
-> Every Kotlin program starts by running a function called `main()` - this is the **entry point** of your program.
+> Every Kotlin program starts by running a function called `main()`(kotlin) - this is the **entry point** of your program.
 
 
 ## Why Use Functions?
@@ -102,7 +102,7 @@ fun my_function()   // wrong convention for Kotlin
 
 **Parameters** let you pass values into a function so it can work with different data each time it is called.
 
-Each parameter has a **name** and a **type**, separated by `:`:
+Each parameter has a **name** and a **type**, separated by `:`(kotlin):
 
 ```kotlin
 fun greet(name: String) {
@@ -180,9 +180,9 @@ fun main() {
 
 ## Return Values
 
-A function can **return** a value back to the caller using the `return` keyword.
+A function can **return** a value back to the caller using the `return`(kotlin) keyword.
 
-Declare the return type after the parameter list using `: Type`:
+Declare the return type after the parameter list using `: Type`(kotlin):
 
 ```kotlin
 fun add(a: Int, b: Int): Int {
@@ -221,12 +221,12 @@ fun main() {
 ```
 
 > [!TIP]
-> If a function doesn't return a value, you can either leave out the return type entirely, or write `: Unit`. Most Kotlin developers simply leave it out.
+> If a function doesn't return a value, you can either leave out the return type entirely, or write `: Unit`(kotlin). Most Kotlin developers simply leave it out.
 
 
 ## Single-Expression Functions
 
-If a function body is just a single expression, you can shorten it using `=`:
+If a function body is just a single expression, you can shorten it using `=`(kotlin):
 
 ```kotlin
 fun add(a: Int, b: Int): Int = a + b

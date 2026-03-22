@@ -1,11 +1,11 @@
 # Drawing and Custom Graphics
 
-Swing's standard components (buttons, labels, etc.) cover most UI needs, but for games or custom visuals you often need to draw things directly - shapes, lines, grids, sprites. You do this by overriding `paintComponent()` on a `JPanel`.
+Swing's standard components (buttons, labels, etc.) cover most UI needs, but for games or custom visuals you often need to draw things directly - shapes, lines, grids, sprites. You do this by overriding `paintComponent()`(kotlin) on a `JPanel`(kotlin).
 
 
 ## The Drawing Panel
 
-Create a subclass of `JPanel` and override `paintComponent(g: Graphics)`. Swing calls this method automatically whenever the panel needs to be redrawn.
+Create a subclass of `JPanel`(kotlin) and override `paintComponent(g: Graphics)`(kotlin). Swing calls this method automatically whenever the panel needs to be redrawn.
 
 ```kotlin
 import java.awt.*
@@ -22,9 +22,9 @@ class DrawingPanel : JPanel() {
 ```
 
 > [!IMPORTANT]
-> Always call `super.paintComponent(g)` as the **first line**. It clears the previous frame. Skipping it causes old drawings to pile up on screen.
+> Always call `super.paintComponent(g)`(kotlin) as the **first line**. It clears the previous frame. Skipping it causes old drawings to pile up on screen.
 
-Use this panel as the content pane, exactly like a regular `JPanel`:
+Use this panel as the content pane, exactly like a regular `JPanel`(kotlin):
 
 ```kotlin
 private val canvas = DrawingPanel()
@@ -38,7 +38,7 @@ private fun setupWindow() {
 
 ## The Graphics Object
 
-`g: Graphics` is your drawing tool. Every draw call goes through it. Set a colour first, then call the shape methods:
+`g: Graphics`(kotlin) is your drawing tool. Every draw call goes through it. Set a colour first, then call the shape methods:
 
 ```kotlin
 g.color = Color(0x89b4fa)           // All draws below use this colour
@@ -56,18 +56,18 @@ g.fillRect(50, 50, 200, 100)
 
 | Method | What it draws |
 |---|---|
-| `fillRect(x, y, w, h)` | Filled rectangle |
-| `drawRect(x, y, w, h)` | Rectangle outline |
-| `fillRoundRect(x, y, w, h, arcW, arcH)` | Filled rectangle with rounded corners |
-| `drawRoundRect(x, y, w, h, arcW, arcH)` | Rounded rectangle outline |
-| `fillOval(x, y, w, h)` | Filled oval (use equal `w`/`h` for a circle) |
-| `drawOval(x, y, w, h)` | Oval outline |
-| `drawLine(x1, y1, x2, y2)` | Straight line |
-| `drawArc(x, y, w, h, startAngle, arcAngle)` | Arc (portion of an oval outline) |
-| `fillArc(x, y, w, h, startAngle, arcAngle)` | Filled pie-slice arc |
-| `drawPolygon(xPoints, yPoints, n)` | Polygon outline from point arrays |
-| `fillPolygon(xPoints, yPoints, n)` | Filled polygon |
-| `drawString(text, x, y)` | Text - `x, y` is the **bottom-left** of the first character |
+| `fillRect(x, y, w, h)`(kotlin) | Filled rectangle |
+| `drawRect(x, y, w, h)`(kotlin) | Rectangle outline |
+| `fillRoundRect(x, y, w, h, arcW, arcH)`(kotlin) | Filled rectangle with rounded corners |
+| `drawRoundRect(x, y, w, h, arcW, arcH)`(kotlin) | Rounded rectangle outline |
+| `fillOval(x, y, w, h)`(kotlin) | Filled oval (use equal `w`(kotlin)/`h`(kotlin) for a circle) |
+| `drawOval(x, y, w, h)`(kotlin) | Oval outline |
+| `drawLine(x1, y1, x2, y2)`(kotlin) | Straight line |
+| `drawArc(x, y, w, h, startAngle, arcAngle)`(kotlin) | Arc (portion of an oval outline) |
+| `fillArc(x, y, w, h, startAngle, arcAngle)`(kotlin) | Filled pie-slice arc |
+| `drawPolygon(xPoints, yPoints, n)`(kotlin) | Polygon outline from point arrays |
+| `fillPolygon(xPoints, yPoints, n)`(kotlin) | Filled polygon |
+| `drawString(text, x, y)`(kotlin) | Text - `x, y`(kotlin) is the **bottom-left** of the first character |
 
 ```kotlin
 // Rounded rectangle - last two args are corner width and height
@@ -102,7 +102,7 @@ g.font = Font(Font.MONOSPACED, Font.ITALIC, 14)
 
 ## Using Graphics2D for More Control
 
-Cast `g` to `Graphics2D` to unlock smoother rendering and stroke control:
+Cast `g`(kotlin) to `Graphics2D`(kotlin) to unlock smoother rendering and stroke control:
 
 ```kotlin
 override fun paintComponent(g: Graphics) {
@@ -125,7 +125,7 @@ override fun paintComponent(g: Graphics) {
 
 ## Triggering a Redraw
 
-Swing won't redraw the panel automatically when your data changes. Call `repaint()` to tell Swing to call `paintComponent()` again:
+Swing won't redraw the panel automatically when your data changes. Call `repaint()`(kotlin) to tell Swing to call `paintComponent()`(kotlin) again:
 
 ```kotlin
 private fun updateUI() {
@@ -133,7 +133,7 @@ private fun updateUI() {
 }
 ```
 
-Call `updateUI()` any time the app state changes - from a button handler, a timer tick, or after loading data.
+Call `updateUI()`(kotlin) any time the app state changes - from a button handler, a timer tick, or after loading data.
 
 
 ## Passing Data to the Panel
@@ -161,7 +161,7 @@ class DrawingPanel(val app: App) : JPanel() {
 }
 ```
 
-In `MainWindow`, create the panel with the app object:
+In `MainWindow`(kotlin), create the panel with the app object:
 
 ```kotlin
 class MainWindow(val app: App) {

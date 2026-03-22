@@ -4,7 +4,7 @@ Loops allow you to **repeat a block of code** multiple times, either a set numbe
 
 ## For Loop
 
-A `for` loop repeats once **for each value in a range or collection**:
+A `for`(kotlin) loop repeats once **for each value in a range or collection**:
 
 ```kotlin
 for (variable in range) {
@@ -12,7 +12,7 @@ for (variable in range) {
 }
 ```
 
-Looping over a **range of numbers**...
+Looping over a **range of numbers** using `..`(kotlin)...
 
 ```kotlin run
 for (i in 1..5) {
@@ -31,12 +31,12 @@ for (fruit in fruits) {
 ```
 
 > [!TIP]
-> See the **Numbers** page for more on ranges using `..` and `..<`
+> See the **Numbers** page for more on ranges using `..`(kotlin) and `..<`(kotlin)
 
 
 ## While Loop
 
-A `while` loop repeats **as long as a condition is true**. The condition is checked **before** each iteration:
+A `while`(kotlin) loop repeats **as long as a condition is true**. The condition is checked **before** each iteration:
 
 ```kotlin
 while (condition) {
@@ -58,12 +58,12 @@ println("Game over!")
 ```
 
 > [!TIP]
-> Make sure the loop has a way to eventually make the condition `false`, otherwise you will create an **infinite loop**
+> Make sure the loop has a way to eventually make the condition `false`(kotlin), otherwise you will create an **infinite loop**
 
 
 ## Do...While Loop
 
-A `do...while` loop is similar to `while`, but the condition is checked **after** each iteration - so the body always runs **at least once**:
+A `do...while`(kotlin) loop is similar to `while`(kotlin), but the condition is checked **after** each iteration - so the body always runs **at least once**:
 
 ```kotlin
 do {
@@ -87,10 +87,10 @@ do {
 
 Two keywords let you control the flow inside a loop:
 
-- `break` - **exits** the loop immediately
-- `continue` - **skips** the rest of the current iteration and jumps to the next one
+- `break`(kotlin) - **exits** the loop immediately
+- `continue`(kotlin) - **skips** the rest of the current iteration and jumps to the next one
 
-Example of **break** - stop as soon as a target is found...
+Example of `break`(kotlin) - stop as soon as a target is found...
 
 ```kotlin run
 val numbers = listOf(4, 7, 2, 9, 1, 6)
@@ -104,7 +104,7 @@ for (n in numbers) {
 }
 ```
 
-Example of **continue** - skip odd numbers...
+Example of `continue`(kotlin) - skip odd numbers...
 
 ```kotlin run
 for (i in 1..10) {
@@ -116,7 +116,7 @@ for (i in 1..10) {
 
 ## Repeat
 
-For a simple fixed number of repetitions, `repeat` is a concise alternative to `for`:
+For a simple fixed number of repetitions, `repeat`(kotlin) is a concise alternative to `for`(kotlin):
 
 ```kotlin
 repeat(n) {
@@ -133,4 +133,4 @@ repeat(5) {
 ```
 
 > [!TIP]
-> Inside a `repeat` block, the current iteration index (starting from `0`) is available as `it`: `repeat(5) { println(it) }`
+> Inside a `repeat()`(kotlin) block, the current iteration index (starting from `0`) is available as `it`(kotlin): `repeat(5) { println(it) }`(kotlin)

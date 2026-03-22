@@ -5,9 +5,9 @@ Kotlin has two ways to add comments:
 - **Inline comments** - a short note on a single line
 - **Block comments** - a longer note spanning multiple lines
 
-## Inline Comments `//`
+## Inline Comments `//`(kotlin)
 
-Inline comments begin with a **double-slash**, `//`. Kotlin ignores everything after `//` until the end of the line.
+Inline comments begin with a **double-slash**, `//`(kotlin). Kotlin ignores everything after `//`(kotlin) until the end of the line.
 
 ```kotlin
 // This is an inline comment
@@ -20,9 +20,9 @@ val name = "Steve"  // This is also an inline comment
 > The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
 
 
-## Block Comments `/* ... */`
+## Block Comments `/* ... */`(kotlin)
 
-Block comments begin with `/*` and end with `*/`. Everything between the markers is ignored, even across multiple lines.
+Block comments begin with `/*`and end with `*/`. Everything between the markers is ignored, even across multiple lines.
 
 ```kotlin
 /* This is a block comment */
@@ -39,7 +39,7 @@ Good comments explain the **why**, not the **what**. If the code itself clearly 
 
 **Aim to write self-documenting code** - choose clear, descriptive names so the code speaks for itself:
 
-✗ Comment explaining *what* (unnecessary - the code already says this)...
+**✗ Bad Comments** explaining *what* (unnecessary - the code already says this)...
 
 ```kotlin
 // Add 1 to score
@@ -52,7 +52,7 @@ for (player in players) {
 }
 ```
 
-✓ Comment explaining *why* (useful - context the code can't provide)...
+**✓ Good Comments** explaining *why* (useful - context the code can't provide)...
 
 ```kotlin
 score += bonusPoints * 2    // Double points during fever mode
@@ -64,12 +64,14 @@ for (player in players) {
 ```
 
 > [!TIP]
-> A function or variable with a **good name often needs no comment** at all: `calculateTax(income)` is self-explanatory. Reach for a comment when the *reason* behind the code isn't obvious from reading it.
+> A function or variable with a **good name often needs no comment** at all: `calculateTax(income)`(kotlin) is self-explanatory.
+>
+> Reach for a comment when the *reason* behind the code isn't obvious from reading it.
 
 
-## KDoc Comments `/** ... */`
+## KDoc Comments `/** ... */`(kotlin)
 
-The `/**` style is used to document functions and classes. These are called **KDoc** comments and can be read by tools and IDEs to generate documentation automatically.
+The `/**`(kotlin) style is used to document functions and classes. These are called **KDoc** comments and can be read by tools and IDEs to generate documentation automatically.
 
 ```kotlin
 /**
@@ -85,4 +87,4 @@ fun calculateScore(base: Int, multiplier: Double): Int {
 ```
 
 > [!TIP]
-> KDoc comments should be placed before every `fun`, `class`, or public property.
+> KDoc comments should be placed before every `fun`(kotlin), `class`(kotlin), or public property.

@@ -1,19 +1,19 @@
 # Maps in Kotlin
 
-A `Map` stores values as **key-value pairs** - like a dictionary. Each key is unique and is used to look up its associated value.
+A `Map`(kotlin) stores values as **key-value pairs** - like a dictionary. Each key is unique and is used to look up its associated value.
 
 | Type | Changeable? | Description |
 |------|-------------|-------------|
-| `Map` | ✗ Read-only | Contents cannot be changed after creation |
-| `MutableMap` | ✓ Yes | Entries can be added, updated, and removed |
+| `Map`(kotlin) | ✗ Read-only | Contents cannot be changed after creation |
+| `MutableMap`(kotlin) | ✓ Yes | Entries can be added, updated, and removed |
 
 > [!TIP]
-> Use a **`Map`** when each value has a unique key (like a dictionary or lookup table).
+> Use a **`Map`(kotlin)** when each value has a unique key (like a dictionary or lookup table).
 
 
 ## Map - Read-Only
 
-Create a read-only map with `mapOf()`, using `to` to pair each key with its value:
+Create a read-only map with `mapOf()`(kotlin), using `to`(kotlin) to pair each key with its value:
 
 ```kotlin
 val capitals = mapOf(
@@ -37,7 +37,7 @@ println(capitals["Japan"])     // Tokyo
 ```
 
 > [!TIP]
-> Accessing a key that doesn't exist returns `null` rather than crashing. Use the Elvis operator to provide a fallback: `capitals["Spain"] ?: "Unknown"`.
+> Accessing a key that doesn't exist returns `null`(kotlin) rather than crashing. Use the Elvis operator to provide a fallback: `capitals["Spain"] ?: "Unknown"`(kotlin).
 
 Check whether a **key** or **value** exists:
 
@@ -55,7 +55,7 @@ println(capitals.containsValue("Paris"))  // true - checks values
 
 ## MutableMap
 
-Use `mutableMapOf()` to create a map that can be changed after creation:
+Use `mutableMapOf()`(kotlin) to create a map that can be changed after creation:
 
 ```kotlin run
 val scores = mutableMapOf(
@@ -90,7 +90,7 @@ println(scores.size)      // number of entries
 
 ### Looping Over a Map
 
-Loop over every key-value pair using `for`:
+Loop over every key-value pair using `for`(kotlin):
 
 ```kotlin run
 val capitals = mapOf(

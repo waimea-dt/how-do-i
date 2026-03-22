@@ -1,6 +1,6 @@
 # Code Blocks
 
-A **code block** is a section of code wrapped in curly braces `{ }`. Blocks are used throughout Kotlin to group statements together.
+A **code block** is a section of code wrapped in curly braces `{ }`(kotlin). Blocks are used throughout Kotlin to group statements together.
 
 ```kotlin
 {
@@ -8,14 +8,14 @@ A **code block** is a section of code wrapped in curly braces `{ }`. Blocks are 
 }
 ```
 
-You'll see blocks used with `if`, `else`, `for`, `while`, functions, and classes - anywhere Kotlin needs to know where a section of code begins and ends.
+You'll see blocks used with `if`(kotlin), `else`(kotlin), `for`(kotlin), `while`(kotlin), functions, and classes - anywhere Kotlin needs to know where a section of code begins and ends.
 
 
 ## Blocks in Practice
 
 Here are some common places you'll encounter blocks:
 
-**`if` / `else`** - runs the block when the condition is met:
+**`if`(kotlin) / `else`(kotlin)** - runs the block when the condition is met:
 
 ```kotlin run
 val score = 72
@@ -28,7 +28,7 @@ else {
 }
 ```
 
-**`for` loop** - runs the block once for each item:
+**`for`(kotlin) loop** - runs the block once for each item:
 
 ```kotlin run
 for (i in 1..3) {
@@ -36,7 +36,7 @@ for (i in 1..3) {
 }
 ```
 
-**Function** - the block is the body of the function and runs when it's called:
+**Function** defined with `fun`(kotlin) - the block is the body of the function and runs when it's called:
 
 ```kotlin run
 fun greet(name: String) {

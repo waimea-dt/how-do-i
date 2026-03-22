@@ -1,11 +1,11 @@
 # Styling UI Elements
 
-Once your [elements are on screen](programming/kotlin/gui/elements.md), you can control how they look - font, size, colour, alignment, and borders. All of this happens in `setupStyles()`.
+Once your [elements are on screen](programming/kotlin/gui/elements.md), you can control how they look - font, size, colour, alignment, and borders. All of this happens in `setupStyles()`(kotlin).
 
 
 ## Fonts
 
-Every component has a `font` property. You set it using the `Font` class, which takes three arguments: the font family, the style, and the size in points.
+Every component has a `font`(kotlin) property. You set it using the `Font`(kotlin) class, which takes three arguments: the font family, the style, and the size in points.
 
 ```kotlin
 import java.awt.Font
@@ -19,14 +19,14 @@ For the font family, use these built-in constants rather than hardcoding a font 
 
 | Constant | What you get |
 |---|---|
-| `Font.SANS_SERIF` | Clean, modern - good for most UIs |
-| `Font.SERIF` | Traditional with serifs - more formal |
-| `Font.MONOSPACED` | Fixed-width - great for code or numbers |
+| `Font.SANS_SERIF`(kotlin) | Clean, modern - good for most UIs |
+| `Font.SERIF`(kotlin) | Traditional with serifs - more formal |
+| `Font.MONOSPACED`(kotlin) | Fixed-width - great for code or numbers |
 
 ![Font Demo](_assets/font-demo.png)
 
 
-For the style, you can combine `BOLD` and `ITALIC` with `+`:
+For the style, you can combine `BOLD`(kotlin) and `ITALIC`(kotlin) with `+`(kotlin):
 
 ```kotlin
 label.font = Font(Font.SANS_SERIF, Font.BOLD + Font.ITALIC, 20)
@@ -35,7 +35,7 @@ label.font = Font(Font.SANS_SERIF, Font.BOLD + Font.ITALIC, 20)
 
 ## Colours
 
-Colours are set using the `Color` class. The easiest way is to pass a hex value - the same format used in CSS:
+Colours are set using the `Color`(kotlin) class. The easiest way is to pass a hex value - the same format used in CSS:
 
 ```kotlin
 import java.awt.Color
@@ -45,7 +45,7 @@ titleLabel.foreground   = Color(0xf5c2e7)   // Text colour
 scoreLabel.foreground   = Color.YELLOW      // Built-in colour constant
 ```
 
-`Color` also has a set of named constants for common colours: `Color.WHITE`, `Color.BLACK`, `Color.RED`, `Color.GREEN`, `Color.BLUE`, `Color.YELLOW`, `Color.CYAN`, `Color.MAGENTA`, `Color.GRAY`, `Color.ORANGE`.
+`Color`(kotlin) also has a set of named constants for common colours: `Color.WHITE`(kotlin), `Color.BLACK`(kotlin), `Color.RED`(kotlin), `Color.GREEN`(kotlin), `Color.BLUE`(kotlin), `Color.YELLOW`(kotlin), `Color.CYAN`(kotlin), `Color.MAGENTA`(kotlin), `Color.GRAY`(kotlin), `Color.ORANGE`(kotlin).
 
 For full control, you can also construct a colour from RGB values (0–255):
 
@@ -57,12 +57,12 @@ val purple = Color(148, 85, 211)
 
 
 > [!NOTE]
-> `foreground` sets the text/icon colour. `background` sets the fill colour of the component. Not all components show their background by default (e.g. labels)
+> `foreground`(kotlin) sets the text/icon colour. `background`(kotlin) sets the fill colour of the component. Not all components show their background by default (e.g. labels)
 
 
 ### Background Colour on Labels
 
-By default, `JLabel` is transparent - setting `background` has no visible effect. To make the background colour show, set `isOpaque = true`:
+By default, `JLabel`(kotlin) is transparent - setting `background`(kotlin) has no visible effect. To make the background colour show, set `isOpaque = true`(kotlin):
 
 ```kotlin
 tagLabel.background = Color(0xcc0055)
@@ -72,7 +72,7 @@ tagLabel.isOpaque = true
 
 ## Text Alignment
 
-Labels have `horizontalAlignment` and `verticalAlignment` properties. Use `SwingConstants` values:
+Labels have `horizontalAlignment`(kotlin) and `verticalAlignment`(kotlin) properties. Use `SwingConstants`(kotlin) values:
 
 ```kotlin
 import javax.swing.SwingConstants
@@ -84,7 +84,7 @@ titleLabel.verticalAlignment   = SwingConstants.CENTER  // Top, Center, Bottom
 
 ## Borders
 
-Borders are added via `setBorder()`. The `BorderFactory` class provides a range of ready-made border styles:
+Borders are added via `setBorder()`(kotlin). The `BorderFactory`(kotlin) class provides a range of ready-made border styles:
 
 ```kotlin
 import javax.swing.BorderFactory
@@ -100,12 +100,12 @@ textLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8))
 
 
 > [!TIP]
-> FlatLAF overrides many default borders on buttons and text fields to give them its clean look. If you set a border on a `JButton`, it may conflict with the FlatLAF styling - use `isBorderPainted = false` to remove the default border first if needed.
+> FlatLAF overrides many default borders on buttons and text fields to give them its clean look. If you set a border on a `JButton`(kotlin), it may conflict with the FlatLAF styling - use `isBorderPainted = false`(kotlin) to remove the default border first if needed.
 
 
 ## Putting It Together
 
-Here's `setupStyles()` for a small app, following on from the [elements example](programming/kotlin/gui/elements.md):
+Here's `setupStyles()`(kotlin) for a small app, following on from the [elements example](programming/kotlin/gui/elements.md):
 
 
 ![Styling Demo](_assets/styles-demo.png)

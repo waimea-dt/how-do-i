@@ -1,5 +1,5 @@
 - <i class="si si-kotlin"></i>Kotlin Introduction
-    - [<i data-lucide="circle-question-mark"></i>What is Kotlin?](programming/kotlin/index.md)
+    - [<i data-lucide="circle-question-mark"></i>The Kotlin Language](programming/kotlin/index.md)
     - [<i data-lucide="file-text"></i>Kotlin Cheatsheet](programming/kotlin/cheatsheet.md)
     - [<i data-lucide="folder-tree"></i>Kotlin Project Setup](programming/kotlin/project.md)
 

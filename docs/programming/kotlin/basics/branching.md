@@ -1,6 +1,6 @@
 # Branching / Decisions in Kotlin
 
-Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `true` or `false`.
+Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `true`(kotlin) or `false`(kotlin).
 
 > [!TIP]
 > Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/kotlin/basics/logic.md) page for a full reference.
@@ -8,7 +8,7 @@ Branching lets your program **make decisions** - running different blocks of cod
 
 ## If Statement
 
-Only run a block of code if a condition is `true`:
+Only run a block of code if a condition is `true`(kotlin):
 
 ```kotlin
 if (condition) {
@@ -29,7 +29,7 @@ if (score >= 50) {
 
 ## If...Else Statement
 
-Run one block if a condition is `true`, or a different block if it is `false`:
+Run one block if a condition is `true`(kotlin), or a different block if it is `false`(kotlin):
 
 ```kotlin
 if (condition) {
@@ -54,7 +54,7 @@ if (lives > 0) {
 
 ## If...Else If...Else Statement
 
-Check multiple conditions in sequence - the first one that is `true` wins:
+Check multiple conditions in sequence - the first one that is `true`(kotlin) wins:
 
 ```kotlin
 if (condition1) {
@@ -83,12 +83,12 @@ if (score >= 90) {
 ```
 
 > [!TIP]
-> It is often more readable to use a `when` statement instead of `if...else if...else if...else`
+> It is often more readable to use a `when`(kotlin) statement instead of `if...else if...else if...else`(kotlin)
 
 
 ## When Statement
 
-`when` is Kotlin's alternative to a traditional switch statement. It compares a value against multiple options and runs the matching branch:
+`when`(kotlin) is Kotlin's alternative to a traditional switch statement. It compares a value against multiple options and runs the matching branch:
 
 ```kotlin
 when (variable) {
@@ -115,9 +115,9 @@ when (day) {
 ```
 
 > [!TIP]
-> Multiple values can share the same branch by separating them with commas: `6, 7 -> ...`
+> Multiple values can share the same branch by separating them with commas: `6, 7 -> ...`(kotlin)
 
-`when` can also match **ranges** and **conditions**:
+`when`(kotlin) can also match **ranges** and **conditions**:
 
 ```kotlin run
 val score = 82
@@ -133,7 +133,7 @@ when {
 
 ## If as an Expression
 
-In Kotlin, `if` can return a value, so it can be used directly in an assignment - removing the need for a separate variable and block:
+In Kotlin, `if`(kotlin) can return a value, so it can be used directly in an assignment - removing the need for a separate variable and block:
 
 ```kotlin run
 val age = 20
@@ -143,4 +143,4 @@ println(status)
 ```
 
 > [!TIP]
-> `when` can also be used as an expression the same way: `val label = when (score) { ... }`
+> `when`(kotlin) can also be used as an expression the same way: `val label = when (score) { ... }`(kotlin)

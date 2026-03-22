@@ -6,8 +6,6 @@ Swing works well, but its default look is stuck in the early 2000s - grey panels
 
 **FlatLAF** (Flat Look and Feel) is a free library that gives your Swing app a clean, modern appearance - similar to what you'd expect from a current desktop app. It supports light and dark themes, and looks consistent across Windows, Mac, and Linux.
 
-The same Swing code, just with FlatLAF applied:
-
 | Without FlatLAF | With FlatLAF |
 |-----------------|--------------|
 | Grey, raised buttons | Flat, modern buttons |
@@ -31,7 +29,7 @@ FlatLAF is a drop-in replacement for Swing's default LAF. Your existing Swing co
 
 To use FlatLAF, you first need to add it as a dependency in your project (see the [setup page](programming/kotlin/gui/setup.md) for how to do this).
 
-Then, call `FlatLightLaf.setup()` or `FlatDarkLaf.setup()` before creating your window:
+Then, call `FlatLightLaf.setup()`(kotlin) or `FlatDarkLaf.setup()`(kotlin) before creating your window:
 
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
@@ -59,24 +57,25 @@ That single line is all it takes - every component in the app automatically uses
 
 FlatLAF comes with built-in themes:
 
-### `FlatLightLaf` - Clean light theme
-
-![FlatLAF Light Demo](_assets/demo-light.png)
+### Clean Light Theme: `FlatLightLaf`(kotlin)
 
 ```kotlin
 FlatLightLaf.setup()
 ```
 
-### `FlatDarkLaf` - Modern dark theme
+![FlatLAF Light Demo](_assets/demo-light.png)
 
-![FlatLAF Dark Demo](_assets/demo-dark.png)
+
+### Modern Dark Theme: `FlatDarkLaf`(kotlin)
 
 ```kotlin
 FlatDarkLaf.setup()
 ```
 
+![FlatLAF Dark Demo](_assets/demo-dark.png)
+
 > [!IMPORTANT]
-> You only call one of these - whichever theme you want. Call it once, right at the start of `main()`, before creating any windows.
+> You only call one of these - whichever theme you want. Call it once, right at the start of `main()`(kotlin), before creating any windows.
 
 
 ### Other Themes

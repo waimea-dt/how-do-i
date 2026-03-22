@@ -1,10 +1,10 @@
 # Laying Out Data in the Console
 
-Plain `println` output can quickly become hard to read. Kotlin gives you tools to align columns, pad values, and draw borders using box-drawing characters - turning raw output into something that looks intentional.
+Plain `println`(kotlin) output can quickly become hard to read. Kotlin gives you tools to align columns, pad values, and draw borders using box-drawing characters - turning raw output into something that looks intentional.
 
 ## Padding and Alignment
 
-`padStart(n)` and `padEnd(n)` pad a string to a fixed width with spaces (or any character you choose):
+`padStart(n)`(kotlin) and `padEnd(n)`(kotlin) pad a string to a fixed width with spaces (or any character you choose):
 
 ```kotlin run
 val item1  = "Health Potion"
@@ -16,7 +16,7 @@ println(item1.padEnd(15) + price1.padStart(8))
 println(item2.padEnd(15) + price2.padStart(8))
 ```
 
-`padStart` aligns text to the **right** (adds spaces before), `padEnd` aligns to the **left** (adds spaces after).
+`padStart`(kotlin) aligns text to the **right** (adds spaces before), `padEnd`(kotlin) aligns to the **left** (adds spaces after).
 
 To pad with a custom character, pass it as the second argument:
 
@@ -31,12 +31,12 @@ println(label2.padEnd(10, '.') + value2.padStart(15, '.'))
 ```
 
 > [!TIP]
-> `padStart` and `padEnd` only add padding - they **never truncate**. If the string is already longer than `n`, it is returned unchanged. Use `.take(n)` first if you need a hard limit.
+> `padStart`(kotlin) and `padEnd`(kotlin) only add padding - they **never truncate**. If the string is already longer than `n`, it is returned unchanged. Use `.take(n)`(kotlin) first if you need a hard limit.
 
 
 ## Formatting Text and Numbers in Columns
 
-A more powerful alternative to padStart() and padEnd() is to use `String.format()` to format values. You can specify fixed widths, trim decimal places, show thousand separators, etc.:
+A more powerful alternative to `padStart()`(kotlin) and `padEnd()`(kotlin) is to use `String.format()`(kotlin) to format values. You can specify fixed widths, trim decimal places, show thousand separators, etc.:
 
 ```
 Item                  Price
@@ -65,7 +65,7 @@ for ((name, price) in items) {
 }
 ```
 
-Format specifiers for `String.format()`:
+Format specifiers for `String.format()`(kotlin):
 
 | Specifier | Meaning | Example |
 |-----------|---------|-----|
@@ -142,7 +142,7 @@ Combining padding and box-drawing characters produces a proper, vertical table:
 └────────────┘
 ```
 
-This example displays a list of `String` values in a table:
+This example displays a list of `String`(kotlin) values in a table:
 
 ```kotlin run
 fun printAsTable(items: List<String>, heading: String, width: Int) {
@@ -181,7 +181,7 @@ Tables can also be drawn horizontally:
 └─────┴─────┴─────┴─────┴─────┴─────┘
 ```
 
-This example shows a list of `Int` values as a table:
+This example shows a list of `Int`(kotlin) values as a table:
 
 ```kotlin run
 fun printAsHorizTable(items: List<Int>, width: Int = 3) {

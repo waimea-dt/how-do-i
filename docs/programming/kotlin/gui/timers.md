@@ -1,6 +1,6 @@
 # Using Timers
 
-Swing's `Timer` class lets you run code on a regular interval - without blocking the UI or spawning threads manually. It fires on the Event Dispatch Thread, so it's safe to update UI components directly from a timer callback.
+Swing's `Timer`(kotlin) class lets you run code on a regular interval - without blocking the UI or spawning threads manually. It fires on the Event Dispatch Thread, so it's safe to update UI components directly from a timer callback.
 
 Common uses:
 - A **game loop** that moves things and redraws the screen every tick
@@ -10,7 +10,7 @@ Common uses:
 
 ## The Basics
 
-Create a `Timer` with a delay in milliseconds and a listener. Wire the listener in `setupActions()` using a named handler, just like a button:
+Create a `Timer`(kotlin) with a delay in milliseconds and a listener. Wire the listener in `setupActions()`(kotlin) using a named handler, just like a button:
 
 ```kotlin
 private val tickTimer = Timer(100, null)    // fires every 100ms
@@ -28,10 +28,10 @@ Control the timer with:
 
 | Method | What it does |
 |---|---|
-| `tickTimer.start()` | Start firing |
-| `tickTimer.stop()` | Stop firing |
-| `tickTimer.restart()` | Reset and start again from zero |
-| `tickTimer.isRunning` | `true` if currently running |
+| `tickTimer.start()`(kotlin) | Start firing |
+| `tickTimer.stop()`(kotlin) | Stop firing |
+| `tickTimer.restart()`(kotlin) | Reset and start again from zero |
+| `tickTimer.isRunning`(kotlin) | `true`(kotlin) if currently running |
 
 > [!TIP]
 > Declare the timer at class level (not inside a function) so you can start and stop it from anywhere in the class.
@@ -39,7 +39,7 @@ Control the timer with:
 
 ## Regular Events - Game Loop
 
-For a game loop, start the timer when the game begins and let it run. Each tick, update the game state and then call `updateUI()`:
+For a game loop, start the timer when the game begins and let it run. Each tick, update the game state and then call `updateUI()`(kotlin):
 
 ```kotlin
 private val gameTimer = Timer(50, null)     // ~20 ticks per second
@@ -115,7 +115,7 @@ private fun updateUI() {
 
 ## One-Shot Delay
 
-To run something once after a delay (rather than repeatedly), set `Timer.isRepeats = false`. The timer fires once and stops automatically:
+To run something once after a delay (rather than repeatedly), set `Timer.isRepeats = false`(kotlin). The timer fires once and stops automatically:
 
 ```kotlin
 private val feedbackTimer = Timer(1500, null).apply { isRepeats = false }
@@ -136,7 +136,7 @@ private fun clearFeedback() {
 ```
 
 > [!TIP]
-> Use `restart()` rather than `start()` for one-shot timers - it resets the delay each time, so rapid clicks don't cause the feedback to disappear too soon.
+> Use `restart()`(kotlin) rather than `start()`(kotlin) for one-shot timers - it resets the delay each time, so rapid clicks don't cause the feedback to disappear too soon.
 
 
 

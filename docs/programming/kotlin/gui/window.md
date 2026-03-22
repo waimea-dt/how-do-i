@@ -7,7 +7,7 @@ This page shows how to structure a window the right way, ready for content to be
 
 ## The Window Class Pattern
 
-Rather than writing everything inside `main()`, it's better to wrap the window in its own class. This keeps things tidy and makes it easy to pass data in or call methods on the window later.
+Rather than writing everything inside `main()`(kotlin), it's better to wrap the window in its own class. This keeps things tidy and makes it easy to pass data in or call methods on the window later.
 
 ```kotlin
 import com.formdev.flatlaf.FlatDarkLaf
@@ -44,25 +44,25 @@ class MainWindow {
 ```
 
 > [!NOTE]
-> `SwingUtilities.invokeLater` makes sure the window is created on the correct thread. Swing is not thread-safe, so all UI work should happen on the **Event Dispatch Thread (EDT)**. This one line handles that for you.
+> `SwingUtilities.invokeLater`(kotlin) makes sure the window is created on the correct thread. Swing is not thread-safe, so all UI work should happen on the **Event Dispatch Thread (EDT)**. This one line handles that for you.
 
 
 ## Key Window Settings
 
-Here's what each setting in `setupWindow()` does and why it matters:
+Here's what each setting in `setupWindow()`(kotlin) does and why it matters:
 
 | Setting | What it does |
 |---|---|
-| `frame.isResizable = false` | Prevents the user from dragging the window edges to resize it |
-| `frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE` | Exits the program when the window is closed (rather than just hiding it) |
-| `frame.contentPane = panel` | Replaces the default content area with your own `JPanel` |
-| `frame.pack()` | Sizes the window to fit its contents (uses `panel.preferredSize`) |
-| `frame.setLocationRelativeTo(null)` | Centres the window on the screen |
+| `frame.isResizable = false`(kotlin) | Prevents the user from dragging the window edges to resize it |
+| `frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE`(kotlin) | Exits the program when the window is closed (rather than just hiding it) |
+| `frame.contentPane = panel`(kotlin) | Replaces the default content area with your own `JPanel`(kotlin) |
+| `frame.pack()`(kotlin) | Sizes the window to fit its contents (uses `panel.preferredSize`(kotlin)) |
+| `frame.setLocationRelativeTo(null)`(kotlin) | Centres the window on the screen |
 
 
 ## Setting the Window Size
 
-With a null-layout panel, you control the exact size using `preferredSize`. Call `frame.pack()` after setting this and it will size the window to match:
+With a null-layout panel, you control the exact size using `preferredSize`(kotlin). Call `frame.pack()`(kotlin) after setting this and it will size the window to match:
 
 ```kotlin
 private fun setupLayout() {
@@ -71,18 +71,18 @@ private fun setupLayout() {
 ```
 
 > [!TIP]
-> Always call `pack()` *after* setting `preferredSize`, and `setLocationRelativeTo(null)` *after* `pack()` - otherwise it won't have the correct size to centre from.
+> Always call `pack()`(kotlin) *after* setting `preferredSize`(kotlin), and `setLocationRelativeTo(null)`(kotlin) *after* `pack()`(kotlin) - otherwise it won't have the correct size to centre from.
 
 
 ## The Null Layout
 
-By default, Swing panels use a **layout manager** that automatically positions and sizes components for you. For these projects, we turn that off with `layout = null` so we can place everything exactly where we want it using coordinates:
+By default, Swing panels use a **layout manager** that automatically positions and sizes components for you. For these projects, we turn that off with `layout = null`(kotlin) so we can place everything exactly where we want it using coordinates:
 
 ```kotlin
 private val panel = JPanel().apply { layout = null }
 ```
 
-Once the layout is null, every component you add needs its position and size set manually using `setBounds(x, y, width, height)`. You'll see this in action on the [adding elements](programming/kotlin/gui/elements.md) page.
+Once the layout is null, every component you add needs its position and size set manually using `setBounds(x, y, width, height)`(kotlin). You'll see this in action on the [adding elements](programming/kotlin/gui/elements.md) page.
 
 
 ## A Complete Starter Window
@@ -138,6 +138,6 @@ class MainWindow {
 This gives you a clean, centred, correctly-sized window with a custom background colour - ready to have components added to it.
 
 > [!IMPORTANT]
-> The `init` block calls setup methods in order: layout first, then window configuration. This order matters - `setupWindow()` needs the panel to already have its `preferredSize` set before `pack()` is called.
+> The `init`(kotlin) block calls setup methods in order: layout first, then window configuration. This order matters - `setupWindow()`(kotlin) needs the panel to already have its `preferredSize`(kotlin) set before `pack()`(kotlin) is called.
 
 Next up: [Adding UI Elements](programming/kotlin/gui/elements.md)
