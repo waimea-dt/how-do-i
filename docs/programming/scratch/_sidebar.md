@@ -1,4 +1,12 @@
-- <span class="material-icons">data_object</span> Scratch Programming
+<div class="breadcrumbs">
 
-    - [What is Python?](python/intro/about.md)
+[Home](index.md)
+→ [Programming](programming/index.md)
+→ **Scratch**
+
+</div>
+
+
+- <i data-lucide="circle-question-mark"></i>Scratch
+    - [<i data-lucide="circle-question-mark"></i>Scratch Introduction](programming/scratch/index.md)
 

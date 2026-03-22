@@ -1,3 +1,12 @@
+<div class="breadcrumbs">
+
+[Home](index.md)
+→ [Programming](programming/index.md)
+→ **Python**
+
+</div>
+
+
 - [<i class="si si-python"></i>What is Python?](programming/python/index.md)
     - [<i data-lucide="info"></i>Python Cheatsheet](programming/python/cheatsheet.md)
 
@@ -29,6 +38,5 @@
 - <i data-lucide="app-window"></i>Python GUIs
     - [<i data-lucide="blocks"></i>EasyGUI Dialogs](programming/python/gui/easygui.md)
 
-- [<i data-lucide="arrow-big-left"></i>Back to Programming](programming/index.md)
 
 

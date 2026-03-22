@@ -1,3 +1,12 @@
+<div class="breadcrumbs">
+
+[Home](index.md)
+→ [Programming](programming/index.md)
+→ **Kotlin**
+
+</div>
+
+
 - <i class="si si-kotlin"></i>Kotlin Introduction
     - [<i data-lucide="circle-question-mark"></i>The Kotlin Language](programming/kotlin/index.md)
     - [<i data-lucide="file-text"></i>Kotlin Cheatsheet](programming/kotlin/cheatsheet.md)
@@ -47,6 +56,6 @@
     - [<i data-lucide="pencil-ruler"></i>Drawing Graphics](programming/kotlin/gui/drawing.md)
     - [<i data-lucide="rocket"></i>Starter GUI App Code](programming/kotlin/gui/starter.md)
 
-- [<i data-lucide="arrow-big-left"></i>Back to Programming](programming/index.md)
+
 
 

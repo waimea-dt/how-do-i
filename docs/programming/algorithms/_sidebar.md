@@ -1,4 +1,12 @@
-- <span class="material-icons">data_object</span> Algorithms
+<div class="breadcrumbs">
 
-    - [What is Python?](python/intro/about.md)
+[Home](index.md)
+→ [Programming](programming/index.md)
+→ **Algorithms**
+
+</div>
+
+
+- <i data-lucide="circle-question-mark"></i>Algorithms
+    - [<i data-lucide="circle-question-mark"></i>Algorithm Introduction](programming/algorithms/index.md)
 
