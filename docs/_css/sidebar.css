@@ -1,7 +1,7 @@
 :root {
     --sidebar-width:                  320px;
 
-    --sidebar-bg:                     var(--color-bg);
+    --sidebar-bg:                     var(--color-mono-1);
     --sidebar-border-color:           var(--border-color);
 
     --sidebar-link-spacing:           0.15em;
@@ -14,6 +14,56 @@
     --sidebar-sub-link-color:         var(--secondary-color-6);
     --sidebar-sub-link-color-hover:   var(--secondary-color-8);
     --sidebar-sub-link-color-active:  var(--theme-color-5);
+
+    --plugin-search-input-bg:         var(--color-bg) !important;
+    --plugin-search-kbd-bg:           var(--color-mono-1) !important;
+}
+
+
+/* Sidebar Layout */
+/* ========================================================================== */
+
+:is(.sidebar) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+:is(.sidebar .app-name) {
+    order: 1;
+}
+
+:is(.sidebar .search) {
+    order: 2;
+}
+
+:is(.sidebar .sidebar-nav) {
+    order: 3;
+}
+
+
+/* Sidebar Top */
+/* ========================================================================== */
+
+:is(.sidebar .app-name) {
+    margin: 1.5rem 1rem 0;
+}
+
+:is(.sidebar a.app-name-link) {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    img {
+        max-height: 5rem;
+    }
+
+    &::after {
+        content: "DT Notes";
+        font-size: var(--font-size-xxl);
+    }
 }
 
 
@@ -33,6 +83,8 @@
 
 :is(:is(.app-nav-merged, .sidebar-nav) > ul) > li {
     padding-bottom: var(--sidebar-group-spacing);
+    padding-left: var(--_sidebar-inset);
+    margin-left: 0;
 }
 
 .group:is(:is(:is(.app-nav-merged, .sidebar-nav) > ul) > li) {
@@ -54,6 +106,7 @@
     font-size: var(--font-size-s);
     line-height: 1.2;
     list-style: square;
+    margin-bottom: 0.5rem;
 
     a {
         color: var(--sidebar-sub-link-color);

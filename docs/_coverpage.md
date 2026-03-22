@@ -1,7 +1,7 @@
 ![](_assets/macs/macintosh-happy.svg)
 
-# DT Notes
+# Digital Technologies Notes
 
-> Lots of help and examples to help you do creative things in Digital Technologies and become a DT ninja!
+Lots of help and examples to help you creative amazing things with Digital Technologies
 
 [Let's Go!](index.md)

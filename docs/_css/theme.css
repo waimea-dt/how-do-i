@@ -24,13 +24,13 @@
     --font-family:                    system-ui, sans-serif;
     --font-family-mono:               'JetBrains Mono', ui-monospace, Consolas, monospace;
     --font-size:                      18px;
-    --font-size-mono:                 1rem;
+    --font-size-mono:                 1em;
     --line-height:                    1.5;
 
     /* Common */
     --border-color:                   var(--color-mono-2);
-    --border-radius:                  5px;
-    --margin-block:                   1.5rem;
+    --border-radius:                  0.5rem;
+    --margin-block:                   1.75rem;
 
     /* Content */
     --content-max-width:              80ch;
@@ -55,6 +55,7 @@
     --strong-color:                   var(--secondary-color-6);
     --strong-font-weight:             600;
 
+    --table-head-row-bg:              var(--color-mono-2);
     --table-row-alt-bg:               var(--color-mono-1);
 
     color-scheme: dark;
@@ -72,16 +73,16 @@
 /* Headings */
 /* ========================================================================== */
 
-.markdown-section:where(h1, h2, h3, h4, h5, h6) {
+.markdown-section :where(h1, h2, h3, h4, h5, h6) {
     text-wrap: balance;
 }
 
-.markdown-section:where(h2, h4, h6) {
+.markdown-section :where(h2, h4, h6) {
     color: var(--secondary-color);
 }
 
-.markdown-section:where(h3, h5) {
-    color: var(--theme-color-5);
+.markdown-section :where(h3, h5) {
+    color: var(--theme-color-6);
 }
 
 
@@ -93,12 +94,49 @@ em {
 }
 
 
+/* Paragraphs */
+/* ========================================================================== */
+
+.markdown-section p + p {
+    margin-top: calc(0.5 * var(--margin-block));
+}
+
+.markdown-section p:has(+ p) {
+    margin-bottom: calc(0.5 * var(--margin-block));
+}
+
+
+/* Lists */
+/* ========================================================================== */
+
+.markdown-section ul {
+    margin-bottom: var(--margin-block);
+}
+
+.markdown-section p:has(+ :is(ol, ul)) {
+    margin-bottom: calc(0.5 * var(--margin-block));
+}
+
+
+/* Tables */
+/* ========================================================================== */
+
+:is(.markdown-section table) {
+    width: fit-content;
+    margin: var(--margin-block) auto;
+}
+
+:is(.markdown-section thead tr) {
+    background: var(--table-head-row-bg);
+}
+
+
 /* Images */
 /* ========================================================================== */
 
 .markdown-section img,
 .markdown-section figure {
-    max-width: 100%;
+    max-width: 90%;
     display: block;
     margin: var(--margin-block) auto;
 }
