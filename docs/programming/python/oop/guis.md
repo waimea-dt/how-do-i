@@ -25,7 +25,7 @@ Class: TextField  →  TextField: username
                   →  TextField: password
 ```
 
-Even libraries like **EasyGUI** follow this pattern - `enterbox`, `buttonbox`, and `msgbox` are all wrappers around window objects created behind the scenes.
+Even libraries like **EasyGUI** follow this pattern - `enterbox()`(python), `buttonbox()`(python), and `msgbox()`(python) are all wrappers around window objects created behind the scenes.
 
 
 ## Components React to Events

@@ -117,7 +117,7 @@ show_score(72)
 
 ### Blocks Don't Create Scope
 
-Unlike many other languages, `if` blocks, `for` loops, and `while` loops do **not** create their own scope. A variable created inside one of these blocks is accessible in the surrounding code - but only if that block actually ran:
+Unlike many other languages, `if`(python) blocks, `for`(python) loops, and `while`(python) loops do **not** create their own scope. A variable created inside one of these blocks is accessible in the surrounding code - but only if that block actually ran:
 
 ```python
 score = 85

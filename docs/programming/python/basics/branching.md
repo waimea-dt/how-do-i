@@ -1,11 +1,11 @@
 # Branching / Decisions in Python
 
-Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `True` or `False`.
+Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `True`(python) or `False`(python).
 
 > [!NOTE]
 > Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/python/basics/logic.md) page for a full reference.
 
-> [!NOTE]
+> [!IMPORTANT]
 > In Python, **indentation matters** - the block of code inside an `if`(python) statement must be indented (usually 4 spaces). There are no `{}`(python) braces like in other languages.
 
 
@@ -30,7 +30,7 @@ if score >= 50:
 
 ## If...Else Statement
 
-Run one block if a condition is `True`, or a different block if it is `False`:
+Run one block if a condition is `True`(python), or a different block if it is `False`:
 
 ```python
 if condition:
@@ -53,7 +53,7 @@ else:
 
 ## If...Elif...Else Statement
 
-Check multiple conditions in sequence - the first one that is `True` wins. Python uses `elif` (short for *else if*):
+Check multiple conditions in sequence - the first one that is `True`(python) wins. Python uses `elif`(python) (short for *else if*):
 
 ```python
 if condition1:
@@ -82,7 +82,7 @@ else:
 
 ## Match Statement
 
-Python 3.10 introduced `match`(python) - similar to a `when` in Kotlin or a `switch` in other languages. It compares a value against multiple options:
+Python 3.10 introduced `match`(python) - similar to a `when`(kotlin) in Kotlin or a `switch`(c) in other languages. It compares a value against multiple options:
 
 ```python
 match variable:
@@ -119,7 +119,7 @@ match day:
 > [!TIP]
 > Use `|`(python) to match multiple values in one case: `case 6 | 7:`(python). Use `case _:`(python) as the default (catches everything else).
 
-`match`(python) can also match **ranges** using a `guard` condition with `if`(python):
+`match`(python) can also match **ranges** using a **guard** condition with `if`(python):
 
 ```python
 score = 82
@@ -136,4 +136,4 @@ match score:
 ```
 
 > [!TIP]
-> For simple grade-style checks like the above, `if/elif/else`(python) is often clearer. Use `match`(python) when you're comparing one variable against many exact values.
+> For simple grade-style checks like the above, `if...elif...else`(python) is often clearer. Use `match`(python) when you're comparing one variable against many exact values.

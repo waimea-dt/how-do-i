@@ -8,7 +8,8 @@ Python has two ways to add comments:
 
 ## Inline Comments `#`
 
-Start a comment with `#`. Python ignores everything after `#` until the end of the line.
+Start a comment with `#`(python). Python ignores everything after `#`(python) until the end of the line.
+
 
 ```python
 # This is an inline comment
@@ -23,7 +24,7 @@ name = "Steve"  # This is also an inline comment
 
 ## Multi-Line Comments
 
-Python doesn't have a block comment syntax like `/* ... */`. The convention is to use multiple `#` lines:
+Python doesn't have a block comment syntax like `/* ... */`. The convention is to use multiple `#`(python) lines:
 
 ```python
 # This is a longer comment

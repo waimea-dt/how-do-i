@@ -54,7 +54,7 @@ For logical operations on boolean values, Python uses plain English words:
 | `or`(python) | **at least one** value must be true |
 | `not`(python) | **reverses** the value |
 
-`and` example:
+`and`(python) example:
 
 ```python
 logged_in = True
@@ -64,7 +64,7 @@ if logged_in and is_admin:
     print("Welcome, admin!")
 ```
 
-`or` example:
+`or`(python) example:
 
 ```python
 lives     = 0
@@ -76,7 +76,7 @@ else:
     print("Game over!")
 ```
 
-`not` example:
+`not`(python) example:
 
 ```python
 is_blocked = False
@@ -86,4 +86,4 @@ if not is_blocked:
 ```
 
 > [!NOTE]
-> Python uses `and`(python), `or`(python), `not`(python) instead of `&&`, `||`, `!` like some other languages. They do the same job but read more naturally.
+> Python uses `and`(python), `or`(python), `not`(python) instead of `&&`(kotlin), `||`(kotlin), `!`(kotlin) like some other languages. They do the same job but read more naturally.

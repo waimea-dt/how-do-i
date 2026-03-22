@@ -82,7 +82,7 @@ score  = score + 100    # long form
 score += 100            # short form - same thing
 ```
 
-All the operators have a short form: `+=`, `-=`, `*=`, `/=`, `//=`, `**=`, `%=`
+All the operators have a short form: `+=`(python), `-=`(python), `*=`(python), `/=`(python), `//=`(python), `**=`(python), `%=`(python)
 
 ```python
 score   += 100
@@ -92,12 +92,12 @@ value   /= 10
 ```
 
 > [!IMPORTANT]
-> Python does **not** have `++` or `--`. Use `+= 1` and `-= 1` instead.
+> Python does **not** have `++`(python) or `--`. Use `+= 1`(python) and `-= 1`(python) instead.
 
 
 ## Converting Between Types
 
-Use `int()` and `float()` to convert between numeric types:
+Use `int()`(python) and `float()`(python) to convert between numeric types:
 
 ```python
 x = int(3.9)      # 3  - truncates, does not round
@@ -127,7 +127,7 @@ print(string_as_float)
 
 ## Maths Functions
 
-Python's built-in `math` module provides common mathematical functions. Import it at the top of your file:
+Python's built-in `math`(python) module provides common mathematical functions. Import it at the top of your file:
 
 ```python
 import math

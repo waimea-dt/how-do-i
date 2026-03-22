@@ -5,9 +5,9 @@
 ```kotlin
 val name  = "Gandalf"   // 'val' → immutable (can't be reassigned)
 var score = 0           // 'var' → mutable (can change)
-```
+```(kotlin)
 
-**Common types:** `String`, `Char`, `Int`, `Long`, `Double`, `Boolean`
+**Common types:** `String`(kotlin), `Char`(kotlin), `Int`(kotlin), `Long`(kotlin), `Double`(kotlin), `Boolean`(kotlin)
 
 ```kotlin
 val name: String        // explicit type
@@ -23,7 +23,7 @@ var isAlive:  Boolean = true
 ```
 
 > [!IMPORTANT]
-> Variable **names** should start with a **lowercase letter** and use **camelCase** for multiple words. Boolean names should read as questions: `isAlive`, `hasKey`, `canFly`
+> Variable **names** should start with a **lowercase letter** and use **camelCase** for multiple words. Boolean names should read as questions: `isAlive`(kotlin), `hasKey`(kotlin), `canFly`(kotlin)
 
 
 ## Output to the Console
@@ -141,7 +141,7 @@ Random.nextDouble(0.0, 1.0)  // random Double → 0.0 up to 0.99999... (1.0 not 
 ## Text (Strings and Chars)
 
 > [!NOTE]
-> **Strings** are wrapped in double-quotes, `"..."`. **Chars** are wrapped in single-quotes, `'.'`. **Multi-line Strings** are wrapped in triple-quotes, `"""..."""`
+> **Strings** are wrapped in double-quotes, `"..."`. **Chars** are wrapped in single-quotes, `'.'`. **Multi-line Strings** are wrapped in triple-quotes, `"""..."""`(kotlin)
 
 ```kotlin
 val text = "Kotlin"

@@ -56,12 +56,12 @@ easygui.msgbox(f"Hello, {name}! Welcome.", "Greeting")
 
 - The first argument is the **message** shown in the box
 - The second argument (optional) is the **title** shown in the title bar
-- `enterbox`(python) returns whatever the user typed as a string, or `None`(python) if they cancelled
+- `enterbox()`(python) returns whatever the user typed as a string, or `None`(python) if they cancelled
 
 
 ## Getting a Choice from the User
 
-Use `buttonbox` for a small fixed set of options, or `choicebox` for a longer list:
+Use `buttonbox()`(python) for a small fixed set of options, or `choicebox()`(python) for a longer list:
 
 ```python
 import easygui

@@ -30,7 +30,7 @@ class bank_account     # Underscores
 ```
 
 
-## The Constructor: `__init__`
+## The Constructor: `__init__`(python)
 
 The **constructor** is a special method called `__init__`(python) that runs automatically when an object is created. This is where you define the object's **attributes** - the data it holds.
 
@@ -66,7 +66,7 @@ print(my_wizard.mana)    # 100
 
 ## Internal Attributes
 
-You can also define attributes inside `__init__` that aren't passed in - they just have a default value:
+You can also define attributes inside `__init__`(python) that aren't passed in - they just have a default value:
 
 ```python
 class Wizard:
@@ -85,9 +85,9 @@ print(f"{my_wizard.name} is level {my_wizard.level}!")
 ```
 
 
-## Validation in `__init__`
+## Validation in `__init__`(python)
 
-`__init__` is also a good place to **validate** data when an object is created:
+`__init__`(python) is also a good place to **validate** data when an object is created:
 
 ```python
 class Wizard:
@@ -110,7 +110,7 @@ broken  = Wizard("Oops",    -10)   # raises ValueError
 
 ## Methods
 
-Methods are **functions** that belong to a class - they define what an object can **do**. Like `__init__`, every method takes `self` as its first parameter:
+Methods are **functions** that belong to a class - they define what an object can **do**. Like `__init__`(python), every method takes `self`(python) as its first parameter:
 
 ```python
 class Wizard:
@@ -162,7 +162,7 @@ print(f"Perimeter: {room.perimeter()} m")
 
 ## "Private" Attributes and Methods
 
-Python doesn't enforce access control the way some languages do, but the convention is to prefix internal attributes and methods with a **single underscore** `_` to signal they are private:
+Python doesn't enforce access control the way some languages do, but the convention is to prefix internal attributes and methods with a **single underscore** `_`(python) to signal they are private:
 
 ```python
 class Account:
@@ -197,9 +197,9 @@ account.withdraw(120)
 > The `_`(python) prefix is a convention, not a lock - Python will still let you access `account._balance`(python) directly. But any programmer who sees `_balance`(python) knows they shouldn't touch it from outside the class.
 
 
-## `__str__`: Readable Printing
+## `__str__`(python): Readable Printing
 
-By default, printing an object shows a memory address like `<Wizard object at 0x7f...>`. Define a `__str__` method to control what gets printed instead:
+By default, printing an object shows a memory address like `<Wizard object at 0x7f...>`. Define a `__str__`(python) method to control what gets printed instead:
 
 ```python
 class Wizard:

@@ -4,7 +4,7 @@ Loops allow you to **repeat a block of code** multiple times, either a set numbe
 
 ## For Loop
 
-A `for` loop repeats once **for each item in a sequence**:
+A `for`(python) loop repeats once **for each item in a sequence**:
 
 ```python
 for variable in sequence:
@@ -34,7 +34,7 @@ for fruit in fruits:
 
 ## range() Options
 
-`range()` has three forms:
+`range()`(python) has three forms:
 
 ```python
 range(stop)              # 0 up to stop-1
@@ -61,7 +61,7 @@ for i in range(10, 0, -1):  # 10 9 8 7 6 5 4 3 2 1 (countdown)
 
 ## While Loop
 
-A `while` loop repeats **as long as a condition is true**. The condition is checked **before** each iteration:
+A `while`(python) loop repeats **as long as a condition is true**. The condition is checked **before** each iteration:
 
 ```python
 while condition:
@@ -91,7 +91,7 @@ Two keywords let you control the flow inside a loop:
 - `break`(python) - **exits** the loop immediately
 - `continue`(python) - **skips** the rest of the current iteration and jumps to the next one
 
-`break` example - stop as soon as a target is found:
+`break`(python) example - stop as soon as a target is found:
 
 ```python
 numbers = [4, 7, 2, 9, 1, 6]
@@ -103,7 +103,7 @@ for n in numbers:
     print(f"Checked: {n}")
 ```
 
-`continue` example - skip odd numbers:
+`continue`(python) example - skip odd numbers:
 
 ```python
 for i in range(1, 11):

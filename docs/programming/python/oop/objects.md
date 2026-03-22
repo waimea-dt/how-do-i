@@ -4,13 +4,13 @@
 
 ## Creating an Object
 
-To create an object, write the class name followed by `()`, passing in any values the constructor expects:
+To create an object, write the class name followed by `()`(python), passing in any values the constructor expects:
 
 ```python
 gandalf = Wizard("Gandalf", 100)
 ```
 
-The values in `()` are passed into `__init__` as arguments (after `self`, which Python fills in automatically).
+The values in `()`(python) are passed into `__init__`(python) as arguments (after `self`(python), which Python fills in automatically).
 
 ```python
 class Wizard:
@@ -79,9 +79,9 @@ for hero in party:
 
 ## Objects as Attributes
 
-An object's attributes don't have to be simple values like `int` or `str` - they can hold references to **other objects** too.
+An object's attributes don't have to be simple values like `int`(python) or `str`(python) - they can hold references to **other objects** too.
 
-This is how you model real relationships: a `Hero` carries a `Weapon`, a `Dungeon` contains a `Monster`, and so on.
+This is how you model real relationships: a `Hero`(python) carries a `Weapon`(python), a `Dungeon`(python) contains a `Monster`(python), and so on.
 
 ```python
 class Weapon:
@@ -107,7 +107,7 @@ hero  = Hero("Arthur", sword)
 hero.attack("Dragon")
 ```
 
-Notice that `weapon` is an attribute of `Hero`, and it holds a reference to a full `Weapon` object - so `hero.weapon.name` and `hero.weapon.damage` both work.
+Notice that `weapon`(python) is an attribute of `Hero`(python), and it holds a reference to a full `Weapon`(python) object - so `hero.weapon.name`(python) and `hero.weapon.damage`(python) both work.
 
 
 ## Building Up a Scene

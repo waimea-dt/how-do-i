@@ -28,7 +28,7 @@ print(full_name)
 
 ## f-Strings (String Formatting)
 
-The easiest way to mix variables and text is with an **f-string** - put `f` before the opening quote, then use `{ }` to embed variables or expressions:
+The easiest way to mix variables and text is with an **f-string** - put `f` before the opening quote, like this `f"..."`(python), then use `{ }`(python) to embed variables or expressions:
 
 ```python
 name  = "Steve"
@@ -66,7 +66,7 @@ print(word[-1])   # 'n'  - last character (negative index counts from the end)
 
 ## Slicing Strings
 
-Use `[start:end]` to extract a portion of a string. `end` is not included:
+Use `[start:end]`(python) to extract a portion of a string. `end`(python) is not included:
 
 ```python
 language = "Python"
@@ -79,7 +79,7 @@ print(language[3:])     # 'hon' - to the end
 
 ## Searching Strings
 
-Check whether a string **contains** a substring using `in` and `not in`:
+Check whether a string **contains** a substring using `in`(python) and `not in`(python):
 
 ```python
 sentence = "The quick brown fox"
@@ -87,7 +87,7 @@ print("fox" in sentence)       # True
 print("cat" not in sentence)   # True
 ```
 
-`.startswith()` and `.endswith()` check the beginning or end:
+`.startswith()`(python) and `.endswith()`(python) check the beginning or end:
 
 ```python
 filename = "report_2026.pdf"
@@ -127,7 +127,7 @@ print(user_input.rstrip())       # "   hello" - trailing only
 
 ## Replacing Text
 
-`.replace()` substitutes all occurrences of a value:
+`.replace()`(python) substitutes all occurrences of a value:
 
 ```python
 text = "I like cats. Cats are great."
@@ -138,7 +138,7 @@ print(text.replace("Cats", "Dogs"))
 
 ## Splitting Strings
 
-`.split()` divides a string into a list at each occurrence of a separator:
+`.split()`(python) divides a string into a list at each occurrence of a separator:
 
 ```python
 csv = "red,green,blue,yellow"

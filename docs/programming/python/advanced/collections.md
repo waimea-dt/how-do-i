@@ -43,7 +43,7 @@ print("Pink" not in colours)    # True
 
 ### Looping Over Lists
 
-Loop over every item with a `for` loop:
+Loop over every item with a `for`(python) loop:
 
 ```python
 fruits = ["Apple", "Banana", "Cherry"]
@@ -145,7 +145,7 @@ print("A names:", a_names)
 ```
 
 > [!TIP]
-> A list comprehension `[expression for item in list if condition]`(python) replaces a `filter()` call. It's the idiomatic Python way.
+> A list comprehension `[expression for item in list if condition]`(python) replaces a `filter()`(python) call. It's the idiomatic Python way.
 
 
 ## Transforming with List Comprehensions
@@ -208,7 +208,7 @@ print(len(weekdays))  # 5
 
 ## Dictionary (dict)
 
-A `dict` stores values as **key–value pairs** - like a real-world dictionary. Each key is unique:
+A `dict`(python) stores values as **key–value pairs** - like a real-world dictionary. Each key is unique:
 
 ```python
 capitals = {

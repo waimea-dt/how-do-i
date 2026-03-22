@@ -40,7 +40,9 @@ Here is 'Hello, World' in Python:
 print("Hello, World!")
 ```
 
-Wonderfully simple. For comparison, here is the same thing in a few other languages:
+Wonderfully simple.
+
+For comparison, here is the same thing in a few other languages:
 
 **Java**
 
@@ -72,9 +74,4 @@ int main() {
 ```
 
 Python's clean syntax is one of the reasons it's so popular for beginners - there's no boilerplate, no braces, no semicolons.
-
-
-## Getting Started
-
-Use the sidebar to navigate the topics. If you're new to Python, start with **Python Basics** and work through the pages in order.
 

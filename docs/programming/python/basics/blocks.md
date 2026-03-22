@@ -9,14 +9,14 @@ if condition:
 # back to normal - the block has ended
 ```
 
-The block begins after a colon `:` and ends when the indentation returns to the previous level.
+The block begins after a colon `:`(python) and ends when the indentation returns to the previous level.
 
 
 ## Blocks in Practice
 
 Here are some common places you'll encounter blocks:
 
-**`if` / `else`** - runs the block when the condition is met:
+**`if`(python) / `else`(python)** - runs the block when the condition is met:
 
 ```python
 score = 72
@@ -27,14 +27,14 @@ else:
     print("Failed.")      # this block doesn't run
 ```
 
-**`for` loop** - runs the block once for each item:
+**`for`(python) loop** - runs the block once for each item:
 
 ```python
 for i in range(1, 4):
     print(f"Count: {i}")  # this block runs 3 times
 ```
 
-**Function** - the block is the body of the function and runs when it's called:
+**Function defined with `def`(python)** - the block is the body of the function and runs when it's called:
 
 ```python
 def greet(name):
@@ -65,7 +65,7 @@ if score >= 50:
 ```
 
 > [!TIP]
-> Most editors (including VS Code) handle indentation automatically as you type. They also convert Tab presses to 4 spaces.
+> Most editors (including VS Code) handle indentation automatically as you type. They also convert <kbd>Tab</kbd> presses to 4 spaces.
 
 
 ## Nested Blocks
@@ -83,7 +83,7 @@ for i in range(1, 4):
 
 ## Blocks and Scope
 
-Unlike many other languages, `if` blocks and loops in Python do **not** create their own scope - a variable created inside one is accessible in the surrounding code. However, it only exists once that line has actually run.
+Unlike many other languages, `if`(python) blocks and loops in Python do **not** create their own scope - a variable created inside one is accessible in the surrounding code. However, it only exists once that line has actually run.
 
 > [!NOTE]
 > For a full explanation of scope - including local vs global variables - see the [Variables & Types](programming/python/basics/variables.md) page.

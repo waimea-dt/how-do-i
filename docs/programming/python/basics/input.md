@@ -8,7 +8,7 @@
 name = input()
 ```
 
-Pass a prompt string directly to `input()` - it displays the prompt and waits on the same line:
+Pass a prompt string directly to `input()`(python) - it displays the prompt and waits on the same line:
 
 ```python
 name = input("Enter your name: ")
@@ -53,7 +53,7 @@ print(f"With tax: £{with_tax:.2f}")
 
 ## Reading Multiple Values
 
-Call `input()` once for each value you want to read:
+Call `input()`(python) once for each value you want to read:
 
 ```python
 first_name = input("First name: ")

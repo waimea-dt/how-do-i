@@ -13,7 +13,7 @@ print("This is on a new line.")
 
 ## Printing Variables
 
-Pass a variable directly to `print()` to display its value:
+Pass a variable directly to `print()`(python) to display its value:
 
 ```python
 name  = "Steve"
@@ -25,7 +25,7 @@ print(score)
 
 ## Printing Multiple Values
 
-Pass multiple values separated by commas - `print()` adds a space between them:
+Pass multiple values separated by commas - `print()`(python) adds a space between them:
 
 ```python
 first_name = "Steve"
@@ -58,7 +58,7 @@ print("Hello, ", end="")
 print("world!")               # prints on the same line
 ```
 
-Or use `end=" "` to separate with a space instead of a newline:
+Or use `end=" "`(python) to separate with a space instead of a newline:
 
 ```python
 for i in range(1, 6):
@@ -79,15 +79,15 @@ print("Section 2")
 
 ## Escape Characters
 
-Some special characters inside strings need an **escape sequence** - a backslash `\` followed by a letter:
+Some special characters inside strings need an **escape sequence** - a backslash `\`(python) followed by a letter:
 
 | Escape | Output |
 |--------|--------|
-| `\n` | New line |
-| `\t` | Tab |
-| `\'` | Single quote |
-| `\"` | Double quote |
-| `\\` | Backslash |
+| `\n`(python) | New line |
+| `\t`(python) | Tab |
+| `\'`(python) | Single quote |
+| `\"`(python) | Double quote |
+| `\\`(python) | Backslash |
 
 ```python
 print("Name:\tSteve")

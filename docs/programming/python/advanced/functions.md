@@ -134,7 +134,7 @@ greet("Bob", "Good morning")    # uses custom greeting
 
 ## Return Values
 
-A function can **return** a value back to the caller using the `return` keyword:
+A function can **return** a value back to the caller using the `return`(python) keyword:
 
 ```python
 def add(a, b):

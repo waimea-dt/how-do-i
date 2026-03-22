@@ -13,7 +13,7 @@ Python's tool for handling exceptions is `try`(python)/`except`(python).
 
 ## try / except
 
-Wrap code that might fail in a `try` block. If an exception occurs, Python jumps to the `except` block instead of crashing:
+Wrap code that might fail in a `try`(python) block. If an exception occurs, Python jumps to the `except`(python) block instead of crashing:
 
 ```python
 try:
