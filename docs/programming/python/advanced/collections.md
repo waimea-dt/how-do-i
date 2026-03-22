@@ -4,16 +4,17 @@ Collections store **multiple values in a single variable**. Python has three mai
 
 | Type | Ordered? | Duplicates? | Changeable? |
 |------|----------|-------------|-------------|
-| `list` | ✓ Yes | ✓ Yes | ✓ Yes |
-| `tuple` | ✓ Yes | ✓ Yes | ✗ Read-only |
-| `dict` | - | Keys unique | ✓ Yes |
+| `list`(python) | ✓ Yes | ✓ Yes | ✓ Yes |
+| `tuple`(python) | ✓ Yes | ✓ Yes | ✗ Read-only |
+| `dict`(python) | - | Keys unique | ✓ Yes |
 
-?> Use a **`list`** for an ordered collection you'll modify. Use a **`tuple`** for data that shouldn't change. Use a **`dict`** when each value has a unique key (like a dictionary or lookup table).
+> [!TIP]
+> Use a `list`(python) for an ordered collection you'll modify. Use a `tuple`(python) for data that shouldn't change. Use a `dict`(python) when each value has a unique key (like a dictionary or lookup table).
 
 
 ## List
 
-A `list` uses square brackets `[ ]`:
+A `list`(python) uses square brackets `[]`(python):
 
 ```python
 colours = ["Red", "Green", "Blue"]
@@ -143,7 +144,8 @@ a_names = [name for name in names if name.startswith("A")]
 print("A names:", a_names)
 ```
 
-?> A list comprehension `[expression for item in list if condition]` replaces a `filter()` call. It's the idiomatic Python way.
+> [!TIP]
+> A list comprehension `[expression for item in list if condition]`(python) replaces a `filter()` call. It's the idiomatic Python way.
 
 
 ## Transforming with List Comprehensions
@@ -185,7 +187,7 @@ print("All > 0:    ", all(n > 0 for n in numbers))
 
 ## Tuple
 
-A `tuple` uses parentheses `( )` and is **read-only** - its contents cannot be changed after creation:
+A `tuple`(python) uses parentheses `(...)`(python) and is **read-only** - its contents cannot be changed after creation:
 
 ```python
 point    = (3, 7)
@@ -229,7 +231,7 @@ print(capitals["France"])    # Paris
 print(capitals["Japan"])     # Tokyo
 ```
 
-Use `.get()` to avoid a `KeyError` if the key may not exist - returns `None` (or a default) instead of crashing:
+Use `.get()`(python) to avoid a `KeyError`(python) if the key may not exist - returns `None`(python) (or a default) instead of crashing:
 
 ```python
 print(capitals.get("Spain"))           # None

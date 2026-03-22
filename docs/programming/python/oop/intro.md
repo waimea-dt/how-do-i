@@ -12,7 +12,8 @@ The old style of programming - long lists of instructions running top to bottom 
 
 **Object-Oriented Programming** (OOP) was the solution. Instead of one long list of instructions, OOP organises code around **objects** - self-contained units that each manage their own small piece of the program.
 
-?> Python is a multi-paradigm language - you can write Python without OOP, but it fully supports OOP and it becomes increasingly important as your programs grow. Most major Python libraries (like tkinter, pygame, and Flask) are built around OOP.
+> [!NOTE]
+> Python is a multi-paradigm language - you can write Python without OOP, but it fully supports OOP and it becomes increasingly important as your programs grow. Most major Python libraries (like tkinter, pygame, and Flask) are built around OOP.
 
 
 ## Classes and Objects
@@ -32,7 +33,7 @@ Wizard: Merlin    ← another real Wizard
 Wizard: Saruman   ← another real Wizard
 ```
 
-In Python, define a class with `class`, then create objects from it:
+In Python, define a class with `class`(python), then create objects from it:
 
 ```python
 class Wizard:
@@ -78,7 +79,8 @@ gandalf.cast_spell("Ice Storm")
 merlin.rest()
 ```
 
-?> `gandalf` and `merlin` are both `Wizard` objects, but each has its **own** `name` and `mana` - they are completely independent of each other.
+> [!NOTE]
+> `gandalf`(python) and `merlin`(python) are both `Wizard`(python) objects, but each has its **own** `name`(python) and `mana`(python) - they are completely independent of each other.
 
 
 ## Encapsulation
@@ -119,7 +121,8 @@ account.withdraw(600)    # should be refused
 # account._balance = 99999   # technically possible, but strongly discouraged
 ```
 
-?> Python doesn't enforce private attributes the way some languages do. The `_` prefix is a **convention** that signals to other programmers: *don't access this directly*. Well-behaved code respects that convention.
+> [!NOTE]
+> Python doesn't enforce private attributes the way some languages do. The `_`(python) prefix is a **convention** that signals to other programmers: *don't access this directly*. Well-behaved code respects that convention.
 
 
 ## Sending 'Messages' Between Objects
@@ -157,7 +160,8 @@ waiter.take_order("pasta")
 waiter.take_order("soup")
 ```
 
-?> The customer (the calling code) only talks to the `Waiter`. It has no idea a `Chef` even exists - that's an internal detail. This is the key idea of OOP: objects hide their complexity and expose only what others need to know.
+> [!NOTE]
+> The customer (the calling code) only talks to the `Waiter`(python). It has no idea a `Chef`(python) even exists - that's an internal detail. This is the key idea of OOP: objects hide their complexity and expose only what others need to know.
 
 ```mermaid
 sequenceDiagram

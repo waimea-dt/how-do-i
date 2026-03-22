@@ -2,9 +2,11 @@
 
 Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `True` or `False`.
 
-?> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/python/basics/logic.md) page for a full reference.
+> [!NOTE]
+> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/python/basics/logic.md) page for a full reference.
 
-?> In Python, **indentation matters** - the block of code inside an `if` statement must be indented (usually 4 spaces). There are no `{ }` braces like in other languages.
+> [!NOTE]
+> In Python, **indentation matters** - the block of code inside an `if`(python) statement must be indented (usually 4 spaces). There are no `{}`(python) braces like in other languages.
 
 
 ## If Statement
@@ -80,7 +82,7 @@ else:
 
 ## Match Statement
 
-Python 3.10 introduced `match` - similar to a `when` in Kotlin or a `switch` in other languages. It compares a value against multiple options:
+Python 3.10 introduced `match`(python) - similar to a `when` in Kotlin or a `switch` in other languages. It compares a value against multiple options:
 
 ```python
 match variable:
@@ -114,9 +116,10 @@ match day:
         print("Invalid day")
 ```
 
-?> Use `|` to match multiple values in one case: `case 6 | 7:`. Use `case _:` as the default (catches everything else).
+> [!TIP]
+> Use `|`(python) to match multiple values in one case: `case 6 | 7:`(python). Use `case _:`(python) as the default (catches everything else).
 
-`match` can also match **ranges** using a `guard` condition with `if`:
+`match`(python) can also match **ranges** using a `guard` condition with `if`(python):
 
 ```python
 score = 82
@@ -132,4 +135,5 @@ match score:
         print("Not Achieved")
 ```
 
-?> For simple grade-style checks like the above, `if/elif/else` is often clearer. Use `match` when you're comparing one variable against many exact values.
+> [!TIP]
+> For simple grade-style checks like the above, `if/elif/else`(python) is often clearer. Use `match`(python) when you're comparing one variable against many exact values.

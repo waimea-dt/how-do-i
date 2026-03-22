@@ -49,7 +49,8 @@ gandalf.mana -= 30
 print(f"Mana after:  {gandalf.mana}")
 ```
 
-?> In Python, all attributes are mutable by default. If you want to prevent direct changes from outside the class, use the `_` naming convention and provide methods to control access - see the [Creating Classes](programming/python/oop/classes.md) page.
+> [!NOTE]
+> In Python, all attributes are mutable by default. If you want to prevent direct changes from outside the class, use the `_`(python) naming convention and provide methods to control access - see the [Creating Classes](programming/python/oop/classes.md) page.
 
 
 ## Creating Multiple Objects
@@ -146,4 +147,5 @@ gandalf.cast(ice_storm, "Dragon")
 gandalf.cast(ice_storm, "Troll")    # not enough mana
 ```
 
-?> The `Wizard` doesn't store the spell data itself - it just receives a `Spell` object and uses it. This keeps each class small and focused on its own job.
+> [!TIP]
+> The `Wizard`(python) doesn't store the spell data itself - it just receives a `Spell`(python) object and uses it. This keeps each class small and focused on its own job.

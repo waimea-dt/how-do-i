@@ -18,7 +18,8 @@ for i in range(1, 6):
     print(f"Count: {i}")    # 1, 2, 3, 4, 5
 ```
 
-?> `range(start, stop)` generates numbers from `start` up to (but **not including**) `stop`. `range(5)` gives `0, 1, 2, 3, 4`.
+> [!NOTE]
+> `range(start, stop)`(python) generates numbers from `start`(python) up to (but **not including**) `stop`(python). `range(5)`(python) gives `0, 1, 2, 3, 4`(python).
 
 
 Looping over a **list**:
@@ -80,15 +81,15 @@ print("Game over!")
 ```
 
 > [!IMPORTANT]
-> Make sure the loop has a way to eventually make the condition `False` - otherwise you'll create an **infinite loop**.
+> Make sure the loop has a way to eventually make the condition `False`(python) - otherwise you'll create an **infinite loop**.
 
 
 ## Break and Continue
 
 Two keywords let you control the flow inside a loop:
 
-- `break` - **exits** the loop immediately
-- `continue` - **skips** the rest of the current iteration and jumps to the next one
+- `break`(python) - **exits** the loop immediately
+- `continue`(python) - **skips** the rest of the current iteration and jumps to the next one
 
 `break` example - stop as soon as a target is found:
 
@@ -123,4 +124,5 @@ for i, fruit in enumerate(fruits):
     print(f"{i}: {fruit}")
 ```
 
-?> `enumerate()` is the idiomatic Python way to get an index - it's cleaner than using `range(len(list))`.
+> [!TIP]
+> `enumerate()`(python) is the idiomatic Python way to get an index - it's cleaner than using `range(len(list))`(python).

@@ -2,7 +2,7 @@
 
 ## Defining a Class
 
-Use the `class` keyword followed by the class name:
+Use the `class`(python) keyword followed by the class name:
 
 ```python
 class Wizard:
@@ -32,9 +32,9 @@ class bank_account     # Underscores
 
 ## The Constructor: `__init__`
 
-The **constructor** is a special method called `__init__` that runs automatically when an object is created. This is where you define the object's **attributes** - the data it holds.
+The **constructor** is a special method called `__init__`(python) that runs automatically when an object is created. This is where you define the object's **attributes** - the data it holds.
 
-Every method in a class (including `__init__`) must have **`self`** as its first parameter. `self` refers to the object being created or used.
+Every method in a class (including `__init__`(python)) must have **`self`**(python) as its first parameter. `self`(python) refers to the object being created or used.
 
 ```python
 class Wizard:
@@ -60,7 +60,8 @@ print(my_wizard.name)    # Gandalf
 print(my_wizard.mana)    # 100
 ```
 
-?> `self` is just a convention - it could technically be any name - but you should always use `self`. It's one of Python's strongest conventions and every Python programmer will expect it.
+> [!NOTE]
+> `self`(python) is just a convention - it could technically be any name - but you should **always** use `self`(python). It's one of Python's strongest conventions and every Python programmer will expect it.
 
 
 ## Internal Attributes
@@ -103,7 +104,8 @@ gandalf = Wizard("Gandalf", 100)   # fine
 broken  = Wizard("Oops",    -10)   # raises ValueError
 ```
 
-?> Validating data in `__init__` ensures that an invalid object can never be created in the first place - this is much safer than checking values later in your code.
+> [!TIP]
+> Validating data in `__init__`(python) ensures that an invalid object can never be created in the first place - this is much safer than checking values later in your code.
 
 
 ## Methods
@@ -191,7 +193,8 @@ account.deposit(500)
 account.withdraw(120)
 ```
 
-?> The `_` prefix is a convention, not a lock - Python will still let you access `account._balance` directly. But any programmer who sees `_balance` knows they shouldn't touch it from outside the class.
+> [!NOTE]
+> The `_`(python) prefix is a convention, not a lock - Python will still let you access `account._balance`(python) directly. But any programmer who sees `_balance`(python) knows they shouldn't touch it from outside the class.
 
 
 ## `__str__`: Readable Printing
@@ -213,4 +216,5 @@ gandalf = Wizard("Gandalf", 100)
 print(gandalf)    # Wizard(Gandalf, mana=100)
 ```
 
-?> `__str__` is one of Python's **dunder methods** (double-underscore methods). They let you define how objects behave with built-in operations like `print()`, `len()`, `+`, and `==`.
+> [!TIP]
+> `__str__`(python) is one of Python's **dunder methods** (double-underscore methods). They let you define how objects behave with built-in operations like `print()`(python), `len()`(python), `+`(python), and `==`(python).

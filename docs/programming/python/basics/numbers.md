@@ -3,9 +3,9 @@
 Python has two main numeric types:
 
 | Type | Description | Example |
-|------|-------------|---------|
-| `int` | whole numbers | `42`, `-7`, `1000000` |
-| `float` | decimal numbers | `3.14`, `-0.5`, `1.0` |
+|------|-------------|----------|
+| `int`(python) | whole numbers | `42`(python), `-7`(python), `1000000`(python) |
+| `float`(python) | decimal numbers | `3.14`(python), `-0.5`(python), `1.0`(python) |
 
 Python automatically picks the right type based on the value.
 
@@ -13,25 +13,28 @@ Python automatically picks the right type based on the value.
 ## Writing Numeric Values
 
 ```python
-score     = 2000       # int - plain whole number
-distance  = 4500000000 # int - Python ints can be any size
-cost      = 123.45     # float - decimal point makes it a float
+score     = 2000        # int - plain whole number
+distance  = 4_500_000  # int - underscores improve readability (ignored by Python)
+cost      = 123.45      # float - decimal point makes it a float
 ```
 
-?> Unlike some other languages, Python's `int` has **no size limit** - it can hold numbers as large as your computer's memory allows.
+> [!TIP]
+> Underscores can be placed anywhere in a numeric literal to make large numbers easier to read - they are ignored by Python. `4_500_000`(python) is identical to `4500000`(python).
 
 
 ## Arithmetic Operators
 
 For mathematical operations:
 
-- `+` for **addition**
-- `-` for **subtraction**
-- `*` for **multiplication**
-- `/` for **division** (always returns a float)
-- `//` for **integer division** (whole number result)
-- `%` for **modulus** (remainder)
-- `**` for **exponentiation** (to the power of)
+| Operator | Meaning | Example | Result |
+|----------|---------|---------|--------|
+| `+`(python) | addition | `5 + 3`(python) | `8`(python) |
+| `-`(python) | subtraction | `5 - 3`(python) | `2`(python) |
+| `*`(python) | multiplication | `5 * 3`(python) | `15`(python) |
+| `/`(python) | division (always float) | `10 / 3`(python) | `3.33...`(python) |
+| `//`(python) | integer division | `10 // 3`(python) | `3`(python) |
+| `%`(python) | modulus (remainder) | `10 % 3`(python) | `1`(python) |
+| `**`(python) | exponentiation | `2 ** 8`(python) | `256`(python) |
 
 ```python
 # Pay calculations
@@ -49,7 +52,8 @@ print("Tax to pay: ", tax)
 print("Take home:  ", take_home)
 ```
 
-?> In Python, `/` **always** returns a `float` - even `10 / 2` gives `5.0`. Use `//` if you want a whole number result.
+> [!NOTE]
+> In Python, `/`(python) **always** returns a `float`(python) - even `10 / 2`(python) gives `5.0`(python). Use `//`(python) if you want a whole number result.
 
 Modulus example - odd or even:
 
@@ -117,7 +121,8 @@ print(string_as_int + 1)
 print(string_as_float)
 ```
 
-?> `int()` on a `float` **truncates** - it drops the decimal part without rounding. Use `round()` to round to the nearest integer instead.
+> [!NOTE]
+> `int()`(python) on a `float`(python) **truncates** - it drops the decimal part without rounding. Use `round()`(python) to round to the nearest integer instead.
 
 
 ## Maths Functions
@@ -142,7 +147,8 @@ print(math.ceil(price))    # 4     - round up
 print(abs(-42))            # 42    - remove negative sign (built-in)
 ```
 
-?> `round()` and `abs()` are built into Python - you don't need to import `math` to use them.
+> [!TIP]
+> `round()`(python) and `abs()`(python) are built into Python - you don't need to import `math`(python) to use them.
 
 **Power and roots:**
 
@@ -170,21 +176,22 @@ print(random.randint(1, 6))          # random int: 1–6 (dice roll)
 print(random.uniform(0.0, 1.0))      # random float between 0 and 1
 ```
 
-?> `random.randint(a, b)` - both `a` and `b` are **inclusive**, so `randint(1, 6)` can return 1, 2, 3, 4, 5, or 6.
+> [!NOTE]
+> `random.randint(a, b)`(python) - both `a`(python) and `b`(python) are **inclusive**, so `randint(1, 6)`(python) can return 1, 2, 3, 4, 5, or 6.
 
 
 ## Useful Maths Functions Summary
 
 | Function | What it does |
 |----------|-------------|
-| `abs(n)` | Absolute value (removes negative sign) |
-| `round(n)` | Round to nearest integer |
-| `round(n, dp)` | Round to `dp` decimal places |
-| `math.floor(n)` | Round down |
-| `math.ceil(n)` | Round up |
-| `math.sqrt(n)` | Square root |
-| `n ** exp` | `n` to the power of `exp` |
-| `min(a, b)` | Smaller of two values |
-| `max(a, b)` | Larger of two values |
-| `random.randint(a, b)` | Random integer between `a` and `b` (inclusive) |
-| `random.uniform(a, b)` | Random float between `a` and `b` |
+| `abs(n)`(python) | Absolute value (removes negative sign) |
+| `round(n)`(python) | Round to nearest integer |
+| `round(n, dp)`(python) | Round to `dp`(python) decimal places |
+| `math.floor(n)`(python) | Round down |
+| `math.ceil(n)`(python) | Round up |
+| `math.sqrt(n)`(python) | Square root |
+| `n ** exp`(python) | `n`(python) to the power of `exp`(python) |
+| `min(a, b)`(python) | Smaller of two values |
+| `max(a, b)`(python) | Larger of two values |
+| `random.randint(a, b)`(python) | Random integer between `a`(python) and `b`(python) (inclusive) |
+| `random.uniform(a, b)`(python) | Random float between `a`(python) and `b`(python) |

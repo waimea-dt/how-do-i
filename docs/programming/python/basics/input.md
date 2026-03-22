@@ -1,6 +1,6 @@
 # User Input from the Console in Python
 
-`input()` waits for the user to type something and press Enter, then returns it as a `str`.
+`input()`(python) waits for the user to type something and press Enter, then returns it as a `str`(python).
 
 ## Reading Text
 
@@ -16,12 +16,13 @@ name = input("Enter your name: ")
 print(f"Hello, {name}!")
 ```
 
-?> Using `input("prompt: ")` is the idiomatic Python way - no need for a separate `print()` call first.
+> [!TIP]
+> Using `input("prompt: ")`(python) is the idiomatic Python way - no need for a separate `print()`(python) call first.
 
 
 ## Reading Numbers
 
-`input()` always returns a `str`. To use the input as a number, wrap it in `int()` or `float()`:
+`input()`(python) always returns a `str`(python). To use the input as a number, wrap it in `int()`(python) or `float()`(python):
 
 ```python
 age = int(input("Enter your age: "))
@@ -47,7 +48,7 @@ print(f"With tax: £{with_tax:.2f}")
 ```
 
 > [!IMPORTANT]
-> If the user types something that isn't a valid number, `int()` and `float()` will crash. See the [Error Handling](programming/python/advanced/errors.md) page for how to handle this safely.
+> If the user types something that isn't a valid number, `int()`(python) and `float()`(python) will crash. See the [Error Handling](programming/python/advanced/errors.md) page for how to handle this safely.
 
 
 ## Reading Multiple Values

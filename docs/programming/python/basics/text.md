@@ -1,13 +1,14 @@
 # Working with Text
 
-In Python, text is stored in a `str` (string). Strings can use **single** or **double** quotes - both work the same way:
+In Python, text is stored in a `str`(python) (string). Strings can use **single** or **double** quotes - both work the same way:
 
 ```python
 name = "Jimmy"
 city = 'London'
 ```
 
-?> Pick one style and stick with it. Double quotes are more common and are recommended.
+> [!TIP]
+> Pick one quote style and stick with it. Double quotes are more common and are recommended.
 
 
 ## String Concatenation
@@ -21,7 +22,8 @@ full_name = forename + " " + surname
 print(full_name)
 ```
 
-?> Prefer **f-strings** over `+` for mixing variables and text - they are cleaner and less error-prone.
+> [!TIP]
+> Prefer **f-strings** over `+`(python) for mixing variables and text - they are cleaner and less error-prone.
 
 
 ## f-Strings (String Formatting)
@@ -37,12 +39,13 @@ print(f"Score:  {score}")
 print(f"Double score: {score * 2}")
 ```
 
-?> f-strings work with any expression inside `{ }` - calculations, function calls, comparisons, anything.
+> [!TIP]
+> f-strings work with any expression inside `{ }`(python) - calculations, function calls, comparisons, anything.
 
 
 ## String Length
 
-`len()` returns the number of characters in a string:
+`len()`(python) returns the number of characters in a string:
 
 ```python
 name = "Bartholomew"
@@ -92,7 +95,7 @@ print(filename.startswith("report"))   # True
 print(filename.endswith(".pdf"))       # True
 ```
 
-`.find()` returns the index of the first match, or `-1` if not found:
+`.find()`(python) returns the index of the first match, or `-1`(python) if not found:
 
 ```python
 sentence = "the cat sat on the mat"
@@ -112,7 +115,7 @@ print(text.lower())      # hello, world!
 
 ## Trimming Whitespace
 
-`.strip()` removes leading and trailing whitespace - useful when processing user input:
+`.strip()`(python) removes leading and trailing whitespace - useful when processing user input:
 
 ```python
 user_input = "   hello   "
@@ -149,12 +152,13 @@ print(colours[1])    # 'green'
 
 | Method | What it does |
 |--------|-------------|
-| `len(s)` | Number of characters |
-| `s.upper()` | All uppercase |
-| `s.lower()` | All lowercase |
-| `s.strip()` | Remove surrounding whitespace |
-| `s.replace(a, b)` | Replace `a` with `b` |
-| `s.split(sep)` | Split into a list |
-| `s.find(sub)` | Index of first match, or `-1` |
-| `s.startswith(sub)` | `True` if starts with `sub` |
-| `s.endswith(sub)` | `True` if ends with `sub` |
+| `len(s)`(python) | Number of characters |
+| `s.upper()`(python) | All uppercase |
+| `s.lower()`(python) | All lowercase |
+| `s.strip()`(python) | Remove surrounding whitespace |
+| `s.replace(a, b)`(python) | Replace `a`(python) with `b`(python) |
+| `s.split(sep)`(python) | Split into a list on a separator |
+| `s.find(sub)`(python) | Index of first match, or `-1`(python) |
+| `s.startswith(sub)`(python) | `True`(python) if starts with `sub`(python) |
+| `s.endswith(sub)`(python) | `True`(python) if ends with `sub`(python) |
+| `sub in s`(python) | `True`(python) if `sub`(python) is found in `s`(python) |

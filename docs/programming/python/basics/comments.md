@@ -2,8 +2,8 @@
 
 Python has two ways to add comments:
 
-- **Inline comments** - a short note on a single line with `#`
-- **Docstrings** - a longer description using `""" """`
+- **Inline comments** - a short note on a single line with `#`(python)
+- **Docstrings** - a longer description using `""" """`(python)
 
 
 ## Inline Comments `#`
@@ -17,7 +17,8 @@ name = "Steve"  # This is also an inline comment
 # school = "Waimea College"
 ```
 
-?> The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
+> [!TIP]
+> The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
 
 
 ## Multi-Line Comments
@@ -30,7 +31,7 @@ Python doesn't have a block comment syntax like `/* ... */`. The convention is t
 # All of these lines are ignored.
 ```
 
-Alternatively, a triple-quoted string with `"""` is sometimes used for multi-line notes, though strictly these are **string literals** (not true comments):
+Alternatively, a triple-quoted string with `"""`(python) is sometimes used for multi-line notes, though strictly these are **string literals** (not true comments):
 
 ```python
 """
@@ -78,6 +79,9 @@ def calculate_tax(income):
     """Return the tax owed on the given income."""
     return income * 0.33
 ```
+
+> [!TIP]
+> Add a docstring to any function or class you write that isn't completely obvious. It shows up as a tooltip in VS Code when you hover over the function name.
 
 For longer descriptions:
 

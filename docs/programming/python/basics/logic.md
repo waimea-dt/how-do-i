@@ -4,14 +4,16 @@
 
 When comparing two values, use:
 
-- `==` is **equal** to
-- `!=` is **not equal** to
-- `>` is **greater** than
-- `>=` is **greater or equal** to
-- `<` is **less** than
-- `<=` is **less or equal** to
-- `in` is **contained in**
-- `not in` is **not contained in**
+| Operator | Meaning |
+|----------|----------|
+| `==`(python) | equal to |
+| `!=`(python) | not equal to |
+| `>`(python) | greater than |
+| `>=`(python) | greater than or equal to |
+| `<`(python) | less than |
+| `<=`(python) | less than or equal to |
+| `in`(python) | contained in a sequence |
+| `not in`(python) | not contained in a sequence |
 
 For example:
 
@@ -46,9 +48,11 @@ else:
 
 For logical operations on boolean values, Python uses plain English words:
 
-- `and` - **both** values must be true
-- `or` - **at least one** value must be true
-- `not` - **reverses** the value
+| Operator | Meaning |
+|----------|----------|
+| `and`(python) | **both** values must be true |
+| `or`(python) | **at least one** value must be true |
+| `not`(python) | **reverses** the value |
 
 `and` example:
 
@@ -81,4 +85,5 @@ if not is_blocked:
     print("Access granted.")
 ```
 
-?> Python uses `and`, `or`, `not` - not `&&`, `||`, `!` like some other languages. They do the same job but read more naturally.
+> [!NOTE]
+> Python uses `and`(python), `or`(python), `not`(python) instead of `&&`, `||`, `!` like some other languages. They do the same job but read more naturally.

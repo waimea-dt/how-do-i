@@ -8,7 +8,7 @@ When something goes wrong at runtime - dividing by zero, converting invalid inpu
 age = int("banana")    # ValueError: invalid literal for int()
 ```
 
-Python's tool for handling exceptions is `try/except`.
+Python's tool for handling exceptions is `try`(python)/`except`(python).
 
 
 ## try / except
@@ -23,18 +23,19 @@ except ValueError:
     print("That's not a valid number!")
 ```
 
-?> Always catch a **specific** exception type rather than catching everything blindly - it makes bugs much easier to find.
+> [!TIP]
+> Always catch a **specific** exception type rather than catching everything blindly - it makes bugs much easier to find.
 
 Common exception types:
 
 | Exception | Cause |
 |-----------|-------|
-| `ValueError` | Wrong value type (e.g. `int("abc")`) |
-| `ZeroDivisionError` | Dividing by zero |
-| `IndexError` | List index out of range |
-| `KeyError` | Dictionary key doesn't exist |
-| `FileNotFoundError` | File doesn't exist |
-| `TypeError` | Wrong type used in an operation |
+| `ValueError`(python) | Wrong value type (e.g. `int("abc")`(python)) |
+| `ZeroDivisionError`(python) | Dividing by zero |
+| `IndexError`(python) | List index out of range |
+| `KeyError`(python) | Dictionary key doesn't exist |
+| `FileNotFoundError`(python) | File doesn't exist |
+| `TypeError`(python) | Wrong type used in an operation |
 
 
 ## Validating Text Input
@@ -51,7 +52,8 @@ while True:
 print(f"VALID. You entered: {text}")
 ```
 
-?> An empty string is **falsy** in Python - `if text:` is `True` only when the string is non-empty. This is the idiomatic Python way to check for a non-blank value.
+> [!TIP]
+> An empty string is **falsy** in Python - `if text:`(python) is `True`(python) only when the string is non-empty. This is the idiomatic Python way to check for a non-blank value.
 
 
 ## Validating Numeric Input
@@ -107,10 +109,10 @@ print(f"VALID. You chose: {choice}")
 
 ## else and finally
 
-`try/except` can also have optional `else` and `finally` blocks:
+`try`(python)/`except`(python) can also have optional `else`(python) and `finally`(python) blocks:
 
-- `else` - runs if **no exception** occurred
-- `finally` - runs **always**, whether or not an exception occurred (useful for clean-up)
+- `else`(python) - runs if **no exception** occurred
+- `finally`(python) - runs **always**, whether or not an exception occurred (useful for clean-up)
 
 ```python
 try:

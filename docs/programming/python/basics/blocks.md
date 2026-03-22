@@ -1,6 +1,6 @@
 # Code Blocks
 
-A **code block** is a group of statements that belong together. In Python, blocks are defined entirely by **indentation** - there are no curly braces `{ }`.
+A **code block** is a group of statements that belong together. In Python, blocks are defined entirely by **indentation** - there are no curly braces `{}`(python).
 
 ```python
 if condition:
@@ -50,7 +50,7 @@ greet("Bob")
 Python uses **4 spaces** per indent level by convention (most editors insert 4 spaces when you press Tab).
 
 > [!IMPORTANT]
-> Indentation is **not optional** in Python - it defines the structure of your code. Getting it wrong will cause an `IndentationError` and your program won't run at all.
+> Indentation is **not optional** in Python - it defines the structure of your code. Getting it wrong will cause an `IndentationError`(python) and your program won't run at all.
 
 ```python
 # ✓ Correct - 4 spaces
@@ -64,7 +64,8 @@ if score >= 50:
   print("Well done.")    # IndentationError!
 ```
 
-?> Most editors (including VS Code) handle indentation automatically as you type. They also convert Tab presses to 4 spaces.
+> [!TIP]
+> Most editors (including VS Code) handle indentation automatically as you type. They also convert Tab presses to 4 spaces.
 
 
 ## Nested Blocks
@@ -84,4 +85,5 @@ for i in range(1, 4):
 
 Unlike many other languages, `if` blocks and loops in Python do **not** create their own scope - a variable created inside one is accessible in the surrounding code. However, it only exists once that line has actually run.
 
-?> For a full explanation of scope - including local vs global variables - see the [Variables & Types](programming/python/basics/variables.md) page.
+> [!NOTE]
+> For a full explanation of scope - including local vs global variables - see the [Variables & Types](programming/python/basics/variables.md) page.

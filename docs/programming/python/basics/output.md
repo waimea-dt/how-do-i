@@ -4,7 +4,7 @@ Printing to the console is the simplest way to see what your program is doing.
 
 ## print()
 
-`print()` displays a value and then moves to the **next line**:
+`print()`(python) displays a value and then moves to the **next line**:
 
 ```python
 print("Hello, world!")
@@ -51,7 +51,7 @@ print(f"{name} has scored {score + bonus}")
 
 ## Staying on the Same Line
 
-By default, `print()` adds a newline at the end. Use `end=""` to change this:
+By default, `print()`(python) adds a newline at the end. Use `end=""`(python) to change this:
 
 ```python
 print("Hello, ", end="")
@@ -68,7 +68,7 @@ for i in range(1, 6):
 
 ## Blank Lines
 
-Call `print()` with no arguments to print a **blank line**:
+Call `print()`(python) with no arguments to print a **blank line**:
 
 ```python
 print("Section 1")
@@ -98,14 +98,29 @@ print("She said \"hello\".")
 
 ## Formatting Numbers
 
-Use f-strings with a **format spec** to control how numbers are displayed:
+Use f-strings with a **format spec** after a colon inside `{ }`(python) to control how numbers are displayed:
 
 ```python
 pi   = 3.14159265
 cost = 1234.5
 
-print(f"Pi to 2dp: {pi:.2f}")
-print(f"Cost: £{cost:.2f}")
+print(f"Pi to 2dp: {pi:.2f}")          # 3.14
+print(f"Cost: £{cost:.2f}")            # 1234.50
+print(f"Large: {1234567:,}")           # 1,234,567  (comma separator)
+print(f"Padded: {42:>10}")             # right-align in 10 characters
+print(f"Percent: {0.753:.1%}")         # 75.3%
 ```
 
-?> `:.2f` means: format as a floating-point number with **2 decimal places**. Use `:d` for integers and `:s` for strings.
+> [!TIP]
+> `:.2f`(python) means: format as a floating-point number with **2 decimal places**. The general pattern is `:{width}.{precision}{type}`(python) where type is `f`(python) for float, `d`(python) for integer, `s`(python) for string.
+
+Format specifier reference:
+
+| Specifier | Meaning | Example | Output |
+|-----------|---------|---------|--------|
+| `:.2f`(python) | Float, 2 decimal places | `{3.14159:.2f}`(python) | `3.14`(python) |
+| `:,`(python) | Integer with comma separator | `{1234567:,}`(python) | `1,234,567`(python) |
+| `:>10`(python) | Right-align in 10 chars | `{42:>10}`(python) | `        42`(python) |
+| `:<10`(python) | Left-align in 10 chars | `{"hi":<10}`(python) | `hi        `(python) |
+| `:010`(python) | Zero-pad to width 10 | `{42:010}`(python) | `0000000042`(python) |
+| `:.1%`(python) | Percentage, 1 decimal place | `{0.753:.1%}`(python) | `75.3%`(python) |

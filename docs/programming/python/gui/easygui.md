@@ -6,9 +6,10 @@
 
 EasyGUI was created to give Python beginners a way to add graphical interaction to their programs without learning a complete GUI framework. Instead of building windows and layouts, you simply call a function and a dialogue box appears.
 
-It uses Python's built-in `tkinter` library under the hood, so no extra dependencies are needed beyond installing EasyGUI itself.
+It uses Python's built-in `tkinter`(python) library under the hood, so no extra dependencies are needed beyond installing EasyGUI itself.
 
-?> EasyGUI is best suited for simple scripts where you want to prompt the user or display a result graphically. For full applications with buttons, menus, and a persistent window, a framework like Tkinter or PyQt would be more appropriate.
+> [!NOTE]
+> EasyGUI is best suited for simple scripts where you want to prompt the user or display a result graphically. For full applications with buttons, menus, and a persistent window, a framework like `tkinter`(python) or PyQt would be more appropriate.
 
 
 ## How It Works
@@ -30,16 +31,16 @@ There's no window to set up, no event loop to start - just call a function, get 
 EasyGUI provides a set of ready-made dialogue functions:
 
 | Function | What it shows |
-|----------|--------------|
-| `msgbox(msg)` | A message with an OK button |
-| `enterbox(msg)` | A text input prompt, returns the entered string |
-| `integerbox(msg)` | A number input prompt, returns an integer |
-| `buttonbox(msg, choices=[...])` | A message with custom buttons, returns the chosen label |
-| `choicebox(msg, choices=[...])` | A scrollable list to pick from, returns chosen item |
-| `ynbox(msg)` | A Yes / No prompt, returns `True` or `False` |
-| `ccbox(msg)` | A Continue / Cancel prompt, returns `True` or `False` |
-| `fileopenbox()` | A file picker, returns the selected file path |
-| `filesavebox()` | A save-file picker, returns the chosen path |
+|----------|---------------|
+| `msgbox(msg)`(python) | A message with an OK button |
+| `enterbox(msg)`(python) | A text input prompt, returns the entered string |
+| `integerbox(msg)`(python) | A number input prompt, returns an integer |
+| `buttonbox(msg, choices=[...])`(python) | A message with custom buttons, returns the chosen label |
+| `choicebox(msg, choices=[...])`(python) | A scrollable list to pick from, returns chosen item |
+| `ynbox(msg)`(python) | A Yes / No prompt, returns `True`(python) or `False`(python) |
+| `ccbox(msg)`(python) | A Continue / Cancel prompt, returns `True`(python) or `False`(python) |
+| `fileopenbox()`(python) | A file picker, returns the selected file path |
+| `filesavebox()`(python) | A save-file picker, returns the chosen path |
 
 
 ## A Minimal Example
@@ -55,7 +56,7 @@ easygui.msgbox(f"Hello, {name}! Welcome.", "Greeting")
 
 - The first argument is the **message** shown in the box
 - The second argument (optional) is the **title** shown in the title bar
-- `enterbox` returns whatever the user typed as a string, or `None` if they cancelled
+- `enterbox`(python) returns whatever the user typed as a string, or `None`(python) if they cancelled
 
 
 ## Getting a Choice from the User
@@ -84,7 +85,7 @@ choice = easygui.choicebox("Choose a country:", "Countries", choices=countries)
 easygui.msgbox(f"You chose: {choice}")
 ```
 
-- Both functions return the selected option as a string, or `None` if the user closed the box
+- Both functions return the selected option as a string, or `None`(python) if the user closed the box
 
 
 ## Handling Cancellation

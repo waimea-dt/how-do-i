@@ -17,7 +17,8 @@ greet()
 greet()
 ```
 
-?> In Python, functions are defined with the `def` keyword. The body must be indented.
+> [!NOTE]
+> In Python, functions are defined with the `def`(python) keyword. The body must be indented.
 
 
 ## Why Use Functions?
@@ -114,7 +115,8 @@ describe("Alice", 16, "Auckland")
 describe("Bob",   14, "Wellington")
 ```
 
-?> The terms **parameter** and **argument** are often used interchangeably. Strictly, a *parameter* is the variable in the function definition, and an *argument* is the actual value passed when calling it.
+> [!NOTE]
+> The terms **parameter** and **argument** are often used interchangeably. Strictly, a *parameter* is the variable in the function definition, and an *argument* is the actual value passed when calling it.
 
 
 ## Default Parameter Values
@@ -158,7 +160,8 @@ total = total_with_tax(49.99, 0.15)
 print(f"Total: £{total:.2f}")
 ```
 
-?> If a function doesn't return anything, Python implicitly returns `None`. You can just leave out the `return` statement.
+> [!NOTE]
+> If a function doesn't return anything, Python implicitly returns `None`(python). You can just leave out the `return`(python) statement.
 
 
 ## Single-Expression Functions (Lambda)
@@ -173,7 +176,36 @@ print(add(3, 4))      # 7
 print(square(5))      # 25
 ```
 
-?> Lambdas are handy for short throwaway functions, but for anything with a name you'll reuse, a regular `def` is clearer.
+> [!TIP]
+> Lambdas are handy for short throwaway functions, but for anything with a name you'll reuse, a regular `def`(python) is clearer.
+
+
+## Type Hints
+
+Python supports optional **type hints** - annotations that say what types a function expects and returns. They don't change how the code runs, but they make code much easier to understand and catch mistakes in editors like VS Code:
+
+```python
+def greet(name: str) -> None:
+    print(f"Hello, {name}!")
+
+def add(a: int, b: int) -> int:
+    return a + b
+
+def grade(score: int) -> str:
+    if score >= 90:
+        return "Excellence"
+    elif score >= 75:
+        return "Merit"
+    return "Achieved"
+```
+
+The syntax is:
+- `param: type`(python) for each parameter
+- `-> type`(python) after the closing `)` for the return type
+- `-> None`(python) for functions that return nothing
+
+> [!TIP]
+> Type hints are optional but strongly recommended. VS Code uses them to give better code completion and catch type errors before you run the program.
 
 
 ## Putting It Together

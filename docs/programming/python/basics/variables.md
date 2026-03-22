@@ -11,17 +11,20 @@ happy = True
 score = 1000
 ```
 
-?> Python figures out the type automatically from the value you assign. This is called **dynamic typing**.
+> [!TIP]
+> Python figures out the type automatically from the value you assign. This is called **dynamic typing** - you don't need to declare a type up front.
 
 
 ## Variable Types
 
 The most common types you will use:
 
-- `str` - for text (short for *string*)
-- `int` - for integer, whole numbers
-- `float` - for decimal numbers
-- `bool` - for `True`/`False` values
+| Type | Description | Example |
+|------|-------------|----------|
+| `str`(python) | text (short for *string*) | `"Hello"`(python) |
+| `int`(python) | whole numbers | `42`(python), `-7`(python) |
+| `float`(python) | decimal numbers | `3.14`(python), `-0.5`(python) |
+| `bool`(python) | true/false values | `True`(python), `False`(python) |
 
 ```python
 name     = "Steve"       # str
@@ -30,7 +33,7 @@ cost     = 123.45        # float
 is_alive = True          # bool
 ```
 
-You can check a variable's type with `type()`:
+You can check a variable's type with `type()`(python):
 
 ```python
 print(type(name))    # <class 'str'>
@@ -63,7 +66,8 @@ birthPlace = "London"    # camelCase (that's for other languages)
 likes cats = True        # Can't have spaces
 ```
 
-?> Python variables **can hold `None`** - Python's equivalent of "no value". Unlike Kotlin, Python doesn't guard against this by default, so it's worth being careful.
+> [!NOTE]
+> Python variables can hold `None`(python) - Python's equivalent of "no value". Unlike some other languages, Python doesn't stop you accidentally using `None`(python) where a real value was expected, so it's worth checking for it when a function might not return a result.
 
 
 ## Reassigning Variables
@@ -77,7 +81,8 @@ score = 100          # now 100
 score = "winner"     # now a str - Python allows this, but it's usually a bad idea!
 ```
 
-?> Changing a variable's type mid-program is valid Python, but try to avoid it - it makes code confusing and prone to bugs.
+> [!TIP]
+> Avoid changing a variable's type mid-program. It's technically valid, but makes code confusing and prone to bugs.
 
 
 ## Variable Scope
@@ -99,7 +104,7 @@ greet()
 
 ### Global Variables
 
-A variable created **outside all functions** is **global** - it can be read from anywhere in the file:
+A variable created **outside all functions** is a **global** variable - it can be read from anywhere in the file:
 
 ```python
 max_score = 100     # global - visible everywhere
@@ -146,4 +151,5 @@ if score >= 50:
 print(result)            # ✓ always safe
 ```
 
-?> See the [Code Blocks](programming/python/basics/blocks.md) page for more on how indentation defines blocks in Python.
+> [!TIP]
+> See the [Code Blocks](programming/python/basics/blocks.md) page for more on how indentation defines blocks in Python.

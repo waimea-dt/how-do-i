@@ -17,6 +17,8 @@
     - [<i data-lucide="triangle-alert"></i>Error Handling](programming/python/advanced/errors.md)
     - [<i data-lucide="function-square"></i>Functions](programming/python/advanced/functions.md)
     - [<i data-lucide="brackets"></i>Data Collections](programming/python/advanced/collections.md)
+    - [<i data-lucide="table-properties"></i>Presenting Data](programming/python/advanced/layout.md)
+    - [<i data-lucide="save"></i>Saving & Loading Data](programming/python/advanced/saveload.md)
 
 - <i data-lucide="shapes"></i>Python OOP
     - [<i data-lucide="circle-question-mark"></i>What is OOP?](programming/python/oop/intro.md)
@@ -25,9 +27,7 @@
     - [<i data-lucide="app-window"></i>OOP and GUIs](programming/python/oop/guis.md)
 
 - <i data-lucide="app-window"></i>Python GUIs
-    - [<i data-lucide="blocks"></i>What is SimpleGUI?](programming/python/gui/simple.md)
-    - [<i data-lucide="paint-roller"></i>Setting Up a GUI Project](programming/python/gui/setup.md)
-    - [<i data-lucide="paint-roller"></i>Starter GUI App Code](programming/python/gui/starter.md)
+    - [<i data-lucide="blocks"></i>EasyGUI Dialogs](programming/python/gui/easygui.md)
 
 - [<i data-lucide="arrow-big-left"></i>Back to Programming](programming/index.md)
 

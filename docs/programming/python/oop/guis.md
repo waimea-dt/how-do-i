@@ -46,7 +46,8 @@ button.pack()
 window.mainloop()
 ```
 
-?> This is encapsulation in action - the button object owns its own behaviour. The calling code just says *"when clicked, call this function"* - it doesn't need to know how the button detects the click internally.
+> [!NOTE]
+> This is encapsulation in action - the button object owns its own behaviour. The calling code just says *"when clicked, call this function"* - it doesn't need to know how the button detects the click internally.
 
 
 ## Components Are Arranged as a Hierarchy
@@ -95,4 +96,5 @@ app  = GreeterApp(root)
 root.mainloop()
 ```
 
-?> When you start building GUIs in Python, you'll find that almost every component is an object, and organising your code into classes makes it dramatically easier to manage. OOP isn't just useful for GUIs - it's the natural way to build them.
+> [!TIP]
+> When you start building GUIs in Python, you'll find that almost every component is an object, and organising your code into classes makes it dramatically easier to manage. OOP isn't just useful for GUIs - it's the natural way to build them.

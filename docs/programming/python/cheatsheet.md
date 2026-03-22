@@ -7,7 +7,7 @@ name  = "Gandalf"    # no keyword needed - just assign
 score = 0
 ```
 
-**Types:** `str`, `int`, `float`, `bool`
+**Types:** `str`(python), `int`(python), `float`(python), `bool`(python)
 
 ```python
 name     = "Steve"       # str
@@ -16,7 +16,8 @@ cost     = 9.99          # float
 is_alive = True          # bool
 ```
 
-?> Boolean names should read as questions: `is_alive`, `has_key`, `can_fly`
+> [!TIP]
+> Boolean names should read as questions: `is_alive`(python), `has_key`(python), `can_fly`(python)
 
 ```python
 # type() checks the type of a value
@@ -140,7 +141,7 @@ else:
     print("Failed")
 ```
 
-**`match` - cleaner for multiple exact values (Python 3.10+):**
+**`match`(python) - cleaner for multiple exact values (Python 3.10+):**
 
 ```python
 match day:
@@ -313,7 +314,7 @@ finally:
     print("Done.")        # always runs
 ```
 
-**Common exceptions:** `ValueError`, `ZeroDivisionError`, `IndexError`, `KeyError`, `FileNotFoundError`, `TypeError`
+**Common exceptions:** `ValueError`(python), `ZeroDivisionError`(python), `IndexError`(python), `KeyError`(python), `FileNotFoundError`(python), `TypeError`(python)
 
 **Input validation patterns:**
 
@@ -377,13 +378,13 @@ print(gandalf.name)     # attribute access
 print(gandalf)          # calls __str__
 ```
 
-**`_` prefix signals private (by convention):**
+**`_`(python) prefix signals private (by convention):**
 
 ```python
 class Account:
     def __init__(self, owner: str) -> None:
         self.owner    = owner
-        self._balance = 0       # _ = don't access directly from outside
+        self._balance = 0       # `_` = don't access directly from outside
 ```
 
 
