@@ -30,20 +30,23 @@ result = None
 
 ## Output
 
-```python
+```python run
 print("Hello, world!")           # print + newline
 print()                          # blank line
 print("Hello", "world")          # multiple values, space-separated
 
-name = "Steve"
+name  = "Steve"
 score = 1200
-print(f"{name} scored {score}")          # f-string (preferred)
-print(f"Double: {score * 2}")            # expression in f-string
-print(f"Pi: {3.14159:.2f}")             # 2 decimal places
-print(f"Cost: £{cost:,.2f}")            # comma separator + 2dp
+cost  = 4.5
+print(f"{name} scored {score}")  # f-string (preferred)
+print(f"Double: {score * 2}")    # expression in f-string
+print(f"Pi: {3.14159:.2f}")      # 2 decimal places
+print(f"Cost: ${cost:,.2f}")     # comma separator + 2dp
 
-print("Loading...", end="")      # no newline at end
-print("A", "B", "C", sep=", ")  # custom separator
+print("Loading... ", end="")     # no newline at end
+print("Done!")                   # on same line as above
+
+print("A", "B", "C", sep=", ")   # custom separator
 ```
 
 

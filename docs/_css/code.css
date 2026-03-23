@@ -83,8 +83,8 @@
 .markdown-section .code-output,
 .markdown-section code:not([class*="lang-"]):not([class*="language-"]),
 .markdown-section :not(pre) > code[class*="language-"] {
-    color: var(--code-color-normal);
-    background-color: var(--code-color-back);
+    color: var(--code-fg-color);
+    background-color: var(--code-bg-color);
     font-family: var(--code-font-family), monospace;
     font-optical-sizing: auto;
     word-break: normal;
@@ -114,11 +114,11 @@
 .markdown-section pre[class*="language-"] {
     margin: 0.5em 0;
     overflow: auto;
-    border-radius: 0.3em;
+    border-radius: var(--border-radius);
 }
 
 .markdown-section code[class*="language-"] {
-    border-radius: 0.3em;
+    border-radius: var(--border-radius);
     padding: 0.1em 0.3em 0.2em;
 }
 

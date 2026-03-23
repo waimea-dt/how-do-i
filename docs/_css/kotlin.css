@@ -1,107 +1,98 @@
 .markdown-section .kotlin-run {
     margin-block: var(--margin-block);
-}
 
-.language-kotlin {
-    /* margin-bottom: 2.5em; */
-}
+    .code-area {
+        order: 1;
+    }
 
-.code-area {
-    order: 1;
-}
+    .fold-button {
+        opacity: 0.1;
+    }
 
-.fold-button {
-    opacity: 0.1;
-}
+    .output-wrapper {
+        background-color: var(--md-code-bg-color) !important;
+        font-size: unset !important;
+        border-bottom: none !important;
+    }
 
-.output-wrapper {
-    background-color: var(--md-code-bg-color) !important;
-    font-size: unset !important;
-    border-bottom: none !important;
-}
+    .js-code-output-executor {
+        order: 3;
+        border-top: none !important;
+    }
 
-.js-code-output-executor {
-    order: 3;
-    border-top: none !important;
-}
+    .js-code-output-executor:has(.output-wrapper) {
+        border-top: 1px solid var(--code-border-color) !important;
+    }
 
-.js-code-output-executor:has(.output-wrapper) {
-    border-top: 1px solid var(--code-border-color) !important;
-}
+    .executable-fragment-wrapper {
+        margin-bottom: 0 !important;
 
-.executable-fragment-wrapper {
-    margin-bottom: 0 !important;
-}
+        .executable-fragment {
+            border: none !important;
+            background-color: transparent !important;
+            display: flex;
+            flex-direction: column;
 
-.executable-fragment {
-    border: none !important;
-    background-color: transparent !important;
-    display: flex;
-    flex-direction: column;
-}
+            .code-area {
+                padding: 0.5rem 0.3rem;
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+            }
 
-.code-output {
-    padding: 0.75em 1em 0.5em !important;
-}
+            .code-output {
+                padding: 1em 1.5em !important;
+            }
 
-.standard-output {
-    color: var(--md-code-fg-color) !important;
-}
+            .standard-output {
+                color: var(--md-code-fg-color) !important;
+            }
 
-.run-button {
-    order: 2;
-    position: static !important;
-    width: 100% !important;
-    height: auto !important;
-    padding: 0.3em 0.75em 0.2em;
-    border-top: 1px solid var(--code-border-color);
-    background-color: var(--code-control-back-color) !important;
-    background-image: url(../_assets/icons/play.svg) !important;
-    background-size: 16px 20px !important;
-    background-position: 0.75em 0.35em !important;
-    color: var(--code-control-color);
-}
+            .run-button {
+                order: 2;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                padding: 0.3em 0.75em 0.2em;
+                border-top: 1px solid var(--code-border-color);
+                background-color: var(--code-control-back-color) !important;
+                background-image: url(../_assets/icons/play.svg) !important;
+                background-size: 16px 20px !important;
+                background-position: 0.75em 0.35em !important;
+                color: var(--code-control-color);
 
-.run-button::after {
-    padding-left: 24px;
-    vertical-align: top;
-    content: "Run";
-    font-size: 0.9em;
-    color: var(--code-control-color);
-}
+                &::after {
+                    padding-left: 24px;
+                    vertical-align: top;
+                    content: "Run";
+                    font-size: 0.9em;
+                    color: var(--code-control-color);
+                }
 
-.run-button:hover {
-    background-image: url(../_assets/icons/play-filled.svg) !important;
-}
+                &:hover {
+                    background-image: url(../_assets/icons/play-filled.svg) !important;
 
-.run-button:hover::after {
-    color: var(--code-control-color--high);
-}
+                    &::after {
+                        color: var(--code-control-color--high);
+                    }
+                }
+            }
 
-.console-close {
-    background-color: transparent !important;
-    right: 0.3em !important;
-    top: 0.3em;
-    cursor: pointer;
-    opacity: 0.7;
-}
+            .console-close {
+                background-color: transparent !important;
+                right: 0.3em !important;
+                top: 0.3em;
+                cursor: pointer;
+                opacity: 0.7;
 
-.console-close:hover {
-    opacity: 1;
-}
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
 
-.compiler-info,
-.compiler-info__open-editor {
-    display: none !important;
-}
-
-.compiler-info,
-.compiler-info a {
-    color: var(--code-control-info-color) !important;
-    padding: 0 0.2em;
-}
-
-.compiler-info a:hover {
-    color: var(--code-control-color--high) !important;
+        .compiler-info,
+        .compiler-info__open-editor {
+            display: none !important;
+        }
+    }
 }
 

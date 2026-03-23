@@ -18,20 +18,19 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@^5.0.0-rc/dist/themes/core.min.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@^5.0.0-rc/dist/themes/addons/core-dark.min.css" />
 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/codemirror@5/theme/material-darker.css">
+
     <link rel="stylesheet" href="_css/theme.css">
     <link rel="stylesheet" href="_css/sidebar.css">
 
     <link rel="stylesheet" href="_css/code.css">
     <link rel="stylesheet" href="_css/codemirror.css">
+    <link rel="stylesheet" href="_css/codapi.css">
     <link rel="stylesheet" href="_css/kotlin.css">
 
     <link rel="stylesheet" href="_css/icons.css">
-    <link rel="stylesheet" href="_css/tabs.css">
-    <link rel="stylesheet" href="_css/panels.css">
-    <link rel="stylesheet" href="_css/accordian.css">
     <link rel="stylesheet" href="_css/callouts.css">
-    <!-- <link rel="stylesheet" href="_css/mermaid.css"> -->
-    <!-- <link rel="stylesheet" href="_css/codepen.css"> -->
 </head>
 
 <body>
@@ -77,15 +76,7 @@
     <script src="//cdn.jsdelivr.net/npm/docsify@^5.0.0-rc/dist/plugins/search.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify@^5.0.0-rc/dist/plugins/zoom-image.min.js"></script>
 
-    <script src="//npkg.com/docsify/lib/docsify.min.js"></script>
-    <script src="//npkg.com/docsify/lib/plugins/search.min.js"></script>
-    <script src="//npkg.com/docsify/lib/plugins/zoom-image.min.js"></script>
-
-    <script src="//unpkg.com/docsify-tabs/dist/docsify-tabs.min.js"></script>
-    <script src="//unpkg.com/docsify-accordion/src/index.js"></script>
     <script src="//unpkg.com/docsify-mermaid/dist/docsify-mermaid.js"></script>
-
-    <script src="//cdn.jsdelivr.net/npm/kotlin-playground"></script>
 
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-markup.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-css.min.js"></script>
@@ -101,13 +92,26 @@
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
 
+    <script src="https://unpkg.com/@antonz/runno@0.6.1/dist/runno.js"></script>
+    <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/engine/wasi.js"></script>
+    <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/snippet.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/codemirror@5/mode/python/python.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/codemirror@5/addon/edit/matchbrackets.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/codemirror@5/addon/edit/closebrackets.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/codemirror@5/addon/selection/active-line.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/kotlin-playground"></script>
+    <script src="//cdn.jsdelivr.net/npm/scratchblocks/build/scratchblocks.min.js"></script>
+
     <script defer src="_plugins/docsify-callouts.js"></script>
     <script defer src="_plugins/docsify-inline-highlight.js"></script>
     <script defer src="_plugins/docsify-scroll-to-top.js"></script>
     <script defer src="_plugins/docsify-sidebar-scrollspy.js"></script>
     <script defer src="_plugins/docsify-lucide-icons.js"></script>
-    <script defer src="_plugins/docsify-python-runner.js"></script>
     <script defer src="_plugins/docsify-kotlin-runner.js"></script>
+    <script defer src="_plugins/docsify-python-runner.js"></script>
     <script defer src="_plugins/docsify-sql-runner.js"></script>
     <script defer src="_plugins/docsify-web-playground.js"></script>
 </body>

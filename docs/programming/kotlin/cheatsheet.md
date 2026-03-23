@@ -5,7 +5,7 @@
 ```kotlin
 val name  = "Gandalf"   // 'val' → immutable (can't be reassigned)
 var score = 0           // 'var' → mutable (can change)
-```(kotlin)
+```
 
 **Common types:** `String`(kotlin), `Char`(kotlin), `Int`(kotlin), `Long`(kotlin), `Double`(kotlin), `Boolean`(kotlin)
 
@@ -28,15 +28,16 @@ var isAlive:  Boolean = true
 
 ## Output to the Console
 
-```kotlin
+```kotlin run
 println("Hello, world!")   // print + newline
-print("Loading... ")       // print, no newline
 println()                  // blank line
+print("Loading... ")       // print, no newline
+print("Done!")             // on same line as above
 ```
 
 **String templates:**
 
-```kotlin
+```kotlin run
 val name = "Steve"
 val age = 21
 println("$name is $age years old")        // string template, with variable,using $...
@@ -45,16 +46,16 @@ println("Age in 10 years: ${age + 10}")   // template, with expression using ${.
 
 **Formatting numbers:**
 
-```kotlin
+```kotlin run
 val pi = 3.1415927
-val dist = 250000000
+val distance = 250000000
 println("Pi: ${"%.2f".format(pi)}")           // Double to 2dp   → "3.14"
 println("Dist: ${"%,d".format(distance)}km")  // Int with commas → "250,000,000"
 ```
 
 **Escape characters:**
 
-```kotlin
+```kotlin run
 println("Name:\tSteve")          // \t = tab
 println("Line1\nLine2\nLine3")   // \n = newline
 println("She said \"hi\"")       // \" = double quote

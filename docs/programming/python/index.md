@@ -36,7 +36,7 @@ This guide focuses on **console programs** first to learn the fundamentals.
 
 Here is 'Hello, World' in Python:
 
-```python
+```python run
 print("Hello, World!")
 ```
 
