@@ -176,7 +176,8 @@
 
     pre.CodeMirror-line,
     pre.CodeMirror-line-like {
-        font-variant-ligatures: none !important;
+        font-variant-ligatures: none;
+        font-feature-settings: "liga" 0, "calt" 0;
     }
 
 }

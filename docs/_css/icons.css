@@ -5,10 +5,14 @@ i.si::before {
     color: var(--theme-color);
     width: 1.2em;
     height: 1.2em;
-    line-height: 1;
+    line-height: 1.2;
 }
 
 .si::before {
     text-align: center;
 }
 
+.si {
+    display: flex;
+    align-items: center;
+}
