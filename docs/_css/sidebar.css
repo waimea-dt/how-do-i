@@ -110,6 +110,9 @@
 :is(:is(.app-nav-merged, .sidebar-nav) li) > p {
     font-size: 1.1em;
     color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
 }
 
 /* Section Sub-Links */

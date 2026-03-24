@@ -67,7 +67,11 @@
         import mermaid from "https://unpkg.com/mermaid/dist/mermaid.esm.min.mjs";
         mermaid.initialize({
             startOnLoad: true,
-            theme: 'dark'
+            theme: 'dark',
+            themeVariables: {
+                fontSize: '18px',
+                fontFamily: 'system-ui, sans-serif'
+            }
         });
         window.mermaid = mermaid;
     </script>

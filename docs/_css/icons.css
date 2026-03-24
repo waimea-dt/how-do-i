@@ -8,3 +8,7 @@ i.si::before {
     line-height: 1;
 }
 
+.si::before {
+    text-align: center;
+}
+

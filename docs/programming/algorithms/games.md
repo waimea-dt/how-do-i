@@ -6,11 +6,18 @@ In a simple one-player game, this might look like:
 
 ```mermaid
 flowchart TD
-    A([Start]) --> B[Initialise the game: setup state, get player info, etc.]
-    B --> D[Show the player the current state of the game]
-    D --> E[/Get the player action/]
-    E --> F[Update the game state]
-    F --> G{Win state?}
-    G -- Yes --> H([Game Over])
-    G -- No --> D
+    %% Define nodes
+    start([Start])
+    init[Initialise game]
+    loop(( ))
+    show[Show game state]
+    input[/Get player action/]
+    update[Update game state]
+    win{Won?}
+    over([Game Over])
+
+    %% Define links
+    start --> init --> loop --> show --> input --> update --> win
+    win -- Yes --> over
+    win -- No --> loop
 ```

@@ -1,22 +1,19 @@
 .mermaid {
-    --mermaid-font-family:              var(--font-family);
-    --mermaid-font-size:                16px;
-    --mermaid-line-height:              1.2;
+    --mermaid-node-color:              #0288d1;
+    --mermaid-terminator-color:        #e64a19;
+    --mermaid-decision-color:          #689f38;
+    --mermaid-join-color:              #fdd835;
+    --mermaid-in-out-color:            #9740bc;
+    --mermaid-data-color:              #ca2799;
 
-    --mermaid-node-back-color:          #4fc3f7;
-    --mermaid-node-border-color:        #0288d1;
-    --mermaid-terminator-back-color:    #ff8a65;
-    --mermaid-terminator-border-color:  #e64a19;
-    --mermaid-decision-back-color:      #aed581;
-    --mermaid-decision-border-color:    #689f38;
-    --mermaid-join-back-color:          #fff176;
-    --mermaid-join-border-color:        #fdd835;
-    --mermaid-in-out-back-color:        #d483e2;
-    --mermaid-in-out-border-color:      #9740bc;
-    --mermaid-data-back-color:          #df7cc1;
-    --mermaid-data-border-color:        #ca2799;
+    --mermaid-node-back-color:          color-mix(in srgb, var(--mermaid-node-color),       var(--color-mono-min) 80%);
+    --mermaid-terminator-back-color:    color-mix(in srgb, var(--mermaid-terminator-color), var(--color-mono-min) 80%);
+    --mermaid-decision-back-color:      color-mix(in srgb, var(--mermaid-decision-color),   var(--color-mono-min) 80%);
+    --mermaid-join-back-color:          color-mix(in srgb, var(--mermaid-join-color),       var(--color-mono-min) 80%);
+    --mermaid-in-out-back-color:        color-mix(in srgb, var(--mermaid-in-out-color),     var(--color-mono-min) 80%);
+    --mermaid-data-back-color:          color-mix(in srgb, var(--mermaid-data-color),       var(--color-mono-min) 80%);
 
-    --mermaid-node-text-color:          #000;
+    --mermaid-node-text-color:          var(--color-text);
 
     --mermaid-line-color:               var(--color-mono-8);
     --mermaid-label-text-color:         var(--color-text);
@@ -29,12 +26,12 @@
     --mermaid-line-width--thick:        3;
 }
 
-.mermaid,
+
 .mermaid svg {
-    font-family: var(--mermaid-font-family) !important;
-    font-size: var(--mermaid-font-size) !important;
-    line-height: var(--mermaid-line-height) !important;
+    display: block;
+    margin: var(--margin-block) auto;
 }
+
 
 /*** ERROR ***************************************************/
 
@@ -65,38 +62,38 @@
 .mermaid .node polygon,
 .mermaid .node path {
     fill: var(--mermaid-node-back-color) !important;
-    stroke: var(--mermaid-node-border-color) !important;
+    stroke: var(--mermaid-node-color) !important;
     stroke-width: var(--mermaid-line-width--thick) !important;
 }
 
 /* Plain rectangles */
 .mermaid .node rect:not([rx]) {
     fill: var(--mermaid-node-back-color) !important;
-    stroke: var(--mermaid-node-border-color) !important;
+    stroke: var(--mermaid-node-color) !important;
 }
 
 /* Rounded rectangles */
 .mermaid .node rect[rx] {
     fill: var(--mermaid-terminator-back-color) !important;
-    stroke: var(--mermaid-terminator-border-color) !important;
+    stroke: var(--mermaid-terminator-color) !important;
 }
 
 /* Questions */
 .mermaid .node polygon {
     fill: var(--mermaid-decision-back-color) !important;
-    stroke: var(--mermaid-decision-border-color) !important;
+    stroke: var(--mermaid-decision-color) !important;
 }
 
 /* IO */
 .mermaid .node.in-out polygon {
     fill: var(--mermaid-in-out-back-color) !important;
-    stroke: var(--mermaid-in-out-border-color) !important;
+    stroke: var(--mermaid-in-out-color) !important;
 }
 
 /* Circles */
 .mermaid .node circle {
     fill: var(--mermaid-md-default-bg-color) !important;
-    stroke: var(--mermaid-join-border-color) !important;
+    stroke: var(--mermaid-join-color) !important;
 }
 
 .mermaid .node circle:last-of-type {
@@ -106,7 +103,7 @@
 /* Database */
 .mermaid .node path {
     fill: var(--mermaid-data-back-color) !important;
-    stroke: var(--mermaid-data-border-color) !important;
+    stroke: var(--mermaid-data-color) !important;
 }
 
 /* Invisible start node for FSA */
@@ -128,9 +125,7 @@
     fill: var(--mermaid-node-text-color) !important;
     color: var(--mermaid-node-text-color) !important;
 }
-.mermaid .node .label div {
-    padding-top: 0.1em;
-}
+
 
 /*** LINES ***************************************************/
 
@@ -153,18 +148,8 @@
 
 /*** LINE ENDS ***************************************************/
 
-.mermaid .marker {
-    fill: var(--mermaid-line-color) !important;
-    stroke: var(--mermaid-line-color) !important;
-    scale: 1.5 !important;
-}
-
 .mermaid .marker path {
     stroke-width: var(--mermaid-line-width--normal) !important;
-}
-
-.mermaid .marker.cross {
-    stroke: var(--mermaid-node-back-color) !important;
 }
 
 
@@ -192,8 +177,7 @@
     text-align: center;
     background-color: var(--mermaid-label-back-color) !important;
     color: var(--mermaid-label-text-color) !important;
-    border-radius: 0.5em;
-    padding: 0 0.5em 0 0.1em;
+    padding: 0 0 0 0.2em;
 }
 
 .mermaid .labelBkg,
