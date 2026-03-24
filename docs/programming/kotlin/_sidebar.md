@@ -15,14 +15,14 @@
 - <i data-lucide="scooter"></i>Kotlin Basics
     - [<i data-lucide="variable"></i>Variables & Types](programming/kotlin/basics/variables.md)
     - [<i data-lucide="braces"></i>Code Blocks](programming/kotlin/basics/blocks.md)
-    - [<i data-lucide="hash"></i>Working with Numbers](programming/kotlin/basics/numbers.md)
-    - [<i data-lucide="case-sensitive"></i>Working with Text](programming/kotlin/basics/text.md)
-    - [<i data-lucide="monitor"></i>Displaying Output](programming/kotlin/basics/output.md)
-    - [<i data-lucide="keyboard"></i>Getting User Input](programming/kotlin/basics/input.md)
+    - [<i data-lucide="hash"></i>Numbers](programming/kotlin/basics/numbers.md)
+    - [<i data-lucide="case-sensitive"></i>Text](programming/kotlin/basics/text.md)
+    - [<i data-lucide="monitor"></i>Output to Console](programming/kotlin/basics/output.md)
+    - [<i data-lucide="keyboard"></i>User Input](programming/kotlin/basics/input.md)
     - [<i data-lucide="ampersand"></i>Conditional Logic](programming/kotlin/basics/logic.md)
-    - [<i data-lucide="repeat-2"></i>Repeating with Loops](programming/kotlin/basics/loops.md)
-    - [<i data-lucide="split"></i>Decisions with Branches](programming/kotlin/basics/branching.md)
-    - [<i data-lucide="message-square-text"></i>Code Comments](programming/kotlin/basics/comments.md)
+    - [<i data-lucide="repeat-2"></i>Loops / Iteration](programming/kotlin/basics/loops.md)
+    - [<i data-lucide="split"></i>Branches / Decisions](programming/kotlin/basics/branching.md)
+    - [<i data-lucide="message-square-text"></i>Comments](programming/kotlin/basics/comments.md)
 
 - <i data-lucide="rocket"></i>Kotlin Advanced
     - [<i data-lucide="triangle-alert"></i>Error Handling](programming/kotlin/advanced/errors.md)

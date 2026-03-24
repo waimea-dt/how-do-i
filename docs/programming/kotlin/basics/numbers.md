@@ -14,10 +14,10 @@ The most commonly used numeric types are:
 When writing literal numbers in code...
 
 ```kotlin
-val score: Int = 2000                  // Plain number
-val kmToNeptune: Long = 4500000000L    // 'L' suffix at end
-val kmFormatted: Long = 4_500_000_000L // Underscores for readability (ignored by Kotlin)
-var cost: Double = 123.45              // Decimal point
+val score: Int = 2000                   // Plain number
+val kmToNeptune: Long = 4500000000L     // 'L' suffix at end
+val kmFormatted: Long = 4_500_000_000L  // Underscores for readability
+var cost: Double = 123.45               // Decimal point
 ```
 
 > [!TIP]
