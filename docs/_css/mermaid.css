@@ -1,50 +1,50 @@
-
 .mermaid {
-    --font-family: system-ui, Helvetica, Arial, sans-serif;
+    --mermaid-font-family:              var(--font-family);
+    --mermaid-font-size:                16px;
+    --mermaid-line-height:              1.2;
 
-    --node-back:   #4fc3f7;
-    --node-border: #0288d1;
-    --term-back:   #ff8a65;
-    --term-border: #e64a19;
-    --deci-back:   #aed581;
-    --deci-border: #689f38;
-    --join-back:   #fff176;
-    --join-border: #fdd835;
-    --data-back:   #ba68c8;
-    --data-border: #7b1fa2;
+    --mermaid-node-back-color:          #4fc3f7;
+    --mermaid-node-border-color:        #0288d1;
+    --mermaid-terminator-back-color:    #ff8a65;
+    --mermaid-terminator-border-color:  #e64a19;
+    --mermaid-decision-back-color:      #aed581;
+    --mermaid-decision-border-color:    #689f38;
+    --mermaid-join-back-color:          #fff176;
+    --mermaid-join-border-color:        #fdd835;
+    --mermaid-in-out-back-color:        #d483e2;
+    --mermaid-in-out-border-color:      #9740bc;
+    --mermaid-data-back-color:          #df7cc1;
+    --mermaid-data-border-color:        #ca2799;
 
-    --node-text:   #000;
+    --mermaid-node-text-color:          #000;
 
-    --line-col:    #ffeb3b;
-    --label-text:  #000;
-    --label-back:  var(--line-col);
+    --mermaid-line-color:               var(--color-mono-8);
+    --mermaid-label-text-color:         var(--color-text);
+    --mermaid-label-back-color:         var(--color-bg);
 
-    --tone-light:  #eee;
-    --tone-dark:   #111;
+    --mermaid-tone-color--light:        #eee;
+    --mermaid-tone-color--dark:         #111;
 
-    --line-normal: 2.5px;
-    --line-thick:  5px;
-
-    font-family: var(--font-family);
-    font-size: 1em;
-    line-height: 1.5;
+    --mermaid-line-width--normal:       2;
+    --mermaid-line-width--thick:        3;
 }
 
+.mermaid,
 .mermaid svg {
-    font-family: var(--font-family);
-    font-size: 1em;
+    font-family: var(--mermaid-font-family) !important;
+    font-size: var(--mermaid-font-size) !important;
+    line-height: var(--mermaid-line-height) !important;
 }
-
 
 /*** ERROR ***************************************************/
 
 .mermaid .error-icon {
-    fill: var(--tone-light);
+    fill: var(--mermaid-tone-color--light);
 }
 
 .mermaid .error-text {
-    fill: var(--tone-dark);
-    stroke: var(--tone-dark);
+    fill: var(--mermaid-tone-color--dark);
+    stroke: var(--mermaid-tone-color--dark);
 }
 
 
@@ -57,7 +57,6 @@
     stroke: var(--node-back);
 }
 
-
 /*** BLOCKS ***************************************************/
 
 .mermaid .node rect,
@@ -65,106 +64,115 @@
 .mermaid .node ellipse,
 .mermaid .node polygon,
 .mermaid .node path {
-    fill: var(--node-back);
-    stroke: var(--node-border);
-    stroke-width: var(--line-normal);
+    fill: var(--mermaid-node-back-color) !important;
+    stroke: var(--mermaid-node-border-color) !important;
+    stroke-width: var(--mermaid-line-width--thick) !important;
 }
 
 /* Plain rectangles */
-.mermaid .node rect[rx="0"] {
-    fill: var(--node-back);
-    stroke: var(--node-border);
+.mermaid .node rect:not([rx]) {
+    fill: var(--mermaid-node-back-color) !important;
+    stroke: var(--mermaid-node-border-color) !important;
 }
 
 /* Rounded rectangles */
-.mermaid .node rect:not([rx="0"]) {
-    fill: var(--term-back);
-    stroke: var(--term-border);
+.mermaid .node rect[rx] {
+    fill: var(--mermaid-terminator-back-color) !important;
+    stroke: var(--mermaid-terminator-border-color) !important;
 }
 
 /* Questions */
 .mermaid .node polygon {
-    fill: var(--deci-back);
-    stroke: var(--deci-border);
+    fill: var(--mermaid-decision-back-color) !important;
+    stroke: var(--mermaid-decision-border-color) !important;
 }
 
-/* Joining link nodes */
+/* IO */
+.mermaid .node.in-out polygon {
+    fill: var(--mermaid-in-out-back-color) !important;
+    stroke: var(--mermaid-in-out-border-color) !important;
+}
+
+/* Circles */
 .mermaid .node circle {
-    fill: var(--join-back);
-    stroke: var(--join-border);
+    fill: var(--mermaid-md-default-bg-color) !important;
+    stroke: var(--mermaid-join-border-color) !important;
+}
+
+.mermaid .node circle:last-of-type {
+    fill: var(--mermaid-join-back-color) !important;
 }
 
 /* Database */
 .mermaid .node path {
-    fill: var(--data-back);
-    stroke: var(--data-border);
+    fill: var(--mermaid-data-back-color) !important;
+    stroke: var(--mermaid-data-border-color) !important;
 }
 
+/* Invisible start node for FSA */
+.mermaid .node.start {
+    display: none;
+}
+
+/* Labels */
 .mermaid .node .label {
     text-align: center;
 }
 
 .mermaid .label {
-    font-family: var(--font-family);
-    color: var(--node-text);
+    font-family: var(--mermaid-font-family);
 }
 
 .mermaid .label text,
 .mermaid span {
-    fill: var(--node-text);
-    color: var(--node-text);
+    fill: var(--mermaid-node-text-color) !important;
+    color: var(--mermaid-node-text-color) !important;
 }
-
 .mermaid .node .label div {
     padding-top: 0.1em;
 }
 
-
-
 /*** LINES ***************************************************/
 
 .mermaid .edgePath .path {
-    stroke: var(--line-col);
-    stroke-width: var(--line-normal);
+    stroke: var(--mermaid-line-color) !important;
+    stroke-width: var(--mermaid-line-width--thick) !important;
 }
 
 .mermaid .arrowheadPath {
-    fill: var(--line-col);
+    fill: var(--mermaid-line-color) !important;
 }
 
-.mermaid .edge-thickness-normal { stroke-width: var(--line-normal); }
-.mermaid .edge-thickness-thick  { stroke-width: var(--line-thick); }
+.mermaid .edge-thickness-normal { stroke-width: var(--mermaid-line-width--normal); }
+.mermaid .edge-thickness-thick  { stroke-width: var(--mermaid-line-width--thick); }
 
 .mermaid .edge-pattern-solid  { stroke-dasharray: 0; }
 .mermaid .edge-pattern-dashed { stroke-dasharray: 3; }
 .mermaid .edge-pattern-dotted { stroke-dasharray: 2; }
 
 
-/*** LINE LABELS ***************************************************/
+/*** LINE ENDS ***************************************************/
 
-.mermaid .edgeLabel {
-    display: block;
-    text-align: center;
-    background-color: var(--label-back);
-    outline: 5px solid var(--label-back);
-    color: var(--label-text);
-    font-weight: bold;
-    padding-top: 0.1em;
+.mermaid .marker {
+    fill: var(--mermaid-line-color) !important;
+    stroke: var(--mermaid-line-color) !important;
+    scale: 1.5 !important;
 }
 
-.mermaid .edgeLabel rect {
-    background-color: var(--label-back);
-    outline: 5px solid var(--label-back);
-    outline-offset: -1px;
-    fill: var(--label-back);
-    border-radius: 0.2em;
+.mermaid .marker path {
+    stroke-width: var(--mermaid-line-width--normal) !important;
+}
+
+.mermaid .marker.cross {
+    stroke: var(--mermaid-node-back-color) !important;
 }
 
 
-/*** LINKS ***************************************************/
+/*** LINES ***************************************************/
 
 .mermaid .flowchart-link {
-    stroke: var(--line-col);
+    stroke: var(--mermaid-line-color) !important;
+    stroke-width: var(--mermaid-line-width--normal) !important;
     fill: none;
 }
 
@@ -173,32 +181,49 @@
 }
 
 .mermaid #flowchart-pointEnd {
-    stroke: var(--line-col);
+    stroke: var(--mermaid-line-color) !important;
+}
+
+
+/*** LINE LABELS ***************************************************/
+
+.mermaid .edgeLabel {
+    display: block;
+    text-align: center;
+    background-color: var(--mermaid-label-back-color) !important;
+    color: var(--mermaid-label-text-color) !important;
+    border-radius: 0.5em;
+    padding: 0 0.5em 0 0.1em;
+}
+
+.mermaid .labelBkg,
+.mermaid .edgeLabel p {
+    background-color: transparent !important;
 }
 
 
 /*** GROUPS ***************************************************/
 
 .mermaid .cluster rect {
-    fill: var(--tone-light);
-    stroke: var(--tone-light);
-    stroke-width: var(--line-normal);
+    fill: var(--mermaid-tone-color--light);
+    stroke: var(--mermaid-tone-color--light);
+    stroke-width: var(--mermaid-line-width--normal);
 }
 
 .mermaid .cluster-label text {
-    fill: var(--tone-dark);
+    fill: var(--mermaid-tone-color--dark);
 }
 
 .mermaid .cluster-label span {
-    color: var(--tone-dark);
+    color: var(--mermaid-tone-color--dark);
 }
 
 .mermaid .cluster text {
-    fill: var(--tone-dark);
+    fill: var(--mermaid-tone-color--dark);
 }
 
 .mermaid .cluster span {
-    color: var(--tone-dark);
+    color: var(--mermaid-tone-color--dark);
 }
 
 
@@ -209,9 +234,9 @@
     text-align: center;
     max-width: 12em;
     padding: 0.25em;
-    font-family: var(--font-family);
+    font-family: var(--mermaid-font-family);
     font-size: 0.8em;
-    background: var(--tone-light);
+    background: var(--mermaid-tone-color--light);
     border: 1px solid undefined;
     border-radius: 0.25em;
     pointer-events: none;
@@ -219,6 +244,6 @@
 }
 
 .mermaid :root {
-    --mermaid-font-family: var(--font-family);
+    --mermaid-font-family: var(--mermaid-font-family);
 }
 

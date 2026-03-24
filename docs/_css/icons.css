@@ -8,8 +8,3 @@ i.si::before {
     line-height: 1;
 }
 
-:is(:is(:is(.app-nav-merged,.sidebar-nav) li) a):has(img,svg,i.si) {
-    align-items: center;
-    display: flex;
-    gap: 0.6em;
-}
