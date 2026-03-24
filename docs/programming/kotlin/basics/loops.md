@@ -2,6 +2,28 @@
 
 Loops allow you to **repeat a block of code** multiple times, either a set number of times or until a condition is no longer true.
 
+## Repeat
+
+For a simple fixed number of repetitions, `repeat`(kotlin) is a concise alternative to `for`(kotlin):
+
+```kotlin
+repeat(n) {
+    // code to repeat
+}
+```
+
+For example...
+
+```kotlin run
+repeat(5) {
+    println("Hello!")
+}
+```
+
+> [!TIP]
+> Inside a `repeat()`(kotlin) block, the current iteration index (starting from `0`) is available as `it`(kotlin): `repeat(5) { println(it) }`(kotlin)
+
+
 ## For Loop
 
 A `for`(kotlin) loop repeats once **for each value in a range or collection**:
@@ -114,23 +136,3 @@ for (i in 1..10) {
 ```
 
 
-## Repeat
-
-For a simple fixed number of repetitions, `repeat`(kotlin) is a concise alternative to `for`(kotlin):
-
-```kotlin
-repeat(n) {
-    // code to repeat
-}
-```
-
-For example...
-
-```kotlin run
-repeat(5) {
-    println("Hello!")
-}
-```
-
-> [!TIP]
-> Inside a `repeat()`(kotlin) block, the current iteration index (starting from `0`) is available as `it`(kotlin): `repeat(5) { println(it) }`(kotlin)

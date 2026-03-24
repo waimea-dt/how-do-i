@@ -1,14 +1,10 @@
 # What is HTML?
 
-<button onclick="startAllCodePens();">
-    Load Demo
-</button>
-
 <div
-    class="codepen"
-    data-html="html/_demos/simple.html"
-    data-css="html/_demos/simple.css"
-    data-height="40em"
+    class="web-playground"
+    data-html="_demos/simple.html"
+    data-css="_demos/simple.css"
+    data-js="_demos/simple.js"
 ></div>
 
 

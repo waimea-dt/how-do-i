@@ -28,6 +28,12 @@
 .CodeMirror span.cm-special    { color: var(--code-color-orange)         !important; }
 .CodeMirror span.cm-callee     { color: var(--code-color-cyan)           !important; }
 
+.CodeMirror span.cm-error      {
+    background-color: transparent !important;
+    text-decoration: underline !important;
+    text-decoration-color: var(--code-error-color) !important;
+}
+
 .CodeMirror span.cm-matchhighlight,
 .CodeMirror span.cm-searching  {
     color: var(--code-color-normal) !important;
@@ -170,7 +176,6 @@
 
     pre.CodeMirror-line,
     pre.CodeMirror-line-like {
-        /* padding-left: 0.75em !important; */
         font-variant-ligatures: none !important;
     }
 

@@ -1,20 +1,15 @@
 .lucide.icon,
-i.si {
+i.si::before {
     display: inline-block;
-    margin-bottom: 0.2em;
-    margin-right: 0.5em;
     vertical-align: middle;
     color: var(--theme-color);
-}
-
-.lucide.icon{
     width: 1.2em;
     height: 1.2em;
-}
-
-i.si {
-    font-size: 1em;
     line-height: 1;
-    margin-bottom: 0.2em;
 }
 
+:is(:is(:is(.app-nav-merged,.sidebar-nav) li) a):has(img,svg,i.si) {
+    align-items: center;
+    display: flex;
+    gap: 0.6em;
+}

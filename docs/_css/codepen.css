@@ -1,21 +1,79 @@
-@import "../_lib/codemirror/lib/codemirror.css";
-@import "../_lib/codemirror/theme/base16-light.css";
-@import "../_lib/codemirror/addon/scroll/simplescrollbars.css";
+/* codepen.css — Styles for the live HTML/CSS/JS editor widget */
 
-@import "../_lib/jotted/jotted.min.css";
-@import "../_lib/jotted/jotted-custom.css";
-
-@import "../_lib/jotted/theme/dark.css";
-@import "../_lib/jotted/theme/syntax-light.css";
-@import "../_lib/jotted/theme/syntax-dark.css";
-
-
-.codepen.jotted {
-    /* display: block; */
-    height: 80vh;
-    margin: 1rem auto;
+.codepen {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
 }
 
-.codepen:not(.jotted) {
+/* Tab bar ------------------------------------------------------------------ */
+
+.cp-tabs {
+    display: flex;
+    flex: 0 0 auto;
+    background: #263238;
+    border-bottom: 1px solid #37474f;
+    padding: 0 0.25rem;
+}
+
+.cp-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #78909c;
+    cursor: pointer;
+    font-family: var(--font-family-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0.9rem;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.cp-tab:hover {
+    color: #cfd8dc;
+}
+
+.cp-tab--active {
+    border-bottom-color: var(--theme-color);
+    color: var(--theme-color);
+}
+
+/* Panels ------------------------------------------------------------------- */
+
+.cp-panels {
+    flex: 1 1 0;
+    min-height: 0;  /* Required for flex children to scroll rather than overflow */
+    position: relative;
+}
+
+.cp-panel {
     display: none;
+    height: 100%;
 }
+
+.cp-panel--active {
+    display: block;
+}
+
+/* Override the site's .markdown-section scoped CodeMirror styles so that
+   the editor fills the full panel height rather than being sized for prose. */
+.cp-panel .CodeMirror {
+    height: 100%;
+    border-radius: 0;
+    margin: 0;
+}
+
+/* Result iframe ------------------------------------------------------------ */
+
+.cp-iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #fff;
+}
+

@@ -88,23 +88,16 @@
     font-family: var(--code-font-family), monospace;
     font-optical-sizing: auto;
     word-break: normal;
-}
-
-
-.markdown-section code[class*="language-"],
-.markdown-section pre[class*="language-"],
-.markdown-section .code-output {
     font-size: var(--code-font-size);
     font-weight: normal;
     line-height: var(--code-line-height);
     direction: ltr;
     text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    -moz-tab-size: 2;
-    -o-tab-size: 2;
-    tab-size: 2;
+    white-space: pre-wrap;
+    word-break: break-all;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
