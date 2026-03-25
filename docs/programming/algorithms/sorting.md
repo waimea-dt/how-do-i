@@ -107,6 +107,91 @@ items = bubble_sort(items)
 print("Sorted:", items)
 ```
 
+## Insertion Sort
+
+Insertion sort builds the sorted list **one item at a time**. It picks each item and **inserts it into its correct position** among the items already sorted, shifting others along to make room.
+
+Think of it like sorting a hand of playing cards — you pick up each card and slot it into the right place among the ones already in your hand.
+
+> [!NOTE]
+> Insertion sort is slow for large lists in the worst case, but it is very efficient for **small or nearly-sorted lists**. It is often used as a finishing step inside more advanced algorithms.
+
+Here is the algorithm in pseudo-code...
+
+```pseudo
+start
+    for each item from position 1 to end of list
+        current = item at this position
+        position = current index
+
+        while position > 0 and item to the left > current
+            shift item to the left one place right
+            move position left by one
+        endwhile
+
+        place current at position
+    endfor
+end
+```
+
+And here it is in flowchart form...
+
+```mermaid
+flowchart TD
+    %% Define nodes
+    start([Start])
+    outer((Loop))
+    pick["Pick next item<br>(current)"]
+    atEnd{"All items<br>processed?"}
+    inner((Loop))
+    check{"position > 0 AND<br>left item > current?"}
+    shift["Shift left item<br>one place right"]
+    moveLeft["Move position left"]
+    insert["Insert current<br>at position"]
+    done(["Done! Return list"])
+
+    %% Define links
+    start --> outer --> atEnd
+    atEnd -- Yes --> done
+    atEnd -- No --> pick --> inner --> check
+    check -- Yes --> shift --> moveLeft --> inner
+    check -- No --> insert --> outer
+```
+
+Here is a runnable Python implementation of insertion sort, with print statements so you can see it progress...
+
+```python run
+def insertion_sort(items):
+    """
+    Perform an insertion sort on a given list. Each item
+    is taken in turn and inserted into its correct position
+    among the already-sorted items to its left.
+    """
+    for i in range(1, len(items)):
+        current = items[i]
+        pos = i
+
+        print(f"\nInserting {current} into {items[:i]}...")
+
+        while pos > 0 and items[pos - 1] > current:
+            items[pos] = items[pos - 1]     # shift left item right
+            pos -= 1
+
+        items[pos] = current                # insert in correct position
+        print(f"  Result: {items[:i+1]}")
+
+    return items
+
+#---------------------------------------------------------
+# Testing the algorithm with an unsorted list
+
+items = [13, 99, 67, 42, 17, 33, 12, 28]
+
+print("Before:", items)
+items = insertion_sort(items)
+print("Sorted:", items)
+```
+
 ## Merge Sort
 
 Merge sort uses a **divide and conquer** approach. It repeatedly splits the list in half until each piece contains a single item, then merges those pieces back together in sorted order.
