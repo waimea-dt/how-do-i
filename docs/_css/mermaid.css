@@ -98,7 +98,7 @@
 }
 
 /* IO */
-.mermaid .node.in-out polygon {
+.mermaid .node polygon[points^="-"] {
     fill: var(--mermaid-in-out-back-color) !important;
     stroke: var(--mermaid-in-out-color) !important;
 }

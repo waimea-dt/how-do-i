@@ -7,26 +7,42 @@ The best approach depends on what you know about your data...
 
 ## Linear Search
 
-The simplest approach is to check each item **one by one**, starting from the beginning of the list, until you find what you're looking for — or run out of items...
+The simplest approach is to check each item **one by one**, starting from the beginning of the list, until you find what you're looking for - or run out of items.
 
+> [!NOTE]
+> Linear search works on **any list** - sorted or unsorted. However, it must check every item in the worst case, which makes it slow for large datasets.
+
+
+This the the linear search algorithm algorithm in pseudo-code...
+
+```pseudo
+start
+    go to first item in list
+
+    repeat until end of list
+        if item is target
+            return the item index
+        endif
+
+        move to next item
+    endrepeat
+
+    return -1 (not found)
+end
 ```
-1. Start at the first item in the list
-2. Repeat, until there are no items left to search:
-   a. If this is the target, return its position
-   b. Otherwise, move on to the next item
-4. When there are no items left, return -1
-```
+
+And here it is as a flowchart...
 
 ```mermaid
 flowchart TD
     %% Define nodes
     start(["Start"])
-    init["Go to first item<br>(index 0)"]
+    init["Go to first item<br>in list"]
     check{"At end?"}
     compare{"Item is<br>target?"}
     loop((Loop))
     found(["Found it!<br>(return index)"])
-    next["Next item<br>(index++)"]
+    next["Next item<br>in list"]
     notfound(["Not found<br>(return -1)"])
 
     %% Define links
@@ -37,6 +53,8 @@ flowchart TD
     compare -- No --> next --> check
 ```
 
+And this is a runnable Python implementation with print statements to track progress...
+
 ```python run
 def linear_search(items, target):
     """
@@ -45,7 +63,7 @@ def linear_search(items, target):
     to see if it matches the target
     """
 
-    print(f"Looking for: {target} in {items}")
+    print(f"Looking for value {target} in list: {items}")
 
     for index in range(len(items)):     # work through the list
         print(f"  Item {index}: {items[index]}... ", end="")
@@ -70,37 +88,52 @@ linear_search(items, 67)
 linear_search(items, 88)
 ```
 
-> [!NOTE]
-> Linear search works on **any list** — sorted or unsorted. However, it must check every item in the worst case, which makes it slow for large datasets.
-
-
 ## Binary Search
 
-If your list is **already sorted**, you can do much better. Binary search works by repeatedly **halving the search area** — like looking up a word in a dictionary by opening it in the middle and deciding which half to search...
+If your list is **already sorted**, you can do much better. Binary search works by repeatedly **halving the search area** - like looking up a word in a dictionary by opening it in the middle and deciding which half to search.
 
+> [!TIP]
+> Binary search is **much faster** than linear search for large **sorted** lists. Searching one million items takes at most 20 steps - compared to up to one million steps with linear search.
+> See the Algorithmic Complexity notes in the Computer Science section for more details on this.
+
+Here is the binary search algorithm in pseudo-code...
+
+```pseudo
+start
+    begin with the whole list
+
+    repeat until no items left to search
+        find the list mid-point
+
+        if this is the target
+            return the mid-point position
+
+        else if target > mid-point value
+            focus on right half of list
+
+        else
+            focus on left half of list
+    endrepeat
+
+    return -1 (not found)
+end
 ```
-1. Start with the full list
-2. While there are items left to search:
-    a. Find the midpoint value
-    b. If this is the target, return the mid-point index
-    c. Else, if mid-point < target, search left half
-    d. Else, search right half
-3. When no items are left, return -1 (not found)
-```
+
+And here as a flowchart...
 
 ```mermaid
 flowchart TD
     %% Define nodes
     start(["Start"])
-    init["Begin with full list<br>(start = first<br>end = last)"]
+    init["Begin with full list"]
     loop((Loop))
-    check{"Items left?<br>(start <= end?)"}
-    mid["Find mid-point<br>(mid = (start + end) / 2)"]
+    check{"Any items left<br>to search?"}
+    mid["Find mid-point of<br>remaining items"]
     equal{"Mid-point<br>is target?"}
     direction{"Target ><br>mid-point?"}
-    found(["Found it!<br>(return mid)"])
-    goRight["Go right<br>(start = mid + 1)"]
-    goLeft["Go left<br>(end = mid - 1)"]
+    found(["Found it!<br>(return index)"])
+    goRight["Go right"]
+    goLeft["Go left"]
     notfound(["Not found<br>(return -1)"])
 
     %% Define links
@@ -112,6 +145,8 @@ flowchart TD
     direction -- Yes --> goRight --> loop
     direction -- No --> goLeft --> loop
 ```
+
+And this is a runnable Python implementation with print statements to track progress...
 
 ```python run
 def binary_search(items, target):
@@ -125,7 +160,7 @@ def binary_search(items, target):
     start = 0
     end = len(items) - 1           # start with full list
 
-    print(f"Looking for: {target} in {items}")
+    print(f"Looking for value {target} in list: {items}")
 
     while start <= end:            # loop while value still to check
         mid = (start + end) // 2   # find mid-point
@@ -159,12 +194,4 @@ binary_search(items, 42)
 binary_search(items, 67)
 binary_search(items, 88)
 ```
-
-> [!TIP]
-> Binary search is **much faster** than linear search for large **sorted** lists. Searching one million items takes at most 20 steps — compared to up to one million steps with linear search.
-
-| Algorithm | Works on unsorted data? | Worst-case steps (n items) |
-|-----------|------------------------|----------------------------|
-| Linear search | Yes | n |
-| Binary search | No — list must be sorted | log₂(n) |
 

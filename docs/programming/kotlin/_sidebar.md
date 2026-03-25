@@ -9,8 +9,8 @@
 
 - <i class="si si-kotlin"></i>Kotlin Introduction
     - [<i data-lucide="circle-question-mark"></i>The Kotlin Language](programming/kotlin/index.md)
-    - [<i data-lucide="file-text"></i>Kotlin Cheatsheet](programming/kotlin/cheatsheet.md)
-    - [<i data-lucide="folder-tree"></i>Kotlin Project Setup](programming/kotlin/project.md)
+    - [<i data-lucide="file-text"></i>Cheatsheet](programming/kotlin/cheatsheet.md)
+    - [<i data-lucide="folder-tree"></i>Project Setup](programming/kotlin/project.md)
 
 - <i data-lucide="scooter"></i>Kotlin Basics
     - [<i data-lucide="variable"></i>Variables & Types](programming/kotlin/basics/variables.md)
@@ -18,7 +18,7 @@
     - [<i data-lucide="hash"></i>Numbers](programming/kotlin/basics/numbers.md)
     - [<i data-lucide="case-sensitive"></i>Text](programming/kotlin/basics/text.md)
     - [<i data-lucide="monitor"></i>Output to Console](programming/kotlin/basics/output.md)
-    - [<i data-lucide="keyboard"></i>User Input](programming/kotlin/basics/input.md)
+    - [<i data-lucide="keyboard"></i>Input from Console](programming/kotlin/basics/input.md)
     - [<i data-lucide="ampersand"></i>Conditional Logic](programming/kotlin/basics/logic.md)
     - [<i data-lucide="repeat-2"></i>Loops / Iteration](programming/kotlin/basics/loops.md)
     - [<i data-lucide="split"></i>Branches / Decisions](programming/kotlin/basics/branching.md)
@@ -35,25 +35,25 @@
 
 - <i data-lucide="shapes"></i>Kotlin OOP
     - [<i data-lucide="circle-question-mark"></i>What is OOP?](programming/kotlin/oop/intro.md)
-    - [<i data-lucide="square-dashed"></i>Creating Classes](programming/kotlin/oop/classes.md)
-    - [<i data-lucide="copy-plus"></i>Instantiating Objects](programming/kotlin/oop/objects.md)
-    - [<i data-lucide="app-window"></i>OOP and GUIs](programming/kotlin/oop/guis.md)
+    - [<i data-lucide="square-dashed"></i>Classes](programming/kotlin/oop/classes.md)
+    - [<i data-lucide="copy-plus"></i>Object Instantiation](programming/kotlin/oop/objects.md)
+    - [<i data-lucide="app-window"></i>GUIs and OOP](programming/kotlin/oop/guis.md)
 
 - <i data-lucide="app-window"></i>Kotlin GUIs
-    - [<i data-lucide="blocks"></i>What is Swing?](programming/kotlin/gui/swing.md)
-    - [<i data-lucide="paint-roller"></i>What is FlatLAF?](programming/kotlin/gui/flatlaf.md)
-    - [<i data-lucide="folder-tree"></i>Setting Up a GUI Project](programming/kotlin/gui/setup.md)
-    - [<i data-lucide="app-window"></i>Creating a Window](programming/kotlin/gui/window.md)
-    - [<i data-lucide="layout-panel-left"></i>Adding UI Elements](programming/kotlin/gui/elements.md)
+    - [<i data-lucide="blocks"></i>Swing](programming/kotlin/gui/swing.md)
+    - [<i data-lucide="paint-roller"></i>FlatLAF](programming/kotlin/gui/flatlaf.md)
+    - [<i data-lucide="folder-tree"></i>GUI Project](programming/kotlin/gui/setup.md)
+    - [<i data-lucide="app-window"></i>Windows](programming/kotlin/gui/window.md)
+    - [<i data-lucide="layout-panel-left"></i>UI Elements](programming/kotlin/gui/elements.md)
     - [<i data-lucide="mouse-pointer-click"></i>Actions & Events](programming/kotlin/gui/actions.md)
-    - [<i data-lucide="paintbrush"></i>Styling Elements](programming/kotlin/gui/styling.md)
+    - [<i data-lucide="paintbrush"></i>Styling](programming/kotlin/gui/styling.md)
     - [<i data-lucide="keyboard"></i>Key Presses](programming/kotlin/gui/keys.md)
-    - [<i data-lucide="image"></i>Adding Images](programming/kotlin/gui/images.md)
-    - [<i data-lucide="volume-2"></i>Adding Sounds](programming/kotlin/gui/sounds.md)
-    - [<i data-lucide="timer"></i>Using Timers](programming/kotlin/gui/timers.md)
+    - [<i data-lucide="image"></i>Images](programming/kotlin/gui/images.md)
+    - [<i data-lucide="volume-2"></i>Sounds](programming/kotlin/gui/sounds.md)
+    - [<i data-lucide="timer"></i>Timers](programming/kotlin/gui/timers.md)
     - [<i data-lucide="square-mouse-pointer"></i>Dialogs](programming/kotlin/gui/dialogs.md)
     - [<i data-lucide="mouse-pointer"></i>Mouse Cursor](programming/kotlin/gui/cursor.md)
-    - [<i data-lucide="pencil-ruler"></i>Drawing Graphics](programming/kotlin/gui/drawing.md)
+    - [<i data-lucide="pencil-ruler"></i>Graphics](programming/kotlin/gui/drawing.md)
     - [<i data-lucide="rocket"></i>Starter GUI App Code](programming/kotlin/gui/starter.md)
 
 

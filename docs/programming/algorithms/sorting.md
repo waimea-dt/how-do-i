@@ -1,13 +1,13 @@
 # Sorting Algorithms
 
-Often computer programs need to sort lists of data — for example, putting names in alphabetical order, or ranking scores from highest to lowest.
+Often computer programs need to sort lists of data - for example, putting names in alphabetical order, or ranking scores from highest to lowest.
 
 There are many different sorting algorithms, each with different trade-offs between simplicity and speed. Here are two well-known examples...
 
 
 ## Bubble Sort
 
-Bubble sort works by repeatedly stepping through the list and **comparing adjacent pairs** of items. If a pair is in the **wrong order**, they are **swapped**. This process repeats until no swaps are needed — meaning the list is sorted.
+Bubble sort works by repeatedly stepping through the list and **comparing adjacent pairs** of items. If a pair is in the **wrong order**, they are **swapped**. This process repeats until no swaps are needed - meaning the list is sorted.
 
 It gets its name because larger values gradually "bubble up" to their correct position at the end of the list.
 

@@ -119,6 +119,9 @@
             case 'forever':
             case 'for':
             case 'endfor':
+            case 'next':
+            case 'break':
+            case 'continue':
                 return 'loop'
 
             default:

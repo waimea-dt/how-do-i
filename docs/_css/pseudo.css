@@ -1,8 +1,8 @@
 .language-pseudo {
     --pseudo-terminator-col: #fc7c7c;
     --pseudo-function-col:   #ffbf80;
-    --pseudo-decision-col:   #bcff82;
-    --pseudo-loop-col:       #ecff81;
+    --pseudo-loop-col:       #f5ff81;
+    --pseudo-decision-col:   #77e640;
     --pseudo-action-col:     #7ed2ff;
     --pseudo-in-out-col:     #d982ff;
     --pseudo-comment-col:    #616161;

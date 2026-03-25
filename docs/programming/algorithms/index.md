@@ -15,7 +15,7 @@ The steps must be:
 
 ## Algorithms in Real Life
 
-You already follow algorithms every day — you just don't call them that.
+You already follow algorithms every day - you just don't call them that.
 
 **Making a bowl of cereal:**
 
@@ -33,18 +33,18 @@ Simple, ordered, and it works every time. That's an algorithm.
 
 ```
 1. Open the book roughly in the middle
-2. If the name is here, stop — you found it
+2. If the name is here, stop - you found it
 3. If the name comes before this page, look in the left half
 4. If the name comes after this page, look in the right half
 5. Repeat from step 1 with the remaining half
 ```
 
-This is actually a famous algorithm called **binary search** — and computers use it all the time.
+This is actually a famous algorithm called **binary search** - and computers use it all the time.
 
 
 ## Computer Algorithms
 
-In programming, algorithms are the logic behind everything a computer does — from sorting a playlist, to finding directions on a map, to deciding which posts appear in your feed.
+In programming, algorithms are the logic behind everything a computer does - from sorting a playlist, to finding directions on a map, to deciding which posts appear in your feed.
 
 Here's a simple example: finding the **largest number** in a list.
 
@@ -55,7 +55,7 @@ largest = numbers[0]          # start by assuming the first is largest
 
 for number in numbers:
     if number > largest:
-        largest = number      # found a new largest — update it
+        largest = number      # found a new largest - update it
 
 print(largest)                # 19
 ```
@@ -70,12 +70,12 @@ The algorithm:
 ```
 
 > [!TIP]
-> Notice how the algorithm description and the code say the same thing — just in different languages. Writing out steps in plain English first is a great way to plan your code.
+> Notice how the algorithm description and the code say the same thing - just in different languages. Writing out steps in plain English first is a great way to plan your code.
 
 
 ## Flowcharts
 
-Algorithms are often drawn as **flowcharts** — diagrams that show each step and decision.
+Algorithms are often drawn as **flowcharts** - diagrams that show each step and decision.
 
 Here's the "find the largest number" algorithm as a flowchart:
 
@@ -91,7 +91,7 @@ flowchart TD
     C -- No --> G([Print largest])
 ```
 
-The **diamond** shapes are decisions — places where the algorithm branches depending on what's true.
+The **diamond** shapes are decisions - places where the algorithm branches depending on what's true.
 
 
 ## What Makes a Good Algorithm?
@@ -104,8 +104,8 @@ Not all algorithms are equal. A good algorithm is:
 | **Efficient** | It doesn't waste steps or memory |
 | **Clear** | Another person (or computer) can follow it |
 
-For example, you *could* find the largest number by checking every possible combination — but that would be incredibly slow for a large list. The simple scan above is much more efficient.
+For example, you *could* find the largest number by checking every possible combination - but that would be incredibly slow for a large list. The simple scan above is much more efficient.
 
 > [!NOTE]
-> Figuring out *how efficient* an algorithm is — and comparing different approaches — is a big part of computer science. You'll explore this more as you progress.
+> Figuring out *how efficient* an algorithm is - and comparing different approaches - is a big part of computer science. You'll explore this more as you progress.
 

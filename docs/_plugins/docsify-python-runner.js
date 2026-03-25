@@ -124,19 +124,37 @@
 
     var docsifyPythonRunner = function (hook) {
 
+        // Named setup blocks extracted from the current page.
+        // Keys are setup names, values are the raw code strings.
+        // Reset on every page load in beforeEach.
+        let setupBlocks = {}
+
         hook.beforeEach(function (content) {
-            return content.replace(/^```python run$/gm, '```python-run')
+            setupBlocks = {}
+
+            // Extract ```python setup=NAME blocks, store them, and remove from markdown
+            content = content.replace(/^```python setup=(\w+)\n([\s\S]*?)^```$/gm, (_, name, code) => {
+                setupBlocks[name] = code
+                return ''
+            })
+
+            // Transform ```python run setup=NAME and plain ```python run fence tags
+            content = content.replace(/^```python run setup=(\w+)$/gm, '```python-run-$1')
+            content = content.replace(/^```python run$/gm, '```python-run')
+
+            return content
         })
 
         hook.afterEach(function (html) {
             return html.replace(
-                /(<pre\b[^>]*\blanguage-python-run\b[^>]*>[\s\S]*?<\/pre>)/g,
-                function (preBlock) {
-                    const cleaned = preBlock.replace(/\bpython-run\b/g, 'python')
+                /<pre\b[^>]*\blanguage-python-run(?:-(\w+))?\b[^>]*>[\s\S]*?<\/pre>/g,
+                function (preBlock, setupName) {
+                    const cleaned = preBlock.replace(/\bpython-run(?:-\w+)?\b/g, 'python')
+                    const dataAttr = setupName ? ` data-setup="${setupName}"` : ''
                     return '<div class="codapi-runner">' +
                            cleaned +
                            '</div>' +
-                           '<codapi-snippet engine="wasi" sandbox="python" editor="external"></codapi-snippet>'
+                           `<codapi-snippet engine="wasi" sandbox="python" editor="external"${dataAttr}></codapi-snippet>`
                 }
             )
         })
@@ -158,10 +176,18 @@
                 const code = pre.querySelector('code')
                 if (!code) return
 
+                // Look up any named setup code for this snippet
+                const setupName = snippet.dataset.setup
+                const setupCode = setupName ? (setupBlocks[setupName] ?? '') : ''
+                const visibleCode = code.textContent
+
+                // Prepend setup code to what the runner sees, but not what the editor shows
+                if (setupCode) code.textContent = setupCode + '\n' + visibleCode
+
                 const cm = CodeMirror(function (editorEl) {
                     pre.parentNode.insertBefore(editorEl, pre)
                 }, {
-                    value:             code.textContent,
+                    value:             visibleCode,
                     mode:              'python',
                     theme:             'material-darker',
                     lineNumbers:       false,
@@ -176,7 +202,9 @@
                 })
 
                 pre.style.display = 'none'
-                cm.on('change', () => { code.textContent = cm.getValue() })
+                cm.on('change', () => {
+                    code.textContent = setupCode ? setupCode + '\n' + cm.getValue() : cm.getValue()
+                })
             })
         })
     }
