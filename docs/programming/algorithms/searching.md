@@ -24,7 +24,7 @@ flowchart TD
     init["Go to first item<br>(index 0)"]
     check{"At end?"}
     compare{"Item is<br>target?"}
-    loop(( ))
+    loop((Loop))
     found(["Found it!<br>(return index)"])
     next["Next item<br>(index++)"]
     notfound(["Not found<br>(return -1)"])
@@ -39,18 +39,35 @@ flowchart TD
 
 ```python run
 def linear_search(items, target):
-    for index in range(len(items)):
-        if items[index] == target:
-            return index
-    return -1
+    """
+    Perform a simple linear search over a given list.
+    List can be unsorted. Simply checks each item in turn
+    to see if it matches the target
+    """
 
+    print(f"Looking for: {target} in {items}")
+
+    for index in range(len(items)):     # work through the list
+        print(f"  Item {index}: {items[index]}... ", end="")
+
+        if items[index] == target:      # have a match?
+            print("Found!\n")
+            return index                # pass back its location
+        else:
+            print("No")
+
+    print("  Not found\n")
+    return -1                           # no match, so pass back -1
+
+#----------------------------------------------------
 # Testing the algorithm with an unsorted list
 
-items = [13, 10, 12, 42, 17, 2, 28, 7, 33]
+items = [99, 13, 37, 67, 33, 12, 28, 78, 42, 17]
 
-print("Searching for 13:", linear_search(items, 13))
-print("Searching for 42:", linear_search(items, 42))
-print("Searching for 67:", linear_search(items, 67))
+linear_search(items, 13)
+linear_search(items, 42)
+linear_search(items, 67)
+linear_search(items, 88)
 ```
 
 > [!NOTE]
@@ -76,11 +93,11 @@ flowchart TD
     %% Define nodes
     start(["Start"])
     init["Begin with full list<br>(start = first<br>end = last)"]
-    loop(( ))
+    loop((Loop))
     check{"Items left?<br>(start <= end?)"}
     mid["Find mid-point<br>(mid = (start + end) / 2)"]
     equal{"Mid-point<br>is target?"}
-    lessThan{"Mid-point<br>< target?"}
+    direction{"Target ><br>mid-point?"}
     found(["Found it!<br>(return mid)"])
     goRight["Go right<br>(start = mid + 1)"]
     goLeft["Go left<br>(end = mid - 1)"]
@@ -91,35 +108,56 @@ flowchart TD
     check -- No --> notfound
     check -- Yes --> mid --> equal
     equal -- Yes ---> found
-    equal -- No --> lessThan
-    lessThan -- Yes --> goLeft --> loop
-    lessThan -- No --> goRight --> loop
+    equal -- No --> direction
+    direction -- Yes --> goRight --> loop
+    direction -- No --> goLeft --> loop
 ```
 
 ```python run
 def binary_search(items, target):
-    low = 0
-    high = len(items) - 1
+    """
+    Perform a binary search on a given list. The list
+    *must* be sorted for this to work. Begin at the
+    mid-point, checking value. If target not found,
+    reject half, and then repeat for the remaining half
+    """
 
-    while low <= high:
-        mid = (low + high) // 2
+    start = 0
+    end = len(items) - 1           # start with full list
 
-        if items[mid] == target:
-            return mid
-        elif items[mid] < target:
-            low = mid + 1
+    print(f"Looking for: {target} in {items}")
+
+    while start <= end:            # loop while value still to check
+        mid = (start + end) // 2   # find mid-point
+
+        print(f"  Item {mid}: {items[mid]}... ", end="")
+
+        if items[mid] == target:   # found it?
+            print("Found!\n")
+            return mid             # yes, so pass back location
+
+        elif target > items[mid]:  # no, so see which half to check next
+
+            start = mid + 1        # reject left half, process right
+            print("No, go right: ", end="")
         else:
-            high = mid - 1
+            end = mid - 1          # reject right half, process left
+            print("No, go left:  ", end="")
 
-    return -1
+        print(items[start:end+1])
 
-# Testing the algorithm on a sorted list
+    print("  Not found\n")
+    return -1                      # didn't find target, so pass back -1
 
-items = [2, 7, 10, 12, 13, 17, 28, 33, 42]
+#----------------------------------------------------
+# Testing the algorithm on a *sorted* list
 
-print("Searching for 13:", binary_search(items, 13))
-print("Searching for 42:", binary_search(items, 42))
-print("Searching for 67:", binary_search(items, 67))
+items = [12, 13, 17, 28, 33, 37, 42, 67, 78, 99]
+
+binary_search(items, 13)
+binary_search(items, 42)
+binary_search(items, 67)
+binary_search(items, 88)
 ```
 
 > [!TIP]

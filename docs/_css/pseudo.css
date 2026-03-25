@@ -1,0 +1,20 @@
+.language-pseudo {
+    --pseudo-terminator-col: #fc7c7c;
+    --pseudo-function-col:   #ffbf80;
+    --pseudo-decision-col:   #bcff82;
+    --pseudo-loop-col:       #ecff81;
+    --pseudo-action-col:     #7ed2ff;
+    --pseudo-in-out-col:     #d982ff;
+    --pseudo-comment-col:    #616161;
+}
+
+
+.language-pseudo .comment  { color: var(--pseudo-comment-col); }
+.language-pseudo .block    { color: var(--pseudo-terminator-col); }
+.language-pseudo .function { color: var(--pseudo-function-col); }
+.language-pseudo .action   { color: var(--pseudo-action-col); }
+.language-pseudo .decision { color: var(--pseudo-decision-col); }
+.language-pseudo .loop     { color: var(--pseudo-loop-col); }
+.language-pseudo .input    { color: var(--pseudo-in-out-col); }
+.language-pseudo .output   { color: var(--pseudo-in-out-col); }
+

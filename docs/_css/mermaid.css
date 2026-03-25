@@ -1,8 +1,9 @@
 .mermaid {
-    --mermaid-node-color:              #0288d1;
-    --mermaid-terminator-color:        #e64a19;
+    --mermaid-terminator-color:        #e61919;
+    --mermaid-func-call-color:         #e68a19;
+    --mermaid-join-color:              #fafd35;
     --mermaid-decision-color:          #689f38;
-    --mermaid-join-color:              #fdd835;
+    --mermaid-node-color:              #0288d1;
     --mermaid-in-out-color:            #9740bc;
     --mermaid-data-color:              #ca2799;
 
@@ -12,14 +13,20 @@
     --mermaid-join-back-color:          color-mix(in srgb, var(--mermaid-join-color),       var(--color-mono-min) 80%);
     --mermaid-in-out-back-color:        color-mix(in srgb, var(--mermaid-in-out-color),     var(--color-mono-min) 80%);
     --mermaid-data-back-color:          color-mix(in srgb, var(--mermaid-data-color),       var(--color-mono-min) 80%);
+    --mermaid-func-call-back-color:     color-mix(in srgb, var(--mermaid-func-call-color),  var(--color-mono-min) 80%);
 
     --mermaid-node-text-color:          var(--color-text);
 
-    --mermaid-line-color:               var(--color-mono-8);
-    --mermaid-label-text-color:         var(--color-text);
+    --mermaid-line-color:               var(--color-mono-6);
+    --mermaid-label-text-color:         var(--mermaid-join-color);
     --mermaid-label-back-color:         var(--color-bg);
 
-    --mermaid-tone-color--light:        #eee;
+    --mermaid-group-back-color:         var(--color-mono-1);
+    --mermaid-group-color:              var(--color-mono-2);
+    --mermaid-group-text-color:         var(--color-mono-6);
+
+
+    --mermaid-tone-color--light:        #f00;
     --mermaid-tone-color--dark:         #111;
 
     --mermaid-line-width--normal:       2;
@@ -66,14 +73,14 @@
     stroke-width: var(--mermaid-line-width--thick) !important;
 }
 
-/* Plain rectangles */
-.mermaid .node rect:not([rx]) {
+/* Process / regular nodes */
+.mermaid .node rect {
     fill: var(--mermaid-node-back-color) !important;
     stroke: var(--mermaid-node-color) !important;
 }
 
-/* Rounded rectangles */
-.mermaid .node rect[rx] {
+/* Terminators (Start / End) */
+.mermaid .node .outer-path path {
     fill: var(--mermaid-terminator-back-color) !important;
     stroke: var(--mermaid-terminator-color) !important;
 }
@@ -82,6 +89,12 @@
 .mermaid .node polygon {
     fill: var(--mermaid-decision-back-color) !important;
     stroke: var(--mermaid-decision-color) !important;
+}
+
+/* Function Calls */
+.mermaid .node polygon.label-container[points^="0,0"] {
+    fill: var(--mermaid-func-call-back-color) !important;
+    stroke: var(--mermaid-func-call-color) !important;
 }
 
 /* IO */
@@ -172,62 +185,32 @@
 
 /*** LINE LABELS ***************************************************/
 
-.mermaid .edgeLabel {
-    display: block;
-    text-align: center;
-    background-color: var(--mermaid-label-back-color) !important;
-    color: var(--mermaid-label-text-color) !important;
-    padding: 0 0 0 0.2em;
+.mermaid .edgeLabel .labelBkg,
+.mermaid .edgeLabel .edgeLabel {
+    background-color: transparent !important;
 }
 
-.mermaid .labelBkg,
-.mermaid .edgeLabel p {
+.mermaid .edgeLabel .edgeLabel > p {
     background-color: transparent !important;
+    color: var(--mermaid-label-text-color);
+    font-weight: 500;
+    text-shadow:
+         0.1em  0.1em 0.1em var(--mermaid-label-back-color),
+         0.1em -0.1em 0.1em var(--mermaid-label-back-color),
+        -0.1em  0.1em 0.1em var(--mermaid-label-back-color),
+        -0.1em -0.1em 0.1em var(--mermaid-label-back-color);
 }
 
 
 /*** GROUPS ***************************************************/
 
 .mermaid .cluster rect {
-    fill: var(--mermaid-tone-color--light);
-    stroke: var(--mermaid-tone-color--light);
-    stroke-width: var(--mermaid-line-width--normal);
+    fill: var(--mermaid-group-back-color) !important;
+    stroke: var(--mermaid-group-color) !important;
+    stroke-width: var(--mermaid-line-width--normal) !important;
 }
 
 .mermaid .cluster-label text {
-    fill: var(--mermaid-tone-color--dark);
-}
-
-.mermaid .cluster-label span {
-    color: var(--mermaid-tone-color--dark);
-}
-
-.mermaid .cluster text {
-    fill: var(--mermaid-tone-color--dark);
-}
-
-.mermaid .cluster span {
-    color: var(--mermaid-tone-color--dark);
-}
-
-
-/*** MISC ***************************************************/
-
-.mermaid div.mermaidTooltip {
-    position: absolute;
-    text-align: center;
-    max-width: 12em;
-    padding: 0.25em;
-    font-family: var(--mermaid-font-family);
-    font-size: 0.8em;
-    background: var(--mermaid-tone-color--light);
-    border: 1px solid undefined;
-    border-radius: 0.25em;
-    pointer-events: none;
-    z-index: 100;
-}
-
-.mermaid :root {
-    --mermaid-font-family: var(--mermaid-font-family);
+    fill: var(--mermaid-group-text-color) !important;
 }
 
