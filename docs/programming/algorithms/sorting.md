@@ -111,7 +111,7 @@ print("Sorted:", items)
 
 Merge sort uses a **divide and conquer** approach. It repeatedly splits the list in half until each piece contains a single item, then merges those pieces back together in sorted order.
 
-Because a single item is always sorted, building back up from small pieces is straightforward.
+Because a single item is always sorted, building back up from small pieces is straightforward. The sort function calls itself on each half - this is called **[recursion](programming/algorithms/recursion.md)**.
 
 > [!TIP]
 > Merge sort is significantly faster than bubble sort for large lists. It is widely used in practice and is the basis for sorting in many programming languages.

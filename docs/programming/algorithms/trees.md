@@ -25,6 +25,9 @@ There are a number of ways that trees can be **traversed** - that is, visited no
 | **Depth-first** | Down each branch first | Stack / recursion |
 | **Breadth-first** | Level by level | Queue |
 
+> [!TIP]
+> Trees are a special kind of graph — with no cycles and a single root. See [Graph Algorithms](programming/algorithms/graphs.md) to see how BFS and DFS work on more general structures.
+
 
 
 ## Depth-First
@@ -38,7 +41,7 @@ Depth-first traversal explores as **far down a branch** as possible before backt
 | **Post-order** | Left, Right, Node | D, G, H, E, B, F, C, A  |
 
 > [!NOTE]
-> The algorithm for a depth-first traversal is naturally **recursive** - each call handles one node, then **calls itself** on the left and right children.
+> The algorithm for a depth-first traversal is naturally **[recursive](programming/algorithms/recursion.md)** - each call handles one node, then **calls itself** on the left and right children.
 
 ### Pre-Order
 
