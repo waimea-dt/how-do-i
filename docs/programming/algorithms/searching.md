@@ -134,6 +134,7 @@ flowchart TD
     found(["Found it!<br>(return index)"])
     goRight["Go right"]
     goLeft["Go left"]
+    loopLower(( ))
     notfound(["Not found<br>(return -1)"])
 
     %% Define links
@@ -142,8 +143,9 @@ flowchart TD
     check -- Yes --> mid --> equal
     equal -- Yes ---> found
     equal -- No --> direction
-    direction -- Yes --> goRight --> loop
-    direction -- No --> goLeft --> loop
+    direction -- Yes --> goRight --> loopLower
+    direction -- No --> goLeft --> loopLower
+    loopLower --> loop
 ```
 
 And this is a runnable Python implementation with print statements to track progress...

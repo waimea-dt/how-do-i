@@ -131,6 +131,7 @@
 
         hook.beforeEach(function (content) {
             setupBlocks = {}
+            content = content.replace(/\r\n/g, '\n')
 
             // Extract ```python setup=NAME blocks, store them, and remove from markdown
             content = content.replace(/^```python setup=(\w+)\n([\s\S]*?)^```$/gm, (_, name, code) => {

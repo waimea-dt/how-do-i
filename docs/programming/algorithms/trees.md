@@ -2,6 +2,7 @@
 
 A **tree** is a data structure made up of **nodes** connected by **edges**, arranged in a hierarchy. The node at the top is called the **root**, and each node can have **child nodes** below it...
 
+
 ```mermaid
 flowchart TD
     A((A)) --> B((B))
@@ -19,20 +20,46 @@ flowchart TD
 There are a number of ways that trees can be **traversed** - that is, visited node by node in a specific order. The two main categories are **depth-first** and **breadth-first**...
 
 
+| Traversal | Order visited | Data structure used |
+|-----------|---------------|---------------------|
+| **Depth-first** | Down each branch first | Stack / recursion |
+| **Breadth-first** | Level by level | Queue |
+
+
+
 ## Depth-First
 
 Depth-first traversal explores as **far down a branch** as possible before backtracking. There are three common orderings:
 
 | Order          | Visit sequence    | Result for example tree |
 | -------------- | ----------------- | ----------------------- |
-| **Pre-order**  | Root, Left, Right | A, B, D, E, G, H, C, F  |
-| **In-order**   | Left, Root, Right | D, B, G, E, H, A, F, C  |
-| **Post-order** | Left, Right, Root | D, G, H, E, B, F, C, A  |
+| **Pre-order**  | Node, Left, Right | A, B, D, E, G, H, C, F  |
+| **In-order**   | Left, Node, Right | D, B, G, E, H, A, F, C  |
+| **Post-order** | Left, Right, Node | D, G, H, E, B, F, C, A  |
 
 > [!NOTE]
-> The algorithm is naturally **recursive** - each call handles one node, then **calls itself** on the left and right children.
+> The algorithm for a depth-first traversal is naturally **recursive** - each call handles one node, then **calls itself** on the left and right children.
 
-Here is the pre-order algorithm in pseudo-ce...
+### Pre-Order
+
+At each node:
+1. the **node** is visited
+2. the **left** branch is followed
+3. the **right** branch is followed
+
+
+```mermaid
+flowchart TD
+    A(("A: 1")) --> B(("B: 2"))
+    A --> C(("C: 7"))
+    B --> D(("D: 3"))
+    B --> E(("E: 4"))
+    C --> F(("F: 8"))
+    E --> G(("G: 5"))
+    E --> H(("H: 6"))
+```
+
+Here is the pre-order algorithm in pseudo-code...
 
 ```pseudo
 start traverse (node)
@@ -68,6 +95,7 @@ flowchart TD
 ```
 
 This is a runnable Python implementation of the **pre-order** algorithm...
+
 
 ```python setup=example_tree
 #---------------------------------------
@@ -119,6 +147,25 @@ print("Depth-first, pre-order...")
 depth_first_pre_order(root)
 ```
 
+### In-Order
+
+At each node:
+1. the **left** branch is followed
+2. the **node** is visited
+3. the **right** branch is followed
+
+
+```mermaid
+flowchart TD
+    A(("A: 6")) --> B(("B: 2"))
+    A --> C(("C: 8"))
+    B --> D(("D: 1"))
+    B --> E(("E: 4"))
+    C --> F(("F: 7"))
+    E --> G(("G: 3"))
+    E --> H(("H: 5"))
+```
+
 This is a runnable Python implementation of the **in-order** algorithm...
 
 ```python run setup=example_tree
@@ -138,6 +185,26 @@ def depth_first_in_order(node):
 
 print("Depth-first, in-order...")
 depth_first_in_order(root)
+```
+
+
+### Post-Order
+
+At each node:
+1. the **left** branch is followed
+2. the **right** branch is followed
+3. the **node** is visited
+
+
+```mermaid
+flowchart TD
+    A(("A: 8")) --> B(("B: 5"))
+    A --> C(("C: 7"))
+    B --> D(("D: 1"))
+    B --> E(("E: 4"))
+    C --> F(("F: 6"))
+    E --> G(("G: 2"))
+    E --> H(("H: 3"))
 ```
 
 This is a runnable Python implementation of the **post-order** algorithm...
@@ -171,22 +238,35 @@ Breadth-first traversal (also called **level-order** traversal) visits nodes **l
 
 Using the tree above, the result would be: **A, B, C, D, E, F, G, H**
 
-Instead of recursion, breadth-first search uses a **queue** - a structure where items are added to the back and removed from the front...
+```mermaid
+flowchart TD
+    A(("A: 1")) --> B(("B: 2"))
+    A --> C(("C: 3"))
+    B --> D(("D: 4"))
+    B --> E(("E: 5"))
+    C --> F(("F: 6"))
+    E --> G(("G: 7"))
+    E --> H(("H: 8"))
+```
+
+> [!NOTE]
+> Instead of recursion, breadth-first search uses a **queue** - a structure where items are added to the back and removed from the front (just like a real-life queue of people)...
 
 ```pseudo
 start
-    add root to queue
+    setup an empty queue
+    add root node to the queue
 
     repeat until queue is empty
         remove node from front of queue
-        visit node
+        visit the node
 
-        if node has left child then
-            add left child to queue
+        if node has left branch then
+            add left node to queue
         endif
 
-        if node has right child then
-            add right child to queue
+        if node has right branch then
+            add right node to queue
         endif
     endrepeat
 end
@@ -196,17 +276,28 @@ end
 flowchart TD
     %% Define nodes
     start([Start])
-    init[Add root to queue]
-    check{Queue empty?}
-    dequeue[Remove node from front of queue]
-    visit[Visit node]
-    addLeft[Add left child to queue\nif it exists]
-    addRight[Add right child to queue\nif it exists]
+    queue["Setup an<br>empty queue"]
+    init["Add root to queue"]
+    loop((Loop))
+    check{"Queue<br>empty?"}
+    dequeue["Remove node from<br>front of queue"]
+    visit["Visit the node"]
+    leftExists{"Node<br>has left<br>branch?"}
+    addLeft["Add left node<br>to queue"]
+    rightExists{"Node<br>has right<br>branch?"}
+    addRight["Add right node<br>to queue"]
+    loopLower(( ))
     done([Done])
 
     %% Define links
-    start --> init --> check
-    check -- No --> dequeue --> visit --> addLeft --> addRight --> check
+    start --> queue --> init --> loop --> check
+    check -- No --> dequeue --> visit
+    visit --> leftExists
+    leftExists -- Yes --> addLeft --> rightExists
+    leftExists -- No --> rightExists
+    rightExists -- Yes --> addRight --> loopLower
+    rightExists -- No --> loopLower
+    loopLower --> loop
     check -- Yes --> done
 ```
 
@@ -225,9 +316,9 @@ def breadth_first(root):
     queue = deque([root])
 
     while queue:
-        node = queue.popleft()          # remove from front
+        node = queue.popleft()              # remove from front
 
-        print(node.value, end=" → ")    # visit node
+        print(f" → {node.value}", end="")   # visit node
 
         if node.left:
             queue.append(node.left)
@@ -240,9 +331,3 @@ def breadth_first(root):
 print("Breadth-first...")
 breadth_first(root)
 ```
-
-| Traversal | Order visited | Data structure used |
-|-----------|---------------|---------------------|
-| Depth-first | Down each branch first | Stack / recursion |
-| Breadth-first | Level by level | Queue |
-
