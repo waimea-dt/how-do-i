@@ -1,19 +1,27 @@
 .mermaid {
-    --mermaid-terminator-color:        #e61919;
-    --mermaid-func-call-color:         #e68a19;
-    --mermaid-join-color:              #fafd35;
-    --mermaid-decision-color:          #689f38;
-    --mermaid-node-color:              #0288d1;
-    --mermaid-in-out-color:            #9740bc;
-    --mermaid-data-color:              #ca2799;
+    --mermaid-red-color:               #e61919;
+    --mermaid-orange-color:            #e68a19;
+    --mermaid-yellow-color:            #fafd35;
+    --mermaid-green-color:             #82c349;
+    --mermaid-blue-color:              #0288d1;
+    --mermaid-purple-color:            #9740bc;
+    --mermaid-pink-color:              #ca2799;
 
-    --mermaid-node-back-color:          color-mix(in srgb, var(--mermaid-node-color),       var(--color-mono-min) 80%);
+    --mermaid-terminator-color:         var(--mermaid-red-color);
+    --mermaid-func-call-color:          var(--mermaid-orange-color);
+    --mermaid-join-color:               var(--mermaid-yellow-color);
+    --mermaid-decision-color:           var(--mermaid-green-color);
+    --mermaid-node-color:               var(--mermaid-blue-color);
+    --mermaid-in-out-color:             var(--mermaid-purple-color);
+    --mermaid-data-color:               var(--mermaid-pink-color);
+
     --mermaid-terminator-back-color:    color-mix(in srgb, var(--mermaid-terminator-color), var(--color-mono-min) 80%);
-    --mermaid-decision-back-color:      color-mix(in srgb, var(--mermaid-decision-color),   var(--color-mono-min) 80%);
+    --mermaid-func-call-back-color:     color-mix(in srgb, var(--mermaid-func-call-color),  var(--color-mono-min) 80%);
     --mermaid-join-back-color:          color-mix(in srgb, var(--mermaid-join-color),       var(--color-mono-min) 80%);
+    --mermaid-decision-back-color:      color-mix(in srgb, var(--mermaid-decision-color),   var(--color-mono-min) 80%);
+    --mermaid-node-back-color:          color-mix(in srgb, var(--mermaid-node-color),       var(--color-mono-min) 80%);
     --mermaid-in-out-back-color:        color-mix(in srgb, var(--mermaid-in-out-color),     var(--color-mono-min) 80%);
     --mermaid-data-back-color:          color-mix(in srgb, var(--mermaid-data-color),       var(--color-mono-min) 80%);
-    --mermaid-func-call-back-color:     color-mix(in srgb, var(--mermaid-func-call-color),  var(--color-mono-min) 80%);
 
     --mermaid-node-text-color:          var(--color-text);
 
@@ -25,6 +33,11 @@
     --mermaid-group-color:              var(--color-mono-2);
     --mermaid-group-text-color:         var(--color-mono-6);
 
+    --mermaid-seq-man-color:            var(--mermaid-blue-color);
+    --mermaid-seq-request-color:        var(--mermaid-yellow-color);
+    --mermaid-seq-response-color:       var(--mermaid-green-color);
+
+    --mermaid-seq-man-back-color:       color-mix(in srgb, var(--mermaid-seq-man-color),    var(--color-mono-min) 80%);
 
     --mermaid-tone-color--light:        #f00;
     --mermaid-tone-color--dark:         #111;
@@ -61,7 +74,7 @@
     stroke: var(--node-back);
 }
 
-/*** BLOCKS ***************************************************/
+/*** FLOWCHART BLOCKS ***************************************************/
 
 .mermaid .node rect,
 .mermaid .node circle,
@@ -139,6 +152,33 @@
     color: var(--mermaid-node-text-color) !important;
 }
 
+/*** SEQUENCE DIAGS ***************************************************/
+
+.mermaid .actor-man :is(line, circle) {
+    fill: var(--mermaid-seq-man-back-color) !important;
+    stroke: var(--mermaid-seq-man-color) !important;
+}
+
+.mermaid .actor-line {
+    stroke: var(--mermaid-seq-man-color) !important;
+    stroke-width: var(--mermaid-line-width--thick) !important;
+}
+
+.mermaid .messageLine0 {
+    stroke: var(--mermaid-seq-request-color) !important;
+}
+
+.mermaid .messageText:has(+ .messageLine0) {
+    fill: var(--mermaid-seq-request-color) !important;
+}
+
+.mermaid .messageLine1 {
+    stroke: var(--mermaid-seq-response-color) !important;
+}
+
+.mermaid .messageText:has(+ .messageLine1) {
+    fill: var(--mermaid-seq-response-color) !important;
+}
 
 /*** LINES ***************************************************/
 

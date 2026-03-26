@@ -145,29 +145,39 @@ Each role has a clear, limited interface. The customer only needs to know how to
 
 ```kotlin run
 class Chef {
-    fun prepareMeal(dish: String): String {
-        println("Chef: Preparing $dish...")
-        return "$dish (freshly prepared)"
+    fun prepare(dish: String): String {
+        println("    Chef: Receives order for $dish")
+        println("    Chef: Prepares $dish")
+        val preparedDish = "fresh $dish"
+        println("    Chef: Here is the $preparedDish")
+        return preparedDish
     }
 }
 
 
 class Waiter {
-    private val chef = Chef()   // Waiter has access to a Chef
+    private val chef = Chef()   // Waiter can access Chef
 
-    fun takeOrder(dish: String) {
-        println("Waiter: Taking order for $dish...")
-        val meal = chef.prepareMeal(dish)
-        println("Waiter: Here is your $meal\n")
+    fun order(dish: String): String {
+        println("  Waiter: Takes order for $dish")
+        println("  Waiter: Prepare some $dish, Chef")
+        val preparedDish = chef.prepare(dish)
+        println("  Waiter: Here is your $preparedDish")
+        return preparedDish
     }
 }
 
 
 fun main() {
-    val waiter = Waiter()
+    val waiter = Waiter()      // Customer only sees Waiter
 
-    waiter.takeOrder("pasta")
-    waiter.takeOrder("soup")
+    val dishes = listOf("soup", "pasta", "goat")
+
+    for (dish in dishes) {
+	    println("Customer: I would like to order $dish")
+    	val servedDish = waiter.order(dish)
+    	println("Customer: Yum! This $servedDish is good!\n")
+    }
 }
 ```
 
@@ -177,18 +187,18 @@ fun main() {
 ```mermaid
 sequenceDiagram
     actor Customer
-    participant Waiter
-    participant Chef
+    actor Waiter
+    actor Chef
 
-    Customer->>Waiter: takeOrder("pasta")
-    Waiter->>Chef: prepareMeal("pasta")
-    Chef-->>Waiter: "pasta (freshly prepared)"
-    Waiter-->>Customer: "Here is your pasta (freshly prepared)"
+    Customer ->>  Waiter:   I would like pasta
+    Waiter   ->>  Chef:     Prepare some pasta
+    Chef     -->> Waiter:   Here is the fresh pasta
+    Waiter   -->> Customer: Here is your fresh pasta
 
-    Customer->>Waiter: takeOrder("soup")
-    Waiter->>Chef: prepareMeal("soup")
-    Chef-->>Waiter: "soup (freshly prepared)"
-    Waiter-->>Customer: "Here is your soup (freshly prepared)"
+    Customer ->>  Waiter:   I would like soup
+    Waiter   ->>  Chef:     Prepare some soup
+    Chef     -->> Waiter:   Here is the fresh soup
+    Waiter   -->> Customer: Here is your fresh soup
 ```
 
 
