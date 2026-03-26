@@ -110,6 +110,18 @@ names[1] = "Barbara"      // replace item at index 1
 println(names)
 ```
 
+**Swapping** items:
+
+```kotlin run
+val names = mutableListOf("Alice", "Bob", "Charlie")
+println(names)
+
+val temp = names[1]       // Keep a temporary copy of 1
+names[1] = names[2]       // Copy value from 2 to 1
+names[2] = temp           // Copy temporary value into 2
+println(names)
+```
+
 > [!TIP]
 > Start with `mutableListOf()`(kotlin) while building/editing a list, then consider switching to `listOf()`(kotlin) once the data is finalised - this makes your intent clear and prevents accidental changes.
 

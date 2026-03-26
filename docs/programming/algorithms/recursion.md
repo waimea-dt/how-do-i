@@ -16,7 +16,7 @@ Every recursive function needs exactly two things:
 > [!IMPORTANT]
 > Without a base case, the function calls itself forever - crashing with a **stack overflow** error. **Always define the base case first**.
 
----
+
 
 ## Example: Countdown
 
@@ -69,7 +69,7 @@ def countdown(n):
 countdown(5)
 ```
 
----
+
 
 ## Example: Factorial
 
@@ -153,7 +153,7 @@ flowchart TD
 > [!NOTE]
 > This chain of waiting function calls is held in memory as the **call stack**. Each call is added to the stack until the base case is reached, then they are resolved one by one as values are returned back up.
 
----
+
 
 ## Where Recursion Is Used
 

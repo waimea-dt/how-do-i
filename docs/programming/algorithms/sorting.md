@@ -102,16 +102,16 @@ def bubble_sort(items):
 
 items = [13, 99, 67, 42, 17, 33, 12, 28]
 
-print("Before:", items)
+print(f"Before: {items}")
 items = bubble_sort(items)
-print("Sorted:", items)
+print(f"Sorted: {items}")
 ```
 
 ## Insertion Sort
 
 Insertion sort builds the sorted list **one item at a time**. It picks each item and **inserts it into its correct position** among the items already sorted, shifting others along to make room.
 
-Think of it like sorting a hand of playing cards — you pick up each card and slot it into the right place among the ones already in your hand.
+Think of it like sorting a hand of playing cards - you pick up each card and slot it into the right place among the ones already in your hand.
 
 > [!NOTE]
 > Insertion sort is slow for large lists in the worst case, but it is very efficient for **small or nearly-sorted lists**. It is often used as a finishing step inside more advanced algorithms.
@@ -120,17 +120,21 @@ Here is the algorithm in pseudo-code...
 
 ```pseudo
 start
-    for each item from position 1 to end of list
-        current = item at this position
-        position = current index
+    for each item in list from index 1 to end
+        current = item
+        position = index of current
 
-        while position > 0 and item to the left > current
-            shift item to the left one place right
-            move position left by one
+        while an item is to left of position and it is larger than current
+            shift item on left one place to the right
+            move position to the left
         endwhile
 
         place current at position
+
+        current = next item in list
     endfor
+
+    return list
 end
 ```
 
@@ -141,26 +145,29 @@ flowchart TD
     %% Define nodes
     start([Start])
     outer((Loop))
-    pick["Pick next item<br>(current)"]
-    atEnd{"All items<br>processed?"}
+    current["'current' is the<br>list item"]
+    position["'position' is index<br>of current"]
+    atEnd{"End of<br>list?"}
     inner((Loop))
-    check{"position > 0 AND<br>left item > current?"}
+    itemLeft{"item to<br>left and is<br>larger?"}
     shift["Shift left item<br>one place right"]
     moveLeft["Move position left"]
     insert["Insert current<br>at position"]
+    next["Go to next item<br>in the list"]
     done(["Done! Return list"])
 
     %% Define links
     start --> outer --> atEnd
     atEnd -- Yes --> done
-    atEnd -- No --> pick --> inner --> check
-    check -- Yes --> shift --> moveLeft --> inner
-    check -- No --> insert --> outer
+    atEnd -- No --> current --> position --> inner --> itemLeft
+    itemLeft -- No ---> insert --> next --> outer
+    itemLeft -- Yes --> shift --> moveLeft --> inner
 ```
 
 Here is a runnable Python implementation of insertion sort, with print statements so you can see it progress...
 
 ```python run
+
 def insertion_sort(items):
     """
     Perform an insertion sort on a given list. Each item
@@ -169,27 +176,43 @@ def insertion_sort(items):
     """
     for i in range(1, len(items)):
         current = items[i]
-        pos = i
+        position = i
 
-        print(f"\nInserting {current} into {items[:i]}...")
+        print(f"Value {current}... {items}")
 
-        while pos > 0 and items[pos - 1] > current:
-            items[pos] = items[pos - 1]     # shift left item right
-            pos -= 1
+        # Check if item to left needs to be shuffled right...
+        while position > 0 and items[position - 1] > current:
+            items[position] = items[position - 1]   # shift left item right
+            items[position - 1] = blank          	# place a 'space' to visualise
 
-        items[pos] = current                # insert in correct position
-        print(f"  Result: {items[:i+1]}")
+            print(f"   Move {items[position]}: {items}")
+
+            position -= 1
+
+        items[position] = current     # insert in correct position
+
+        print(f" Insert {current}: {items}\n")
 
     return items
+
+
+#---------------------------------------------------------
+# This is used only to show 'blanks' in the list to help
+# visualise what is happening during the insertions
+class Blank:
+    def __repr__(self):
+        return '__'
+
+blank = Blank()
 
 #---------------------------------------------------------
 # Testing the algorithm with an unsorted list
 
 items = [13, 99, 67, 42, 17, 33, 12, 28]
 
-print("Before:", items)
+print(f"Before: {items}\n")
 items = insertion_sort(items)
-print("Sorted:", items)
+print(f"Sorted: {items}")
 ```
 
 ## Merge Sort
@@ -326,7 +349,7 @@ def merge(left, right):
 
     result.extend(left[i:])             # add on any remaining values
     result.extend(right[j:])
-    print(f"        {result}\n")
+    print(f"        {result}")
 
     return result
 
@@ -335,9 +358,8 @@ def merge(left, right):
 
 items = [13, 99, 67, 42, 17, 33, 12, 28]
 
-print("Before:", items)
+print(f"Before: {items}")
 items = merge_sort(items)
-print("Sorted:", items)
-
+print(f"\nSorted: {items}")
 ```
 

@@ -1,6 +1,6 @@
 # Graph Algorithms
 
-A **graph** is a data structure made up of **nodes** (also called vertices) connected by **edges**. Unlike a [tree](programming/algorithms/trees.md), a graph has no root, no hierarchy, and edges can form **cycles** — paths that loop back to a node you've already visited.
+A **graph** is a data structure made up of **nodes** (also called vertices) connected by **edges**. Unlike a [tree](programming/algorithms/trees.md), a graph has no root, no hierarchy, and edges can form **cycles** - paths that loop back to a node you've already visited.
 
 ```mermaid
 flowchart LR
@@ -21,7 +21,7 @@ Graphs are used to model all sorts of real-world problems: road networks, social
 
 ## Depth-First Search (DFS)
 
-Depth-first search explores a graph by going **as deep as possible** along one path before backtracking. It uses a **stack** — either an explicit one, or the call stack via [recursion](programming/algorithms/recursion.md).
+Depth-first search explores a graph by going **as deep as possible** along one path before backtracking. It uses a **stack** - either an explicit one, or the call stack via [recursion](programming/algorithms/recursion.md).
 
 Because graphs can contain cycles, DFS must track which nodes have already been **visited** to avoid looping forever.
 
@@ -76,7 +76,7 @@ flowchart TD
     neighbours -. "all done" .-> loop
 ```
 
-And here is a runnable Python implementation using the example graph above. The graph is stored as an **adjacency list** — a dictionary where each key is a node, and the value is a list of its neighbours...
+And here is a runnable Python implementation using the example graph above. The graph is stored as an **adjacency list** - a dictionary where each key is a node, and the value is a list of its neighbours...
 
 ```python run
 graph = {
@@ -110,7 +110,7 @@ dfs(graph, 'A')
 
 ## Breadth-First Search (BFS)
 
-Breadth-first search explores a graph **level by level** — visiting all immediate neighbours before moving further away. It uses a **queue** instead of a stack.
+Breadth-first search explores a graph **level by level** - visiting all immediate neighbours before moving further away. It uses a **queue** instead of a stack.
 
 Like DFS, it must track visited nodes to handle cycles.
 
@@ -208,7 +208,7 @@ bfs(graph, 'A')
 
 ## Weighted Graphs
 
-When edges have **weights** (distances, costs, times), BFS no longer guarantees the shortest path — a route with fewer edges might have a much higher total cost.
+When edges have **weights** (distances, costs, times), BFS no longer guarantees the shortest path - a route with fewer edges might have a much higher total cost.
 
 ```mermaid
 flowchart LR

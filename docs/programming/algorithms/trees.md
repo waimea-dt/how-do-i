@@ -26,7 +26,7 @@ There are a number of ways that trees can be **traversed** - that is, visited no
 | **Breadth-first** | Level by level | Queue |
 
 > [!TIP]
-> Trees are a special kind of graph — with no cycles and a single root. See [Graph Algorithms](programming/algorithms/graphs.md) to see how BFS and DFS work on more general structures.
+> Trees are a special kind of graph - with no cycles and a single root. See [Graph Algorithms](programming/algorithms/graphs.md) to see how BFS and DFS work on more general structures.
 
 
 

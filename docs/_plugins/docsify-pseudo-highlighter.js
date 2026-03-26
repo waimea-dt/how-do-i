@@ -52,8 +52,10 @@
     // Highlights  call funcName(params)  within action lines.
     // 'call funcName(...)' is styled as function; surrounding text as action.
     // Writing  = call  in source renders as  ← call.
+    // All other assignments (variable = value) also render with ←.
     function highlightFunctionCalls(content) {
         content = content.replace(/=\s*(call\s)/g, '\u2190 $1')
+        content = content.replace(/(?<![!<>=])=(?!=)/g, '\u2190')
 
         const parts = []
         let last = 0
