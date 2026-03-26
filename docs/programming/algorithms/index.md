@@ -48,7 +48,18 @@ In programming, algorithms are the logic behind everything a computer does - fro
 
 Here's a simple example: finding the **largest number** in a list.
 
-```python
+First, here is the algorithm in plain English:
+
+```
+1. Assume the first number is the largest so far
+2. Look at each number in the list
+3. If it's bigger than the current largest, it becomes the new largest
+4. After checking all numbers, the answer is the largest seen
+```
+
+And here is a Python program that follows this algorithm:
+
+```python run
 numbers = [4, 7, 2, 19, 5, 1]
 
 largest = numbers[0]          # start by assuming the first is largest
@@ -57,16 +68,7 @@ for number in numbers:
     if number > largest:
         largest = number      # found a new largest - update it
 
-print(largest)                # 19
-```
-
-The algorithm:
-
-```
-1. Assume the first number is the largest so far
-2. Look at each number in the list
-3. If it's bigger than the current largest, it becomes the new largest
-4. After checking all numbers, the answer is the largest seen
+print(largest)                # should be 19
 ```
 
 > [!TIP]
@@ -81,20 +83,57 @@ Here's the "find the largest number" algorithm as a flowchart:
 
 ```mermaid
 flowchart TD
-    A([Start]) --> B[largest = first number in list]
-    B --> C{More numbers\nto check?}
-    C -- Yes --> D[Get next number]
-    D --> E{number > largest?}
-    E -- Yes --> F[largest = number]
-    E -- No --> C
-    F --> C
-    C -- No --> G([Print largest])
+    start([Start])
+    init["Set largest to<br>first number in list"]
+    loop((Loop))
+    more{"End of<br>list?"}
+    next["Get next number<br>from the list"]
+    largest{"number ><br>largest?"}
+    keep["Set largest to<br>the number"]
+    show[/"Display largest"/]
+    done([End])
+
+    start --> init --> loop --> more
+    more -- Np --> next
+    more -- Yes ---> show --> done
+    next --> largest
+    largest -- No --> loop
+    largest -- Yes --> keep --> loop
 ```
 
 The **diamond** shapes are decisions - places where the algorithm branches depending on what's true.
 
+## Pseudo-Code
 
-## What Makes a Good Algorithm?
+Sometimes, before you write real code, it's helpful to jot down the steps in a way that's halfway between English and programming. That's called **pseudo-code**.
+
+Pseudo-code isn't a real programming language. It's just a way to show the logic of your algorithm, without worrying about exact syntax.
+
+Here's a simple pseudo-code example that checks a list of numbers and prints out the even ones:
+
+
+```pseudo
+// Algorithm to find the largest number in a list
+start
+    set largest = first value in list
+
+    repeat until end of list
+        look at next number in the list
+
+        if number > largest
+            set largest = number
+        endif
+    endrepeat
+
+    display largest
+end
+```
+
+> [!TIP]
+> Writing pseudo-code first helps you plan your logic before you start worrying about the details of a programming language.
+
+
+## What is a Good Algorithm?
 
 Not all algorithms are equal. A good algorithm is:
 
