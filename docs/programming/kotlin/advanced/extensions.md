@@ -80,7 +80,7 @@ val icon = ImageIcon(ClassLoader.getSystemResource("images/coin.png")).scaled(80
 Without this extension, scaling an image requires three separate steps every time. The extension bundles them into a single readable call.
 
 
-## Where to Put Extension Functions
+## Where to Put Them
 
 Declare extension functions at the **top of the file**, before `main()`(kotlin) and any class definitions. This keeps them easy to find and available everywhere in the file:
 

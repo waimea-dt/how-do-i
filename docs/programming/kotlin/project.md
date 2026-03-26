@@ -16,7 +16,7 @@ The project structure of a Gradle project is a little different to a simple Inte
 
 ![Gradle folder structure](_assets/gradle-folders.png)
 
-## Gradle Setup File, `build.gradle.kts`
+## Gradle Setup File: build.gradle.kts
 
 Edit the `build.gradle.kts` file to have the following code:
 
@@ -51,7 +51,7 @@ Then update Gradle by clicking the sync button that appears at the top-right:
 > You can safely delete the `test` folder and its contents from your project (this is for unit-testing, which we won't cover)
 
 
-## Advanced Setup - Building JARs and Executables
+## Advanced: Building Artifacts
 
 Add the following to the **bottom** of your `build.gradle.kts` file to create Gradle actions for packaging up your app into a standalone executable program:
 
@@ -106,7 +106,7 @@ When you run this, look in your project build folder and you will see a file you
 ![Packaged App files](_assets/app-package.png)
 
 
-## Advanced Setup - GitHub Actions to Build Apps
+## Advanced: GitHub Actions
 
 We can use **GitHub Actions** to create **downloadable executables** for our project, updated every time we push a code change.
 

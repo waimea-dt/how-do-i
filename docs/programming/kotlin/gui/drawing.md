@@ -100,7 +100,7 @@ g.font = Font(Font.MONOSPACED, Font.ITALIC, 14)
 ```
 
 
-## Using Graphics2D for More Control
+## Graphics2D for More Control
 
 Cast `g`(kotlin) to `Graphics2D`(kotlin) to unlock smoother rendering and stroke control:
 

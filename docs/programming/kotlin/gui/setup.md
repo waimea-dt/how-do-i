@@ -2,7 +2,7 @@
 
 Follow the [Project Setup](programming/kotlin/project.md) to create a new Kotlin project that uses Gradle as the build system.
 
-## Adding the FlatLAF Libraries via Gradle
+## Adding FlatLAF via Gradle
 
 The FlatLAF library is a third-party library and needs to be added via the Gradle build system. Add the following dependencies to your `build.gradle.kts`:
 

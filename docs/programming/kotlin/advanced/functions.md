@@ -71,7 +71,7 @@ fun printReceipt(item: String, price: Double) {
 ```
 
 
-## Function Names
+## Naming Functions
 
 Function names follow the same rules as variable names:
 

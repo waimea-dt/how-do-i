@@ -5,7 +5,7 @@ Kotlin has two ways to add comments:
 - **Inline comments** - a short note on a single line
 - **Block comments** - a longer note spanning multiple lines
 
-## Inline Comments `//`(kotlin)
+## Inline Comments
 
 Inline comments begin with a **double-slash**, `//`(kotlin). Kotlin ignores everything after `//`(kotlin) until the end of the line.
 
@@ -20,7 +20,7 @@ val name = "Steve"  // This is also an inline comment
 > The final line shows **commenting out** code - useful for temporarily disabling a line without deleting it. In VS Code, <kbd>Ctrl</kbd> + <kbd>/</kbd> toggles a comment on/off for the current line.
 
 
-## Block Comments `/* ... */`(kotlin)
+## Block Comments
 
 Block comments begin with `/*`and end with `*/`. Everything between the markers is ignored, even across multiple lines.
 
@@ -33,7 +33,7 @@ Block comments begin with `/*`and end with `*/`. Everything between the markers 
 ```
 
 
-## What to Comment - and What Not To
+## Commenting Tips
 
 Good comments explain the **why**, not the **what**. If the code itself clearly shows *what* it does, a comment restating that adds no value.
 
@@ -69,7 +69,7 @@ for (player in players) {
 > Reach for a comment when the *reason* behind the code isn't obvious from reading it.
 
 
-## KDoc Comments `/** ... */`(kotlin)
+## KDoc Comments
 
 The `/**`(kotlin) style is used to document functions and classes. These are called **KDoc** comments and can be read by tools and IDEs to generate documentation automatically.
 

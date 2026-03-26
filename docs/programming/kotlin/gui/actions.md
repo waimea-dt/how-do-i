@@ -5,7 +5,7 @@ Swing uses **listeners** to detect user interactions - clicks, key presses, mous
 All listeners are wired up in `setupActions()`(kotlin), and each one calls a dedicated handler function.
 
 
-## ActionListener - Responding to Clicks
+## ActionListener for Events
 
 The most common listener is `addActionListener`(kotlin). It fires when:
 - a `JButton`(kotlin) is clicked
@@ -27,7 +27,7 @@ private fun handleSubmit() {
 > Always call a named handler function from the listener (e.g. `handleSubmit()`(kotlin)) rather than putting the logic directly in the lambda. It keeps things readable and makes it easy to call the same handler from multiple places.
 
 
-## The `updateUI()`(kotlin) Pattern
+## The updateUI() Pattern
 
 Rather than updating individual labels or buttons scattered throughout your handler functions, collect all UI updates into a single `updateUI()`(kotlin) method and call it at the end of every handler:
 
@@ -46,7 +46,7 @@ private fun updateUI() {
 This means you always have one place to look if the UI isn't showing the right thing.
 
 
-## Mouse Listeners - Any Component
+## Mouse Listeners
 
 Any Swing component can respond to mouse events using `addMouseListener`(kotlin). This includes labels, panels, images - not just buttons. You pass in a `MouseAdapter`(kotlin) and override only the events you care about:
 

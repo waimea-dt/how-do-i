@@ -2,10 +2,10 @@
 
 Adding a `KeyListener`(kotlin) to a button or label only works if that component currently has **focus** - the thing that determines which element receives keyboard input. In a game or interactive app, you usually want keys to work regardless of what's focused.
 
-There are two good ways to do this in Swing.
+There are two good ways to do this in Swing...
 
 
-## Approach 1: KeyboardFocusManager (recommended)
+## KeyboardFocusManager (recommended)
 
 `KeyboardFocusManager`(kotlin) sits at the top of Swing's event pipeline. Adding a `KeyEventDispatcher`(kotlin) to it means you see **every key event** in the app before any component does.
 
@@ -59,7 +59,7 @@ if (e.isControlDown) { /* ctrl was held */ }
 ```
 
 
-## Approach 2: Key Bindings (window-scoped)
+## Key Bindings (window-scoped)
 
 Swing's **key bindings** system lets you attach an action to a key on a specific component, but with the `WHEN_IN_FOCUSED_WINDOW`(kotlin) condition it fires whenever the **window** is focused - regardless of which element is selected. It's a good fit for a small number of specific shortcuts.
 

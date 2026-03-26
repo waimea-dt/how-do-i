@@ -270,7 +270,7 @@ println(score.commas())         // 9,001,000
 > An extension function adds a new method to an existing type without changing its source code. Here, `.commas()`(kotlin) works on `Int`(kotlin), `Long`(kotlin), or any other `Number`(kotlin) type.
 
 
-## Useful Maths Functions Summary
+## Useful Maths Functions
 
 | Function | What it does |
 |----------|-------------|

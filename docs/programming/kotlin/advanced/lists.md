@@ -159,7 +159,7 @@ fruits.forEachIndexed { i, fruit ->
 ```
 
 
-## Sorting, Reversing and Randomising
+## Sort, Reverse, Randomise
 
 Use `sort()`(kotlin), `sortDescending()`(kotlin), and `shuffle()`(kotlin) to change a `MutableList`(kotlin) **in place**:
 
@@ -193,7 +193,7 @@ println("Shuffled: $shuffled")
 ```
 
 
-## Mathematical Operations on Lists
+## Mathematical Operations
 
 These methods work on lists of numbers (`Int`(kotlin), `Double`(kotlin), etc.):
 
@@ -230,7 +230,7 @@ println(empty.minOrNull())   // null
 ```
 
 
-## Filtering
+## Filtering Values
 
 `filter`(kotlin) returns a **new list** containing only items that match a condition:
 
@@ -254,7 +254,7 @@ println("A names:  $aNames")           // Only 'A' names
 > `it`(kotlin) refers to the current item being tested - shorthand for a single-parameter lambda.
 
 
-## Checking Items with any, all, and count
+## Checking: any, all, count
 
 These three methods test items against a condition. They use the same `{ condition }`(kotlin) syntax as `filter`(kotlin), but return a single value rather than a new list.
 
@@ -286,7 +286,7 @@ println(scores.count { it % 2 == 0 })  // 1  (only 12 is even)
 ```
 
 
-## Transforming with map()
+## Map to Transform Values
 
 `map()`(kotlin) transforms every item in a list and returns a new list of the results:
 

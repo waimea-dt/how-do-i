@@ -76,7 +76,7 @@ fun main() {
 ```
 
 
-## The `init`(kotlin) Block
+## The init Block
 
 The `init`(kotlin) block runs automatically when an object is created. Use it for setup code:
 
@@ -154,7 +154,7 @@ fun main() {
 ```
 
 
-## Overriding `toString()`(kotlin)
+## Overriding toString()
 
 By default, printing an object shows something unhelpful like `Wizard@5e91993f`. Override `toString()`(kotlin) to control how an object looks when printed:
 
@@ -178,7 +178,7 @@ fun main() {
 > The `override`(kotlin) keyword means you are replacing a method that already exists in a parent class - all classes in Kotlin inherit `toString()`(kotlin) from `Any`(kotlin), so you can always override it.
 
 
-## `private`(kotlin) Properties and Methods
+## Private Properties & Methods
 
 By default, properties and methods can be accessed from **anywhere**. Mark them `private`(kotlin) to restrict access to **inside the class only**:
 

@@ -252,7 +252,7 @@ for (letter in word) {
 ```
 
 
-## Useful String Methods Summary
+## Useful String Methods
 
 | Method | What it does |
 |--------|-------------|

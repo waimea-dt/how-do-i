@@ -34,7 +34,7 @@ println(label2.padEnd(10, '.') + value2.padStart(15, '.'))
 > `padStart`(kotlin) and `padEnd`(kotlin) only add padding - they **never truncate**. If the string is already longer than `n`, it is returned unchanged. Use `.take(n)`(kotlin) first if you need a hard limit.
 
 
-## Formatting Text and Numbers in Columns
+## Formatting in Columns
 
 A more powerful alternative to `padStart()`(kotlin) and `padEnd()`(kotlin) is to use `String.format()`(kotlin) to format values. You can specify fixed widths, trim decimal places, show thousand separators, etc.:
 
@@ -127,7 +127,7 @@ fun main() {
 ```
 
 
-## Showing List Values in a **Vertical** Table
+## Lists as a **Vertical** Table
 
 Combining padding and box-drawing characters produces a proper, vertical table:
 
@@ -171,7 +171,7 @@ fun main() {
 ```
 
 
-## Showing List Values in a **Horizontal** Table
+## Lists as a **Horizontal** Table
 
 Tables can also be drawn horizontally:
 
@@ -209,7 +209,7 @@ fun main() {
 }
 ```
 
-## UIs Built with Box-Drawing Characters
+## Terminal UIs (TUIs)
 
 Box-drawing characters have been used for decades to create terminal UIs (TUIs). Before the rise of GUIs in the 80s, many computer applications looked like this:
 

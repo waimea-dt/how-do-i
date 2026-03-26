@@ -131,7 +131,7 @@ fun main() {
 > The `private`(kotlin) keyword means `balance`(kotlin) can only be changed through `deposit()`(kotlin) and `withdraw()`(kotlin) - no outside code can set it to an arbitrary value.
 
 
-## Sending 'Messages' Between Objects
+## 'Messages' Between Objects
 
 Objects work together by calling each other's **methods** - this is sometimes called **message passing**. Each object only exposes a limited set of methods to the outside world.
 

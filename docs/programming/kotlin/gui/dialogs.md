@@ -5,7 +5,7 @@ Sometimes you need a small pop-up - to show a message, ask a yes/no question, or
 ![Dialog error demo](_assets/dialog-error.png)
 
 
-## JOptionPane - Quick Built-In Dialogs
+## JOptionPane - Easy Dialogs
 
 `JOptionPane`(kotlin) handles the most common cases with a single line of code. All of its methods are static - no object needed.
 

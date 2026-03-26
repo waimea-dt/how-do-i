@@ -29,7 +29,7 @@ Set this in `setupStyles()`(kotlin) alongside fonts and colours.
 | `Cursor.N_RESIZE_CURSOR`(kotlin) | Resize arrows | Resize handles (N S E W, etc.) |
 
 
-## Setting the Cursor for the Whole Window
+## Cursor for the Whole Window
 
 To change the cursor across the entire window (e.g. to a wait cursor while loading), set it on the content panel:
 
@@ -44,7 +44,7 @@ panel.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
 ```
 
 
-## Example - Styled Cursor in setupStyles()
+## Example: Styled Cursor
 
 ```kotlin
 private fun setupStyles() {

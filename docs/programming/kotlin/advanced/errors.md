@@ -36,7 +36,7 @@ if (input != null) {
 ```
 
 
-## Safe-Call Operator `?.`(kotlin)
+## Safe-Call Operator: ?.
 
 The **safe-call operator** `?.`(kotlin) calls a method or accesses a property **only if the value is not `null`(kotlin)**. If it is null, the whole expression returns `null`(kotlin) instead of crashing.
 
@@ -46,7 +46,7 @@ This lets you **chain** (connect) function calls safely - you can call multiple 
 val input: String? = readlnOrNull()?.trim()?.uppercase()
 ```
 
-## Elvis Operator `?:`(kotlin)
+## Elvis Operator: ?:
 
 The **Elvis operator** `?:`(kotlin) provides a **fallback value** if the left side is `null`(kotlin):
 

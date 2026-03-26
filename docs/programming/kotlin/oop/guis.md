@@ -2,7 +2,7 @@
 
 Object-Oriented Programming and Graphical User Interfaces (GUIs) are a natural fit - in fact, GUIs are one of the main reasons OOP became so popular.
 
-## A GUI is Already Made of Objects
+## A GUI is Made of Objects
 
 Look at any app window. What do you see?
 
@@ -43,7 +43,7 @@ submitButton.addActionListener {
 > This is encapsulation in action - the button object owns its own behaviour. Outside code just says *"when clicked, do this"* - it doesn't need to know how the button detects the click internally.
 
 
-## Components Are Arranged as a Hierarchy
+## Components in a Hierarchy
 
 A GUI is also naturally **hierarchical** - objects contain other objects:
 
