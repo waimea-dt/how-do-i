@@ -147,3 +147,85 @@ showScore(72)
 > Keep variables as **local as possible** - declare them in the smallest block where they are needed. This prevents accidental changes from unrelated parts of your code.
 
 
+## Revision Flash Cards
+
+- # What is the difference between `val` and `var`?
+
+    ---
+
+    `val` creates an **immutable** value that cannot be changed after assignment. `var` creates a **mutable** variable that can be reassigned.
+
+
+- # What operator is used to assign a value to a variable?
+
+    ---
+
+    The `=` operator assigns a value to a variable (e.g., `var age = 25`).
+
+
+- # What are the six common data types in Kotlin?
+
+    ---
+
+    `String`, `Char`, `Int`, `Long`, `Double`, and `Boolean`.
+
+
+- # How do you write a String vs a Char literal?
+
+    ---
+
+    Strings use **double quotes** (`"Hello"`), while Chars use **single quotes** (`'A'`).
+
+
+- # What is type inference?
+
+    ---
+
+    When you assign a value during declaration, Kotlin automatically determines the variable's type without you having to specify it explicitly.
+
+
+- # What naming convention should you use for Kotlin variables?
+
+    ---
+
+    Use **camelCase** starting with a **lowercase letter** (e.g., `firstName`, `yearsOld`).
+
+
+- # Can Kotlin variables hold `null` by default?
+
+    ---
+
+    No, Kotlin variables **cannot hold null by default** - this is a key safety feature.
+
+
+- # What is variable scope?
+
+    ---
+
+    Scope determines where in your code a variable can be accessed. Variables only exist within the **block** (code wrapped in `{}`) where they were declared.
+
+
+- # Can inner blocks access variables from outer blocks?
+
+    ---
+
+    Yes, code inside an inner block can see variables from outer blocks, but outer blocks cannot see variables from inner blocks.
+
+
+- # What are top-level (global) variables?
+
+    ---
+
+    Variables declared **outside any function** that can be accessed from anywhere in the file.
+
+
+- # What is the best practice for variable scope?
+
+    ---
+
+    Keep variables as **local as possible** - declare them in the smallest block where they are needed to prevent accidental changes.
+
+
+<flash-cards>
+
+

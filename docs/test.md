@@ -34,7 +34,7 @@
     ```
 
 
-- What does this code do?
+- # What does this code do?
 
     ```python
     print("Hello!")
@@ -54,7 +54,7 @@
     This is the language of the web:
 
 
-- What does **CSS** mean?
+- # What does **CSS** mean?
 
     ---
 

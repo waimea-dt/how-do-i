@@ -9,9 +9,9 @@
     --flash-shadow:                 0 0.2rem 0.6rem #0008;
 
     /* --- Typography --- */
-    --flash-question-text-size:     1.5rem;
-    --flash-answer-text-size:       1.3rem;
-    --flash-code-text-size:         1.2rem;
+    --flash-question-text-size:     1.8rem;
+    --flash-answer-text-size:       1.5rem;
+    --flash-code-text-size:         0.9em;
 
     /* --- Card dimensions --- */
     --flash-card-width:             40rem;
@@ -49,7 +49,7 @@
         aspect-ratio: var(--flash-card-aspect);
         position: relative;
         list-style: none;
-        line-height: 1.2;
+        line-height: 1.4;
 
         box-shadow: var(--flash-shadow);
 
@@ -88,7 +88,10 @@
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
 
-            > * { margin: 0; }
+            > * {
+                margin: 0;
+                text-wrap: balance;
+            }
 
             &:hover {
                 cursor: pointer;
@@ -113,6 +116,7 @@
 
         code {
             font-size: var(--flash-code-text-size);
+            text-wrap: nowrap;
         }
 
         .background-image {
