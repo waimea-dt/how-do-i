@@ -85,6 +85,8 @@
 
 :is(.sidebar a[href]):hover {
     color: var(--sidebar-link-color-hover);
+    font-weight: 500;
+    text-decoration: none;
 }
 
 :is(.sidebar li[aria-current]) > a {
@@ -162,3 +164,6 @@
     }
 }
 
+:is(:is(:is(.app-nav-merged,.sidebar-nav) li) a) :is(.lucide.icon, i.si) {
+    color: var(--theme-color);
+}

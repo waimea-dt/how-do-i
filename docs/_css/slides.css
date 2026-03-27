@@ -1,0 +1,37 @@
+.markdown-section .docsify-slide-deck {
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin-block: var(--margin-block);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+
+
+    /* HEADINGS ---------------------------------- */
+
+    :is(h1, h2, h3, h4, h5, h6) {
+        border: none;
+    }
+
+
+    /* CODE BLOCKS ------------------------------- */
+
+    code[class*="language-"] {
+        padding: 1em;
+    }
+
+    .hljs-ln-numbers,
+    .reveal .hljs-ln {
+        display: none !important;
+    }
+
+    .hljs-ln tr {
+        border-top: none !important;
+
+        &:nth-child(even) {
+            background: none !important;
+        }
+    }
+}
+
+
+

@@ -1,5 +1,165 @@
 # Testing
 
+
+## Flash Card Demo
+
+
+- # How many beans make five?
+
+    ---
+
+    - 2 beans
+    - A bean
+    - A half a bean
+    - And a bean and a half
+
+
+- # Who is this?
+
+    Clue: they are fun!
+
+    ---
+
+    ## Finn and Jake!
+
+
+- # What code would do this?
+
+    ---
+
+    The keel-mounted rail gun pushed the whole ship backward.
+
+    ```python
+    print("Hello!")
+    ```
+
+
+- What does this code do?
+
+    ```python
+    print("Hello!")
+    ```
+
+    ---
+
+    The keel-mounted rail gun pushed the whole ship backward.
+
+
+- # What does **HTML** mean?
+
+    ---
+
+    ## **H**yper**T**ext **M**ark-up **L**anguage
+
+    This is the language of the web:
+
+
+- What does **CSS** mean?
+
+    ---
+
+    **C**ascading **S**tyle**S**heet
+
+
+
+
+<flash-cards>
+
+
+
+
+## Reveal.js Slides Testing
+
+Normal docs content here...
+
+<slides>
+
+# Arrays — Your First Chest of Loot
+
+Store items in order, retrieve them by index.
+
+---
+
+# Accessing Items
+
+```js
+const loot = ['sword', 'shield', 'potion']
+console.log(loot[0]) // 'sword' — zero-indexed!
+```
+
+---
+
+# Looping Through Loot
+
+Use a `for...of` loop to grab everything.
+
+---
+
+## Hmmm
+
+- Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+- Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+
+---
+
+# Another
+<!-- .slide: data-background="#ff0000" -->
+
+Testing
+
+---
+
+## Code
+
+```js [2-3|5|10|1-99]
+hook.doneEach(function () {
+    const placeholders = document.querySelectorAll('.slides-placeholder')
+    if (!placeholders.length) return
+
+    placeholders.forEach((placeholder) => {
+        const index = placeholder.getAttribute('data-index')
+        placeholder.outerHTML = buildRevealHTML(index)
+    })
+
+    initDecks()
+})
+```
+
+
+</slides>
+
+Back to normal docs...
+
+
+<slides>
+
+# Arrays — Your First Chest of Loot
+
+Store items in order, retrieve them by index.
+
+---
+
+# Accessing Items
+
+```js
+const loot = ['sword', 'shield', 'potion']
+console.log(loot[0]) // 'sword' — zero-indexed!
+```
+
+---
+
+# Looping Through Loot
+
+Use a `for...of` loop to grab everything.
+
+</slides>
+
+Back to normal docs...
+
+
+
+
+
 ## Mermaid Test
 
 ```mermaid
@@ -42,7 +202,12 @@ sequenceDiagram
     John-->>-Alice: I feel great!
 ```
 
-## Accordian Test
+
+
+
+
+
+## Accordion Test
 
 + Question 1 +
 

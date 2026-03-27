@@ -52,7 +52,7 @@
     --mark-color:                     var(--color-bg);
 
     --em-color:                       var(--secondary-color-6);
-    --strong-color:                   var(--secondary-color-6);
+    --strong-color:                   var(--theme-color-6);
     --strong-font-weight:             600;
 
     --table-head-row-bg:              var(--color-mono-2);
@@ -75,14 +75,22 @@
 
 .markdown-section :where(h1, h2, h3, h4, h5, h6) {
     text-wrap: balance;
-}
 
-.markdown-section :where(h2, h4, h6) {
-    color: var(--secondary-color);
-}
+    a:hover {
+        text-decoration: none;
+    }
 
-.markdown-section :where(h3, h5) {
-    color: var(--theme-color-6);
+    &:where(h1) {
+        color: var(--theme-color);
+    }
+
+    &:where(h2, h4, h6) {
+        color: var(--secondary-color);
+    }
+
+    &:where(h3, h5) {
+        color: var(--theme-color-6);
+    }
 }
 
 

@@ -1,0 +1,184 @@
+/* docsify-flashcards.css */
+
+.markdown-section .flash-cards {
+
+    /* --- Colours --- */
+    --flash-question-back-color:    var(--color-mono-1);
+    --flash-answer-back-color:      var(--theme-color-1);
+
+    --flash-shadow:                 0 0.2rem 0.6rem #0008;
+
+    /* --- Typography --- */
+    --flash-question-text-size:     1.5rem;
+    --flash-answer-text-size:       1.3rem;
+    --flash-code-text-size:         1.2rem;
+
+    /* --- Card dimensions --- */
+    --flash-card-width:             40rem;
+    --flash-card-aspect:            16/9;
+
+    /* --- Animation --- */
+    --flash-flip-time:              300ms;
+
+    /* --- Controls --- */
+    --flash-control-color--low:     var(--color-mono-4);
+    --flash-control-color:          var(--color-mono-5);
+    --flash-control-color--high:    var(--color-mono-7);
+
+    /* --- Fullscreen overlay --- */
+    --flash-overlay-color:          #000e;
+
+    /* --- Layout --- */
+    margin: 2.5em 0 !important;
+    padding: 0;
+    width: 100%;
+    display: grid !important;
+    gap: 1em;
+    align-content: center;
+
+    /* Shrink cards on narrow screens, cap at 1rem on wide ones */
+    font-size: min(1rem, 3vw);
+
+    perspective: 90rem;
+
+    /* --- Cards --- */
+    .flash-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: var(--flash-card-width);
+        aspect-ratio: var(--flash-card-aspect);
+        position: relative;
+        list-style: none;
+        line-height: 1.2;
+
+        box-shadow: var(--flash-shadow);
+
+        transform-style: preserve-3d;
+        transition: transform var(--flash-flip-time) ease;
+        transform: rotateY(0deg);
+
+        &.hidden { display: none; }
+
+        &.revealed {
+            transform: rotateY(-180deg);
+        }
+
+        *:is(h1, h2, h3, h4, h5, h6, p) {
+            text-align: center;
+            border: none;
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            inset: 0;
+            margin: 0;
+            padding: 1rem;
+
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            align-items: center;
+            justify-content: center;
+
+            background-color: var(--flash-question-back-color);
+            border: var(--flash-border-width) solid var(--flash-border-color);
+            border-radius: var(--border-radius);
+
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+
+            > * { margin: 0; }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .card-front {
+            font-size: var(--flash-question-text-size);
+            transform: rotateY(0deg);
+
+            &:hover {
+                border-color: var(--flash-border-color--bright);
+            }
+        }
+
+        .card-back {
+            font-size: var(--flash-answer-text-size);
+            background-color: var(--flash-answer-back-color);
+            border-color: var(--flash-answer-border-color);
+            transform: rotateY(180deg);
+        }
+
+        code {
+            font-size: var(--flash-code-text-size);
+        }
+
+        .background-image {
+            flex: 1;
+            width: 100%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+
+    /* --- Controls --- */
+    .card-control-panel {
+        width: 100%;
+        max-width: var(--flash-card-width);
+        margin: 0 auto;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2em;
+
+        color: var(--flash-control-color);
+        font-size: 0.8em;
+
+        &:hover { color: var(--flash-control-color--high); }
+
+        p { margin: 0; }
+
+        .card-controls {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            line-height: 1;
+        }
+
+        .control {
+            cursor: pointer;
+            transition: transform 200ms;
+
+            &:hover {
+                color: var(--theme-color);
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    /* Dim controls at the limits of the deck */
+    &[data-current-card="1"] .control.card-first,
+    &[data-current-card="1"] .control.card-previous,
+    &[data-final-card="true"] .control.card-next {
+        cursor: default;
+        color: var(--flash-control-color--low);
+        pointer-events: none;
+    }
+
+    /* --- Fullscreen / zoomed state --- */
+    &.zoomed {
+        position: fixed;
+        inset: 0;
+        margin: 0 !important;
+        z-index: 9999;
+        background-color: var(--flash-overlay-color);
+
+        .card-control-panel {
+            color: var(--flash-control-color--low);
+        }
+    }
+}
