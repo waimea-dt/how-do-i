@@ -6,11 +6,17 @@
     --flash-question-back-color:    var(--color-mono-1);
     --flash-answer-back-color:      var(--theme-color-1);
 
-    --flash-shadow:                 0 0.2rem 0.6rem #0008;
+    /* --- Borders --- */
+    --flash-border-color:           var(--color-mono-3);
+    --flash-border-width:           2px;
 
     /* --- Typography --- */
-    --flash-question-text-size:     1.8rem;
-    --flash-answer-text-size:       1.5rem;
+    --flash-question-text-size:     min(1.5rem, 4vw);
+    --flash-answer-text-size:       min(1.5rem, 4vw);
+    --flash-text-size:              min(1.5rem, 4vw);
+    --flash-h1-text-size:           1.8em;
+    --flash-h2-text-size:           1.5em;
+    --flash-h3-text-size:           1.2em;
     --flash-code-text-size:         0.9em;
 
     /* --- Card dimensions --- */
@@ -35,10 +41,7 @@
     display: grid !important;
     gap: 1em;
     align-content: center;
-
-    /* Shrink cards on narrow screens, cap at 1rem on wide ones */
-    font-size: min(1rem, 3vw);
-
+    font-size: var(--flash-text-size);
     perspective: 90rem;
 
     /* --- Cards --- */
@@ -51,7 +54,7 @@
         list-style: none;
         line-height: 1.4;
 
-        box-shadow: var(--flash-shadow);
+        box-shadow: var(--box-shadow);
 
         transform-style: preserve-3d;
         transition: transform var(--flash-flip-time) ease;
@@ -63,9 +66,14 @@
             transform: rotateY(-180deg);
         }
 
-        *:is(h1, h2, h3, h4, h5, h6, p) {
+        :is(h1, h2, h3, h4, h5, h6, p) {
             text-align: center;
             border: none;
+
+            &:is(p)  { font-size: var(--flash-text-size); }
+            &:is(h1) { font-size: var(--flash-h1-text-size); }
+            &:is(h2) { font-size: var(--flash-h2-text-size); }
+            &:is(h3) { font-size: var(--flash-h3-text-size); }
         }
 
         .card-front,
@@ -99,18 +107,13 @@
         }
 
         .card-front {
-            font-size: var(--flash-question-text-size);
+            /* font-size: var(--flash-question-text-size); */
             transform: rotateY(0deg);
-
-            &:hover {
-                border-color: var(--flash-border-color--bright);
-            }
         }
 
         .card-back {
-            font-size: var(--flash-answer-text-size);
+            /* font-size: var(--flash-answer-text-size); */
             background-color: var(--flash-answer-back-color);
-            border-color: var(--flash-answer-border-color);
             transform: rotateY(180deg);
         }
 

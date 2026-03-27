@@ -13,28 +13,22 @@
 
     function processFlashCards() {
 
-
         cleanupWindowListeners()
         cleanupWindowListeners = () => {}
 
         const cleanups = []
 
-        const triggers = document.querySelectorAll('.markdown-section flash-cards')
-
+        const triggers = document.querySelectorAll('.markdown-section flashcards')
 
         if (triggers.length === 0) {
-
             return
         }
 
         triggers.forEach(function (trigger, triggerIndex) {
 
+            const cardList = trigger.querySelector('ul')
 
-            const cardList = trigger.previousElementSibling
-
-
-            if (!cardList || cardList.tagName !== 'UL') {
-
+            if (!cardList) {
                 return
             }
 
@@ -42,9 +36,7 @@
 
             const cards = [...cardList.children]
 
-
             if (cards.length === 0) {
-
                 return
             }
 
@@ -79,12 +71,9 @@
 
             cards.forEach(function (card, i) {
 
-
                 const divider = card.querySelector('hr')
 
-
                 if (!divider) {
-
                     return
                 }
 
@@ -148,6 +137,8 @@
                 window.removeEventListener('fullscreenchange', fullscreenHandler)
             })
 
+            // Move the cardList out of the wrapper before removing the wrapper
+            trigger.parentNode.insertBefore(cardList, trigger)
             trigger.remove()
         })
 

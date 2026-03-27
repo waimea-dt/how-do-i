@@ -6,6 +6,9 @@
     --theme-color:                   #68bef8;
     --secondary-color:               #f2d297;
 
+    --theme-color-0:                  color-mix(in srgb, var(--theme-color),     var(--color-bg)       97%);
+    --secondary-color-0:              color-mix(in srgb, var(--secondary-color), var(--color-bg)       97%);
+
     --secondary-color-1:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 90%);
     --secondary-color-2:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 75%);
     --secondary-color-3:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 55%);
@@ -40,6 +43,10 @@
     /* Cover */
     --cover-bg-overlay:               #1f2428;
     --cover-title-color:              var(--strong-color);
+
+    /* Shadow */
+    --box-shadow:                     0 0.3rem 0.8rem #0006;
+    --box-shadow-small:               0 0.1rem 0.3rem #0006;
 
     /* Elements */
     --button-bg:                      var(--theme-color-3);
