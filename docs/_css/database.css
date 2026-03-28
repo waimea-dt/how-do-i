@@ -1,0 +1,510 @@
+/* ============================================================================
+   DATABASE VISUALIZATIONS
+   ============================================================================
+
+   Provides styling for database schema tables, data tables, and relationship
+   diagrams with animated connection lines and highlighting.
+   ============================================================================ */
+
+.db-data-wrapper,
+.db-schema-wrapper,
+.db-relationship {
+    --schema-back-color:                var(--color-mono-1);
+    --table-row-alt-bg:                 var(--schema-back-color);
+
+    --schema-table-color:               var(--theme-color-2);
+
+    --schema-table-color1:              #376454;
+    --schema-table-color2:              #56476b;
+    --schema-table-color3:              #315c6a;
+    --schema-table-color4:              #6c414a;
+
+    --schema-highlight-color:           #c1bc27;
+
+    --schema-table-color--dark:         color-mix(in srgb, var(--schema-table-color),  var(--color-mono-min) 70%);
+    --schema-table-color1--dark:        color-mix(in srgb, var(--schema-table-color1), var(--color-mono-min) 70%);
+    --schema-table-color2--dark:        color-mix(in srgb, var(--schema-table-color2), var(--color-mono-min) 70%);
+    --schema-table-color3--dark:        color-mix(in srgb, var(--schema-table-color3), var(--color-mono-min) 70%);
+    --schema-table-color4--dark:        color-mix(in srgb, var(--schema-table-color4), var(--color-mono-min) 70%);
+
+    --schema-heading-text-color:        var(--color-text);
+
+    --schema-pk-color:                  var(--theme-color); /*#e06153;*/
+    --schema-fk-color:                  var(--secondary-color);
+
+    --schema-fieldname-color:           var(--color-text);
+    --schema-type-color:                var(--theme-color-6);
+    --schema-config-color:              var(--secondary-color-6);
+
+    --schema-link-color:                var(--schema-pk-color);
+
+    --schema-border-width:              2px;
+    --schema-focus-width:               3px;
+
+    --schema-link-size:                 4em;
+    --schema-link-width:                var(--schema-border-width);
+    --schema-link-foot-size:            calc(12 * var(--schema-link-width));
+
+    --schema-row-height:                calc(2.3em + var(--schema-link-width));
+    --schema-link-rows:                 0;
+
+    --schema-rel-size:                  4em;
+    --schema-rel-width:                 var(--schema-border-width);
+    --schema-rel-width--high:           var(--schema-focus-width);
+}
+
+
+/* SCROLL CONTAINER ========================================================== */
+
+.database-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    margin: var(--margin-block) 0;
+    padding: 0.5rem 0;
+    container-type: inline-size;
+
+    /* Smooth scrolling on touch devices */
+    -webkit-overflow-scrolling: touch;
+
+    /* Show scrollbar on hover/focus */
+    &::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--color-mono-4);
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-mono-2);
+        border-radius: 4px;
+
+        &:hover {
+            background: var(--color-mono-1);
+        }
+    }
+}
+
+
+/* SCROLL WRAPPERS =========================================================== */
+
+.db-data-wrapper,
+.db-schema-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: max-content;
+    margin: 0 auto;
+    padding: 0.5rem 0
+}
+
+.db-data-wrapper {
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+
+/* TABLES ==================================================================== */
+
+/* Table color variations */
+[data-table-num="1"] { --schema-table-color: var(--schema-table-color1); --schema-table-color--dark: var(--schema-table-color1--dark); }
+[data-table-num="2"] { --schema-table-color: var(--schema-table-color2); --schema-table-color--dark: var(--schema-table-color2--dark); }
+[data-table-num="3"] { --schema-table-color: var(--schema-table-color3); --schema-table-color--dark: var(--schema-table-color3--dark); }
+[data-table-num="4"] { --schema-table-color: var(--schema-table-color4); --schema-table-color--dark: var(--schema-table-color4--dark); }
+
+/* Focussed */
+:is(table, .table).focus {
+    box-shadow: 0 0 0 var(--schema-focus-width) var(--schema-highlight-color), var(--box-shadow) !important;
+}
+
+table.db-data,
+table.db-schema {
+    margin: 0;
+    background-color: var(--schema-back-color);
+    border: var(--schema-border-width) solid var(--schema-table-color);
+    box-shadow: var(--box-shadow-small);
+    max-width: 100%;
+    width: fit-content;
+    overflow: auto;
+    touch-action: auto;
+
+    thead tr {
+        color: var(--schema-heading-text-color);
+        background-color: var(--schema-table-color);
+    }
+
+    tr {
+        background-color: var(--schema-back-color);
+    }
+
+    th {
+        font-weight: normal;
+        padding: 0.3em 0.6em;
+        vertical-align: middle;
+        text-align: center;
+
+        &:not(:last-child) {
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    td {
+        border-top: 1px solid var(--color-mono-3);
+        padding: 0.4em 0.6em;
+        vertical-align: middle;
+        white-space: nowrap;
+
+        &:not(:last-child):not(.focus-col) {
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    }
+}
+
+/* Schema-specific styles */
+table.db-schema {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+
+    tbody tr > td:nth-child(n+3) {
+        font-size: 0.8em;
+    }
+
+    tbody tr > td:nth-child(2) { color: var(--schema-fieldname-color); }
+    tbody tr > td:nth-child(3) { color: var(--schema-type-color); }
+    tbody tr > td:nth-child(4) { color: var(--schema-config-color); }
+
+    tr.primary-key > td:nth-child(-n+2) { color: var(--schema-pk-color); font-weight: 600; }
+    tr.foreign-key > td:nth-child(-n+2) { color: var(--schema-fk-color); font-weight: 600; }
+
+    /* Row highlighting */
+    td.focus-row {
+        border-top: var(--schema-focus-width) solid var(--schema-highlight-color);
+        border-bottom: var(--schema-focus-width) solid var(--schema-highlight-color);
+
+        &:first-of-type {
+            border-left: var(--schema-focus-width) solid var(--schema-highlight-color);
+        }
+
+        &:last-of-type {
+            border-right: var(--schema-focus-width) solid var(--schema-highlight-color);
+        }
+    }
+}
+
+
+table.db-data {
+    td {
+        padding: 0.2em 0.5em;
+        font-size: 0.9em;
+    }
+
+    thead tr:nth-child(2) {
+        background-color: var(--schema-table-color--dark);
+        border-bottom: var(--schema-border-width) solid var(--schema-table-color);
+        font-weight: normal;
+        font-style: italic;
+    }
+
+    td.primary-key,
+    td.foreign-key {
+        color: var(--schema-pk-color);
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td.foreign-key {
+        color: var(--schema-fk-color);
+    }
+
+    /* Column highlighting */
+    td.focus-col {
+        border-left: var(--schema-focus-width) solid var(--schema-highlight-color);
+        border-right: var(--schema-focus-width) solid var(--schema-highlight-color);
+    }
+
+    thead tr[data-row-num="1"] td.focus-col {
+        border-top: var(--schema-focus-width) solid var(--schema-highlight-color);
+    }
+
+    tbody tr:last-of-type td.focus-col {
+        border-bottom: var(--schema-focus-width) solid var(--schema-highlight-color);
+    }
+
+    /* Row highlighting */
+    td.focus-row {
+        border-top: var(--schema-focus-width) solid var(--schema-highlight-color);
+        border-bottom: var(--schema-focus-width) solid var(--schema-highlight-color);
+
+        &:first-of-type {
+            border-left: var(--schema-focus-width) solid var(--schema-highlight-color);
+        }
+
+        &:last-of-type {
+            border-right: var(--schema-focus-width) solid var(--schema-highlight-color);
+        }
+    }
+}
+
+
+/* KEY ICONS ================================================================= */
+
+table.db-data .icon svg,
+table.db-schema .icon svg {
+    height: 1.1em;
+    width: 1.1em;
+    vertical-align: middle;
+}
+
+table.db-data .icon.primary svg,
+table.db-schema .icon.primary svg {
+    fill: var(--schema-pk-color);
+}
+
+table.db-data .icon.foreign svg,
+table.db-schema .icon.foreign svg {
+    fill: var(--schema-fk-color);
+}
+
+
+/* SCHEMA LINK LINES ========================================================= */
+
+.db-schema-link {
+    width: var(--schema-link-size);
+    margin-top: calc((1.4 * var(--schema-row-height)) - var(--schema-link-width));
+    height: calc((var(--schema-row-height) * var(--schema-link-rows)) + var(--schema-link-width));
+    display: flex;
+
+    /* Highlighted links use highlight color */
+    &.focus {
+        --schema-link-color: var(--schema-highlight-color);
+        --schema-link-width: var(--schema-focus-width);
+    }
+
+    &:is(.fk-right, .fk-left) {
+        .link-left,
+        .link-right {
+            flex: 1;
+            height: var(--schema-link-width);
+            position: relative;
+        }
+
+        .link-middle {
+            align-self: stretch;
+            width: var(--schema-link-width);
+        }
+
+        &.fk-right {
+            .link-left  { align-self: flex-start; }
+            .link-right { align-self: flex-end; }
+        }
+
+        &.fk-left {
+            .link-left  { align-self: flex-end; }
+            .link-right { align-self: flex-start; }
+        }
+    }
+}
+
+
+/* ARROW HEADS =============================================================== */
+
+.db-schema-link.fk-right .link-left  { margin-left:  calc(5 * var(--schema-link-width)); }
+.db-schema-link.fk-left  .link-right { margin-right: calc(5 * var(--schema-link-width)); }
+
+.db-schema-link.fk-right .link-left::before,
+.db-schema-link.fk-left  .link-right::before {
+    content: "";
+    position: absolute;
+    top: calc(-2.0 * var(--schema-link-width));
+    height: calc(2.5 * var(--schema-link-width));
+    width: calc(5.0 * var(--schema-link-width));
+    border: 5px solid transparent;
+    border-width: calc(2.5 * var(--schema-link-width))
+                  calc(5 * var(--schema-link-width));
+}
+
+.db-schema-link.fk-right .link-left::before {
+    left: calc(-10 * var(--schema-link-width));
+    border-right-color: var(--schema-link-color);
+}
+
+.db-schema-link.fk-left .link-right::before {
+    right: calc(-10 * var(--schema-link-width));
+    border-left-color: var(--schema-link-color);
+}
+
+
+/* ANIMATED LINES ============================================================ */
+
+.db-schema-link {
+    .link-middle {
+        --schema-dash-angle: 180deg;
+        animation-name: shift-up;
+    }
+
+    &.fk-right {
+        .link-left,
+        .link-right,
+        .link-right::before,
+        .link-right::after {
+            animation-name: shift-left;
+        }
+    }
+
+    &.fk-left {
+        .link-right,
+        .link-left,
+        .link-left::before,
+        .link-left::after {
+            animation-name: shift-right;
+        }
+    }
+
+    .link-left,
+    .link-middle,
+    .link-right,
+    .link-left::before,
+    .link-left::after,
+    .link-right::before,
+    .link-right::after {
+        background-image: repeating-linear-gradient(
+            var(--schema-dash-angle, 90deg),
+            var(--schema-link-color),
+            var(--schema-link-color)  calc(1.5 * var(--schema-link-width)),
+            transparent               calc(1.5 * var(--schema-link-width)),
+            transparent               calc(3.0 * var(--schema-link-width))
+        );
+
+        background-size: 200% 200%;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+}
+
+@keyframes shift-right {
+   from { background-position: calc(-1.5 * var(--schema-link-width)); }
+   to   { background-position: calc(1.5 * var(--schema-link-width)); }
+}
+
+@keyframes shift-left {
+   from { background-position: calc(1.5 * var(--schema-link-width)); }
+   to   { background-position: calc(-1.5 * var(--schema-link-width)); }
+}
+
+@keyframes shift-up {
+   from { background-position: 0 calc(1.5 * var(--schema-link-width)); }
+   to   { background-position: 0 calc(-1.5 * var(--schema-link-width)); }
+}
+
+
+/* RELATIONSHIPS ============================================================= */
+
+.db-relationship {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto;
+
+    @container (min-width: 40rem) {
+        flex-direction: row;
+    }
+
+    .table {
+        font-size: 1.3em;
+        text-align: center;
+        min-width: 6em;
+        padding: 1.5em 0.75em;
+        background-color: var(--schema-table-color);
+        box-shadow: var(--box-shadow-small);
+        color: var(--schema-heading-text-color);
+        border: var(--schema-rel-width) solid var(--schema-table-color);
+        border-radius: var(--border-radius);
+
+        &.focus {
+            --schema-rel-width: var(--schema-rel-width--high);
+        }
+    }
+
+    /* Relationship lines */
+    .relationship {
+        height: var(--schema-rel-size);
+        width: var(--schema-rel-width);
+        background-color: var(--schema-link-color);
+        position: relative;
+        margin: 0em;
+
+        &.focus {
+            --schema-link-color: var(--schema-highlight-color);
+            --schema-rel-width: var(--schema-rel-width--high);
+        }
+
+        @container (min-width: 40rem) {
+            flex: 1;
+            width: var(--schema-rel-size);
+            height: var(--schema-rel-width);
+        }
+
+        /* Relationship feet */
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            width: 1.7em;
+            height: 1.7em;
+            border: var(--schema-rel-width) solid transparent;
+            display: none;
+        }
+
+        /* Vertical positioning */
+        &::before {
+            left: calc(0.5 * var(--schema-rel-width));
+            top: -0.48em;
+            border-bottom-color: var(--schema-link-color);
+            border-left-color: var(--schema-link-color);
+            transform-origin: bottom left;
+            transform: rotate(-45deg);
+        }
+
+        &::after {
+            left: calc(0.5 * var(--schema-rel-width));
+            bottom: -0.48em;
+            border-top-color: var(--schema-link-color);
+            border-left-color: var(--schema-link-color);
+            transform-origin: top left;
+            transform: rotate(45deg);
+        }
+
+        /* Horizontal positioning */
+        @container (min-width: 40rem) {
+            &::before {
+                top: calc(0.5 * var(--schema-rel-width));
+                left: -0.48em;
+                border-color: transparent;
+                border-top-color: var(--schema-link-color);
+                border-right-color: var(--schema-link-color);
+                transform-origin: top right;
+                transform: rotate(45deg);
+            }
+
+            &::after {
+                top: calc(0.5 * var(--schema-rel-width));
+                right: -0.48em;
+                left: auto;
+                transform: rotate(-45deg);
+            }
+        }
+
+        /* Show relationship indicators */
+        &.one-to-many::after,
+        &.many-to-one::before,
+        &.many-to-many::before,
+        &.many-to-many::after {
+            display: block;
+        }
+    }
+}
