@@ -166,7 +166,7 @@
                 CodeMirror.registerHelper('lint', 'python', pythonLint)
             }
 
-            document.querySelectorAll('codapi-snippet[editor="external"]').forEach(snippet => {
+            document.querySelectorAll('codapi-snippet[sandbox="python"][editor="external"]').forEach(snippet => {
                 // The <pre> may be a direct previous sibling, or inside a wrapper div
                 const prev = snippet.previousElementSibling
                 const pre = prev && prev.tagName === 'PRE'
@@ -189,7 +189,7 @@
                     pre.parentNode.insertBefore(editorEl, pre)
                 }, {
                     value:             visibleCode,
-                    mode:              'python',
+                    mode:              'text/x-python',
                     theme:             'material-darker',
                     lineNumbers:       false,
                     autoCloseBrackets: true,

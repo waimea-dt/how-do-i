@@ -30,6 +30,8 @@
         button {
             margin-right: 1em;
             padding-left: 30px;
+            height: 1.3em;
+            line-height: 1;
             background: url(../_assets/icons/play.svg) no-repeat;
 
             &:hover {
