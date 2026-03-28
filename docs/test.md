@@ -2,6 +2,27 @@
 
 
 
+```mermaid
+flowchart LR
+
+S0[ ]
+S1((S1))
+S2(((S2)))
+S3(((S3)))
+
+S0 --> S1
+S1 --A--> S2
+S1 --B--> S3
+S2 --A--> S1
+S2 --B--> S3
+S3 --A--> S1
+S3 --B--> S3
+S3 --C--> S3
+
+class S0 start
+```
+
+
 ## SQL Runner Demo
 
 Create a table and populate it with data:

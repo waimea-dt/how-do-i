@@ -98,6 +98,13 @@
     stroke: var(--mermaid-terminator-color) !important;
 }
 
+/* Terminators (Start / End) - older Mermaid versions */
+.mermaid [id^="flowchart-start"] rect,
+.mermaid [id^="flowchart-done"] rect {
+    fill: var(--mermaid-terminator-back-color) !important;
+    stroke: var(--mermaid-terminator-color) !important;
+}
+
 /* Questions */
 .mermaid .node polygon {
     fill: var(--mermaid-decision-back-color) !important;
@@ -118,7 +125,7 @@
 
 /* Circles */
 .mermaid .node circle {
-    fill: var(--mermaid-md-default-bg-color) !important;
+    fill: transparent !important;
     stroke: var(--mermaid-join-color) !important;
 }
 
