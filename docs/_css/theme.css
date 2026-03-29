@@ -80,22 +80,26 @@
 /* Headings */
 /* ========================================================================== */
 
-.markdown-section :where(h1, h2, h3, h4, h5, h6) {
+.markdown-section :is(h1, h2, h3, h4, h5, h6) {
     text-wrap: balance;
 
     a:hover {
         text-decoration: none;
     }
 
-    &:where(h1) {
+    &:is(h2) {
+        padding-bottom: 0.25em;
+    }
+
+    &:is(h1) {
         color: var(--theme-color);
     }
 
-    &:where(h2, h4, h6) {
+    &:is(h2, h4, h6) {
         color: var(--secondary-color);
     }
 
-    &:where(h3, h5) {
+    &:is(h3, h5) {
         color: var(--theme-color-6);
     }
 }
