@@ -1,0 +1,207 @@
+:root {
+    --structure-outer-color: var(--color-mono-3);
+    --structure-color1:      var(--palette-color-1);
+    --structure-color2:      var(--palette-color-2);
+    --structure-color3:      var(--palette-color-3);
+    --structure-color4:      var(--palette-color-4);
+    --structure-focus-color: var(--highlight-color);
+
+    --structure-back-color:       color-mix(in srgb, var(--structure-outer-color), var(--color-mono-min) 95%);
+    --structure-back-color1:      color-mix(in srgb, var(--structure-color1),      var(--color-mono-min) 85%);
+    --structure-back-color2:      color-mix(in srgb, var(--structure-color2),      var(--color-mono-min) 85%);
+    --structure-back-color3:      color-mix(in srgb, var(--structure-color3),      var(--color-mono-min) 85%);
+    --structure-back-color4:      color-mix(in srgb, var(--structure-color4),      var(--color-mono-min) 85%);
+    --structure-focus-back-color: color-mix(in srgb, var(--structure-focus-color), var(--color-mono-min) 85%);
+
+    --structure-heading-color: var(--color-text);
+
+    --structure-border-width: 2px;
+    --structure-focus-width:  4px;
+
+    --structure-gap: 1em;
+    --structure-item-min-width: 30ch;
+}
+
+
+/* CONTAINERS */
+
+.markdown-section .structure {
+    margin: 2em auto !important;
+    width: fit-content;
+    padding: 0;
+    list-style: none;
+    background-color: var(--structure-back-color);
+}
+
+.markdown-section .structure .structure-container {
+    margin-inline: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--structure-gap);
+    padding: 0;
+    list-style: none;
+
+    &.horizontal {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    &.vertical {
+        flex-direction: column;
+    }
+}
+
+
+/* ITEMS */
+
+.markdown-section .structure .structure-item {
+    padding: var(--structure-gap);
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    min-width: var(--structure-item-min-width);
+    flex: 1;
+    border: var(--structure-border-width) solid var(--item-border-color, var(--structure-outer-color));
+    background-color: var(--item-back-color, var(--structure-back-color));
+
+    /* Remove default spacing from first and last children */
+    > :first-child {
+        margin-top: 0;
+    }
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+
+    /* Adjust paragraph spacing */
+    > p + * {
+        margin-top: var(--structure-gap) !important;
+    }
+
+    > p:first-child + * {
+        margin-top: calc(1.333em + var(--structure-gap)) !important;
+    }
+
+    /* Headings - positioned absolutely at top */
+    > p:first-child {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: calc(var(--structure-gap) / 2) var(--structure-gap);
+        font-weight: bold;
+        line-height: 1.2;
+        color: var(--structure-heading-color);
+        background-color: var(--item-heading-color, var(--structure-outer-color));
+    }
+
+    /* Items without paragraphs (just heading) */
+    &:not(:has(p)) {
+        padding-block: calc(var(--structure-gap) / 2);
+        font-weight: bold;
+        line-height: 1.2;
+        color: var(--structure-heading-color);
+        background-color: var(--item-heading-color, var(--structure-outer-color));
+    }
+
+    /* Notes (non-first paragraphs) */
+    > p:not(:first-child) {
+        font-size: 0.8em;
+    }
+}
+
+/* Top-level items */
+.markdown-section .structure > .structure-item {
+    border-radius: 0.5em;
+}
+
+/* Level 2 items */
+.markdown-section .structure > .structure-item > .structure-container > .structure-item {
+    border-radius: 0.4em;
+    min-width: calc(var(--structure-item-min-width) - calc(2 * var(--structure-gap)));
+}
+
+/* Level 3 items */
+.markdown-section .structure > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item {
+    border-radius: 0.3em;
+    min-width: calc(var(--structure-item-min-width) - calc(4.2 * var(--structure-gap)));
+}
+
+/* Level 4 items */
+.markdown-section .structure > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item {
+    border-radius: 0.2em;
+    min-width: calc(var(--structure-item-min-width) - calc(6.4 * var(--structure-gap)));
+}
+
+/* Level 5 items */
+.markdown-section .structure > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item {
+    border-radius: 0.1em;
+    min-width: calc(var(--structure-item-min-width) - calc(8.6 * var(--structure-gap)));
+}
+
+
+/* COLOUR BY DEPTH - set CSS variables per level */
+
+.markdown-section .structure.depth {
+    > .structure-item > .structure-container > .structure-item {
+        --item-border-color: var(--structure-color1);
+        --item-back-color: var(--structure-back-color1);
+        --item-heading-color: var(--structure-color1);
+
+        & > .structure-container > .structure-item {
+            --item-border-color: var(--structure-color2);
+            --item-back-color: var(--structure-back-color2);
+            --item-heading-color: var(--structure-color2);
+
+            & > .structure-container > .structure-item {
+                --item-border-color: var(--structure-color3);
+                --item-back-color: var(--structure-back-color3);
+                --item-heading-color: var(--structure-color3);
+
+                & > .structure-container > .structure-item {
+                    --item-border-color: var(--structure-color4);
+                    --item-back-color: var(--structure-back-color4);
+                    --item-heading-color: var(--structure-color4);
+                }
+            }
+        }
+    }
+}
+
+
+/* COLOUR BY BRANCH - set CSS variables per branch */
+
+.markdown-section .structure.branch {
+    > .structure-item > .structure-container .structure-item {
+        &:nth-of-type(4n+1) {
+            --item-border-color: var(--structure-color1);
+            --item-back-color: var(--structure-back-color1);
+            --item-heading-color: var(--structure-color1);
+        }
+
+        &:nth-of-type(4n+2) {
+            --item-border-color: var(--structure-color2);
+            --item-back-color: var(--structure-back-color2);
+            --item-heading-color: var(--structure-color2);
+        }
+
+        &:nth-of-type(4n+3) {
+            --item-border-color: var(--structure-color3);
+            --item-back-color: var(--structure-back-color3);
+            --item-heading-color: var(--structure-color3);
+        }
+
+        &:nth-of-type(4n+4) {
+            --item-border-color: var(--structure-color4);
+            --item-back-color: var(--structure-back-color4);
+            --item-heading-color: var(--structure-color4);
+        }
+    }
+}
+
+
+/* FOCUS */
+
+.markdown-section .structure .structure-item.focus {
+    box-shadow: 0 0 0 var(--structure-focus-width) var(--structure-focus-color);
+}

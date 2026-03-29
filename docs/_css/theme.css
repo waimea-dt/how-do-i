@@ -18,6 +18,13 @@
     --secondary-color-7:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 75%);
     --secondary-color-8:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 90%);
 
+    /* Shared Palette Colors */
+    --palette-color-1:                #376454;  /* Teal */
+    --palette-color-2:                #56476b;  /* Purple */
+    --palette-color-3:                #315c6a;  /* Blue */
+    --palette-color-4:                #6c414a;  /* Burgundy */
+    --highlight-color:                #c1bc27;  /* Yellow */
+
     --link-color:                     var(--theme-color);
     --link-color-hover:               var(--theme-color-5);
     --link-underline-color:           var(--theme-color-4);

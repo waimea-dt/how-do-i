@@ -14,12 +14,12 @@
 
     --schema-table-color:               var(--theme-color-2);
 
-    --schema-table-color1:              #376454;
-    --schema-table-color2:              #56476b;
-    --schema-table-color3:              #315c6a;
-    --schema-table-color4:              #6c414a;
+    --schema-table-color1:              var(--palette-color-1);
+    --schema-table-color2:              var(--palette-color-2);
+    --schema-table-color3:              var(--palette-color-3);
+    --schema-table-color4:              var(--palette-color-4);
 
-    --schema-highlight-color:           #c1bc27;
+    --schema-highlight-color:           var(--highlight-color);
 
     --schema-table-color--dark:         color-mix(in srgb, var(--schema-table-color),  var(--color-mono-min) 70%);
     --schema-table-color1--dark:        color-mix(in srgb, var(--schema-table-color1), var(--color-mono-min) 70%);

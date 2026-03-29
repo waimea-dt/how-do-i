@@ -19,7 +19,7 @@
     padding-left: 0;
 }
 
-@container (min-width: 40rem) {
+@media (min-width: 40rem) {
     .markdown-section .sequence.horizontal {
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
@@ -58,7 +58,7 @@
     min-width: 50%;
 }
 
-@container (min-width: 40rem) {
+@media (min-width: 40rem) {
     .markdown-section .sequence.horizontal > li.sequence-item {
         margin-right: var(--sequence-gap);
     }
@@ -98,8 +98,8 @@
     border-top-color: var(--sequence-arrow-color);
 }
 
-/* Horizontal on larger containers: right arrow */
-@container (min-width: 40rem) {
+/* Horizontal on larger viewports: right arrow */
+@media (min-width: 40rem) {
     .markdown-section .sequence.horizontal > li.sequence-item:not(:last-of-type)::after {
         bottom: unset;
         left: unset;
