@@ -1,0 +1,305 @@
+:root {
+    --hierarchy-top-color:     var(--theme-color-2);
+    --hierarchy-color-1:       var(--palette-color-1);
+    --hierarchy-color-2:       var(--palette-color-2);
+    --hierarchy-color-3:       var(--palette-color-3);
+    --hierarchy-color-4:       var(--palette-color-4);
+    --hierarchy-focus-color:   var(--highlight-color);
+
+    --hierarchy-heading-color: var(--color-text);
+    --hierarchy-border-color:  var(--color-mono-3);
+    --hierarchy-border-width:  4px;
+    --hierarchy-focus-width:   4px;
+    --hierarchy-border-radius: 0.75em;
+    --hierarchy-gap:           1em;
+
+    --hierarchy-half-border:   calc(var(--hierarchy-border-width) / 2);
+    --hierarchy-spacing:       calc(var(--hierarchy-gap) + var(--hierarchy-half-border));
+}
+
+
+/* CONTAINERS */
+
+.markdown-section .hierarchy {
+    margin: 2em auto !important;
+    width: fit-content;
+    padding: 0;
+    list-style: none;
+}
+
+.markdown-section .hierarchy .hierarchy-container {
+    margin: calc(2 * var(--hierarchy-gap)) 0 0 !important;
+    padding: 0;
+    list-style: none;
+    display: flex !important;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--hierarchy-gap);
+
+    &:has(.hierarchy-container) {
+        gap: calc(2 * var(--hierarchy-gap));
+    }
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-container {
+    margin: 0 0 0 calc(2 * var(--hierarchy-gap)) !important;
+    flex-direction: column !important;
+}
+
+
+/* ITEMS */
+
+.markdown-section .hierarchy .hierarchy-item {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item {
+    flex-direction: row;
+    white-space: nowrap;
+}
+
+
+/* HEADINGS AND NOTES */
+
+.markdown-section .hierarchy .hierarchy-item {
+    > p,
+    &:not(:has(p)) {
+        border-radius: 0.4em;
+        padding: calc(var(--hierarchy-gap) / 3) calc(var(--hierarchy-gap) / 2);
+        margin: 0;
+        position: relative;
+        font-weight: 500;
+        line-height: 1.2;
+        color: var(--hierarchy-heading-color);
+        background-color: var(--item-bg-color, var(--hierarchy-top-color));
+        z-index: 1;
+    }
+
+    > p:not(:first-child) {
+        font-size: 0.8em;
+        font-weight: normal;
+        background-color: transparent;
+    }
+}
+
+/* Root items default color */
+.markdown-section .hierarchy > .hierarchy-item:not(:has(p)),
+.markdown-section .hierarchy > .hierarchy-item > p:first-child {
+    background-color: var(--hierarchy-top-color);
+}
+
+.markdown-section .hierarchy.vertical .hierarchy-item > p:not(:first-child) {
+    padding-inline: 0;
+    max-width: 40ch;
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item > p:not(:first-child) {
+    padding-block: 0;
+    white-space: normal;
+    text-align: left;
+    max-width: 20ch;
+}
+
+
+/* CONNECTING LINES */
+
+.markdown-section .hierarchy .hierarchy-item {
+    > p:last-of-type::after,
+    .hierarchy-item::before,
+    .hierarchy-item::after {
+        content: "";
+        position: absolute;
+        border-color: var(--hierarchy-border-color);
+        border-width: 0;
+        border-style: solid;
+        z-index: -1;
+    }
+}
+
+.markdown-section .hierarchy.vertical .hierarchy-item {
+    > p:last-of-type::after,
+    .hierarchy-item::before,
+    .hierarchy-item::after {
+        height: var(--hierarchy-spacing);
+    }
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item {
+    > p:last-of-type::after,
+    .hierarchy-item::before,
+    .hierarchy-item::after {
+        width: var(--hierarchy-spacing);
+    }
+}
+
+
+/* LINE FROM PARENT */
+
+.markdown-section .hierarchy.vertical .hierarchy-item > p:last-of-type:has(~ .hierarchy-container)::after {
+    left: calc(50% - var(--hierarchy-half-border));
+    bottom: calc(-1 * var(--hierarchy-spacing));
+    border-left-width: var(--hierarchy-border-width);
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item > p:last-of-type:has(~ .hierarchy-container)::after {
+    bottom: calc(50% - var(--hierarchy-half-border));
+    right: calc(-1 * var(--hierarchy-spacing));
+    border-bottom-width: var(--hierarchy-border-width);
+}
+
+
+/* LINES ABOVE CHILDREN */
+
+.markdown-section .hierarchy.vertical .hierarchy-item .hierarchy-item::before {
+    top: calc(-1 * var(--hierarchy-spacing));
+    border-top-width: var(--hierarchy-border-width);
+    width: calc(100% + (2 * var(--hierarchy-spacing)));
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item .hierarchy-item::before {
+    left: calc(-1 * var(--hierarchy-spacing));
+    border-left-width: var(--hierarchy-border-width);
+    height: calc(100% + (2 * var(--hierarchy-spacing)));
+}
+
+
+/* SINGLE CHILDREN (LONERS) */
+
+.markdown-section .hierarchy.vertical .hierarchy-item .hierarchy-item:first-of-type:last-of-type::before {
+    width: 0;
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item .hierarchy-item:first-of-type:last-of-type::before {
+    height: 0;
+}
+
+
+/* FIRST AND LAST CHILDREN */
+
+.markdown-section .hierarchy.vertical .hierarchy-item .hierarchy-item {
+    &:first-of-type::before,
+    &:last-of-type::before {
+        width: calc(50% + (1.5 * var(--hierarchy-gap)));
+    }
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item .hierarchy-item {
+    &:first-of-type::before,
+    &:last-of-type::before {
+        height: calc(50% + (1.5 * var(--hierarchy-gap)));
+    }
+}
+
+
+/* FIRST OF SEVERAL */
+
+.markdown-section .hierarchy.vertical .hierarchy-item .hierarchy-item:first-of-type:not(:last-of-type)::before {
+    left: calc(50% - var(--hierarchy-half-border));
+    border-left-width: var(--hierarchy-border-width);
+    border-top-left-radius: var(--hierarchy-border-radius);
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item .hierarchy-item:first-of-type:not(:last-of-type)::before {
+    top: calc(50% - var(--hierarchy-half-border));
+    border-top-width: var(--hierarchy-border-width);
+    border-top-left-radius: var(--hierarchy-border-radius);
+}
+
+
+/* LAST OF SEVERAL */
+
+.markdown-section .hierarchy.vertical .hierarchy-item .hierarchy-item:last-of-type:not(:first-of-type)::before {
+    right: calc(50% - var(--hierarchy-half-border));
+    border-right-width: var(--hierarchy-border-width);
+    border-top-right-radius: var(--hierarchy-border-radius);
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item .hierarchy-item:last-of-type:not(:first-of-type)::before {
+    bottom: calc(50% - var(--hierarchy-half-border));
+    border-bottom-width: var(--hierarchy-border-width);
+    border-bottom-left-radius: var(--hierarchy-border-radius);
+}
+
+
+/* SINGLE CHILDREN AND MIDDLE CHILDREN */
+
+.markdown-section .hierarchy.vertical .hierarchy-item .hierarchy-item {
+    &:first-of-type:last-of-type::after,
+    &:not(:first-of-type):not(:last-of-type)::after {
+        left: calc(50% - var(--hierarchy-half-border));
+        top: calc(-1 * var(--hierarchy-spacing));
+        border-left-width: var(--hierarchy-border-width);
+    }
+}
+
+.markdown-section .hierarchy.horizontal .hierarchy-item .hierarchy-item {
+    &:first-of-type:last-of-type::after,
+    &:not(:first-of-type):not(:last-of-type)::after {
+        bottom: calc(50% - var(--hierarchy-half-border));
+        left: calc(-1 * var(--hierarchy-spacing));
+        border-bottom-width: var(--hierarchy-border-width);
+    }
+}
+
+
+/* COLOUR BY DEPTH - set CSS variables per level */
+
+.markdown-section .hierarchy.depth {
+    > .hierarchy-item > .hierarchy-container > .hierarchy-item {
+        --item-bg-color: var(--hierarchy-color-1);
+
+        & > .hierarchy-container > .hierarchy-item {
+            --item-bg-color: var(--hierarchy-color-2);
+
+            & > .hierarchy-container > .hierarchy-item {
+                --item-bg-color: var(--hierarchy-color-3);
+
+                & > .hierarchy-container > .hierarchy-item {
+                    --item-bg-color: var(--hierarchy-color-4);
+                }
+            }
+        }
+    }
+}
+
+
+/* COLOUR BY BRANCH - set CSS variables per branch */
+
+.markdown-section .hierarchy.branch {
+    > .hierarchy-item > .hierarchy-container > .hierarchy-item {
+        &:nth-of-type(4n+1),
+        &:nth-of-type(4n+1) .hierarchy-item {
+            --item-bg-color: var(--hierarchy-color-1);
+        }
+
+        &:nth-of-type(4n+2),
+        &:nth-of-type(4n+2) .hierarchy-item {
+            --item-bg-color: var(--hierarchy-color-2);
+        }
+
+        &:nth-of-type(4n+3),
+        &:nth-of-type(4n+3) .hierarchy-item {
+            --item-bg-color: var(--hierarchy-color-3);
+        }
+
+        &:nth-of-type(4n+4),
+        &:nth-of-type(4n+4) .hierarchy-item {
+            --item-bg-color: var(--hierarchy-color-4);
+        }
+    }
+}
+
+
+/* FOCUS */
+
+.markdown-section .hierarchy .hierarchy-item.focus > p:first-child,
+.markdown-section .hierarchy .hierarchy-item.focus:not(:has(p)) {
+    outline: var(--hierarchy-focus-width) solid var(--hierarchy-focus-color);
+    outline-offset: 0;
+}

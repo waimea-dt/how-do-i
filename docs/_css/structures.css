@@ -1,16 +1,16 @@
 :root {
     --structure-outer-color: var(--color-mono-3);
-    --structure-color1:      var(--palette-color-1);
-    --structure-color2:      var(--palette-color-2);
-    --structure-color3:      var(--palette-color-3);
-    --structure-color4:      var(--palette-color-4);
+    --structure-color-1:     var(--palette-color-1);
+    --structure-color-2:     var(--palette-color-2);
+    --structure-color-3:     var(--palette-color-3);
+    --structure-color-4:     var(--palette-color-4);
     --structure-focus-color: var(--highlight-color);
 
     --structure-back-color:       color-mix(in srgb, var(--structure-outer-color), var(--color-mono-min) 95%);
-    --structure-back-color1:      color-mix(in srgb, var(--structure-color1),      var(--color-mono-min) 85%);
-    --structure-back-color2:      color-mix(in srgb, var(--structure-color2),      var(--color-mono-min) 85%);
-    --structure-back-color3:      color-mix(in srgb, var(--structure-color3),      var(--color-mono-min) 85%);
-    --structure-back-color4:      color-mix(in srgb, var(--structure-color4),      var(--color-mono-min) 85%);
+    --structure-back-color1:      color-mix(in srgb, var(--structure-color-1),     var(--color-mono-min) 85%);
+    --structure-back-color2:      color-mix(in srgb, var(--structure-color-2),     var(--color-mono-min) 85%);
+    --structure-back-color3:      color-mix(in srgb, var(--structure-color-3),     var(--color-mono-min) 85%);
+    --structure-back-color4:      color-mix(in srgb, var(--structure-color-4),     var(--color-mono-min) 85%);
     --structure-focus-back-color: color-mix(in srgb, var(--structure-focus-color), var(--color-mono-min) 85%);
 
     --structure-heading-color: var(--color-text);
@@ -89,7 +89,7 @@
         top: 0;
         right: 0;
         padding: calc(var(--structure-gap) / 2) var(--structure-gap);
-        font-weight: bold;
+        font-weight: 500;
         line-height: 1.2;
         color: var(--structure-heading-color);
         background-color: var(--item-heading-color, var(--structure-outer-color));
@@ -98,7 +98,7 @@
     /* Items without paragraphs (just heading) */
     &:not(:has(p)) {
         padding-block: calc(var(--structure-gap) / 2);
-        font-weight: bold;
+        font-weight: 500;
         line-height: 1.2;
         color: var(--structure-heading-color);
         background-color: var(--item-heading-color, var(--structure-outer-color));
@@ -144,24 +144,24 @@
 
 .markdown-section .structure.depth {
     > .structure-item > .structure-container > .structure-item {
-        --item-border-color: var(--structure-color1);
+        --item-border-color: var(--structure-color-1);
         --item-back-color: var(--structure-back-color1);
-        --item-heading-color: var(--structure-color1);
+        --item-heading-color: var(--structure-color-1);
 
         & > .structure-container > .structure-item {
-            --item-border-color: var(--structure-color2);
+            --item-border-color: var(--structure-color-2);
             --item-back-color: var(--structure-back-color2);
-            --item-heading-color: var(--structure-color2);
+            --item-heading-color: var(--structure-color-2);
 
             & > .structure-container > .structure-item {
-                --item-border-color: var(--structure-color3);
+                --item-border-color: var(--structure-color-3);
                 --item-back-color: var(--structure-back-color3);
-                --item-heading-color: var(--structure-color3);
+                --item-heading-color: var(--structure-color-3);
 
                 & > .structure-container > .structure-item {
-                    --item-border-color: var(--structure-color4);
+                    --item-border-color: var(--structure-color-4);
                     --item-back-color: var(--structure-back-color4);
-                    --item-heading-color: var(--structure-color4);
+                    --item-heading-color: var(--structure-color-4);
                 }
             }
         }
@@ -174,27 +174,27 @@
 .markdown-section .structure.branch {
     > .structure-item > .structure-container .structure-item {
         &:nth-of-type(4n+1) {
-            --item-border-color: var(--structure-color1);
+            --item-border-color: var(--structure-color-1);
             --item-back-color: var(--structure-back-color1);
-            --item-heading-color: var(--structure-color1);
+            --item-heading-color: var(--structure-color-1);
         }
 
         &:nth-of-type(4n+2) {
-            --item-border-color: var(--structure-color2);
+            --item-border-color: var(--structure-color-2);
             --item-back-color: var(--structure-back-color2);
-            --item-heading-color: var(--structure-color2);
+            --item-heading-color: var(--structure-color-2);
         }
 
         &:nth-of-type(4n+3) {
-            --item-border-color: var(--structure-color3);
+            --item-border-color: var(--structure-color-3);
             --item-back-color: var(--structure-back-color3);
-            --item-heading-color: var(--structure-color3);
+            --item-heading-color: var(--structure-color-3);
         }
 
         &:nth-of-type(4n+4) {
-            --item-border-color: var(--structure-color4);
+            --item-border-color: var(--structure-color-4);
             --item-back-color: var(--structure-back-color4);
-            --item-heading-color: var(--structure-color4);
+            --item-heading-color: var(--structure-color-4);
         }
     }
 }
@@ -203,6 +203,5 @@
 /* FOCUS */
 
 .markdown-section .structure .structure-item.focus {
-    outline: var(--structure-focus-width) solid var(--structure-focus-color);
-    outline-offset: 0;
+    box-shadow: 0 0 0 var(--structure-focus-width) var(--structure-focus-color);
 }
