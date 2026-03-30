@@ -14,10 +14,10 @@
 
     --schema-table-color:               var(--theme-color-2);
 
-    --schema-table-color1:              var(--palette-color-1);
-    --schema-table-color2:              var(--palette-color-2);
-    --schema-table-color3:              var(--palette-color-3);
-    --schema-table-color4:              var(--palette-color-4);
+    --schema-table-color1:              var(--palette-color-1-dark);
+    --schema-table-color2:              var(--palette-color-2-dark);
+    --schema-table-color3:              var(--palette-color-3-dark);
+    --schema-table-color4:              var(--palette-color-4-dark);
 
     --schema-highlight-color:           var(--highlight-color);
 
@@ -147,7 +147,7 @@ table.db-schema {
         text-align: center;
 
         &:not(:last-child) {
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid var(--border-color);
         }
     }
 
@@ -158,7 +158,7 @@ table.db-schema {
         white-space: nowrap;
 
         &:not(:last-child):not(.focus-col) {
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid var(--border-color);
         }
     }
 }

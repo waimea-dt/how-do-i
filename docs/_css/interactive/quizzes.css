@@ -21,17 +21,17 @@
 
     --quiz-border-width:                2px;
 
-    --quiz-correct-color:               #2fc937;
+    --quiz-correct-color:               var(--color-good);
     --quiz-correct-back-color:          color-mix(in srgb, var(--quiz-correct-color), var(--color-mono-min) 75%);
     --quiz-correct-back-color--dark:    color-mix(in srgb, var(--quiz-correct-color), var(--color-mono-min) 90%);
-    --quiz-wrong-color:                 #C62828;
+    --quiz-wrong-color:                 var(--color-attention);
     --quiz-wrong-back-color:            color-mix(in srgb, var(--quiz-wrong-color),   var(--color-mono-min) 75%);
     --quiz-wrong-back-color--dark:      color-mix(in srgb, var(--quiz-wrong-color),   var(--color-mono-min) 90%);
 
-    --quiz-star-color:                  #fff838;
+    --quiz-star-color:                  var(--color-important);
     --quiz-stamp-color:                 var(--color-mono-8);
 
-    --quiz-shadow:                      0 0.2rem 0.6rem #0002;
+    --quiz-shadow:                      Var(--box-shadow-small);
 
 
     margin: var(--margin-block) 0 !important;

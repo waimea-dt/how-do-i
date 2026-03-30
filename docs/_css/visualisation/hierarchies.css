@@ -1,9 +1,9 @@
 :root {
     --hierarchy-top-color:     var(--theme-color-2);
-    --hierarchy-color-1:       var(--secondary-color-1-dark);
-    --hierarchy-color-2:       var(--secondary-color-2-dark);
-    --hierarchy-color-3:       var(--secondary-color-3-dark);
-    --hierarchy-color-4:       var(--secondary-color-4-dark);
+    --hierarchy-color-1:       var(--palette-color-1-dark);
+    --hierarchy-color-2:       var(--palette-color-2-dark);
+    --hierarchy-color-3:       var(--palette-color-3-dark);
+    --hierarchy-color-4:       var(--palette-color-4-dark);
     --hierarchy-focus-color:   var(--highlight-color);
 
     --hierarchy-heading-color: var(--color-text);

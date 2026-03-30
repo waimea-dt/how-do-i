@@ -1,11 +1,11 @@
 .mermaid {
-    --mermaid-red-color:               #e61919;
-    --mermaid-orange-color:            #e68a19;
-    --mermaid-yellow-color:            #e5e857;
-    --mermaid-green-color:             #8ed450;
-    --mermaid-blue-color:              #0288d1;
-    --mermaid-purple-color:            #9740bc;
-    --mermaid-pink-color:              #ca2799;
+    --mermaid-red-color:               var(--code-color-red);
+    --mermaid-orange-color:            var(--code-color-orange);
+    --mermaid-yellow-color:            var(--code-color-yellow);
+    --mermaid-green-color:             var(--code-color-green);
+    --mermaid-blue-color:              var(--code-color-blue);
+    --mermaid-purple-color:            var(--code-color-purple);
+    --mermaid-pink-color:              var(--code-color-pink);
 
     --mermaid-terminator-color:         var(--mermaid-red-color);
     --mermaid-func-call-color:          var(--mermaid-orange-color);
@@ -39,7 +39,7 @@
 
     --mermaid-seq-man-back-color:       color-mix(in srgb, var(--mermaid-seq-man-color),    var(--color-mono-min) 80%);
 
-    --mermaid-tone-color--light:        #f00;
+    --mermaid-tone-color--light:        var(--color-attention);
     --mermaid-tone-color--dark:         #111;
 
     --mermaid-line-width--normal:       2;

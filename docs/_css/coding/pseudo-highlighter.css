@@ -1,13 +1,12 @@
 .language-pseudo {
-    --pseudo-terminator-col: #fc7c7c;
-    --pseudo-function-col:   #ffbf80;
-    --pseudo-loop-col:       #f5ff81;
-    --pseudo-decision-col:   #77e640;
-    --pseudo-action-col:     #7ed2ff;
-    --pseudo-in-out-col:     #d982ff;
-    --pseudo-comment-col:    #616161;
+    --pseudo-terminator-col: var(--code-color-red);
+    --pseudo-function-col:   var(--code-color-orange);
+    --pseudo-loop-col:       var(--code-color-yellow);
+    --pseudo-decision-col:   var(--code-color-green);
+    --pseudo-action-col:     var(--code-color-blue);
+    --pseudo-in-out-col:     var(--code-color-purple);
+    --pseudo-comment-col:    var(--code-color-muted);
 }
-
 
 .language-pseudo .comment  { color: var(--pseudo-comment-col); }
 .language-pseudo .block    { color: var(--pseudo-terminator-col); }

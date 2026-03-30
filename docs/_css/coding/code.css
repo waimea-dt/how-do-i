@@ -3,7 +3,7 @@
     --code-font-size:            1em;
     --code-line-height:          1.3;
 
-    --code-color-back:          hsl(220 10% 6%);
+    --code-color-back:          #0e0f11;
 
     --code-color-normal:        #cdd3df;
     --code-color-bright:        #ABB2BF;
@@ -21,16 +21,16 @@
     --code-color-purple:        #b28adf;
     --code-color-pink:          #e79cce;
 
-    --code-active-line-back:    #7774;
-    --code-selection-back:      hsla(204, 80%, 57%, 0.4);
-    --code-matching-color:      #ff0;
-    --code-matching-back:       #ff03;
+    --code-active-line-back:    color-mix(in srgb, var(--code-color-normal) 20%, transparent);
+    --code-selection-back:      color-mix(in srgb, var(--theme-color) 40%, transparent);
+    --code-matching-color:      var(--color-important);
+    --code-matching-back:       color-mix(in srgb, var(--code-matching-color) 10%, transparent);
 
-    --code-warning-color:       rgb(222, 222, 52);
-    --code-error-color:         rgb(221, 49, 49);
+    --code-warning-color:       var(--color-important);
+    --code-error-color:         var(--color-attention);
 
-    --code-high-mark:           hsla(204, 80%, 57%, 1.0);
-    --code-high-back:           hsla(204, 80%, 57%, 0.2);
+    --code-high-mark:           var(--theme-color);
+    --code-high-back:           color-mix(in srgb, var(--code-high-mark) 20%, transparent);
 
     --code-popup-color:          var(--code-color-normal);
     --code-popup-back-color:     var(--code-color-darker);
