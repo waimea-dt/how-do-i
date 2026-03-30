@@ -2,17 +2,23 @@
     const ICONS = {
         NOTE:      'info',
         TIP:       'lightbulb',
-        IMPORTANT: 'triangle-alert',
+        QUESTION:  'circle-help',
+        EXAMPLE:   'pointer',
+        IMPORTANT: 'circle-alert',
         WARNING:   'triangle-alert',
         ATTENTION: 'bell-ring',
+        DANGER:    'skull',
     }
 
     const LABELS = {
         NOTE:      'Note',
         TIP:       'Tip',
+        QUESTION:  'Question',
+        EXAMPLE:   'Example',
         IMPORTANT: 'Important',
         WARNING:   'Warning',
         ATTENTION: 'Attention',
+        DANGER:    'Danger',
     }
 
     const TYPES = Object.keys(ICONS)

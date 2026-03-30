@@ -29,8 +29,14 @@
     --secondary-color-3-dark:         color-mix(in srgb, var(--palette-color-3), var(--color-mono-min) 50%);
     --secondary-color-4-dark:         color-mix(in srgb, var(--palette-color-4), var(--color-mono-min) 50%);
 
-    --highlight-color:                #c1bc27;  /* Yellow */
+    /* Semantic Colors */
+    --color-important:                #d8dd47;
+    --color-warning:                  #e2ae47;
+    --color-attention:                #e64848;
 
+    --highlight-color:                var(--color-important);
+
+    /* Links */
     --link-color:                     var(--theme-color);
     --link-color-hover:               var(--theme-color-5);
     --link-underline-color:           var(--theme-color-4);

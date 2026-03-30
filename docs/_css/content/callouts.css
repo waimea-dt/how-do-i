@@ -1,17 +1,23 @@
 :root {
     --callout-note-color:             var(--secondary-color);
     --callout-tip-color:              var(--theme-color);
-    --callout-important-color:        #d8dd47;
-    --callout-warning-color:          #e2ae47;
-    --callout-attention-color:        #e64848;
+    --callout-question-color:         var(--palette-color-2);
+    --callout-example-color:          var(--palette-color-1);
+    --callout-important-color:        var(--color-important);
+    --callout-warning-color:          var(--color-warning);
+    --callout-attention-color:        var(--color-attention);
+    --callout-danger-color:           var(--color-attention);
 }
 
 
 .note:is(.markdown-section .callout)      { --callout-color: var(--callout-note-color); }
 .tip:is(.markdown-section .callout)       { --callout-color: var(--callout-tip-color); }
+.question:is(.markdown-section .callout)  { --callout-color: var(--callout-question-color); }
+.example:is(.markdown-section .callout)   { --callout-color: var(--callout-example-color); }
 .important:is(.markdown-section .callout) { --callout-color: var(--callout-important-color); }
 .warning:is(.markdown-section .callout)   { --callout-color: var(--callout-warning-color); }
 .attention:is(.markdown-section .callout) { --callout-color: var(--callout-attention-color); }
+.danger:is(.markdown-section .callout)    { --callout-color: var(--callout-danger-color); }
 
 
 /* Remove Docsify theming */
