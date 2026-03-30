@@ -29,7 +29,7 @@
 
     --schema-heading-text-color:        var(--color-text);
 
-    --schema-pk-color:                  var(--theme-color); /*#e06153;*/
+    --schema-pk-color:                  var(--theme-color);
     --schema-fk-color:                  var(--secondary-color);
 
     --schema-fieldname-color:           var(--color-text);

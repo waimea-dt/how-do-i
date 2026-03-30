@@ -1,0 +1,50 @@
+:root {
+    --card-back-color:   var(--color-mono-1);
+    --card-border-color: var(--color-mono-3);
+    --card-min-width:    20rem;
+    --card-gap:          1.5em;
+}
+
+
+/* CONTAINER */
+
+.markdown-section .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-min-width), 1fr));
+    gap: var(--card-gap);
+    margin: 2em auto;
+    width: 100%;
+}
+
+.markdown-section .cards-container.narrow {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.markdown-section .cards-container.full {
+    grid-template-columns: 1fr;
+}
+
+
+/* CARDS */
+
+.markdown-section .cards-container .card {
+    background-color: var(--card-back-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-small);
+    padding: 1.2em;
+    transition: box-shadow 250ms, transform 250ms;
+
+    > :first-child {
+        margin-top: 0;
+    }
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        box-shadow: var(--box-shadow);
+        transform: translateY(-2px);
+    }
+}
