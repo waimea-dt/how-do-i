@@ -1,0 +1,176 @@
+:root {
+    --file-tree-back-color:   var(--color-mono-1);
+    --file-tree-border-color: var(--color-mono-3);
+
+    --file-tree-folder-color:     var(--secondary-color-5);
+    --file-tree-folder-color-low: var(--secondary-color-2);
+    --file-tree-file-color:       var(--theme-color-5);
+    --file-tree-file-color-low:   var(--theme-color-2);
+    --file-tree-line-color:       var(--color-mono-3);
+
+    --file-tree-focus-color:  var(--highlight-color);
+    --file-tree-focus-width:  3px;
+
+    --file-tree-icon-size:    1.2em;
+    --file-tree-indent:       1em;
+    --file-tree-line-width:   2px;
+    --file-tree-line-radius:  0.75em;
+}
+
+
+/* CONTAINER */
+
+.markdown-section .file-tree {
+    font-family: var(--font-family-mono);
+    background-color: var(--file-tree-back-color);
+    padding: 0.75em 1em;
+    width: fit-content;
+    border: 1px solid var(--file-tree-border-color);
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    margin: 2em auto;
+    list-style: none;
+}
+
+
+/* ITEMS */
+
+.markdown-section .file-tree .file-tree-item {
+    list-style: none;
+    line-height: 1;
+    margin-bottom: 0;
+    padding: 0.1em 0;
+    position: relative;
+    margin-left: var(--file-tree-indent);
+    transition: color 200ms, opacity 200ms;
+
+    /* Folders */
+    &:has(ul) {
+        color: var(--file-tree-folder-color);
+
+        &::before {
+            mask-image: url(../_assets/icons/folder.svg);
+        }
+    }
+
+    /* Files */
+    &:not(:has(ul)) {
+        color: var(--file-tree-file-color);
+
+        &::before {
+            mask-image: url(../_assets/icons/file.svg);
+        }
+    }
+}
+
+/* Root level items */
+.markdown-section .file-tree > .file-tree-item {
+    margin-left: 0;
+}
+
+
+/* ICONS */
+
+.markdown-section .file-tree .file-tree-item::before {
+    content: "";
+    width: var(--file-tree-icon-size);
+    height: var(--file-tree-icon-size);
+    vertical-align: bottom;
+    margin-right: 0.5em;
+    display: inline-block;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+
+/* FOLDERS */
+
+.markdown-section .file-tree .file-tree-folder {
+    position: relative;
+    margin: 0;
+    padding-top: 0.2em;
+}
+
+
+/* CONNECTING LINES */
+
+.markdown-section .file-tree .file-tree-folder::after {
+    content: "";
+    position: absolute;
+    left: calc(var(--file-tree-icon-size) * 0.7);
+    top: 0.1em;
+    bottom: 0.2em;
+    width: var(--file-tree-line-radius);
+    border-bottom-left-radius: var(--file-tree-line-radius);
+    border-width: var(--file-tree-line-width);
+    border-color: var(--file-tree-line-color);
+    border-left-style: solid;
+    border-bottom-style: solid;
+    transition: opacity 200ms;
+}
+
+
+/* DIMMING WHEN FOCUS EXISTS */
+
+/* When tree has focus, dim all items by changing colors */
+.markdown-section .file-tree:has(.focus) .file-tree-item:has(ul) {
+    color: var(--file-tree-folder-color-low);
+}
+
+.markdown-section .file-tree:has(.focus) .file-tree-item:not(:has(ul)) {
+    color: var(--file-tree-file-color-low);
+}
+
+/* Dim icons and connecting lines */
+.markdown-section .file-tree:has(.focus) .file-tree-item::before,
+.markdown-section .file-tree:has(.focus) .file-tree-folder::after {
+    opacity: 0.6;
+}
+
+/* Restore colors for focused folder items */
+.markdown-section .file-tree:has(.focus) .file-tree-item.focus:has(ul) {
+    color: var(--file-tree-folder-color);
+}
+
+/* Restore colors for folders within focused folders */
+.markdown-section .file-tree:has(.focus) .file-tree-item.focus:has(ul) .file-tree-item:has(ul) {
+    color: var(--file-tree-folder-color);
+}
+
+/* Restore colors for focused file items and children of focused folders */
+.markdown-section .file-tree:has(.focus) .file-tree-item.focus:not(:has(ul)),
+.markdown-section .file-tree:has(.focus) .file-tree-item.focus:has(ul) .file-tree-item:not(:has(ul)) {
+    color: var(--file-tree-file-color);
+}
+
+/* Restore opacity for focused items' icons/lines and their descendants */
+.markdown-section .file-tree:has(.focus) .file-tree-item.focus::before,
+.markdown-section .file-tree:has(.focus) .file-tree-item.focus:has(ul) .file-tree-item::before,
+.markdown-section .file-tree:has(.focus) .file-tree-item.focus .file-tree-folder::after {
+    opacity: 1;
+}
+
+
+/* FOCUS HIGHLIGHTING */
+
+.markdown-section .file-tree .file-tree-item.focus {
+    outline: var(--file-tree-focus-width) solid var(--file-tree-focus-color);
+    outline-offset: 0;
+    padding: 0.2em 0.45em 0.3em;
+    border-radius: var(--border-radius);
+    margin-left: calc(var(--file-tree-indent) - 0.45em);
+    position: relative;
+    z-index: 1;
+
+    /* Adjust connecting line position for focused items */
+    &::after {
+        left: calc(-1 * var(--file-tree-line-radius) - 0.45em);
+    }
+}
+
+/* Root focused items don't need margin adjustment */
+.markdown-section .file-tree > .file-tree-item.focus {
+    margin-left: 0;
+}
