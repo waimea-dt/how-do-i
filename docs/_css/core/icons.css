@@ -1,18 +1,26 @@
 .lucide.icon,
 i.si::before {
+    --icon-size: 1.2em;
+
     display: inline-block;
     vertical-align: middle;
     color: currentColor;
-    width: 1.2em;
-    height: 1.2em;
-    line-height: 1.2;
+    font-size: var(--icon-size);
+    width: 1em;
+    height: 1em;
+    line-height: 1.4;
+
+    &.xx-large { --icon-size: 4.8em; }
+    &.x-large  { --icon-size: 3.6em; }
+    &.large    { --icon-size: 2.4em; }
+    &.med      { --icon-size: 1.8em; }
+    &.small    { --icon-size: 1.0em; }
+    &.x-small  { --icon-size: 0.8em; }
+    &.xx-small { --icon-size: 0.6em; }
 }
 
-.si::before {
+i.si::before {
     text-align: center;
-}
-
-.si {
     display: flex;
     align-items: center;
 }

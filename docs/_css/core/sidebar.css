@@ -120,7 +120,7 @@
 /* Section Sub-Links */
 
 :is(:is(.app-nav-merged, .sidebar-nav) > ul) ul.app-sub-sidebar {
-    padding-left: calc(var(--_sidebar-list-inset) * 3.5);
+    padding-left: calc(var(--_sidebar-list-inset) * 4.5);
     font-size: var(--font-size-s);
     line-height: 1.2;
     list-style: square;
