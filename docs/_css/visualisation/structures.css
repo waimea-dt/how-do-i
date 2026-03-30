@@ -1,9 +1,9 @@
 :root {
     --structure-outer-color: var(--color-mono-3);
-    --structure-color-1:     var(--palette-color-1);
-    --structure-color-2:     var(--palette-color-2);
-    --structure-color-3:     var(--palette-color-3);
-    --structure-color-4:     var(--palette-color-4);
+    --structure-color-1:     var(--secondary-color-1-dark);
+    --structure-color-2:     var(--secondary-color-2-dark);
+    --structure-color-3:     var(--secondary-color-3-dark);
+    --structure-color-4:     var(--secondary-color-4-dark);
     --structure-focus-color: var(--highlight-color);
 
     --structure-back-color:       color-mix(in srgb, var(--structure-outer-color), var(--color-mono-min) 95%);

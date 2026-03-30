@@ -24,10 +24,10 @@
     --palette-color-3:                #489ebb;
     --palette-color-4:                #c55d74;
 
-    --secondary-color-1-dark:         color-mix(in srgb, var(--palette-color-1), var(--color-mono-min) 80%);
-    --secondary-color-2-dark:         color-mix(in srgb, var(--palette-color-2), var(--color-mono-min) 80%);
-    --secondary-color-3-dark:         color-mix(in srgb, var(--palette-color-3), var(--color-mono-min) 80%);
-    --secondary-color-4-dark:         color-mix(in srgb, var(--palette-color-4), var(--color-mono-min) 80%);
+    --secondary-color-1-dark:         color-mix(in srgb, var(--palette-color-1), var(--color-mono-min) 50%);
+    --secondary-color-2-dark:         color-mix(in srgb, var(--palette-color-2), var(--color-mono-min) 50%);
+    --secondary-color-3-dark:         color-mix(in srgb, var(--palette-color-3), var(--color-mono-min) 50%);
+    --secondary-color-4-dark:         color-mix(in srgb, var(--palette-color-4), var(--color-mono-min) 50%);
 
     --highlight-color:                #c1bc27;  /* Yellow */
 

@@ -61,8 +61,13 @@
         subList.classList.add('hierarchy-container')
       })
 
-      // Replace the hierarchy tag with the formatted UL
-      hierarchyBlock.parentNode.replaceChild(hierarchyList, hierarchyBlock)
+      // Create scroll wrapper for mobile overflow
+      const scrollWrapper = document.createElement('div')
+      scrollWrapper.classList.add('hierarchy-scroll-wrapper')
+      scrollWrapper.appendChild(hierarchyList)
+
+      // Replace the hierarchy tag with the wrapped hierarchy
+      hierarchyBlock.parentNode.replaceChild(scrollWrapper, hierarchyBlock)
     })
   }
 

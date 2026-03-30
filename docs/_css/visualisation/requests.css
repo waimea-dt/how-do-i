@@ -29,8 +29,18 @@
 
 @media (min-width: 40rem) {
     .markdown-section .request-sequence {
-        min-width: 40rem;
-        flex-direction: row;
+        min-width: 30rem;
+        max-width: 40rem;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+
+        /* 3-endpoint mode */
+        &:has(.end-point.middle) {
+            min-width: 40rem;
+            max-width: 100%;
+            grid-template-columns: 1fr 2fr 1fr 2fr 1fr;
+        }
     }
 }
 
@@ -92,7 +102,7 @@
             content: "";
             position: absolute;
             width: 500%;
-            border-top: var(--requests-border-width) solid var(--requests-end-point-color2);
+            border-top: var(--requests-border-width) solid var(--endpoint-color);
         }
 
         &::before {
@@ -110,6 +120,10 @@
 /* Horizontal layout adjustments */
 @media (min-width: 40rem) {
     .markdown-section .request-sequence .end-point {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+
         &.left,
         &.middle,
         &.right {
@@ -128,28 +142,31 @@
     }
 }
 
-/* Endpoint colors */
+/* Endpoint colors - assign color variable to each endpoint */
 .markdown-section .request-sequence .end-point {
     &.left {
-        border-color: var(--requests-end-point-color1);
-        > * { color: var(--requests-end-point-color1); }
+        --endpoint-color: var(--requests-end-point-color1);
     }
 
     &.middle {
-        border-color: var(--requests-end-point-color2);
-        > * { color: var(--requests-end-point-color2); }
+        --endpoint-color: var(--requests-end-point-color2);
     }
 
     &.right {
-        border-color: var(--requests-end-point-color3);
-        > * { color: var(--requests-end-point-color3); }
+        --endpoint-color: var(--requests-end-point-color3);
+    }
+
+    /* Apply the color variable */
+    border-color: var(--endpoint-color);
+    > * {
+        /* color: var(--endpoint-color); */
+        color: color-mix(in srgb, var(--endpoint-color) 50%, #fff);
     }
 }
 
 /* Two-endpoint mode: right uses color2 instead of color3 */
 .markdown-section .request-sequence:not(:has(.end-point.middle)) .end-point.right {
-    border-color: var(--requests-end-point-color2);
-    > * { color: var(--requests-end-point-color2); }
+    --endpoint-color: var(--requests-end-point-color2);
 }
 
 
@@ -166,12 +183,17 @@
     flex-direction: column;
     gap: 1.2em;
     justify-content: space-between;
-    border-left: var(--requests-border-width) solid var(--requests-end-point-color1);
-    border-right: var(--requests-border-width) solid var(--requests-end-point-color2);
+
+    /* Default: left list borders */
+    --requests-left-border-color: var(--requests-end-point-color1);
+    --requests-right-border-color: var(--requests-end-point-color2);
+
+    border-left: var(--requests-border-width) solid var(--requests-left-border-color);
+    border-right: var(--requests-border-width) solid var(--requests-right-border-color);
 
     &.right {
-        border-left-color: var(--requests-end-point-color2);
-        border-right-color: var(--requests-end-point-color3);
+        --requests-left-border-color: var(--requests-end-point-color2);
+        --requests-right-border-color: var(--requests-end-point-color3);
     }
 }
 
@@ -234,21 +256,23 @@
     /* Info messages */
     &.info-left,
     &.info-right {
-        font-style: italic;
-        border-bottom: none;
-        padding-top: 0.5em;
-        max-width: min(70%, 20ch);
         font-size: 0.9em;
+        border-bottom: none;
+        padding: 0.3em 0.6em;
+        max-width: min(70%, 20ch);
+        padding-block: 0.4em;
+        background-color: color-mix(in srgb, var(--message-color) 25%, transparent);
+        color: color-mix(in srgb, var(--message-color) 25%, #fff);
     }
 
     &.info-left {
-        padding-left: 0.5em;
         align-self: flex-start;
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
     }
 
     &.info-right {
-        padding-right: 0.5em;
         align-self: flex-end;
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
     }
 
     /* Arrow heads */
@@ -270,45 +294,45 @@
     }
 }
 
-/* Message colors */
+/* Message color variables - set on each message type */
 .markdown-section .request-sequence .requests .message {
-    &.info-left {
-        color: var(--requests-end-point-color1);
-    }
-
-    &.info-right {
-        color: var(--requests-end-point-color2);
-    }
-
+    &.info-left,
     &.left-to-right {
-        border-color: var(--requests-end-point-color1);
-        &::after { border-left-color: var(--requests-end-point-color1); }
+        --message-color: var(--requests-end-point-color1);
     }
 
+    &.info-right,
     &.right-to-left {
-        border-color: var(--requests-end-point-color2);
-        &::after { border-right-color: var(--requests-end-point-color2); }
+        --message-color: var(--requests-end-point-color2);
     }
 }
 
 /* Right list colors (3-endpoint mode) */
 .markdown-section .request-sequence .requests.right .message {
-    &.info-left {
-        color: var(--requests-end-point-color2);
-    }
-
-    &.info-right {
-        color: var(--requests-end-point-color3);
-    }
-
+    &.info-left,
     &.left-to-right {
-        border-color: var(--requests-end-point-color2);
-        &::after { border-left-color: var(--requests-end-point-color2); }
+        --message-color: var(--requests-end-point-color2);
     }
 
+    &.info-right,
     &.right-to-left {
-        border-color: var(--requests-end-point-color3);
-        &::after { border-right-color: var(--requests-end-point-color3); }
+        --message-color: var(--requests-end-point-color3);
+    }
+}
+
+/* Generic color application using variables */
+.markdown-section .request-sequence .requests .message {
+    &.left-to-right,
+    &.right-to-left {
+        border-color: var(--message-color);
+    }
+
+    &.left-to-right::after {
+        border-left-color: var(--message-color);
+    }
+
+    &.right-to-left::after {
+        border-right-color: var(--message-color);
     }
 }
 
