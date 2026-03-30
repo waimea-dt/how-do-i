@@ -87,9 +87,71 @@
       const rightName = rightItem.children[0].textContent.trim().slice(RIGHT_MARKER.length)
       const middleName = middleItem ? middleItem.children[0].textContent.trim().slice(MIDDLE_MARKER.length) : null
 
-      const leftDesc = leftItem.children.length > 1 ? Array.from(leftItem.children).slice(1) : []
-      const rightDesc = rightItem.children.length > 1 ? Array.from(rightItem.children).slice(1) : []
-      const middleDesc = middleItem && middleItem.children.length > 1 ? Array.from(middleItem.children).slice(1) : []
+      // Extract descriptions - collect all elements after the first child
+      // This handles multi-line descriptions properly
+      const getDescElements = (item) => {
+        if (!item) return []
+
+        const descElements = []
+        const children = Array.from(item.children)
+
+        // Skip the first child (contains the label like "Left: Customer")
+        // and process all remaining children
+        for (let i = 1; i < children.length; i++) {
+          descElements.push(...extractIconAndText(children[i]))
+        }
+
+        return descElements
+      }
+
+      // Helper function to extract icon and text from an element
+      // Handles the case where text is nested inside icon elements
+      const extractIconAndText = (element) => {
+        const result = []
+
+        if (element.tagName === 'I' && element.getAttribute('data-lucide')) {
+          // Clone just the icon (without deep cloning the text content)
+          const iconClone = element.cloneNode(false)
+          for (let i = 0; i < element.attributes.length; i++) {
+            const attr = element.attributes[i]
+            iconClone.setAttribute(attr.name, attr.value)
+          }
+          result.push(iconClone)
+
+          // Extract text content after the icon if it exists
+          const textContent = element.textContent.trim()
+          if (textContent) {
+            const textPara = document.createElement('p')
+            textPara.innerHTML = textContent
+            result.push(textPara)
+          }
+        } else {
+          // For normal elements, check if they contain icons with text
+          const clone = element.cloneNode(true)
+          const nestedIcons = clone.querySelectorAll('i[data-lucide]')
+
+          if (nestedIcons.length > 0) {
+            // If there are nested icons with text, process them
+            nestedIcons.forEach(icon => {
+              const textContent = icon.textContent.trim()
+              if (textContent) {
+                // Keep the icon but move text after it
+                const textNode = document.createTextNode(textContent)
+                icon.parentNode.insertBefore(textNode, icon.nextSibling)
+                icon.textContent = '' // Clear text from icon
+              }
+            })
+          }
+
+          result.push(clone)
+        }
+
+        return result
+      }
+
+      const leftDesc = getDescElements(leftItem)
+      const rightDesc = getDescElements(rightItem)
+      const middleDesc = middleItem ? getDescElements(middleItem) : []
 
       // Create request lists
       const requestListLeft = document.createElement('ol')
@@ -196,8 +258,20 @@
         const colonIdxHTML = messageHTML.indexOf(':')
         if (colonIdxHTML !== -1) {
           const messageContentHTML = messageHTML.slice(colonIdxHTML + 1).trim()
+          const tempDiv = document.createElement('div')
+          tempDiv.innerHTML = messageContentHTML
+
+          // Process the content to extract icons and text properly
           const span = document.createElement('span')
-          span.innerHTML = messageContentHTML
+          Array.from(tempDiv.childNodes).forEach(node => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              const extracted = extractIconAndText(node)
+              extracted.forEach(el => span.appendChild(el))
+            } else {
+              span.appendChild(node.cloneNode(true))
+            }
+          })
+
           item.appendChild(span)
         } else {
           item.appendChild(document.createTextNode(messagePart))

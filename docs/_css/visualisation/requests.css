@@ -12,6 +12,8 @@
     --requests-border-width:         2px;
     --requests-line-width:           3px;
     --requests-arrow-head-size:      calc(var(--requests-line-width) * 3);
+
+    --requests-dimmed-opacity:       0.5;
 }
 
 
@@ -38,7 +40,7 @@
         /* 3-endpoint mode */
         &:has(.end-point.middle) {
             min-width: 40rem;
-            max-width: 100%;
+            max-width: 95%;
             grid-template-columns: 1fr 2fr 1fr 2fr 1fr;
         }
     }
@@ -73,7 +75,7 @@
 
     p {
         line-height: 1.2;
-        font-size: 0.8em;
+        font-size: 0.9em;
     }
 
     img {
@@ -156,10 +158,8 @@
         --endpoint-color: var(--requests-end-point-color3);
     }
 
-    /* Apply the color variable */
     border-color: var(--endpoint-color);
     > * {
-        /* color: var(--endpoint-color); */
         color: color-mix(in srgb, var(--endpoint-color) 50%, #fff);
     }
 }
@@ -215,7 +215,7 @@
 
 .markdown-section .request-sequence .requests .message {
     margin: 0;
-    padding: 0 1em 0.1em;
+    padding: 0 1em 0.3em;
     border-bottom: var(--requests-line-width) solid var(--color-mono-4);
     line-height: 1.2;
     align-content: flex-end;
@@ -242,7 +242,7 @@
     &.info-left {
         text-align: left;
         margin-right: 0.5em;
-        padding-right: 2em;
+        padding-right: 1em;
     }
 
     /* Right-aligned messages */
@@ -250,19 +250,21 @@
     &.info-right {
         text-align: right;
         margin-left: 0.5em;
-        padding-left: 2em;
+        padding-left: 1em;
     }
 
     /* Info messages */
     &.info-left,
     &.info-right {
         font-size: 0.9em;
+        font-weight: 500;
         border-bottom: none;
         padding: 0.3em 0.6em;
-        max-width: min(70%, 20ch);
+        min-width: 10ch;
+        max-width: 75%;
         padding-block: 0.4em;
         background-color: color-mix(in srgb, var(--message-color) 25%, transparent);
-        color: color-mix(in srgb, var(--message-color) 25%, #fff);
+        --animation-text: color-mix(in srgb, var(--message-color) 25%, #fff);
     }
 
     &.info-left {
@@ -296,6 +298,9 @@
 
 /* Message color variables - set on each message type */
 .markdown-section .request-sequence .requests .message {
+    --animation-border: var(--message-color);
+    --animation-text: currentColor;
+
     &.info-left,
     &.left-to-right {
         --message-color: var(--requests-end-point-color1);
@@ -322,17 +327,19 @@
 
 /* Generic color application using variables */
 .markdown-section .request-sequence .requests .message {
+    color: var(--animation-text);
+
     &.left-to-right,
     &.right-to-left {
-        border-color: var(--message-color);
+        border-color: var(--animation-border);
     }
 
     &.left-to-right::after {
-        border-left-color: var(--message-color);
+        border-left-color: var(--animation-border);
     }
 
     &.right-to-left::after {
-        border-right-color: var(--message-color);
+        border-right-color: var(--animation-border);
     }
 }
 
@@ -356,24 +363,64 @@
 
 /* ANIMATIONS */
 
-@keyframes reqFadeInOut {
-    0% { opacity: 0.5; }
-    1% { opacity: 1.0; }
-    9% { opacity: 1.0; }
-    10% { opacity: 0.5; }
-    100% { opacity: 0.5; }
+@keyframes reqHighlight {
+    0% {
+        opacity: var(--requests-dimmed-opacity);
+        --animation-text: currentColor;
+        --animation-border: var(--message-color);
+    }
+    0.1% {
+        opacity: 1;
+        --animation-text: var(--highlight-color);
+        --animation-border: var(--highlight-color);
+    }
+    10% {
+        opacity: 1;
+        --animation-text: var(--highlight-color);
+        --animation-border: var(--highlight-color);
+    }
+    10.1% {
+        opacity: var(--requests-dimmed-opacity);
+        --animation-text: currentColor;
+        --animation-border: var(--message-color);
+    }
+    100% {
+        opacity: var(--requests-dimmed-opacity);
+        --animation-text: currentColor;
+        --animation-border: var(--message-color);
+    }
 }
 
-@keyframes shortReqFadeInOut {
-    0% { opacity: 0.5; }
-    1% { opacity: 1.0; }
-    19% { opacity: 1.0; }
-    20% { opacity: 0.5; }
-    100% { opacity: 0.5; }
+@keyframes shortReqHighlight {
+    0% {
+        opacity: var(--requests-dimmed-opacity);
+        --animation-text: currentColor;
+        --animation-border: var(--message-color);
+    }
+    0.1% {
+        opacity: 1;
+        --animation-text: var(--highlight-color);
+        --animation-border: var(--highlight-color);
+    }
+    20% {
+        opacity: 1;
+        --animation-text: var(--highlight-color);
+        --animation-border: var(--highlight-color);
+    }
+    20.1% {
+        opacity: var(--requests-dimmed-opacity);
+        --animation-text: currentColor;
+        --animation-border: var(--message-color);
+    }
+    100% {
+        opacity: var(--requests-dimmed-opacity);
+        --animation-text: currentColor;
+        --animation-border: var(--message-color);
+    }
 }
 
 .markdown-section .request-sequence.animated .requests .message:not(.dummy) {
-    animation: reqFadeInOut 10s linear infinite;
+    animation: reqHighlight 10s linear infinite;
     animation-fill-mode: both;
 
     &:nth-of-type(1)  { animation-delay:    0ms; }
@@ -390,12 +437,15 @@
 
 /* Shorter animation for sequences with 5 or fewer messages */
 .markdown-section .request-sequence.animated .requests:not(:has(.message:nth-of-type(6))) .message:not(.dummy) {
-    animation-duration: 6s;
-    animation-name: shortReqFadeInOut;
+    animation-duration: 5s;
+    animation-name: shortReqHighlight;
 }
 
 /* Hover to pause animation */
 .markdown-section .request-sequence.animated:hover .requests .message:not(.dummy) {
     opacity: 1;
+    --animation-text: currentColor;
+    --animation-border: var(--message-color);
     animation: none;
 }
+

@@ -184,23 +184,38 @@ fun main() {
 > [!NOTE]
 > The customer (the `main`(kotlin) function) only talks to the `Waiter`(kotlin). It has no idea a `Chef`(kotlin) even exists - that's an internal detail. This is the key idea of OOP: objects hide their complexity and expose only what others need to know.
 
-```mermaid
-sequenceDiagram
-    actor Customer
-    actor Waiter
-    actor Chef
 
-    Customer ->>  Waiter:   I would like pasta
-    Waiter   ->>  Chef:     Prepare some pasta
-    Chef     -->> Waiter:   Here is the fresh pasta
-    Waiter   -->> Customer: Here is your fresh pasta
+<requests animated="true">
 
-    Customer ->>  Waiter:   I would like soup
-    Waiter   ->>  Chef:     Prepare some soup
-    Chef     -->> Waiter:   Here is the fresh soup
-    Waiter   -->> Customer: Here is your fresh soup
-```
+- Left: **Customer**
 
+    <i data-lucide="user" class="x-large"></i>
+
+    The customer only has access the the **waiter**
+
+- Middle: **Waiter**
+
+    <i data-lucide="user-pen" class="x-large"></i>
+
+    The waiter serves the **customer** and also talks to the **chef**
+
+- Right: **Chef**
+
+    <i data-lucide="chef-hat" class="x-large"></i>
+
+    The chef services request from the **waiter** only
+
+- Requests:
+
+    1.  L ---> M      R : I would like pasta
+    2.  L   (i M      R : <i data-lucide="pen" class="small"></i> Takes order
+    3.  L      M ---> R : Prepare some pasta
+    4.  L      M   (i R : <i data-lucide="cooking-pot" class="small"></i> Cooks the pasta
+    5.  L      M <--- R : Here is the fresh pasta
+    6.  L <--- M      R : Here is your fresh pasta
+    7.  L i)   M      R : Yum!
+
+</requests>
 
 
 ## Summary
