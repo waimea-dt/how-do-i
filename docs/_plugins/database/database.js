@@ -102,12 +102,10 @@
 
     function formatSchemaTables(element) {
         const tables = Array.from(element.querySelectorAll('table'))
-        console.log('Found', tables.length, 'tables in schema block')
         if (tables.length === 0) return
 
         // Validate all tables
         const validTables = tables.filter(validateSchemaTable)
-        console.log('Validated', validTables.length, 'of', tables.length, 'schema tables')
         if (validTables.length === 0) return
 
         // Create wrapper
@@ -219,12 +217,10 @@
 
     function formatDataTables(element) {
         const tables = Array.from(element.querySelectorAll('table'))
-        console.log('Found', tables.length, 'tables in data block')
         if (tables.length === 0) return
 
         // Validate all tables
         const validTables = tables.filter(validateDataTable)
-        console.log('Validated', validTables.length, 'of', tables.length, 'data tables')
         if (validTables.length === 0) return
 
         // Create wrapper
@@ -425,20 +421,14 @@
     function processDBs() {
         // Process schema tables
         const schemaBlocks = document.querySelectorAll('db-schema')
-        console.log('Found', schemaBlocks.length, 'db-schema blocks')
-        schemaBlocks.forEach(block => {
-            console.log('Processing db-schema block:', block)
-            formatSchemaTables(block)
-        })
+        schemaBlocks.forEach(block => formatSchemaTables(block))
 
         // Process data tables
         const dataBlocks = document.querySelectorAll('db-data')
-        console.log('Found', dataBlocks.length, 'db-data blocks')
         dataBlocks.forEach(block => formatDataTables(block))
 
         // Process relationships
         const relBlocks = document.querySelectorAll('db-relationship')
-        console.log('Found', relBlocks.length, 'db-relationship blocks')
         relBlocks.forEach(block => formatRelationships(block))
     }
 
@@ -448,7 +438,6 @@
 
     var docsifyDatabase = function (hook) {
         hook.doneEach(function () {
-            console.log('Database plugin running...')
             processDBs()
         })
     }
