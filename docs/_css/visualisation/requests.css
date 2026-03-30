@@ -1,0 +1,377 @@
+:root {
+    --requests-end-point-color1:     var(--palette-color-3);
+    --requests-end-point-color2:     var(--palette-color-1);
+    --requests-end-point-color3:     var(--palette-color-2);
+
+    --requests-end-point-back-color: var(--color-mono-1);
+    --requests-border-color:         var(--color-mono-3);
+
+    --requests-number-color:         var(--color-mono-4);
+    --requests-info-color:           var(--color-text);
+
+    --requests-border-width:         2px;
+    --requests-line-width:           3px;
+    --requests-arrow-head-size:      calc(var(--requests-line-width) * 3);
+}
+
+
+/* CONTAINER */
+
+.markdown-section .request-sequence {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: fit-content;
+    max-width: 100%;
+    margin: 2em auto;
+    overflow: hidden;
+}
+
+@media (min-width: 40rem) {
+    .markdown-section .request-sequence {
+        min-width: 40rem;
+        flex-direction: row;
+    }
+}
+
+
+/* END POINTS */
+
+.markdown-section .request-sequence .end-point {
+    flex: 0;
+    text-align: center;
+    align-content: center;
+    padding: 0.7em 1em;
+    background-color: var(--requests-end-point-back-color);
+    border: var(--requests-border-width) solid var(--requests-border-color);
+    border-radius: var(--border-radius);
+    width: fit-content;
+    max-width: 15ch;
+
+    > :first-child {
+        margin-top: 0;
+    }
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+
+    :is(h1, h2, h3, h4) {
+        line-height: 1.1;
+        word-break: keep-all;
+    }
+
+    p {
+        line-height: 1.2;
+        font-size: 0.8em;
+    }
+
+    img {
+        width: 100%;
+        max-height: 7em;
+    }
+
+    /* Vertical layout styling */
+    &.left {
+        border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 0;
+    }
+
+    &.right {
+        border-radius: var(--border-radius) 0 var(--border-radius) var(--border-radius);
+        align-self: flex-end;
+    }
+
+    &.middle {
+        border-radius: var(--border-radius) 0 var(--border-radius) 0;
+        align-self: center;
+        position: relative;
+
+        /* Connecting lines for middle endpoint in vertical mode */
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            width: 500%;
+            border-top: var(--requests-border-width) solid var(--requests-end-point-color2);
+        }
+
+        &::before {
+            top: calc(-1 * var(--requests-border-width));
+            right: -500%;
+        }
+
+        &::after {
+            bottom: calc(-1 * var(--requests-border-width));
+            left: -500%;
+        }
+    }
+}
+
+/* Horizontal layout adjustments */
+@media (min-width: 40rem) {
+    .markdown-section .request-sequence .end-point {
+        &.left,
+        &.middle,
+        &.right {
+            border-radius: var(--border-radius);
+        }
+
+        &.middle,
+        &.right {
+            align-self: unset;
+        }
+
+        &.middle::before,
+        &.middle::after {
+            display: none;
+        }
+    }
+}
+
+/* Endpoint colors */
+.markdown-section .request-sequence .end-point {
+    &.left {
+        border-color: var(--requests-end-point-color1);
+        > * { color: var(--requests-end-point-color1); }
+    }
+
+    &.middle {
+        border-color: var(--requests-end-point-color2);
+        > * { color: var(--requests-end-point-color2); }
+    }
+
+    &.right {
+        border-color: var(--requests-end-point-color3);
+        > * { color: var(--requests-end-point-color3); }
+    }
+}
+
+/* Two-endpoint mode: right uses color2 instead of color3 */
+.markdown-section .request-sequence:not(:has(.end-point.middle)) .end-point.right {
+    border-color: var(--requests-end-point-color2);
+    > * { color: var(--requests-end-point-color2); }
+}
+
+
+/* REQUESTS LISTS */
+
+.markdown-section .request-sequence .requests {
+    flex: 1;
+    margin: 0;
+    padding: 1.5em 0 2em;
+    list-style: none;
+    text-align: center;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+    justify-content: space-between;
+    border-left: var(--requests-border-width) solid var(--requests-end-point-color1);
+    border-right: var(--requests-border-width) solid var(--requests-end-point-color2);
+
+    &.right {
+        border-left-color: var(--requests-end-point-color2);
+        border-right-color: var(--requests-end-point-color3);
+    }
+}
+
+@media (min-width: 40rem) {
+    .markdown-section .request-sequence .requests {
+        padding-top: 0.5em;
+        padding-bottom: 1.5em;
+        border: none;
+
+        &:has(.message.info-left:last-child),
+        &:has(.message.info-right:last-child) {
+            padding-bottom: 0.5em;
+        }
+    }
+}
+
+
+/* MESSAGE ITEMS */
+
+.markdown-section .request-sequence .requests .message {
+    margin: 0;
+    padding: 0 1em 0.1em;
+    border-bottom: var(--requests-line-width) solid var(--color-mono-4);
+    line-height: 1.2;
+    align-content: flex-end;
+    text-wrap-style: balance;
+    position: relative;
+    opacity: 0.9;
+    transition: all 250ms;
+
+    &:not(.dummy):hover {
+        opacity: 1;
+    }
+
+    &.dummy {
+        opacity: 0;
+        height: 0.5em;
+    }
+
+    .number {
+        color: var(--requests-number-color);
+    }
+
+    /* Left-aligned messages */
+    &.left-to-right,
+    &.info-left {
+        text-align: left;
+        margin-right: 0.5em;
+        padding-right: 2em;
+    }
+
+    /* Right-aligned messages */
+    &.right-to-left,
+    &.info-right {
+        text-align: right;
+        margin-left: 0.5em;
+        padding-left: 2em;
+    }
+
+    /* Info messages */
+    &.info-left,
+    &.info-right {
+        font-style: italic;
+        border-bottom: none;
+        padding-top: 0.5em;
+        max-width: min(70%, 20ch);
+        font-size: 0.9em;
+    }
+
+    &.info-left {
+        padding-left: 0.5em;
+        align-self: flex-start;
+    }
+
+    &.info-right {
+        padding-right: 0.5em;
+        align-self: flex-end;
+    }
+
+    /* Arrow heads */
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: calc(-1 * (var(--requests-arrow-head-size) + (var(--requests-line-width) / 2)));
+        width: calc(2 * var(--requests-arrow-head-size));
+        height: calc(2 * var(--requests-arrow-head-size));
+        border: var(--requests-arrow-head-size) solid transparent;
+    }
+
+    &.left-to-right::after {
+        right: calc(-1 * (var(--requests-arrow-head-size) + (var(--requests-line-width) / 2)));
+    }
+
+    &.right-to-left::after {
+        left: calc(-1 * (var(--requests-arrow-head-size) + (var(--requests-line-width) / 2)));
+    }
+}
+
+/* Message colors */
+.markdown-section .request-sequence .requests .message {
+    &.info-left {
+        color: var(--requests-end-point-color1);
+    }
+
+    &.info-right {
+        color: var(--requests-end-point-color2);
+    }
+
+    &.left-to-right {
+        border-color: var(--requests-end-point-color1);
+        &::after { border-left-color: var(--requests-end-point-color1); }
+    }
+
+    &.right-to-left {
+        border-color: var(--requests-end-point-color2);
+        &::after { border-right-color: var(--requests-end-point-color2); }
+    }
+}
+
+/* Right list colors (3-endpoint mode) */
+.markdown-section .request-sequence .requests.right .message {
+    &.info-left {
+        color: var(--requests-end-point-color2);
+    }
+
+    &.info-right {
+        color: var(--requests-end-point-color3);
+    }
+
+    &.left-to-right {
+        border-color: var(--requests-end-point-color2);
+        &::after { border-left-color: var(--requests-end-point-color2); }
+    }
+
+    &.right-to-left {
+        border-color: var(--requests-end-point-color3);
+        &::after { border-right-color: var(--requests-end-point-color3); }
+    }
+}
+
+/* Number visibility */
+.markdown-section .request-sequence:not(:has(.end-point.middle)) .requests .message .number {
+    display: none;
+}
+
+@media (min-width: 40rem) {
+    .markdown-section .request-sequence .requests .message {
+        &.dummy {
+            height: unset;
+        }
+
+        .number {
+            display: none;
+        }
+    }
+}
+
+
+/* ANIMATIONS */
+
+@keyframes reqFadeInOut {
+    0% { opacity: 0.5; }
+    1% { opacity: 1.0; }
+    9% { opacity: 1.0; }
+    10% { opacity: 0.5; }
+    100% { opacity: 0.5; }
+}
+
+@keyframes shortReqFadeInOut {
+    0% { opacity: 0.5; }
+    1% { opacity: 1.0; }
+    19% { opacity: 1.0; }
+    20% { opacity: 0.5; }
+    100% { opacity: 0.5; }
+}
+
+.markdown-section .request-sequence.animated .requests .message:not(.dummy) {
+    animation: reqFadeInOut 10s linear infinite;
+    animation-fill-mode: both;
+
+    &:nth-of-type(1)  { animation-delay:    0ms; }
+    &:nth-of-type(2)  { animation-delay: 1000ms; }
+    &:nth-of-type(3)  { animation-delay: 2000ms; }
+    &:nth-of-type(4)  { animation-delay: 3000ms; }
+    &:nth-of-type(5)  { animation-delay: 4000ms; }
+    &:nth-of-type(6)  { animation-delay: 5000ms; }
+    &:nth-of-type(7)  { animation-delay: 6000ms; }
+    &:nth-of-type(8)  { animation-delay: 7000ms; }
+    &:nth-of-type(9)  { animation-delay: 8000ms; }
+    &:nth-of-type(10) { animation-delay: 9000ms; }
+}
+
+/* Shorter animation for sequences with 5 or fewer messages */
+.markdown-section .request-sequence.animated .requests:not(:has(.message:nth-of-type(6))) .message:not(.dummy) {
+    animation-duration: 6s;
+    animation-name: shortReqFadeInOut;
+}
+
+/* Hover to pause animation */
+.markdown-section .request-sequence.animated:hover .requests .message:not(.dummy) {
+    opacity: 1;
+    animation: none;
+}
