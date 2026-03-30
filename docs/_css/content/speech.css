@@ -1,0 +1,168 @@
+/* Speech Bubbles */
+
+@import url('https://fonts.googleapis.com/css2?family=Mouse+Memoirs&display=swap');
+
+figure.speech {
+    --speech-font-family: "Mouse Memoirs", sans-serif;
+
+    --speech-back-color:        var(--color-mono-8);
+    --speech-border-color:      #000;
+    --speech-text-color:        var(--color-bg);
+    --speech-text-color-em:     var(--theme-color-3);
+    --speech-text-color-strong: var(--palette-color-4);
+
+    container-type: inline-size;
+    margin: var(--margin-block) auto;
+    width: 100%;
+    max-width: 40rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    /* Character image */
+    > p,
+    > img,
+    > a {
+        width: 9em;
+        margin: 0;
+        order: 2;
+    }
+
+    /* Speech bubble */
+    figcaption {
+        color: var(--speech-text-color);
+        background-color: var(--speech-back-color);
+        border: 5px solid var(--speech-border-color);
+        border-radius: 1em;
+        flex: 1;
+        order: 1;
+        min-height: 4em;
+        max-width: 10em;
+        margin: 0 auto 0.75em auto;
+        padding: 0.5em;
+        display: grid;
+        align-items: center;
+        gap: 0.5em;
+        position: relative;
+
+        font-family: var(--speech-font-family);
+        font-weight: 400;
+        font-optical-sizing: auto;
+        font-size: clamp(1.4rem, 6vw, 1.8rem);
+        text-align: center;
+        font-style: normal;
+        line-height: 1.1;
+
+        /* Reset child margins */
+        > * {
+            margin-block: 0 !important;
+        }
+
+        /* Emphasis styling */
+        strong {
+            color: var(--speech-text-color-strong);
+            font-weight: normal;
+        }
+
+        em {
+            color: var(--speech-text-color-em);
+            font-style: normal;
+        }
+
+        /* Speech bubble tail (border) */
+        &::before {
+            content: "";
+            position: absolute;
+            bottom: -1em;
+            left: 40%;
+            width: 0;
+            height: 0;
+            border: 0.5em solid;
+            border-color:
+                var(--speech-border-color)
+                var(--speech-border-color)
+                transparent
+                transparent;
+        }
+
+        /* Speech bubble tail (fill) */
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: calc(-1em + 10px);
+            left: calc(40% + 0px);
+            width: 0;
+            height: 0;
+            border: 0.45em solid;
+            border-color:
+                var(--speech-back-color)
+                var(--speech-back-color)
+                transparent
+                transparent;
+        }
+    }
+
+    /* Horizontal layout for wider screens (fallback) */
+    @media (min-width: 600px) {
+        flex-direction: row;
+        align-items: flex-end;
+
+        figcaption {
+            margin: 0 0 3em 0.75em;
+            order: 3;
+
+            &::before {
+                bottom: 1em;
+                left: -1.05em;
+                border-color:
+                    transparent
+                    var(--speech-border-color)
+                    var(--speech-border-color)
+                    transparent;
+            }
+
+            &::after {
+                bottom: calc(1em + 5px);
+                left: calc(-1.05em + 11px);
+                border-color:
+                    transparent
+                    var(--speech-back-color)
+                    var(--speech-back-color)
+                    transparent;
+            }
+        }
+    }
+
+    /* Container query override - more precise, takes precedence in supporting browsers */
+    @container (min-width: 40ch) {
+        flex-direction: row;
+        align-items: flex-end;
+
+        figcaption {
+            margin: 0 0 3em 0.75em;
+            order: 3;
+
+            &::before {
+                bottom: 1em;
+                left: -1.05em;
+                border-color:
+                    transparent
+                    var(--speech-border-color)
+                    var(--speech-border-color)
+                    transparent;
+            }
+
+            &::after {
+                bottom: calc(1em + 5px);
+                left: calc(-1.05em + 11px);
+                border-color:
+                    transparent
+                    var(--speech-back-color)
+                    var(--speech-back-color)
+                    transparent;
+            }
+        }
+    }
+}

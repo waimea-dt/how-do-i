@@ -1,4 +1,13 @@
-![](_assets/macs/macintosh-happy.svg)
+<speak>
+
+![Mac](_assets/macs/macintosh-happy.svg)
+
+**Hello, Human!**
+
+We're going to have so much *fun* learning new things!
+
+</speak>
+
 
 # Digital Technologies Notes
 

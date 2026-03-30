@@ -1,89 +1,89 @@
 :root {
     /* Color */
-    --color-bg:                      #1f2428;
-    --color-text:                    #eee;
+    --color-bg:                   #1f2428;
+    --color-text:                 #eee;
 
-    --theme-color:                   #68bef8;
-    --secondary-color:               #f2d297;
+    --theme-color:                #68bef8;
+    --secondary-color:            #f2d297;
 
-    --theme-color-0:                  color-mix(in srgb, var(--theme-color),     var(--color-bg)       97%);
-    --secondary-color-0:              color-mix(in srgb, var(--secondary-color), var(--color-bg)       97%);
+    --theme-color-0:              color-mix(in srgb, var(--theme-color),     var(--color-bg)       97%);
+    --secondary-color-0:          color-mix(in srgb, var(--secondary-color), var(--color-bg)       97%);
 
-    --secondary-color-1:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 90%);
-    --secondary-color-2:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 75%);
-    --secondary-color-3:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 55%);
-    --secondary-color-4:              color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 30%);
-    --secondary-color-5:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 30%);
-    --secondary-color-6:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 55%);
-    --secondary-color-7:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 75%);
-    --secondary-color-8:              color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 90%);
+    --secondary-color-1:          color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 90%);
+    --secondary-color-2:          color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 75%);
+    --secondary-color-3:          color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 55%);
+    --secondary-color-4:          color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 30%);
+    --secondary-color-5:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 30%);
+    --secondary-color-6:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 55%);
+    --secondary-color-7:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 75%);
+    --secondary-color-8:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 90%);
 
     /* Shared Palette Colors */
-    --palette-color-1:                #54c09a;
-    --palette-color-2:                #9561df;
-    --palette-color-3:                #489ebb;
-    --palette-color-4:                #c55d74;
+    --palette-color-1:            #54c09a;
+    --palette-color-2:            #9561df;
+    --palette-color-3:            #489ebb;
+    --palette-color-4:            #c55d74;
 
-    --palette-color-1-dark:           color-mix(in srgb, var(--palette-color-1), var(--color-mono-min) 50%);
-    --palette-color-2-dark:           color-mix(in srgb, var(--palette-color-2), var(--color-mono-min) 50%);
-    --palette-color-3-dark:           color-mix(in srgb, var(--palette-color-3), var(--color-mono-min) 50%);
-    --palette-color-4-dark:           color-mix(in srgb, var(--palette-color-4), var(--color-mono-min) 50%);
+    --palette-color-1-dark:       color-mix(in srgb, var(--palette-color-1), var(--color-mono-min) 50%);
+    --palette-color-2-dark:       color-mix(in srgb, var(--palette-color-2), var(--color-mono-min) 50%);
+    --palette-color-3-dark:       color-mix(in srgb, var(--palette-color-3), var(--color-mono-min) 50%);
+    --palette-color-4-dark:       color-mix(in srgb, var(--palette-color-4), var(--color-mono-min) 50%);
 
     /* Semantic Colors */
-    --color-good:                     #47dd97;
-    --color-important:                #d8dd47;
-    --color-warning:                  #e2ae47;
-    --color-attention:                #e64848;
+    --color-good:                 #47dd97;
+    --color-important:            #d8dd47;
+    --color-warning:              #e2ae47;
+    --color-attention:            #e64848;
 
-    --highlight-color:                var(--color-important);
+    --highlight-color:            var(--color-important);
 
     /* Links */
-    --link-color:                     var(--theme-color);
-    --link-color-hover:               var(--theme-color-5);
-    --link-underline-color:           var(--theme-color-4);
-    --link-underline-color-hover:     var(--theme-color-6);
+    --link-color:                 var(--theme-color);
+    --link-color-hover:           var(--theme-color-5);
+    --link-underline-color:       var(--theme-color-4);
+    --link-underline-color-hover: var(--theme-color-6);
 
     /* Typography */
-    --font-family:                    system-ui, sans-serif;
-    --font-family-mono:               'JetBrains Mono', ui-monospace, Consolas, monospace;
-    --font-size:                      18px;
-    --font-size-mono:                 1em;
-    --line-height:                    1.5;
+    --font-family:                system-ui, sans-serif;
+    --font-family-mono:           'JetBrains Mono', ui-monospace, Consolas, monospace;
+    --font-size:                  18px;
+    --font-size-mono:             1em;
+    --line-height:                1.5;
 
     /* Common */
-    --border-color:                   var(--color-mono-2);
-    --border-radius:                  0.5rem;
-    --margin-block:                   1.75rem;
+    --border-color:               var(--color-mono-2);
+    --border-radius:              0.5rem;
+    --margin-block:               1.75rem;
 
     /* Content */
-    --content-max-width:              55rem;
-    --content-margin-inline:          4%;
-    --content-margin-block:           45px;
+    --content-max-width:          55rem;
+    --content-margin-inline:      4%;
+    --content-margin-block:       45px;
 
     /* Cover */
-    --cover-bg-overlay:               var(--color-bg);
-    --cover-title-color:              var(--strong-color);
+    --cover-bg-overlay:           var(--color-bg);
+    --cover-title-color:          var(--strong-color);
 
     /* Shadow */
-    --box-shadow:                     0 0.3rem 0.8rem #0006;
-    --box-shadow-small:               0 0.1rem 0.3rem #0006;
+    --box-shadow:                 0 0.3rem 0.8rem #0006;
+    --box-shadow-small:           0 0.1rem 0.3rem #0006;
 
     /* Elements */
-    --button-bg:                      var(--theme-color-3);
-    --button-border-radius:           100vh;
+    --button-bg:                  var(--theme-color-3);
+    --button-border-radius:       100vh;
 
-    --kbd-bg:                         var(--color-mono-2);
-    --kbd-color:                      var(--color-mono-8);
+    --kbd-bg:                     var(--color-mono-2);
+    --kbd-color:                  var(--color-mono-8);
 
-    --mark-bg:                        var(--color-important);
-    --mark-color:                     var(--color-bg);
+    --mark-bg:                    var(--color-important);
+    --mark-color:                 var(--color-bg);
 
-    --em-color:                       var(--secondary-color-6);
-    --strong-color:                   var(--theme-color-6);
-    --strong-font-weight:             600;
+    --em-color:                   var(--secondary-color-6);
+    --strong-color:               var(--theme-color-6);
+    --strong-font-weight:         600;
 
-    --table-head-row-bg:              var(--color-mono-2);
-    --table-row-alt-bg:               var(--color-mono-1);
+    --table-head-row-bg:          var(--color-mono-2);
+    --table-row-alt-bg:           var(--color-mono-1);
 
     color-scheme: dark;
 }
