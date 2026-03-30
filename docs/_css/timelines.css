@@ -1,0 +1,105 @@
+:root {
+    --timeline-border-width:    3px;
+
+    --timeline-line-color:      var(--theme-color);
+    --timeline-marker-color:    var(--theme-color);
+    --timeline-marker-bg-color: var(--theme-color-2);
+    --timeline-marker-hi-color: var(--theme-color-6);
+
+    --timeline-date-fg-color:   var(--secondary-color-5);
+    --timeline-title-fg-color:  var(--theme-color-5);
+}
+
+
+/* CONTAINER */
+
+.markdown-section dl.timeline {
+    margin: 2em 1em;
+}
+
+
+/* TERM (date/title row) */
+
+.markdown-section dl.timeline dt {
+    display: flex;
+    gap: 0.8em;
+    align-items: center;
+    height: 1.5em;
+}
+
+.markdown-section dl.timeline dt .marker {
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    flex-shrink: 0;
+    border: var(--timeline-border-width) solid var(--timeline-marker-color);
+    background-color: var(--timeline-marker-bg-color);
+    border-radius: 3em;
+    transition: background-color 250ms, border-color 250ms;
+}
+
+.markdown-section dl.timeline dt .date {
+    display: block;
+    font-size: 1.2em;
+    color: var(--timeline-date-fg-color);
+    white-space: nowrap;
+}
+
+.markdown-section dl.timeline dt .title {
+    font-size: 1.1em;
+    line-height: 1;
+    color: var(--timeline-title-fg-color);
+}
+
+
+/* DEFINITION (content) */
+
+.markdown-section dl.timeline dd {
+    margin: 0 0 0 calc((1.5em - var(--timeline-border-width)) / 2);
+    padding: 0.5em 0 2em 2em;
+}
+
+.markdown-section dl.timeline dd:empty {
+    padding-block: 0.8em;
+}
+
+.markdown-section dl.timeline dd:last-child {
+    padding-bottom: 0;
+}
+
+.markdown-section dl.timeline dd:last-child:empty {
+    padding-top: 0;
+}
+
+.markdown-section dl.timeline dd:not(:last-of-type) {
+    border-left: var(--timeline-border-width) solid var(--timeline-line-color);
+}
+
+.markdown-section dl.timeline dd > :first-child {
+    margin-top: 0;
+}
+
+.markdown-section dl.timeline dd > :last-child {
+    margin-bottom: 0;
+}
+
+
+/* HOVER EFFECTS */
+
+.markdown-section dl.timeline dt,
+.markdown-section dl.timeline dd {
+    transition: filter 250ms;
+}
+
+.markdown-section dl.timeline dt:hover,
+.markdown-section dl.timeline dd:hover,
+.markdown-section dl.timeline dt:hover + dd,
+.markdown-section dl.timeline dt:has(+ dd:hover) {
+    filter: brightness(1.1);
+}
+
+.markdown-section dl.timeline dt:hover .marker,
+.markdown-section dl.timeline dt:has(+ dd:hover) .marker {
+    background-color: var(--timeline-marker-hi-color);
+    border-color: var(--timeline-marker-hi-color);
+}
