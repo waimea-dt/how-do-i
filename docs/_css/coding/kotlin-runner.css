@@ -54,7 +54,7 @@
                 padding: 0.3em 0.75em 0.2em;
                 border-top: 1px solid var(--code-border-color);
                 background-color: var(--code-control-back-color) !important;
-                background-image: url(../_assets/icons/play.svg) !important;
+                background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'><polygon fill='transparent' stroke='%23777' stroke-width='2' stroke-linejoin='round' points='15,10 1,19 1,1'/></svg>") !important;
                 background-size: 16px 20px !important;
                 background-position: 0.75em 0.35em !important;
                 color: var(--code-control-color);
@@ -68,7 +68,7 @@
                 }
 
                 &:hover {
-                    background-image: url(../_assets/icons/play-filled.svg) !important;
+                    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'><polygon stroke='%2324a7ff' fill='%2324a7ff' stroke-width='2' stroke-linejoin='round' points='15,10 1,19 1,1'/></svg>") !important;
 
                     &::after {
                         color: var(--code-control-color--high);

@@ -32,10 +32,10 @@
             padding-left: 30px;
             height: 1.3em;
             line-height: 1;
-            background: url(../_assets/icons/play.svg) no-repeat;
+            background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'><polygon fill='transparent' stroke='%23777' stroke-width='2' stroke-linejoin='round' points='15,10 1,19 1,1'/></svg>") no-repeat;
 
             &:hover {
-                background-image: url(../_assets/icons/play-filled.svg);
+                background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'><polygon stroke='%2324a7ff' fill='%2324a7ff' stroke-width='2' stroke-linejoin='round' points='15,10 1,19 1,1'/></svg>");
             }
         }
 
