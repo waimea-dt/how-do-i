@@ -26,30 +26,34 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/reveal.js/dist/theme/dracula.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/atom-one-dark.min.css">
 
-    <link rel="stylesheet" href="_css/theme.css">
-    <link rel="stylesheet" href="_css/sidebar.css">
-
-    <link rel="stylesheet" href="_css/code.css">
-    <link rel="stylesheet" href="_css/codemirror.css">
-    <link rel="stylesheet" href="_css/codapi.css">
-    <link rel="stylesheet" href="_css/kotlin.css">
-    <link rel="stylesheet" href="_css/web.css">
-
-    <link rel="stylesheet" href="_css/icons.css">
-    <link rel="stylesheet" href="_css/mermaid.css">
-    <link rel="stylesheet" href="_css/callouts.css">
-    <link rel="stylesheet" href="_css/pseudo.css">
-
-    <link rel="stylesheet" href="_css/slides.css">
-    <link rel="stylesheet" href="_css/sequences.css">
-    <link rel="stylesheet" href="_css/structures.css">
-    <link rel="stylesheet" href="_css/hierarchies.css">
-    <link rel="stylesheet" href="_css/file-trees.css">
-    <link rel="stylesheet" href="_css/timelines.css">
-    <link rel="stylesheet" href="_css/flash-cards.css">
-    <link rel="stylesheet" href="_css/quizzes.css">
-    <link rel="stylesheet" href="_css/database.css">
-    <link rel="stylesheet" href="_css/computers.css">
+    <!-- Core -->
+    <link rel="stylesheet" href="_css/core/theme.css">
+    <link rel="stylesheet" href="_css/core/sidebar.css">
+    <link rel="stylesheet" href="_css/core/icons.css">
+    <!-- Content -->
+    <link rel="stylesheet" href="_css/content/callouts.css">
+    <!-- Graphics -->
+    <link rel="stylesheet" href="_css/graphics/mermaid.css">
+    <!-- Visualisation -->
+    <link rel="stylesheet" href="_css/visualisation/sequences.css">
+    <link rel="stylesheet" href="_css/visualisation/structures.css">
+    <link rel="stylesheet" href="_css/visualisation/hierarchies.css">
+    <link rel="stylesheet" href="_css/visualisation/file-trees.css">
+    <link rel="stylesheet" href="_css/visualisation/timelines.css">
+    <link rel="stylesheet" href="_css/visualisation/computers.css">
+    <!-- Coding -->
+    <link rel="stylesheet" href="_css/coding/code.css">
+    <link rel="stylesheet" href="_css/coding/codemirror.css">
+    <link rel="stylesheet" href="_css/coding/codapi.css">
+    <link rel="stylesheet" href="_css/coding/kotlin-runner.css">
+    <link rel="stylesheet" href="_css/coding/pseudo-highlighter.css">
+    <link rel="stylesheet" href="_css/coding/web-playground.css">
+    <!-- Database -->
+    <link rel="stylesheet" href="_css/database/database.css">
+    <!-- Interactive -->
+    <link rel="stylesheet" href="_css/interactive/slides.css">
+    <link rel="stylesheet" href="_css/interactive/flash-cards.css">
+    <link rel="stylesheet" href="_css/interactive/quizzes.css">
 </head>
 
 <body>
@@ -141,30 +145,40 @@
     <script src="//cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js"></script>
     <script src="//cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/highlight.js"></script>
 
-    <script defer src="_plugins/docsify-scroll-to-top.js"></script>
-    <script defer src="_plugins/docsify-sidebar-scrollspy.js"></script>
-    <script defer src="_plugins/docsify-lucide-icons.js"></script>
+    <!-- Core Plugins (UI/Navigation) -->
+    <script defer src="_plugins/core/scroll-to-top.js"></script>
+    <script defer src="_plugins/core/sidebar-scrollspy.js"></script>
+    <script defer src="_plugins/core/lucide-icons.js"></script>
 
-    <script defer src="_plugins/docsify-callouts.js"></script>
-    <script defer src="_plugins/docsify-mermaid-zoom.js"></script>
+    <!-- Content Plugins -->
+    <script defer src="_plugins/content/callouts.js"></script>
 
-    <script defer src="_plugins/docsify-slides.js"></script>
-    <script defer src="_plugins/docsify-sequences.js"></script>
-    <script defer src="_plugins/docsify-structures.js"></script>
-    <script defer src="_plugins/docsify-hierarchies.js"></script>
-    <script defer src="_plugins/docsify-file-trees.js"></script>
-    <script defer src="_plugins/docsify-timelines.js"></script>
-    <script defer src="_plugins/docsify-flash-cards.js"></script>
-    <script defer src="_plugins/docsify-quizzes.js"></script>
-    <script defer src="_plugins/docsify-database.js"></script>
-    <script defer src="_plugins/docsify-computers.js"></script>
+    <!-- Graphics Plugins -->
+    <script defer src="_plugins/graphics/mermaid-zoom.js"></script>
 
-    <script defer src="_plugins/docsify-inline-highlight.js"></script>
-    <script defer src="_plugins/docsify-kotlin-runner.js"></script>
-    <script defer src="_plugins/docsify-python-runner.js"></script>
-    <script defer src="_plugins/docsify-sql-runner.js"></script>
-    <script defer src="_plugins/docsify-web-playground.js"></script>
-    <script defer src="_plugins/docsify-pseudo-highlighter.js"></script>
+    <!-- Visualisation Plugins -->
+    <script defer src="_plugins/visualisation/sequences.js"></script>
+    <script defer src="_plugins/visualisation/structures.js"></script>
+    <script defer src="_plugins/visualisation/hierarchies.js"></script>
+    <script defer src="_plugins/visualisation/file-trees.js"></script>
+    <script defer src="_plugins/visualisation/timelines.js"></script>
+    <script defer src="_plugins/visualisation/computers.js"></script>
+
+    <!-- Coding Plugins -->
+    <script defer src="_plugins/coding/inline-highlight.js"></script>
+    <script defer src="_plugins/coding/kotlin-runner.js"></script>
+    <script defer src="_plugins/coding/python-runner.js"></script>
+    <script defer src="_plugins/coding/web-playground.js"></script>
+    <script defer src="_plugins/coding/pseudo-highlighter.js"></script>
+
+    <!-- Database Plugins -->
+    <script defer src="_plugins/database/database.js"></script>
+    <script defer src="_plugins/database/sql-runner.js"></script>
+
+    <!-- Interactive Plugins -->
+    <script defer src="_plugins/interactive/slides.js"></script>
+    <script defer src="_plugins/interactive/flash-cards.js"></script>
+    <script defer src="_plugins/interactive/quizzes.js"></script>
 </body>
 
 </html>
