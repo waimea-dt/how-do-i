@@ -24,8 +24,8 @@
                     return `<code class="language-${lang}">${highlighted}</code>`
                 }
 
-                // Language not loaded — leave the code as-is, just drop the hint
-                return `<code>${rawCode}</code>`
+                // Language not loaded — keep the language class so other plugins can process it
+                return `<code class="language-${lang}">${rawCode}</code>`
             })
         })
     }

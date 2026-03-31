@@ -18,6 +18,22 @@ The Apple Macintosh Plus is a personal computer designed, manufactured and sold 
 
 </computer>
 
+## Scratch Blocks
+
+Here's a simple Scratch program:
+
+```scratch
+when green flag clicked
+set [score v] to [0]
+forever
+    move (10) steps
+    if on edge, bounce
+    change [score v] by (1)
+end
+```
+
+Inline blocks work too: `when flag clicked`{.language-scratch} and `move (10) steps`{.language-scratch}.
+
 
 # Binary Numbers
 

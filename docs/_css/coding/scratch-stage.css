@@ -1,0 +1,320 @@
+/* Scratch Stage - Visual stage representation for Scratch demos */
+
+:is(.markdown-section pre[data-lang="scratch-stage"]) {
+    /* CSS Variables */
+    --stage-back-color:          #eceff1;
+    --stage-border-color:        var(--color-mono-4);
+    --stage-info-back-color:     #444;
+    --stage-move-back-color:     #3373CC;
+    --stage-look-back-color:     #774dcb;
+    --stage-info-text-color:     #fff;
+    --stage-number-back-color:   #fff;
+    --stage-speech-back-color:   #fff;
+    --stage-speech-text-color:   #333;
+    --stage-speech-border-color: #0004;
+    --stage-shadow:              0 0.1em 0.15em #0004;
+    --stage-ques-back-color:     #fff;
+    --stage-ques-border-color:   #0008;
+    --stage-ques-accent-color:   #b4f;
+    --stage-ques-glow-color:     #b4f8;
+    --stage-ques-text-color:     #222;
+
+    /* Stage item defaults */
+    --stage-item-x:       0;
+    --stage-item-y:       0;
+    --stage-item-angle:   0;
+    --stage-item-size:    100;
+    --stage-item-image:   none;
+    --stage-item-colour:  #000;
+    --stage-item-opacity: 1.0;
+
+    /* Container styling */
+    margin-block: var(--margin-block);
+    padding: 0;
+    background: none !important;
+    border: none !important;
+
+    &::after {
+        display: none;
+    }
+
+    > code {
+        padding: 0 0 1rem !important;
+        background: none;
+        border: none;
+        white-space: normal;
+        font-family: sans-serif;
+        font-weight: normal;
+        font-size: 1em;
+    }
+
+    /* Hide comments */
+    .comment {
+        display: none;
+    }
+
+    /* -----------------------------------------------------------------------
+       Stage Container
+       ----------------------------------------------------------------------- */
+
+    .stage {
+        position: relative;
+        max-width: calc(100% - 4px);
+        width: 480px;
+        box-sizing: content-box;
+        aspect-ratio: 4 / 3;
+        margin: 0 auto;
+        border: 1px solid var(--stage-border-color);
+        border-radius: 0;
+        background-color: var(--stage-colour, var(--stage-back-color));
+        background-image: var(--stage-image, none);
+        background-position: center;
+        background-size: cover;
+        overflow: hidden;
+        box-shadow: var(--box-shadow);
+
+        header,
+        footer {
+            display: none;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+    }
+
+    /* -----------------------------------------------------------------------
+       Stage Items (Sprites and Markers)
+       ----------------------------------------------------------------------- */
+
+    .stage-item {
+        position: absolute;
+        --stage-scaled-width:  calc(100% * (var(--stage-item-size) / 480));
+        --stage-scaled-height: calc(100% * (var(--stage-item-size) / 360));
+        width: var(--stage-scaled-width);
+        height: var(--stage-scaled-height);
+        left:   calc((100% * ((240 + var(--stage-item-x)) / 480)) - (var(--stage-scaled-width) / 2));
+        bottom: calc((100% * ((180 + var(--stage-item-y)) / 360)) - (var(--stage-scaled-height) / 2));
+        opacity: var(--stage-item-opacity);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        /* Value badges */
+        .value {
+            position: absolute;
+            left: 100%;
+            white-space: nowrap;
+            padding: 0.15em 0.4em 0.2em;
+            border-radius: 0.3em;
+            font-size: 0.9em;
+            line-height: 1;
+            font-weight: normal;
+            background-color: var(--stage-info-back-color);
+            color: var(--stage-info-text-color);
+
+            &.x     { top: calc(50% - 3.00em); background-color: var(--stage-move-back-color); }
+            &.y     { top: calc(50% - 1.50em); background-color: var(--stage-move-back-color); }
+            &.angle { top: calc(50% + 0.00em); background-color: var(--stage-move-back-color); }
+            &.size  { top: calc(50% + 1.50em); background-color: var(--stage-look-back-color); }
+
+            &.opacity,
+            &.colour,
+            &.image {
+                display: none;
+            }
+
+            &.x::before     { content: 'x: '; }
+            &.y::before     { content: 'y: '; }
+            &.angle::before { content: 'angle: '; }
+            &.size::before  { content: 'size: '; }
+        }
+
+        /* Hide info values for certain item types */
+        &:is(.noinfo, .line, .arrow, .circle, .square, .label, .number) .value:not(.speech, .text, .number) {
+            display: none;
+        }
+
+        /* -----------------------------------------------------------------------
+           Sprite Images
+           ----------------------------------------------------------------------- */
+
+        &.sprite {
+            background-image: var(--stage-item-image);
+            background-size: cover;
+            transform: rotate(calc(1deg * (var(--stage-item-angle) - 90)));
+            filter: drop-shadow(var(--stage-shadow));
+        }
+
+        /* -----------------------------------------------------------------------
+           Marker Shapes
+           ----------------------------------------------------------------------- */
+
+        &.label .value.text,
+        &.number .value.number {
+            left: auto;
+            height: 1.8em;
+            width: 1.8em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid var(--stage-item-colour);
+            background-color: var(--stage-number-back-color);
+            color: var(--stage-item-colour);
+            box-shadow: var(--stage-shadow);
+            border-radius: 100em;
+            font-size: 1em;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        &.label .value.text {
+            width: fit-content;
+            padding: 0 0.5em;
+        }
+
+        &.circle,
+        &.square {
+            border: 3px dotted var(--stage-item-colour);
+            transform: rotate(calc(1deg * var(--stage-item-angle)));
+        }
+
+        &.circle { border-radius: 100em; }
+        &.square { border-radius: 0.5em; }
+
+        &.line,
+        &.arrow {
+            width: 0;
+            border-right: 3px dashed var(--stage-item-colour);
+            left:   calc((100% * ((240 + var(--stage-item-x)) / 480)) - 1.5px);
+            bottom: calc(100% * ((180 + var(--stage-item-y)) / 360));
+            transform-origin: bottom center;
+            transform: rotate(calc(1deg * var(--stage-item-angle)));
+
+            &::before {
+                content: '';
+                position: absolute;
+                bottom: -0.35em;
+                left: calc(-0.35em + 1.5px);
+                width: 0.7em;
+                height: 0.7em;
+                background-color: var(--stage-item-colour);
+                border-radius: 1em;
+            }
+        }
+
+        &.arrow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: calc(-0.5em + 1.5px);
+            width: 1em;
+            height: 1.2em;
+            background-color: var(--stage-item-colour);
+            clip-path: polygon(0% 100%, 50% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* -----------------------------------------------------------------------
+           Speech Bubbles
+           ----------------------------------------------------------------------- */
+
+        .value.speech {
+            position: absolute;
+            bottom: calc(100% + 1em);
+            top: auto;
+            left: 50%;
+            width: max-content;
+            max-width: 10em;
+            min-width: 5em;
+            padding: 0.5em 0.7em;
+            border-radius: 1em;
+            font-size: 1em;
+            white-space: unset;
+            z-index: 1;
+            border: 2px solid var(--stage-speech-border-color);
+            background-color: var(--stage-speech-back-color);
+            color: var(--stage-speech-text-color);
+
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: -0.45em;
+                left: 0.7em;
+                height: 0.7em;
+                width: 1.1em;
+                border: 2px solid var(--stage-speech-border-color);
+                border-top: none;
+                border-right: none;
+                background-color: var(--stage-speech-back-color);
+                transform: rotate(-30deg);
+                z-index: 2;
+            }
+        }
+    }
+
+    /* -----------------------------------------------------------------------
+       Question Prompt
+       ----------------------------------------------------------------------- */
+
+    .question {
+        position: absolute;
+        left: 0.4em;
+        right: 0.4em;
+        bottom: 0.4em;
+        height: 4em;
+        border-radius: 0.6em;
+        border: 2px solid var(--stage-ques-border-color);
+        background-color: var(--stage-ques-back-color);
+        color: var(--stage-ques-text-color);
+        padding: 1.5em 1.3em 1.5em 1.8em;
+        display: flex;
+        gap: 1em;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 10;
+
+        &::before {
+            content: '';
+            position: absolute;
+            width: calc(100% - 1.6em);
+            height: 2.5em;
+            left: 0.8em;
+            border: 1px solid var(--stage-ques-border-color);
+            box-shadow: 0px 0px 3px 3px var(--stage-ques-glow-color);
+            border-radius: 3em;
+        }
+
+        &::after {
+            content: url(../../_assets/scratch/icons/tick.svg);
+            position: absolute;
+            background-color: var(--stage-ques-accent-color);
+            border-radius: 3em;
+            width: 1.8em;
+            height: 1.8em;
+            right: 1.2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+        }
+
+        .value.text {
+            width: fit-content;
+
+            &::after {
+                content: '';
+                font-weight: normal;
+                margin-left: 0.1em;
+                border-radius: 0;
+                border-right: 3px solid var(--stage-ques-border-color);
+                animation: blink-caret 0.75s step-end infinite;
+            }
+        }
+    }
+
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50%      { border-color: var(--stage-ques-border-color); }
+    }
+}
