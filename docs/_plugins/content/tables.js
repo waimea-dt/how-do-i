@@ -28,6 +28,11 @@
         return
       }
 
+      // Skip logic tables (they're wrapped by the logic plugin)
+      if (table.classList.contains('logic-table') || table.closest('.display-logic')) {
+        return
+      }
+
       const rows = table.querySelectorAll('tr')
       if (rows.length === 0) return
 

@@ -1,0 +1,375 @@
+/* Logic Gates and Truth Tables
+   Provides interactive logic gate visualizations and truth tables */
+
+.display-logic {
+    --logic-gate-body-size:     4em;
+
+    --logic-gate-line-width:    5px;
+
+    --logic-gate-text-color:    var(--theme-color);
+    --logic-gate-line-color:    var(--theme-color-6);
+    --logic-gate-back-color:    var(--color-mono-0);
+
+    --logic-table-back-color:   var(--color-mono-0);
+    --logic-table-border-color: var(--theme-color-6);
+
+    --logic-in-lo-color:        var(--color-mono-5);
+    --logic-in-hi-color:        var(--theme-color);
+    --logic-out-lo-color:       var(--color-mono-5);
+    --logic-out-hi-color:       var(--highlight-color);
+    --logic-in-hi-back-color:   color-mix(in srgb, var(--logic-in-hi-color)  10%, transparent);
+    --logic-out-hi-back-color:  color-mix(in srgb, var(--logic-out-hi-color) 10%, transparent);
+}
+
+.logic-scroll {
+    overflow-x: auto;
+    overflow-y: visible;
+    margin: var(--margin-block) auto;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0 0.5rem;
+}
+
+
+/* ========================================================================
+   LOGIC GATES
+   ======================================================================== */
+
+.display-logic .logic-gate {
+    display: grid;
+    grid-template-columns: auto var(--logic-gate-body-size) auto;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "input1 center output"
+        "input2 center output";
+    width: fit-content;
+    font-size: min(5vw, 1.4em);
+    margin-block: var(--margin-block);
+    position: relative;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Single input gate (NOT) */
+    &.gate-not {
+        grid-template-areas: "input1 center output";
+    }
+
+    /* Grid area assignments */
+    .gate-input.input-one { grid-area: input1; }
+    .gate-input.input-two { grid-area: input2; }
+    .gate-input.input-three { grid-area: input3; }
+    .gate-output { grid-area: output; }
+
+    /* Three input gate layout */
+    &:has(.input-three) {
+        grid-template-areas:
+            "input1 center output"
+            "input2 center output"
+            "input3 center output";
+    }
+
+    /* Gate body - robust grid placement */
+    .gate-body {
+        grid-area: center;
+        height: var(--logic-gate-body-size);
+        width: var(--logic-gate-body-size);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* ------------------------------------------------------------------------
+       Inputs and Outputs
+       ------------------------------------------------------------------------ */
+
+    .gate-input,
+    .gate-output {
+        display: flex;
+        gap: 0.5em;
+        align-items: center;
+
+        svg {
+            height: 0.5em;
+            width: auto;
+            min-width: 2em;
+            position: relative;
+            z-index: -3;
+        }
+    }
+
+    .gate-input {
+        text-align: right;
+        justify-content: end;
+
+        svg {
+            right: -0.4em;
+        }
+    }
+
+    .gate-output {
+        text-align: left;
+        justify-content: start;
+
+        svg {
+            left: -0.4em;
+        }
+    }
+
+    /* ------------------------------------------------------------------------
+       Gate Body
+       ------------------------------------------------------------------------ */
+
+    .gate-body {
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            fill: var(--logic-gate-back-color);
+            stroke: var(--logic-gate-line-color);
+            stroke-width: var(--logic-gate-line-width);
+            z-index: 0;
+        }
+
+        label {
+            position: relative;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 500;
+            color: var(--logic-gate-text-color);
+            z-index: 1;
+            pointer-events: none;
+        }
+    }
+
+    /* Label positioning adjustments per gate type */
+    &.gate-and  .gate-body label { transform: translateX(-5%); }
+    &.gate-or   .gate-body label { transform: translateX(-5%); }
+    &.gate-xor  .gate-body label { transform: translateX(5%); }
+    &.gate-nor  .gate-body label { transform: translateX(-7%); }
+    &.gate-not  .gate-body label { transform: translateX(-18%); }
+    &.gate-nand .gate-body label { transform: translateX(-8%); }
+
+    /* ------------------------------------------------------------------------
+       Input Toggles
+       ------------------------------------------------------------------------ */
+
+    .gate-input {
+        --logic-input-color: var(--logic-in-lo-color);
+        color: var(--logic-input-color);
+
+        label {
+            flex: 1;
+            text-align: center;
+            padding: 0 0.4em;
+            transition: all 100ms;
+            background-color: var(--logic-input-color);
+            color: var(--logic-gate-back-color);
+            border-radius: 0.2em;
+            min-width: 1.5em;
+            white-space: nowrap;
+            font-weight: 500;
+
+            &:hover {
+                cursor: pointer;
+                transform: scale(1.1);
+            }
+
+            input {
+                display: none;
+            }
+        }
+
+        &:has(input:checked) {
+            --logic-input-color: var(--logic-in-hi-color);
+        }
+    }
+
+    /* ------------------------------------------------------------------------
+       Output States
+       ------------------------------------------------------------------------ */
+
+    .logic-op {
+        font-size: 0.9em;
+    }
+
+    .gate-output {
+        --logic-output-color: var(--logic-out-lo-color);
+        --logic-output-hi: none;
+        --logic-output-lo: inline-block;
+        color: var(--logic-output-color);
+
+        label {
+            white-space: nowrap;
+            font-weight: 500;
+        }
+    }
+
+    /* Gate output logic */
+    /* AND */
+    &.gate-and:has(.toggle-one:checked):has(.toggle-two:checked) .gate-output,
+    /* OR */
+    &.gate-or:has(.input-toggle:checked) .gate-output,
+    /* NOT */
+    &.gate-not:has(.input-toggle:not(:checked)) .gate-output,
+    /* XOR */
+    &.gate-xor:has(.toggle-one:checked):has(.toggle-two:not(:checked)) .gate-output,
+    &.gate-xor:has(.toggle-one:not(:checked)):has(.toggle-two:checked) .gate-output,
+    /* NAND */
+    &.gate-nand:has(.input-toggle:not(:checked)) .gate-output,
+    /* NOR */
+    &.gate-nor:has(.toggle-one:not(:checked)):has(.toggle-two:not(:checked)) .gate-output {
+        --logic-output-color: var(--logic-out-hi-color);
+        --logic-output-lo: none;
+        --logic-output-hi: inline-block;
+    }
+
+    /* ------------------------------------------------------------------------
+       Value Display
+       ------------------------------------------------------------------------ */
+
+    .value-on,
+    .value-off {
+        min-width: 2.5em;
+        font-size: 0.8em;
+    }
+
+    .gate-input {
+        &:has(input:checked) {
+            .value-on { display: inline-block; }
+            .value-off { display: none; }
+        }
+
+        &:has(input:not(:checked)) {
+            .value-on { display: none; }
+            .value-off { display: inline-block; }
+        }
+    }
+
+    .gate-output {
+        .value-on { display: var(--logic-output-hi); }
+        .value-off { display: var(--logic-output-lo); }
+    }
+}
+
+/* ========================================================================
+   LOGIC TABLES
+   ======================================================================== */
+
+.display-logic .logic-table {
+    border-color: var(--logic-table-border-color);
+    font-size: min(5vw, 1.2em);
+    background-color: var(--logic-table-back-color);
+    overflow: visible;
+    position: relative;
+    margin-block: var(--margin-block);
+
+    tbody {
+        overflow: visible;
+    }
+
+    tbody tr {
+        overflow: visible;
+    }
+
+    th,
+    td {
+        padding: 0.2em 0.75em;
+        text-align: center;
+        vertical-align: middle;
+        min-width: 3em;
+    }
+
+    th {
+        border-bottom-color: var(--logic-table-border-color);
+
+        &.out {
+            border-left-color: var(--logic-table-border-color);
+        }
+    }
+
+    td.out {
+        border-left-color: var(--logic-table-border-color);
+    }
+
+    .logic-op {
+        color: var(--logic-out-hi-color);
+        font-size: 0.9em;
+    }
+
+    /* Cell states */
+    td.in {
+        &.false {
+            color: var(--logic-in-lo-color);
+        }
+
+        &.true {
+            color: var(--logic-in-hi-color);
+            background-color: var(--logic-in-hi-back-color);
+        }
+    }
+
+    td.out {
+        &.false {
+            color: var(--logic-out-lo-color);
+        }
+
+        &.true {
+            color: var(--logic-out-hi-color);
+            background-color: var(--logic-out-hi-back-color);
+            font-weight: bold;
+        }
+    }
+
+    /* Highlight input cells when output is true */
+    tr:has(td.out.true) td.in.true {
+        font-weight: bold;
+    }
+}
+
+/* ========================================================================
+   TABLE HIGHLIGHTING (when gate precedes table)
+   ======================================================================== */
+
+.display-logic .logic-gate + .logic-table tbody tr {
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        bottom: -1px;
+        left: -1px;
+        border: 3px solid transparent;
+        pointer-events: none;
+        z-index: 10;
+    }
+}
+
+/* Two-input gates */
+.display-logic .logic-gate:has(.toggle-one:not(:checked)):has(.toggle-two:not(:checked)) + .logic-table tbody tr:nth-of-type(1)::after,
+.display-logic .logic-gate:has(.toggle-one:not(:checked)):has(.toggle-two:checked) + .logic-table tbody tr:nth-of-type(2)::after,
+.display-logic .logic-gate:has(.toggle-one:checked):has(.toggle-two:not(:checked)) + .logic-table tbody tr:nth-of-type(3)::after,
+.display-logic .logic-gate:has(.toggle-one:checked):has(.toggle-two:checked) + .logic-table tbody tr:nth-of-type(4)::after {
+    border-color: var(--logic-out-hi-color);
+}
+
+/* Single-input gates (NOT) */
+.display-logic .logic-gate.gate-not:has(.toggle-one:not(:checked)) + .logic-table tbody tr:nth-of-type(1)::after,
+.display-logic .logic-gate.gate-not:has(.toggle-one:checked) + .logic-table tbody tr:nth-of-type(2)::after {
+    border-color: var(--logic-out-hi-color);
+}
+
