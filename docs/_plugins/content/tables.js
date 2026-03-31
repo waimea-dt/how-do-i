@@ -1,22 +1,28 @@
-// tables.js
-// Post-processes all tables to add data attributes for interactive row/column hover effects.
-// Adds data-row-num to all rows and data-col-num to all cells.
-// Detects !! prefix in headers to mark columns for highlighting.
-// Detects !! prefix in cells to mark individual cells for highlighting.
-// Detects !!! prefix in first cell to mark entire row for highlighting.
-// Wraps tables in a scroll container for horizontal overflow.
-//
-// This enables CSS :has() selectors to highlight entire columns on hover.
-//
-// Processed tables get:
-//   <div class="table-scroll">
-//     <table>
-//       <tr data-row-num="0" class="highlight-row">
-//         <td data-col-num="1" class="highlight-cell">...</td>
-//         <td data-col-num="2" class="highlight-col">...</td>
-//       </tr>
-//     </table>
-//   </div>
+/**
+ * tables.js — Post-processes all tables to add data attributes for interactive row/column hover effects.
+ * Adds data-row-num to all rows and data-col-num to all cells.
+ * Detects !! prefix in headers to mark columns for highlighting.
+ * Detects !! prefix in cells to mark individual cells for highlighting.
+ * Detects !!! prefix in first cell to mark entire row for highlighting.
+ * Wraps tables in a scroll container for horizontal overflow.
+ *
+ * Usage in markdown:
+ *   | !!Name | Score |
+ *   |--------|-------|
+ *   | !!!Ada | !!98  |
+ *
+ * This enables CSS :has() selectors to highlight entire columns on hover.
+ *
+ * Processed tables get:
+ *   <div class="table-scroll">
+ *     <table>
+ *       <tr data-row-num="0" class="highlight-row">
+ *         <td data-col-num="1" class="highlight-cell">...</td>
+ *         <td data-col-num="2" class="highlight-col">...</td>
+ *       </tr>
+ *     </table>
+ *   </div>
+ */
 
 ;(function () {
   function processTables() {
@@ -102,3 +108,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifyTables, window.$docsify.plugins || [])
 })()
+

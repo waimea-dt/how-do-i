@@ -1,19 +1,20 @@
-// speech.js
-// Converts <speak>...</speak> blocks containing an image into HTML5 figure elements
-// with speech bubble styling. The image becomes <img> and all other content becomes
-// <figcaption> styled as a speech bubble.
-//
-// Usage in Markdown:
-//   <speak>
-//   ![Character](character.png)
-//   Hello there!
-//   </speak>
-//
-// Becomes:
-//   <figure class="speech">
-//     <img src="character.png" alt="Character">
-//     <figcaption>Hello there!</figcaption>
-//   </figure>
+/**
+ * speech.js — Converts <speak>...</speak> blocks containing an image into HTML5 figure elements
+ * with speech bubble styling. The image becomes <img> and all other content becomes
+ * <figcaption> styled as a speech bubble.
+ * 
+ * Usage in markdown:
+ *   <speak>
+ *   ![Character](character.png)
+ *   Hello there!
+ *   </speak>
+ * 
+ * Becomes:
+ *   <figure class="speech">
+ *     <img src="character.png" alt="Character">
+ *     <figcaption>Hello there!</figcaption>
+ *   </figure>
+ */
 
 ;(function () {
   function processSpeech() {
@@ -97,3 +98,4 @@
     })
   })
 })()
+

@@ -1,15 +1,25 @@
-// docsify-sql-runner.js
-// Makes ```sql run blocks interactive using Codapi's SQLite sandbox.
-//
-// Supports dependencies between snippets:
-//   ```sql run setup=create    → creates a named setup block
-//   ```sql run depends=create  → depends on the setup block
-//
-// Also enables real-time syntax error highlighting in the editor via
-// CodeMirror's lint addon (bracket matching, string tracking, etc.)
-//
-// Requires in index.html (in this order):
-//   <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/snippet.js"></script>
+/**
+ * docsify-sql-runner.js — Makes ```sql run blocks interactive using Codapi's SQLite sandbox.
+ *
+ * Usage in markdown:
+ *   ```sql run setup=create
+ *   CREATE TABLE cats (id INTEGER PRIMARY KEY, name TEXT);
+ *   ```
+ *
+ *   ```sql run depends=create
+ *   SELECT * FROM cats;
+ *   ```
+ *
+ * Supports dependencies between snippets:
+ *   ```sql run setup=create    → creates a named setup block
+ *   ```sql run depends=create  → depends on the setup block
+ *
+ * Also enables real-time syntax error highlighting in the editor via
+ * CodeMirror's lint addon (bracket matching, string tracking, etc.)
+ *
+ * Requires in index.html (in this order):
+ *   <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/snippet.js"></script>
+ */
 
 (function () {
 
@@ -234,3 +244,4 @@
     window.$docsify.plugins = [].concat(docsifySqlRunner, window.$docsify.plugins || [])
 
 })();
+

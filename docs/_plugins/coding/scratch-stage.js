@@ -1,21 +1,22 @@
-// docsify-scratch-stage.js
-// Renders Scratch stage visualizations from markdown code blocks.
-//
-// Usage in Markdown:
-//   ```scratch-stage
-//   stage space #123
-//       sprite rocket 0 0 100 45 1.0 ""
-//       arrow 50 50 100 90 #fff 1.0
-//   endstage
-//   ```
-//
-// Commands:
-//   stage [back-img] [back-col] - Start a stage container
-//   endstage - End the stage container
-//   sprite [image] [x] [y] [size] [angle] [opacity] [speech]
-//   spriteinfo [image] [x] [y] [size] [angle] [opacity] [speech]
-//   arrow, line, circle, square, label, number - Various markers
-//   question [text] - Question prompt at bottom
+/**
+ * docsify-scratch-stage.js — Renders Scratch stage visualizations from markdown code blocks.
+ * 
+ * Usage in markdown:
+ *   ```scratch-stage
+ *   stage space #123
+ *       sprite rocket 0 0 100 45 1.0 ""
+ *       arrow 50 50 100 90 #fff 1.0
+ *   endstage
+ *   ```
+ * 
+ * Commands:
+ *   stage [back-img] [back-col] - Start a stage container
+ *   endstage - End the stage container
+ *   sprite [image] [x] [y] [size] [angle] [opacity] [speech]
+ *   spriteinfo [image] [x] [y] [size] [angle] [opacity] [speech]
+ *   arrow, line, circle, square, label, number - Various markers
+ *   question [text] - Question prompt at bottom
+ */
 
 ;(function () {
 
@@ -251,3 +252,4 @@
     window.$docsify.plugins = [].concat(docsifyScratchStage, window.$docsify.plugins || [])
 
 })()
+

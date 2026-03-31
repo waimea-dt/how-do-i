@@ -1,3 +1,13 @@
+/**
+ * docsify-inline-highlight.js — Highlights inline code hints with Prism language rules.
+ *
+ * This plugin post-processes rendered markdown and converts patterns like
+ * <code>code</code>(language) into Prism-highlighted inline code elements.
+ *
+ * Usage in markdown:
+ *   Use inline code followed by a language hint:
+ *   `print("hi")`(python)
+ */
 (function () {
     // Matches: <code>anything</code>(language)
     const HINT_REGEX = /<code>([^<]*)<\/code>\(([a-zA-Z0-9-]+)\)/g
@@ -19,6 +29,8 @@
                 lang = lang.toLowerCase()
                 const code = decodeEntities(rawCode)
 
+                // Only Prism-highlight when the language is actually loaded.
+                // Falling back avoids throwing and still tags the code for later processing.
                 if (window.Prism && Prism.languages[lang]) {
                     const highlighted = Prism.highlight(code, Prism.languages[lang], lang)
                     return `<code class="language-${lang}">${highlighted}</code>`
@@ -33,3 +45,4 @@
     window.$docsify = window.$docsify || {}
     window.$docsify.plugins = [].concat(docsifyInlineHighlight, window.$docsify.plugins || [])
 })()
+

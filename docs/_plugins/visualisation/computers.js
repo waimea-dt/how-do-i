@@ -1,12 +1,13 @@
-// docsify-computers.js
-// Automatically wraps content inside <computer> tags with required div structure.
-// Supports multiple computer types: desktop, window, tablet, mobile, vintage, 1980s, simple.
-//
-// Usage in Markdown:
-//   <computer type="desktop">
-//   # Your Content
-//   Regular markdown here...
-//   </computer>
+/**
+ * docsify-computers.js — Automatically wraps content inside <computer> tags with required div structure.
+ * Supports multiple computer types: desktop, window, tablet, mobile, vintage, 1980s, simple.
+ * 
+ * Usage in markdown:
+ *   <computer type="desktop">
+ *   # Your Content
+ *   Regular markdown here...
+ *   </computer>
+ */
 
 ;(function () {
 
@@ -79,4 +80,5 @@
     window.$docsify.plugins = [].concat(docsifyComputers, window.$docsify.plugins || [])
 
 })()
+
 

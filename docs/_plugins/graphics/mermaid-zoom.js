@@ -1,8 +1,13 @@
-// docsify-mermaid-zoom.js
-// Adds click-to-zoom behaviour to Mermaid SVG diagrams,
-// mirroring the effect of the docsify zoom-image plugin.
-// Uses a MutationObserver because Mermaid renders SVGs asynchronously
-// after Docsify's doneEach hook has already fired.
+/**
+ * docsify-mermaid-zoom.js — Adds click-to-zoom behaviour to Mermaid SVG diagrams,
+ * mirroring the effect of the docsify zoom-image plugin.
+ * Uses a MutationObserver because Mermaid renders SVGs asynchronously
+ * after Docsify's doneEach hook has already fired.
+ *
+ * Usage in markdown:
+ *   No custom syntax required.
+ *   Works automatically for standard ```mermaid code blocks.
+ */
 
 (function () {
 
@@ -107,4 +112,5 @@
     window.$docsify.plugins = [].concat(mermaidZoom, window.$docsify.plugins || [])
 
 })()
+
 

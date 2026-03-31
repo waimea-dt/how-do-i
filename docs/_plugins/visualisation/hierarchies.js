@@ -1,20 +1,21 @@
-// docsify-hierarchies.js
-// Renders <hierarchy>...</hierarchy> blocks as tree-like hierarchical diagrams with connecting lines.
-//
-// Attributes:
-//   - direction: "vertical" (default, top-to-bottom) or "horizontal" (left-to-right)
-//   - colouring: "branch" (default, colors by branch) or "depth" (colors by level)
-//
-// Usage in Markdown:
-//   <hierarchy direction="vertical" colouring="depth">
-//   - Root Item
-//     - Child 1
-//       - Grandchild 1
-//     - Child 2
-//   </hierarchy>
-//
-// Focus Marker:
-//   Prefix any item with "!! " to highlight it
+/**
+ * docsify-hierarchies.js — Renders <hierarchy>...</hierarchy> blocks as tree-like hierarchical diagrams with connecting lines.
+ * 
+ * Attributes:
+ *   - direction: "vertical" (default, top-to-bottom) or "horizontal" (left-to-right)
+ *   - colouring: "branch" (default, colors by branch) or "depth" (colors by level)
+ * 
+ * Usage in markdown:
+ *   <hierarchy direction="vertical" colouring="depth">
+ *   - Root Item
+ *     - Child 1
+ *       - Grandchild 1
+ *     - Child 2
+ *   </hierarchy>
+ * 
+ * Focus Marker:
+ *   Prefix any item with "!! " to highlight it
+ */
 
 ;(function () {
   const FOCUS_MARKER = '!! '
@@ -80,3 +81,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifyHierarchies, window.$docsify.plugins || [])
 })()
+

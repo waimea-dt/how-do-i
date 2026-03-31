@@ -1,23 +1,24 @@
-// docsify-timelines.js
-// Renders <timeline>...</timeline> blocks as vertical timeline visualizations.
-//
-// Usage in Markdown:
-//   <timeline>
-//   - 1945
-//
-//       Description paragraph here.
-//
-//   - 1967: Event Title
-//
-//       Description with title.
-//
-//   - 2024
-//   </timeline>
-//
-// Format:
-//   - Date alone: "1945"
-//   - Date with title: "1945: Event Title"
-//   - Content is in paragraphs after the date/title
+/**
+ * docsify-timelines.js — Renders <timeline>...</timeline> blocks as vertical timeline visualizations.
+ * 
+ * Usage in markdown:
+ *   <timeline>
+ *   - 1945
+ * 
+ *       Description paragraph here.
+ * 
+ *   - 1967: Event Title
+ * 
+ *       Description with title.
+ * 
+ *   - 2024
+ *   </timeline>
+ * 
+ * Format:
+ *   - Date alone: "1945"
+ *   - Date with title: "1945: Event Title"
+ *   - Content is in paragraphs after the date/title
+ */
 
 ;(function () {
   function processTimelines() {
@@ -123,3 +124,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifyTimeline, window.$docsify.plugins || [])
 })()
+

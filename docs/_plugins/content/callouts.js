@@ -1,3 +1,16 @@
+/**
+ * docsify-callouts.js — Enhances Docsify native callout blocks with icon + title rows.
+ *
+ * After each Docsify render, this plugin finds .callout blocks and prepends a
+ * standardized title row using Lucide icons (Note, Tip, Warning, etc.).
+ *
+ * Usage in markdown:
+ *   > [!NOTE]
+ *   > This is a note.
+ *
+ *   > [!WARNING]
+ *   > Careful with this step.
+ */
 (function () {
     const ICONS = {
         NOTE:      'info',
@@ -46,7 +59,8 @@
             callout.prepend(title)
         })
 
-        // Render any lucide icons we just inserted
+        // Re-render icon placeholders after DOM injection.
+        // Docsify navigates without full page reloads, so this must run per page render.
         if (window.lucide) {
             lucide.createIcons({
                 attrs: {
@@ -65,3 +79,4 @@
     window.$docsify = window.$docsify || {}
     window.$docsify.plugins = [].concat(docsifyCallouts, window.$docsify.plugins || [])
 })()
+

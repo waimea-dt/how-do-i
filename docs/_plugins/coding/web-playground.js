@@ -1,23 +1,25 @@
-// docsify-web-playground.js — Live HTML/CSS/JS editor widget, implemented as a Docsify plugin.
-//
-// On each page load, every <div class="web-playground"> is automatically turned into
-// a side-by-side (or stacked on small screens) editor + live preview.
-// All editors are visible at once so students can see the effect of their edits immediately.
-//
-// Requires codemirror.js and the xml, css, javascript, htmlmixed modes and
-// closetag addon to be loaded in index.html before this script runs.
-//
-// Usage in markdown:
-//   <div
-//       class="web-playground"
-//       data-html="_demos/file.html"
-//       data-css="_demos/file.css"
-//       data-js="_demos/file.js"
-//       data-height="40em"
-//   ></div>
-//
-// Paths are relative to the current page's directory.
-// Prefix a path with / to make it relative to the docs root instead.
+/**
+ * docsify-web-playground.js — Live HTML/CSS/JS editor widget, implemented as a Docsify plugin.
+ * 
+ * On each page load, every <div class="web-playground"> is automatically turned into
+ * a side-by-side (or stacked on small screens) editor + live preview.
+ * All editors are visible at once so students can see the effect of their edits immediately.
+ * 
+ * Requires codemirror.js and the xml, css, javascript, htmlmixed modes and
+ * closetag addon to be loaded in index.html before this script runs.
+ * 
+ * Usage in markdown:
+ *   <div
+ *       class="web-playground"
+ *       data-html="_demos/file.html"
+ *       data-css="_demos/file.css"
+ *       data-js="_demos/file.js"
+ *       data-height="40em"
+ *   ></div>
+ * 
+ * Paths are relative to the current page's directory.
+ * Prefix a path with / to make it relative to the docs root instead.
+ */
 
 (function () {
 
@@ -264,3 +266,4 @@
     window.$docsify.plugins = [].concat(docsifyWebPlayground, window.$docsify.plugins || [])
 
 })()
+

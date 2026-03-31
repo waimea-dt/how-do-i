@@ -1,6 +1,19 @@
-// docsify-database.js
-// Provides interactive database visualizations for schema, data, and relationships.
-// Processes tables and lists wrapped in custom HTML tags.
+/**
+ * docsify-database.js — Renders schema, data, and relationship visualizations for database notes.
+ *
+ * This plugin transforms custom database markdown/HTML wrapper blocks into richer
+ * interactive markup used by the database CSS components.
+ *
+ * Usage in markdown:
+ *   <db-schema>
+ *   | users | PK id | name |
+ *   </db-schema>
+ *
+ *   <db-data>
+ *   | id | name |
+ *   | 1  | Sam  |
+ *   </db-data>
+ */
 
 (function () {
 
@@ -445,3 +458,4 @@
     window.$docsify = window.$docsify || {}
     window.$docsify.plugins = [].concat(docsifyDatabase, window.$docsify.plugins || [])
 })()
+

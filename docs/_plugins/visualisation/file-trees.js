@@ -1,17 +1,18 @@
-// docsify-file-trees.js
-// Renders <filetree>...</filetree> blocks as file/folder tree structures.
-//
-// Usage in Markdown:
-//   <filetree>
-//   - root/
-//     - src/
-//       - index.js
-//       - utils.js
-//     - README.md
-//   </filetree>
-//
-// Focus Marker:
-//   Prefix any item with "!! " to highlight it
+/**
+ * docsify-file-trees.js — Renders <filetree>...</filetree> blocks as file/folder tree structures.
+ * 
+ * Usage in markdown:
+ *   <filetree>
+ *   - root/
+ *     - src/
+ *       - index.js
+ *       - utils.js
+ *     - README.md
+ *   </filetree>
+ * 
+ * Focus Marker:
+ *   Prefix any item with "!! " to highlight it
+ */
 
 ;(function () {
   const FOCUS_MARKER = '!! '
@@ -105,3 +106,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifyFileTree, window.$docsify.plugins || [])
 })()
+

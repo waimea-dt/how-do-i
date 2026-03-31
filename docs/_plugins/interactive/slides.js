@@ -1,13 +1,14 @@
-// docsify-slides.js
-// Renders <slides>...</slides> blocks as embedded reveal.js presentations.
-// Requires reveal.js and RevealMarkdown to be loaded in index.html
-//
-// Usage in Markdown:
-//   <slides>
-//   # Slide One
-//   ---
-//   # Slide Two
-//   </slides>
+/**
+ * docsify-slides.js — Renders <slides>...</slides> blocks as embedded reveal.js presentations.
+ * Requires reveal.js and RevealMarkdown to be loaded in index.html
+ * 
+ * Usage in markdown:
+ *   <slides>
+ *   # Slide One
+ *   ---
+ *   # Slide Two
+ *   </slides>
+ */
 
 ;(function () {
   const stash = {}
@@ -81,3 +82,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifySlides, window.$docsify.plugins || [])
 })()
+

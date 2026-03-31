@@ -1,18 +1,19 @@
-// captions.js
-// Converts <captioned>...</captioned> blocks containing an image into HTML5 figure elements.
-// The image becomes <img> and all other content becomes <figcaption>.
-//
-// Usage in Markdown:
-//   <captioned>
-//   ![Alt text](image.png)
-//   Caption text here
-//   </captioned>
-//
-// Becomes:
-//   <figure>
-//     <img src="image.png" alt="Alt text">
-//     <figcaption>Caption text here</figcaption>
-//   </figure>
+/**
+ * captions.js — Converts <captioned>...</captioned> blocks containing an image into HTML5 figure elements.
+ * The image becomes <img> and all other content becomes <figcaption>.
+ * 
+ * Usage in markdown:
+ *   <captioned>
+ *   ![Alt text](image.png)
+ *   Caption text here
+ *   </captioned>
+ * 
+ * Becomes:
+ *   <figure>
+ *     <img src="image.png" alt="Alt text">
+ *     <figcaption>Caption text here</figcaption>
+ *   </figure>
+ */
 
 ;(function () {
   function processCaptions() {
@@ -59,3 +60,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifyCaptions, window.$docsify.plugins || [])
 })()
+

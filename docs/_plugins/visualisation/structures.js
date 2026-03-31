@@ -1,19 +1,20 @@
-// docsify-structure.js
-// Renders <structure>...</structure> blocks as hierarchical organizational structures.
-//
-// Attributes:
-//   - colouring: "depth" (colors by level) or "branch" (default, colors by branch)
-//
-// Usage in Markdown:
-//   <structure colouring="depth">
-//   - Main Item
-//     - Child 1
-//     - Child 2
-//       - Grandchild
-//   </structure>
-//
-// Focus Marker:
-//   Prefix any item with "!! " to highlight it
+/**
+ * docsify-structure.js — Renders <structure>...</structure> blocks as hierarchical organizational structures.
+ * 
+ * Attributes:
+ *   - colouring: "depth" (colors by level) or "branch" (default, colors by branch)
+ * 
+ * Usage in markdown:
+ *   <structure colouring="depth">
+ *   - Main Item
+ *     - Child 1
+ *     - Child 2
+ *       - Grandchild
+ *   </structure>
+ * 
+ * Focus Marker:
+ *   Prefix any item with "!! " to highlight it
+ */
 
 ;(function () {
   const FOCUS_MARKER = '!! '
@@ -71,3 +72,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifyStructure, window.$docsify.plugins || [])
 })()
+

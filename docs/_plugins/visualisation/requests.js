@@ -1,44 +1,45 @@
-// requests.js
-// Renders <requests>...</requests> blocks as request/response sequence diagrams.
-//
-// Usage in Markdown:
-//   <requests>
-//   - Left: Client Name
-//       Optional description
-//   - Right: Server Name
-//   - Requests:
-//       1. L ---> R : Message
-//       2. L <--- R : Response
-//       3. L i)   R : Left info note
-//       4. L   (i R : Right info note
-//   </requests>
-//
-//   <requests>
-//   - Left: Client Name
-//   - Middle: Server Name (optional, for 3-party diagrams)
-//   - Right: Server Name
-//   - Requests:
-//       1. L ---> M      R : Three-party message (L to M)
-//       2. L      M ---> R : Three-party message (M to R)
-//   </requests>
-//
-// Format (all parties shown on each line, arrow position indicates communication):
-//   Two-party:
-//     L ---> R : Message (L sends to R)
-//     L <--- R : Response (R sends to L)
-//     L i)   R : Info from left (L is thinking)
-//     L   (i R : Info from right (R is thinking)
-//
-//   Three-party:
-//     L ---> M      R : Message (L to M, R not involved)
-//     L      M ---> R : Message (M to R, L not involved)
-//     L <--- M      R : Response (M to L, R not involved)
-//     L      M <--- R : Response (R to M, L not involved)
-//     L   (i M      R : Info from M
-//     L      M   (i R : Info from R
-//
-// Attributes:
-//   animated="true" - Enable fade in/out animation
+/**
+ * requests.js — Renders <requests>...</requests> blocks as request/response sequence diagrams.
+ * 
+ * Usage in markdown:
+ *   <requests>
+ *   - Left: Client Name
+ *       Optional description
+ *   - Right: Server Name
+ *   - Requests:
+ *       1. L ---> R : Message
+ *       2. L <--- R : Response
+ *       3. L i)   R : Left info note
+ *       4. L   (i R : Right info note
+ *   </requests>
+ * 
+ *   <requests>
+ *   - Left: Client Name
+ *   - Middle: Server Name (optional, for 3-party diagrams)
+ *   - Right: Server Name
+ *   - Requests:
+ *       1. L ---> M      R : Three-party message (L to M)
+ *       2. L      M ---> R : Three-party message (M to R)
+ *   </requests>
+ * 
+ * Format (all parties shown on each line, arrow position indicates communication):
+ *   Two-party:
+ *     L ---> R : Message (L sends to R)
+ *     L <--- R : Response (R sends to L)
+ *     L i)   R : Info from left (L is thinking)
+ *     L   (i R : Info from right (R is thinking)
+ * 
+ *   Three-party:
+ *     L ---> M      R : Message (L to M, R not involved)
+ *     L      M ---> R : Message (M to R, L not involved)
+ *     L <--- M      R : Response (M to L, R not involved)
+ *     L      M <--- R : Response (R to M, L not involved)
+ *     L   (i M      R : Info from M
+ *     L      M   (i R : Info from R
+ * 
+ * Attributes:
+ *   animated="true" - Enable fade in/out animation
+ */
 
 ;(function () {
   const LEFT_MARKER = 'Left: '
@@ -347,3 +348,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifyRequests, window.$docsify.plugins || [])
 })()
+

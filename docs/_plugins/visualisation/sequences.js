@@ -1,16 +1,17 @@
-// docsify-sequence.js
-// Renders <sequence>...</sequence> blocks as horizontal or vertical step sequences.
-//
-// Attributes:
-//   - direction: "horizontal" (default) or "vertical"
-//   - animated: "true" to enable animation effects
-//
-// Usage in Markdown:
-//   <sequence direction="horizontal">
-//   1. Step one content
-//   2. Step two content
-//   3. Step three content
-//   </sequence>
+/**
+ * docsify-sequence.js — Renders <sequence>...</sequence> blocks as horizontal or vertical step sequences.
+ * 
+ * Attributes:
+ *   - direction: "horizontal" (default) or "vertical"
+ *   - animated: "true" to enable animation effects
+ * 
+ * Usage in markdown:
+ *   <sequence direction="horizontal">
+ *   1. Step one content
+ *   2. Step two content
+ *   3. Step three content
+ *   </sequence>
+ */
 
 ;(function () {
   function processSequences() {
@@ -52,3 +53,4 @@
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifySequence, window.$docsify.plugins || [])
 })()
+

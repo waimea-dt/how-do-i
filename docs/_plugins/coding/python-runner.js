@@ -1,14 +1,20 @@
-// docsify-python-runner.js
-// Makes ```python run blocks interactive using Codapi's in-browser WASI engine.
-// Python runs entirely in the browser — no server required.
-//
-// Also enables real-time syntax error highlighting in the editor via
-// CodeMirror's lint addon (bracket matching, string tracking, etc.)
-//
-// Requires in index.html (in this order, before snippet.js):
-//   <script src="https://unpkg.com/@antonz/runno@0.6.1/dist/runno.js"></script>
-//   <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/engine/wasi.js"></script>
-//   <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/snippet.js"></script>
+/**
+ * docsify-python-runner.js — Makes ```python run blocks interactive using Codapi's in-browser WASI engine.
+ * Python runs entirely in the browser — no server required.
+ *
+ * Usage in markdown:
+ *   ```python run
+ *   print("Hello, World!")
+ *   ```
+ *
+ * Also enables real-time syntax error highlighting in the editor via
+ * CodeMirror's lint addon (bracket matching, string tracking, etc.)
+ *
+ * Requires in index.html (in this order, before snippet.js):
+ *   <script src="https://unpkg.com/@antonz/runno@0.6.1/dist/runno.js"></script>
+ *   <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/engine/wasi.js"></script>
+ *   <script src="https://unpkg.com/@antonz/codapi@0.20.0/dist/snippet.js"></script>
+ */
 
 (function () {
 
@@ -213,3 +219,4 @@
     window.$docsify = window.$docsify || {}
     window.$docsify.plugins = [].concat(docsifyPythonRunner, window.$docsify.plugins || [])
 })()
+

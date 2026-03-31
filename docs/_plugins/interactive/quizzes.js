@@ -1,8 +1,25 @@
+/**
+ * docsify-quizzes.js — Builds interactive multiple-choice quizzes from markdown lists.
+ *
+ * Inside each <quiz> block, checked checkboxes mark correct answers and checked
+ * feedback items. The plugin removes authoring checkboxes and wires click behavior.
+ *
+ * Usage in markdown:
+ *   <quiz>
+ *   - What is 2 + 2?
+ *     - [ ] 3
+ *     - [x] 4
+ *     - [ ] 5
+ *     - [ ] Not quite, try again.
+ *     - [x] Correct.
+ *   </quiz>
+ */
 (function () {
 
     function processQuizzes() {
 
         const removeCheckBoxes = (node) => {
+            // Checkbox markers are authoring syntax only; remove them from rendered content.
             const checkBoxes = node.querySelectorAll('input[type=checkbox]')
             for (const checkBox of checkBoxes) {
                 checkBox.remove()
@@ -76,6 +93,7 @@
                 if (correctAnswers) {
                     for (const correctAnswer of correctAnswers) {
                         correctAnswer.addEventListener('click', (e) => {
+                            // Correct answer reveals solution state and hides wrong feedback.
                             answerList.classList.add('revealed')
                             correctAnswer.classList.add('revealed')
 
@@ -96,6 +114,7 @@
                 if (wrongAnswers) {
                     for (const wrongAnswer of wrongAnswers) {
                         wrongAnswer.addEventListener('click', (e) => {
+                            // Wrong answer keeps quiz interactive while showing targeted feedback.
                             answerList.classList.remove('revealed')
                             wrongAnswer.classList.add('revealed')
 
@@ -137,3 +156,4 @@
     window.$docsify = window.$docsify || {}
     window.$docsify.plugins = [].concat(docsifyQuizzes, window.$docsify.plugins || [])
 })();
+

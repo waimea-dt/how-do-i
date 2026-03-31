@@ -1,7 +1,9 @@
-// docsify-kotlin-runner.js
-// Handles runnable Kotlin code blocks using Kotlin Playground API.
-// Markdown syntax:
-//   ```kotlin run   →  editable, runnable Kotlin block
+/**
+ * docsify-kotlin-runner.js — Handles runnable Kotlin code blocks using Kotlin Playground API.
+ *
+ * Usage in markdown:
+ *   ```kotlin run   →  editable, runnable Kotlin block
+ */
 
 
 (function () {
@@ -90,3 +92,4 @@
     window.$docsify = window.$docsify || {}
     window.$docsify.plugins = [].concat(docsifyKotlinRunner, window.$docsify.plugins || [])
 })();
+

@@ -1,3 +1,19 @@
+/**
+ * docsify-flash-cards.js — Converts markdown lists into interactive flash cards.
+ *
+ * Each list item becomes one card, and an <hr> inside the item splits front/back
+ * faces. The plugin also adds navigation controls and optional fullscreen mode.
+ *
+ * Usage in markdown:
+ *   <flashcards>
+ *   - Front of card 1
+ *     ---
+ *     Back of card 1
+ *   - Front of card 2
+ *     ---
+ *     Back of card 2
+ *   </flashcards>
+ */
 (function () {
 
     const ICONS = {
@@ -13,6 +29,7 @@
 
     function processFlashCards() {
 
+        // Docsify re-runs plugins on route changes. Tear down old global listeners first.
         cleanupWindowListeners()
         cleanupWindowListeners = () => {}
 
@@ -83,6 +100,7 @@
                 cardBack.classList.add('card-back')
 
                 let targetFace = cardFront
+                // Keep original markdown order while splitting one <li> into front/back card faces.
                 ;[...card.childNodes].forEach(function (node) {
                     if (node === divider) {
                         targetFace = cardBack
@@ -115,6 +133,7 @@
                         e.preventDefault()
                         break
                     case 'Escape':
+                        // Escape should always return to a clean baseline state.
                         exitFullScreen(cardList)
                         changeCard(-999)
                         break
