@@ -36,6 +36,7 @@
             if (typeAttr.startsWith('win'))     computerType = 'window'
             if (typeAttr.startsWith('tab'))     computerType = 'tablet'
             if (typeAttr.startsWith('mob'))     computerType = 'mobile'
+            if (typeAttr.startsWith('mac'))     computerType = 'mac'
             if (typeAttr.startsWith('vintage') || typeAttr.startsWith('1980')) {
                 computerType = 'vintage'
             }

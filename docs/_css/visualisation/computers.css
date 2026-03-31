@@ -429,3 +429,121 @@ computer:is([type="vintage"], [type="1980s"]) {
         color: var(--computer-text-color--vintage);
     }
 }
+
+
+/* TYPE: MACINTOSH */
+computer[type="mac"] {
+    width: 100%;
+    max-width: var(--computer-screen-width--vintage);
+    margin-bottom: var(--margin-block);
+    padding: calc(1.5 * var(--computer-bezel-width--vintage));
+    padding-bottom: calc(6 * var(--computer-bezel-width--vintage));
+    aspect-ratio: 5/6;
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    border-radius: calc(0.4 * var(--computer-bezel-width--vintage));
+    background-color: var(--computer-bezel-color--vintage);
+    background-image: none;
+
+    box-shadow:
+        inset  20px  20px 3px var(--computer-bezel-color--vintage--high),
+        inset -20px -20px 3px var(--computer-bezel-color--vintage--low);
+
+    /* Lower case section - the "chin" */
+    &::before {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        width: calc(100% - (2 * var(--computer-bezel-width--vintage)));
+        height: calc(3 * var(--computer-bezel-width--vintage));
+        bottom: calc(-2 * var(--computer-bezel-width--vintage));
+        left: var(--computer-bezel-width--vintage);
+        border-radius: calc(0.2 * var(--computer-bezel-width--vintage));
+        background-color: var(--computer-bezel-color--vintage--low);
+        box-shadow:
+            inset 2px  2px 2px -1px var(--computer-bezel-color--vintage--high),
+            inset -1px -2px 2px -1px var(--computer-bezel-color--vintage--low);
+    }
+
+    /* Power button (back corner indicator) */
+    &::after {
+        content: "";
+        z-index: 2;
+        position: absolute;
+        width: calc(0.4 * var(--computer-bezel-width--vintage));
+        height: calc(0.4 * var(--computer-bezel-width--vintage));
+        bottom: calc(1.3 * var(--computer-bezel-width--vintage));
+        right: calc(1.5 * var(--computer-bezel-width--vintage));
+        border-radius: 50%;
+        background-color: var(--computer-bezel-color--vintage--low);
+        box-shadow:
+            inset  1px  1px 1px var(--computer-bezel-color--vintage--low),
+            inset -1px -1px 1px var(--computer-bezel-color--vintage--high);
+    }
+
+    .screen-outer-wrapper {
+        width: 100%;
+        aspect-ratio: var(--computer-screen-ratio);
+        font-family: 'JetBrains Mono', 'Consolas', monospace;
+        background-image: var(--computer-screen-back--vintage);
+        border-radius: calc(0.6 * var(--computer-bezel-width--vintage));
+
+        box-shadow:
+            15px 15px 2px var(--computer-bezel-color--vintage--high),
+            0  15px 2px var(--computer-bezel-color--vintage--high),
+            15px  0 2px var(--computer-bezel-color--vintage--high),
+            0px -15px 2px var(--computer-bezel-color--vintage--low),
+            -15px  0px 2px var(--computer-bezel-color--vintage--low),
+            -14px -14px 2px var(--computer-bezel-color--vintage--low);
+    }
+
+    .screen-wrapper {
+        color: var(--computer-text-color--vintage);
+    }
+
+    /* Apple Logo (on front lower bezel) */
+    .screen-decor {
+        z-index: 2;
+        position: absolute;
+        width: calc(0.5 * var(--computer-bezel-width--vintage));
+        height: calc(0.55 * var(--computer-bezel-width--vintage));
+        bottom: calc(1.8 * var(--computer-bezel-width--vintage));
+        left: calc(1.8 * var(--computer-bezel-width--vintage));
+        background-image: radial-gradient(
+            circle at 65% 25%,
+            transparent 18%,
+            var(--computer-bezel-color--vintage--low) 18%,
+            var(--computer-bezel-color--vintage--low) 100%
+        );
+        border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+        opacity: 0.25;
+
+        /* Floppy Drive Slot */
+        &::before {
+            content: "";
+            position: absolute;
+            width: calc(2 * var(--computer-bezel-width--vintage));
+            height: calc(0.1 * var(--computer-bezel-width--vintage));
+            top: 50%;
+            right: calc(-7 * var(--computer-bezel-width--vintage));
+            transform: translateY(-50%);
+            border-radius: 1px;
+            background-color: #000;
+            box-shadow:
+                inset  1px  1px 1px var(--computer-bezel-color--vintage--low),
+                inset -1px -1px 1px var(--computer-bezel-color--vintage--high);
+        }
+
+        /* Floppy slot indicator line */
+        &::after {
+            content: "";
+            position: absolute;
+            width: calc(2.1 * var(--computer-bezel-width--vintage));
+            height: 1px;
+            top: 50%;
+            right: calc(-7.05 * var(--computer-bezel-width--vintage));
+            transform: translateY(calc(-0.18 * var(--computer-bezel-width--vintage)));
+            background-color: var(--computer-bezel-color--vintage--high);
+            opacity: 0.5;
+        }
+    }
+}

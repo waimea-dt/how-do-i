@@ -1,5 +1,22 @@
 # Testing
 
+## Classic Macintosh
+
+<computer type="mac">
+
+# Macintosh Plus
+
+### Welcome to System 6.0.8
+
+The Apple Macintosh Plus is a personal computer designed, manufactured and sold by Apple Computer, Inc. from January 1986 to October 1990.
+
+**Features:**
+- Motorola 68000 CPU
+- 1 MB RAM (expandable to 4 MB)
+- 9-inch monochrome display
+- 800 KB floppy drive
+
+</computer>
 
 
 # Binary Numbers
