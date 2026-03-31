@@ -1,0 +1,186 @@
+:root {
+    --table-back-color:             var(--color-mono-1);
+    --table-border-color:           var(--color-mono-5);
+    --table-vert-border-color:      var(--color-mono-3);
+    --table-head-back-color:        var(--theme-color-1);
+
+    --table-hover-row-color:        var(--theme-color-2);
+    --table-hover-cell-color:       var(--theme-color-3);
+
+    --table-highlight-color:        var(--highlight-color);
+    --table-highlight-cell-color:   color-mix(in srgb, var(--highlight-color), transparent 90%);
+}
+
+
+/* SCROLL CONTAINER ========================================================== */
+
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    margin: var(--margin-block) 0;
+    padding: 0.5rem 0;
+
+    /* Smooth scrolling on touch devices */
+    -webkit-overflow-scrolling: touch;
+
+    /* Show scrollbar on hover/focus */
+    &::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--color-mono-4);
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-mono-2);
+        border-radius: 4px;
+
+        &:hover {
+            background: var(--color-mono-1);
+        }
+    }
+}
+
+
+/* TABLE STYLES ============================================================== */
+
+:is(.markdown-section table) {
+
+    width: fit-content;
+    margin: 0 auto;
+    background-color: var(--table-back-color);
+
+    th, td {
+        padding: 0.5rem 1rem;
+        text-align: left;
+        border-color: var(--table-border-color);
+
+        &:not(:first-child) {
+            border-left-color: var(--table-vert-border-color);
+        }
+
+        &:not(:last-child) {
+            border-right-color: var(--table-vert-border-color);
+        }
+
+        &:hover {
+            background-color: var(--table-hover-cell-color) !important;
+        }
+    }
+
+    /* Table headers */
+    thead {
+        background-color: var(--table-head-back-color);
+
+        th {
+            font-weight: 600;
+        }
+    }
+
+    /* Table body */
+    tbody {
+
+        tr {
+            &:nth-child(2n) {
+                background-color: unset;
+            }
+
+            /* Row hover effect */
+            &:hover {
+                background-color: var(--table-hover-row-color);
+            }
+
+            /* Manual row highlighting */
+            &.highlight-row {
+                background-color: var(--color-primary-0);
+                box-shadow: inset 3px 0 0 0 var(--color-primary);
+            }
+        }
+    }
+
+    /* Highlight corresponding data cells when header is hovered */
+    &:has([data-col-num="1"]:hover)  [data-col-num="1"],
+    &:has([data-col-num="2"]:hover)  [data-col-num="2"],
+    &:has([data-col-num="3"]:hover)  [data-col-num="3"],
+    &:has([data-col-num="4"]:hover)  [data-col-num="4"],
+    &:has([data-col-num="5"]:hover)  [data-col-num="5"],
+    &:has([data-col-num="6"]:hover)  [data-col-num="6"],
+    &:has([data-col-num="7"]:hover)  [data-col-num="7"],
+    &:has([data-col-num="8"]:hover)  [data-col-num="8"],
+    &:has([data-col-num="9"]:hover)  [data-col-num="9"],
+    &:has([data-col-num="10"]:hover) [data-col-num="10"] {
+        /* box-shadow: inset 0 0 0 2px var(--theme-color-3); */
+        background-color: var(--table-hover-row-color);
+    }
+
+    /* Manually highlighted columns */
+    .highlight-col {
+        box-shadow:
+            inset 3px 0 0 0 var(--table-highlight-color),
+            inset -3px 0 0 0 var(--table-highlight-color);
+    }
+
+    tr:has(.highlight-col) {
+
+        &:first-child {
+
+            th.highlight-col {
+            box-shadow:
+                inset 0 3px 0 0 var(--table-highlight-color),
+                inset 3px 0 0 0 var(--table-highlight-color),
+                inset -3px 0 0 0 var(--table-highlight-color);
+            }
+        }
+
+        &:last-child {
+
+            td.highlight-col {
+            box-shadow:
+                inset 0 -3px 0 0 var(--table-highlight-color),
+                inset 3px 0 0 0 var(--table-highlight-color),
+                inset -3px 0 0 0 var(--table-highlight-color);
+            }
+        }
+    }
+
+
+    /* Manually highlighted rows */
+    tr.highlight-row {
+        td {
+            box-shadow:
+                inset 0 3px 0 0 var(--table-highlight-color),
+                inset 0 -3px 0 0 var(--table-highlight-color);
+        }
+
+        td:first-child {
+            box-shadow:
+                inset 3px 0 0 0 var(--table-highlight-color),
+                inset 0 3px 0 0 var(--table-highlight-color),
+                inset 0 -3px 0 0 var(--table-highlight-color);
+        }
+
+        td:last-child {
+            box-shadow:
+                inset -3px 0 0 0 var(--table-highlight-color),
+                inset 0 3px 0 0 var(--table-highlight-color),
+                inset 0 -3px 0 0 var(--table-highlight-color);
+        }
+    }
+
+    /* Individual highlighted cells */
+    td.highlight-cell,
+    td.highlight-cell.highlight-col,
+    tr.highlight-row td.highlight-col {
+        box-shadow: inset 0 0 0 3px var(--table-highlight-color) !important;
+    }
+
+    tr.highlight-row td.highlight-col {
+        background-color: var(--table-highlight-cell-color);
+        font-weight: 600;
+    }
+
+
+}

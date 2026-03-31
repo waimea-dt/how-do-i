@@ -6,6 +6,7 @@
     --theme-color:                #68bef8;
     --secondary-color:            #f2d297;
 
+    --color-mono-0:               color-mix(in srgb, var(--color-mono-min),  #000                10%);
     --theme-color-0:              color-mix(in srgb, var(--theme-color),     var(--color-bg)       97%);
     --secondary-color-0:          color-mix(in srgb, var(--secondary-color), var(--color-bg)       97%);
 
@@ -155,19 +156,6 @@ em {
 
 .markdown-section p:has(+ :is(ol, ul)) {
     margin-bottom: calc(0.5 * var(--margin-block));
-}
-
-
-/* Tables */
-/* ========================================================================== */
-
-:is(.markdown-section table) {
-    width: fit-content;
-    margin: var(--margin-block) auto;
-}
-
-:is(.markdown-section thead tr) {
-    background: var(--table-head-row-bg);
 }
 
 
