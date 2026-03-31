@@ -374,12 +374,12 @@
         --animation-text: var(--highlight-color);
         --animation-border: var(--highlight-color);
     }
-    10% {
+    8% {
         opacity: 1;
         --animation-text: var(--highlight-color);
         --animation-border: var(--highlight-color);
     }
-    10.1% {
+    8.1% {
         opacity: var(--requests-dimmed-opacity);
         --animation-text: currentColor;
         --animation-border: var(--message-color);
@@ -402,12 +402,12 @@
         --animation-text: var(--highlight-color);
         --animation-border: var(--highlight-color);
     }
-    20% {
+    16% {
         opacity: 1;
         --animation-text: var(--highlight-color);
         --animation-border: var(--highlight-color);
     }
-    20.1% {
+    16.1% {
         opacity: var(--requests-dimmed-opacity);
         --animation-text: currentColor;
         --animation-border: var(--message-color);
@@ -420,24 +420,26 @@
 }
 
 .markdown-section .request-sequence.animated .requests .message:not(.dummy) {
-    animation: reqHighlight 10s linear infinite;
+    animation: reqHighlight 12s linear infinite;
     animation-fill-mode: both;
 
-    &:nth-of-type(1)  { animation-delay:    0ms; }
-    &:nth-of-type(2)  { animation-delay: 1000ms; }
-    &:nth-of-type(3)  { animation-delay: 2000ms; }
-    &:nth-of-type(4)  { animation-delay: 3000ms; }
-    &:nth-of-type(5)  { animation-delay: 4000ms; }
-    &:nth-of-type(6)  { animation-delay: 5000ms; }
-    &:nth-of-type(7)  { animation-delay: 6000ms; }
-    &:nth-of-type(8)  { animation-delay: 7000ms; }
-    &:nth-of-type(9)  { animation-delay: 8000ms; }
-    &:nth-of-type(10) { animation-delay: 9000ms; }
+    &:nth-of-type(1)  { animation-delay:     0ms; }
+    &:nth-of-type(2)  { animation-delay:  1000ms; }
+    &:nth-of-type(3)  { animation-delay:  2000ms; }
+    &:nth-of-type(4)  { animation-delay:  3000ms; }
+    &:nth-of-type(5)  { animation-delay:  4000ms; }
+    &:nth-of-type(6)  { animation-delay:  5000ms; }
+    &:nth-of-type(7)  { animation-delay:  6000ms; }
+    &:nth-of-type(8)  { animation-delay:  7000ms; }
+    &:nth-of-type(9)  { animation-delay:  8000ms; }
+    &:nth-of-type(10) { animation-delay:  9000ms; }
+    &:nth-of-type(11) { animation-delay: 10000ms; }
+    &:nth-of-type(12) { animation-delay: 11000ms; }
 }
 
 /* Shorter animation for sequences with 5 or fewer messages */
 .markdown-section .request-sequence.animated .requests:not(:has(.message:nth-of-type(6))) .message:not(.dummy) {
-    animation-duration: 5s;
+    animation-duration: 6s;
     animation-name: shortReqHighlight;
 }
 

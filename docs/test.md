@@ -308,13 +308,13 @@ But the human race did not have even the slightest bit of psychological preparat
 
 - Left: **Web Browser**
 
-    ![](_assets/network/browser.svg)
+    <i data-lucide="square-mouse-pointer" class="x-large"></i>
 
     The web browser is the *client*
 
 - Right: **Web Server**
 
-    ![](_assets/network/server.svg)
+    <i data-lucide="server" class="x-large"></i>
 
     The web *server* services requests from the client
 
@@ -376,19 +376,19 @@ But the human race did not have even the slightest bit of psychological preparat
 
 - Left: **Web Browser**
 
-    ![](_assets/network/browser.svg)
+    <i data-lucide="square-mouse-pointer" class="x-large"></i>
 
     The web browser is the *client*
 
 - Middle: **Web Server**
 
-    ![](_assets/network/server.svg)
+    <i data-lucide="server" class="x-large"></i>
 
     The *web server* services requests from the client
 
 - Right: **DB Server**
 
-    ![](_assets/network/db.svg)
+    <i data-lucide="database" class="x-large"></i>
 
     The *DB server* services database requests from the web server
 
@@ -451,19 +451,19 @@ But the human race did not have even the slightest bit of psychological preparat
 
 - Left: **Web Browser**
 
-    ![](_assets/network/browser.svg)
+    <i data-lucide="square-mouse-pointer" class="x-large"></i>
 
     The web browser is the *client*
 
 - Middle: **Web Server**
 
-    ![](_assets/network/server.svg)
+    <i data-lucide="server" class="x-large"></i>
 
     The *web server* services requests from the client
 
 - Right: **DB Server**
 
-    ![](_assets/network/db.svg)
+    <i data-lucide="database" class="x-large"></i>
 
     The *DB server* services database requests from the web server
 
@@ -485,19 +485,19 @@ But the human race did not have even the slightest bit of psychological preparat
 
 - Left: **Web Browser**
 
-    ![](_assets/network/browser.svg)
+    <i data-lucide="square-mouse-pointer" class="x-large"></i>
 
     The web browser is the *client*
 
 - Middle: **Web Server**
 
-    ![](_assets/network/server.svg)
+    <i data-lucide="server" class="x-large"></i>
 
     The *web server* services requests from the client
 
 - Right: **DB Server**
 
-    ![](_assets/network/db.svg)
+    <i data-lucide="database" class="x-large"></i>
 
     The *DB server* services database requests from the web server
 
@@ -506,6 +506,7 @@ But the human race did not have even the slightest bit of psychological preparat
     1.  L ---> M      R : HTTP **GET** /
     2.  L   (i M      R : Matches route
     3.  L      M ---> R : SQL **SELECT**
+    4.  L      M   (i R : Retrieves data
     4.  L      M <--- R : DB **Data**
     5.  L   (i M      R : Builds page
     6.  L <--- M      R : HTTP **Response** HTML
