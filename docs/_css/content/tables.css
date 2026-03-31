@@ -1,4 +1,9 @@
-:root {
+/** Data Tables
+ * Enhanced table styling with scrolling, hover effects, and highlighting
+ */
+
+/* Scroll container */
+.table-scroll {
     --table-back-color:             var(--color-mono-1);
     --table-border-color:           var(--color-mono-5);
     --table-vert-border-color:      var(--color-mono-3);
@@ -9,22 +14,16 @@
 
     --table-highlight-color:        var(--highlight-color);
     --table-highlight-cell-color:   color-mix(in srgb, var(--highlight-color), transparent 90%);
-}
 
-
-/* SCROLL CONTAINER ========================================================== */
-
-.table-scroll {
+    /* Scrolling behavior */
     width: 100%;
     overflow-x: auto;
     overflow-y: visible;
     margin: var(--margin-block) 0;
     padding: 0.5rem 0;
-
-    /* Smooth scrolling on touch devices */
     -webkit-overflow-scrolling: touch;
 
-    /* Show scrollbar on hover/focus */
+    /* Scrollbar styling */
     &::-webkit-scrollbar {
         height: 8px;
     }
@@ -44,11 +43,10 @@
     }
 }
 
-
-/* TABLE STYLES ============================================================== */
-
+/* Table styling */
 :is(.markdown-section table) {
-
+    border-collapse: collapse;
+    border-style: solid;
     width: fit-content;
     margin: 0 auto;
     background-color: var(--table-back-color);
@@ -62,7 +60,7 @@
     th, td {
         padding: 0.5rem 1rem;
         text-align: left;
-        border-color: var(--table-border-color);
+        border: 1px solid var(--table-border-color);
 
         &:first-child {
             border-left: none;

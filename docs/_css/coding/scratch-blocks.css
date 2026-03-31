@@ -1,7 +1,8 @@
-/* Scratch Blocks - Visual styling for scratchblocks library output */
-
+/** Scratch Blocks
+ * Visual styling for scratchblocks library output
+ */
 .markdown-section {
-    /* Inline scratch blocks */
+    /* Inline blocks */
     code.language-scratch,
     code.language-scratch-inline,
     pre[data-lang="scratch-inline"] {
@@ -20,7 +21,7 @@
         }
     }
 
-    /* Standard (non-inline) scratch blocks */
+    /* Block code */
     pre[data-lang="scratch"]:not([data-lang="scratch-inline"]) {
         margin: var(--margin-block) 0;
         padding: unset !important;

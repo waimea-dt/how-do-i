@@ -1,4 +1,9 @@
-:root {
+/** File Tree Structure
+ * Directory and file hierarchy visualization
+ */
+
+/* Container */
+.markdown-section .file-tree {
     --file-tree-back-color:   var(--color-mono-1);
     --file-tree-border-color: var(--color-mono-3);
 
@@ -15,12 +20,8 @@
     --file-tree-indent:       1em;
     --file-tree-line-width:   2px;
     --file-tree-line-radius:  0.75em;
-}
 
-
-/* CONTAINER */
-
-.markdown-section .file-tree {
+    /* Base styling */
     font-family: var(--font-family-mono);
     background-color: var(--file-tree-back-color);
     padding: 0.75em 1em;
@@ -32,9 +33,7 @@
     list-style: none;
 }
 
-
-/* ITEMS */
-
+/* Tree items */
 .markdown-section .file-tree .file-tree-item {
     list-style: none;
     line-height: 1;

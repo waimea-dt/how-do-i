@@ -1,7 +1,8 @@
-/* docsify-quizzes.css */
-
+/** Interactive Quizzes
+ * Multiple choice questions with answer checking
+ */
 .markdown-section .quiz {
-    /* --- Colors --- */
+    /* Colors */
     --quiz-title-color:                 var(--theme-color);
 
     --quiz-back-color:                  var(--theme-color-0);
@@ -33,7 +34,7 @@
 
     --quiz-shadow:                      Var(--box-shadow-small);
 
-
+    /* Layout */
     margin: var(--margin-block) 0 !important;
     padding: 1rem;
     display: flex;
@@ -73,8 +74,7 @@
             display: none;
         }
 
-
-        /* --- ANSWERS --- */
+        /* Answers */
         .answers {
             display: grid;
             grid-template-columns: 1fr;

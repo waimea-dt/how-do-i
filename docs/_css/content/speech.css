@@ -1,5 +1,6 @@
-/* Speech Bubbles */
-
+/** Speech Bubbles
+ * Comic-style speech bubbles for character dialogue
+ */
 @import url('https://fonts.googleapis.com/css2?family=Mouse+Memoirs&display=swap');
 
 figure.speech {

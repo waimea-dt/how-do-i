@@ -1,5 +1,6 @@
-/* Captions / Figures */
-
+/** Figure Captions
+ * Styling for images with captions
+ */
 .markdown-section figure {
     margin: var(--margin-block) auto;
     width: fit-content;

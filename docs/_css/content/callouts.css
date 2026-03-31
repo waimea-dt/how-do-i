@@ -1,4 +1,7 @@
-:root {
+/** Callout Blocks
+ * Styled blockquotes for notes, tips, warnings, and other highlighted content
+ */
+.markdown-section .callout {
     --callout-note-color:             var(--secondary-color);
     --callout-tip-color:              var(--theme-color);
     --callout-question-color:         var(--palette-color-2);
@@ -7,29 +10,27 @@
     --callout-warning-color:          var(--color-warning);
     --callout-attention-color:        var(--color-attention);
     --callout-danger-color:           var(--color-attention);
-}
 
-
-.note:is(.markdown-section .callout)      { --callout-color: var(--callout-note-color); }
-.tip:is(.markdown-section .callout)       { --callout-color: var(--callout-tip-color); }
-.question:is(.markdown-section .callout)  { --callout-color: var(--callout-question-color); }
-.example:is(.markdown-section .callout)   { --callout-color: var(--callout-example-color); }
-.important:is(.markdown-section .callout) { --callout-color: var(--callout-important-color); }
-.warning:is(.markdown-section .callout)   { --callout-color: var(--callout-warning-color); }
-.attention:is(.markdown-section .callout) { --callout-color: var(--callout-attention-color); }
-.danger:is(.markdown-section .callout)    { --callout-color: var(--callout-danger-color); }
-
-
-/* Remove Docsify theming */
-:is(.markdown-section .callout) {
+    /* Remove default Docsify styling */
     border: none;
+
     &::before {
         display: none;
     }
-}
 
-.markdown-section .callout {
+    /* Type variants */
+    &.note      { --callout-color: var(--callout-note-color); }
+    &.tip       { --callout-color: var(--callout-tip-color); }
+    &.question  { --callout-color: var(--callout-question-color); }
+    &.example   { --callout-color: var(--callout-example-color); }
+    &.important { --callout-color: var(--callout-important-color); }
+    &.warning   { --callout-color: var(--callout-warning-color); }
+    &.attention { --callout-color: var(--callout-attention-color); }
+    &.danger    { --callout-color: var(--callout-danger-color); }
+
     --callout-color: currentColor;
+
+    /* Base styling */
 
     border-left: 4px solid color-mix(in srgb, var(--callout-color), var(--color-mono-min) 0%);
     border-radius: 0;

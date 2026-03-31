@@ -1,4 +1,9 @@
-:root {
+/** HTTP Request Sequence
+ * Visual representation of client-server communication flows
+ */
+
+/* Container */
+.markdown-section .request-sequence {
     --requests-end-point-color1:     var(--palette-color-3);
     --requests-end-point-color2:     var(--palette-color-1);
     --requests-end-point-color3:     var(--palette-color-2);
@@ -14,12 +19,6 @@
     --requests-arrow-head-size:      calc(var(--requests-line-width) * 3);
 
     --requests-dimmed-opacity:       0.5;
-}
-
-
-/* CONTAINER */
-
-.markdown-section .request-sequence {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -46,8 +45,7 @@
     }
 }
 
-
-/* END POINTS */
+/* Endpoints */
 
 .markdown-section .request-sequence .end-point {
     flex: 0;

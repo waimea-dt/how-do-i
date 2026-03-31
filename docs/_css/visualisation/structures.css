@@ -1,4 +1,9 @@
-:root {
+/** Data Structures
+ * Visual representation of arrays, linked lists, trees, and other data structures
+ */
+
+/* Container */
+.markdown-section .structure {
     --structure-outer-color: var(--color-mono-3);
     --structure-color-1:     var(--palette-color-1-dark);
     --structure-color-2:     var(--palette-color-2-dark);
@@ -20,12 +25,6 @@
 
     --structure-gap: 1em;
     --structure-item-min-width: 30ch;
-}
-
-
-/* CONTAINERS */
-
-.markdown-section .structure {
     margin: 2em auto !important;
     width: fit-content;
     padding: 0;
@@ -51,8 +50,7 @@
     }
 }
 
-
-/* ITEMS */
+/* Structure items */
 
 .markdown-section .structure .structure-item {
     padding: var(--structure-gap);

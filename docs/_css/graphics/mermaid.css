@@ -1,3 +1,6 @@
+/** Mermaid Diagrams
+ * Custom styling for flowcharts, sequence diagrams, and other Mermaid visualizations
+ */
 .mermaid {
     --mermaid-red-color:               var(--code-color-red);
     --mermaid-orange-color:            var(--code-color-orange);
@@ -44,220 +47,218 @@
 
     --mermaid-line-width--normal:       2;
     --mermaid-line-width--thick:        3;
+
+    /* SVG container */
+    svg {
+        display: block;
+        margin: var(--margin-block) auto;
+    }
+
+
+    /* Error icons */
+    .error-icon {
+        fill: var(--mermaid-tone-color--light);
+    }
+
+    .error-text {
+        fill: var(--mermaid-tone-color--dark);
+        stroke: var(--mermaid-tone-color--dark);
+    }
+
+    /* Markers */
+    .marker {
+        fill: var(--node-back);
+        stroke: var(--node-back);
+
+        &.cross {
+            stroke: var(--node-back);
+        }
+
+        path {
+            stroke-width: var(--mermaid-line-width--normal) !important;
+        }
+    }
+
+    /* Flowchart nodes */
+    .node {
+        /* Default node styling */
+        rect,
+        circle,
+        ellipse,
+        polygon,
+        path {
+            fill: var(--mermaid-node-back-color) !important;
+            stroke: var(--mermaid-node-color) !important;
+            stroke-width: var(--mermaid-line-width--thick) !important;
+        }
+
+        /* Process blocks */
+        rect {
+            fill: var(--mermaid-node-back-color) !important;
+            stroke: var(--mermaid-node-color) !important;
+        }
+
+        /* Terminators (start/end) */
+        .outer-path path {
+            fill: var(--mermaid-terminator-back-color) !important;
+            stroke: var(--mermaid-terminator-color) !important;
+        }
+
+        /* Decisions */
+        polygon {
+            fill: var(--mermaid-decision-back-color) !important;
+            stroke: var(--mermaid-decision-color) !important;
+
+            /* Function calls */
+            &.label-container[points^="0,0"] {
+                fill: var(--mermaid-func-call-back-color) !important;
+                stroke: var(--mermaid-func-call-color) !important;
+            }
+
+            /* Input/output */
+            &[points^="-"] {
+                fill: var(--mermaid-in-out-back-color) !important;
+                stroke: var(--mermaid-in-out-color) !important;
+            }
+        }
+
+        /* Join points */
+        circle {
+            fill: transparent !important;
+            stroke: var(--mermaid-join-color) !important;
+
+            &:last-of-type {
+                fill: var(--mermaid-join-back-color) !important;
+            }
+        }
+
+        /* Database */
+        path {
+            fill: var(--mermaid-data-back-color) !important;
+            stroke: var(--mermaid-data-color) !important;
+        }
+
+        /* FSA invisible start */
+        &.start {
+            display: none;
+        }
+
+        /* Text labels */
+        .label {
+            text-align: center;
+        }
+
+        &.clickable {
+            cursor: pointer;
+        }
+    }
+
+    /* Terminators (older Mermaid versions) */
+    [id^="flowchart-start"] rect,
+    [id^="flowchart-done"] rect {
+        fill: var(--mermaid-terminator-back-color) !important;
+        stroke: var(--mermaid-terminator-color) !important;
+    }
+
+    /* Labels */
+    .label {
+        font-family: var(--mermaid-font-family);
+
+        text,
+        span {
+            fill: var(--mermaid-node-text-color) !important;
+            color: var(--mermaid-node-text-color) !important;
+        }
+    }
+
+    span {
+        fill: var(--mermaid-node-text-color) !important;
+        color: var(--mermaid-node-text-color) !important;
+    }
+
+    /* Sequence diagrams */
+    .actor-man :is(line, circle) {
+        fill: var(--mermaid-seq-man-back-color) !important;
+        stroke: var(--mermaid-seq-man-color) !important;
+    }
+
+    .actor-line {
+        stroke: var(--mermaid-seq-man-color) !important;
+        stroke-width: var(--mermaid-line-width--thick) !important;
+    }
+
+    .messageLine0 {
+        stroke: var(--mermaid-seq-request-color) !important;
+    }
+
+    .messageText:has(+ .messageLine0) {
+        fill: var(--mermaid-seq-request-color) !important;
+    }
+
+    .messageLine1 {
+        stroke: var(--mermaid-seq-response-color) !important;
+    }
+
+    .messageText:has(+ .messageLine1) {
+        fill: var(--mermaid-seq-response-color) !important;
+    }
+
+    /* Connection lines */
+    .edgePath .path {
+        stroke: var(--mermaid-line-color) !important;
+        stroke-width: var(--mermaid-line-width--thick) !important;
+    }
+
+    .arrowheadPath {
+        fill: var(--mermaid-line-color) !important;
+    }
+
+    .edge-thickness-normal { stroke-width: var(--mermaid-line-width--normal); }
+    .edge-thickness-thick  { stroke-width: var(--mermaid-line-width--thick); }
+
+    .edge-pattern-solid  { stroke-dasharray: 0; }
+    .edge-pattern-dashed { stroke-dasharray: 3; }
+    .edge-pattern-dotted { stroke-dasharray: 2; }
+
+    .flowchart-link {
+        stroke: var(--mermaid-line-color) !important;
+        stroke-width: var(--mermaid-line-width--normal) !important;
+        fill: none;
+    }
+
+    #flowchart-pointEnd {
+        stroke: var(--mermaid-line-color) !important;
+    }
+
+    /* Edge labels */
+    .edgeLabel {
+        .labelBkg,
+        .edgeLabel {
+            background-color: transparent !important;
+        }
+
+        .edgeLabel > p {
+            background-color: transparent !important;
+            color: var(--mermaid-label-text-color);
+            font-weight: 500;
+            text-shadow:
+                 0.1em  0.1em 0.1em var(--mermaid-label-back-color),
+                 0.1em -0.1em 0.1em var(--mermaid-label-back-color),
+                -0.1em  0.1em 0.1em var(--mermaid-label-back-color),
+                -0.1em -0.1em 0.1em var(--mermaid-label-back-color);
+        }
+    }
+
+    /* Groups */
+    .cluster {
+        rect {
+            fill: var(--mermaid-group-back-color) !important;
+            stroke: var(--mermaid-group-color) !important;
+            stroke-width: var(--mermaid-line-width--normal) !important;
+        }
+    }
+
+    .cluster-label text {
+        fill: var(--mermaid-group-text-color) !important;
+    }
 }
-
-
-.mermaid svg {
-    display: block;
-    margin: var(--margin-block) auto;
-}
-
-
-/*** ERROR ***************************************************/
-
-.mermaid .error-icon {
-    fill: var(--mermaid-tone-color--light);
-}
-
-.mermaid .error-text {
-    fill: var(--mermaid-tone-color--dark);
-    stroke: var(--mermaid-tone-color--dark);
-}
-
-
-.mermaid .marker {
-    fill: var(--node-back);
-    stroke: var(--node-back);
-}
-
-.mermaid .marker.cross {
-    stroke: var(--node-back);
-}
-
-/*** FLOWCHART BLOCKS ***************************************************/
-
-.mermaid .node rect,
-.mermaid .node circle,
-.mermaid .node ellipse,
-.mermaid .node polygon,
-.mermaid .node path {
-    fill: var(--mermaid-node-back-color) !important;
-    stroke: var(--mermaid-node-color) !important;
-    stroke-width: var(--mermaid-line-width--thick) !important;
-}
-
-/* Process / regular nodes */
-.mermaid .node rect {
-    fill: var(--mermaid-node-back-color) !important;
-    stroke: var(--mermaid-node-color) !important;
-}
-
-/* Terminators (Start / End) */
-.mermaid .node .outer-path path {
-    fill: var(--mermaid-terminator-back-color) !important;
-    stroke: var(--mermaid-terminator-color) !important;
-}
-
-/* Terminators (Start / End) - older Mermaid versions */
-.mermaid [id^="flowchart-start"] rect,
-.mermaid [id^="flowchart-done"] rect {
-    fill: var(--mermaid-terminator-back-color) !important;
-    stroke: var(--mermaid-terminator-color) !important;
-}
-
-/* Questions */
-.mermaid .node polygon {
-    fill: var(--mermaid-decision-back-color) !important;
-    stroke: var(--mermaid-decision-color) !important;
-}
-
-/* Function Calls */
-.mermaid .node polygon.label-container[points^="0,0"] {
-    fill: var(--mermaid-func-call-back-color) !important;
-    stroke: var(--mermaid-func-call-color) !important;
-}
-
-/* IO */
-.mermaid .node polygon[points^="-"] {
-    fill: var(--mermaid-in-out-back-color) !important;
-    stroke: var(--mermaid-in-out-color) !important;
-}
-
-/* Circles */
-.mermaid .node circle {
-    fill: transparent !important;
-    stroke: var(--mermaid-join-color) !important;
-}
-
-.mermaid .node circle:last-of-type {
-    fill: var(--mermaid-join-back-color) !important;
-}
-
-/* Database */
-.mermaid .node path {
-    fill: var(--mermaid-data-back-color) !important;
-    stroke: var(--mermaid-data-color) !important;
-}
-
-/* Invisible start node for FSA */
-.mermaid .node.start {
-    display: none;
-}
-
-/* Labels */
-.mermaid .node .label {
-    text-align: center;
-}
-
-.mermaid .label {
-    font-family: var(--mermaid-font-family);
-}
-
-.mermaid .label text,
-.mermaid span {
-    fill: var(--mermaid-node-text-color) !important;
-    color: var(--mermaid-node-text-color) !important;
-}
-
-/*** SEQUENCE DIAGS ***************************************************/
-
-.mermaid .actor-man :is(line, circle) {
-    fill: var(--mermaid-seq-man-back-color) !important;
-    stroke: var(--mermaid-seq-man-color) !important;
-}
-
-.mermaid .actor-line {
-    stroke: var(--mermaid-seq-man-color) !important;
-    stroke-width: var(--mermaid-line-width--thick) !important;
-}
-
-.mermaid .messageLine0 {
-    stroke: var(--mermaid-seq-request-color) !important;
-}
-
-.mermaid .messageText:has(+ .messageLine0) {
-    fill: var(--mermaid-seq-request-color) !important;
-}
-
-.mermaid .messageLine1 {
-    stroke: var(--mermaid-seq-response-color) !important;
-}
-
-.mermaid .messageText:has(+ .messageLine1) {
-    fill: var(--mermaid-seq-response-color) !important;
-}
-
-/*** LINES ***************************************************/
-
-.mermaid .edgePath .path {
-    stroke: var(--mermaid-line-color) !important;
-    stroke-width: var(--mermaid-line-width--thick) !important;
-}
-
-.mermaid .arrowheadPath {
-    fill: var(--mermaid-line-color) !important;
-}
-
-.mermaid .edge-thickness-normal { stroke-width: var(--mermaid-line-width--normal); }
-.mermaid .edge-thickness-thick  { stroke-width: var(--mermaid-line-width--thick); }
-
-.mermaid .edge-pattern-solid  { stroke-dasharray: 0; }
-.mermaid .edge-pattern-dashed { stroke-dasharray: 3; }
-.mermaid .edge-pattern-dotted { stroke-dasharray: 2; }
-
-
-/*** LINE ENDS ***************************************************/
-
-.mermaid .marker path {
-    stroke-width: var(--mermaid-line-width--normal) !important;
-}
-
-
-/*** LINES ***************************************************/
-
-.mermaid .flowchart-link {
-    stroke: var(--mermaid-line-color) !important;
-    stroke-width: var(--mermaid-line-width--normal) !important;
-    fill: none;
-}
-
-.mermaid .node.clickable {
-    cursor:pointer;
-}
-
-.mermaid #flowchart-pointEnd {
-    stroke: var(--mermaid-line-color) !important;
-}
-
-
-/*** LINE LABELS ***************************************************/
-
-.mermaid .edgeLabel .labelBkg,
-.mermaid .edgeLabel .edgeLabel {
-    background-color: transparent !important;
-}
-
-.mermaid .edgeLabel .edgeLabel > p {
-    background-color: transparent !important;
-    color: var(--mermaid-label-text-color);
-    font-weight: 500;
-    text-shadow:
-         0.1em  0.1em 0.1em var(--mermaid-label-back-color),
-         0.1em -0.1em 0.1em var(--mermaid-label-back-color),
-        -0.1em  0.1em 0.1em var(--mermaid-label-back-color),
-        -0.1em -0.1em 0.1em var(--mermaid-label-back-color);
-}
-
-
-/*** GROUPS ***************************************************/
-
-.mermaid .cluster rect {
-    fill: var(--mermaid-group-back-color) !important;
-    stroke: var(--mermaid-group-color) !important;
-    stroke-width: var(--mermaid-line-width--normal) !important;
-}
-
-.mermaid .cluster-label text {
-    fill: var(--mermaid-group-text-color) !important;
-}
-

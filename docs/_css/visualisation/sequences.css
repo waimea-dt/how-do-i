@@ -1,13 +1,14 @@
-:root {
+/** Sequence Diagrams
+ * Step-by-step process visualization with connecting arrows
+ */
+.markdown-section .sequence {
     --sequence-block-back-color: var(--color-mono-1);
     --sequence-block-border-color: var(--color-mono-3);
     --sequence-block-border-color--focus: var(--theme-color);
     --sequence-arrow-color: var(--theme-color);
     --sequence-gap: 1.8em;
-}
 
-
-.markdown-section .sequence {
+    /* Base layout */
     display: flex !important;
     flex-direction: column;
     list-style: none;

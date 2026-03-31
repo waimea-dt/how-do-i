@@ -1,3 +1,8 @@
+/**
+ * Pseudocode Syntax Highlighting
+ * Color scheme for algorithm pseudocode blocks
+ */
+
 .language-pseudo {
     --pseudo-terminator-col: var(--code-color-red);
     --pseudo-function-col:   var(--code-color-orange);
@@ -6,14 +11,13 @@
     --pseudo-action-col:     var(--code-color-blue);
     --pseudo-in-out-col:     var(--code-color-purple);
     --pseudo-comment-col:    var(--code-color-muted);
+
+    .comment  { color: var(--pseudo-comment-col); }
+    .block    { color: var(--pseudo-terminator-col); }
+    .function { color: var(--pseudo-function-col); }
+    .action   { color: var(--pseudo-action-col); }
+    .decision { color: var(--pseudo-decision-col); }
+    .loop     { color: var(--pseudo-loop-col); }
+    .input    { color: var(--pseudo-in-out-col); }
+    .output   { color: var(--pseudo-in-out-col); }
 }
-
-.language-pseudo .comment  { color: var(--pseudo-comment-col); }
-.language-pseudo .block    { color: var(--pseudo-terminator-col); }
-.language-pseudo .function { color: var(--pseudo-function-col); }
-.language-pseudo .action   { color: var(--pseudo-action-col); }
-.language-pseudo .decision { color: var(--pseudo-decision-col); }
-.language-pseudo .loop     { color: var(--pseudo-loop-col); }
-.language-pseudo .input    { color: var(--pseudo-in-out-col); }
-.language-pseudo .output   { color: var(--pseudo-in-out-col); }
-

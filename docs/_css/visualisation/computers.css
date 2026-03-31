@@ -1,5 +1,7 @@
+/** Computer Displays
+ * Desktop, tablet, mobile, and vintage computer screen visualizations
+ */
 computer {
-    /* Custom Properties */
     --computer-screen-back: linear-gradient(150deg, #024 0%, #048 100%);
     --computer-screen-back--vintage: radial-gradient(#120 0%, #120 50%, #000 100%);
 

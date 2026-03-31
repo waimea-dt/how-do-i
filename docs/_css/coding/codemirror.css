@@ -1,98 +1,80 @@
+/**
+ * CodeMirror Editor Styling
+ * Syntax highlighting and theme integration for CodeMirror instances
+ */
+
 .CodeMirror span {
     font-style: normal !important;
     font-weight: normal !important;
     text-decoration: none !important;
+
+    /* Syntax highlighting tokens */
+    &.cm-meta       { color: var(--code-color-yellow)         !important; }
+    &.cm-number     { color: var(--code-hl-number-color)      !important; }
+    &.cm-keyword    { color: var(--code-hl-keyword-color)     !important; }
+    &.cm-def        { color: var(--code-hl-function-color)    !important; }
+    &.cm-variable   { color: var(--code-hl-variable-color)    !important; }
+    &.cm-variable-2 { color: var(--code-hl-variable-color)    !important; }
+    &.cm-variable-3 { color: var(--code-hl-variable-color)    !important; }
+    &.cm-type       { color: var(--code-hl-type-color)        !important; }
+    &.cm-property   { color: var(--code-hl-property-color)    !important; }
+    &.cm-operator   { color: var(--code-hl-operator-color)    !important; }
+    &.cm-string     { color: var(--code-hl-string-color)      !important; }
+    &.cm-string-2   { color: var(--code-hl-string-color)      !important; }
+    &.cm-comment    { color: var(--code-hl-comment-color)     !important; }
+    &.cm-link       { color: var(--code-hl-url-color)         !important; }
+    &.cm-atom       { color: var(--code-hl-constant-color)    !important; }
+    &.cm-error      { color: var(--code-hl-important-color)   !important; }
+    &.cm-tag        { color: var(--code-hl-tag-color)         !important; }
+    &.cm-attribute  { color: var(--code-hl-property-color)    !important; }
+    &.cm-qualifier  { color: var(--code-color-orange)         !important; }
+    &.cm-bracket    { color: var(--code-hl-punctuation-color) !important; }
+    &.cm-builtin    { color: var(--code-hl-keyword-color)     !important; }
+    &.cm-special    { color: var(--code-color-orange)         !important; }
+    &.cm-callee     { color: var(--code-color-cyan)           !important; }
+
+    /* Error highlighting with underline */
+    &.cm-error {
+        background-color: transparent !important;
+        text-decoration: underline !important;
+        text-decoration-color: var(--code-error-color) !important;
+    }
+
+    /* Search and match highlighting */
+    &.cm-matchhighlight,
+    &.cm-searching {
+        color: var(--code-color-normal) !important;
+        background-color: var(--code-matching-back) !important;
+    }
 }
 
-.CodeMirror span.cm-meta       { color: var(--code-color-yellow)         !important; }
-.CodeMirror span.cm-number     { color: var(--code-hl-number-color)      !important; }
-.CodeMirror span.cm-keyword    { color: var(--code-hl-keyword-color)     !important; }
-.CodeMirror span.cm-def        { color: var(--code-hl-function-color)    !important; }
-.CodeMirror span.cm-variable   { color: var(--code-hl-variable-color)    !important; }
-.CodeMirror span.cm-variable-2 { color: var(--code-hl-variable-color)    !important; }
-.CodeMirror span.cm-variable-3 { color: var(--code-hl-variable-color)    !important; }
-.CodeMirror span.cm-type       { color: var(--code-hl-type-color)        !important; }
-.CodeMirror span.cm-property   { color: var(--code-hl-property-color)    !important; }
-.CodeMirror span.cm-operator   { color: var(--code-hl-operator-color)    !important; }
-.CodeMirror span.cm-string     { color: var(--code-hl-string-color)      !important; }
-.CodeMirror span.cm-string-2   { color: var(--code-hl-string-color)      !important; }
-.CodeMirror span.cm-comment    { color: var(--code-hl-comment-color)     !important; }
-.CodeMirror span.cm-link       { color: var(--code-hl-url-color)         !important; }
-.CodeMirror span.cm-atom       { color: var(--code-hl-constant-color)    !important; }
-.CodeMirror span.cm-error      { color: var(--code-hl-important-color)   !important; }
-.CodeMirror span.cm-tag        { color: var(--code-hl-tag-color)         !important; }
-.CodeMirror span.cm-attribute  { color: var(--code-hl-property-color)    !important; }
-.CodeMirror span.cm-qualifier  { color: var(--code-color-orange)         !important; }
-.CodeMirror span.cm-bracket    { color: var(--code-hl-punctuation-color) !important; }
-.CodeMirror span.cm-builtin    { color: var(--code-hl-keyword-color)     !important; }
-.CodeMirror span.cm-special    { color: var(--code-color-orange)         !important; }
-.CodeMirror span.cm-callee     { color: var(--code-color-cyan)           !important; }
-
-.CodeMirror span.cm-error      {
-    background-color: transparent !important;
-    text-decoration: underline !important;
-    text-decoration-color: var(--code-error-color) !important;
-}
-
-.CodeMirror span.cm-matchhighlight,
-.CodeMirror span.cm-searching  {
-    color: var(--code-color-normal) !important;
-    background-color: var(--code-matching-back) !important;
-}
-
-
-/* Tweaks to get editor and code to match ---------------------------- */
-
-/* .CodeMirror span.cm-property + span.cm-keyword { color: var(--code-color-orange) !important; } */
-/* .CodeMirror span.cm-number   + span.cm-atom    { color: var(--code-color-normal) !important; } */
-/* .CodeMirror span.cm-atom     + span.cm-keyword { color: var(--code-color-orange) !important; } */
-/* .CodeMirror span.cm-keyword  + span.cm-def     { color: var(--code-color-orange) !important; } */
-
-/* .CodeMirror span.cm-property   ~ span.cm-atom, */
-/* .CodeMirror span.cm-variable-2 ~ span.cm-atom  { color: var(--code-color-orange) !important; } */
-/* .CodeMirror span.cm-property   + span + span.cm-atom + span.cm-atom, */
-/* .CodeMirror span.cm-variable-2 + span + span.cm-atom + span.cm-atom  { color: var(--code-color-cyan) !important; } */
-
-/* Specific tweaks for Python ---------------------------------------- */
-
-/* .language-python .CodeMirror span.cm-keyword + span.cm-def { color: var(--code-color-blue) !important; } */
-
-
-/* Specific tweaks for Kotlin ---------------------------------------- */
-
-/* .language-python .CodeMirror span.cm-keyword + span.cm-def { color: var(--code-color-blue) !important; } */
-
-
-/* General ---------------------------------------- */
-
+/* CodeMirror container styling */
 .markdown-section .CodeMirror {
     font-size: var(--code-font-size) !important;
     font-family: var(--code-font-family) !important;
     line-height: var(--code-line-height) !important;
     background-color: var(--code-bg-color) !important;
     color: var(--code-fg-color) !important;
-
-    /* margin-top: var(--margin-block); */
     margin-bottom: 0;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 
+    /* Cursor styling */
     .CodeMirror-cursor {
         border-color: var(--code-fg-color) !important;
         border-left-width: 2px !important;
     }
 
+    /* Selection background */
     .CodeMirror-selected {
         background-color: var(--code-selection-back) !important;
     }
 
-    /* Matching Tags / Brackets ---------------------------------*/
-
+    /* Matching tags/brackets */
     .CodeMirror-matchingtag,
     .CodeMirror-matchingbracket {
         background-color: transparent !important;
     }
 
-    /* When focussed */
     .CodeMirror-focused .CodeMirror-matchingtag,
     .CodeMirror-focused .CodeMirror-matchingbracket {
         color: var(--code-matching-color) !important;
@@ -105,44 +87,38 @@
         font-weight: bold !important;
     }
 
-
-    /* Active Line ---------------------------------*/
-
+    /* Active line highlighting */
     .CodeMirror-activeline-background {
         background-color: transparent !important;
     }
 
-    /* When focussed */
     &.CodeMirror-focused .CodeMirror-activeline-gutter,
     &.CodeMirror-focused .CodeMirror-activeline-background {
         background-color: var(--code-active-line-back) !important;
     }
 
-    /* Tooltips ---------------------------------------- */
-
+    /* Autocomplete tooltips */
     .CodeMirror-hints {
         font-family: var(--code-font-family);
         border-color: var(--code-border-color) !important;
         color: var(--code-popup-color) !important;
         background-color: var(--code-popup-back-color) !important;
+
+        li.CodeMirror-hint-active {
+            color: var(--code-popup-color) !important;
+            background-color: var(--code-popup-active-color) !important;
+            font-weight: bold !important;
+        }
     }
 
-    .CodeMirror-hints li.CodeMirror-hint-active {
-        color: var(--code-popup-color) !important;
-        background-color: var(--code-popup-active-color) !important;
-        font-weight: bold !important;
-    }
-
-
-    /* Gutters / numbers ---------------------------------*/
-
+    /* Line numbers and gutters */
     .CodeMirror-gutters {
         background: var(--md-code-bg-color) !important;
         border-right: 1px solid var(--md-border-color) !important;
     }
 
-    .CodeMirror-guttermarker        { color: var(--code-color-yellow) !important }
-    .CodeMirror-guttermarker-subtle { color: var(--code-color-normal) !important }
+    .CodeMirror-guttermarker        { color: var(--code-color-yellow) !important; }
+    .CodeMirror-guttermarker-subtle { color: var(--code-color-normal) !important; }
 
     .CodeMirror-linenumber {
         padding-right: 6px !important;
@@ -150,6 +126,7 @@
         text-align: right !important;
     }
 
+    /* Error/warning markers in gutter */
     .ERRORgutter,
     .WARNINGgutter {
         margin-top: 0.4em;
@@ -160,18 +137,17 @@
     .WARNINGgutter { background-color: var(--code-warning-color); }
     .ERRORgutter   { background-color: var(--code-error-color); }
 
+    /* Error/warning markings in code */
     .cm__WARNING   { border-bottom: 2px dotted var(--code-warning-color); }
     .cm__ERROR     { border-bottom: 2px dotted var(--code-error-color); }
 
-
-    /* Code Lines ---------------------------------*/
-
+    /* Code lines */
     .CodeMirror-lines {
         padding: 0 0 0.1em !important;
-    }
 
-    .CodeMirror-lines:last-of-type {
-        padding-bottom: 0.5em !important;
+        &:last-of-type {
+            padding-bottom: 0.5em !important;
+        }
     }
 
     pre.CodeMirror-line,
@@ -179,18 +155,14 @@
         font-variant-ligatures: none;
         font-feature-settings: "liga" 0, "calt" 0;
     }
-
 }
 
 
-/* Selected for editing ---------------------------------*/
-
+/* Editor focus highlighting */
 :is(.code-area, .codapi-runner):has(.CodeMirror) {
     border: 2px solid transparent;
-    /* border-radius: var(--border-radius); */
-}
 
-:is(.code-area, .codapi-runner):has(.CodeMirror-focused) {
-    border-color: var(--theme-color) !important;
+    &:has(.CodeMirror-focused) {
+        border-color: var(--theme-color) !important;
+    }
 }
-

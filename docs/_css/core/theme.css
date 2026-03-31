@@ -1,11 +1,15 @@
+/** Global Theme
+ * Design tokens, color system, typography, spacing, and base element styling
+ */
 :root {
-    /* Color */
+    /* Base colors */
     --color-bg:                   #1f2428;
     --color-text:                 #eee;
 
     --theme-color:                #68bef8;
     --secondary-color:            #f2d297;
 
+    /* Theme color variants */
     --color-mono-0:               color-mix(in srgb, var(--color-mono-min),  #000                10%);
     --theme-color-0:              color-mix(in srgb, var(--theme-color),     var(--color-bg)       97%);
     --secondary-color-0:          color-mix(in srgb, var(--secondary-color), var(--color-bg)       97%);
@@ -19,7 +23,7 @@
     --secondary-color-7:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 75%);
     --secondary-color-8:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 90%);
 
-    /* Shared Palette Colors */
+    /* Palette */
     --palette-color-1:            #54c09a;
     --palette-color-2:            #9561df;
     --palette-color-3:            #489ebb;
@@ -30,7 +34,7 @@
     --palette-color-3-dark:       color-mix(in srgb, var(--palette-color-3), var(--color-mono-min) 50%);
     --palette-color-4-dark:       color-mix(in srgb, var(--palette-color-4), var(--color-mono-min) 50%);
 
-    /* Semantic Colors */
+    /* Semantic colors */
     --color-good:                 #47dd97;
     --color-important:            #d8dd47;
     --color-warning:              #e2ae47;
@@ -51,21 +55,19 @@
     --font-size-mono:             1em;
     --line-height:                1.5;
 
-    /* Common */
+    /* Layout */
     --border-color:               var(--color-mono-2);
     --border-radius:              0.5rem;
     --margin-block:               1.75rem;
 
-    /* Content */
     --content-max-width:          55rem;
     --content-margin-inline:      4%;
     --content-margin-block:       45px;
 
-    /* Cover */
     --cover-bg-overlay:           var(--color-bg);
     --cover-title-color:          var(--strong-color);
 
-    /* Shadow */
+    /* Effects */
     --box-shadow:                 0 0.3rem 0.8rem #0006;
     --box-shadow-small:           0 0.1rem 0.3rem #0006;
 
@@ -90,107 +92,83 @@
 }
 
 
-/* Markdown Section */
-/* ========================================================================== */
-
+/* Content section */
 .markdown-section {
     margin: var(--content-margin-block) auto 0 auto;
     container-type: inline-size;
-}
 
+    /* Headings */
+    :is(h1, h2, h3, h4, h5, h6) {
+        text-wrap: balance;
 
-/* Headings */
-/* ========================================================================== */
+        a:hover {
+            text-decoration: none;
+        }
 
-.markdown-section :is(h1, h2, h3, h4, h5, h6) {
-    text-wrap: balance;
+        &:is(h2) {
+            padding-bottom: 0.25em;
+        }
 
-    a:hover {
-        text-decoration: none;
+        &:is(h1) {
+            color: var(--theme-color);
+        }
+
+        &:is(h2, h4, h6) {
+            color: var(--secondary-color);
+        }
+
+        &:is(h3, h5) {
+            color: var(--theme-color-6);
+        }
     }
 
-    &:is(h2) {
-        padding-bottom: 0.25em;
+    /* Paragraphs */
+    p + p {
+        margin-top: calc(0.5 * var(--margin-block));
     }
 
-    &:is(h1) {
-        color: var(--theme-color);
+    p:has(+ p) {
+        margin-bottom: calc(0.5 * var(--margin-block));
     }
 
-    &:is(h2, h4, h6) {
-        color: var(--secondary-color);
+    p:has(+ :is(ol, ul)) {
+        margin-bottom: calc(0.5 * var(--margin-block));
     }
 
-    &:is(h3, h5) {
-        color: var(--theme-color-6);
+    /* Lists */
+    ul {
+        margin-bottom: var(--margin-block);
+    }
+
+    /* Images */
+    img,
+    figure {
+        max-width: 90%;
+        display: block;
+        margin: var(--margin-block) auto;
     }
 }
 
-
-/* Text */
-/* ========================================================================== */
-
-em {
-    color: var(--em-color);
-}
-
-
-/* Paragraphs */
-/* ========================================================================== */
-
-.markdown-section p + p {
-    margin-top: calc(0.5 * var(--margin-block));
-}
-
-.markdown-section p:has(+ p) {
-    margin-bottom: calc(0.5 * var(--margin-block));
-}
-
-
-/* Lists */
-/* ========================================================================== */
-
-.markdown-section ul {
-    margin-bottom: var(--margin-block);
-}
-
-.markdown-section p:has(+ :is(ol, ul)) {
-    margin-bottom: calc(0.5 * var(--margin-block));
-}
-
-
-/* Images */
-/* ========================================================================== */
-
-.markdown-section img,
-.markdown-section figure {
-    max-width: 90%;
-    display: block;
-    margin: var(--margin-block) auto;
-}
-
+/* Macintosh display images */
 img[src*="macintosh"] {
     max-height: 10rem;
 }
 
+/* Text formatting */
+em {
+    color: var(--em-color);
+}
 
-/* Cover */
-/* ========================================================================== */
+/* Cover page */
 .cover-main a.button.secondary {
     color: var(--color-text);
     border-color: rgba(255, 255, 255, 0.5);
 }
 
-
-/* Markdown */
-/* ========================================================================== */
-
-/* Force light mode for iframes in dark theme */
+/* Force light mode for iframes */
 iframe,
 iframe *,
 iframe[src],
 iframe[src] * {
   color-scheme: light;
 }
-
-

@@ -1,3 +1,6 @@
+/** Icon Sizing
+ * Size utilities for Lucide icons and simple-icons
+ */
 .lucide.icon,
 i.si::before {
     --icon-size: 1.2em;

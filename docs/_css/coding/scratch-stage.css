@@ -1,7 +1,7 @@
-/* Scratch Stage - Visual stage representation for Scratch demos */
-
+/** Scratch Stage
+ * Visual stage representation for Scratch demos
+ */
 :is(.markdown-section pre[data-lang="scratch-stage"]) {
-    /* CSS Variables */
     --stage-back-color:          #eceff1;
     --stage-border-color:        var(--color-mono-4);
     --stage-info-back-color:     #444;
@@ -53,9 +53,7 @@
         display: none;
     }
 
-    /* -----------------------------------------------------------------------
-       Stage Container
-       ----------------------------------------------------------------------- */
+    /* Stage container */
 
     .stage {
         position: relative;

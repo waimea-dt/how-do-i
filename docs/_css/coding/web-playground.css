@@ -1,29 +1,44 @@
-/* web-playground.css — Styles for the live HTML/CSS/JS editor widget */
+/**
+ * Web Playground - Live HTML/CSS/JS Editor
+ * Responsive editor widget with split panes and live preview
+ */
 
-
-/* Widget container --------------------------------------------------------- */
-
-/* Mobile-first: editors stacked above preview */
 .web-playground {
+    /* Mobile-first: editors stacked above preview */
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     overflow: hidden;
     margin: 1rem 0;
-}
 
-/* Wide screens: side-by-side with a fixed overall height */
-@media (min-width: 120ch) {
-    .web-playground {
+    /* Wide screens: side-by-side layout */
+    @media (min-width: 120ch) {
         flex-direction: row;
         height: var(--wp-height);
+    }
+
+    /* Vertical gutter between editor panes */
+    > .gutter {
+        flex-shrink: 0;
+        background: var(--color-bg);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+        cursor: row-resize;
+
+        /* Horizontal gutter (wide screens only) */
+        @media (min-width: 120ch) {
+            border-top: none;
+            border-bottom: none;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            cursor: col-resize;
+        }
     }
 }
 
 
-/* Editors column ----------------------------------------------------------- */
-
+/* Editors column */
 .wp-editors {
     display: flex;
     flex-direction: column;
@@ -31,120 +46,87 @@
     height: var(--wp-height);
     overflow: hidden;
     border-bottom: 1px solid var(--border-color);
-}
 
-@media (min-width: 120ch) {
-    .wp-editors {
+    @media (min-width: 120ch) {
         border-bottom: none;
         height: 100%;
+    }
+
+
+/* Individual editor pane */
+.wp-editor-pane {
+   min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    /* Per-pane language label */
+    .wp-editor-label {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--color-mono-1);
+        color: var(--color-mono-6);
+        font-family: var(--font-family-mono);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+        user-select: none;
+    }
+
+    /* Maximize button */
+    .wp-editor-maximise {
+        background: none;
+        border: none;
+        color: inherit;
+        cursor: pointer;
+        font-size: 0.85rem;
+        line-height: 1;
+        padding: 0 0.2rem;
+        opacity: 0.5;
+        transition: opacity 0.15s;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    /* CodeMirror container fills remaining height */
+    .wp-editor-code {
+        flex: 1 1 0;
+        min-height: 0;
+        overflow: hidden;
+        padding-left: 0.7rem;
+        background-color: var(--code-bg-color);
+
+        .CodeMirror {
+            height: 100%;
+            border-radius: 0;
+            margin: 0;
+        }
     }
 }
 
 
-/* Individual editor pane (one per language) -------------------------------- */
-
-.wp-editor-pane {
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-
-/* Per-pane language label */
-
-.wp-editor-label {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--color-mono-1);
-    color: var(--color-mono-6);
-    font-family: var(--font-family-mono);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 0.25rem 0.5rem 0.25rem 0.75rem;
-    user-select: none;
-}
-
-.wp-editor-maximise {
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    font-size: 0.85rem;
-    line-height: 1;
-    padding: 0 0.2rem;
-    opacity: 0.5;
-    transition: opacity 0.15s;
-}
-
-.wp-editor-maximise:hover {
-    opacity: 1;
-}
-
-
-/* Let CodeMirror fill the remaining pane height */
-
-.wp-editor-code {
-    flex: 1 1 0;
-    min-height: 0;
-    overflow: hidden;
-    padding-left: 0.7rem;
-    background-color: var(--code-bg-color);
-}
-
-.wp-editor-code .CodeMirror {
-    height: 100%;
-    border-radius: 0;
-    margin: 0;
-}
-
-
-/* Preview column ----------------------------------------------------------- */
-
+/* Preview column */
 .wp-preview {
     display: flex;
     flex-direction: column;
     min-height: 0;
     height: var(--wp-height);
-}
 
-@media (min-width: 120ch) {
-    .wp-preview {
+    @media (min-width: 120ch) {
         height: 100%;
     }
-}
 
-
-/* Result iframe */
-
-.wp-iframe {
-    display: block;
-    flex: 1 1 0;
-    width: 100%;
-    border: none;
-    margin: 0 !important;
-}
-
-
-/* Split.js drag gutters ---------------------------------------------------- */
-
-/* Vertical gutter between editor panes */
-.wp-editors > .gutter {
-    flex-shrink: 0;
-    background: var(--color-bg);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-    cursor: row-resize;
-}
-
-/* Horizontal gutter between editors column and preview (wide screens only) */
-.web-playground > .gutter {
-    flex-shrink: 0;
-    background: var(--color-bg);
-    border-left: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-    cursor: col-resize;
+    /* Result iframe */
+    .wp-iframe {
+        display: block;
+        flex: 1 1 0;
+        width: 100%;
+        border: none;
+        margin: 0 !important;
+    }
 }

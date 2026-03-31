@@ -1,8 +1,8 @@
-/* Data Visualisation - Binary/Hex/Decimal/ASCII/Colour Display
-   Provides visual representations of data in various formats */
-
+/** Data Visualization
+ * Binary, hexadecimal, decimal, ASCII, and color display
+ */
 .display-data {
-    /* Custom properties for data visualisation */
+    /* Colors */
     --num-table-back-color: var(--color-mono-0);
     --num-headings-color:   var(--color-mono-6);
     --num-border-width:     2px;
@@ -31,9 +31,7 @@
         }
     }
 
-    /* -----------------------------------------------------------------------
-       Info Block (headings)
-       ----------------------------------------------------------------------- */
+    /* Info headings */
 
     .number-info {
         font-size: 0.7em;
@@ -61,9 +59,7 @@
     }
 }
 
-/* ===========================================================================
-   Tables
-   =========================================================================== */
+/* Number tables */
 
 table.number {
     border-collapse: collapse;
@@ -73,9 +69,7 @@ table.number {
         width: fit-content;
     }
 
-    /* -----------------------------------------------------------------------
-       Headings
-       ----------------------------------------------------------------------- */
+    /* Headings */
 
     th {
         font-size: 0.6em;

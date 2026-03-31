@@ -1,16 +1,16 @@
-/* docsify-flashcards.css */
-
+/** Flash Cards
+ * Interactive flip cards for learning and memory retention
+ */
 .markdown-section .flash-cards {
-
-    /* --- Colours --- */
+    /* Colors */
     --flash-question-back-color:    var(--color-mono-1);
     --flash-answer-back-color:      var(--theme-color-1);
 
-    /* --- Borders --- */
+    /* Borders */
     --flash-border-color:           var(--color-mono-3);
     --flash-border-width:           2px;
 
-    /* --- Typography --- */
+    /* Typography */
     --flash-question-text-size:     min(1.5rem, 4vw);
     --flash-answer-text-size:       min(1.5rem, 4vw);
     --flash-text-size:              min(1.5rem, 4vw);
@@ -19,22 +19,22 @@
     --flash-h3-text-size:           1.2em;
     --flash-code-text-size:         0.9em;
 
-    /* --- Card dimensions --- */
+    /* Card dimensions */
     --flash-card-width:             40rem;
     --flash-card-aspect:            16/9;
 
-    /* --- Animation --- */
+    /* Animation */
     --flash-flip-time:              300ms;
 
-    /* --- Controls --- */
+    /* Controls */
     --flash-control-color--low:     var(--color-mono-4);
     --flash-control-color:          var(--color-mono-5);
     --flash-control-color--high:    var(--color-mono-7);
 
-    /* --- Fullscreen overlay --- */
+    /* Fullscreen overlay */
     --flash-overlay-color:          #000e;
 
-    /* --- Layout --- */
+    /* Layout */
     margin: 2.5em 0 !important;
     padding: 0;
     width: 100%;
@@ -44,7 +44,7 @@
     font-size: var(--flash-text-size);
     perspective: 90rem;
 
-    /* --- Cards --- */
+    /* Cards */
     .flash-card {
         margin: 0 auto;
         width: 100%;

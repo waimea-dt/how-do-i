@@ -1,4 +1,9 @@
-:root {
+/** Hierarchical Tree Diagrams
+ * Vertical and horizontal tree structures for organizational charts
+ */
+
+/* Container */
+.markdown-section .hierarchy-scroll-wrapper {
     --hierarchy-top-color:     var(--theme-color-2);
     --hierarchy-color-1:       var(--palette-color-1-dark);
     --hierarchy-color-2:       var(--palette-color-2-dark);
@@ -15,12 +20,6 @@
 
     --hierarchy-half-border:   calc(var(--hierarchy-border-width) / 2);
     --hierarchy-spacing:       calc(var(--hierarchy-gap) + var(--hierarchy-half-border));
-}
-
-
-/* CONTAINERS */
-
-.markdown-section .hierarchy-scroll-wrapper {
     margin: 2em auto;
     overflow-x: auto;
     overflow-y: visible;
@@ -53,8 +52,7 @@
     flex-direction: column !important;
 }
 
-
-/* ITEMS */
+/* Tree items */
 
 .markdown-section .hierarchy .hierarchy-item {
     padding: 0;

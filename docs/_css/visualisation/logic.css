@@ -1,6 +1,6 @@
-/* Logic Gates and Truth Tables
-   Provides interactive logic gate visualizations and truth tables */
-
+/** Logic Gates
+ * Interactive logic gate visualizations and truth tables
+ */
 .display-logic {
     --logic-gate-body-size:     4em;
 
@@ -30,10 +30,7 @@
     padding: 0 0.5rem;
 }
 
-
-/* ========================================================================
-   LOGIC GATES
-   ======================================================================== */
+/* Logic gate containers */
 
 .display-logic .logic-gate {
     display: grid;
@@ -269,6 +266,8 @@
    ======================================================================== */
 
 .display-logic .logic-table {
+    border-collapse: collapse;
+    border-style: solid;
     border-color: var(--logic-table-border-color);
     font-size: min(5vw, 1.2em);
     background-color: var(--logic-table-back-color);
@@ -290,18 +289,19 @@
         text-align: center;
         vertical-align: middle;
         min-width: 3em;
+        border: 1px solid var(--logic-table-border-color);
     }
 
     th {
-        border-bottom-color: var(--logic-table-border-color);
+        border-bottom: 2px solid var(--logic-table-border-color);
 
         &.out {
-            border-left-color: var(--logic-table-border-color);
+            border-left: 2px solid var(--logic-table-border-color);
         }
     }
 
     td.out {
-        border-left-color: var(--logic-table-border-color);
+        border-left: 2px solid var(--logic-table-border-color);
     }
 
     .logic-op {

@@ -1,11 +1,6 @@
-/* ============================================================================
-   DATABASE VISUALIZATIONS
-   ============================================================================
-
-   Provides styling for database schema tables, data tables, and relationship
-   diagrams with animated connection lines and highlighting.
-   ============================================================================ */
-
+/** Database Visualizations
+ * Schema tables, data tables, and relationship diagrams
+ */
 .db-data-wrapper,
 .db-schema-wrapper,
 .db-relationship {
@@ -53,8 +48,7 @@
     --schema-rel-width--high:           var(--schema-focus-width);
 }
 
-
-/* SCROLL CONTAINER ========================================================== */
+/* Scroll container */
 
 .database-scroll {
     width: 100%;

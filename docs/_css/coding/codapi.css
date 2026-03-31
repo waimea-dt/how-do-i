@@ -1,11 +1,34 @@
+/** Codapi Code Runner
+ * Interactive code execution for multiple languages
+ */
 .markdown-section .codapi-runner {
+    margin-top: var(--margin-block);
+    margin-bottom: 0;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     background-color: var(--code-control-back-color);
-    padding: 0.7rem 0.3rem;
+    padding: 0;
+
+    pre[class*="language-"] {
+        margin: 0;
+        padding: 0;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+
+        > code {
+            display: block;
+            margin: 0;
+            padding: 1rem 1.5rem !important;
+            border: none !important;
+        }
+    }
 }
 
+.markdown-section .codapi-runner:has(+ codapi-snippet) {
+    margin-bottom: 0;
+}
 
 .markdown-section codapi-snippet {
+    display: block;
+    margin-bottom: var(--margin-block);
     codapi-toolbar {
         display: flex;
         padding: 0.5em 1em;

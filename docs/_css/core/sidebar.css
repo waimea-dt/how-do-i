@@ -1,4 +1,7 @@
-:root {
+/** Sidebar Navigation
+ * Layout, branding, breadcrumbs, and navigation structure
+ */
+:is(.sidebar) {
     --sidebar-width:                  320px;
 
     --sidebar-bg:                     var(--color-mono-1);
@@ -17,153 +20,136 @@
 
     --plugin-search-input-bg:         var(--color-bg) !important;
     --plugin-search-kbd-bg:           var(--color-mono-1) !important;
-}
 
-
-/* Sidebar Layout */
-/* ========================================================================== */
-
-:is(.sidebar) {
+    /* Flexbox layout */
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-}
 
-:is(.sidebar .app-name) {
-    order: 1;
-}
-
-:is(.sidebar .search) {
-    order: 2;
-}
-
-:is(.sidebar .sidebar-nav) {
-    order: 3;
-}
-
-
-/* Sidebar Top */
-/* ========================================================================== */
-
-:is(.sidebar .app-name) {
-    margin: 1.5rem 1rem 0;
-}
-
-:is(.sidebar a.app-name-link) {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-
-    img {
-        max-height: 5rem;
+    /* Section ordering */
+    .app-name {
+        order: 1;
+        margin: 1.5rem 1rem 0;
     }
 
-    &::after {
-        content: "DT Notes";
-        font-size: var(--font-size-xxl);
+    .search {
+        order: 2;
     }
-}
 
-
-/* Breadcrumbs */
-/* ========================================================================== */
-
-.sidebar .breadcrumbs {
-    font-size: 0.8em;
-    margin-bottom: var(--margin-block);
-
-    & > p {
-        margin: 0;
+    .sidebar-nav {
+        order: 3;
     }
-}
 
 
-/* Sidebar Nav */
-/* ========================================================================== */
+    /* Branding */
+    a.app-name-link {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
 
-:is(.sidebar a[href]):hover {
-    color: var(--sidebar-link-color-hover);
-    font-weight: 500;
-    text-decoration: none;
-}
+        img {
+            max-height: 5rem;
+        }
 
-:is(.sidebar li[aria-current]) > a {
-    color: var(--sidebar-link-color-active);
-    font-weight: 600;
-}
-
-/* Groups */
-
-:is(:is(.app-nav-merged, .sidebar-nav) > ul) > li {
-    padding-bottom: var(--sidebar-group-spacing);
-    padding-left: var(--_sidebar-inset);
-    margin-left: 0;
-}
-
-.group:is(:is(:is(.app-nav-merged, .sidebar-nav) > ul) > li) {
-    padding-top: calc(0.25 * var(--sidebar-group-spacing));
-    padding-bottom: var(--sidebar-group-spacing);
-}
-
-/* Group Headings */
-
-:is(:is(.app-nav-merged, .sidebar-nav) li) > p {
-    font-size: 1.1em;
-    color: var(--secondary-color);
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-}
-
-/* Section Sub-Links */
-
-:is(:is(.app-nav-merged, .sidebar-nav) > ul) ul.app-sub-sidebar {
-    padding-left: calc(var(--_sidebar-list-inset) * 4.5);
-    font-size: var(--font-size-s);
-    line-height: 1.2;
-    list-style: square;
-    margin-bottom: 0.5rem;
-
-    a {
-        color: var(--sidebar-sub-link-color);
-        font-weight: normal;
-
-        &:hover {
-            color: var(--sidebar-sub-link-color-hover);
-            text-decoration-color: var(--sidebar-sub-link-color-hover);
+        &::after {
+            content: "DT Notes";
+            font-size: var(--font-size-xxl);
         }
     }
 
-    li.active a {
-        color: var(--sidebar-sub-link-color-active);
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+        font-size: 0.8em;
+        margin-bottom: var(--margin-block);
+
+        & > p {
+            margin: 0;
+        }
+    }
+
+
+    /* Navigation links */
+    a[href]:hover {
+        color: var(--sidebar-link-color-hover);
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    li[aria-current] > a {
+        color: var(--sidebar-link-color-active);
         font-weight: 600;
+    }
+}
 
-        &:hover {
-            text-decoration-color: var(--sidebar-sub-link-color-active);
+/* Navigation groups and icons */
+:is(.app-nav-merged, .sidebar-nav) {
+    /* Group items */
+    > ul > li {
+        padding-bottom: var(--sidebar-group-spacing);
+        padding-left: var(--_sidebar-inset);
+        margin-left: 0;
+
+        &.group {
+            padding-top: calc(0.25 * var(--sidebar-group-spacing));
+            padding-bottom: var(--sidebar-group-spacing);
         }
     }
-}
 
-
-
-/* Sidebar Icons */
-/* ========================================================================== */
-
-:is(:is(:is(.app-nav-merged,.sidebar-nav) li) a):has(img,svg,i.si) {
-    align-items: center;
-    display: flex;
-    gap: 0;
-}
-
-:is(:is(.app-nav-merged,.sidebar-nav) li):has(> svg),
-:is(:is(:is(.app-nav-merged,.sidebar-nav) li) a):has(img,svg,i.si) {
-    img, svg, i.si {
-        margin-right: 0.5em;
+    /* Group headings */
+    li > p {
+        font-size: 1.1em;
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
     }
-}
 
-:is(:is(:is(.app-nav-merged,.sidebar-nav) li) a) :is(.lucide.icon, i.si) {
-    color: var(--theme-color);
+    /* Sub-links */
+    > ul ul.app-sub-sidebar {
+        padding-left: calc(var(--_sidebar-list-inset) * 4.5);
+        font-size: var(--font-size-s);
+        line-height: 1.2;
+        list-style: square;
+        margin-bottom: 0.5rem;
+
+        a {
+            color: var(--sidebar-sub-link-color);
+            font-weight: normal;
+
+            &:hover {
+                color: var(--sidebar-sub-link-color-hover);
+                text-decoration-color: var(--sidebar-sub-link-color-hover);
+            }
+        }
+
+        li.active a {
+            color: var(--sidebar-sub-link-color-active);
+            font-weight: 600;
+
+            &:hover {
+                text-decoration-color: var(--sidebar-sub-link-color-active);
+            }
+        }
+    }
+
+    /* Icons */
+    li a:has(img, svg, i.si) {
+        align-items: center;
+        display: flex;
+        gap: 0;
+    }
+
+    li:has(> svg),
+    li a:has(img, svg, i.si) {
+        img, svg, i.si {
+            margin-right: 0.5em;
+        }
+    }
+
+    li a :is(.lucide.icon, i.si) {
+        color: var(--theme-color);
+    }
 }

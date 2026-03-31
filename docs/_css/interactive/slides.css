@@ -1,3 +1,6 @@
+/** Presentation Slides
+ * Reveal.js slide deck integration
+ */
 .markdown-section .docsify-slide-deck {
     width: 100%;
     aspect-ratio: 16/9;
@@ -5,15 +8,13 @@
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
 
-
-    /* HEADINGS ---------------------------------- */
+    /* Headings */
 
     :is(h1, h2, h3, h4, h5, h6) {
         border: none;
     }
 
-
-    /* CODE BLOCKS ------------------------------- */
+    /* Code blocks */
 
     code[class*="language-"] {
         padding: 1em;

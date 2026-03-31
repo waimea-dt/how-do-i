@@ -1,4 +1,9 @@
-:root {
+/** Timeline Visualization
+ * Vertical timeline display using definition lists
+ */
+
+/* Container */
+.markdown-section dl.timeline {
     --timeline-border-width:    3px;
 
     --timeline-line-color:      var(--theme-color);
@@ -8,17 +13,11 @@
 
     --timeline-date-fg-color:   var(--secondary-color-5);
     --timeline-title-fg-color:  var(--theme-color-5);
-}
 
-
-/* CONTAINER */
-
-.markdown-section dl.timeline {
     margin: 2em 1em;
 }
 
-
-/* TERM (date/title row) */
+/* Date and title row */
 
 .markdown-section dl.timeline dt {
     display: flex;
@@ -51,8 +50,7 @@
     color: var(--timeline-title-fg-color);
 }
 
-
-/* DEFINITION (content) */
+/* Timeline content */
 
 .markdown-section dl.timeline dd {
     margin: 0 0 0 calc((1.5em - var(--timeline-border-width)) / 2);
