@@ -1,0 +1,213 @@
+/* Data Visualisation - Binary/Hex/Decimal/ASCII/Colour Display
+   Provides visual representations of data in various formats */
+
+.display-data {
+    /* Custom properties for data visualisation */
+    --num-table-back-color: var(--color-mono-0);
+    --num-headings-color:   var(--color-mono-6);
+    --num-border-width:     2px;
+    --num-color-inset:      5px;
+    --num-border-color:     var(--color-mono-3);
+
+    --zero-color:           var(--color-mono-5);
+    --zero-color-padding:   var(--color-mono-3);
+    --digit-color-bin:      var(--palette-color-1);
+    --digit-color-dec:      var(--color-text);
+    --digit-color-hex:      var(--theme-color);
+    --ascii-ctrl-color:     var(--color-mono-5);
+
+    /* Layout */
+    display: grid;
+    grid-template-columns: min-content;
+    align-items: center;
+    gap: 1em;
+    margin: var(--margin-block) auto;
+    width: fit-content;
+
+   /* Adjust for wider screens */
+    @container (min-width: 40ch) {
+        &:not(:has(table.raw)) {
+            grid-template-columns: min-content min-content;
+        }
+    }
+
+    /* -----------------------------------------------------------------------
+       Info Block (headings)
+       ----------------------------------------------------------------------- */
+
+    .number-info {
+        font-size: 0.7em;
+        font-weight: normal;
+        font-style: normal;
+        white-space: nowrap;
+        color: var(--num-headings-color);
+        margin: 1.2em 0 0.1em !important;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        @container (min-width: 40ch) {
+            &,
+            &:first-child {
+                margin-top: 1em;
+                text-align: right;
+            }
+
+            span {
+                display: block;
+            }
+        }
+    }
+}
+
+/* ===========================================================================
+   Tables
+   =========================================================================== */
+
+table.number {
+    border-collapse: collapse;
+    margin: 0;
+
+    &:not(.aligned) {
+        width: fit-content;
+    }
+
+    /* -----------------------------------------------------------------------
+       Headings
+       ----------------------------------------------------------------------- */
+
+    th {
+        font-size: 0.6em;
+        padding: 0.3em 0.1em;
+        text-align: center;
+        color: var(--num-headings-color);
+    }
+
+    /* -----------------------------------------------------------------------
+       Digits
+       ----------------------------------------------------------------------- */
+
+    td {
+        font-size: 1.7em;
+        line-height: 1.2;
+        font-family: var(--font-family-mono);
+        padding: 0.1em 0.3em;
+        background-color: var(--num-table-back-color);
+        border: var(--num-border-width) solid var(--num-border-color);
+        border-width: var(--num-border-width) 1px;
+        border-style: solid dashed;
+        text-align: center;
+
+        &:first-child {
+            border-left-width: var(--num-border-width);
+            border-left-style: solid;
+        }
+
+        &:last-child {
+            border-right-width: var(--num-border-width);
+            border-right-style: solid;
+        }
+    }
+
+    /* Byte boundaries - stronger left border every 8 bits */
+    &.base-2 td:nth-last-child(8n),
+    &.base-16 td:nth-last-child(2n),
+    &.colour td:nth-last-child(2n),
+    &.colour tr.values-base-10 td,
+    &.colour tr.values-colour td {
+        border-left-width: var(--num-border-width);
+        border-left-style: solid;
+    }
+
+    /* -----------------------------------------------------------------------
+       Binary Numbers
+       ----------------------------------------------------------------------- */
+
+    &.base-2 td,
+    .values-base-2 td {
+        color: var(--digit-color-bin);
+    }
+
+    /* -----------------------------------------------------------------------
+       Decimal Numbers
+       ----------------------------------------------------------------------- */
+
+    &.base-10 td,
+    .values-base-10 td {
+        color: var(--digit-color-dec);
+    }
+
+    /* -----------------------------------------------------------------------
+       Hexadecimal Numbers
+       ----------------------------------------------------------------------- */
+
+    &.base-16 td,
+    .values-base-16 td {
+        color: var(--digit-color-hex);
+    }
+
+    /* -----------------------------------------------------------------------
+       Zero and Padding
+       ----------------------------------------------------------------------- */
+
+    td[data-value="0"] {
+        color: var(--zero-color);
+    }
+
+    td.num-padding {
+        color: var(--zero-color-padding);
+    }
+
+    /* -----------------------------------------------------------------------
+       Colour Display
+       ----------------------------------------------------------------------- */
+
+    &.colour,
+    &.pixels {
+        min-width: 13em;
+
+        tr.values-colour td,
+        tr.values-pixels td {
+            box-shadow: inset 0 0 0 var(--num-color-inset) var(--num-table-back-color);
+        }
+    }
+
+    &.pixels {
+        tr.values-pixels {
+            background-color: black;
+
+            td {
+                clip-path: circle(40%);
+                padding: 0;
+
+                svg {
+                    transition: transform 250ms;
+                    display: block;
+
+                    &:hover {
+                        transform: scale(4);
+                    }
+                }
+            }
+        }
+    }
+
+    /* -----------------------------------------------------------------------
+       ASCII / Unicode Character Display
+       ----------------------------------------------------------------------- */
+
+    &.char {
+        min-width: 13em;
+
+        tr.values-char td {
+            font-weight: bold;
+
+            &.control-char {
+                font-weight: normal;
+                font-style: italic;
+                color: var(--ascii-ctrl-color);
+            }
+        }
+    }
+}
