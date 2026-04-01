@@ -87,6 +87,8 @@
                 margin: 0;
                 border: none !important;
                 padding: 1rem 1.5rem !important;
+                font-family: var(--code-font-family), monospace;
+                line-height: var(--code-output-line-height);
                 font-variant-ligatures: none;
                 font-feature-settings: "liga" 0, "calt" 0;
             }

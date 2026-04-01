@@ -43,6 +43,7 @@
 
             .code-output {
                 padding: 1em 1.5em !important;
+                line-height: var(--code-output-line-height);
             }
 
             .standard-output {
