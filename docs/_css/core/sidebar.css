@@ -1,9 +1,12 @@
 /** Sidebar Navigation
  * Layout, branding, breadcrumbs, and navigation structure
  */
-:is(.sidebar) {
-    --sidebar-width:                  320px;
 
+ :root {
+    --sidebar-width:                  320px;
+ }
+ 
+:is(.sidebar) {
     --sidebar-bg:                     var(--color-mono-1);
     --sidebar-border-color:           var(--border-color);
 
