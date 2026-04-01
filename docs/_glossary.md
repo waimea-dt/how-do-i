@@ -37,6 +37,14 @@
 
     Values written directly in code instead of using variables or user input
 
+- parse
+
+    To analyze and break down code or text into its parts to understand its structure
+
+- parsing
+
+    The process of analysing code or text to understand its structure
+
 
 ### Data Types
 
@@ -63,6 +71,10 @@
 - string
 
     Text - letters, words, and symbols in quotes
+
+- concatenate
+
+    To join strings together to make a longer string
 
 - concatenation
 
@@ -96,7 +108,7 @@
 
     A mysterious number in code that should be replaced with a named constant
 
-- type casting
+- casting
 
     Converting a value from one data type to another
 
@@ -546,9 +558,25 @@
 
     A website for sharing and collaborating on code using Git
 
+- GitHub Pages
+
+    A free service from GitHub for hosting websites directly from your repository
+
+- translate
+
+    Converting code from one programming language to another or to machine code
+
+- compiling
+
+    The process of converting all your code into machine code before running it
+
 - compiler
 
     Converts code into instructions a computer can run, all at once before execution
+
+- interpreting
+
+    The process of converting and running code line-by-line as the program executes
 
 - interpreter
 
@@ -557,6 +585,38 @@
 - IDE
 
     Integrated Development Environment - an app for writing and testing code all in one place
+
+- IntelliJ
+
+    Short for IntelliJ IDEA - a popular IDE for Java and Kotlin development
+
+- IntelliJ IDEA
+
+    A powerful IDE made by JetBrains for Java and Kotlin programming
+
+- VSCode
+
+    Short for Visual Studio Code - a popular free code editor made by Microsoft
+
+- Visual Studio Code
+
+    A free, lightweight code editor made by Microsoft with support for many languages
+
+- JetBrains
+
+    A company that makes professional developer tools like IntelliJ IDEA and PyCharm
+
+- Gradle
+
+    A build system used to compile, test, and package Java and Kotlin projects
+
+- build system
+
+    A tool that automates compiling, testing, and packaging your code into a runnable program
+
+- JDK
+
+    Java Development Kit - the tools needed to write and run Java programs
 
 - JVM
 
@@ -803,21 +863,25 @@
 
     HyperText Markup Language - code that creates the structure of web pages
 
-- tag
-
-    An HTML element like &lt;p&gt; or &lt;div&gt; that creates part of a web page
-
 - CSS
 
     Cascading Style Sheets - code that controls how web pages look
 
-- selector
-
-    A pattern that picks which HTML elements to style with CSS
-
 - JavaScript
 
     A programming language that makes web pages interactive
+
+- HTMX
+
+    A JavaScript library that lets you add interactivity to web pages using HTML attributes
+
+- tag
+
+    An HTML element like &lt;p&gt; or &lt;div&gt; that creates part of a web page
+
+- selector
+
+    A pattern that picks which HTML elements to style with CSS
 
 - DOM
 
@@ -831,9 +895,17 @@
 
     A clickable element that takes you to another page or file
 
+- front-end
+
+    The visible part of a website that users interact with
+
 - frontend
 
     The visible part of a website that users interact with
+
+- back-end
+
+    The behind-the-scenes code that processes data on a server
 
 - backend
 
@@ -850,6 +922,26 @@
 - browser
 
     Software for viewing web pages like Chrome or Firefox
+
+- Flask
+
+    A lightweight Python framework for building web applications
+
+- Jinja
+
+    A templating engine used with Flask to create dynamic HTML pages
+
+- route
+
+    A URL pattern that maps to a specific function in a web application
+
+- routing
+
+    The process of mapping URLs to specific functions in your web application
+
+- template
+
+    An HTML file with placeholders that get filled in with data when the page loads
 
 - cookie
 
@@ -1179,6 +1271,22 @@
 
     A collection of related modules bundled together
 
+- file
+
+    A named collection of data stored on a computer, like a document or program
+
+- folder
+
+    A container for organizing files and other folders on a computer
+
+- directory
+
+    Another name for folder - a container for organizing files
+
+- root
+
+    The top-level folder that contains all other folders and files on a system
+
 - cloud computing
 
     Storing and running programs on internet servers instead of your computer
@@ -1214,6 +1322,10 @@
 ## Language-Specific Features
 
 ### Kotlin
+
+- Kotlin
+
+    A modern programming language that runs on the JVM, used for Android apps and more
 
 - val
 
@@ -1254,7 +1366,18 @@
 
 ### Python
 
+- Python
+
+    A beginner-friendly programming language known for readable code and versatility
+
 - None
 
     A special value representing nothing or the absence of a value
+
+
+### Others
+
+- Java
+
+    A popular object-oriented programming language that runs on the JVM
 
