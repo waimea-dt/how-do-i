@@ -1,0 +1,12 @@
+/** Video Embeds
+ * Styling for embedded YouTube videos
+ */
+.markdown-section iframe.video.youtube {
+    display: block;
+    margin: var(--margin-block) auto;
+    width: 100%;
+    max-width: 45rem;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+}

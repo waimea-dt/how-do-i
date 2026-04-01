@@ -31,6 +31,7 @@
     - [Callouts](tests/callouts.md)
     - [Tables](tests/tables.md)
     - [Definitions](tests/definitions.md)
+    - [Video Embeds](tests/video-embed.md)
 
 - <i data-lucide="bar-chart-2"></i>Visualisation
     - [Timeline](tests/timeline.md)
