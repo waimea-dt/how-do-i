@@ -5,7 +5,7 @@
  :root {
     --sidebar-width:                  320px;
  }
- 
+
 :is(.sidebar) {
     --sidebar-bg:                     var(--color-mono-1);
     --sidebar-border-color:           var(--border-color);
@@ -20,6 +20,7 @@
     --sidebar-sub-link-color:         var(--secondary-color-6);
     --sidebar-sub-link-color-hover:   var(--secondary-color-8);
     --sidebar-sub-link-color-active:  var(--theme-color-5);
+    --sidebar-sub-link-indent:        calc(var(--_sidebar-list-inset) * 3.8);
 
     --plugin-search-input-bg:         var(--color-bg) !important;
     --plugin-search-kbd-bg:           var(--color-mono-1) !important;
@@ -112,7 +113,7 @@
 
     /* Sub-links */
     > ul ul.app-sub-sidebar {
-        padding-left: calc(var(--_sidebar-list-inset) * 4.5);
+        padding-left: var(--sidebar-sub-link-indent);
         font-size: var(--font-size-s);
         line-height: 1.2;
         list-style: square;
