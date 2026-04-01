@@ -27,6 +27,7 @@ Hardware: **Intel Core i7-12700K** with **32GB RAM**
 
 </computer>
 
+
 ## Window View
 
 Look...
@@ -49,6 +50,7 @@ def hello_world():
 ```
 
 </computer>
+
 
 ## Tablet Display
 
@@ -75,6 +77,7 @@ console.log(greeting);
 
 </computer>
 
+
 ## Mobile Phone
 
 Look...
@@ -94,6 +97,7 @@ Reply: I'm good!
 ```
 
 </computer>
+
 
 ## Vintage CRT Monitor
 
@@ -119,6 +123,7 @@ RUN
 
 </computer>
 
+
 ## Retro 1980s Terminal
 
 Look...
@@ -142,6 +147,7 @@ Run `LOAD HELLO` to start
 **Memory:** 64K RAM System
 
 </computer>
+
 
 ## Simple Desktop
 
@@ -168,6 +174,7 @@ Sum: 30
 ```
 
 </computer>
+
 
 ## Classic Macintosh
 

@@ -1,4 +1,6 @@
-﻿# Python Programming Quiz
+﻿# Quizzes
+
+## Python Programming Quiz
 
 <quiz>
 
