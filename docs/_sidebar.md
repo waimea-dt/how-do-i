@@ -5,3 +5,4 @@
 - [<i data-lucide="paintbrush"></i>Design Theory](design/index.md)
 - [<i data-lucide="bug-play"></i>Animation](wick/index.md)
 - [<i data-lucide="boxes"></i>Minecraft](minecraft/index.md)
+- [<i data-lucide="book-open"></i>Glossary of Terms](_glossary.md)

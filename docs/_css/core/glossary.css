@@ -1,0 +1,29 @@
+/** Glossary
+ * Styling the glossary of terms
+ */
+
+/* Target only lists on the glossary page */
+.markdown-section:has(> h1#glossary) h2 + ul {
+    /* Container styles */
+
+    > li {
+        /* Each glossary entry */
+        list-style: square;
+
+        &::marker {
+            color: var(--theme-color-3);
+        }
+
+        > p:first-of-type {
+            /* Term name (first paragraph in each li) */
+            color: var(--theme-color);
+            font-size: 1.3rem;
+            margin: 0.8rem 0 0.2rem;
+        }
+
+        p:nth-of-type(2) {
+            /* Definition text (second paragraph in each li) */
+            margin: 0 0 0 1rem;
+        }
+    }
+}

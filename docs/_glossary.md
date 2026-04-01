@@ -5,85 +5,329 @@
 
 - Variable
 
-    Named storage for data values - can hold numbers, text, or complex structures
+    A box that stores a value like a number or text
 
 - Function
 
-    Reusable block of code that performs a specific task - accepts inputs and returns outputs
+    A reusable block of code that does a specific job
 
 - Algorithm
 
-    Step-by-step procedure for solving a problem or performing a task
+    Step-by-step instructions for solving a problem
 
 - Loop
 
-    Programming construct that repeats code until a condition is met
+    Code that repeats until something happens
 
 - Array
 
-    Collection of elements stored in sequential order, accessible by index
+    A list of items stored in order with numbered positions
+
+- Parameter
+
+    A placeholder in a function that receives a value
+
+- Argument
+
+    The actual value you pass into a function
+
+- CLI
+
+    Command Line Interface - typing text commands instead of clicking buttons
+
+- GUI
+
+    Graphical User Interface - the buttons and windows you see on screen
+
+- TUI
+
+    Text User Interface - a text-based menu system in the terminal
 
 
 ## Web Technologies
 
 - HTML
 
-    Hyper-Text Markup Language - the language of the web
+    HyperText Markup Language - the language used to create web pages
 
 - CSS
 
-    Cascading Style Sheets - used to style web pages
+    Cascading Style Sheets - the language used to make web pages look good
 
 - JavaScript
 
-    A high-level, dynamic programming language commonly used with web pages
+    A programming language that makes web pages interactive
 
 - API
 
-    Application Programming Interface - allows software apps to communicate
+    Application Programming Interface - a way for programs to talk to each other
 
 - DOM
 
-    Document Object Model - represents web page structure as a tree of objects
+    Document Object Model - a map of all the parts of a web page
 
 
 ## Computer Science
 
 - Binary
 
-    Number system using only 0 and 1 - foundation of modern computing
+    A number system computers use with only 0s and 1s
 
 - Compiler
 
-    Translates high-level source code into machine code or lower-level form
+    Converts your code into instructions a computer can understand
 
 - Recursion
 
-    Function calling itself to solve problems by breaking into smaller sub-problems
+    When a function calls itself to solve a problem
 
 - Syntax
 
-    Rules defining the structure and grammar of a programming language
+    The grammar rules of a programming language
 
 - Debug
 
-    Process of identifying and removing errors from programs
+    Finding and fixing errors in your code
 
 
 ## Data & Databases
 
 - Database
 
-    Organized collection of structured data stored electronically
+    A organized collection of data stored on a computer
 
 - SQL
 
-    Structured Query Language - manages and manipulates relational databases
+    Structured Query Language - a language for asking questions and managing databases
 
 - Query
 
-    Request for data from a database, written in a query language like SQL
+    A question you ask to get data from a database
 
 - Table
 
-    Data organized in rows and columns within a database
+    Data arranged in rows and columns like a spreadsheet
+
+
+## Hardware & Storage
+
+- CPU
+
+    Central Processing Unit - the brain of the computer that runs programs
+
+- RAM
+
+    Random Access Memory - fast memory that stores data while the computer is on
+
+- ROM
+
+    Read-Only Memory - permanent memory that keeps data even when turned off
+
+- SSD
+
+    Solid State Drive - fast storage with no moving parts like a USB stick
+
+- HDD
+
+    Hard Disk Drive - storage with spinning disks slower but cheaper than SSD
+
+- GPU
+
+    Graphics Processing Unit - a chip specialized for drawing graphics and images
+
+
+## Networking
+
+- IP
+
+    Internet Protocol - a unique address that identifies a device on a network
+
+- DNS
+
+    Domain Name System - the system that converts website names into IP addresses
+
+- HTTP
+
+    HyperText Transfer Protocol - the system used to send web pages across the internet
+
+- HTTPS
+
+    HyperText Transfer Protocol Secure - a secure encrypted version of HTTP
+
+- URL
+
+    Uniform Resource Locator - the web address you type in your browser
+
+- Bandwidth
+
+    How much data can travel through a network connection
+
+
+## Programming Languages & Tools
+
+- JVM
+
+    Java Virtual Machine - the platform that runs Java and Kotlin programs
+
+- IDE
+
+    Integrated Development Environment - an app for writing and testing code all in one place
+
+- OOP
+
+    Object-Oriented Programming - a way of organizing code using objects and classes
+
+- Swing
+
+    A Java library for creating windows and buttons in desktop apps
+
+
+## Kotlin Fundamentals
+
+- val
+
+    Creates a variable that cannot be changed after you set it
+
+- var
+
+    Creates a variable that can be changed after you set it
+
+- Nullable
+
+    A type that can be empty (null) - shown with a ? after the type
+
+- Lambda
+
+    A function without a name that you can pass around
+
+- Extension Function
+
+    Adding a new function to an existing type
+
+- String Template
+
+    Putting variables inside text using $ signs
+
+- Companion Object
+
+    Properties and functions shared by all instances of a class
+
+
+## Object-Oriented Programming
+
+- Class
+
+    A blueprint for creating objects with properties and behaviors
+
+- Object
+
+    A specific thing created from a class
+
+- Constructor
+
+    Code that runs automatically when you create a new object
+
+- Property
+
+    A variable that belongs to a class
+
+- Method
+
+    A function that belongs to a class
+
+- Inheritance
+
+    When a class copies properties and methods from another class
+
+- Encapsulation
+
+    Hiding how something works inside a class
+
+- Polymorphism
+
+    When different types of objects respond to the same method differently
+
+- Interface
+
+    A list of methods a class must have
+
+- Abstract Class
+
+    A class that's only used as a template for other classes
+
+
+## Data Types & Collections
+
+- String
+
+    Text - letters and words in quotes
+
+- Int
+
+    Whole numbers like 1, 42, or -5
+
+- Double
+
+    Numbers with decimal points like 3.14 or 2.5
+
+- Boolean
+
+    A value that is either true or false
+
+- Char
+
+    A single letter or symbol in single quotes
+
+- List
+
+    A collection of items in a specific order
+
+- Map
+
+    A collection where each item has a name (key) and a value
+
+- Mutable
+
+    Something that can be changed
+
+- Immutable
+
+    Something that cannot be changed once created
+
+
+## Control Flow & Logic
+
+- Condition
+
+    Something that is either true or false
+
+- Iteration
+
+    Running the same code over and over for each item
+
+- Scope
+
+    The area of code where a variable can be used
+
+- Exception
+
+    An error that happens while a program is running
+
+
+## Code Quality & Practices
+
+- Refactoring
+
+    Improving code to make it cleaner without changing what it does
+
+- Debugging
+
+    Finding and fixing bugs (errors) in your code
+
+- Documentation
+
+    Comments explaining what your code does
+
+- Validation
+
+    Checking that data is correct and safe before using it
