@@ -3,27 +3,39 @@
  */
 
 /* Target only lists on the glossary page */
-.markdown-section:has(> h1#glossary) h2 + ul {
+.markdown-section:has(> h1#glossary, > h1#glossary-of-terms) :is(h2, h3) + ul {
     /* Container styles */
 
     > li {
         /* Each glossary entry */
-        list-style: square;
+        /* list-style: square; */
+        list-style: none;
+        display: grid;
+        gap: 1rem;
+        align-items: top;
+        grid-template-columns: 10rem 1fr;
+        /* border-bottom: 1px solid var(--border-color); */
+        padding: 0.1em 0.5em;
+        margin: 0;
 
         &::marker {
             color: var(--theme-color-3);
         }
 
-        > p:first-of-type {
-            /* Term name (first paragraph in each li) */
-            color: var(--theme-color);
-            font-size: 1.3rem;
-            margin: 0.8rem 0 0.2rem;
-        }
+        > p {
+            margin: 0;
 
-        p:nth-of-type(2) {
-            /* Definition text (second paragraph in each li) */
-            margin: 0 0 0 1rem;
+            &:first-of-type {
+                /* Term name (first paragraph in each li) */
+                color: var(--theme-color);
+                font-size: 1.1rem;
+                font-weight: 500;
+            }
+
+            &:nth-of-type(2) {
+                /* Definition text (second paragraph in each li) */
+                margin: 0;
+            }
         }
     }
 }
