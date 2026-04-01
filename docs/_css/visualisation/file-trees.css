@@ -4,22 +4,22 @@
 
 /* Container */
 .markdown-section .file-tree {
-    --file-tree-back-color:   var(--color-mono-1);
-    --file-tree-border-color: var(--color-mono-3);
+    --file-tree-back-color:         var(--color-mono-1);
+    --file-tree-border-color:       var(--color-mono-3);
 
-    --file-tree-folder-color:     var(--secondary-color-5);
-    --file-tree-folder-color-low: var(--secondary-color-2);
-    --file-tree-file-color:       var(--theme-color-5);
-    --file-tree-file-color-low:   var(--theme-color-2);
-    --file-tree-line-color:       var(--color-mono-3);
+    --file-tree-folder-color:       var(--secondary-color-5);
+    --file-tree-folder-color-low:   var(--secondary-color-3);
+    --file-tree-file-color:         var(--theme-color-5);
+    --file-tree-file-color-low:     var(--theme-color-3);
+    --file-tree-line-color:         var(--color-mono-5);
 
-    --file-tree-focus-color:  var(--highlight-color);
-    --file-tree-focus-width:  3px;
+    --file-tree-focus-color:        var(--highlight-color);
+    --file-tree-focus-width:        3px;
 
-    --file-tree-icon-size:    1.2em;
-    --file-tree-indent:       1em;
-    --file-tree-line-width:   2px;
-    --file-tree-line-radius:  0.75em;
+    --file-tree-icon-size:          1.2em;
+    --file-tree-indent:             1em;
+    --file-tree-line-width:         2px;
+    --file-tree-line-radius:        0.5em;
 
     /* Base styling */
     font-family: var(--font-family-mono);
@@ -125,7 +125,7 @@
 /* Dim icons and connecting lines */
 .markdown-section .file-tree:has(.focus) .file-tree-item::before,
 .markdown-section .file-tree:has(.focus) .file-tree-folder::after {
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
 /* Restore colors for focused folder items */
