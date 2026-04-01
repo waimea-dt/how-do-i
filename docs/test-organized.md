@@ -1,5 +1,7 @@
 # Binary Numbers
 
+## Default Display
+
 Yet across the gulf of space, minds that are to our minds as ours are to those of the beasts that perish, intellects vast and cool and unsympathetic, regarded this earth with envious eyes, and slowly and surely drew their plans against us.
 
 ```data
@@ -9,6 +11,7 @@ show dec 123
 show bin 01111011
 show hex 7a9c
 ```
+
 Maybe I'll go where I can see stars, he said to himself as the car gained velocity and altitude; it headed away from San Francisco, toward the uninhabited desolation to the north.
 
 ## Raw Values
@@ -98,9 +101,7 @@ show hex ff9 as pixels
 
 Now in the dark world where I dwell, ugly things, and surprising things, and sometimes little wondrous things, spill out in me constantly, and I can count on nothing.
 
-
-## ASCII & UniCode
-
+## ASCII & Unicode
 
 ```data
 show dec   3 as ascii
@@ -136,9 +137,6 @@ show-raw-aligned dec 12096    as hex-bytes
 show-raw-aligned dec 12096    as dec-val
 show-raw-aligned dec 12096    as unicode
 ```
-
-
-
 
 
 
@@ -250,7 +248,7 @@ table Tick  XOR
 table Dot   XOR
 ```
 
-## Table and Gate (with Table Highlighting)
+## Gate and Table (with Table Highlighting)
 
 ```logic
 gate  ON AND  A B Out
@@ -275,14 +273,9 @@ table ON NOT  A  Out
 
 
 
+# Tables
 
-
-
-
-## Tables
-
-
-### Basic Table
+## Basic Table
 
 Hover over any row to see it highlight:
 
@@ -295,7 +288,7 @@ Hover over any row to see it highlight:
 | Eve | 29 | Rome | Analyst |
 
 
-### Highlight Cols Table
+## Highlight Cols
 
 Hover over any row to see it highlight. The City column is highlighted:
 
@@ -308,7 +301,7 @@ Hover over any row to see it highlight. The City column is highlighted:
 | Eve   | 29  | Rome    | Analyst    | Eve   | 29  | Rome    | Analyst    |
 
 
-### Highlight Cells Table
+## Highlight Cells
 
 Hover over any row to see it highlight:
 
@@ -321,7 +314,7 @@ Hover over any row to see it highlight:
 | Eve | 29 | Rome | Analyst |
 
 
-### Highlight Cells & Cols Table
+## Highlight Cells & Cols
 
 Both column and individual cell highlighting:
 
@@ -334,7 +327,7 @@ Both column and individual cell highlighting:
 | Eve | 29 | Rome | Analyst |
 
 
-### Highlight Rows Table
+## Highlight Rows
 
 Row highlighting with !!! in first cell:
 
@@ -347,7 +340,7 @@ Row highlighting with !!! in first cell:
 | Eve | 29 | Rome | Analyst |
 
 
-### All Together
+## All Together
 
 Columns, cells, and rows all highlighted:
 
@@ -361,7 +354,8 @@ Columns, cells, and rows all highlighted:
 
 
 
-## Speech
+
+# Speech
 
 <speak>
 
@@ -388,7 +382,9 @@ I'm *so* happy to see you today! This is going to be **great**!
 </speak>
 
 
-## Captions
+
+
+# Captions
 
 <captioned>
 
@@ -407,9 +403,11 @@ This Mac is sad because something went wrong.
 </captioned>
 
 
-## Cards
 
-### Default (20rem)
+
+# Cards
+
+## Default (20rem)
 
 <cards>
 
@@ -431,7 +429,7 @@ Arguing with anonymous strangers on the Internet is a sucker's game because they
 
 </cards>
 
-### Narrow (12rem)
+## Narrow (12rem)
 
 <cards size="narrow">
 
@@ -459,7 +457,7 @@ Fourth card
 
 </cards>
 
-### Full (100%)
+## Full (100%)
 
 <cards size="full">
 
@@ -475,6 +473,7 @@ These cards stack vertically and don't wrap.
 
 </cards>
 
+## Narrow with H2 Titles
 
 <cards size="narrow">
 
@@ -496,6 +495,7 @@ Arguing with anonymous strangers on the Internet is a sucker's game because they
 
 </cards>
 
+## Full with H2 Titles
 
 <cards size="full">
 
@@ -514,7 +514,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 
 
-## Callouts
+# Callouts
 
 > [!NOTE]
 > This is a note callout with useful information.
@@ -541,9 +541,13 @@ But the human race did not have even the slightest bit of psychological preparat
 > This is an example callout demonstrating usage.
 
 
+
+
 # Request Sequence Demos
 
-## Simple LR
+## Static
+
+### Simple LR
 
 <requests>
 
@@ -560,7 +564,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
-## Simple LR with Info
+### Simple LR with Info
 
 <requests>
 
@@ -579,8 +583,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
-
-## HTTP Requests
+### HTTP Requests
 
 <requests>
 
@@ -607,8 +610,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
-
-## Simple LMR
+### Simple LMR
 
 <requests>
 
@@ -627,6 +629,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
+### Simple LMR with Info
 
 <requests>
 
@@ -647,8 +650,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
-
-## Web App
+### Web App
 
 <requests>
 
@@ -685,8 +687,9 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
-
 ## Animated
+
+### Simple LR
 
 <requests animated="true">
 
@@ -703,6 +706,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
+### Simple LR with Info
 
 <requests animated="true">
 
@@ -721,9 +725,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
-
-
-## Web App
+### Web App (Simple)
 
 <requests animated="true">
 
@@ -756,8 +758,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </requests>
 
-
-## Web App
+### Web App (Full)
 
 <requests animated="true">
 
@@ -818,7 +819,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </timeline>
 
-
 ## Just Dates, No Description
 
 <timeline>
@@ -828,7 +828,6 @@ But the human race did not have even the slightest bit of psychological preparat
 - 1994
 
 </timeline>
-
 
 ## Dates and Title
 
@@ -852,7 +851,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </timeline>
 
-
 ## Just Dates and Title
 
 <timeline>
@@ -863,7 +861,6 @@ But the human race did not have even the slightest bit of psychological preparat
 - 2017: Finn Henry
 
 </timeline>
-
 
 ## Long Date, No Title
 
@@ -879,7 +876,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </timeline>
 
-
 ## Long Dates and Title
 
 <timeline>
@@ -893,7 +889,6 @@ But the human race did not have even the slightest bit of psychological preparat
     One of the most frightening things about your true nerd, for may people, is not that he's socially inept - because everybody's been there - but rather his complete lack of embarrassment about it.
 
 </timeline>
-
 
 ## Very Long Dates
 
@@ -912,7 +907,6 @@ But the human race did not have even the slightest bit of psychological preparat
     One of the most frightening things about your true nerd, for may people, is not that he's socially inept - because everybody's been there - but rather his complete lack of embarrassment about it.
 
 </timeline>
-
 
 ## Very Long Dates with Title
 
@@ -947,7 +941,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </filetree>
 
-
 ## Folder and File
 
 <filetree>
@@ -958,7 +951,6 @@ But the human race did not have even the slightest bit of psychological preparat
     - Three
 
 </filetree>
-
 
 ## Nested Folders and Files
 
@@ -985,7 +977,6 @@ But the human race did not have even the slightest bit of psychological preparat
     - requirements.txt
 
 </filetree>
-
 
 ## With Highlighting
 
@@ -1038,7 +1029,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </filetree>
 
-
 ## Nested Highlighting
 
 <filetree>
@@ -1064,8 +1054,6 @@ But the human race did not have even the slightest bit of psychological preparat
     - !! requirements.txt
 
 </filetree>
-
-
 
 
 
@@ -1110,7 +1098,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </hierarchy>
 
-
 ## With Notes
 
 <hierarchy>
@@ -1137,7 +1124,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </hierarchy>
 
-
 ## With Highlighting
 
 <hierarchy>
@@ -1163,7 +1149,6 @@ But the human race did not have even the slightest bit of psychological preparat
         - F
 
 </hierarchy>
-
 
 ## More Complex
 
@@ -1225,7 +1210,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </hierarchy>
 
-
 ## Horizontal
 
 <hierarchy direction="horizontal">
@@ -1286,7 +1270,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </hierarchy>
 
-
 ## Horizontal with Notes
 
 <hierarchy direction="horizontal">
@@ -1322,6 +1305,8 @@ But the human race did not have even the slightest bit of psychological preparat
 
 ## Web Server
 
+### Simple
+
 <structure>
 
 - Web Server
@@ -1333,6 +1318,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
+### With Notes
 
 <structure>
 
@@ -1368,6 +1354,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
+### Depth Coloured
 
 <structure colouring="depth">
 
@@ -1403,7 +1390,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
-
 ## Single Container
 
 <structure>
@@ -1414,7 +1400,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
-
 ## Single Container, No Notes
 
 <structure>
@@ -1423,8 +1408,9 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
-
 ## Sub-Containers
+
+### Ordered
 
 <structure>
 
@@ -1435,6 +1421,8 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
+### Unordered
+
 <structure>
 
 - Top-Level
@@ -1443,10 +1431,11 @@ But the human race did not have even the slightest bit of psychological preparat
     - Second Block
 
 </structure>
-
 
 ## Sub-Containers, with Notes
 
+### Ordered
+
 <structure>
 
 - Top-Level
@@ -1461,6 +1450,8 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
+### Unordered
+
 <structure>
 
 - Top-Level
@@ -1474,7 +1465,6 @@ But the human race did not have even the slightest bit of psychological preparat
         Man has gone out to explore other worlds and other civilizations without having explored his own labyrinth of dark passages and secret chambers, and without finding what lies behind doorways that he himself has sealed.
 
 </structure>
-
 
 ## Sub-Containers, with Notes Everywhere
 
@@ -1494,8 +1484,9 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
-
 ## Three Deep
+
+### Ordered
 
 <structure>
 
@@ -1513,6 +1504,8 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
+### Unordered
+
 <structure>
 
 - Top-Level
@@ -1528,7 +1521,6 @@ But the human race did not have even the slightest bit of psychological preparat
         - Inside Block 1
 
 </structure>
-
 
 ## Four Deep
 
@@ -1558,7 +1550,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
-
 ## Five Deep
 
 <structure>
@@ -1591,8 +1582,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
-
-## Five Deep
+## Five Deep (Depth Coloured)
 
 <structure colouring="depth">
 
@@ -1624,8 +1614,9 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
-
 ## With Highlighting
+
+### Inner Item Highlighted
 
 <structure>
 
@@ -1641,6 +1632,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </structure>
 
+### Outer Item Highlighted
 
 <structure>
 
@@ -1661,7 +1653,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 # Sequences Demos
 
-
 ## Simple
 
 (Horizontal by default)
@@ -1676,7 +1667,6 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </sequence>
 
-
 ## Simple Horizontal
 
 <sequence direction="horizontal">
@@ -1688,7 +1678,6 @@ But the human race did not have even the slightest bit of psychological preparat
 3. Three
 
 </sequence>
-
 
 ## Simple Vertical
 
@@ -1702,8 +1691,9 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </sequence>
 
-
 ## With Headings
+
+### H1 Headings
 
 <sequence direction="horizontal">
 
@@ -1715,6 +1705,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </sequence>
 
+### H2 Headings
 
 <sequence direction="horizontal">
 
@@ -1726,6 +1717,8 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </sequence>
 
+### H3 Headings
+
 <sequence direction="horizontal">
 
 1. ### One
@@ -1736,8 +1729,9 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </sequence>
 
-
 ## With a Mix of Content
+
+### Horizontal
 
 <sequence direction="horizontal">
 
@@ -1755,8 +1749,7 @@ But the human race did not have even the slightest bit of psychological preparat
 
 </sequence>
 
-
-And a vertical one...
+### Vertical
 
 <sequence direction="vertical">
 
@@ -1770,8 +1763,9 @@ And a vertical one...
 
 </sequence>
 
-
 ## And Images
+
+### Horizontal
 
 <sequence direction="horizontal">
 
@@ -1791,8 +1785,7 @@ And a vertical one...
 
 </sequence>
 
-
-Try it vert...
+### Vertical
 
 <sequence direction="vertical">
 
@@ -1812,7 +1805,7 @@ Try it vert...
 
 </sequence>
 
-And with a third item...
+### Three Items
 
 <sequence direction="horizontal">
 
@@ -1840,7 +1833,6 @@ And with a third item...
 
 </sequence>
 
-
 ## Wrapping
 
 <sequence direction="horizontal">
@@ -1861,7 +1853,6 @@ And with a third item...
 
 </sequence>
 
-
 ## Animated
 
 ### Horizontal
@@ -1878,7 +1869,6 @@ Short...
 
 </sequence>
 
-
 Medium...
 
 <sequence animated="true">
@@ -1894,7 +1884,6 @@ Medium...
 5. ## Five
 
 </sequence>
-
 
 Longer...
 
@@ -1913,7 +1902,6 @@ Longer...
 6. ## Six
 
 </sequence>
-
 
 ### Vertical
 
@@ -1934,11 +1922,9 @@ Longer...
 
 
 
+# Mermaid
 
-
-## Mermaid
-
-
+## DFA Flowchart
 
 ```mermaid
 flowchart LR
@@ -1960,8 +1946,58 @@ S3 --C--> S3
 class S0 start
 ```
 
+## Graph TD
 
-## SQL Runner Demo
+```mermaid
+graph TD
+A(Forest) --> B[/Another/]
+A --> C[End]
+  subgraph section
+  B
+  C
+  end
+```
+
+## State Diagrams
+
+```mermaid
+stateDiagram-v2
+    direction LR
+
+    [*] --> Still
+    Still --> [*]
+
+    Still --> Moving
+    Moving --> Still
+    Moving --> Crash
+    Crash --> [*]
+```
+
+```mermaid
+stateDiagram-v2
+    state if_state <<choice>>
+    [*] --> IsPositive
+    IsPositive --> if_state
+    if_state --> False: if n < 0
+    if_state --> True : if n >= 0
+```
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    Alice->>+John: Hello John, how are you?
+    Alice->>+John: John, can you hear me?
+    John-->>-Alice: Hi Alice, I can hear you!
+    John-->>-Alice: I feel great!
+```
+
+
+
+
+# SQL Runner Demo
+
+## Create Table
 
 Create a table and populate it with data:
 
@@ -1974,6 +2010,8 @@ CREATE TABLE cats (
     added  TIMESTAMP   DEFAULT(CURRENT_TIMESTAMP)
 );
 ```
+
+## Insert Data
 
 Insert some data (depends on the table being created):
 
@@ -1990,6 +2028,8 @@ INSERT INTO cats (name, colour, legs)
 VALUES
     ('Fred', 'Tabby', 3);
 ```
+
+## Queries
 
 Select all cats:
 
@@ -2025,8 +2065,7 @@ ORDER BY count DESC;
 
 
 
-
-## Python Programming Quiz
+# Python Programming Quiz
 
 <quiz>
 
@@ -2332,8 +2371,7 @@ ORDER BY count DESC;
 
 
 
-## Flash Card Demo
-
+# Flash Cards
 
 <flashcards>
 
@@ -2397,9 +2435,12 @@ ORDER BY count DESC;
 
 
 
-## Reveal.js Slides Testing
+
+# Reveal.js Slides
 
 Normal docs content here...
+
+## Full Feature Test
 
 <slides>
 
@@ -2454,11 +2495,11 @@ hook.doneEach(function () {
 })
 ```
 
-
 </slides>
 
 Back to normal docs...
 
+## Simple Test
 
 <slides>
 
@@ -2488,55 +2529,7 @@ Back to normal docs...
 
 
 
-
-## Mermaid Test
-
-```mermaid
-graph TD
-A(Forest) --> B[/Another/]
-A --> C[End]
-  subgraph section
-  B
-  C
-  end
-```
-
-```mermaid
-stateDiagram-v2
-    direction LR
-
-    [*] --> Still
-    Still --> [*]
-
-    Still --> Moving
-    Moving --> Still
-    Moving --> Crash
-    Crash --> [*]
-```
-
-```mermaid
-stateDiagram-v2
-    state if_state <<choice>>
-    [*] --> IsPositive
-    IsPositive --> if_state
-    if_state --> False: if n < 0
-    if_state --> True : if n >= 0
-```
-
-```mermaid
-sequenceDiagram
-    Alice->>+John: Hello John, how are you?
-    Alice->>+John: John, can you hear me?
-    John-->>-Alice: Hi Alice, I can hear you!
-    John-->>-Alice: I feel great!
-```
-
-
-
-
-
-
-## Accordion Test
+# Accordion
 
 + Question 1 +
 
@@ -2551,9 +2544,11 @@ sequenceDiagram
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Placerat duis ultricies lacus sed turpis tincidunt id aliquet risus. Etiam tempor orci eu lobortis elementum nibh tellus molestie nunc.
 
 
-## Computer Screen Mockups
 
-### Desktop Monitor
+
+# Computer Screen Mockups
+
+## Desktop Monitor
 
 Look...
 
@@ -2580,8 +2575,7 @@ Hardware: **Intel Core i7-12700K** with **32GB RAM**
 
 </computer>
 
-
-### Window View
+## Window View
 
 Look...
 
@@ -2604,8 +2598,7 @@ def hello_world():
 
 </computer>
 
-
-### Tablet Display
+## Tablet Display
 
 Look...
 
@@ -2630,8 +2623,7 @@ console.log(greeting);
 
 </computer>
 
-
-### Mobile Phone
+## Mobile Phone
 
 Look...
 
@@ -2651,8 +2643,7 @@ Reply: I'm good!
 
 </computer>
 
-
-### Vintage CRT Monitor
+## Vintage CRT Monitor
 
 Look...
 
@@ -2676,8 +2667,7 @@ RUN
 
 </computer>
 
-
-### Retro 1980s Terminal
+## Retro 1980s Terminal
 
 Look...
 
@@ -2701,8 +2691,7 @@ Run `LOAD HELLO` to start
 
 </computer>
 
-
-### Simple Desktop (no stand)
+## Simple Desktop
 
 Look...
 
@@ -2728,8 +2717,6 @@ Sum: 30
 
 </computer>
 
-
-
 ## Classic Macintosh
 
 <computer type="mac">
@@ -2747,5 +2734,3 @@ The Apple Macintosh Plus is a personal computer designed, manufactured and sold 
 - 800 KB floppy drive
 
 </computer>
-
-

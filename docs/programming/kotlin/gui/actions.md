@@ -59,11 +59,17 @@ Any Swing component can respond to mouse events using `addMouseListener`(kotlin)
 | `mouseExited`(kotlin) | Mouse cursor moves off the component |
 
 ```kotlin
-titleLabel.addMouseListener(object : java.awt.event.MouseAdapter() {
-    override fun mouseEntered(e: java.awt.event.MouseEvent) {
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
+
+titleLabel.addMouseListener(object : MouseAdapter() {
+    override fun mouseEntered(e: MouseEvent) {
         titleLabel.text = "👀"
     }
-    override fun mouseExited(e: java.awt.event.MouseEvent) {
+    override fun mouseClicked(e: MouseEvent) {
+        titleLabel.text = "(${e.x}, ${e.y})"
+    }
+    override fun mouseExited(e: MouseEvent) {
         titleLabel.text = "My App"
     }
 })

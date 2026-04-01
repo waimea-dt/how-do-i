@@ -16,9 +16,9 @@
 </db-schema>
 
 
-<db-schema>
-
 ### With Details
+
+<db-schema>
 
 | users |       |         |               |
 | ----- | ----- | ------- | ------------- |

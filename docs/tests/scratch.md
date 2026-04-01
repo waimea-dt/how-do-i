@@ -1,4 +1,6 @@
-# The Stage
+# Scratch Blocks and Stage
+
+## The Stage
 
 ```scratch-stage
 stage axes #036
@@ -66,8 +68,9 @@ endstage
 ```
 
 
+## Scratch Blocks
 
-# Scratch Demos
+### Examples
 
 Here is some:
 
@@ -114,6 +117,8 @@ Look at that `<(A) = (B)>`(scratch) block!
 Yet across the gulf of space, minds that are to our minds as ours are to those of the beasts that perish, intellects vast and cool and unsympathetic, regarded this earth with envious eyes, and slowly and surely drew their plans against us. Look at that `repeat (10)`(scratch) block! What is beauty, or goodness, or art, or love, or God? We are forever teetering on the brink of the unknowable, and trying to understand what can't be understood. What is beauty, or goodness, or art, or love, or God? We are forever teetering on the brink of the unknowable, and trying to understand what can't be understood.
 
 
+
+### Full Reference
 
 ```scratch
 MOTION
