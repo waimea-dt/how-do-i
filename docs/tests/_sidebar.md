@@ -30,6 +30,7 @@
     - [Cards](tests/cards.md)
     - [Callouts](tests/callouts.md)
     - [Tables](tests/tables.md)
+    - [Definitions](tests/definitions.md)
 
 - <i data-lucide="bar-chart-2"></i>Visualisation
     - [Timeline](tests/timeline.md)

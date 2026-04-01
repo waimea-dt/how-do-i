@@ -37,10 +37,6 @@
 
     Values written directly in code instead of using variables or user input
 
-- OOP
-
-    Object-Oriented Programming - a way of organizing code using objects and classes
-
 
 ### Data Types
 
@@ -119,10 +115,6 @@
 
     Instructions executed one after another in order
 
-- selection
-
-    Choosing which code to run based on a condition (if statements)
-
 - condition
 
     Something that is either true or false
@@ -130,6 +122,14 @@
 - branch
 
     A point in code where different paths are chosen based on a condition
+
+- selection
+
+    Choosing which code to run based on a condition (if statements)
+
+- if statement
+
+    Chooses which code to run based on a condition, often paired with an else statement
 
 - iteration
 
@@ -146,6 +146,10 @@
 - while loop
 
     A loop that repeats as long as a condition is true
+
+- infinite loop
+
+    A loop that never stops repeating
 
 - recursion
 
@@ -359,6 +363,14 @@
 
 ## Object-Oriented Programming
 
+- OOP
+
+    Object-Oriented Programming - a way of organizing code using objects and classes
+
+- object-oriented programming
+
+    (OOP) a way of organizing code using objects and classes
+
 - class
 
     A blueprint for creating objects with properties and behaviors
@@ -472,9 +484,9 @@
 
     How easy software is to use
 
-- user experience (UX)
+- user experience
 
-    How a person feels when using software
+    (UX) How a person feels when using software
 
 - UX
 
@@ -708,9 +720,9 @@
 
     A secret word or phrase used to access an account
 
-- two-factor authentication (2FA)
+- two-factor authentication
 
-    Using two methods to prove your identity, like password plus phone code
+    (2FA) Using two methods to prove your identity, like password plus phone code
 
 - 2FA
 
@@ -772,9 +784,9 @@
 
     Tricking people into revealing passwords or sensitive information
 
-- cross-site scripting (XSS)
+- cross-site scripting
 
-    Injecting malicious code into a website to attack users
+    (XSS) Injecting malicious code into a website to attack users
 
 - XSS
 

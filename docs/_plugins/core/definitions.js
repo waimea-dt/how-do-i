@@ -81,8 +81,14 @@
           return;
         }
 
-        // Create case-insensitive regex for whole word matching with global flag
-        const regex = new RegExp(`\\b(${escapeRegExp(term)})\\b`, 'gi');
+        // Determine if term has any uppercase letters
+        // If it does, use exact/case-sensitive matching
+        const hasUppercase = /[A-Z]/.test(term);
+
+        // Use case-sensitive matching for terms with uppercase, case-insensitive for all-lowercase terms
+        const flags = hasUppercase ? 'g' : 'gi';
+        // Match term with optional trailing 's' for plurals
+        const regex = new RegExp(`\\b(${escapeRegExp(term)}s?)\\b`, flags);
         const text = node.textContent;
 
         // Check if there are any matches
