@@ -10,3 +10,104 @@
     border: 1px solid var(--border-color);
     box-shadow: var(--box-shadow);
 }
+
+
+/** Playlist Grid
+* Interactive grid of video thumbnails with player
+*/
+.markdown-section .playlist-grid-container {
+    --video-thumb-back-color:       var(--color-mono-1);
+    --video-thumb-text-color:       var(--color-mono-7);
+    --video-thumb-text-hover-color: var(--text-color);
+    --video-thumb-border-color:     var(--color-mono-3);
+    --video-thumb-hover-color:      var(--theme-color);
+    --video-thumb-current-color:    var(--highlight-color);
+
+    display: flex;
+    flex-direction: column;
+    margin: var(--margin-block) auto;
+
+    .playlist-grid-player {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .playlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+        gap: 1rem;
+
+        .playlist-grid-item {
+            aspect-ratio: 1;
+            cursor: pointer;
+            border: 2px solid var(--video-thumb-border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            padding-bottom: 0.25em;
+            transition: all 250ms ease;
+            background: var(--video-thumb-back-color);
+            box-shadow: var(--box-shadow-small);
+
+            .playlist-grid-thumbnail {
+                width: 100%;
+                max-width: unset;
+                aspect-ratio: 16 / 9;
+                object-fit: cover;
+                display: block;
+                margin: 0;
+                pointer-events: none;
+                opacity: 0.8;
+                transition: all 250ms ease;
+            }
+
+            .playlist-grid-title {
+                padding: 0.5em 0.75em;
+                font-size: 0.9rem;
+                line-height: 1.4;
+                font-weight: 500;
+                color: var(--video-thumb-text-color);
+                transition: all 250ms ease;
+                width: 100%;
+                aspect-ratio: 16 / 7;
+                position: relative;
+                overflow: hidden;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 1rem;
+                    background: linear-gradient(to bottom, transparent, var(--video-thumb-back-color));
+                    pointer-events: none;
+                }
+            }
+
+            &:not(.active):hover {
+                border-color: var(--video-thumb-hover-color);
+                box-shadow: var(--box-shadow);
+
+                .playlist-grid-thumbnail {
+                    opacity: 1;
+                }
+
+                .playlist-grid-title {
+                    color: var(--video-thumb-text-hover-color);
+                }
+            }
+
+            &.active {
+                border-color: var(--video-thumb-current-color);
+
+                .playlist-grid-thumbnail {
+                    opacity: 1;
+                }
+
+                .playlist-grid-title {
+                    color: var(--video-thumb-text-hover-color);
+                }
+            }
+        }
+    }
+}

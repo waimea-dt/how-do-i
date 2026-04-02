@@ -4,15 +4,14 @@
  * Usage in markdown:
  *   <videoembed id="62xlzGs8LXA">
  *   <videoembed playlist id="PLkUv3HSgBKrViKy1AwpIvThl5nNBiiocu">
+ *   <videoembed playlist-grid id="VIDEO_ID1,VIDEO_ID2,VIDEO_ID3">
  *
  * No closing tag needed! The plugin automatically adds closing tags before parsing.
  *
  * Becomes:
- *   <iframe class="video youtube" src="https://www.youtube.com/embed/62xlzGs8LXA"
- *           title="Video" frameborder="0"
- *           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
- *           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
- *   </iframe>
+ *   Single video - <iframe class="video youtube" src="https://www.youtube.com/embed/62xlzGs8LXA"...>
+ *   Playlist - <iframe class="video youtube" src="https://www.youtube.com/embed/videoseries?list=...">
+ *   Playlist Grid - Interactive grid of thumbnails with a shared player
  */
 
 ;(function () {
@@ -24,38 +23,137 @@
   }
 
   // Step 2: Convert properly closed videoembed tags to iframes
-  function processVideoEmbeds() {
+  async function processVideoEmbeds() {
     const videoEmbeds = document.querySelectorAll('videoembed')
 
-    videoEmbeds.forEach((videoEmbed) => {
+    for (const videoEmbed of videoEmbeds) {
       // Get the video ID from the id attribute
       const videoId = videoEmbed.getAttribute('id')
-      if (!videoId) return
+      if (!videoId) continue
 
-      // Check if this is a playlist
+      // Check what type of embed this is
       const isPlaylist = videoEmbed.hasAttribute('playlist')
+      const isPlaylistGrid = videoEmbed.hasAttribute('playlist-grid')
 
-      // Create the iframe element
-      const iframe = document.createElement('iframe')
-      iframe.className = 'video youtube'
-
-      // Set the appropriate URL based on whether it's a playlist or single video
-      if (isPlaylist) {
-        iframe.src = `https://www.youtube.com/embed/videoseries?list=${videoId}`
-        iframe.title = 'Video Playlist'
+      if (isPlaylistGrid) {
+        await processPlaylistGrid(videoEmbed, videoId)
       } else {
-        iframe.src = `https://www.youtube.com/embed/${videoId}`
-        iframe.title = 'Video'
+        processSingleOrPlaylist(videoEmbed, videoId, isPlaylist)
       }
+    }
+  }
 
-      iframe.setAttribute('frameborder', '0')
-      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
-      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
-      iframe.setAttribute('allowfullscreen', '')
+  // Process single video or playlist embed
+  function processSingleOrPlaylist(videoEmbed, videoId, isPlaylist) {
+    // Create the iframe element
+    const iframe = document.createElement('iframe')
+    iframe.className = 'video youtube'
 
-      // Replace the videoembed tag with the iframe
-      videoEmbed.parentNode.replaceChild(iframe, videoEmbed)
-    })
+    // Set the appropriate URL based on whether it's a playlist or single video
+    if (isPlaylist) {
+      iframe.src = `https://www.youtube.com/embed/videoseries?list=${videoId}`
+      iframe.title = 'Video Playlist'
+    } else {
+      iframe.src = `https://www.youtube.com/embed/${videoId}`
+      iframe.title = 'Video'
+    }
+
+    iframe.setAttribute('frameborder', '0')
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
+    iframe.setAttribute('allowfullscreen', '')
+
+    // Replace the videoembed tag with the iframe
+    videoEmbed.parentNode.replaceChild(iframe, videoEmbed)
+  }
+
+  // Process playlist-grid embed
+  async function processPlaylistGrid(videoEmbed, videoIds) {
+    const ids = videoIds.split(',').map(id => id.trim()).filter(id => id)
+    if (ids.length === 0) return
+
+    // Create container
+    const container = document.createElement('div')
+    container.className = 'playlist-grid-container'
+
+    // Create iframe for playing videos
+    const iframe = document.createElement('iframe')
+    iframe.className = 'video youtube playlist-grid-player'
+    iframe.src = `https://www.youtube.com/embed/${ids[0]}`
+    iframe.title = 'Video Player'
+    iframe.setAttribute('frameborder', '0')
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
+    iframe.setAttribute('allowfullscreen', '')
+
+    // Create grid for thumbnails
+    const grid = document.createElement('div')
+    grid.className = 'playlist-grid'
+
+    // Fetch video info and create thumbnails
+    for (const id of ids) {
+      const item = document.createElement('div')
+      item.className = 'playlist-grid-item'
+      item.dataset.videoId = id
+
+      // Create thumbnail
+      const thumbnail = document.createElement('img')
+      thumbnail.src = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`
+      thumbnail.alt = 'Video thumbnail'
+      thumbnail.className = 'playlist-grid-thumbnail'
+      thumbnail.loading = 'lazy'
+
+      // Create title (fetch from oembed)
+      const title = document.createElement('div')
+      title.className = 'playlist-grid-title'
+      title.textContent = 'Loading...'
+
+      // Add click handler to load video
+      item.addEventListener('click', () => {
+        iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`
+
+        // Update active state
+        grid.querySelectorAll('.playlist-grid-item').forEach(el => el.classList.remove('active'))
+        item.classList.add('active')
+      })
+
+      item.appendChild(thumbnail)
+      item.appendChild(title)
+      grid.appendChild(item)
+
+      // Fetch video title asynchronously
+      fetchVideoTitle(id).then(videoTitle => {
+        if (videoTitle) {
+          title.textContent = videoTitle
+        } else {
+          title.textContent = id
+        }
+      })
+    }
+
+    // Mark first item as active
+    grid.firstChild?.classList.add('active')
+
+    // Assemble container
+    container.appendChild(iframe)
+    container.appendChild(grid)
+
+    // Replace the videoembed tag
+    videoEmbed.parentNode.replaceChild(container, videoEmbed)
+  }
+
+  // Fetch video title from YouTube oembed API
+  async function fetchVideoTitle(videoId) {
+    try {
+      const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`)
+      if (response.ok) {
+        const data = await response.json()
+        return data.title
+      }
+    } catch (error) {
+      console.warn(`Failed to fetch title for video ${videoId}:`, error)
+    }
+    return null
   }
 
   var docsifyVideoEmbed = function (hook) {
