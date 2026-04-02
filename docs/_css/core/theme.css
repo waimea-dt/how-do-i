@@ -143,9 +143,13 @@
     /* Images */
     img,
     figure {
-        max-width: 90%;
+        max-width: 100%;
         display: block;
         margin: var(--margin-block) auto;
+
+        @container (min-width: 640px) {
+            max-width: 90%;
+        }
     }
 }
 

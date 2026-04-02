@@ -2,7 +2,7 @@
 
 <captioned>
 
-![Mac](_assets/macs/macintosh-happy.svg)
+![Mac](../_assets/macs/macintosh-happy.svg)
 
 Hello, human!
 
@@ -10,7 +10,7 @@ Hello, human!
 
 <captioned>
 
-![Mac](_assets/macs/macintosh-sad.svg)
+![Mac](../_assets/macs/macintosh-sad.svg)
 
 This Mac is sad because something went wrong.
 

@@ -23,9 +23,15 @@
     --video-thumb-hover-color:      var(--theme-color);
     --video-thumb-current-color:    var(--highlight-color);
 
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     margin: var(--margin-block) auto;
+    max-width: 100%;
+
+    @container (min-width: 640px) {
+        max-width: 90%;
+    }
 
     .playlist-grid-player {
         width: 100%;
@@ -34,8 +40,12 @@
 
     .playlist-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
         gap: 1rem;
+
+        @container (min-width: 640px) {
+            grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+        }
 
         .playlist-grid-item {
             aspect-ratio: 1;

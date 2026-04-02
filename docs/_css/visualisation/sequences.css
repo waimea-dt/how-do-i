@@ -45,7 +45,8 @@
     gap: 1em;
     justify-content: flex-start;
     position: relative;
-    transition: border-color 250ms;
+    transition: all 250ms;
+    box-shadow: var(--box-shadow-small);
 
     /* Center single-line content */
     &:not(:has(> :nth-child(2))) {
@@ -116,6 +117,7 @@
 
 .markdown-section .sequence > li.sequence-item:hover {
     border-color: var(--sequence-block-border-color--focus);
+    box-shadow: var(--box-shadow);
 }
 
 

@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="_css/content/cards.css">
     <link rel="stylesheet" href="_css/content/captions.css">
     <link rel="stylesheet" href="_css/content/speech.css">
-    <link rel="stylesheet" href="_css/content/video-embed.css">
+    <link rel="stylesheet" href="_css/content/videos.css">
     <!-- Graphics -->
     <link rel="stylesheet" href="_css/graphics/mermaid.css">
     <!-- Visualisation -->
@@ -85,6 +85,23 @@
             subMaxLevel: 2,
 
             auto2top: true,
+
+            search: {
+                maxAge: 86400000,           // Expiration time (1 day)
+                depth: 6,                   // Search heading depth
+                paths: [
+                    '/animation/',
+                    '/cs/',
+                    '/design/',
+                    '/minecraft/',
+                    '/programming/',
+                    '/sql/',
+                    '/web/'
+                ],
+                placeholder: 'Search...',
+                noData: 'No results found',
+                hideOtherSidebarContent: false,
+            },
 
             lucide: {
                 size: 18,
@@ -174,7 +191,7 @@
     <script defer src="_plugins/content/captions.js"></script>
     <script defer src="_plugins/content/speech.js"></script>
     <script defer src="_plugins/content/tables.js"></script>
-    <script defer src="_plugins/content/video-embed.js"></script>
+    <script defer src="_plugins/content/videos.js"></script>
 
     <!-- Graphics Plugins -->
     <script defer src="_plugins/graphics/mermaid-zoom.js"></script>

@@ -2,7 +2,7 @@
 
 <speak>
 
-![Mac](_assets/macs/macintosh-happy.svg)
+![Mac](../_assets/macs/macintosh-happy.svg)
 
 Hello, human!
 
@@ -10,7 +10,7 @@ Hello, human!
 
 <speak>
 
-![Mac](_assets/macs/macintosh-sad.svg)
+![Mac](../_assets/macs/macintosh-sad.svg)
 
 Oh no! Something went **terribly** wrong!
 
@@ -18,7 +18,7 @@ Oh no! Something went **terribly** wrong!
 
 <speak>
 
-![Mac](_assets/macs/macintosh-happy.svg)
+![Mac](../_assets/macs/macintosh-happy.svg)
 
 I'm *so* happy to see you today! This is going to be **great**!
 

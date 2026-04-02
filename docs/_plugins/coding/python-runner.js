@@ -201,7 +201,7 @@
                     autoCloseBrackets: true,
                     matchBrackets:     true,
                     indentUnit:        4,
-                    lineWrapping:      true,
+                    lineWrapping:      false,
                     viewportMargin:    Infinity,
                     styleActiveLine:   true,
                     lint:              true,

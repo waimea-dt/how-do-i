@@ -2,9 +2,23 @@
  * Layout, branding, breadcrumbs, and navigation structure
  */
 
- :root {
+:root {
     --sidebar-width:                  320px;
- }
+}
+
+/* Fix mobile toggle button sizing */
+.sidebar-toggle {
+    @media screen and not (any-hover) {
+        & {
+            width: var(--sidebar-toggle-width);
+
+            .sidebar-toggle-button {
+                width: calc(var(--sidebar-toggle-width) * 0.5);
+            }
+        }
+    }
+}
+
 
 :is(.sidebar) {
     --sidebar-bg:                     var(--color-mono-1);

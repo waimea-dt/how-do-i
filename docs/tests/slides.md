@@ -6,7 +6,7 @@ Normal docs content here...
 
 <slides>
 
-# Arrays â€” Your First Chest of Loot
+# Arrays... Your First Chest of Loot
 
 Store items in order, retrieve them by index.
 
@@ -65,7 +65,7 @@ Back to normal docs...
 
 <slides>
 
-# Arrays â€” Your First Chest of Loot
+# Arrays... Your First Chest of Loot
 
 Store items in order, retrieve them by index.
 

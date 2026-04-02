@@ -68,7 +68,10 @@
     }
 
     codapi-output {
+        --code-line-height: var(--code-output-line-height);
+
         display: block;
+        position: relative;
         background-color: var(--code-control-back-color);
         border-top: 1px solid var(--border-color);
         border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -86,8 +89,9 @@
                 width: 100%;
                 margin: 0;
                 border: none !important;
-                padding: 1rem 1.5rem !important;
-                font-family: var(--code-font-family), monospace;
+                padding: 1rem !important;
+                overflow-x: auto;
+                font-family: var(--code-font-family);
                 line-height: var(--code-output-line-height);
                 font-variant-ligatures: none;
                 font-feature-settings: "liga" 0, "calt" 0;
@@ -95,8 +99,9 @@
         }
 
         a[href="#close"] {
-            float: right;
-            margin-right: 0.75em;
+            position: absolute;
+            right: 0.75em;
+            top: 0.25em;
             color: var(--code-control-color);
             text-decoration: none;
             cursor: pointer;

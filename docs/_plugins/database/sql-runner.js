@@ -219,7 +219,7 @@
                     autoCloseBrackets: true,
                     matchBrackets:     true,
                     indentUnit:        2,
-                    lineWrapping:      true,
+                    lineWrapping:      false,
                     viewportMargin:    Infinity,
                     styleActiveLine:   true,
                     lint:              true,

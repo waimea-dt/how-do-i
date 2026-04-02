@@ -2,16 +2,9 @@
  * Color scheme and styling for inline code and code blocks
  */
 
-/* Use Consolas for box-drawing characters — JetBrains Mono renders them at the wrong width */
-@font-face {
-    font-family: "JetBrains Mono";
-    src: local("Consolas"), local("DejaVu Sans Mono"), local("Courier New");
-    unicode-range: U+2500-U+257F; /* Box Drawing */
-}
-
 :root {
     /* Typography */
-    --code-font-family:          "JetBrains Mono", "Consolas";
+    --code-font-family:          "Consolas", "DejaVu Sans Mono", "Courier New", monospace;
     --code-font-size:            1em;
     --code-line-height:          1.3;
     --code-output-line-height:   1.1;
@@ -100,7 +93,7 @@
 .markdown-section :not(pre) > code[class*="language-"] {
     color: var(--code-fg-color);
     background-color: var(--code-bg-color);
-    font-family: var(--code-font-family), monospace;
+    font-family: var(--code-font-family);
     font-optical-sizing: auto;
     word-break: normal;
     font-size: var(--code-font-size);

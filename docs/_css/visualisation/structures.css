@@ -4,7 +4,7 @@
 
 /* Container */
 .markdown-section .structure {
-    --structure-outer-color: var(--color-mono-3);
+    --structure-outer-color: var(--theme-color-3);
     --structure-color-1:     var(--palette-color-1-dark);
     --structure-color-2:     var(--palette-color-2-dark);
     --structure-color-3:     var(--palette-color-3-dark);
