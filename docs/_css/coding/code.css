@@ -4,7 +4,7 @@
 
 :root {
     /* Typography */
-    --code-font-family:          "Consolas", "DejaVu Sans Mono", "Courier New", monospace;
+    --code-font-family:          var(--font-family-mono);
     --code-font-size:            1em;
     --code-line-height:          1.3;
     --code-output-line-height:   1.1;

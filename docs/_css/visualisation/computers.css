@@ -127,7 +127,7 @@ computer {
         code {
             background-color: transparent;
             color: inherit;
-            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-family: var(--code-font-family);
         }
     }
 
@@ -358,7 +358,7 @@ computer:is([type="vintage"], [type="1980s"]) {
     padding: var(--computer-bezel-width--vintage);
     padding-bottom: calc(1.4 * var(--computer-bezel-width--vintage));
     aspect-ratio: var(--computer-screen-ratio);
-    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    font-family: var(--code-font-family);
     border-radius: calc(0.2 * var(--computer-bezel-width--vintage));
     background-color: var(--computer-bezel-color--vintage);
     background-image: none;
@@ -388,7 +388,7 @@ computer:is([type="vintage"], [type="1980s"]) {
     .screen-outer-wrapper {
         width: 100%;
         aspect-ratio: var(--computer-screen-ratio);
-        font-family: 'JetBrains Mono', 'Consolas', monospace;
+        font-family: var(--code-font-family);
         background-image: var(--computer-screen-back--vintage);
         border-radius: calc(0.3 * var(--computer-bezel-width--vintage));
 
@@ -441,7 +441,7 @@ computer[type="mac"] {
     padding: calc(1.5 * var(--computer-bezel-width--vintage));
     padding-bottom: calc(6 * var(--computer-bezel-width--vintage));
     aspect-ratio: 5/6;
-    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    font-family: var(--code-font-family);
     border-radius: calc(0.4 * var(--computer-bezel-width--vintage));
     background-color: var(--computer-bezel-color--vintage);
     background-image: none;
@@ -485,7 +485,7 @@ computer[type="mac"] {
     .screen-outer-wrapper {
         width: 100%;
         aspect-ratio: var(--computer-screen-ratio);
-        font-family: 'JetBrains Mono', 'Consolas', monospace;
+        font-family: var(--code-font-family);
         background-image: var(--computer-screen-back--vintage);
         border-radius: calc(0.6 * var(--computer-bezel-width--vintage));
 

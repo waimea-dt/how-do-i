@@ -50,7 +50,7 @@
 
     /* Typography */
     --font-family:                system-ui, sans-serif;
-    --font-family-mono:           'JetBrains Mono', ui-monospace, Consolas, monospace;
+    --font-family-mono:           "Source Code Pro", monospace;
     --font-size:                  18px;
     --font-size-mono:             1em;
     --line-height:                1.5;
