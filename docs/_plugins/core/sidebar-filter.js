@@ -11,78 +11,160 @@
  */
 (function () {
     // Custom block tags whose headings should NOT appear in the sub-sidebar.
-    // Only for plugins that preserve the original tag name in the DOM.
     var EXCLUDED_TAGS = [
-        'computer',  // Keeps <computer> tag
+        'computer',
+        'flashcards',
+        'cards',
+        'slides',
+        'sequence',
+        'structure',
+        'timeline',
+        'hierarchy',
+        'filetree',
+        'quiz',
     ];
 
-    // Most plugins transform their tags before doneEach runs (remove wrapper, add class).
-    // Scan for their post-transformation selectors instead of raw tag names.
+    // Transformed selectors after plugins process in doneEach
     var EXCLUDED_SELECTORS = [
-        'ul.flash-cards',               // <flashcards> → <ul class="flash-cards">
-        'div.cards-container',          // <cards> → <div class="cards-container">
-        'div.docsify-slide-deck',       // <slides> → <div class="reveal docsify-slide-deck">
-        'ol.sequence',                  // <sequence> → <ol class="sequence">
-        'ul.structure',                 // <structure> → <ul class="structure">
-        'ol.structure',                 // <structure> → <ol class="structure"> (for ordered)
-        'dl.timeline',                  // <timeline> → <dl class="timeline">
-        'div.hierarchy-scroll-wrapper', // <hierarchy> → <div class="hierarchy-scroll-wrapper">
-        'ul.file-tree',                 // <file-tree> → <ul class="file-tree">
-        'ul.quiz',                      // <quiz> → <ul class="quiz">
+        'ul.flash-cards',
+        'div.cards-container',
+        'div.docsify-slide-deck',
+        'ol.sequence',
+        'ul.structure',
+        'ol.structure',
+        'dl.timeline',
+        'div.hierarchy-scroll-wrapper',
+        'div.computer-screen-content',
+        'ul.file-tree',
+        'ul.quiz',
     ];
 
     var docsifySidebarFilter = function (hook) {
-        hook.doneEach(function () {
-            // Collect IDs of headings inside custom tags from the live DOM
+        var sidebarObserver = null;
+
+        function getExcludedHeadingIds() {
             var excludedIds = [];
             var section = document.querySelector('.markdown-section');
 
-            if (section) {
-                EXCLUDED_TAGS.forEach(function (tag) {
-                    section.querySelectorAll(tag).forEach(function (container) {
-                        container.querySelectorAll('h1[id], h2[id], h3[id]').forEach(function (h) {
-                            if (h.id) excludedIds.push(h.id);
-                        });
+            if (!section) return excludedIds;
+
+            // Check raw tag names
+            EXCLUDED_TAGS.forEach(function(tag) {
+                section.querySelectorAll(tag).forEach(function(container) {
+                    container.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').forEach(function(h) {
+                        if (h.id) excludedIds.push(h.id);
                     });
                 });
+            });
 
-                EXCLUDED_SELECTORS.forEach(function (selector) {
-                    section.querySelectorAll(selector).forEach(function (container) {
-                        container.querySelectorAll('h1[id], h2[id], h3[id]').forEach(function (h) {
-                            if (h.id) excludedIds.push(h.id);
-                        });
+            // Check transformed selectors
+            EXCLUDED_SELECTORS.forEach(function(selector) {
+                section.querySelectorAll(selector).forEach(function(container) {
+                    container.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').forEach(function(h) {
+                        if (h.id) excludedIds.push(h.id);
                     });
                 });
-            }
+            });
 
-            // Remove sub-sidebar entries for excluded heading IDs
-            // Before removing, promote children to parent level to preserve non-excluded headings
-            if (excludedIds.length > 0) {
-                document.querySelectorAll('.app-sub-sidebar li').forEach(function (li) {
-                    var a = li.querySelector('a');
-                    if (!a) return;
-                    var href = decodeURIComponent(a.getAttribute('href') || '');
+            return excludedIds;
+        }
 
-                    var shouldRemove = excludedIds.some(function(id) {
-                        return href.includes('id=' + id);
-                    });
+        function filterSidebar() {
+            var excludedIds = getExcludedHeadingIds();
+            if (excludedIds.length === 0) return 0;
 
-                    if (shouldRemove) {
-                        // Before removing, promote any children to this li parent
-                        var childUl = li.querySelector(':scope > ul');
-                        if (childUl && li.parentElement) {
-                            var children = Array.from(childUl.children);
-                            children.forEach(function(child) {
-                                li.parentElement.insertBefore(child, li);
-                            });
-                        }
-                        li.remove();
+            var sidebar = document.querySelector('.app-sub-sidebar');
+            if (!sidebar) return 0;
+
+            var removedCount = 0;
+            sidebar.querySelectorAll('li').forEach(function(li) {
+                var link = li.querySelector(':scope > a');
+                if (!link) return;
+
+                var href = decodeURIComponent(link.getAttribute('href') || '');
+
+                var shouldRemove = excludedIds.some(function(id) {
+                    return href.includes('id=' + id);
+                });
+
+                if (shouldRemove) {
+                    // Promote children before removing
+                    var childUl = li.querySelector(':scope > ul');
+                    if (childUl && li.parentElement) {
+                        Array.from(childUl.children).forEach(function(child) {
+                            li.parentElement.insertBefore(child, li);
+                        });
                     }
-                });
+                    li.remove();
+                    removedCount++;
+                }
+            });
+
+            return removedCount;
+        }
+
+        function watchSidebar() {
+            if (sidebarObserver) {
+                sidebarObserver.disconnect();
             }
+
+            var sidebarNav = document.querySelector('.sidebar-nav');
+            if (!sidebarNav) return;
+
+            // Continuous cleanup with RAF until stable
+            var stableCount = 0;
+            var lastRemoved = -1;
+
+            function cleanupLoop() {
+                var removed = filterSidebar();
+
+                if (removed > 0 || removed !== lastRemoved) {
+                    // Still changing, keep checking
+                    lastRemoved = removed;
+                    stableCount = 0;
+                    requestAnimationFrame(cleanupLoop);
+                } else {
+                    // Stable, but verify a few more times
+                    stableCount++;
+                    if (stableCount < 20) {
+                        requestAnimationFrame(cleanupLoop);
+                    }
+                }
+            }
+
+            sidebarObserver = new MutationObserver(function(mutations) {
+                // Check if the app-sub-sidebar was added or modified
+                var relevant = mutations.some(function(m) {
+                    if (m.addedNodes.length > 0) return true;
+                    if (m.target.classList && m.target.classList.contains('app-sub-sidebar')) return true;
+                    return false;
+                });
+
+                if (relevant) {
+                    stableCount = 0;
+                    lastRemoved = -1;
+                    requestAnimationFrame(cleanupLoop);
+                }
+            });
+
+            sidebarObserver.observe(sidebarNav, {
+                childList: true,
+                subtree: true
+            });
+
+            // Start continuous cleanup
+            requestAnimationFrame(cleanupLoop);
+        }
+
+        hook.doneEach(function() {
+            watchSidebar();
+        });
+
+        hook.ready(function() {
+            watchSidebar();
         });
     };
 
     window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [docsifySidebarFilter].concat(window.$docsify.plugins || []);
+    window.$docsify.plugins = (window.$docsify.plugins || []).concat(docsifySidebarFilter);
 })();
