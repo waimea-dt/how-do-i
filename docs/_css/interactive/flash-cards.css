@@ -58,12 +58,12 @@
 
         transform-style: preserve-3d;
         transition: transform var(--flash-flip-time) ease;
-        transform: rotateY(0deg);
+        transform: rotateX(0deg);
 
         &.hidden { display: none; }
 
         &.revealed {
-            transform: rotateY(-180deg);
+            transform: rotateX(-180deg);
         }
 
         :is(h1, h2, h3, h4, h5, h6, p) {
@@ -108,13 +108,13 @@
 
         .card-front {
             /* font-size: var(--flash-question-text-size); */
-            transform: rotateY(0deg);
+            transform: rotateX(0deg);
         }
 
         .card-back {
             /* font-size: var(--flash-answer-text-size); */
             background-color: var(--flash-answer-back-color);
-            transform: rotateY(180deg);
+            transform: rotateX(180deg);
         }
 
         code {

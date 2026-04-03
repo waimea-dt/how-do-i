@@ -119,6 +119,10 @@
 
                 card.addEventListener('click', () => card.classList.toggle('revealed'))
                 card.addEventListener('mousedown', (e) => { if (e.detail > 1) e.preventDefault() })
+
+                // Add swipe gesture support
+                addSwipeSupport(card, changeCard, revealCurrentCard)
+
                 removeLinks(card)
                 convertImagesToParaBacks(card)
             })
@@ -162,6 +166,55 @@
         })
 
         cleanupWindowListeners = () => cleanups.forEach(fn => fn())
+    }
+
+
+    function addSwipeSupport(card, changeCard, revealCurrentCard) {
+        let touchStartX = 0
+        let touchStartY = 0
+        let touchEndX = 0
+        let touchEndY = 0
+
+        const minSwipeDistance = 50  // Minimum distance in pixels to register as a swipe
+
+        card.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX
+            touchStartY = e.changedTouches[0].screenY
+        })
+
+        card.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX
+            touchEndY = e.changedTouches[0].screenY
+            handleSwipe()
+        })
+
+        function handleSwipe() {
+            const deltaX = touchEndX - touchStartX
+            const deltaY = touchEndY - touchStartY
+            const absDeltaX = Math.abs(deltaX)
+            const absDeltaY = Math.abs(deltaY)
+
+            // Determine if swipe is primarily horizontal or vertical
+            if (absDeltaX > absDeltaY && absDeltaX > minSwipeDistance) {
+                // Horizontal swipe
+                if (deltaX > 0) {
+                    // Right swipe -> previous card
+                    changeCard(-1)
+                } else {
+                    // Left swipe -> next card
+                    changeCard(1)
+                }
+            } else if (absDeltaY > absDeltaX && absDeltaY > minSwipeDistance) {
+                // Vertical swipe
+                if (deltaY < 0) {
+                    // Up swipe -> flip card
+                    revealCurrentCard()
+                }
+                else {
+                    revealCurrentCard()
+                }
+            }
+        }
     }
 
 

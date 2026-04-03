@@ -16,10 +16,10 @@ Secret test pages!
 
 - [ ] Code runner fake input... should this be shown?
 - [ ] Request sequence on mobile... Better to use scrolling?
-- [ ] Swipe on flash cards?
 
 ### Done
 
+- [x] Swipe on flash cards?
 - [x] Video embedding
 - [x] Scrolling on codeapi editor and output
 - [x] Kotlin runner code font is not monospace (mobile only?) and also for codeapi
