@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="1024" height="694" viewBox="0 0 1024 694" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter color-interpolation-filters="sRGB" x="-1022" y="-692" width="1024" height="694" id="tablet_filter_1">
+      <feFlood flood-opacity="0" result="BackgroundImageFix_1" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix_1" result="Shape_2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_3" />
+      <feMorphology radius="0.5" operator="erode" in="SourceAlpha" />
+      <feOffset dx="0" dy="0" />
+      <feGaussianBlur stdDeviation="0.5" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_3" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.667 0 0 0 0 0.667 0 0 0 0 0.667 0 0 0 1 0" />
+      <feBlend mode="normal" in2="Shape_2" result="InnerShadow_4" />
+    </filter>
+    <linearGradient id="tablet_gradient_2" gradientUnits="userSpaceOnUse" x1="482" y1="0" x2="482" y2="634">
+      <stop offset="0" stop-color="#101652" />
+      <stop offset="1" stop-color="#173073" />
+    </linearGradient>
+  </defs>
+  <g>
+    <g>
+      <path d="M20 0L1004 0C1015.05 0 1024 8.9528 1024 20L1024 674C1024 685.047 1015.05 694 1004 694L20 694C8.9528 694 0 685.047 0 674L0 20C0 8.9528 8.9528 0 20 0L20 0Z" fill="#6D6E70" filter="url(#tablet_filter_1)" />
+      <path d="M19 0L1003 0C1013.49 0 1022 8.50516 1022 19L1022 673C1022 683.495 1013.49 692 1003 692L19 692C8.50516 692 0 683.495 0 673L0 19C0 8.50516 8.50516 0 19 0L19 0Z" fill="#000000" transform="translate(1 1)" />
+    </g>
+    <rect width="964" height="634" fill="url(#tablet_gradient_2)" transform="translate(30 30)" />
+  </g>
+</svg>

@@ -9,16 +9,16 @@ Secret test pages!
 ### Plugin Tasks
 
 - [ ] Tidy up the data views - borders, etc.
-- [ ] Fix the Mac screen view... Worth it?
-- [ ] Computer screens - font size too big on mobile
 
 ### Feature Ideas
 
 - [ ] Code runner fake input... should this be shown?
-- [ ] Request sequence on mobile... Better to use scrolling?
 
 ### Done
 
+- [x] Fix the Mac screen view... Worth it?
+- [x] Computer screens - font size too big on mobile
+- [x] Request sequence on mobile... Better to use scrolling?
 - [x] Swipe on flash cards?
 - [x] Video embedding
 - [x] Scrolling on codeapi editor and output

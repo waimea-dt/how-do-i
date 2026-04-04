@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="2360" height="2103" viewBox="0 0 2360 2103" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vintage_gradient_1" gradientUnits="userSpaceOnUse" x1="0" y1="93" x2="1271.997" y2="93">
+      <stop offset="0" stop-color="#D9D7D4" />
+      <stop offset="1" stop-color="#424140" />
+    </linearGradient>
+    <radialGradient id="vintage_gradient_2" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="matrix(0 133 -885.362 0 375.817 151)">
+      <stop offset="0" stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#918F8A" />
+    </radialGradient>
+    <linearGradient id="vintage_gradient_3" gradientUnits="userSpaceOnUse" x1="635.999" y1="78" x2="593.949" y2="388">
+      <stop offset="0" stop-color="#5C5B59" />
+      <stop offset="1" stop-color="#918F8A" stop-opacity="0" />
+    </linearGradient>
+    <filter color-interpolation-filters="sRGB" x="-2358" y="-1898" width="2360" height="1900" id="vintage_filter_4">
+      <feFlood flood-opacity="0" result="BackgroundImageFix_1" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix_1" result="Shape_2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_3" />
+      <feOffset dx="-6" dy="-6" />
+      <feGaussianBlur stdDeviation="2" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_3" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.498 0" />
+      <feBlend mode="normal" in2="Shape_2" result="InnerShadow_4" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_5" />
+      <feOffset dx="6" dy="6" />
+      <feGaussianBlur stdDeviation="2" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_5" />
+      <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.498 0" />
+      <feBlend mode="normal" in2="InnerShadow_4" result="InnerShadow_6" />
+    </filter>
+    <filter color-interpolation-filters="sRGB" x="-2058" y="-1558" width="2060" height="1560" id="vintage_filter_5">
+      <feFlood flood-opacity="0" result="BackgroundImageFix_1" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix_1" result="Shape_2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_3" />
+      <feOffset dx="30" dy="30" />
+      <feGaussianBlur stdDeviation="10" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_3" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.498 0" />
+      <feBlend mode="normal" in2="Shape_2" result="InnerShadow_4" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_5" />
+      <feOffset dx="-30" dy="-30" />
+      <feGaussianBlur stdDeviation="10" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_5" />
+      <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.498 0" />
+      <feBlend mode="normal" in2="InnerShadow_4" result="InnerShadow_6" />
+    </filter>
+    <filter color-interpolation-filters="sRGB" x="-118" y="-58" width="120" height="60" id="vintage_filter_6">
+      <feFlood flood-opacity="0" result="BackgroundImageFix_1" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix_1" result="Shape_2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_3" />
+      <feOffset dx="-4" dy="-4" />
+      <feGaussianBlur stdDeviation="1" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_3" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.498 0" />
+      <feBlend mode="normal" in2="Shape_2" result="InnerShadow_4" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_5" />
+      <feOffset dx="4" dy="4" />
+      <feGaussianBlur stdDeviation="1" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_5" />
+      <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.498 0" />
+      <feBlend mode="normal" in2="InnerShadow_4" result="InnerShadow_6" />
+    </filter>
+    <filter color-interpolation-filters="sRGB" x="-50" y="-21" width="52" height="23" id="vintage_filter_7">
+      <feFlood flood-opacity="0" result="BackgroundImageFix_1" />
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix_1" result="Shape_2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" result="HardAlpha_3" />
+      <feOffset dx="0" dy="0" />
+      <feGaussianBlur stdDeviation="2.5" />
+      <feComposite operator="arithmetic" k2="-1" k3="1" in2="HardAlpha_3" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.216 0 0 0 0 0.569 0 0 0 0 0 0 0 0 1 0" />
+      <feBlend mode="normal" in2="Shape_2" result="InnerShadow_4" />
+    </filter>
+    <radialGradient id="vintage_gradient_8" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="matrix(0 750 -1000 0 1000 750)">
+      <stop offset="0" stop-color="#1E451C" />
+      <stop offset="1" stop-color="#1B1F19" />
+    </radialGradient>
+  </defs>
+  <g>
+    <g transform="translate(544 1819)">
+      <path d="M5.39235e-05 93C5.39235e-05 41.6375 0 70.9967 0 50.5C0 28.6646 284.748 0 636.002 0C987.257 0 1272 26.4801 1272 50.5C1272 72.3689 1272 41.6375 1272 93C1272 144.363 987.257 186 636.002 186C284.748 186 5.39235e-05 144.363 5.39235e-05 93Z" fill="url(#vintage_gradient_1)" fill-rule="evenodd" transform="translate(0 98)" />
+      <path d="M0 149C0 97.6375 284.746 0 635.999 0C987.251 0 1272 97.6375 1272 149C1272 200.362 987.251 242 635.999 242C284.746 242 0 200.362 0 149Z" fill="url(#vintage_gradient_2)" fill-rule="evenodd" />
+      <path d="M0 149C0 97.6375 284.746 0 635.999 0C987.251 0 1272 97.6375 1272 149C1272 200.362 987.251 242 635.999 242C284.746 242 0 200.362 0 149Z" fill="url(#vintage_gradient_3)" fill-rule="evenodd" />
+    </g>
+    <g>
+      <path d="M40 0L2320 0C2342.09 0 2360 17.9056 2360 40L2360 1860C2360 1882.09 2342.09 1900 2320 1900L40 1900C17.9056 1900 0 1882.09 0 1860L0 40C0 17.9056 17.9056 0 40 0L40 0Z" fill="#B5B3AE" filter="url(#vintage_filter_4)" />
+      <path d="M80 0L1980 0C2024.19 0 2060 35.8112 2060 80L2060 1480C2060 1524.19 2024.19 1560 1980 1560L80 1560C35.8112 1560 0 1524.19 0 1480L0 80C0 35.8112 35.8112 0 80 0L80 0Z" fill="#B5B3AE" filter="url(#vintage_filter_5)" transform="translate(150 150)" />
+      <path d="M5 0L115 0C117.762 0 120 2.23816 120 5L120 55C120 57.7618 117.762 60 115 60L5 60C2.23816 60 0 57.7618 0 55L0 5C0 2.23816 2.23816 0 5 0L5 0Z" fill="#B5B3AE" stroke-width="2" stroke="#7C7872" filter="url(#vintage_filter_6)" transform="translate(2040 1774)" />
+      <path d="M2 0L50 0C51.1047 0 52 0.895264 52 2L52 21C52 22.1047 51.1047 23 50 23L2 23C0.895264 23 0 22.1047 0 21L0 2C0 0.895264 0.895264 0 2 0L2 0Z" fill="#63FF03" stroke-width="1" stroke="#379100" filter="url(#vintage_filter_7)" transform="translate(1931 1794)" />
+    </g>
+    <path d="M60 0L1940 0C1973.14 0 2000 26.8584 2000 60L2000 1440C2000 1473.14 1973.14 1500 1940 1500L60 1500C26.8584 1500 0 1473.14 0 1440L0 60C0 26.8584 26.8584 0 60 0L60 0Z" fill="url(#vintage_gradient_8)" transform="translate(180 180)" />
+  </g>
+</svg>

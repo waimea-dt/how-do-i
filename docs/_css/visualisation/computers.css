@@ -1,107 +1,52 @@
 /** Computer Displays
- * Desktop, tablet, mobile, and vintage computer screen visualizations
+ * SVG-based computer screen visualizations
  */
+
 computer {
-    --computer-screen-back: linear-gradient(150deg, #024 0%, #048 100%);
-    --computer-screen-back--vintage: radial-gradient(#120 0%, #120 50%, #000 100%);
-
-    --computer-text-color: #ddd;
+    /* Text colors for different screen types */
+    --computer-text-color:          var(--text-color);
+    --computer-text-inv-color:      var(--color-mono-1);
     --computer-text-color--vintage: #af7;
-    --computer-text-color--strong: #c61;
 
-    --computer-window-back-color: #ddd;
-    --computer-window-text-color: #222;
-    --computer-window-border-color: #369;
-    --computer-window-titlebar-color: #79b;
-
-    --computer-taskbar-back-color: #024;
-    --computer-taskbar-text-color: #369;
-
-    --computer-bezel-color: #111;
-    --computer-bezel-color--high: #444;
-    --computer-bezel-color--low: #000;
-
-    --computer-bezel-color--tablet: #111;
-    --computer-bezel-color--tablet--high: #666;
-    --computer-bezel-color--tablet--low: #000;
-
-    --computer-bezel-color--vintage: #c5bbb2;
-    --computer-bezel-color--vintage--high: #f1e9d8;
-    --computer-bezel-color--vintage--low: #574e44;
-
-    --computer-base-color: #111;
-    --computer-base-color--high: #333;
-    --computer-base-color--low: #000;
-
-    --computer-base-color--vintage: #a98;
-    --computer-base-color--vintage--low: #432;
-
-    --computer-shadow-color: #0007;
-
-    --computer-screen-width--desktop: 40em;
-    --computer-screen-width--tablet: 30em;
-    --computer-screen-width--mobile: 13em;
-    --computer-screen-width--vintage: 35em;
-
-    --computer-screen-ratio: 4/3.3;
-    --computer-screen-ratio--wide: 16/10;
-    --computer-screen-ratio--mobile: 9/16;
-
-    --computer-bezel-width: 0.5em;
-    --computer-bezel-width--vintage: min(6vw, 2.7em);
-
-    --computer-base-height: min(8vw, 3em);
-    --computer-base-height--vintage: min(9vw, 4em);
-
-    /* Base Styles */
+    /* Base display */
     display: block;
-    width: calc(100% - (2.2 * var(--computer-bezel-width)));
-    max-width: var(--computer-screen-width--desktop);
-    aspect-ratio: var(--computer-screen-ratio--wide);
-    margin: var(--margin-block) auto;
-    padding: 0;
     position: relative;
-
-    background-image: var(--computer-screen-back);
-    color: var(--computer-text-color);
+    margin: var(--margin-block) auto;
+    width: 100%;
     font-style: normal;
+    color: var(--computer-text-color);
 
-    .screen-outer-wrapper {
-        margin: var(--computer-bezel-width) calc(2px + var(--computer-bezel-width));
+    /* Define as container for cqw units */
+    container-type: inline-size;
+
+    /* SVG frame fills the container */
+    .computer-frame {
+        display: block;
         width: 100%;
         height: 100%;
-        margin-inline: 0;
+        ;
     }
 
-    .screen-wrapper {
-        width: 100%;
-        height: 100%;
-        margin-inline: 0;
-        padding: 1.2em max(1.1em, calc((100% - 50ch) / 2));
-        margin: 0 auto;
+    /* Content wrapper overlays the screen area */
+    .computer-screen-content {
+        position: absolute;
         overflow-y: auto;
+        padding: 1.2em;
 
         display: flex;
         flex-direction: column;
-        gap: 1.2em;
-        justify-content: safe center;
+        gap: 0.75em;
 
-        font-size: 0.8em;
+        font-size: max(0.8em, 2.5cqw);
+        font-family: var(--code-font-family);
 
         & > * {
             line-height: 1.2 !important;
             margin: 0 !important;
-            padding: 0 !important;
             color: inherit !important;
             border: none;
-        }
-
-        & > :first-child {
-            margin-top: 0;
-        }
-
-        & > :last-child {
-            margin-bottom: 0;
+            flex-shrink: 0;
+            height: fit-content;
         }
 
         :is(h1, h2, h3, h4, h5, h6) {
@@ -109,443 +54,135 @@ computer {
             color: inherit !important;
         }
 
-        h1 { font-size: 2.0em !important; }
-        h2 { font-size: 1.6em !important; }
-        h3 { font-size: 1.4em !important; }
-        h4 { font-size: 1.2em !important; }
-        h5 { font-size: 1.1em !important; }
+        h1 { font-size: 1.3em !important; }
+        h2 { font-size: 1.2em !important; }
+        h3 { font-size: 1.15em !important; }
+        h4 { font-size: 1.1em !important; }
+        h5 { font-size: 1.05em !important; }
         h6 { font-size: 1.0em !important; }
-
-        strong {
-            color: inherit !important;
-        }
 
         img {
             max-width: min(100%, 30ch);
         }
 
-        code {
-            background-color: transparent;
+        code, pre {
             color: inherit;
             font-family: var(--code-font-family);
         }
-    }
 
-    .screen-decor {
-        position: absolute;
-    }
-}
+        pre[data-lang] > code {
+            padding: 0.7em 0.9em !important;
+        }
 
+        em, strong {
+            color: inherit;
+        }
 
-/* TYPE: DESKTOP / SIMPLE */
-computer:is([type="desktop"], [type="simple"]) {
-    margin-bottom: calc(var(--computer-base-height) + var(--margin-block));
-
-    box-shadow:
-        0    1px 0 0                           var(--computer-bezel-color--high),
-        1px  0   0 0                           var(--computer-bezel-color--high),
-        0   -1px 0 0                           var(--computer-bezel-color--low),
-        -1px  0   0 0                           var(--computer-bezel-color--low),
-        0    0   0 var(--computer-bezel-width) var(--computer-bezel-color),
-        0   -1px 0 var(--computer-bezel-width) var(--computer-bezel-color--high),
-        -1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--high),
-        0    1px 0 var(--computer-bezel-width) var(--computer-bezel-color--low),
-        1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--low);
-
-    /* Stand Pole */
-    &::before {
-        content: "";
-        z-index: -1;
-        position: absolute;
-        width: calc(0.8 * var(--computer-base-height));
-        height: var(--computer-base-height);
-        bottom: calc(-0.75 * var(--computer-base-height));
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 0 0 50% 50% / 97% 97% 3% 3%;
-        background-image: linear-gradient(
-            to right,
-            var(--computer-base-color--high),
-            var(--computer-base-color--low)
-        );
-        box-shadow: inset 0 1em 1em var(--computer-base-color--low);
-    }
-
-    /* Stand Base */
-    &::after {
-        content: "";
-        z-index: -2;
-        position: absolute;
-        width: 35%;
-        height: calc(0.4 * var(--computer-base-height));
-        bottom: calc(-1.1 * var(--computer-base-height));
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 50% / 70% 70% 30% 30%;
-        background-color: var(--computer-base-color);
-        box-shadow:
-            inset 1.5em   0.5em 1em -0.75em var(--computer-base-color--high),
-            inset  -1em -0.25em 1em  0.5em var(--computer-base-color--low);
-    }
-}
-
-
-/* TYPE: WINDOW */
-computer[type="window"] {
-    margin-bottom: calc(var(--computer-base-height) + var(--margin-block));
-
-    box-shadow:
-        0    1px 0 0                           var(--computer-bezel-color--high),
-        1px  0   0 0                           var(--computer-bezel-color--high),
-        0   -1px 0 0                           var(--computer-bezel-color--low),
-        -1px  0   0 0                           var(--computer-bezel-color--low),
-        0    0   0 var(--computer-bezel-width) var(--computer-bezel-color),
-        0   -1px 0 var(--computer-bezel-width) var(--computer-bezel-color--high),
-        -1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--high),
-        0    1px 0 var(--computer-bezel-width) var(--computer-bezel-color--low),
-        1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--low);
-
-    /* Stand Pole */
-    &::before {
-        content: "";
-        z-index: -1;
-        position: absolute;
-        width: calc(0.6 * var(--computer-base-height));
-        height: var(--computer-base-height);
-        bottom: calc(-0.75 * var(--computer-base-height));
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 0 0 50% 50% / 97% 97% 3% 3%;
-        background-image: linear-gradient(
-            to right,
-            var(--computer-base-color--high),
-            var(--computer-base-color--low)
-        );
-        box-shadow: inset 0 1em 1em var(--computer-base-color--low);
-    }
-
-    /* Stand Base */
-    &::after {
-        content: "";
-        z-index: -2;
-        position: absolute;
-        width: 35%;
-        height: calc(0.4 * var(--computer-base-height));
-        bottom: calc(-1.1 * var(--computer-base-height));
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 45% / 70% 70% 20% 20%;
-        background-color: var(--computer-base-color);
-        box-shadow:
-            inset 1.5em   0.5em 1em -0.75em var(--computer-base-color--high),
-            inset  -1em -0.25em 1em  0.5em var(--computer-base-color--low);
-    }
-
-    .screen-outer-wrapper {
-        position: absolute;
-        width: 70%;
-        height: 80%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -52%);
-        background-color: var(--computer-window-titlebar-color);
-        border: 1px solid var(--computer-window-border-color);
-        padding-top: 0.6em;
-        box-shadow: 0 0.25em 0.75em var(--computer-shadow-color);
-
-        /* Window buttons */
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0.15em;
-            right: 0.2em;
-            width: 1.5em;
-            height: 0.3em;
-            background-image: repeating-linear-gradient(
-                to left,
-                var(--computer-window-border-color) 0,
-                var(--computer-window-border-color) 0.3em,
-                transparent 0.3em,
-                transparent 0.5em
-            );
+        abbr {
+            text-decoration: none;
+            pointer-events: none;
         }
     }
 
-    .screen-wrapper {
-        padding: 0.5em 0.6em;
-        justify-content: flex-start;
-        background-color: var(--computer-window-back-color);
-        border-top: 1px solid var(--computer-window-border-color);
+    /* TYPE: DESKTOP / SIMPLE */
+    &:is([type="desktop"], [type="simple"]) {
+        max-width: 44rem;
+        aspect-ratio: 2791 / 2310;
 
-        & > * {
-            color: var(--computer-window-text-color) !important;
+        .computer-screen-content {
+            top: 1.75%;
+            left: 1.49%;
+            width: 97.0%;
+            height: 68.8%;
         }
     }
 
-    .screen-decor {
-        height: 0.8em;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: var(--computer-taskbar-back-color);
-        border-top: 1px solid var(--computer-window-border-color);
+    /* TYPE: WINDOW */
+    &[type="window"] {
+        max-width: 44rem;
+        aspect-ratio: 2791 / 2310;
 
-        /* Start menu items */
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0.2em;
-            bottom: 0.2em;
-            left: 0.25em;
-            width: 6.9em;
-            background-image: repeating-linear-gradient(
-                to right,
-                var(--computer-taskbar-text-color) 0,
-                var(--computer-taskbar-text-color) 0.4em,
-                transparent 0.4em,
-                transparent 0.7em
-            );
-        }
-
-        /* Clock */
-        &::after {
-            content: '2:30pm, 04 May 2028';
-            position: absolute;
-            bottom: 0.25em;
-            right: 0.6em;
-            line-height: 1;
-            font-size: 0.5em;
-            color: var(--computer-taskbar-text-color);
-        }
-    }
-}
-
-
-/* TYPE: TABLET */
-computer[type="tablet"] {
-    max-width: var(--computer-screen-width--tablet);
-    border-radius: 3px;
-
-    box-shadow:
-        0    0   0 var(--computer-bezel-width) var(--computer-bezel-color--tablet),
-        0   -1px 0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--high),
-        -1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--high),
-        0    1px 0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--low),
-        1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--low);
-}
-
-
-/* TYPE: MOBILE */
-computer[type="mobile"] {
-    max-width: var(--computer-screen-width--mobile);
-    aspect-ratio: var(--computer-screen-ratio--mobile);
-    border-radius: 3px;
-
-    box-shadow:
-        0    0   0 var(--computer-bezel-width) var(--computer-bezel-color--tablet),
-        0   -1px 0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--high),
-        -1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--high),
-        0    1px 0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--low),
-        1px  0   0 var(--computer-bezel-width) var(--computer-bezel-color--tablet--low);
-}
-
-
-/* TYPE: VINTAGE / 1980s */
-computer:is([type="vintage"], [type="1980s"]) {
-    width: 100%;
-    max-width: var(--computer-screen-width--vintage);
-    margin-bottom: calc(var(--computer-base-height--vintage) + var(--margin-block));
-    padding: var(--computer-bezel-width--vintage);
-    padding-bottom: calc(1.4 * var(--computer-bezel-width--vintage));
-    aspect-ratio: var(--computer-screen-ratio);
-    font-family: var(--code-font-family);
-    border-radius: calc(0.2 * var(--computer-bezel-width--vintage));
-    background-color: var(--computer-bezel-color--vintage);
-    background-image: none;
-
-    box-shadow:
-        inset  2px  2px 3px var(--computer-bezel-color--vintage--high),
-        inset  0   -2px 3px var(--computer-bezel-color--vintage--low),
-        inset -2px  0   3px var(--computer-bezel-color--vintage--low);
-
-    /* Vintage Stand */
-    &::after {
-        content: "";
-        z-index: -1;
-        position: absolute;
-        width: 55%;
-        height: var(--computer-base-height--vintage);
-        bottom: calc(-0.8 * (var(--computer-base-height--vintage)));
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 45% / 70% 70% 20% 20%;
-        background-color: var(--computer-base-color--vintage);
-        box-shadow:
-            inset 2em 1.75em 1.5em -0.5em var(--computer-shadow-color),
-            inset 0px -2px 0 -1px var(--computer-base-color--vintage--low);
-    }
-
-    .screen-outer-wrapper {
-        width: 100%;
-        aspect-ratio: var(--computer-screen-ratio);
-        font-family: var(--code-font-family);
-        background-image: var(--computer-screen-back--vintage);
-        border-radius: calc(0.3 * var(--computer-bezel-width--vintage));
-
-        box-shadow:
-            4px  4px 2px var(--computer-bezel-color--vintage--high),
-            0px -5px 2px var(--computer-bezel-color--vintage--low),
-            -5px  0px 2px var(--computer-bezel-color--vintage--low),
-            -4px -4px 2px var(--computer-bezel-color--vintage--low);
-
-        /* Power Button */
-        &::before {
-            content: "";
-            z-index: 1;
-            position: absolute;
-            width:  calc(0.75 * var(--computer-bezel-width--vintage));
-            height: calc(0.50 * var(--computer-bezel-width--vintage));
-            bottom: calc(0.45 * var(--computer-bezel-width--vintage));
-            right:  calc(1.20 * var(--computer-bezel-width--vintage));
-            border-radius: 2px;
-            box-shadow:
-                inset  2px  2px 1px -1px var(--computer-bezel-color--vintage--high),
-                inset -2px -2px 1px -1px var(--computer-bezel-color--vintage--low);
-        }
-
-        /* LED */
-        &::after {
-            content: "";
-            z-index: 1;
-            position: absolute;
-            width:  calc(0.3 * var(--computer-bezel-width--vintage));
-            height: calc(0.15 * var(--computer-bezel-width--vintage));
-            bottom: calc(0.6 * var(--computer-bezel-width--vintage));
-            right:  calc(2.5 * var(--computer-bezel-width--vintage));
-            background-color: greenyellow;
-            box-shadow: inset 0 0 1px green;
+        .computer-screen-content {
+            /* Position inside the white document area (below title bar) */
+            top: 8.05%;
+            left: 9.31%;
+            width: 81.37%;
+            height: 58.91%;
+            color: var(--computer-text-inv-color);
+            padding: 0.8em;
         }
     }
 
-    .screen-wrapper {
-        color: var(--computer-text-color--vintage);
-    }
-}
+    /* TYPE: LAPTOP */
+    &[type="laptop"] {
+        max-width: 40rem;
+        aspect-ratio: 1434 / 825;
 
-
-/* TYPE: MACINTOSH */
-computer[type="mac"] {
-    width: 100%;
-    max-width: var(--computer-screen-width--vintage);
-    margin-bottom: var(--margin-block);
-    padding: calc(1.5 * var(--computer-bezel-width--vintage));
-    padding-bottom: calc(6 * var(--computer-bezel-width--vintage));
-    aspect-ratio: 5/6;
-    font-family: var(--code-font-family);
-    border-radius: calc(0.4 * var(--computer-bezel-width--vintage));
-    background-color: var(--computer-bezel-color--vintage);
-    background-image: none;
-
-    box-shadow:
-        inset  20px  20px 3px var(--computer-bezel-color--vintage--high),
-        inset -20px -20px 3px var(--computer-bezel-color--vintage--low);
-
-    /* Lower case section - the "chin" */
-    &::before {
-        content: "";
-        z-index: -1;
-        position: absolute;
-        width: calc(100% - (2 * var(--computer-bezel-width--vintage)));
-        height: calc(3 * var(--computer-bezel-width--vintage));
-        bottom: calc(-2 * var(--computer-bezel-width--vintage));
-        left: var(--computer-bezel-width--vintage);
-        border-radius: calc(0.2 * var(--computer-bezel-width--vintage));
-        background-color: var(--computer-bezel-color--vintage--low);
-        box-shadow:
-            inset 2px  2px 2px -1px var(--computer-bezel-color--vintage--high),
-            inset -1px -2px 2px -1px var(--computer-bezel-color--vintage--low);
-    }
-
-    /* Power button (back corner indicator) */
-    &::after {
-        content: "";
-        z-index: 2;
-        position: absolute;
-        width: calc(0.4 * var(--computer-bezel-width--vintage));
-        height: calc(0.4 * var(--computer-bezel-width--vintage));
-        bottom: calc(1.3 * var(--computer-bezel-width--vintage));
-        right: calc(1.5 * var(--computer-bezel-width--vintage));
-        border-radius: 50%;
-        background-color: var(--computer-bezel-color--vintage--low);
-        box-shadow:
-            inset  1px  1px 1px var(--computer-bezel-color--vintage--low),
-            inset -1px -1px 1px var(--computer-bezel-color--vintage--high);
-    }
-
-    .screen-outer-wrapper {
-        width: 100%;
-        aspect-ratio: var(--computer-screen-ratio);
-        font-family: var(--code-font-family);
-        background-image: var(--computer-screen-back--vintage);
-        border-radius: calc(0.6 * var(--computer-bezel-width--vintage));
-
-        box-shadow:
-            15px 15px 2px var(--computer-bezel-color--vintage--high),
-            0  15px 2px var(--computer-bezel-color--vintage--high),
-            15px  0 2px var(--computer-bezel-color--vintage--high),
-            0px -15px 2px var(--computer-bezel-color--vintage--low),
-            -15px  0px 2px var(--computer-bezel-color--vintage--low),
-            -14px -14px 2px var(--computer-bezel-color--vintage--low);
-    }
-
-    .screen-wrapper {
-        color: var(--computer-text-color--vintage);
-    }
-
-    /* Apple Logo (on front lower bezel) */
-    .screen-decor {
-        z-index: 2;
-        position: absolute;
-        width: calc(0.5 * var(--computer-bezel-width--vintage));
-        height: calc(0.55 * var(--computer-bezel-width--vintage));
-        bottom: calc(1.8 * var(--computer-bezel-width--vintage));
-        left: calc(1.8 * var(--computer-bezel-width--vintage));
-        background-image: radial-gradient(
-            circle at 65% 25%,
-            transparent 18%,
-            var(--computer-bezel-color--vintage--low) 18%,
-            var(--computer-bezel-color--vintage--low) 100%
-        );
-        border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
-        opacity: 0.25;
-
-        /* Floppy Drive Slot */
-        &::before {
-            content: "";
-            position: absolute;
-            width: calc(2 * var(--computer-bezel-width--vintage));
-            height: calc(0.1 * var(--computer-bezel-width--vintage));
-            top: 50%;
-            right: calc(-7 * var(--computer-bezel-width--vintage));
-            transform: translateY(-50%);
-            border-radius: 1px;
-            background-color: #000;
-            box-shadow:
-                inset  1px  1px 1px var(--computer-bezel-color--vintage--low),
-                inset -1px -1px 1px var(--computer-bezel-color--vintage--high);
+        .computer-screen-content {
+            top: 2.18%;
+            left: 10.81%;
+            width: 78.24%;
+            height: 87.88%;
         }
+    }
 
-        /* Floppy slot indicator line */
-        &::after {
-            content: "";
-            position: absolute;
-            width: calc(2.1 * var(--computer-bezel-width--vintage));
-            height: 1px;
-            top: 50%;
-            right: calc(-7.05 * var(--computer-bezel-width--vintage));
-            transform: translateY(calc(-0.18 * var(--computer-bezel-width--vintage)));
-            background-color: var(--computer-bezel-color--vintage--high);
-            opacity: 0.5;
+    /* TYPE: TABLET */
+    &[type="tablet"] {
+        max-width: 36em;
+        aspect-ratio: 1024 / 694;
+
+        .computer-screen-content {
+            top: 4.32%;
+            left: 2.93%;
+            width: 94.1%;
+            height: 91.4%;
+        }
+    }
+
+    /* TYPE: MOBILE */
+    &[type="mobile"] {
+        max-width: 18em;
+        aspect-ratio: 384 / 694;
+
+        .computer-screen-content {
+            top: 2.74%;
+            left: 5.21%;
+            width: 89.6%;
+            height: 94.2%;
+        }
+    }
+
+    /* TYPE: VINTAGE / 1980s */
+    &:is([type="vintage"], [type="1980s"]) {
+        max-width: 40em;
+        aspect-ratio: 2360 / 2103;
+
+        .computer-screen-content {
+            top: 8.56%;
+            left: 7.63%;
+            width: 84.75%;
+            height: 71.33%;
+            color: var(--computer-text-color--vintage);
+
+            pre[data-lang],
+            pre[data-lang] > code {
+                background-color: transparent !important;
+                padding-inline: 0 !important;
+            }
+        }
+    }
+
+    /* TYPE: MACINTOSH / MAC */
+    &:is([type="macintosh"], [type="mac"]) {
+        max-width: 30em;
+        aspect-ratio: 1212.377 / 1597;
+
+        .computer-screen-content {
+            top: 13.76%;
+            left: 12.67%;
+            width: 73.27%;
+            height: 37.34%;
+            color: var(--computer-text-inv-color);
         }
     }
 }

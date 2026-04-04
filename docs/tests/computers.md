@@ -52,6 +52,48 @@ def hello_world():
 </computer>
 
 
+## Laptop Display
+
+Look...
+
+<computer type="laptop">
+
+# Development Environment
+
+## Project: Web Application
+
+Building a modern web app with **React** and **TypeScript**.
+
+### Current Tasks
+
+- [x] Set up development environment
+- [x] Create component structure
+- [ ] Implement authentication
+- [ ] Add database integration
+
+```typescript
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+function fetchUser(id: number): Promise<User> {
+  return fetch(`/api/users/${id}`)
+    .then(res => res.json());
+}
+```
+
+### Terminal Output
+
+```bash
+npm run dev
+> dev server running on http://localhost:3000
+```
+
+</computer>
+
+
 ## Tablet Display
 
 Look...
@@ -135,9 +177,9 @@ Look...
 ## CATALOG
 
 ```
-HELLO
-STARTUP
-BASIC.SYSTEM
+10 HELLO
+20 STARTUP
+30 BASIC.SYSTEM
 ```
 
 ### LOAD PROGRAM

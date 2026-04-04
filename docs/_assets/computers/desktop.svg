@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="2791" height="2310.5" viewBox="0 0 2791 2310.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="desktop_gradient_1" gradientUnits="userSpaceOnUse" x1="-5.186" y1="21.57" x2="631.51" y2="388.47">
+      <stop offset="0" stop-color="#8B8C8E" />
+      <stop offset="0.065" stop-color="#8B8B8F" />
+      <stop offset="0.177" stop-color="#E4E6E8" />
+      <stop offset="0.505" stop-color="#DBDBDD" />
+      <stop offset="0.761" stop-color="#D4D4D8" />
+      <stop offset="0.94" stop-color="#B4B5B9" />
+      <stop offset="1" stop-color="#818286" />
+    </linearGradient>
+    <filter color-interpolation-filters="sRGB" x="-846" y="-16" width="848" height="18" id="desktop_filter_2">
+      <feFlood flood-opacity="0" result="BackgroundImageFix_1" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" />
+      <feOffset dx="0" dy="-1" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix_1" result="Shadow_2" />
+      <feBlend mode="normal" in="SourceGraphic" in2="Shadow_2" result="Shape_3" />
+    </filter>
+    <linearGradient id="desktop_gradient_3" gradientUnits="userSpaceOnUse" x1="-0" y1="0" x2="-0" y2="386">
+      <stop offset="0" stop-color="#818185" />
+      <stop offset="0.09" stop-color="#95979B" />
+      <stop offset="0.19" stop-color="#B2B4B8" />
+      <stop offset="0.39" stop-color="#D7D7DA" />
+      <stop offset="0.51" stop-color="#DDDDDF" />
+      <stop offset="0.58" stop-color="#FFFFFF" />
+      <stop offset="0.67" stop-color="#919296" />
+      <stop offset="0.74" stop-color="#7A7B7F" />
+      <stop offset="0.8" stop-color="#A0A2A9" />
+      <stop offset="0.87" stop-color="#A9AAAE" />
+      <stop offset="0.98" stop-color="#A7A8AD" />
+      <stop offset="0.99" stop-color="#B7B7BD" />
+      <stop offset="1" stop-color="#D2D3D5" />
+      <stop offset="1" stop-color="#999AA0" />
+    </linearGradient>
+    <linearGradient id="desktop_gradient_4" gradientUnits="userSpaceOnUse" x1="0" y1="253" x2="2788" y2="253">
+      <stop offset="0" stop-color="#A6A7AB" />
+      <stop offset="0.22" stop-color="#A6A8AC" />
+      <stop offset="0.27" stop-color="#ACAEB2" />
+      <stop offset="0.37" stop-color="#B5B6BA" />
+      <stop offset="0.46" stop-color="#BEBFC3" />
+      <stop offset="0.53" stop-color="#C3C4C8" />
+      <stop offset="0.63" stop-color="#CDCED1" />
+      <stop offset="0.78" stop-color="#D9DADC" />
+      <stop offset="0.95" stop-color="#E0E1E2" />
+      <stop offset="1" stop-color="#E0E2E2" />
+    </linearGradient>
+    <filter color-interpolation-filters="sRGB" x="-2786" y="-251" width="2788" height="253" id="desktop_filter_5">
+      <feFlood flood-opacity="0" result="BackgroundImageFix_1" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="SourceAlpha" />
+      <feOffset dx="0" dy="-2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix_1" result="Shadow_2" />
+      <feBlend mode="normal" in="SourceGraphic" in2="Shadow_2" result="Shape_3" />
+    </filter>
+    <linearGradient id="desktop_gradient_6" gradientUnits="userSpaceOnUse" x1="1353.5" y1="0" x2="1353.5" y2="1589">
+      <stop offset="0" stop-color="#101652" />
+      <stop offset="1" stop-color="#173073" />
+    </linearGradient>
+  </defs>
+  <g>
+    <g transform="translate(971.5 1915.5)">
+      <path d="M714.75 11.1099C714.75 11.1099 772.38 11.1099 772.38 11.1099C833.55 11.1099 847.59 0.0698242 847.59 0.0698242C847.82 -0.0803223 848 0.0197754 848 0.289795C848 0.289795 848 3.72974 848 3.72974C848 4.81982 847.3 6.22974 846.36 6.82983C846.36 6.82983 834.86 17.9998 769.3 17.9998C769.3 17.9998 714.75 17.9998 714.75 17.9998L140 17.9998C140 17.9998 78.7 17.9998 78.7 17.9998C13.144 17.9998 1.63599 6.82983 1.63599 6.82983C0.703979 6.22974 0 4.81982 0 3.72974C0 3.72974 0 0.289795 0 0.289795C0 0.0197754 0.182007 -0.0803223 0.40802 0.0698242C0.40802 0.0698242 14.446 11.1099 75.62 11.1099C75.62 11.1099 140 11.1099 140 11.1099C140 11.1099 714.75 11.1099 714.75 11.1099Z" fill="url(#desktop_gradient_1)" fill-rule="evenodd" filter="url(#desktop_filter_2)" transform="translate(0 373)" />
+      <path d="M148 0C148 0 133.42 252.88 110.15 287.07C97.6599 305.44 13.4599 356.6 4.26691 364.3C-4.92712 372 3.59888 373.97 3.59888 373.97C3.59888 373.97 30.8099 383.49 61.4398 385.48C80.8298 386.74 101.15 385.31 115.79 385.43C160.19 385.78 249 385.51 249 385.51C249 385.51 599 385.51 599 385.51C599 385.51 687.8 385.78 732.21 385.43C746.85 385.31 767.17 386.74 786.56 385.48C817.18 383.49 844.41 374.46 844.41 374.46C844.41 374.46 852.92 372 843.73 364.3C834.53 356.6 750.34 305.44 737.84 287.07C714.58 252.88 700 0 700 0C700 0 623.25 0 623.25 0L238.5 0C238.5 0 148 0 148 0Z" fill="url(#desktop_gradient_3)" fill-rule="evenodd" transform="translate(0 0)" />
+    </g>
+    <path d="M0 67C0 29.9969 29.9969 0 67 0C67 0 2721 0 2721 0C2758 0 2788 29.9969 2788 67C2788 67 2788 1662 2788 1662L0 1662C0 1662 0 67 0 67Z" fill="#030303" stroke-width="3" stroke="#BEBFC3" transform="translate(1.5 1.5)" />
+    <path d="M0 0C0 0 2788 0 2788 0C2788 0 2788 191 2788 191C2788 225.24 2760.24 253 2726 253C2726 253 61.9999 253 61.9999 253C27.7583 253 0 225.24 0 191C0 191 0 0 0 0Z" fill="url(#desktop_gradient_4)" stroke-width="3" stroke="#BEBFC3" filter="url(#desktop_filter_5)" transform="translate(1.5 1662.5)" />
+    <g transform="translate(1343 1722.57)">
+      <path d="M53.3199 5.97998C57.67 5.97998 65.74 0 76.24 0C94.3101 0 101.42 12.87 101.42 12.87C101.42 12.87 87.52 19.98 87.52 37.25C87.52 56.72 104.84 63.4399 104.84 63.4399C104.84 63.4399 92.73 97.54 76.37 97.54C68.86 97.54 63.02 92.48 55.1 92.48C47.03 92.48 39.03 97.73 33.8101 97.73C18.87 97.73 0 65.38 0 39.37C0 13.78 15.97 0.359985 30.96 0.359985C40.7 0.359985 48.26 5.97998 53.3199 5.97998Z" fill="#000000" fill-rule="evenodd" transform="translate(0 30.95)" />
+      <path d="M5.81934 11.2001C14.2694 0.0600586 26.0094 0 26.0094 0C26.0094 0 27.7594 10.4801 19.3694 20.5701C10.3994 31.3501 0.21936 29.5901 0.21936 29.5901C0.21936 29.5901 -1.70068 21.1101 5.81934 11.2001Z" fill="#000000" fill-rule="evenodd" transform="translate(52.031 0)" />
+    </g>
+    <path d="M0 30.6841C0 13.7377 15.1225 0 33.7772 0C33.7772 0 2673.22 0 2673.22 0C2691.87 0 2707 13.7377 2707 30.6841C2707 30.6841 2707 1586.81 2707 1586.81C2707 1588.02 2705.91 1589 2704.59 1589C2704.59 1589 2.41265 1589 2.41265 1589C1.08086 1589 0 1588.02 0 1586.81C0 1586.81 0 30.6841 0 30.6841Z" fill="url(#desktop_gradient_6)" transform="translate(41.5 38)" />
+  </g>
+</svg>
