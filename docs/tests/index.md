@@ -28,4 +28,3 @@ Secret test pages!
 - [x] Images on captions and speech tests missing
 - [x] Video grid thumbs too big on mobile (stick to 2 cols min)
 - [x] Borders of sequence steps bolder
-

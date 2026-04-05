@@ -1,0 +1,77 @@
+/** Aside Blocks
+ * Styled floating asides for notes, tips, warnings, and other highlighted content
+ */
+
+.markdown-section:has(aside) {
+    :is(h1, h2, h3) {
+        clear: both;
+    }
+}
+
+.markdown-section aside {
+    /* Color palette for aside variants */
+    --aside-note-color:           var(--secondary-color);
+    --aside-tip-color:            var(--theme-color);
+    --aside-question-color:       var(--palette-color-2);
+    --aside-example-color:        var(--palette-color-1);
+    --aside-important-color:      var(--color-important);
+    --aside-warning-color:        var(--color-warning);
+    --aside-attention-color:      var(--color-attention);
+    --aside-danger-color:         var(--color-attention);
+
+    /* Default colors */
+    --aside-color:                var(--theme-color-5);
+    --aside-border-width:         1px;
+
+    /* Type variants - attribute selectors */
+    &[note]       { --aside-border-width: 3px; --aside-color: var(--aside-note-color); }
+    &[tip]        { --aside-border-width: 3px; --aside-color: var(--aside-tip-color); }
+    &[question]   { --aside-border-width: 3px; --aside-color: var(--aside-question-color); }
+    &[example]    { --aside-border-width: 3px; --aside-color: var(--aside-example-color); }
+    &[important]  { --aside-border-width: 3px; --aside-color: var(--aside-important-color); }
+    &[warning]    { --aside-border-width: 3px; --aside-color: var(--aside-warning-color); }
+    &[attention]  { --aside-border-width: 3px; --aside-color: var(--aside-attention-color); }
+    &[danger]     { --aside-border-width: 3px; --aside-color: var(--aside-danger-color); }
+
+    width: 100%;
+    margin-block: var(--margin-block);
+    padding: 1rem;
+    font-size: 0.9rem;
+
+    background-color: color-mix(in srgb, var(--aside-color) 8%, transparent);
+    border: var(--aside-border-width) solid color-mix(in srgb, var(--aside-color) 30%, transparent);
+    /* border-left: 4px solid var(--aside-color); */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-small);
+
+    > :first-child {
+        margin-top: 0;
+        color: var(--aside-color);
+    }
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+
+    @container (min-width: 40rem) {
+        float: right;
+        width: max(40%, 16rem);
+        margin-top: 0;
+        margin-left: var(--margin-block);
+
+        &[narrow] {
+            width: max(25%, 10rem);
+        }
+
+        &[wide] {
+            width: max(60%, 24rem);
+        }
+
+        &[left] {
+            float: left;
+            margin-left: 0;
+            margin-right: var(--margin-block);
+        }
+    }
+}
+

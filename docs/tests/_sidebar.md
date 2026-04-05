@@ -25,6 +25,7 @@
     - [Database Schema](tests/dbs.md)
 
 - <i data-lucide="layout-panel-top"></i>Content
+    - [Asides](tests/asides.md)
     - [Captions](tests/captions.md)
     - [Speech](tests/speech.md)
     - [Cards](tests/cards.md)
