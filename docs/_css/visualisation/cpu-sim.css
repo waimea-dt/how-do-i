@@ -159,7 +159,7 @@
 
         h4 {
             font-size: var(--font-size-xs);
-            margin-bottom: var(--gap-normal);
+            /* margin-bottom: var(--gap-normal); */
         }
     }
 
@@ -338,6 +338,9 @@
     /* Code Display */
 
     .code-display {
+        background-color: var(--code-bg-color);
+        border-radius: calc(var(--border-radius) / 2);
+        padding-block: 0.4em;
         font-family: var(--font-family-mono);
         font-size: var(--font-size-xs);
         max-height: 400px;
