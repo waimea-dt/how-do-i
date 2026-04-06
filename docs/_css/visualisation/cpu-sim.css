@@ -1,0 +1,666 @@
+/** CPU Simulator
+ * Interactive CPU execution visualizer for teaching computer architecture
+ */
+
+.markdown-section .cpu-simulator {
+    /* Component-specific colors */
+    --cpu-fetch-color: var(--palette-color-3);
+    --cpu-decode-color: var(--color-warning);
+    --cpu-execute-color: var(--palette-color-1);
+
+    /* Code display colors */
+    --code-linenum-color: var(--color-mono-6);
+    --code-instruction-color: var(--color-text);
+    --code-comment-color: var(--color-mono-6);
+    --code-marker-color: var(--cpu-execute-color);
+    --code-executed-opacity: 0.5;
+
+    /* Memory display colors */
+    --memory-addr-color: var(--color-mono-6);
+    --memory-value-color: var(--color-text);
+
+    /* Register display colors */
+    --register-label-color: var(--color-mono-6);
+    --register-value-color: var(--color-text);
+
+    /* Flag colors */
+    --flag-inactive-bg: var(--color-mono-1);
+    --flag-active-color: var(--color-important);
+
+    /* Status colors */
+    --status-text-color: var(--color-text);
+    --status-secondary-color: var(--color-mono-6);
+    --status-border-color: var(--theme-color);
+
+    /* Control button colors */
+    --btn-bg: var(--color-mono-min);
+    --btn-border: var(--border-color);
+    --btn-text: var(--color-text);
+    --btn-hover-border: var(--theme-color);
+    --btn-reset-color: var(--color-attention);
+    --btn-step-color: var(--cpu-fetch-color);
+    --btn-run-color: var(--cpu-execute-color);
+
+    /* Section header colors */
+    --section-header-color: var(--theme-color-6);
+    --directive-header-color: var(--secondary-color-6);
+
+    /* Font sizes (em units relative to base) */
+    --font-size-xs: 0.88em;   /* Extra small - labels, line numbers */
+    --font-size-sm: 0.94em;   /* Small - flags, stats, phase labels */
+    --font-size-base: 1em;    /* Base - buttons, controls, headers */
+    --font-size-lg: 1.18em;   /* Large - icons */
+
+    /* Padding (em units - scale with font size) */
+    --padding-cell: 0.25em 0.5em;      /* Cells: memory, registers, flags, control registers */
+    --padding-button: 0.3em 0.6em;     /* Buttons, controls, dropdowns */
+    --padding-code-line: 0.1em 0.5em;  /* Code display lines */
+    --padding-panel: 1rem;             /* Panel containers */
+
+    /* Gap (rem units - consistent spacing) */
+    --gap-tight: 0.3em;      /* Between cells in lists */
+    --gap-normal: 0.5em;     /* Standard inline spacing */
+    --gap-large: 1rem;       /* Between major sections */
+
+    /* Margin (rare cases where gap cannot be used) */
+    --margin-header: 0.75em; /* Panel headers */
+
+    container-type: inline-size;
+    margin: var(--margin-block) 0;
+    padding: var(--padding-panel);
+    background: var(--theme-color-1);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    font-family: var(--font-family-mono);
+    font-size: 0.85rem;
+
+    @container (min-width: 600px) {
+        padding: var(--padding-panel);
+        font-size: 0.9rem;
+    }
+
+    /* Grid Layout */
+
+    .cpu-sim-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "code"
+            "state"
+            "memory"
+            "status"
+            "controls";
+        gap: var(--gap-large);
+
+        @container (min-width: 600px) {
+            grid-template-columns: 1fr 13em;
+            grid-template-areas:
+                "code code"
+                "state memory"
+                "status status"
+                "controls controls";
+        }
+
+        @container (min-width: 900px) {
+            grid-template-columns: 21em 1fr 19em 13em;
+            grid-template-areas:
+                "code code state memory"
+                "controls status status status";
+        }
+    }
+
+    /* Panels */
+
+    .cpu-sim-state {
+        grid-area: state;
+    }
+
+    .cpu-sim-memory {
+        grid-area: memory;
+    }
+
+    .cpu-sim-code {
+        grid-area: code;
+    }
+
+    .cpu-sim-status {
+        grid-area: status;
+    }
+
+    .cpu-sim-controls {
+        grid-area: controls;
+    }
+
+    .cpu-sim-panel {
+        background: var(--color-mono-min);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        padding: var(--padding-panel);
+        overflow: auto;
+
+        h4 {
+            margin: 0 0 var(--margin-header) 0;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--section-header-color);
+            padding-bottom: var(--gap-normal);
+        }
+    }
+
+    .cpu-sim-section {
+        margin-bottom: var(--gap-large);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        h4 {
+            font-size: var(--font-size-xs);
+            margin-bottom: var(--gap-normal);
+        }
+    }
+
+    /* Control Unit */
+
+    .cpu-control {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-normal);
+    }
+
+    .control-register {
+        display: grid;
+        grid-template-columns: 2em 1fr;
+        gap: var(--gap-normal);
+        padding: var(--padding-cell);
+        background: var(--color-mono-1);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        transition: all 0.3s ease;
+
+        &.highlight {
+            background: color-mix(in srgb, var(--theme-color) 15%, var(--color-mono-1));
+            border-color: var(--theme-color);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color) 20%, transparent);
+        }
+
+        .reg-label {
+            font-weight: 700;
+            color: var(--register-label-color);
+            font-size: var(--font-size-xs);
+        }
+
+        .reg-value {
+            font-family: var(--font-family-mono);
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--register-value-color);
+        }
+    }
+
+    /* Registers */
+
+    .cpu-registers {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-tight);
+    }
+
+    .cpu-register {
+        display: grid;
+        grid-template-columns: 2em 2.5em 1fr;
+        gap: var(--gap-normal);
+        padding: var(--padding-cell);
+        background: var(--color-mono-1);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        transition: all 0.3s ease;
+        align-items: center;
+
+        &.highlight {
+            background: color-mix(in srgb, var(--cpu-execute-color) 15%, var(--color-mono-1));
+            border-color: var(--cpu-execute-color);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--cpu-execute-color) 20%, transparent);
+            transform: scale(1.02);
+        }
+
+        .reg-label {
+            font-weight: 700;
+            color: var(--register-label-color);
+            font-size: var(--font-size-xs);
+        }
+
+        .reg-value {
+            font-weight: 600;
+            color: var(--register-value-color);
+            font-family: var(--font-family-mono);
+        }
+
+        .reg-alt-value {
+            font-size: var(--font-size-xs);
+            color: var(--color-mono-6);
+            font-family: var(--font-family-mono);
+
+            sub {
+                font-size: 0.6em;
+            }
+        }
+    }
+
+    /* Flags */
+
+    .cpu-flags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gap-normal);
+    }
+
+    .cpu-flag {
+        padding: var(--padding-button);
+        background: var(--flag-inactive-bg);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        font-family: var(--font-family-mono);
+        font-size: var(--font-size-sm);
+        transition: all 0.3s ease;
+
+        &.active {
+            background: color-mix(in srgb, var(--flag-active-color) 20%, var(--color-mono-1));
+            border-color: var(--flag-active-color);
+            font-weight: 600;
+        }
+
+        &.highlight {
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color) 30%, transparent);
+        }
+    }
+
+    /* Memory Display */
+
+    .memory-display {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-tight);
+        max-height: 300px;
+        overflow-y: auto;
+
+        @container (min-width: 600px) {
+            max-height: 420px;
+        }
+    }
+
+    .memory-cell {
+        display: grid;
+        grid-template-columns: 2.5em 2.5em 1fr;
+        align-items: center;
+        gap: var(--gap-normal);
+        padding: var(--padding-cell);
+        background: var(--color-mono-1);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        transition: all 0.3s ease;
+
+        &.highlight {
+            background: color-mix(in srgb, var(--cpu-execute-color) 15%, var(--color-mono-1));
+            border-color: var(--cpu-execute-color);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--cpu-execute-color) 20%, transparent);
+        }
+
+        .mem-addr {
+            font-size: var(--font-size-xs);
+            color: var(--memory-addr-color);
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .mem-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-mono-6);
+            font-weight: 600;
+            font-style: italic;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .mem-value {
+            font-family: var(--font-family-mono);
+            font-weight: 600;
+            color: var(--memory-value-color);
+            font-size: var(--font-size-base);
+            text-align: left;
+        }
+    }
+
+    /* Code Display */
+
+    .code-display {
+        font-family: var(--font-family-mono);
+        font-size: var(--font-size-xs);
+        max-height: 400px;
+        overflow-y: auto;
+
+        @container (min-width: 600px) {
+            font-size: var(--font-size-base);
+        }
+    }
+
+    .code-line {
+        display: grid;
+        grid-template-columns: 0.75em 2em 4em 1fr;
+        gap: var(--gap-normal);
+        padding: var(--padding-code-line);
+        border-left: 3px solid transparent;
+        transition: all 0.2s ease;
+        color: var(--code-instruction-color);
+
+        &.executed {
+            opacity: var(--code-executed-opacity);
+        }
+
+        &.current-line {
+            background: var(--color-mono-1);
+            font-weight: 600;
+
+            &.fetching {
+                border-left-color: var(--cpu-fetch-color);
+                background: color-mix(in srgb, var(--cpu-fetch-color) 8%, var(--color-mono-1));
+
+                .line-marker {
+                    color: var(--cpu-fetch-color);
+                }
+            }
+
+            &.decoding {
+                border-left-color: var(--cpu-decode-color);
+                background: color-mix(in srgb, var(--cpu-decode-color) 8%, var(--color-mono-1));
+
+                .line-marker {
+                    color: var(--cpu-decode-color);
+                }
+            }
+
+            &.executing {
+                border-left-color: var(--cpu-execute-color);
+                background: color-mix(in srgb, var(--cpu-execute-color) 8%, var(--color-mono-1));
+
+                .line-marker {
+                    color: var(--cpu-execute-color);
+                }
+            }
+        }
+
+        &.non-executable.directive {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--directive-header-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0.5em;
+
+            &:not(:first-of-type) {
+                margin-top: 1rem;
+            }
+
+            .line-code {
+                font-weight: 600;
+            }
+        }
+
+        .line-marker {
+            color: var(--code-marker-color);
+            font-weight: 700;
+        }
+
+        .line-label {
+            font-size: var(--font-size-xs);
+            text-align: right;
+        }
+
+        .line-num {
+            color: var(--code-linenum-color);
+            font-size: var(--font-size-xs);
+            text-align: left;
+        }
+
+        .line-code {
+            color: inherit;
+            font-family: var(--font-family-mono);
+            white-space: pre;
+
+            .code-comment {
+                color: var(--code-comment-color);
+                font-style: italic;
+                opacity: 0.7;
+            }
+        }
+    }
+
+    /* Status Bar */
+
+    .cpu-sim-status {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-normal);
+        padding: var(--padding-panel);
+        background: var(--color-mono-min);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+    }
+
+    .status-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: var(--gap-normal);
+    }
+
+    .status-phase {
+        display: flex;
+        align-items: center;
+        gap: var(--margin-header);
+
+        .phase-label {
+            font-weight: 600;
+            color: var(--status-secondary-color);
+            font-size: var(--font-size-sm);
+        }
+    }
+
+    .status-cycle {
+        font-size: var(--font-size-sm);
+        color: var(--status-secondary-color);
+        white-space: nowrap;
+
+        strong {
+            color: var(--status-text-color);
+            font-family: var(--font-family-mono);
+        }
+    }
+
+    .phase-indicator {
+        display: flex;
+        align-items: center;
+        gap: var(--gap-normal);
+    }
+
+    .phase-step {
+        padding: var(--padding-button);
+        background: var(--color-mono-1);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+
+        &.active {
+            opacity: 1;
+            transform: scale(1.05);
+
+            &.fetch {
+                background: color-mix(in srgb, var(--cpu-fetch-color) 20%, var(--color-mono-1));
+                border-color: var(--cpu-fetch-color);
+                color: var(--cpu-fetch-color);
+            }
+
+            &.decode {
+                background: color-mix(in srgb, var(--cpu-decode-color) 20%, var(--color-mono-1));
+                border-color: var(--cpu-decode-color);
+                color: var(--cpu-decode-color);
+            }
+
+            &.execute {
+                background: color-mix(in srgb, var(--cpu-execute-color) 20%, var(--color-mono-1));
+                border-color: var(--cpu-execute-color);
+                color: var(--cpu-execute-color);
+            }
+        }
+    }
+
+    .phase-arrow {
+        color: var(--status-secondary-color);
+        font-weight: 700;
+    }
+
+    .status-message {
+        padding: var(--padding-cell);
+        background: var(--color-mono-1);
+        border-radius: calc(var(--border-radius) / 2);
+        font-size: var(--font-size-base);
+        color: var(--status-text-color);
+    }
+
+    /* Controls */
+
+    .cpu-sim-controls {
+        display: flex;
+        /* flex-direction: column; */
+        gap: var(--gap-normal);
+        /* align-items: stretch; */
+        padding: var(--padding-panel);
+        background: var(--color-mono-min);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+
+        /* @container (min-width: 600px) { */
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+        /* } */
+    }
+
+    .cpu-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--gap-normal);
+        padding: var(--padding-button);
+        background: var(--btn-bg);
+        border: 1px solid var(--btn-border);
+        border-radius: calc(var(--border-radius) / 2);
+        color: var(--btn-text);
+        font-family: inherit;
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+            background: var(--color-mono-1);
+            border-color: var(--btn-hover-border);
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow-small);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-icon {
+            font-size: var(--font-size-lg);
+            line-height: 1;
+        }
+    }
+
+    .cpu-btn-reset:hover:not(:disabled) {
+        border-color: var(--btn-reset-color);
+        color: var(--btn-reset-color);
+    }
+
+    .cpu-btn-step:hover:not(:disabled) {
+        border-color: var(--btn-step-color);
+        color: var(--btn-step-color);
+    }
+
+    .cpu-btn-run {
+        &:hover:not(:disabled) {
+            border-color: var(--btn-run-color);
+            color: var(--btn-run-color);
+        }
+
+        &.running {
+            background: color-mix(in srgb, var(--cpu-execute-color) 15%, var(--color-mono-1));
+            border-color: var(--cpu-execute-color);
+            color: var(--cpu-execute-color);
+        }
+    }
+
+    .cpu-speed-control {
+        display: flex;
+        align-items: center;
+        gap: var(--gap-normal);
+        font-size: var(--font-size-base);
+        margin-left: auto;
+
+        label {
+            color: var(--color-mono-6);
+            font-weight: 600;
+        }
+
+        @container (min-width: 900px) {
+            margin-left: unset;
+        }
+    }
+
+    .cpu-speed-select {
+        padding: var(--padding-button);
+        background: var(--color-mono-min);
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        color: var(--color-text);
+        font-family: inherit;
+        font-size: var(--font-size-base);
+        cursor: pointer;
+
+        &:hover {
+            border-color: var(--theme-color);
+        }
+    }
+
+    .highlight {
+        animation: pulse-highlight 0.6s ease-in-out;
+    }
+}
+
+/* Animations */
+
+@keyframes pulse-highlight {
+    0%, 100% {
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color) 20%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--theme-color) 40%, transparent);
+    }
+}
+

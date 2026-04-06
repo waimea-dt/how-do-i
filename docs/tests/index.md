@@ -9,6 +9,7 @@ Secret test pages!
 ### Plugin Tasks
 
 - [ ] Tidy up the data views - borders, etc.
+- [ ] Python code indent highlighting added to Python snippets
 
 ### Feature Ideas
 
