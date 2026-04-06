@@ -43,6 +43,7 @@
     - [Computer Mockups](tests/computers.md)
     - [Requests](tests/requests.md)
     - [CPU Sim](tests/cpu-sim.md)
+    - [Memory Sim](tests/memory-sim.md)
 
 - <i data-lucide="mouse-pointer-click"></i>Interactive
     - [Flash Cards](tests/flash-cards.md)

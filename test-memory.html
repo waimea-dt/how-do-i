@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Memory Sim Test</title>
+    <link rel="stylesheet" href="docs/_css/visualisation/memory-sim.css">
+    <link rel="stylesheet" href="docs/_css/coding/code.css">
+</head>
+<body>
+    <div class="markdown-section">
+        <pre data-lang="memory-sim"><code>// Step: Create a primitive value
+val age = 25
+
+// Step: Create an object
+val person = Person("Alice", 25)
+
+// Step: Create another primitive
+val count = 3</code></pre>
+    </div>
+
+    <script src="docs/_plugins/visualisation/memory-sim.js"></script>
+    <script>
+        // Initialize
+        setTimeout(() => {
+            console.log('Checking for memory-sim blocks...');
+            const blocks = document.querySelectorAll('pre[data-lang="memory-sim"]');
+            console.log('Found blocks:', blocks.length);
+
+            // Manually trigger if needed
+            if (typeof processMemorySims === 'function') {
+                processMemorySims();
+            }
+        }, 100);
+    </script>
+</body>
+</html>
