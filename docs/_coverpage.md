@@ -10,7 +10,7 @@ We're going to have so much *fun* learning new things!
 </speak>
 
 
-# Digital Technologies Notes[.](tests/index.md)
+# Digital Technologies Notes[.](tests/_index.md)
 
 Lots of help and examples to help you creative amazing things with Digital Technologies
 
