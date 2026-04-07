@@ -3,6 +3,11 @@
  * Styles for automatically generated <abbr> tags from glossary terms
  */
 
+[id]:is(.markdown-section :where(h1, h2, h3, h4, h5, h6)) a:has(abbr.glossary-term) {
+    overflow-x: visible;
+}
+
+
 abbr.glossary-term {
     --tooltip-back-color:   var(--theme-color-2);
     --tooltip-text-color:   var(--color-mono-9);

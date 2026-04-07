@@ -11,6 +11,7 @@
     - [PseudoCode](tests/pseudo.md)
     - [Python Runner](tests/python.md)
     - [Kotlin Runner](tests/kotlin.md)
+    - [Number Base Converter](tests/convertor.md)
 
 - <i data-lucide="binary"></i>Databases
     - [Database Schema](tests/dbs.md)
