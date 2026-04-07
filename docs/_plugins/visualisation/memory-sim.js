@@ -531,6 +531,15 @@
         }
     }
 
+    function clearCodeHighlight(container) {
+        const codeLines = container.querySelectorAll('.code-line')
+        codeLines.forEach((line) => {
+            // Remove current highlighting and add executed state (dimmed)
+            line.classList.remove('current')
+            line.classList.add('executed')
+        })
+    }
+
     function generateCodeView(allLines) {
         const linesHtml = allLines.map((line, idx) => {
             const highlightedLine = highlightKotlinSyntax(line)
@@ -657,6 +666,14 @@
         nextBtn.addEventListener('click', () => {
             if (memory.executeCurrentStep()) {
                 updateUI(container, memory)
+
+                // Check if this was the last step
+                if (!memory.canStepForward()) {
+                    // Clear highlighting after 1 second
+                    setTimeout(() => {
+                        clearCodeHighlight(container)
+                    }, 2000)
+                }
             }
         })
 
