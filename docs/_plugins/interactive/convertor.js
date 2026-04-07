@@ -186,11 +186,11 @@
 
                     if (remainder >= placeValue) {
                         bits.push('1')
-                        steps.push(`${remainder} ≥ ${placeValue} (2<sup>${i}</sup>): write <strong>1</strong>, subtract ${placeValue}, remainder = ${remainder - placeValue}`)
+                        steps.push(`>>> ${remainder} ≥ ${placeValue} (2<sup>${i}</sup>): write <strong>1</strong>, subtract ${placeValue}, remainder = ${remainder - placeValue}`)
                         remainder -= placeValue
                     } else {
                         bits.push('0')
-                        steps.push(`${remainder} < ${placeValue} (2<sup>${i}</sup>): write <strong>0</strong>`)
+                        steps.push(`>>> ${remainder} < ${placeValue} (2<sup>${i}</sup>): write <strong>0</strong>`)
                     }
                 }
 
@@ -209,15 +209,15 @@
 
             placeValues.forEach(({ digit, position, placeValue, contribution }) => {
                 if (digit !== 0 && digit !== '0') {
-                    steps.push(`<strong>${digit}</strong> × ${placeValue} (2<sup>${position}</sup>) = <strong>${contribution}<strong>`)
+                    steps.push(`>>> <strong>${digit}</strong> × ${placeValue} (2<sup>${position}</sup>) = <strong>${contribution}<strong>`)
                 }
                 else {
-                    steps.push(`${digit} × ${placeValue} (2<sup>${position}</sup>) = ${contribution}`)
+                    steps.push(`>>> ${digit} × ${placeValue} (2<sup>${position}</sup>) = ${contribution}`)
                 }
             })
 
             const sum = placeValues.reduce((acc, val) => acc + val.contribution, 0)
-            steps.push(`Sum: ${placeValues.filter(v => v.contribution > 0).map(v => v.contribution).join(' + ')}`)
+            steps.push(`Sum the values: ${placeValues.map(v => v.contribution).join(' + ')}`)
             steps.push(`Result: <strong>${sum}</strong><sub>10</sub>`)
 
             return steps
@@ -248,10 +248,10 @@
 
                     if (digitValue > 0) {
                         const subtractAmount = digitValue * placeValue
-                        steps.push(`${remainder} ÷ ${placeValue} (16<sup>${i}</sup>) = ${digitValue} (${hexDigit}): write <strong>${hexDigit}</strong>, subtract ${subtractAmount} (${digitValue}×${placeValue}), remainder = ${remainder - subtractAmount}`)
+                        steps.push(`>>> ${remainder} ÷ ${placeValue} (16<sup>${i}</sup>) = ${digitValue} (${hexDigit}): write <strong>${hexDigit}</strong>, subtract ${subtractAmount} (${digitValue}×${placeValue}), remainder = ${remainder - subtractAmount}`)
                         remainder -= subtractAmount
                     } else {
-                        steps.push(`${remainder} ÷ ${placeValue} (16<sup>${i}</sup>) = 0: write <strong>0</strong>`)
+                        steps.push(`>>> ${remainder} ÷ ${placeValue} (16<sup>${i}</sup>) = 0: write <strong>0</strong>`)
                     }
                 }
 
@@ -270,16 +270,16 @@
 
             placeValues.forEach(({ digit, position, placeValue, contribution, digitValue }) => {
                 if (digitValue == 0) {
-                    steps.push(`${digit} (${digitValue}) × 16<sup>${position}</sup> = ${digitValue} × ${placeValue} = ${contribution}`)
+                    steps.push(`>>> ${digit} (${digitValue}) × 16<sup>${position}</sup> = ${digitValue} × ${placeValue} = ${contribution}`)
                 } else if (digitValue !== parseInt(digit)) {
-                    steps.push(`<strong>${digit}</strong> (${digitValue}) × 16<sup>${position}</sup> = ${digitValue} × ${placeValue} = <strong>${contribution}</strong>`)
+                    steps.push(`>>> <strong>${digit}</strong> (${digitValue}) × 16<sup>${position}</sup> = ${digitValue} × ${placeValue} = <strong>${contribution}</strong>`)
                 } else {
-                    steps.push(`<strong>${digit}</strong> × 16<sup>${position}</sup> = ${digit} × ${placeValue} = <strong>${contribution}</strong>`)
+                    steps.push(`>>> <strong>${digit}</strong> × 16<sup>${position}</sup> = ${digit} × ${placeValue} = <strong>${contribution}</strong>`)
                 }
             })
 
             const sum = placeValues.reduce((acc, val) => acc + val.contribution, 0)
-            steps.push(`Sum: ${placeValues.filter(v => v.contribution > 0).map(v => v.contribution).join(' + ')}`)
+            steps.push(`Sum the values: ${placeValues.map(v => v.contribution).join(' + ')}`)
             steps.push(`Result: <strong>${sum}</strong><sub>10</sub>`)
 
             return steps
@@ -299,13 +299,13 @@
                 nibbles.unshift(nibble.padStart(4, '0'))
             }
 
-            steps.push(`<strong>${nibbles.join(' ')}</strong>`)
+            steps.push(`>>> <strong>${nibbles.join(' ')}</strong>`)
             steps.push('Convert each group to hex:')
 
             nibbles.forEach(nibble => {
                 const decimal = parseInt(nibble, 2)
                 const hex = decimal.toString(16).toUpperCase()
-                steps.push(`${nibble}<sub>2</sub> = ${decimal}<sub>10</sub> = <strong>${hex}</strong><sub>16</sub>`)
+                steps.push(`>>> ${nibble}<sub>2</sub> = ${decimal}<sub>10</sub> = <strong>${hex}</strong><sub>16</sub>`)
             })
 
             steps.push(`Result: <strong>${this.getHex()}</strong><sub>16</sub>`)
@@ -325,7 +325,7 @@
                 const decimal = parseInt(digit, 16)
                 const binary = decimal.toString(2).padStart(4, '0')
                 nibbles.push(binary)
-                steps.push(`<strong>${digit}</strong><sub>16</sub> = ${decimal}<sub>10</sub> = <strong>${binary}</strong><sub>2</sub>`)
+                steps.push(`>>> <strong>${digit}</strong><sub>16</sub> = ${decimal}<sub>10</sub> = <strong>${binary}</strong><sub>2</sub>`)
             }
 
             steps.push(`Concatenate: ${nibbles.join(' + ')}`)
@@ -491,16 +491,41 @@
             const stepsList = document.createElement('ol')
             stepsList.className = 'convertor-steps-list'
 
-            steps.slice(1).forEach(step => {
-                const li = document.createElement('li')
-                li.innerHTML = step
-                stepsList.appendChild(li)
-            })
+            renderStepsWithNesting(steps.slice(1), stepsList)
 
             section.appendChild(stepsList)
         }
 
         return section
+    }
+
+    function renderStepsWithNesting(steps, container) {
+        let i = 0
+        while (i < steps.length) {
+            const step = steps[i]
+
+            if (step.startsWith('>>> ')) {
+                // Start a nested list
+                const nestedUl = document.createElement('ul')
+                nestedUl.className = 'convertor-nested-steps'
+
+                // Add all consecutive >>> items
+                while (i < steps.length && steps[i].startsWith('>>>')) {
+                    const li = document.createElement('li')
+                    li.innerHTML = steps[i].substring(3).trim() // Remove '>>>' prefix
+                    nestedUl.appendChild(li)
+                    i++
+                }
+
+                container.appendChild(nestedUl)
+            } else {
+                // Normal list item
+                const li = document.createElement('li')
+                li.innerHTML = step
+                container.appendChild(li)
+                i++
+            }
+        }
     }
 
     function createControls(state, container) {
@@ -600,11 +625,7 @@
             const stepsList = stepsSection.querySelector('.convertor-steps-list')
             if (stepsList && steps.length > 1) {
                 stepsList.innerHTML = ''
-                steps.slice(1).forEach(step => {
-                    const li = document.createElement('li')
-                    li.innerHTML = step
-                    stepsList.appendChild(li)
-                })
+                renderStepsWithNesting(steps.slice(1), stepsList)
             }
         }
     }

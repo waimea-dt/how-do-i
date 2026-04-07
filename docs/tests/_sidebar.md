@@ -11,7 +11,6 @@
     - [PseudoCode](tests/pseudo.md)
     - [Python Runner](tests/python.md)
     - [Kotlin Runner](tests/kotlin.md)
-    - [Number Base Converter](tests/convertor.md)
 
 - <i data-lucide="binary"></i>Databases
     - [Database Schema](tests/dbs.md)
@@ -47,6 +46,7 @@
     - [Memory Sim](tests/memory-sim.md)
 
 - <i data-lucide="mouse-pointer-click"></i>Interactive
+    - [Number Base Converter](tests/convertor.md)
     - [Flash Cards](tests/flash-cards.md)
     - [Reveal.js Slides](tests/slides.md)
     - [Quizzes](tests/quiz.md)
