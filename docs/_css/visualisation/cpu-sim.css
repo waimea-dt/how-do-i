@@ -4,46 +4,54 @@
 
 .markdown-section .cpu-simulator {
     /* Component-specific colors */
-    --cpu-fetch-color: var(--palette-color-3);
-    --cpu-decode-color: var(--color-warning);
-    --cpu-execute-color: var(--palette-color-1);
+    --cpu-fetch-color:          var(--palette-color-3);
+    --cpu-decode-color:         var(--color-warning);
+    --cpu-execute-color:        var(--palette-color-1);
 
     /* Code display colors */
-    --code-linenum-color: var(--color-mono-6);
-    --code-instruction-color: var(--color-text);
-    --code-comment-color: var(--color-mono-6);
-    --code-marker-color: var(--cpu-execute-color);
-    --code-executed-opacity: 0.5;
+    --code-linenum-color:       var(--color-mono-6);
+    --code-instruction-color:   var(--code-fg-color);
+    --code-comment-color:       var(--code-color-muted);
+    --code-directive-color:     var(--code-fg-color);
+    --code-keyword-color:       var(--code-color-blue);
+    --code-label-color:         var(--code-color-yellow);
+    --code-memory-color:        var(--code-color-green);
+    --code-register-color:      var(--code-color-cyan);
+    --code-number-color:        var(--code-color-orange);
+    --code-punctuation-color:   var(--code-fg-color);
+
+    --code-marker-color:        var(--cpu-execute-color);
+    --code-executed-opacity:    0.5;
 
     /* Memory display colors */
-    --memory-addr-color: var(--color-mono-6);
-    --memory-value-color: var(--color-text);
+    --memory-addr-color:        var(--color-mono-6);
+    --memory-value-color:       var(--color-text);
 
     /* Register display colors */
-    --register-label-color: var(--color-mono-6);
-    --register-value-color: var(--color-text);
+    --register-label-color:     var(--color-mono-6);
+    --register-value-color:     var(--color-text);
 
     /* Flag colors */
-    --flag-inactive-bg: var(--color-mono-1);
-    --flag-active-color: var(--color-important);
+    --flag-inactive-bg:         var(--color-mono-1);
+    --flag-active-color:        var(--color-important);
 
     /* Status colors */
-    --status-text-color: var(--color-text);
-    --status-secondary-color: var(--color-mono-6);
-    --status-border-color: var(--theme-color);
+    --status-text-color:        var(--color-text);
+    --status-secondary-color:   var(--color-mono-6);
+    --status-border-color:      var(--theme-color);
 
     /* Control button colors */
-    --btn-bg: var(--color-mono-min);
-    --btn-border: var(--border-color);
-    --btn-text: var(--color-text);
-    --btn-hover-border: var(--theme-color);
-    --btn-reset-color: var(--color-attention);
-    --btn-step-color: var(--cpu-fetch-color);
-    --btn-run-color: var(--cpu-execute-color);
+    --btn-bg:                   var(--color-mono-min);
+    --btn-border:               var(--border-color);
+    --btn-text:                 var(--color-text);
+    --btn-hover-border:         var(--theme-color);
+    --btn-reset-color:          var(--color-attention);
+    --btn-step-color:           var(--cpu-fetch-color);
+    --btn-run-color:            var(--cpu-execute-color);
 
     /* Section header colors */
-    --section-header-color: var(--theme-color-6);
-    --directive-header-color: var(--secondary-color-6);
+    --section-header-color:     var(--theme-color-6);
+    --directive-header-color:   var(--secondary-color-6);
 
     /* Font sizes (em units relative to base) */
     --font-size-xs: 0.88em;   /* Extra small - labels, line numbers */
@@ -79,7 +87,35 @@
         padding: var(--padding-panel);
         font-size: 0.9rem;
     }
+}
 
+/* Assembly Error Display */
+.markdown-section .cpu-simulator-error {
+    background: color-mix(in srgb, var(--color-attention), var(--color-bg) 85%);
+    border: 2px solid var(--color-attention);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin: var(--margin-block) 0;
+    font-family: var(--font-family-mono);
+
+    .error-title {
+        color: var(--color-attention);
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1.1em;
+        font-weight: 700;
+    }
+
+    .error-message {
+        margin: 0;
+        white-space: pre-wrap;
+        color: var(--color-text);
+        font-size: 0.9em;
+        font-family: var(--font-family-mono);
+    }
+}
+
+.markdown-section .cpu-simulator {
     /* Grid Layout */
 
     .cpu-sim-grid {
@@ -420,6 +456,15 @@
         .line-label {
             font-size: var(--font-size-xs);
             text-align: right;
+
+            .hl-name {
+                color: var(--code-label-color);
+                font-weight: 600;
+            }
+
+            .hl-punctuation {
+                color: var(--code-punctuation-color);
+            }
         }
 
         .line-num {
@@ -437,6 +482,54 @@
                 color: var(--code-comment-color);
                 font-style: italic;
                 opacity: 0.7;
+            }
+
+            /* Assembly syntax highlighting */
+            .hl-comment {
+                color: var(--code-comment-color);
+                font-style: italic;
+            }
+
+            .hl-directive,
+            .hl-atrule {
+                color: var(--code-directive-color);
+                font-weight: 500;
+            }
+
+            .hl-keyword {
+                color: var(--code-keyword-color);
+                font-weight: 500;
+            }
+
+            .hl-register,
+            .hl-constant {
+                color: var(--code-register-color);
+                font-weight: 500;
+            }
+
+            .hl-literal,
+            .hl-number {
+                color: var(--code-number-color);
+                font-weight: 500;
+            }
+
+            .hl-memory {
+                color: var(--code-memory-color);
+                font-weight: 500;
+            }
+
+            .hl-property {
+                color: var(--code-label-color);
+                font-weight: 500;
+            }
+
+            .hl-name {
+                color: var(--code-label-color);
+                font-weight: 500;
+            }
+
+            .hl-punctuation {
+                color: var(--code-punctuation-color);
             }
         }
     }

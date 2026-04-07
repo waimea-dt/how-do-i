@@ -94,18 +94,18 @@ This example demonstrates the AND, OR, and NOT instructions.
 
 ```cpu-sim
 .code
-        LOAD  R0, 240      ; 11110000 in binary
-        LOAD  R1, 15       ; 00001111 in binary
-        AND   R0, R1       ; R0 = 00000000 (0)
+        LOAD  R0, 0b11111000
+        LOAD  R1, 0b00011111
+        AND   R0, R1         ; 00011000 (24)
         STORE R0, [and]
 
-        LOAD  R0, 240
-        LOAD  R1, 15
-        OR    R0, R1       ; R0 = 11111111 (255)
+        LOAD  R0, 0b11100000
+        LOAD  R1, 0b00000111
+        OR    R0, R1         ; 11100111 (231)
         STORE R0, [or]
 
-        LOAD  R0, 15
-        NOT   R0           ; R0 = 11110000 (240)
+        LOAD  R0, 0b11000011
+        NOT   R0             ; 00111100 (60)
         STORE R0, [not]
         HALT
 
@@ -133,11 +133,13 @@ This example shows various ways to move data between registers and memory.
         COPY  R2, R1
         STORE R2, [value1]
 
-        LOAD  R3, 99
+        LOAD  R3, 0b00111001
+        ADD   R3, 0x0A
         STORE R3, [value2]
 
-        LOAD  R0, [value1]
+        LOAD  R0, [value2]
         ADD   R0, R3
+        STORE R0, [104]
         STORE R0, [sum]
         HALT
 
@@ -211,13 +213,13 @@ This example demonstrates the INC and DEC instructions.
 ```cpu-sim
 .code
         LOAD  R0, 126
-        INC   R0            ; R0 = 11
-        INC   R0            ; R0 = 12
+        INC   R0            ; R0 = 127
+        INC   R0            ; R0 = 128 (-128)
         STORE R0, [val1]
 
         LOAD  R1, 1
-        DEC   R1            ; R1 = 4
-        DEC   R1            ; R1 = 3
+        DEC   R1            ; R1 = 0
+        DEC   R1            ; R1 = -1 (255)
         STORE R1, [val2]
         HALT
 

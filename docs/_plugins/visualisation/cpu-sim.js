@@ -116,7 +116,10 @@
         execute() {
             const instruction = this.ir
             const result = this.executeInstruction(instruction)
-            this.pc++
+            // Only increment PC if the instruction didn't modify it (e.g., JUMP)
+            if (!result.pcModified) {
+                this.pc++
+            }
             this.cycle++
             this.phase = 'fetch'
             return result
@@ -182,9 +185,18 @@
                 // Arithmetic
                 case 'ADD': {
                     const dest = operands[0]  // Register
-                    const src = operands[1]   // Register
+                    const src = operands[1]   // Register or Immediate
                     const a = this.registers[dest]
-                    const b = this.registers[src]
+                    let b
+
+                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                        // Source is a register
+                        b = this.registers[src]
+                    } else {
+                        // Source is an immediate value
+                        b = src & 0xFF
+                    }
+
                     const sum = (a + b) & 0xFF
                     this.registers[dest] = sum
                     this.updateFlags(sum)
@@ -197,9 +209,18 @@
 
                 case 'SUB': {
                     const dest = operands[0]  // Register
-                    const src = operands[1]   // Register
+                    const src = operands[1]   // Register or Immediate
                     const a = this.registers[dest]
-                    const b = this.registers[src]
+                    let b
+
+                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                        // Source is a register
+                        b = this.registers[src]
+                    } else {
+                        // Source is an immediate value
+                        b = src & 0xFF
+                    }
+
                     let diff = a - b
                     // Handle negative values (8-bit wraparound)
                     if (diff < 0) diff = 256 + diff
@@ -241,10 +262,19 @@
 
                 // Logic
                 case 'AND': {
-                    const dest = operands[0]
-                    const src = operands[1]
+                    const dest = operands[0]  // Register
+                    const src = operands[1]   // Register or Immediate
                     const a = this.registers[dest]
-                    const b = this.registers[src]
+                    let b
+
+                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                        // Source is a register
+                        b = this.registers[src]
+                    } else {
+                        // Source is an immediate value
+                        b = src & 0xFF
+                    }
+
                     const result = (a & b) & 0xFF
                     this.registers[dest] = result
                     this.updateFlags(result)
@@ -256,10 +286,19 @@
                 }
 
                 case 'OR': {
-                    const dest = operands[0]
-                    const src = operands[1]
+                    const dest = operands[0]  // Register
+                    const src = operands[1]   // Register or Immediate
                     const a = this.registers[dest]
-                    const b = this.registers[src]
+                    let b
+
+                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                        // Source is a register
+                        b = this.registers[src]
+                    } else {
+                        // Source is an immediate value
+                        b = src & 0xFF
+                    }
+
                     const result = (a | b) & 0xFF
                     this.registers[dest] = result
                     this.updateFlags(result)
@@ -290,7 +329,8 @@
                     return {
                         phase: 'execute',
                         message: `Jumped to address ${addr}`,
-                        highlight: { pc: true }
+                        highlight: { pc: true },
+                        pcModified: true
                     }
                 }
 
@@ -301,7 +341,8 @@
                         return {
                             phase: 'execute',
                             message: `Jumped to ${addr} (Zero flag is set)`,
-                            highlight: { pc: true, flags: true }
+                            highlight: { pc: true, flags: true },
+                            pcModified: true
                         }
                     }
                     return {
@@ -318,7 +359,8 @@
                         return {
                             phase: 'execute',
                             message: `Jumped to ${addr} (Negative flag is set)`,
-                            highlight: { pc: true, flags: true }
+                            highlight: { pc: true, flags: true },
+                            pcModified: true
                         }
                     }
                     return {
@@ -335,7 +377,8 @@
                         return {
                             phase: 'execute',
                             message: `Jumped to ${addr} (Zero flag is clear)`,
-                            highlight: { pc: true, flags: true }
+                            highlight: { pc: true, flags: true },
+                            pcModified: true
                         }
                     }
                     return {
@@ -384,11 +427,14 @@
     // Assembly Parser
     // -------------------------------------------------------------------------
 
+    const VALID_OPERATIONS = ['LOAD', 'STORE', 'COPY', 'ADD', 'SUB', 'INC', 'DEC', 'AND', 'OR', 'NOT', 'JUMP', 'JUMPZ', 'JUMPN', 'JUMPNZ', 'HALT']
+
     function parseAssembly(text) {
         const lines = text.split('\n')
         const program = []
         const labels = {}
         const dataValues = {}  // Store initial data values
+        const errors = []
         let lineIndex = 0
         let pendingLabel = null
         let section = 'code'  // Current section: 'code' or 'data'
@@ -397,6 +443,7 @@
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i].trim()
             const originalLine = line  // Keep original line with comments for display
+            const displayLineNum = i + 1  // For error messages (1-indexed)
 
             // Skip empty lines
             if (!line) {
@@ -445,10 +492,32 @@
             // Handle data section
             if (section === 'data') {
                 // Format: label: value
-                const dataMatch = line.match(/^(\w+):\s*(-?\d+)$/)
+                const dataMatch = line.match(/^(\w+):\s*(-?\d+|0x[0-9a-f]+|0b[01]+)$/i)
                 if (dataMatch) {
                     const label = dataMatch[1]
-                    const value = parseInt(dataMatch[2]) & 0xFF
+                    const valueStr = dataMatch[2]
+                    let value
+
+                    // Parse the value
+                    if (valueStr.match(/^0x/i)) {
+                        value = parseInt(valueStr, 16)
+                    } else if (valueStr.match(/^0b/i)) {
+                        value = parseInt(valueStr.slice(2), 2)
+                    } else {
+                        value = parseInt(valueStr, 10)
+                    }
+
+                    // Validate value range
+                    if (value < -128 || value > 255) {
+                        errors.push(`Line ${displayLineNum}: Data value ${valueStr} out of range (-128 to 255)`)
+                    }
+
+                    // Check data address limit
+                    if (dataAddress > 109) {
+                        errors.push(`Line ${displayLineNum}: Data section overflow (max address is 109)`)
+                    }
+
+                    value = value & 0xFF
                     labels[label] = dataAddress
                     dataValues[dataAddress] = value
                     // Add to program as non-executable line
@@ -462,6 +531,8 @@
                         isExecutable: false
                     })
                     dataAddress++
+                } else {
+                    errors.push(`Line ${displayLineNum}: Invalid data definition format (expected: label: value)`)
                 }
                 continue
             }
@@ -497,7 +568,14 @@
             if (parts.length === 0) continue
 
             const op = parts[0].toUpperCase()
-            const operands = parts.slice(1).map(parseOperand)
+
+            // Validate operation
+            if (!VALID_OPERATIONS.includes(op)) {
+                errors.push(`Line ${displayLineNum}: Invalid operation '${parts[0]}' (must be one of: ${VALID_OPERATIONS.join(', ')})`)
+            }
+
+            const operandResults = parts.slice(1).map((opStr, idx) => parseOperand(opStr, displayLineNum, idx, errors))
+            const operands = operandResults.filter(r => r !== null)
 
             // If we have a pending label, attach it and update display text
             if (pendingLabel) {
@@ -519,17 +597,59 @@
             lineIndex++
         }
 
+        // Validate label references
+        for (const instruction of program) {
+            if (!instruction.isExecutable) continue
+
+            for (const operand of instruction.operands) {
+                // Check memory references
+                if (typeof operand === 'object' && operand.type === 'memory') {
+                    const addr = operand.value
+
+                    // If it's a label reference
+                    if (typeof addr === 'string' && !addr.match(/^\d+$/)) {
+                        if (labels[addr] === undefined) {
+                            errors.push(`Instruction '${instruction.text}': Undefined label '${addr}'`)
+                        }
+                    }
+                    // If it's a numeric address
+                    else if (typeof addr === 'number') {
+                        if (addr < 100 || addr > 109) {
+                            errors.push(`Instruction '${instruction.text}': Memory address ${addr} out of data range (100-109)`)
+                        }
+                    }
+                }
+                // Check jump target labels
+                else if (typeof operand === 'string' && !operand.match(/^R[0-3]$/)) {
+                    if (labels[operand] === undefined) {
+                        errors.push(`Instruction '${instruction.text}': Undefined jump target '${operand}'`)
+                    }
+                }
+            }
+        }
+
+        // If there are errors, throw them
+        if (errors.length > 0) {
+            throw new Error('Assembly errors:\n' + errors.join('\n'))
+        }
+
         return { program, labels, dataValues }
     }
 
-    function parseOperand(operand) {
+    function parseOperand(operand, lineNum, operandIndex, errors) {
+        const originalOperand = operand
+
         // Memory address with brackets: [addr] or [label]
         const memMatch = operand.match(/^\[(.+)\]$/)
         if (memMatch) {
             const addr = memMatch[1]
             // Check if it's a number or a label (will be resolved later)
             if (addr.match(/^\d+$/)) {
-                return { type: 'memory', value: parseInt(addr) }
+                const numAddr = parseInt(addr)
+                if (numAddr < 100 || numAddr > 109) {
+                    errors.push(`Line ${lineNum}: Memory address [${numAddr}] out of data range (100-109)`)
+                }
+                return { type: 'memory', value: numAddr }
             }
             return { type: 'memory', value: addr }  // Label to be resolved
         }
@@ -539,13 +659,50 @@
             return operand.toUpperCase()
         }
 
-        // Decimal literal
-        if (operand.match(/^-?\d+$/)) {
-            const value = parseInt(operand, 10)
+        // Invalid register
+        if (operand.match(/^R\d+$/i)) {
+            errors.push(`Line ${lineNum}: Invalid register '${operand}' (must be R0, R1, R2, or R3)`)
+            return null
+        }
+
+        // Hexadecimal literal (0xFF)
+        if (operand.match(/^0x[0-9a-f]+$/i)) {
+            const value = parseInt(operand, 16)
+            if (value < 0 || value > 255) {
+                errors.push(`Line ${lineNum}: Hexadecimal value ${operand} out of range (0x00 to 0xFF)`)
+            }
             return value & 0xFF  // Ensure 8-bit value
         }
 
-        // Otherwise it's a label (for jumps)
+        // Binary literal (0b11001100)
+        if (operand.match(/^0b[01]+$/i)) {
+            const value = parseInt(operand.slice(2), 2)
+            if (value < 0 || value > 255) {
+                errors.push(`Line ${lineNum}: Binary value ${operand} out of range (0b00000000 to 0b11111111)`)
+            }
+            return value & 0xFF  // Ensure 8-bit value
+        }
+
+        // Decimal literal
+        if (operand.match(/^-?\d+$/)) {
+            const value = parseInt(operand, 10)
+            if (value < -128 || value > 255) {
+                errors.push(`Line ${lineNum}: Decimal value ${operand} out of range (-128 to 255)`)
+            }
+            return value & 0xFF  // Ensure 8-bit value
+        }
+
+        // Check for invalid number formats
+        if (operand.match(/^0x/i)) {
+            errors.push(`Line ${lineNum}: Invalid hexadecimal literal '${operand}' (must contain only 0-9, A-F)`)
+            return null
+        }
+        if (operand.match(/^0b/i)) {
+            errors.push(`Line ${lineNum}: Invalid binary literal '${operand}' (must contain only 0 and 1)`)
+            return null
+        }
+
+        // Otherwise it's a label (for jumps) - will be validated later
         return operand
     }
 
@@ -762,23 +919,15 @@
 
                     if (instruction.label) {
                         // Label in its own column, code without label
-                        labelText = instruction.label.substring(0, 6).padStart(6, ' ') + ':'
+                        const paddedLabel = instruction.label.substring(0, 6).padStart(6, ' ')
+                        labelText = `<span class="hl-name">${escapeHtml(paddedLabel)}</span><span class="hl-punctuation">:</span>`
                         const codeWithoutLabel = instruction.text.replace(new RegExp(`^${instruction.label}:\\s*`), '')
-                        formattedCode = codeWithoutLabel
+                        formattedCode = highlightAsmSyntax(codeWithoutLabel)
                     } else {
                         // No label: empty label column
                         labelText = ''
-                        formattedCode = instruction.text.trimStart()
+                        formattedCode = highlightAsmSyntax(instruction.text.trimStart())
                     }
-
-                    // Escape HTML
-                    formattedCode = escapeHtml(formattedCode)
-
-                    // Highlight comments
-                    formattedCode = formattedCode.replace(
-                        /(;.*)$/,
-                        '<span class="code-comment">$1</span>'
-                    )
 
                     // Determine what to show in the line number column
                     let lineNumDisplay = ''
@@ -797,7 +946,7 @@
                         <div class="${className}">
                             <span class="line-marker">${marker}</span>
                             <span class="line-num">${lineNumDisplay}</span>
-                            <span class="line-label">${escapeHtml(labelText)}</span>
+                            <span class="line-label">${labelText}</span>
                             <span class="line-code">${formattedCode}</span>
                         </div>
                     `
@@ -827,6 +976,164 @@
         const div = document.createElement('div')
         div.textContent = text
         return div.innerHTML
+    }
+
+    function clearHighlighting(cpu, container) {
+        // Keep started flag true to maintain executed state
+        // Reset display phase to 'fetch'
+        cpu.displayPhase = 'fetch'
+
+        // Convert current line highlighting to executed, keep all as executed
+        const codeLines = container.querySelectorAll('.code-line')
+        codeLines.forEach(line => {
+            line.classList.remove('current-line', 'fetching', 'decoding', 'executing')
+            // Add executed class to ensure all lines including the final one are dimmed
+            if (!line.classList.contains('non-executable')) {
+                line.classList.add('executed')
+            }
+        })
+
+        // Clear line markers
+        const markers = container.querySelectorAll('.line-marker')
+        markers.forEach(marker => {
+            marker.textContent = ''
+        })
+
+        // Clear phase indicators
+        const phaseSteps = container.querySelectorAll('.phase-step')
+        phaseSteps.forEach(step => {
+            step.classList.remove('active')
+        })
+
+        // Remove any active highlight from flags
+        const flags = container.querySelectorAll('.cpu-flag')
+        flags.forEach(flag => {
+            flag.classList.remove('active')
+        })
+    }
+
+
+    function highlightAsmSyntax(code) {
+        if (!code || !code.trim()) return '&nbsp;'
+
+        let result = ''
+        let remaining = code
+
+        // Preserve leading whitespace
+        const leadingSpaceMatch = code.match(/^(\s*)/)
+        if (leadingSpaceMatch && leadingSpaceMatch[1]) {
+            result += leadingSpaceMatch[1]
+            remaining = code.slice(leadingSpaceMatch[1].length)
+        }
+
+        // Check for full-line comment
+        if (remaining.trim().startsWith(';')) {
+            result += `<span class="hl-comment">${remaining}</span>`
+            return result
+        }
+
+        // TINY-8 specific patterns
+        const patterns = [
+            { regex: /;.*$/, type: 'comment' },  // Comments (semicolon to end of line)
+            { regex: /^\.[a-z]+\b/i, type: 'directive' },  // Directives (.code, .data)
+            { regex: /\b(LOAD|STORE|COPY|ADD|SUB|INC|DEC|AND|OR|NOT|JUMP|JUMPZ|JUMPN|JUMPNZ|HALT)\b/, type: 'operation' },  // TINY-8 operations (case-sensitive)
+            { regex: /\b(R[0-3])\b/, type: 'register' },  // TINY-8 registers: R0, R1, R2, R3
+            { regex: /\[/, type: 'bracket-open' },  // Opening bracket
+            { regex: /\]/, type: 'bracket-close' },  // Closing bracket
+            { regex: /\b0x[0-9a-f]+\b/i, type: 'number' },  // Hexadecimal numbers
+            { regex: /\b0b[01]+\b/i, type: 'number' },  // Binary numbers
+            { regex: /\b\d+\b/, type: 'number' },  // Decimal numbers
+            { regex: /\b[a-zA-Z_]\w*(?=:)/, type: 'label' },  // Labels (word followed by colon)
+            { regex: /\b[a-zA-Z_]\w*\b/, type: 'identifier' },  // Identifiers (labels, references)
+            { regex: /:/, type: 'label-colon' },  // Colon after label
+            { regex: /,/, type: 'punctuation' }  // Comma
+        ]
+
+        let pos = 0
+        const tokens = []
+        let inMemoryRef = false
+
+        while (pos < remaining.length) {
+            let matched = false
+
+            for (const { regex, type } of patterns) {
+                const tempRegex = new RegExp('^' + regex.source, regex.flags)
+                const match = remaining.slice(pos).match(tempRegex)
+
+                if (match) {
+                    if (type === 'bracket-open') {
+                        inMemoryRef = true
+                    } else if (type === 'bracket-close') {
+                        inMemoryRef = false
+                    }
+
+                    tokens.push({ text: match[0], type, inMemoryRef: inMemoryRef && type !== 'bracket-open' && type !== 'bracket-close' })
+                    pos += match[0].length
+                    matched = true
+                    break
+                }
+            }
+
+            if (!matched) {
+                tokens.push({ text: remaining[pos], type: 'text', inMemoryRef })
+                pos++
+            }
+        }
+
+        // Build result from tokens
+        for (const token of tokens) {
+            switch (token.type) {
+                case 'comment':
+                    result += `<span class="hl-comment">${token.text}</span>`
+                    break
+                case 'directive':
+                    result += `<span class="hl-atrule">${token.text}</span>`
+                    break
+                case 'operation':
+                    result += `<span class="hl-keyword">${token.text}</span>`
+                    break
+                case 'register':
+                    result += `<span class="hl-constant">${token.text}</span>`
+                    break
+                case 'bracket-open':
+                case 'bracket-close':
+                    result += token.text  // No highlighting for brackets themselves
+                    break
+                case 'number':
+                    if (token.inMemoryRef) {
+                        result += `<span class="hl-memory">${token.text}</span>`  // Numeric memory address
+                    } else {
+                        result += `<span class="hl-number">${token.text}</span>`  // Immediate value
+                    }
+                    break
+                case 'label':
+                    result += `<span class="hl-name">${token.text}</span>`
+                    break
+                case 'identifier':
+                    if (token.inMemoryRef) {
+                        // Identifier inside brackets (memory reference)
+                        result += `<span class="hl-property">${token.text}</span>`
+                    } else {
+                        // Identifier outside brackets (jump target/label reference)
+                        result += `<span class="hl-property">${token.text}</span>`
+                    }
+                    break
+                case 'label-colon':
+                    result += `<span class="hl-punctuation">${token.text}</span>`
+                    break
+                case 'punctuation':
+                    result += `<span class="hl-punctuation">${token.text}</span>`
+                    break
+                case 'text':
+                    // Plain text (whitespace, unrecognized characters)
+                    result += token.text
+                    break
+                default:
+                    result += token.text
+            }
+        }
+
+        return result || '&nbsp;'
     }
 
     // -------------------------------------------------------------------------
@@ -871,6 +1178,10 @@
             if (result.done) {
                 btnStep.disabled = true
                 btnRun.disabled = true
+                // Clear highlighting after 1 second
+                setTimeout(() => {
+                    clearHighlighting(cpu, container)
+                }, 1000)
             }
         })
 
@@ -894,6 +1205,10 @@
                     btnStep.disabled = true
                     btnRun.disabled = true
                     statusMessage.textContent = result.message || 'Program complete'
+                    // Clear highlighting after 1 second
+                    setTimeout(() => {
+                        clearHighlighting(cpu, container)
+                    }, 1000)
                 }
             }, speed)
         })
@@ -935,27 +1250,47 @@
                 'fast': 500
             }
 
-            const cpu = new CPUState()
+            try {
+                const cpu = new CPUState()
 
-            const { program, labels, dataValues } = parseAssembly(code)
+                const { program, labels, dataValues } = parseAssembly(code)
 
-            cpu.program = program
-            cpu.labels = labels
+                cpu.program = program
+                cpu.labels = labels
 
-            // Initialize data memory with values from .data section
-            if (dataValues) {
-                Object.entries(dataValues).forEach(([addr, value]) => {
-                    cpu.memory[addr] = value
-                })
+                // Initialize data memory with values from .data section
+                if (dataValues) {
+                    Object.entries(dataValues).forEach(([addr, value]) => {
+                        cpu.memory[addr] = value
+                    })
+                }
+
+                const ui = createCpuUI(cpu)
+
+                // Replace the pre element with the simulator UI
+                preElement.parentNode.replaceChild(ui, preElement)
+
+                updateUI(cpu, ui)
+                setupControls(cpu, ui, { speed: speedMap[speed] || 1000 })
+            } catch (error) {
+                // Display assembly errors in a user-friendly format
+                const errorDiv = document.createElement('div')
+                errorDiv.className = 'cpu-simulator-error'
+
+                const errorTitle = document.createElement('strong')
+                errorTitle.className = 'error-title'
+                errorTitle.textContent = '⚠️ Assembly Error'
+
+                const errorList = document.createElement('pre')
+                errorList.className = 'error-message'
+                errorList.textContent = error.message
+
+                errorDiv.appendChild(errorTitle)
+                errorDiv.appendChild(errorList)
+
+                // Replace the pre element with the error display
+                preElement.parentNode.replaceChild(errorDiv, preElement)
             }
-
-            const ui = createCpuUI(cpu)
-
-            // Replace the pre element with the simulator UI
-            preElement.parentNode.replaceChild(ui, preElement)
-
-            updateUI(cpu, ui)
-            setupControls(cpu, ui, { speed: speedMap[speed] || 1000 })
         })
     }
 
