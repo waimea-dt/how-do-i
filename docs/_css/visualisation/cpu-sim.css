@@ -391,6 +391,7 @@
         display: grid;
         grid-template-columns: 0.75em 2em 4em 1fr;
         gap: var(--gap-normal);
+        align-items: center;
         padding: var(--padding-code-line);
         border-left: 3px solid transparent;
         transition: all 0.2s ease;
@@ -454,7 +455,6 @@
         }
 
         .line-label {
-            font-size: var(--font-size-xs);
             text-align: right;
 
             .hl-name {
