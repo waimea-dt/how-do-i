@@ -63,31 +63,17 @@
     --padding-cell: 0.25em 0.5em;      /* Cells: memory, registers, flags, control registers */
     --padding-button: 0.3em 0.6em;     /* Buttons, controls, dropdowns */
     --padding-code-line: 0.1em 0.5em;  /* Code display lines */
-    --padding-panel: 1rem;             /* Panel containers */
+    --padding-panel: 0.8em;            /* Panel containers */
 
     /* Gap (rem units - consistent spacing) */
     --gap-tight: 0.3em;      /* Between cells in lists */
     --gap-normal: 0.5em;     /* Standard inline spacing */
-    --gap-large: 1rem;       /* Between major sections */
+    --gap-large: 0.5em;      /* Between major sections */
 
     /* Margin (rare cases where gap cannot be used) */
     --margin-header: 0.75em; /* Panel headers */
-
-    container-type: inline-size;
-    margin: var(--margin-block) 0;
-    padding: var(--padding-panel);
-    background: var(--theme-color-1);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    font-family: var(--font-family-mono);
-    font-size: 0.85rem;
-
-    @container (min-width: 600px) {
-        padding: var(--padding-panel);
-        font-size: 0.9rem;
-    }
 }
+
 
 /* Assembly Error Display */
 .markdown-section .cpu-simulator-error {
@@ -116,26 +102,42 @@
 }
 
 .markdown-section .cpu-simulator {
-    /* Grid Layout */
+    container-type: inline-size;
+    margin: var(--margin-block) 0;
+    padding: var(--gap-large);
+    background: var(--theme-color-1);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    font-family: var(--font-family-mono);
+    font-size: 0.75rem;
+
+    @container (min-width: 600px) {
+        --padding-panel: 1em;
+        --gap-large: 1em;
+        font-size: 0.9rem;
+    }
 
     .cpu-sim-grid {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 13em;
         grid-template-areas:
-            "code"
-            "state"
-            "memory"
-            "status"
-            "controls";
+            "code code"
+            "state memory"
+            "controls controls"
+            "status status";
         gap: var(--gap-large);
 
-        @container (min-width: 600px) {
-            grid-template-columns: 1fr 13em;
-            grid-template-areas:
-                "code code"
-                "state memory"
-                "status status"
-                "controls controls";
+        .cpu-register .reg-alt-value,
+        .cpu-btn .btn-text {
+            display: none;
+        }
+
+        @container (min-width: 440px) {
+            .cpu-register .reg-alt-value,
+            .cpu-btn .btn-text {
+                display: initial;
+            }
         }
 
         @container (min-width: 900px) {
@@ -182,7 +184,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--section-header-color);
-            padding-bottom: var(--gap-normal);
+            /* padding-bottom: var(--gap-normal); */
         }
     }
 
@@ -636,25 +638,22 @@
 
     .cpu-sim-controls {
         display: flex;
-        /* flex-direction: column; */
         gap: var(--gap-normal);
-        /* align-items: stretch; */
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
         padding: var(--padding-panel);
         background: var(--color-mono-min);
         border: 1px solid var(--border-color);
         border-radius: calc(var(--border-radius) / 2);
-
-        /* @container (min-width: 600px) { */
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: flex-start;
-        /* } */
     }
 
     .cpu-btn {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
+        min-width: 3em;
         gap: var(--gap-normal);
         padding: var(--padding-button);
         background: var(--btn-bg);

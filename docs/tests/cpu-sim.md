@@ -133,14 +133,14 @@ This example shows various ways to move data between registers and memory.
         COPY  R2, R1
         STORE R2, [value1]
 
-        LOAD  R3, 0b00111001
-        ADD   R3, 0x0A
-        STORE R3, [value2]
+        LOAD  R0, 0b00111001
+        ADD   R0, 0x0A
+        STORE R0, [value2]
 
-        LOAD  R0, [value2]
-        ADD   R0, R3
-        STORE R0, [104]
-        STORE R0, [sum]
+        LOAD  R1, [value2]
+        ADD   R1, R2
+        STORE R1, [sum]
+        STORE R1, [104]
         HALT
 
 .data

@@ -6,10 +6,10 @@
  *
  * TINY-8 Architecture:
  *   - Word size: 8-bit (values 0–255)
- *   - Registers: R0, R1, R2, R3 (general purpose)
- *   - Memory: 110 bytes (addresses 0–109)
+ *   - Registers: R0, R1, R2 (general purpose)
+ *   - Memory: Configurable (default: 108 bytes, addresses 0–107)
  *     - 000–099: .code section (program instructions)
- *     - 100–109: .data section (variables and data)
+ *     - 100–107: .data section (variables and data, configurable)
  *   - Flags: Z (Zero), N (Negative)
  *   - Control: PC (Program Counter), IR (Instruction Register)
  *
@@ -36,12 +36,32 @@
 ;(function () {
 
     // -------------------------------------------------------------------------
+    // Configuration Constants
+    // -------------------------------------------------------------------------
+
+    const NUM_REGISTERS = 3     // Number of general-purpose registers (R0, R1, R2)
+    const DATA_MEM_START = 100  // Start address of data memory section
+    const DATA_MEM_SIZE = 8     // Number of data memory locations
+    const DATA_MEM_END = DATA_MEM_START + DATA_MEM_SIZE - 1  // End address of data memory section (inclusive)
+
+    // Derived patterns based on NUM_REGISTERS
+    const MAX_REGISTER_INDEX = NUM_REGISTERS - 1
+    const REGISTER_PATTERN = new RegExp(`^R[0-${MAX_REGISTER_INDEX}]$`)
+    const REGISTER_PATTERN_I = new RegExp(`^R[0-${MAX_REGISTER_INDEX}]$`, 'i')
+    const REGISTER_SYNTAX_PATTERN = new RegExp(`\\b(R[0-${MAX_REGISTER_INDEX}])\\b`)
+    const REGISTER_LIST = Array.from({ length: NUM_REGISTERS }, (_, i) => `R${i}`).join(', ')  // e.g., "R0, R1, R2"
+
+    // -------------------------------------------------------------------------
     // CPU State Model
     // -------------------------------------------------------------------------
 
     class CPUState {
         constructor() {
-            this.registers = { R0: 0, R1: 0, R2: 0, R3: 0 }
+            // Initialize registers dynamically based on NUM_REGISTERS
+            this.registers = {}
+            for (let i = 0; i < NUM_REGISTERS; i++) {
+                this.registers[`R${i}`] = 0
+            }
             this.pc = 0
             this.ir = null
             this.currentInstructionAddr = 0  // Address of instruction currently in IR
@@ -189,7 +209,7 @@
                     const a = this.registers[dest]
                     let b
 
-                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                    if (typeof src === 'string' && src.match(REGISTER_PATTERN)) {
                         // Source is a register
                         b = this.registers[src]
                     } else {
@@ -213,7 +233,7 @@
                     const a = this.registers[dest]
                     let b
 
-                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                    if (typeof src === 'string' && src.match(REGISTER_PATTERN)) {
                         // Source is a register
                         b = this.registers[src]
                     } else {
@@ -267,7 +287,7 @@
                     const a = this.registers[dest]
                     let b
 
-                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                    if (typeof src === 'string' && src.match(REGISTER_PATTERN)) {
                         // Source is a register
                         b = this.registers[src]
                     } else {
@@ -291,7 +311,7 @@
                     const a = this.registers[dest]
                     let b
 
-                    if (typeof src === 'string' && src.match(/^R[0-3]$/)) {
+                    if (typeof src === 'string' && src.match(REGISTER_PATTERN)) {
                         // Source is a register
                         b = this.registers[src]
                     } else {
@@ -438,7 +458,7 @@
         let lineIndex = 0
         let pendingLabel = null
         let section = 'code'  // Current section: 'code' or 'data'
-        let dataAddress = 100  // Data section starts at address 100
+        let dataAddress = DATA_MEM_START  // Data section starts at configured address
 
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i].trim()
@@ -513,8 +533,8 @@
                     }
 
                     // Check data address limit
-                    if (dataAddress > 109) {
-                        errors.push(`Line ${displayLineNum}: Data section overflow (max address is 109)`)
+                    if (dataAddress > DATA_MEM_END) {
+                        errors.push(`Line ${displayLineNum}: Data section overflow (max address is ${DATA_MEM_END})`)
                     }
 
                     value = value & 0xFF
@@ -614,13 +634,13 @@
                     }
                     // If it's a numeric address
                     else if (typeof addr === 'number') {
-                        if (addr < 100 || addr > 109) {
-                            errors.push(`Instruction '${instruction.text}': Memory address ${addr} out of data range (100-109)`)
+                        if (addr < DATA_MEM_START || addr > DATA_MEM_END) {
+                            errors.push(`Instruction '${instruction.text}': Memory address ${addr} out of data range (${DATA_MEM_START}-${DATA_MEM_END})`)
                         }
                     }
                 }
                 // Check jump target labels
-                else if (typeof operand === 'string' && !operand.match(/^R[0-3]$/)) {
+                else if (typeof operand === 'string' && !operand.match(REGISTER_PATTERN)) {
                     if (labels[operand] === undefined) {
                         errors.push(`Instruction '${instruction.text}': Undefined jump target '${operand}'`)
                     }
@@ -646,22 +666,22 @@
             // Check if it's a number or a label (will be resolved later)
             if (addr.match(/^\d+$/)) {
                 const numAddr = parseInt(addr)
-                if (numAddr < 100 || numAddr > 109) {
-                    errors.push(`Line ${lineNum}: Memory address [${numAddr}] out of data range (100-109)`)
+                if (numAddr < DATA_MEM_START || numAddr > DATA_MEM_END) {
+                    errors.push(`Line ${lineNum}: Memory address [${numAddr}] out of data range (${DATA_MEM_START}-${DATA_MEM_END})`)
                 }
                 return { type: 'memory', value: numAddr }
             }
             return { type: 'memory', value: addr }  // Label to be resolved
         }
 
-        // Register (R0, R1, R2, R3)
-        if (operand.match(/^R[0-3]$/i)) {
+        // Register (R0-R{MAX_REGISTER_INDEX})
+        if (operand.match(REGISTER_PATTERN_I)) {
             return operand.toUpperCase()
         }
 
         // Invalid register
         if (operand.match(/^R\d+$/i)) {
-            errors.push(`Line ${lineNum}: Invalid register '${operand}' (must be R0, R1, R2, or R3)`)
+            errors.push(`Line ${lineNum}: Invalid register '${operand}' (must be ${REGISTER_LIST})`)
             return null
         }
 
@@ -777,7 +797,7 @@
                     <span class="btn-text">Run</span>
                 </button>
                 <button class="cpu-btn cpu-btn-step" title="Execute one phase">
-                    <span class="btn-icon">▶|</span>
+                    <span class="btn-icon">▶❙</span>
                     <span class="btn-text">Step</span>
                 </button>
                 <button class="cpu-btn cpu-btn-reset" title="Reset CPU to initial state">
@@ -858,21 +878,21 @@
                 `).join('')
         }
 
-        // Update memory (addresses 100-109)
+        // Update memory (configurable data section)
         const memContainer = container.querySelector('.memory-display')
         if (memContainer) {
             // Create reverse lookup for labels (address -> label name)
             const addressLabels = {}
             Object.entries(cpu.labels).forEach(([label, addr]) => {
-                if (addr >= 100 && addr < 110) {
+                if (addr >= DATA_MEM_START && addr <= DATA_MEM_END) {
                     addressLabels[addr] = label
                 }
             })
 
             memContainer.innerHTML = cpu.memory
-                .slice(100, 110)  // Show 10 memory locations
+                .slice(DATA_MEM_START, DATA_MEM_END + 1)  // Show configured data memory locations
                 .map((value, index) => {
-                    const addr = 100 + index
+                    const addr = DATA_MEM_START + index
                     const label = addressLabels[addr] || ''
                     return `
                         <div class="memory-cell ${highlight.memory === addr ? 'highlight' : ''}">
@@ -1037,7 +1057,7 @@
             { regex: /;.*$/, type: 'comment' },  // Comments (semicolon to end of line)
             { regex: /^\.[a-z]+\b/i, type: 'directive' },  // Directives (.code, .data)
             { regex: /\b(LOAD|STORE|COPY|ADD|SUB|INC|DEC|AND|OR|NOT|JUMP|JUMPZ|JUMPN|JUMPNZ|HALT)\b/, type: 'operation' },  // TINY-8 operations (case-sensitive)
-            { regex: /\b(R[0-3])\b/, type: 'register' },  // TINY-8 registers: R0, R1, R2, R3
+            { regex: REGISTER_SYNTAX_PATTERN, type: 'register' },  // TINY-8 registers (configurable)
             { regex: /\[/, type: 'bracket-open' },  // Opening bracket
             { regex: /\]/, type: 'bracket-close' },  // Closing bracket
             { regex: /\b0x[0-9a-f]+\b/i, type: 'number' },  // Hexadecimal numbers
