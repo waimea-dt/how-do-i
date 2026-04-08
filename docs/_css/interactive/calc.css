@@ -1,0 +1,601 @@
+/**
+ * Binary Calculator
+ * Interactive visualization for binary arithmetic and bitwise operations
+ * Displays numbers in vertical stack notation like traditional arithmetic
+ */
+
+.markdown-section calc {
+    /* Component-specific colors */
+    --operand1-color:           var(--theme-color);
+    --operand2-color:           var(--secondary-color);
+    --result-color:             var(--palette-color-1);
+    --operation-color:          var(--palette-color-2);
+    --overflow-color:           var(--error-color);
+
+    /* Background colors */
+    --wrapper-bg:               var(--color-mono-1);
+    --operand1-bg:              color-mix(in srgb, var(--theme-color), transparent 85%);
+    --operand2-bg:              color-mix(in srgb, var(--secondary-color), transparent 85%);
+    --result-bg:                color-mix(in srgb, var(--palette-color-1), transparent 85%);
+    --overflow-bg:              color-mix(in srgb, var(--error-color), transparent 80%);
+    --input-bg:                 var(--color-mono-0);
+    --interp-bg:                var(--color-mono-2);
+    --interp-result-bg:         color-mix(in srgb, var(--palette-color-1), transparent 90%);
+    --steps-bg:                 var(--color-mono-2);
+
+    /* Border colors */
+    --wrapper-border:           var(--color-mono-3);
+    --input-border:             var(--color-mono-4);
+    --input-border-hover:       var(--color-mono-5);
+    --input-border-focus:       var(--theme-color);
+    --interp-result-border:     var(--palette-color-1);
+
+    /* Text colors */
+    --input-color:              var(--color-text);
+    --label-color:              var(--color-mono-7);
+    --steps-title-color:        var(--color-mono-9);
+    --flag-color:               var(--color-mono-6);
+    --flag-active-color:        var(--color-mono-0);
+
+    /* Flag colors */
+    --flag-bg:                  var(--color-mono-3);
+    --flag-active-bg:           var(--error-color);
+
+    /* Font settings */
+    --calc-font-mono:           var(--font-family-mono);
+
+    display: block;
+    margin: var(--margin-block) 0;
+
+    .calc-wrapper {
+        background: var(--wrapper-bg);
+        border: 2px solid var(--wrapper-border);
+        border-radius: var(--border-radius);
+        padding: 1.5em;
+        box-shadow: var(--box-shadow);
+    }
+
+    .calc-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5em;
+    }
+
+    /* Header with operation display */
+    .calc-header {
+        text-align: center;
+        padding-bottom: 1em;
+        border-bottom: 2px solid var(--wrapper-border);
+    }
+
+    .calc-operation-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5em;
+    }
+
+    .calc-op-symbol {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--operation-color);
+        font-family: var(--calc-font-mono);
+    }
+
+    .calc-op-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--operation-color);
+    }
+
+    /* Input fields */
+    .calc-inputs {
+        display: flex;
+        gap: 2em;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .calc-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        min-width: 180px;
+    }
+
+    .calc-input-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--label-color);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+    }
+
+    .calc-input {
+        padding: 0.75em 1.25em;
+        background: var(--input-bg);
+        border: 2px solid var(--input-border);
+        border-radius: var(--border-radius);
+        font-family: var(--calc-font-mono);
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--input-color);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        text-align: center;
+
+        &:focus {
+            outline: none;
+            border-color: var(--input-border-focus);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-border-focus), transparent 70%);
+        }
+
+        &:hover:not(:focus) {
+            border-color: var(--input-border-hover);
+        }
+    }
+
+    /* Binary stack display - traditional arithmetic notation */
+    .calc-binary-stack {
+        display: flex;
+        justify-content: center;
+        padding: 2em 1em;
+        overflow-x: auto;
+        background: color-mix(in srgb, var(--color-mono-0), transparent 50%);
+        border-radius: var(--border-radius);
+    }
+
+    .calc-stack {
+        display: grid;
+        grid-template-columns: 1.8em 1.2em repeat(8, 1.2em) 1.5em repeat(3, minmax(3em, auto));
+        gap: 0.4em 0.35em;
+        font-family: var(--calc-font-mono);
+        font-size: clamp(1.2rem, 3vw, 2rem);
+        line-height: 1.6;
+        align-items: center;
+    }
+
+    /* Header row with bit place values and interpretation labels */
+    .calc-stack-header {
+        display: contents;
+    }
+
+    .calc-stack-bit-header,
+    .calc-stack-interp-header .calc-stack-interp-item {
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.5em;
+        color: var(--label-color);
+    }
+
+    .calc-stack-row {
+        display: contents;
+    }
+
+    .calc-stack-operator {
+        text-align: right;
+        font-weight: 700;
+        font-size: 1.3em;
+        grid-column: 1;
+    }
+
+    .calc-stack-value1 .calc-stack-operator {
+        color: var(--operand1-color);
+    }
+
+    .calc-stack-value2 .calc-stack-operator {
+        color: var(--operand2-color);
+    }
+
+    .calc-stack-digit {
+        text-align: center;
+        font-weight: 500;
+        padding: 0.15em 0.25em;
+        border-radius: 4px;
+        transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
+
+        &:hover {
+            transform: scale(1.15);
+        }
+    }
+
+    /* Active digit during animation */
+    .calc-stack-active {
+        box-shadow: inset 0 0 1px 2px var(--highlight-color);
+        animation: pulse-active 0.8s ease-in-out infinite;
+        transform: scale(1.1);
+    }
+
+    @keyframes pulse-active {
+        0%, 100% {
+            box-shadow: inset 0 0 1px 2px var(--highlight-color);
+        }
+        50% {
+            box-shadow: inset 0 0 2px 3px var(--highlight-color);
+        }
+    }
+
+    /* Error state during animation - red highlight for positions needing borrow */
+    .calc-stack-error {
+        box-shadow: inset 0 0 1px 2px rgba(220, 38, 38, 0.7);
+        animation: pulse-error 0.8s ease-in-out infinite;
+        transform: scale(1.1);
+        background-color: rgba(220, 38, 38, 0.08) !important;
+    }
+
+    @keyframes pulse-error {
+        0%, 100% {
+            box-shadow: inset 0 0 1px 2px rgba(220, 38, 38, 0.7);
+        }
+        50% {
+            box-shadow: inset 0 0 2px 3px rgba(220, 38, 38, 0.9);
+        }
+    }
+
+    /* Unknown/pending result digit during animation */
+    .calc-stack-unknown {
+        color: var(--color-mono-5) !important;
+        opacity: 0.4;
+    }
+
+    .calc-stack-carry-bit.calc-stack-active {
+        color: var(--highlight-color);
+        font-weight: 600;
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    .calc-stack-value1 {
+        .calc-stack-digit {
+            background: var(--operand1-bg);
+            color: var(--operand1-color);
+        }
+    }
+
+    .calc-stack-value2 {
+        .calc-stack-digit {
+            background: var(--operand2-bg);
+            color: var(--operand2-color);
+        }
+    }
+
+    .calc-stack-result {
+        .calc-stack-digit {
+            background: var(--result-bg);
+            color: var(--result-color);
+            font-weight: 600;
+        }
+    }
+
+    .calc-stack-overflow-bit {
+        color: var(--overflow-color);
+        background: var(--overflow-bg);
+        padding: 0.15em 0.4em;
+        border-radius: 4px;
+        font-weight: 900;
+        animation: pulse-overflow 1.5s ease-in-out infinite;
+        border: 2px solid var(--overflow-color);
+        text-align: center;
+    }
+
+    @keyframes pulse-overflow {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+    }
+
+    .calc-stack-divider {
+        grid-column: 1 / -1;
+        height: 3px;
+        background: var(--color-text);
+        margin: 0.2em 0;
+        opacity: 0.6;
+        border-radius: 2px;
+    }
+
+    /* Carry row for addition */
+    .calc-stack-carry {
+        display: contents;
+    }
+
+    .calc-stack-carry-bit {
+        text-align: center;
+        font-weight: 500;
+        font-size: 0.75em;
+        color: var(--palette-color-2);
+        opacity: 0.8;
+        font-style: italic;
+        padding-top: 0.2em;
+        border-radius: 4px;
+    }
+
+    /* Borrow row for subtraction */
+    .calc-stack-borrow {
+        display: contents;
+    }
+
+    .calc-stack-borrow-bit {
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.75em;
+        color: var(--palette-color-2);
+        padding-bottom: 0.3em;
+        line-height: 1;
+        white-space: nowrap;
+        border-radius: 4px;
+    }
+
+    /* Borrowed digits in value1 (show original as grey and crossed out) */
+    .calc-stack-borrowed {
+        opacity: 0.4;
+        color: var(--color-mono-6) !important;
+        text-decoration: line-through;
+    }
+
+    /* Inline interpretations next to binary digits */
+    .calc-stack-interp {
+        display: contents;
+    }
+
+    .calc-stack-interp-header {
+        display: contents;
+        font-weight: 600;
+        color: var(--label-color);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .calc-stack-interp-item {
+        text-align: center;
+        font-weight: 600;
+        font-family: var(--calc-font-mono);
+    }
+
+    .calc-stack-interp-value {
+        font-weight: 600;
+        font-family: var(--calc-font-mono);
+    }
+
+    .calc-stack-value1 .calc-stack-interp-value {
+        color: var(--operand1-color);
+    }
+
+    .calc-stack-value2 .calc-stack-interp-value {
+        color: var(--operand2-color);
+    }
+
+    .calc-stack-result .calc-stack-interp-value {
+        color: var(--result-color);
+    }
+
+    /* Hide interpretations table (now inline) */
+    .calc-interpretations {
+        display: none;
+    }
+
+    .calc-interp-header {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--label-color);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .calc-interp-table {
+        display: grid;
+        gap: 0.5em;
+    }
+
+    .calc-interp-row {
+        display: grid;
+        grid-template-columns: 120px repeat(4, 1fr);
+        gap: 1em;
+        align-items: center;
+        padding: 0.75em 1em;
+        background: var(--interp-bg);
+        border-radius: var(--border-radius);
+        font-family: var(--calc-font-mono);
+        font-size: 0.95rem;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 100px repeat(4, 1fr);
+            gap: 0.5em;
+            font-size: 0.85rem;
+            padding: 0.6em 0.75em;
+        }
+    }
+
+    .calc-interp-header-row {
+        background: transparent;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--label-color);
+        font-family: var(--font-family);
+        padding-bottom: 0.5em;
+        border-bottom: 2px solid var(--wrapper-border);
+
+        @media (max-width: 768px) {
+            font-size: 0.7rem;
+        }
+    }
+
+    .calc-interp-label {
+        font-weight: 700;
+        color: var(--color-text);
+        text-align: left;
+    }
+
+    .calc-interp-value {
+        text-align: center;
+        color: var(--color-text);
+    }
+
+    .calc-interp-result-row {
+        background: var(--interp-result-bg);
+        border: 2px solid var(--interp-result-border);
+        font-weight: 700;
+        margin-top: 0.25em;
+
+        .calc-interp-label {
+            color: var(--result-color);
+        }
+
+        .calc-interp-value {
+            color: var(--result-color);
+        }
+    }
+
+    /* Flags */
+    .calc-flags {
+        display: flex;
+        gap: 1em;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .calc-flag {
+        padding: 0.5em 1em;
+        background: var(--flag-bg);
+        border-radius: var(--border-radius);
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--flag-color);
+        transition: all 0.3s;
+        border: 2px solid transparent;
+
+        &.calc-flag-active {
+            background: var(--flag-active-bg);
+            color: var(--flag-active-color);
+            border-color: var(--flag-active-bg);
+            box-shadow: 0 0 12px color-mix(in srgb, var(--flag-active-bg), transparent 50%);
+            animation: pulse-flag 2s ease-in-out infinite;
+        }
+    }
+
+    @keyframes pulse-flag {
+        0%, 100% {
+            box-shadow: 0 0 12px color-mix(in srgb, var(--flag-active-bg), transparent 50%);
+        }
+        50% {
+            box-shadow: 0 0 20px color-mix(in srgb, var(--flag-active-bg), transparent 30%);
+        }
+    }
+
+    /* Steps explanation */
+    .calc-steps {
+        background: var(--steps-bg);
+        border-radius: var(--border-radius);
+        border: 2px solid var(--wrapper-border);
+        padding: 1.25em;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .calc-steps-title {
+        margin: 0;
+        padding: 0;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--steps-title-color);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .calc-steps-list {
+        font-family: var(--calc-font-mono);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--color-text);
+
+        p {
+            margin: 0.5em 0;
+        }
+
+        .calc-step-title {
+            font-weight: 600;
+            color: var(--steps-title-color);
+            margin-top: 1em;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        .calc-nested-steps {
+            list-style-type: disc;
+            margin: 0.5em 0 0.75em 2em;
+            padding: 0;
+
+            li {
+                margin: 0.4em 0;
+                padding-left: 0.5em;
+                color: var(--color-mono-7);
+            }
+        }
+
+        sup {
+            font-size: 0.7em;
+            vertical-align: super;
+        }
+
+        sub {
+            font-size: 0.7em;
+            vertical-align: sub;
+        }
+
+        code {
+            background: var(--color-mono-3);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: var(--calc-font-mono);
+        }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+        .calc-wrapper {
+            padding: 1em;
+        }
+
+        .calc-container {
+            gap: 1em;
+        }
+
+        .calc-inputs {
+            gap: 1em;
+        }
+
+        .calc-input-group {
+            min-width: 140px;
+        }
+
+        .calc-binary-stack {
+            padding: 1.5em 0.5em;
+        }
+
+        .calc-stack {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            gap: 0.3em 0.25em;
+        }
+
+        .calc-op-symbol {
+            font-size: 2rem;
+        }
+
+        .calc-op-name {
+            font-size: 0.95rem;
+        }
+    }
+}

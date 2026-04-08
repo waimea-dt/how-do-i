@@ -47,6 +47,7 @@
 
 - <i data-lucide="mouse-pointer-click"></i>Interactive
     - [Number Base Converter](tests/convertor.md)
+    - [Binary Calculator](tests/calc.md)
     - [Flash Cards](tests/flash-cards.md)
     - [Reveal.js Slides](tests/slides.md)
     - [Quizzes](tests/quiz.md)
