@@ -30,7 +30,7 @@
     // Subtraction animation timing
     const ANIMATION_SUB_INPUT_PHASE_MS = 1000  // Duration to highlight digits to subtract
     const ANIMATION_SUB_BORROW_STEP_MS = 500   // Duration for each borrow propagation step
-    const ANIMATION_SUB_RESULT_PHASE_MS = 500  // Duration to highlight result
+    const ANIMATION_SUB_RESULT_PHASE_MS = 1000 // Duration to highlight result (matches addition)
     const ANIMATION_SUB_PAUSE_PHASE_MS = 500   // Duration of pause between positions
 
     // -------------------------------------------------------------------------
@@ -55,8 +55,15 @@
             this.phaseTimer = null
             this.debounceTimer = null
             this.animationHasRun = false // Track if animation has started (to hide carries/borrows initially)
-            this.borrowAnimationStep = -1 // For subtraction: which borrow propagation step we're on
-            this.borrowAnimationPhase = null // For subtraction: 'search', 'found', 'propagate'
+            // Real-time addition animation state
+            this.carryValues = null // Array of carry values (null = not calculated yet, 0 or 1 = carry value)
+            this.currentCarry = 0 // Current carry value during addition
+            // Real-time subtraction animation state
+            this.borrowValues = null // Array of borrow values (null = not set, number = borrow value)
+            this.value1Crossed = null // Array of booleans indicating if value1 bit has been crossed out
+            this.borrowSearchPos = -1 // Current position being searched during borrow
+            this.borrowSourcePos = -1 // Position we're borrowing from
+            this.borrowPropagatePos = -1 // Current position during propagation
         }
 
         calculate() {
@@ -102,12 +109,9 @@
             const resultSigned = (result & signBit) !== 0
             const overflow = (v1Signed === v2Signed) && (v1Signed !== resultSigned)
 
-            // Calculate carry bits for each position
-            const carryBits = this.calculateCarryBits(v1, v2)
-
             const steps = this.generateAddSteps(v1, v2, result, carry)
 
-            return { result, carry, overflow, steps, resultBeforeMask: sum, carryBits }
+            return { result, carry, overflow, steps, resultBeforeMask: sum }
         }
 
         performSub(v1, v2) {
@@ -124,14 +128,9 @@
             const resultSigned = (result & signBit) !== 0
             const overflow = (v1Signed !== v2Signed) && (v1Signed !== resultSigned)
 
-            // Calculate borrow bits for each position
-            const borrowBits = this.calculateBorrowBits(v1, v2)
-            const adjustedV1Digits = this.calculateAdjustedValue1(v1, v2, borrowBits)
-            const borrowPropagation = this.calculateBorrowPropagation(v1, v2)
-
             const steps = this.generateSubSteps(v1, v2, negV2, result, borrow)
 
-            return { result, carry: !borrow, overflow, steps, resultBeforeMask: sum, borrowBits, adjustedV1Digits, borrowPropagation }
+            return { result, carry: !borrow, overflow, steps, resultBeforeMask: sum }
         }
 
         performAnd(v1, v2) {
@@ -210,113 +209,6 @@
             carryBits.unshift(currentCarry) // Final carry out
 
             return carryBits
-        }
-
-        calculateBorrowBits(v1, v2) {
-            const borrowBits = []
-            let currentBorrow = 0
-
-            for (let i = 0; i < this.bits; i++) {
-                const bit1 = (v1 >> i) & 1
-                const bit2 = (v2 >> i) & 1
-
-                // Need to borrow if (bit1 - currentBorrow) < bit2
-                const effectiveBit1 = bit1 - currentBorrow
-                if (effectiveBit1 < bit2) {
-                    borrowBits.unshift(1)
-                    currentBorrow = 1
-                } else {
-                    borrowBits.unshift(0)
-                    currentBorrow = 0
-                }
-            }
-            borrowBits.unshift(0) // No borrow into leftmost position
-
-            return borrowBits
-        }
-
-        calculateAdjustedValue1(v1, v2, borrowBits) {
-            // Calculate what each digit of v1 effectively becomes after borrowing
-            const adjustedDigits = []
-            let currentBorrow = 0
-
-            for (let i = 0; i < this.bits; i++) {
-                const bit1 = (v1 >> i) & 1
-                const bit2 = (v2 >> i) & 1
-
-                // This position's value after accounting for previous borrow
-                let adjustedBit = bit1 - currentBorrow
-
-                // Need to borrow if adjusted value is less than bit2
-                if (adjustedBit < bit2) {
-                    adjustedBit += 2 // Add 10 in binary (borrow from next position)
-                    currentBorrow = 1
-                } else {
-                    currentBorrow = 0
-                }
-
-                adjustedDigits.unshift(adjustedBit)
-            }
-
-            return adjustedDigits
-        }
-
-        calculateBorrowPropagation(v1, v2) {
-            // Calculate detailed borrow propagation for animation
-            // Returns array of objects: { needsBorrow, sourcePos, propagationPath }
-            const propagationInfo = []
-
-            for (let i = 0; i < this.bits; i++) {
-                const bitPos = i // Position 0 is rightmost, position (bits-1) is leftmost
-                const bit1 = (v1 >> i) & 1
-                const bit2 = (v2 >> i) & 1
-
-                // Check if we need to borrow (considering already borrowed from previous)
-                let effectiveBit1 = bit1
-                // Check if this position was borrowed from by the position to the right
-                if (i > 0) {
-                    const rightBit1 = (v1 >> (i - 1)) & 1
-                    const rightBit2 = (v2 >> (i - 1)) & 1
-                    // Simplified: if right position can't subtract, it borrows from us
-
-                if (rightBit1 < rightBit2) {
-                        effectiveBit1 = bit1 - 1
-                    }
-                }
-
-                if (effectiveBit1 < bit2) {
-                    // Need to borrow - find source
-                    const path = [bitPos]
-                    let sourcePos = bitPos
-
-                    // Search left (higher positions) for a 1 to borrow from
-                    for (let j = i + 1; j < this.bits; j++) {
-                        const sourceBit = (v1 >> j) & 1
-                        sourcePos = j
-                        path.push(sourcePos)
-
-                        if (sourceBit === 1) {
-                            break
-                        }
-                    }
-
-                    propagationInfo.push({
-                        position: bitPos,
-                        needsBorrow: true,
-                        sourcePos: sourcePos,
-                        propagationPath: path
-                    })
-                } else {
-                    propagationInfo.push({
-                        position: bitPos,
-                        needsBorrow: false,
-                        sourcePos: null,
-                        propagationPath: []
-                    })
-                }
-            }
-
-            return propagationInfo
         }
 
         generateAddSteps(v1, v2, result, carry) {
@@ -500,82 +392,41 @@
         html += '</div>'
 
         // Borrow row (for subtraction only) - appears above value1
-        if (state.op === 'sub' && state.adjustedV1Digits) {
+        if (state.op === 'sub' && state.borrowValues) {
             html += `<div class="calc-stack-row calc-stack-borrow">`
             html += '<span class="calc-stack-operator"></span>'
             html += '<span class="calc-stack-overflow-placeholder"></span>'
-            // Show adjusted values in borrow row (only where borrowing occurred)
+            // Show borrow values (null = dot, number = value)
             for (let i = 0; i < state.bits; i++) {
-                const originalBit = (state.value1 >> (state.bits - 1 - i)) & 1
-                const adjustedValue = state.adjustedV1Digits[i]
                 const bitPos = state.bits - 1 - i
-                const borrowInfo = state.borrowPropagation ? state.borrowPropagation[animStep] : null
+                const borrowValue = state.borrowValues[bitPos]
 
-                // During animation, determine what to show based on borrow animation state
-                let displayValue = '\u00b7'
+                let displayValue = '\u00b7' // Default: dot for null
                 let isActive = false
 
-                if (isAnimating && state.animationPhase === 'borrow' && borrowInfo && borrowInfo.propagationPath) {
-                    const pathIndex = borrowInfo.propagationPath.indexOf(bitPos)
+                if (borrowValue !== null) {
+                    displayValue = borrowValue.toString()
+                }
 
-                    if (state.borrowAnimationPhase === 'found' && bitPos === borrowInfo.sourcePos) {
-                        // Source position shows '0' after being found
-                        displayValue = '0'
+                // Highlight during inputs phase if this is the current position and has a borrow
+                if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs' && borrowValue !== null) {
+                    // Check if borrow value is less than value2 bit (error state)
+                    const v2Bit = (state.value2 >> bitPos) & 1
+                    if (borrowValue < v2Bit) {
+                        isActive = 'error'
+                    } else {
                         isActive = true
-                    } else if (state.borrowAnimationPhase === 'propagate' && pathIndex >= 0 && pathIndex < borrowInfo.propagationPath.length - 1) {
-                        // During propagate phase, show intermediate values
-                        // borrowAnimationStep indicates how far we've propagated from source (0-indexed)
-                        const sourceIndex = borrowInfo.propagationPath.length - 1
-                        const stepsFromSource = sourceIndex - pathIndex
-                        const propagateStep = state.borrowAnimationStep
-
-                        if (stepsFromSource < propagateStep) {
-                            // This position was already processed - show final '1' or final value
-                            if (pathIndex === 0) {
-                                // Original position that needed borrow - show final value
-                                const adjBinary = adjustedValue > 1 ? adjustedValue.toString(2) : adjustedValue.toString()
-                                displayValue = adjBinary
-                            } else {
-                                // Intermediate position - shows '1' after giving to next position
-                                displayValue = '1'
-                            }
-                        } else if (stepsFromSource === propagateStep) {
-                            // This position is currently being processed
-                            if (pathIndex === 0) {
-                                // Original position - receives final borrow value
-                                const adjBinary = adjustedValue > 1 ? adjustedValue.toString(2) : adjustedValue.toString()
-                                displayValue = adjBinary
-                                isActive = true
-                            } else {
-                                // Intermediate position - show '10' which will reduce to '1'
-                                displayValue = '10'
-                                isActive = true
-                            }
-                        }
-                    }
-                } else if (bitPos === animStep && state.animationPhase === 'inputs' && adjustedValue !== originalBit && borrowInfo && borrowInfo.needsBorrow) {
-                    // During inputs phase after borrow is resolved, highlight the borrow value
-                    // But if we're still in the initial inputs phase (no borrow shown yet), don't show it
-                    const animationComplete = state.animationHasRun && state.animationStep < 0
-                    const positionComplete = state.animationStep >= 0 && bitPos < animStep
-                    if (animationComplete || positionComplete) {
-                        const adjustedBinary = adjustedValue > 1 ? adjustedValue.toString(2) : adjustedValue.toString()
-                        displayValue = adjustedBinary
-                        isActive = true
-                    }
-                } else if (adjustedValue !== originalBit) {
-                    // Static display (after animation or for completed positions)
-                    const animationComplete = state.animationHasRun && state.animationStep < 0
-                    const positionComplete = state.animationStep >= 0 && bitPos < animStep
-                    const currentPositionShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
-
-                    if (animationComplete || positionComplete || currentPositionShown) {
-                        const adjustedBinary = adjustedValue > 1 ? adjustedValue.toString(2) : adjustedValue.toString()
-                        displayValue = adjustedBinary
                     }
                 }
 
-                const activeClass = isActive ? ' calc-stack-active' : ''
+                // Highlight during borrow propagate phase only (not search or source)
+                if (isAnimating && state.animationPhase === 'borrow') {
+                    if (bitPos === state.borrowPropagatePos) {
+                        isActive = true
+                    }
+                }
+
+                const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
                 html += `<span class="calc-stack-borrow-bit${activeClass}">${displayValue}</span>`
             }
             html += '<span class="calc-stack-spacer"></span>'
@@ -594,60 +445,40 @@
         }
         html += '<span class="calc-stack-overflow-placeholder"></span>' // Empty overflow column
 
-        // For subtraction, show original digits (grey where borrowed AFTER animation reaches that point)
-        if (state.op === 'sub' && state.adjustedV1Digits) {
+        // For subtraction, show original digits (grey where crossed out)
+        if (state.op === 'sub' && state.value1Crossed) {
             for (let i = 0; i < state.bits; i++) {
-                const originalBit = (state.value1 >> (state.bits - 1 - i)) & 1
-                const adjustedValue = state.adjustedV1Digits[i]
+                const bit = binary1[i]
                 const bitPos = state.bits - 1 - i
-                const borrowInfo = state.borrowPropagation ? state.borrowPropagation[animStep] : null
+                const isCrossed = state.value1Crossed[bitPos]
 
-                // Determine if this bit should be highlighted or greyed out
                 let isActive = false
-                let shouldBeGreyed = false
 
-                if (isAnimating) {
-                    if (bitPos === animStep && state.animationPhase === 'inputs') {
-                        // During inputs, highlight value1 if no borrow, or show error if borrow needed
-                        if (adjustedValue === originalBit) {
-                            isActive = true
-                        } else if (borrowInfo && borrowInfo.needsBorrow) {
-                            // Show error state (will be styled red)
-                            isActive = 'error'
-                        }
-                    } else if (state.animationPhase === 'borrow' && borrowInfo && borrowInfo.propagationPath) {
-                        const pathIndex = borrowInfo.propagationPath.indexOf(bitPos)
-
-                        if (state.borrowAnimationPhase === 'search' && pathIndex > 0 && pathIndex === state.borrowAnimationStep) {
-                            // Highlight current position being searched
-                            isActive = true
-                        } else if (state.borrowAnimationPhase === 'found' && bitPos === borrowInfo.sourcePos) {
-                            // Highlight and grey out the source position after it's found
-                            shouldBeGreyed = true
-                            isActive = true
-                        } else if (state.borrowAnimationPhase === 'propagate' && pathIndex >= 0 && pathIndex < borrowInfo.propagationPath.length - 1) {
-                            // Grey out positions as propagation reaches them
-                            const sourceIndex = borrowInfo.propagationPath.length - 1
-                            const stepsFromSource = sourceIndex - pathIndex
-                            if (stepsFromSource <= state.borrowAnimationStep) {
-                                shouldBeGreyed = true
-                                if (stepsFromSource === state.borrowAnimationStep) isActive = true
-                            }
+                // Highlight during inputs phase if this is the current position and no borrow value
+                if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs') {
+                    const borrowValue = state.borrowValues[bitPos]
+                    if (borrowValue === null) {
+                        // Get the actual bit values to check if borrow needed
+                        const v1Bit = (state.value1 >> bitPos) & 1
+                        const v2Bit = (state.value2 >> bitPos) & 1
+                        if (v1Bit < v2Bit) {
+                            isActive = 'error' // Show error if borrow needed but not yet resolved
+                        } else {
+                            isActive = true // Normal highlight
                         }
                     }
                 }
 
-                // Also grey out if animation is complete or position already processed
-                if (!shouldBeGreyed && adjustedValue !== originalBit) {
-                    const animationComplete = state.animationHasRun && state.animationStep < 0
-                    const positionComplete = state.animationStep >= 0 && bitPos < animStep
-                    const currentPositionShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
-                    shouldBeGreyed = animationComplete || positionComplete || currentPositionShown
+                // Highlight during borrow search/source phases only (not propagate - only borrow value highlights during propagate)
+                if (isAnimating && state.animationPhase === 'borrow') {
+                    if (bitPos === state.borrowSearchPos || bitPos === state.borrowSourcePos) {
+                        isActive = true
+                    }
                 }
 
                 const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
-                const greyedClass = shouldBeGreyed ? ' calc-stack-borrowed' : ''
-                html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${greyedClass}">${originalBit}</span>`
+                const greyedClass = isCrossed ? ' calc-stack-borrowed' : ''
+                html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${greyedClass}">${bit}</span>`
             }
         } else if (state.op === 'add') {
             // For addition animation, highlight current position during 'inputs' phase
@@ -680,15 +511,23 @@
                     if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs') {
                         // Check if this position needs borrowing (for subtraction error highlighting)
                         if (state.op === 'sub') {
-                            const borrowInfo = state.borrowPropagation ? state.borrowPropagation[animStep] : null
-                            if (borrowInfo && borrowInfo.needsBorrow) {
-                                isActive = 'error' // Show error state
+                            const borrowValue = state.borrowValues[bitPos]
+                            const v1Bit = (state.value1 >> bitPos) & 1
+                            const v2Bit = (state.value2 >> bitPos) & 1
+                            // Show error if borrow value (or v1 if no borrow) is less than v2
+                            const effectiveV1 = borrowValue !== null ? borrowValue : v1Bit
+                            if (effectiveV1 < v2Bit) {
+                                isActive = 'error' // Show error state if borrow needed but not yet resolved
                             } else {
                                 isActive = true
                             }
                         } else {
                             isActive = true
                         }
+                    }
+                    // For subtraction: also highlight at target position during final delay before subtraction
+                    if (state.op === 'sub' && isAnimating && state.animationPhase === 'borrow' && bitPos === animStep && bitPos === state.borrowPropagatePos) {
+                        isActive = true
                     }
                     const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
                     html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">${bit}</span>`
@@ -701,33 +540,29 @@
             html += '</div>'
         }
 
-        // Carry row (for addition only)
-        // Animation sequence: Phase 1 (inputs) shows operands + carry in, Phase 2 (carryOut) shows result + carry out
-        if (state.op === 'add' && state.carryBits) {
+        // Carry row (for addition only) - uses real-time calculated carries
+        if (state.op === 'add' && state.carryValues) {
             html += `<div class="calc-stack-row calc-stack-carry">`
             html += '<span class="calc-stack-operator"></span>'
             html += '<span class="calc-stack-overflow-placeholder"></span>'
-            // Render carry bits
-            for (let i = 1; i < state.carryBits.length; i++) {
-                const carryBit = state.carryBits[i]
-                const bitPos = state.bits - i
+            // Render carry bits (real-time calculated)
+            for (let i = 0; i < state.bits; i++) {
+                const bitPos = state.bits - 1 - i
+                const carryBit = state.carryValues[bitPos]
 
                 // Highlight carry IN (being used at current position) during 'inputs' phase
+                // The carry at position bitPos comes from position bitPos-1
                 const isCarryIn = isAnimating && bitPos === animStep && carryBit === 1 && state.animationPhase === 'inputs'
 
-                // Highlight carry OUT (just generated at next position) during 'carryOut' phase
+                // Highlight carry OUT (just generated and placed to the left) during 'carryOut' phase
+                // When processing position animStep, we generate carry at position animStep+1
                 const isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'carryOut'
 
                 const isActive = isCarryIn || isCarryOut
                 const activeClass = isActive ? ' calc-stack-active' : ''
 
-                // Show carry if: animation has completed, OR currently being processed/generated during animation
-                const shouldShowGenerated = (state.animationPhase === 'carryOut' || state.animationPhase === 'pause') && bitPos === animStep + 1
-                const animationComplete = state.animationHasRun && state.animationStep < 0
-                const positionProcessed = state.animationStep >= 0 && bitPos <= animStep
-                const finalVisible = animationComplete || positionProcessed || shouldShowGenerated
-
-                const displayValue = finalVisible ? (carryBit === 1 ? '1' : '·') : '·'
+                // Show carry if it's been calculated (not null)
+                const displayValue = carryBit !== null ? (carryBit === 1 ? '1' : '·') : '·'
                 html += `<span class="calc-stack-carry-bit${activeClass}">${displayValue}</span>`
             }
             html += '<span class="calc-stack-spacer"></span>'
@@ -743,8 +578,28 @@
         // Result
         html += `<div class="calc-stack-row calc-stack-result">`
         html += '<span class="calc-stack-operator"></span>'
+
+        // Show overflow bit only after final carry is calculated
+        let showOverflowBit = false
         if (hasOverflowBit && (state.op === 'add' || state.op === 'sub')) {
-            html += `<span class="calc-stack-overflow-bit">${overflowBit}</span>`
+            if (state.animationStep < 0 && state.animationHasRun) {
+                // Animation complete - show overflow bit
+                showOverflowBit = true
+            } else if (state.op === 'add' && state.currentCarry === 1 && state.animationStep >= state.bits - 1 && (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')) {
+                // Addition: show overflow bit during/after carryOut phase of final position (when result is shown)
+                showOverflowBit = true
+            } else if (state.op === 'sub' && state.animationStep >= 0) {
+                // Subtraction during animation: always show if it exists (not animated)
+                showOverflowBit = true
+            }
+        }
+
+        // Highlight overflow bit when it first appears (during carryOut phase of final position)
+        const isOverflowHighlighted = state.op === 'add' && isAnimating && state.animationStep === state.bits - 1 && state.animationPhase === 'carryOut' && showOverflowBit
+        const overflowActiveClass = isOverflowHighlighted ? ' calc-stack-active' : ''
+
+        if (showOverflowBit) {
+            html += `<span class="calc-stack-overflow-bit${overflowActiveClass}">${overflowBit}</span>`
         } else {
             html += '<span class="calc-stack-overflow-placeholder"></span>' // Empty overflow column
         }
@@ -939,10 +794,15 @@
                 state.overflow = calcResult.overflow
                 state.steps = calcResult.steps
                 state.resultBeforeMask = calcResult.resultBeforeMask
-                state.carryBits = calcResult.carryBits
-                state.borrowBits = calcResult.borrowBits
-                state.adjustedV1Digits = calcResult.adjustedV1Digits
-                state.borrowPropagation = calcResult.borrowPropagation
+
+                // Initialize arrays for real-time animation
+                if (state.op === 'add') {
+                    state.carryValues = new Array(state.bits).fill(null)
+                    state.currentCarry = 0
+                } else if (state.op === 'sub') {
+                    state.borrowValues = new Array(state.bits).fill(null)
+                    state.value1Crossed = new Array(state.bits).fill(false)
+                }
 
                 // Reset animation state and show static result while waiting
                 state.animationStep = -1
@@ -978,22 +838,38 @@
     }
 
     function startAdditionAnimation(wrapper, state) {
-        // Animation sequence for each bit position:
-        // Phase 1 (ANIMATION_INPUT_PHASE_MS): 'inputs' - highlight operand bits and carry in
-        // Phase 2 (ANIMATION_CARRYOUT_PHASE_MS): 'carryOut' - highlight result bit and carry out
-        // Phase 3 (ANIMATION_PAUSE_PHASE_MS): 'pause' - no highlighting (clear all highlights)
-        // Then advance to next position
+        // Real-time addition animation with on-the-fly carry calculation
+        // Start at position 0 (rightmost)
         state.animationStep = 0
         state.animationPhase = 'inputs'
-        state.animationHasRun = true // Mark that animation has started
+        state.animationHasRun = true
+        state.currentCarry = 0 // Start with no carry
         updateCalcUI(wrapper, state)
 
         const runBitAnimation = () => {
+            const bitPos = state.animationStep
+
             // Phase 1: Show inputs (operands and carry in)
             state.animationPhase = 'inputs'
             updateCalcUI(wrapper, state)
 
             state.phaseTimer = setTimeout(() => {
+                // Calculate addition for this position
+                const bit1 = (state.value1 >> bitPos) & 1
+                const bit2 = (state.value2 >> bitPos) & 1
+                const sum = bit1 + bit2 + state.currentCarry
+
+                // Calculate carry out for next position
+                const carryOut = sum >> 1
+
+                // Store the carry value at the NEXT position (to the left)
+                if (bitPos + 1 < state.bits) {
+                    state.carryValues[bitPos + 1] = carryOut
+                }
+
+                // Update current carry for next position
+                state.currentCarry = carryOut
+
                 // Phase 2: Show outputs (result and carry out)
                 state.animationPhase = 'carryOut'
                 updateCalcUI(wrapper, state)
@@ -1011,7 +887,7 @@
                             // Animation complete
                             state.animationTimer = null
                             state.phaseTimer = null
-                            state.animationStep = -1 // Show complete result
+                            state.animationStep = -1
                             updateCalcUI(wrapper, state)
                         } else {
                             // Continue to next bit position
@@ -1027,98 +903,199 @@
     }
 
     function startSubtractionAnimation(wrapper, state) {
-        // Animation sequence for each bit position in subtraction:
-        // Phase 1 (ANIMATION_SUB_INPUT_PHASE_MS): 'inputs' - highlight digits to subtract
-        // If borrow needed:
-        //   Phase 2: 'borrow' - animate borrow propagation (multiple steps of ANIMATION_SUB_BORROW_STEP_MS each)
-        // Phase 3 (ANIMATION_SUB_RESULT_PHASE_MS): 'result' - highlight result
-        // Phase 4 (ANIMATION_SUB_PAUSE_PHASE_MS): 'pause' - no highlighting
-        // Then advance to next position
+        // Real-time subtraction animation with on-the-fly borrow calculation
+        // Start at position 0 (rightmost)
         state.animationStep = 0
         state.animationPhase = 'inputs'
         state.animationHasRun = true
-        state.borrowAnimationStep = -1
-        state.borrowAnimationPhase = null
+        state.borrowSearchPos = -1
+        state.borrowSourcePos = -1
+        state.borrowPropagatePos = -1
         updateCalcUI(wrapper, state)
 
         const runBitAnimation = () => {
-            const bitPos = state.bits - 1 - state.animationStep
-            const borrowInfo = state.borrowPropagation ? state.borrowPropagation[state.animationStep] : null
+            const bitPos = state.animationStep
 
-            // Phase 1: Show inputs (digits to subtract)
+            // Phase 1: Show inputs (highlight value2 and borrow/value1)
             state.animationPhase = 'inputs'
-            state.borrowAnimationStep = -1
-            state.borrowAnimationPhase = null
+            state.borrowSearchPos = -1
+            state.borrowSourcePos = -1
+            state.borrowPropagatePos = -1
             updateCalcUI(wrapper, state)
 
             state.phaseTimer = setTimeout(() => {
-                // Check if this position needs borrowing
-                if (borrowInfo && borrowInfo.needsBorrow && borrowInfo.propagationPath && borrowInfo.propagationPath.length > 1) {
-                    // Phase 2: Animate borrow propagation
+                // Check if we need to borrow
+                const borrowValue = state.borrowValues[bitPos]
+                const v1Bit = (state.value1 >> bitPos) & 1
+                const v2Bit = (state.value2 >> bitPos) & 1
+                const effectiveV1 = borrowValue !== null ? borrowValue : v1Bit
+
+                if (effectiveV1 < v2Bit) {
+                    // Need to borrow - search left for a non-zero value
                     state.animationPhase = 'borrow'
 
-                    // Sub-phase 2a: Search left for a 1 to borrow
-                    state.borrowAnimationPhase = 'search'
-                    state.borrowAnimationStep = 1 // Start at position 1 in path (skip position 0 which is current)
-                    updateCalcUI(wrapper, state)
+                    // Search left starting from next position
+                    let searchPos = bitPos + 1
+                    let foundPos = -1
 
                     const animateSearch = () => {
-                        state.borrowAnimationStep++
+                        if (searchPos >= state.bits) {
+                            // Reached end without finding - shouldn't happen in valid subtraction
+                            // Just proceed with result showing error
+                            showResultAndContinue()
+                            return
+                        }
+
+                        state.borrowSearchPos = searchPos
                         updateCalcUI(wrapper, state)
 
-                        if (state.borrowAnimationStep < borrowInfo.propagationPath.length - 1) {
-                            // More positions to search
-                            state.phaseTimer = setTimeout(animateSearch, ANIMATION_SUB_BORROW_STEP_MS)
-                        } else {
-                            // Found the source! Show it as 0
-                            state.phaseTimer = setTimeout(() => {
-                                state.borrowAnimationPhase = 'found'
+                        state.phaseTimer = setTimeout(() => {
+                            // Check if this position has a non-zero value
+                            const searchBorrowValue = state.borrowValues[searchPos]
+                            const searchV1Bit = (state.value1 >> searchPos) & 1
+                            const searchEffectiveValue = searchBorrowValue !== null ? searchBorrowValue : searchV1Bit
+
+                            if (searchEffectiveValue > 0) {
+                                // Found a value to borrow from!
+                                foundPos = searchPos
+                                state.borrowSourcePos = foundPos
+                                state.borrowSearchPos = -1
                                 updateCalcUI(wrapper, state)
 
-                                // Sub-phase 2c: Propagate the borrow back to the right
+                                // Now propagate the borrow back to the right (0.5s delay after finding)
                                 state.phaseTimer = setTimeout(() => {
-                                    state.borrowAnimationPhase = 'propagate'
-                                    state.borrowAnimationStep = 0
-                                    updateCalcUI(wrapper, state)
-
-                                    const animatePropagate = () => {
-                                        state.borrowAnimationStep++
-                                        updateCalcUI(wrapper, state)
-
-                                        const maxPropagateSteps = borrowInfo.propagationPath.length - 1
-                                        if (state.borrowAnimationStep < maxPropagateSteps) {
-                                            state.phaseTimer = setTimeout(animatePropagate, ANIMATION_SUB_BORROW_STEP_MS)
-                                        } else {
-                                            // Propagation complete, show result
-                                            state.phaseTimer = setTimeout(() => {
-                                                showResultAndContinue()
-                                            }, ANIMATION_SUB_BORROW_STEP_MS)
-                                        }
-                                    }
-
-                                    animatePropagate()
+                                    animatePropagate(foundPos)
                                 }, ANIMATION_SUB_BORROW_STEP_MS)
-                            }, ANIMATION_SUB_BORROW_STEP_MS)
+                            } else {
+                                // Continue searching left
+                                searchPos++
+                                animateSearch()
+                            }
+                        }, ANIMATION_SUB_BORROW_STEP_MS)
+                    }
+
+                    const animatePropagate = (sourcePos) => {
+                        // Start by reducing the source value by 1
+                        const sourceBorrowValue = state.borrowValues[sourcePos]
+                        const sourceV1Bit = (state.value1 >> sourcePos) & 1
+
+                        if (sourceBorrowValue !== null) {
+                            // Reduce borrow value
+                            state.borrowValues[sourcePos] = sourceBorrowValue - 1
+                        } else {
+                            // Cross out value1 bit and set borrow to bit value - 1
+                            state.value1Crossed[sourcePos] = true
+                            state.borrowValues[sourcePos] = sourceV1Bit - 1
                         }
+
+                        // Now propagate right, adding 2 (binary 10) to each position until we reach target
+                        let currentPos = sourcePos - 1
+
+                        const propagateStep = () => {
+                            if (currentPos < bitPos) {
+                                // Done propagating - reached target
+                                showResultAndContinue()
+                                return
+                            }
+
+                            // Step 1: Add 2 to current position (becomes "10" in binary) and cross out value1 immediately
+                            const currentBorrowValue = state.borrowValues[currentPos]
+                            const currentV1Bit = (state.value1 >> currentPos) & 1
+
+                            // Only add +2 if not already added by previous iteration
+                            const alreadyAdded = currentBorrowValue !== null && currentBorrowValue >= 2
+
+                            if (!alreadyAdded) {
+                                if (currentBorrowValue !== null) {
+                                    state.borrowValues[currentPos] = currentBorrowValue + 2
+                                } else {
+                                    state.borrowValues[currentPos] = currentV1Bit + 2
+                                }
+
+                                // Cross out value1 bit immediately when borrow value becomes 2
+                                if (!state.value1Crossed[currentPos]) {
+                                    state.value1Crossed[currentPos] = true
+                                }
+
+                                // Show the position with +2 value and crossed out value1
+                                state.borrowPropagatePos = currentPos
+                                updateCalcUI(wrapper, state)
+
+                                // Wait 500ms to show the "2" before processing it
+                                state.phaseTimer = setTimeout(() => {
+                                    processBorrowPosition()
+                                }, ANIMATION_SUB_BORROW_STEP_MS)
+                            } else {
+                                // Already added, just process it
+                                processBorrowPosition()
+                            }
+                        }
+
+                        const processBorrowPosition = () => {
+                            if (currentPos === bitPos) {
+                                // Target position - hold for 1s with both borrow value and value2 highlighted before showing result
+                                state.phaseTimer = setTimeout(() => {
+                                    currentPos--
+                                    propagateStep()
+                                }, ANIMATION_SUB_INPUT_PHASE_MS)
+                            } else {
+                                // Intermediate position - borrow from it (reduce by 1) and simultaneously prepare next position
+                                // Step 2: Borrow from this position (2 becomes 1)
+                                state.borrowValues[currentPos] = state.borrowValues[currentPos] - 1
+
+                                // Move to next position
+                                currentPos--
+
+                                // Immediately add 2 to next position and cross out its value1 (so both appear together)
+                                const nextBorrowValue = state.borrowValues[currentPos]
+                                const nextV1Bit = (state.value1 >> currentPos) & 1
+
+                                if (nextBorrowValue !== null) {
+                                    state.borrowValues[currentPos] = nextBorrowValue + 2
+                                } else {
+                                    state.borrowValues[currentPos] = nextV1Bit + 2
+                                }
+
+                                if (!state.value1Crossed[currentPos]) {
+                                    state.value1Crossed[currentPos] = true
+                                }
+
+                                // Update propagate position to highlight next position
+                                state.borrowPropagatePos = currentPos
+
+                                // Update display to show both: previous position with 1, current position with 2
+                                updateCalcUI(wrapper, state)
+
+                                state.phaseTimer = setTimeout(() => {
+                                    // Continue processing the next position (reduce it from 2 to 1, and add to the one after)
+                                    propagateStep()
+                                }, ANIMATION_SUB_BORROW_STEP_MS)
+                            }
+                        }
+
+                        // Start propagation immediately (delay already happened after finding source)
+                        state.borrowSourcePos = -1
+                        propagateStep()
                     }
 
                     animateSearch()
                 } else {
-                    // No borrow needed, go straight to result
+                    // No borrow needed - go straight to result
                     showResultAndContinue()
                 }
             }, ANIMATION_SUB_INPUT_PHASE_MS)
         }
 
         const showResultAndContinue = () => {
-            // Phase 3: Show result
+            // Phase: Show result
             state.animationPhase = 'result'
-            state.borrowAnimationStep = -1
-            state.borrowAnimationPhase = null
+            state.borrowSearchPos = -1
+            state.borrowSourcePos = -1
+            state.borrowPropagatePos = -1
             updateCalcUI(wrapper, state)
 
             state.phaseTimer = setTimeout(() => {
-                // Phase 4: Pause
+                // Phase: Pause
                 state.animationPhase = 'pause'
                 updateCalcUI(wrapper, state)
 
@@ -1131,7 +1108,6 @@
                         state.animationTimer = null
                         state.phaseTimer = null
                         state.animationStep = -1
-                        state.borrowAnimationStep = -1
                         updateCalcUI(wrapper, state)
                     } else {
                         // Continue to next bit position
@@ -1207,10 +1183,15 @@
             state.overflow = calcResult.overflow
             state.steps = calcResult.steps
             state.resultBeforeMask = calcResult.resultBeforeMask
-            state.carryBits = calcResult.carryBits
-            state.borrowBits = calcResult.borrowBits
-            state.adjustedV1Digits = calcResult.adjustedV1Digits
-            state.borrowPropagation = calcResult.borrowPropagation
+
+            // Initialize arrays for real-time animation
+            if (state.op === 'add') {
+                state.carryValues = new Array(state.bits).fill(null)
+                state.currentCarry = 0
+            } else if (state.op === 'sub') {
+                state.borrowValues = new Array(state.bits).fill(null)
+                state.value1Crossed = new Array(state.bits).fill(false)
+            }
 
             const ui = createCalcUI(state)
             element.appendChild(ui)
