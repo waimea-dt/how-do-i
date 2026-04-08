@@ -41,6 +41,7 @@
     --color-attention:            #e64848;
 
     --highlight-color:            var(--color-important);
+    --error-color:                var(--color-attention);
 
     /* Links */
     --link-color:                 var(--theme-color);

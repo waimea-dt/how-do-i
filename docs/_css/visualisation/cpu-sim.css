@@ -77,15 +77,15 @@
 
 /* Assembly Error Display */
 .markdown-section .cpu-simulator-error {
-    background: color-mix(in srgb, var(--color-attention), var(--color-bg) 85%);
-    border: 2px solid var(--color-attention);
+    background: color-mix(in srgb, var(--error-color), var(--color-bg) 85%);
+    border: 2px solid var(--error-color);
     border-radius: var(--border-radius);
     padding: 1rem;
     margin: var(--margin-block) 0;
     font-family: var(--font-family-mono);
 
     .error-title {
-        color: var(--color-attention);
+        color: var(--error-color);
         display: block;
         margin-bottom: 0.5rem;
         font-size: 1.1em;
