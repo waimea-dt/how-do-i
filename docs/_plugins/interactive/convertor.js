@@ -393,6 +393,8 @@
         switch(base) {
             case 'bin':
                 input.value = state.getBinary()
+                input.maxLength = state.bits
+                input.pattern = '[01]*'
                 break
             case 'dec':
                 input.value = state.getDecimal()
@@ -575,9 +577,40 @@
         const inputs = container.querySelectorAll('.convertor-input')
 
         inputs.forEach(input => {
+            // For binary inputs, prevent typing non-binary characters
+            if (input.dataset.base === 'bin') {
+                input.addEventListener('keydown', (e) => {
+                    // Allow: backspace, delete, tab, escape, enter, arrows, home, end
+                    if ([8, 9, 13, 27, 37, 38, 39, 40, 46, 35, 36].includes(e.keyCode)) {
+                        return
+                    }
+                    // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                    if ((e.ctrlKey || e.metaKey) && [65, 67, 86, 88].includes(e.keyCode)) {
+                        return
+                    }
+                    // Allow: 0 and 1
+                    if ((e.keyCode === 48 || e.keyCode === 96) || (e.keyCode === 49 || e.keyCode === 97)) {
+                        return
+                    }
+                    // Prevent all other keys
+                    e.preventDefault()
+                })
+            }
+
             input.addEventListener('input', (e) => {
                 const base = e.target.dataset.base
-                const value = e.target.value
+                let value = e.target.value
+
+                // For binary inputs, filter out non-binary characters (in case of paste)
+                if (base === 'bin') {
+                    value = value.replace(/[^01]/g, '')
+                    // Limit to bit width
+                    if (value.length > state.bits) {
+                        value = value.slice(-state.bits)
+                    }
+                    // Update input immediately with filtered value
+                    e.target.value = value
+                }
 
                 // Update state
                 state.setValue(value, base)
@@ -585,18 +618,31 @@
                 // Refresh UI
                 updateUI(state, container)
             })
+
+            // For binary inputs, pad with zeros when focus is lost
+            if (input.dataset.base === 'bin') {
+                input.addEventListener('blur', () => {
+                    input.value = state.getBinary()
+                })
+            }
         })
     }
 
     function updateUI(state, container) {
-        // Update all inputs
+        // Update all inputs (only if not focused)
         const binInput = container.querySelector('.convertor-input[data-base="bin"]')
         const decInput = container.querySelector('.convertor-input[data-base="dec"]')
         const hexInput = container.querySelector('.convertor-input[data-base="hex"]')
 
-        if (binInput) binInput.value = state.getBinary()
-        if (decInput) decInput.value = state.getDecimal()
-        if (hexInput) hexInput.value = state.getHex()
+        if (binInput && document.activeElement !== binInput) {
+            binInput.value = state.getBinary()
+        }
+        if (decInput && document.activeElement !== decInput) {
+            decInput.value = state.getDecimal()
+        }
+        if (hexInput && document.activeElement !== hexInput) {
+            hexInput.value = state.getHex()
+        }
 
         // Update place value breakdowns
         const sections = container.querySelectorAll('.convertor-section')
