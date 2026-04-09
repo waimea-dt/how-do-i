@@ -361,91 +361,76 @@
         return wrapper
     }
 
-    function renderBinaryStack(state, opInfo, isBinaryOp) {
-        const binary1 = state.value1.toString(2).padStart(state.bits, '0')
-        const binary2 = isBinaryOp ? state.value2.toString(2).padStart(state.bits, '0') : null
-        const binaryResult = state.result.toString(2).padStart(state.bits, '0')
+    // -------------------------------------------------------------------------
+    // Rendering Helper Functions
+    // -------------------------------------------------------------------------
 
-        // Check if result overflows (has extra bit)
-        const fullResult = state.resultBeforeMask !== undefined ? state.resultBeforeMask : state.result
-        const fullBinaryResult = fullResult.toString(2)
-        const hasOverflowBit = fullBinaryResult.length > state.bits
-        const overflowBit = hasOverflowBit ? fullBinaryResult[0] : null
+    /**
+     * Render the borrow row for subtraction operations
+     */
+    function renderBorrowRow(state, animStep, isAnimating) {
+        if (state.op !== 'sub' || !state.borrowValues) return ''
 
-        // Animation state for addition, subtraction, and bitwise operations
-        const isAnimating = (['add', 'sub', 'and', 'or', 'xor', 'not'].includes(state.op)) && state.animationStep >= 0 && state.animationStep < state.bits
-        const animStep = state.animationStep
-
-        // Animation state for shift operations
-        const isShiftAnimating = (['<<', '>>', '>>>'].includes(state.op)) && state.shiftCurrentBits !== null
-        const isShiftOp = ['<<', '>>', '>>>'].includes(state.op)
-
-        let html = '<div class="calc-stack">'
-
-        // Header row with bit place values and interpretation labels
-        html += '<div class="calc-stack-header">'
+        let html = `<div class="calc-stack-row calc-stack-borrow">`
         html += '<span class="calc-stack-operator"></span>'
-        html += '<span class="calc-stack-overflow-header"></span>' // Empty overflow column header
-        html += renderBitHeaders(state.bits)
-        html += renderInterpretationHeaders()
-        html += '</div>'
+        html += '<span class="calc-stack-overflow-placeholder"></span>'
 
-        // Borrow row (for subtraction only) - appears above value1
-        if (state.op === 'sub' && state.borrowValues) {
-            html += `<div class="calc-stack-row calc-stack-borrow">`
-            html += '<span class="calc-stack-operator"></span>'
-            html += '<span class="calc-stack-overflow-placeholder"></span>'
-            // Show borrow values (null = dot, number = value)
-            for (let i = 0; i < state.bits; i++) {
-                const bitPos = state.bits - 1 - i
-                const borrowValue = state.borrowValues[bitPos]
+        for (let i = 0; i < state.bits; i++) {
+            const bitPos = state.bits - 1 - i
+            const borrowValue = state.borrowValues[bitPos]
 
-                let displayValue = '\u00b7' // Default: dot for null
-                let isActive = false
+            let displayValue = '\u00b7' // Default: dot for null
+            let isActive = false
 
-                if (borrowValue !== null) {
-                    displayValue = borrowValue.toString()
-                }
-
-                // Highlight during inputs phase if this is the current position and has a borrow
-                if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs' && borrowValue !== null) {
-                    // Check if borrow value is less than value2 bit (error state)
-                    const v2Bit = (state.value2 >> bitPos) & 1
-                    if (borrowValue < v2Bit) {
-                        isActive = 'error'
-                    } else {
-                        isActive = true
-                    }
-                }
-
-                // Highlight during borrow propagate phase only (not search or source)
-                if (isAnimating && state.animationPhase === 'borrow') {
-                    if (bitPos === state.borrowPropagatePos) {
-                        isActive = true
-                    }
-                }
-
-                const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
-                html += `<span class="calc-stack-borrow-bit${activeClass}">${displayValue}</span>`
+            if (borrowValue !== null) {
+                displayValue = borrowValue.toString()
             }
-            html += '<span class="calc-stack-spacer"></span>'
-            html += '<span class="calc-stack-interp-item"></span>'
-            html += '<span class="calc-stack-interp-item"></span>'
-            html += '<span class="calc-stack-interp-item"></span>'
-            html += '</div>'
+
+            // Highlight during inputs phase if this is the current position and has a borrow
+            if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs' && borrowValue !== null) {
+                const v2Bit = (state.value2 >> bitPos) & 1
+                if (borrowValue < v2Bit) {
+                    isActive = 'error'
+                } else {
+                    isActive = true
+                }
+            }
+
+            // Highlight during borrow propagate phase only
+            if (isAnimating && state.animationPhase === 'borrow' && bitPos === state.borrowPropagatePos) {
+                isActive = true
+            }
+
+            const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
+            html += `<span class="calc-stack-borrow-bit${activeClass}">${displayValue}</span>`
         }
 
-        // Value 1 - no operator for binary ops (except shifts), operator for unary ops and shifts
-        html += `<div class="calc-stack-row calc-stack-value1">`
+        html += '<span class="calc-stack-spacer"></span>'
+        html += '<span class="calc-stack-interp-item"></span>'
+        html += '<span class="calc-stack-interp-item"></span>'
+        html += '<span class="calc-stack-interp-item"></span>'
+        html += '</div>'
+
+        return html
+    }
+
+    /**
+     * Render value1 row with operation-specific highlighting
+     */
+    function renderValue1Row(state, binary1, animStep, isAnimating, isShiftAnimating, opInfo, isBinaryOp, isShiftOp) {
+        let html = `<div class="calc-stack-row calc-stack-value1">`
+
+        // Operator column
         if (isBinaryOp && !isShiftOp) {
             html += `<span class="calc-stack-operator"></span>`
         } else {
             html += `<span class="calc-stack-operator">${opInfo.symbol}</span>`
         }
-        html += '<span class="calc-stack-overflow-placeholder"></span>' // Empty overflow column
+        html += '<span class="calc-stack-overflow-placeholder"></span>'
 
-        // For bitwise operations, highlight current bit position during animation
+        // Render bits based on operation type
         if (['and', 'or', 'xor', 'not'].includes(state.op) && state.animationStep >= 0 && state.animationStep < state.bits) {
+            // Bitwise operations
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary1[i]
                 const bitPos = state.bits - 1 - i
@@ -454,32 +439,23 @@
                 const bitOneClass = isActive && bit === '1' ? ' calc-stack-bit-one' : ''
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${bitOneClass}">${bit}</span>`
             }
-        }
-        // For subtraction, show original digits (grey where crossed out)
-        else if (state.op === 'sub' && state.value1Crossed) {
+        } else if (state.op === 'sub' && state.value1Crossed) {
+            // Subtraction with crossed-out digits
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary1[i]
                 const bitPos = state.bits - 1 - i
                 const isCrossed = state.value1Crossed[bitPos]
-
                 let isActive = false
 
-                // Highlight during inputs phase if this is the current position and no borrow value
                 if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs') {
                     const borrowValue = state.borrowValues[bitPos]
                     if (borrowValue === null) {
-                        // Get the actual bit values to check if borrow needed
                         const v1Bit = (state.value1 >> bitPos) & 1
                         const v2Bit = (state.value2 >> bitPos) & 1
-                        if (v1Bit < v2Bit) {
-                            isActive = 'error' // Show error if borrow needed but not yet resolved
-                        } else {
-                            isActive = true // Normal highlight
-                        }
+                        isActive = v1Bit < v2Bit ? 'error' : true
                     }
                 }
 
-                // Highlight during borrow search/source phases only (not propagate - only borrow value highlights during propagate)
                 if (isAnimating && state.animationPhase === 'borrow') {
                     if (bitPos === state.borrowSearchPos || bitPos === state.borrowSourcePos) {
                         isActive = true
@@ -491,7 +467,7 @@
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${greyedClass}">${bit}</span>`
             }
         } else if (state.op === 'add') {
-            // For addition animation, highlight current position during 'inputs' phase
+            // Addition
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary1[i]
                 const bitPos = state.bits - 1 - i
@@ -500,10 +476,9 @@
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}">${bit}</span>`
             }
         } else if (isShiftAnimating) {
-            // For shift operations during animation: highlight ALL bits in value1 during highlight-value1 phase
+            // Shift operations
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary1[i]
-                const bitPos = state.bits - 1 - i
                 const isActive = state.shiftPhase === 'highlight-value1'
                 const activeClass = isActive ? ' calc-stack-active' : ''
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}">${bit}</span>`
@@ -515,106 +490,115 @@
         html += renderInterpretations(state.value1, state)
         html += '</div>'
 
-        // Value 2 (if binary operation and not a shift) - shows the operator
-        if (isBinaryOp && !isShiftOp) {
-            html += `<div class="calc-stack-row calc-stack-value2">`
-            html += `<span class="calc-stack-operator">${opInfo.symbol}</span>`
-            html += '<span class="calc-stack-overflow-placeholder"></span>' // Empty overflow column
+        return html
+    }
 
-            // For bitwise operations, highlight current bit position during animation
-            if (['and', 'or', 'xor'].includes(state.op) && state.animationStep >= 0 && state.animationStep < state.bits) {
-                for (let i = 0; i < state.bits; i++) {
-                    const bit = binary2[i]
-                    const bitPos = state.bits - 1 - i
-                    const isActive = bitPos === animStep && state.animationPhase === 'inputs'
-                    const activeClass = isActive ? ' calc-stack-active' : ''
-                    const bitOneClass = isActive && bit === '1' ? ' calc-stack-bit-one' : ''
-                    html += `<span class="calc-stack-digit calc-stack-value2${activeClass}${bitOneClass}">${bit}</span>`
-                }
+    /**
+     * Render value2 row with operation-specific highlighting
+     */
+    function renderValue2Row(state, binary2, animStep, isAnimating, opInfo) {
+        let html = `<div class="calc-stack-row calc-stack-value2">`
+        html += `<span class="calc-stack-operator">${opInfo.symbol}</span>`
+        html += '<span class="calc-stack-overflow-placeholder"></span>'
+
+        // Render bits based on operation type
+        if (['and', 'or', 'xor'].includes(state.op) && state.animationStep >= 0 && state.animationStep < state.bits) {
+            // Bitwise operations
+            for (let i = 0; i < state.bits; i++) {
+                const bit = binary2[i]
+                const bitPos = state.bits - 1 - i
+                const isActive = bitPos === animStep && state.animationPhase === 'inputs'
+                const activeClass = isActive ? ' calc-stack-active' : ''
+                const bitOneClass = isActive && bit === '1' ? ' calc-stack-bit-one' : ''
+                html += `<span class="calc-stack-digit calc-stack-value2${activeClass}${bitOneClass}">${bit}</span>`
             }
-            // For addition and subtraction animation, highlight current position during 'inputs' phase
-            else if (state.op === 'add' || state.op === 'sub') {
-                for (let i = 0; i < state.bits; i++) {
-                    const bit = binary2[i]
-                    const bitPos = state.bits - 1 - i
-                    let isActive = false
-                    if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs') {
-                        // Check if this position needs borrowing (for subtraction error highlighting)
-                        if (state.op === 'sub') {
-                            const borrowValue = state.borrowValues[bitPos]
-                            const v1Bit = (state.value1 >> bitPos) & 1
-                            const v2Bit = (state.value2 >> bitPos) & 1
-                            // Show error if borrow value (or v1 if no borrow) is less than v2
-                            const effectiveV1 = borrowValue !== null ? borrowValue : v1Bit
-                            if (effectiveV1 < v2Bit) {
-                                isActive = 'error' // Show error state if borrow needed but not yet resolved
-                            } else {
-                                isActive = true
-                            }
-                        } else {
-                            isActive = true
-                        }
-                    }
-                    // For subtraction: also highlight at target position during final delay before subtraction
-                    if (state.op === 'sub' && isAnimating && state.animationPhase === 'borrow' && bitPos === animStep && bitPos === state.borrowPropagatePos) {
+        } else if (state.op === 'add' || state.op === 'sub') {
+            // Addition and subtraction
+            for (let i = 0; i < state.bits; i++) {
+                const bit = binary2[i]
+                const bitPos = state.bits - 1 - i
+                let isActive = false
+
+                if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs') {
+                    if (state.op === 'sub') {
+                        const borrowValue = state.borrowValues[bitPos]
+                        const v1Bit = (state.value1 >> bitPos) & 1
+                        const v2Bit = (state.value2 >> bitPos) & 1
+                        const effectiveV1 = borrowValue !== null ? borrowValue : v1Bit
+                        isActive = effectiveV1 < v2Bit ? 'error' : true
+                    } else {
                         isActive = true
                     }
-                    const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
-                    html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">${bit}</span>`
                 }
-            } else {
-                html += renderBinaryDigits(binary2, 'value2')
-            }
 
-            html += renderInterpretations(state.value2, state)
-            html += '</div>'
+                // Subtraction: highlight during borrow propagate phase
+                if (state.op === 'sub' && isAnimating && state.animationPhase === 'borrow' &&
+                    bitPos === animStep && bitPos === state.borrowPropagatePos) {
+                    isActive = true
+                }
+
+                const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
+                html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">${bit}</span>`
+            }
+        } else {
+            html += renderBinaryDigits(binary2, 'value2')
         }
 
-        // Carry row (for addition only) - uses real-time calculated carries
-        if (state.op === 'add' && state.carryValues) {
-            html += `<div class="calc-stack-row calc-stack-carry">`
-            html += '<span class="calc-stack-operator"></span>'
-            html += '<span class="calc-stack-overflow-placeholder"></span>'
-            // Render carry bits (real-time calculated)
-            for (let i = 0; i < state.bits; i++) {
-                const bitPos = state.bits - 1 - i
-                const carryBit = state.carryValues[bitPos]
+        html += renderInterpretations(state.value2, state)
+        html += '</div>'
 
-                // Highlight carry IN (being used at current position) during 'inputs' phase
-                // The carry at position bitPos comes from position bitPos-1
-                const isCarryIn = isAnimating && bitPos === animStep && carryBit === 1 && state.animationPhase === 'inputs'
+        return html
+    }
 
-                // Highlight carry OUT (just generated and placed to the left) during 'carryOut' phase
-                // When processing position animStep, we generate carry at position animStep+1
-                const isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'carryOut'
+    /**
+     * Render the carry row for addition operations
+     */
+    function renderCarryRow(state, animStep, isAnimating) {
+        if (state.op !== 'add' || !state.carryValues) return ''
 
-                const isActive = isCarryIn || isCarryOut
-                const activeClass = isActive ? ' calc-stack-active' : ''
+        let html = `<div class="calc-stack-row calc-stack-carry">`
+        html += '<span class="calc-stack-operator"></span>'
+        html += '<span class="calc-stack-overflow-placeholder"></span>'
 
-                // Show carry if it's been calculated (not null)
-                const displayValue = carryBit !== null ? (carryBit === 1 ? '1' : '·') : '·'
-                html += `<span class="calc-stack-carry-bit${activeClass}">${displayValue}</span>`
-            }
-            html += '<span class="calc-stack-spacer"></span>'
-            html += '<span class="calc-stack-interp-item"></span>'
-            html += '<span class="calc-stack-interp-item"></span>'
-            html += '<span class="calc-stack-interp-item"></span>'
-            html += '</div>'
+        for (let i = 0; i < state.bits; i++) {
+            const bitPos = state.bits - 1 - i
+            const carryBit = state.carryValues[bitPos]
+
+            // Highlight carry IN during 'inputs' phase
+            const isCarryIn = isAnimating && bitPos === animStep && carryBit === 1 && state.animationPhase === 'inputs'
+
+            // Highlight carry OUT during 'carryOut' phase
+            const isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'carryOut'
+
+            const isActive = isCarryIn || isCarryOut
+            const activeClass = isActive ? ' calc-stack-active' : ''
+            const displayValue = carryBit !== null ? (carryBit === 1 ? '1' : '·') : '·'
+
+            html += `<span class="calc-stack-carry-bit${activeClass}">${displayValue}</span>`
         }
 
-        // Divider line
-        html += '<div class="calc-stack-divider"></div>'
+        html += '<span class="calc-stack-spacer"></span>'
+        html += '<span class="calc-stack-interp-item"></span>'
+        html += '<span class="calc-stack-interp-item"></span>'
+        html += '<span class="calc-stack-interp-item"></span>'
+        html += '</div>'
 
-        // Result
-        html += `<div class="calc-stack-row calc-stack-result">`
+        return html
+    }
+
+    /**
+     * Render the result row with progressive revelation and real-time values
+     */
+    function renderResultRow(state, binaryResult, animStep, isAnimating, isShiftAnimating, isShiftOp, hasOverflowBit, overflowBit) {
+        let html = `<div class="calc-stack-row calc-stack-result">`
         html += '<span class="calc-stack-operator"></span>'
 
-        // For shift operations: show animated result with ripple shifting
+        // Handle shift operations separately
         if (isShiftAnimating) {
             html += '<span class="calc-stack-overflow-placeholder"></span>'
 
-            // During highlight-value1 phase, result should be blank
             if (state.shiftPhase === 'highlight-value1') {
+                // Show ? during highlight-value1 phase
                 for (let i = 0; i < state.bits; i++) {
                     html += `<span class="calc-stack-digit calc-stack-result calc-stack-unknown">?</span>`
                 }
@@ -631,77 +615,58 @@
                     </span>
                 `
             } else {
-                // Copy and shift phases: show bits
+                // Show bits during copy and shift phases
                 for (let i = 0; i < state.bits; i++) {
-                    const bitPos = state.bits - 1 - i
                     const bit = state.shiftCurrentBits[i]
                     const isOriginal = state.shiftOriginalBits[i]
-
-                    // Determine highlighting based on phase
-                    let isActive = false
-
-                    if (state.shiftPhase === 'copy') {
-                        // Copy phase: highlight all bits
-                        isActive = true
-                    } else if (state.shiftPhase === 'shift') {
-                        // Shift phase: highlight original bits only
-                        isActive = isOriginal
-                    }
-
+                    const isActive = state.shiftPhase === 'copy' || (state.shiftPhase === 'shift' && isOriginal)
                     const activeClass = isActive ? ' calc-stack-active' : ''
                     html += `<span class="calc-stack-digit calc-stack-result${activeClass}">${bit}</span>`
                 }
 
-                // Calculate current value from current bits (real-time)
                 const currentValue = parseInt(state.shiftCurrentBits.join(''), 2)
                 html += renderInterpretations(currentValue, state)
             }
-            html += '</div>'
+
             html += '</div>'
             return html
         }
 
-        // Show overflow bit only after final carry is calculated
+        // Overflow bit for add/sub
         let showOverflowBit = false
         if (hasOverflowBit && (state.op === 'add' || state.op === 'sub')) {
             if (state.animationStep < 0 && state.animationHasRun) {
-                // Animation complete - show overflow bit
                 showOverflowBit = true
-            } else if (state.op === 'add' && state.currentCarry === 1 && state.animationStep >= state.bits - 1 && (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')) {
-                // Addition: show overflow bit during/after carryOut phase of final position (when result is shown)
+            } else if (state.op === 'add' && state.currentCarry === 1 && state.animationStep >= state.bits - 1 &&
+                       (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')) {
                 showOverflowBit = true
             } else if (state.op === 'sub' && state.animationStep >= 0) {
-                // Subtraction during animation: always show if it exists (not animated)
                 showOverflowBit = true
             }
         }
 
-        // Highlight overflow bit when it first appears (during carryOut phase of final position)
-        const isOverflowHighlighted = state.op === 'add' && isAnimating && state.animationStep === state.bits - 1 && state.animationPhase === 'carryOut' && showOverflowBit
+        const isOverflowHighlighted = state.op === 'add' && isAnimating && state.animationStep === state.bits - 1 &&
+                                      state.animationPhase === 'carryOut' && showOverflowBit
         const overflowActiveClass = isOverflowHighlighted ? ' calc-stack-active' : ''
 
         if (showOverflowBit) {
             html += `<span class="calc-stack-overflow-bit${overflowActiveClass}">${overflowBit}</span>`
         } else {
-            html += '<span class="calc-stack-overflow-placeholder"></span>' // Empty overflow column
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
         }
 
-        // For addition, subtraction, and bitwise operations: reveal result bits progressively
-        // Addition: Result appears during 'carryOut' phase (after inputs highlighted)
-        // Subtraction: Result appears during 'result' phase (after borrow animation if needed)
-        // Bitwise: Result appears during 'result' phase (after inputs highlighted)
+        // Progressive revelation for add/sub/bitwise
         let partialResultBits = []
         if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not'].includes(state.op)) {
             for (let i = 0; i < state.bits; i++) {
                 const bit = binaryResult[i]
                 const bitPos = state.bits - 1 - i
 
-                // Result visible if: animation complete, position already processed, or current position shown
-                // But if animation hasn't run yet, hide all results
                 let isVisible = false
                 if (state.animationHasRun) {
                     const isPastPosition = bitPos < animStep
                     let isCurrentAndShown = false
+
                     if (state.op === 'add') {
                         isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')
                     } else if (state.op === 'sub') {
@@ -709,30 +674,28 @@
                     } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
                         isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
                     }
+
                     isVisible = state.animationStep < 0 || isPastPosition || isCurrentAndShown
                 }
 
-                // Highlight result when it first appears
                 let isActive = false
                 if (isAnimating) {
-                    if (state.op === 'add' && bitPos === animStep && state.animationPhase === 'carryOut') {
-                        isActive = true
-                    } else if (state.op === 'sub' && bitPos === animStep && state.animationPhase === 'result') {
-                        isActive = true
-                    } else if (['and', 'or', 'xor', 'not'].includes(state.op) && bitPos === animStep && state.animationPhase === 'result') {
+                    if ((state.op === 'add' && bitPos === animStep && state.animationPhase === 'carryOut') ||
+                        (state.op === 'sub' && bitPos === animStep && state.animationPhase === 'result') ||
+                        (['and', 'or', 'xor', 'not'].includes(state.op) && bitPos === animStep && state.animationPhase === 'result')) {
                         isActive = true
                     }
                 }
+
                 const activeClass = isActive ? ' calc-stack-active' : ''
                 const displayValue = isVisible ? bit : '?'
                 const unknownClass = !isVisible ? ' calc-stack-unknown' : ''
                 html += `<span class="calc-stack-digit calc-stack-result${activeClass}${unknownClass}">${displayValue}</span>`
 
-                // Track visible bits for partial result calculation
                 partialResultBits.push(isVisible ? bit : '0')
             }
         } else if (isShiftOp) {
-            // For shift operations not animating: show ? if animation hasn't run yet
+            // Shift operations not animating
             if (!state.animationHasRun) {
                 for (let i = 0; i < state.bits; i++) {
                     html += `<span class="calc-stack-digit calc-stack-result calc-stack-unknown">?</span>`
@@ -744,7 +707,7 @@
             html += renderBinaryDigits(binaryResult, 'result')
         }
 
-        // Show interpretations: if animation hasn't run yet, show placeholders
+        // Interpretations
         if (!state.animationHasRun) {
             html += `
                 <span class="calc-stack-spacer"></span>
@@ -759,14 +722,72 @@
                 </span>
             `
         } else if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not'].includes(state.op)) {
-            // For operations with progressive reveal: calculate value from visible bits
             const partialValue = parseInt(partialResultBits.join(''), 2)
             html += renderInterpretations(partialValue, state)
         } else {
             html += renderInterpretations(state.result, state)
         }
+
+        html += '</div>'
+        return html
+    }
+
+    /**
+     * Main function to render the binary stack visualization
+     */
+    function renderBinaryStack(state, opInfo, isBinaryOp) {
+        const binary1 = state.value1.toString(2).padStart(state.bits, '0')
+        const binary2 = isBinaryOp ? state.value2.toString(2).padStart(state.bits, '0') : null
+        const binaryResult = state.result.toString(2).padStart(state.bits, '0')
+
+        // Calculate overflow bit
+        const fullResult = state.resultBeforeMask !== undefined ? state.resultBeforeMask : state.result
+        const fullBinaryResult = fullResult.toString(2)
+        const hasOverflowBit = fullBinaryResult.length > state.bits
+        const overflowBit = hasOverflowBit ? fullBinaryResult[0] : null
+
+        // Animation state
+        const isAnimating = (['add', 'sub', 'and', 'or', 'xor', 'not'].includes(state.op)) &&
+                           state.animationStep >= 0 && state.animationStep < state.bits
+        const animStep = state.animationStep
+        const isShiftAnimating = (['<<', '>>', '>>>'].includes(state.op)) && state.shiftCurrentBits !== null
+        const isShiftOp = ['<<', '>>', '>>>'].includes(state.op)
+
+        // Build HTML
+        let html = '<div class="calc-stack">'
+
+        // Header
+        html += '<div class="calc-stack-header">'
+        html += '<span class="calc-stack-operator"></span>'
+        html += '<span class="calc-stack-overflow-header"></span>'
+        html += renderBitHeaders(state.bits)
+        html += renderInterpretationHeaders()
         html += '</div>'
 
+        // Rows
+        html += renderBorrowRow(state, animStep, isAnimating)
+        html += renderValue1Row(state, binary1, animStep, isAnimating, isShiftAnimating, opInfo, isBinaryOp, isShiftOp)
+
+        if (isBinaryOp && !isShiftOp) {
+            html += renderValue2Row(state, binary2, animStep, isAnimating, opInfo)
+        }
+
+        html += renderCarryRow(state, animStep, isAnimating)
+
+        // Divider
+        html += '<div class="calc-stack-divider"></div>'
+
+        // Result
+        const resultRowHtml = renderResultRow(state, binaryResult, animStep, isAnimating, isShiftAnimating, isShiftOp, hasOverflowBit, overflowBit)
+
+        // Special handling for shift animations - return early
+        if (isShiftAnimating) {
+            html += resultRowHtml
+            html += '</div>'
+            return html
+        }
+
+        html += resultRowHtml
         html += '</div>'
         return html
     }
@@ -860,6 +881,95 @@
     }
 
     // -------------------------------------------------------------------------
+    // Animation Helper Functions
+    // -------------------------------------------------------------------------
+
+    /**
+     * Clear all animation timers for a state object
+     */
+    function clearAnimationTimers(state) {
+        if (state.phaseTimer) {
+            clearTimeout(state.phaseTimer)
+            state.phaseTimer = null
+        }
+        if (state.animationTimer) {
+            clearTimeout(state.animationTimer)
+            state.animationTimer = null
+        }
+        if (state.debounceTimer) {
+            clearTimeout(state.debounceTimer)
+            state.debounceTimer = null
+        }
+    }
+
+    /**
+     * Reset animation state for the given operation
+     */
+    function resetAnimationState(state) {
+        state.animationStep = -1
+        state.animationHasRun = false
+
+        // Operation-specific state initialization
+        if (state.op === 'add') {
+            state.carryValues = new Array(state.bits).fill(null)
+            state.currentCarry = 0
+        } else if (state.op === 'sub') {
+            state.borrowValues = new Array(state.bits).fill(null)
+            state.value1Crossed = new Array(state.bits).fill(false)
+        } else if (['<<', '>>', '>>>'].includes(state.op)) {
+            state.shiftCurrentBits = null
+            state.shiftOriginalBits = null
+            state.shiftIteration = -1
+            state.shiftPhase = null
+        }
+    }
+
+    /**
+     * Start animation for the current operation after debounce
+     * Note: This function references animation functions defined later in the file
+     */
+    function startAnimation(wrapper, state) {
+        // Map operations to their animation handlers
+        const animationMap = {
+            'add': () => startAdditionAnimation(wrapper, state),
+            'sub': () => startSubtractionAnimation(wrapper, state),
+            'and': () => startBitwiseAnimation(wrapper, state),
+            'or': () => startBitwiseAnimation(wrapper, state),
+            'xor': () => startBitwiseAnimation(wrapper, state),
+            'not': () => startBitwiseAnimation(wrapper, state),
+            '<<': () => startShiftAnimation(wrapper, state),
+            '>>': () => startShiftAnimation(wrapper, state),
+            '>>>': () => startShiftAnimation(wrapper, state)
+        }
+
+        const handler = animationMap[state.op]
+        if (handler) {
+            state.debounceTimer = setTimeout(handler, ANIMATION_DEBOUNCE_MS)
+        }
+    }
+
+    /**
+     * Parse input value based on type (binary or decimal shift amount)
+     */
+    function parseInputValue(inputValue, isShiftAmount, maxValue) {
+        if (isShiftAmount) {
+            const decimalStr = inputValue.replace(/[^0-9]/g, '')
+            return decimalStr ? Math.min(Math.max(parseInt(decimalStr, 10), 1), 7) : 1
+        }
+        const binaryStr = inputValue.replace(/[^01]/g, '')
+        return binaryStr ? Math.min(parseInt(binaryStr, 2), maxValue) : 0
+    }
+
+    /**
+     * Check if a keypress is a control key (navigation, editing, copy/paste)
+     */
+    function isControlKey(keyCode, ctrlOrMeta) {
+        const controlKeys = [8, 9, 13, 27, 37, 38, 39, 40, 46, 35, 36]
+        const copyPasteKeys = ctrlOrMeta && [65, 67, 86, 88].includes(keyCode)
+        return controlKeys.includes(keyCode) || copyPasteKeys
+    }
+
+    // -------------------------------------------------------------------------
     // Event Handling
     // -------------------------------------------------------------------------
 
@@ -872,12 +982,8 @@
 
             // Prevent typing invalid characters
             input.addEventListener('keydown', (e) => {
-                // Allow: backspace, delete, tab, escape, enter, arrows, home, end
-                if ([8, 9, 13, 27, 37, 38, 39, 40, 46, 35, 36].includes(e.keyCode)) {
-                    return
-                }
-                // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-                if ((e.ctrlKey || e.metaKey) && [65, 67, 86, 88].includes(e.keyCode)) {
+                // Allow control keys (backspace, arrows, copy/paste, etc.)
+                if (isControlKey(e.keyCode, e.ctrlKey || e.metaKey)) {
                     return
                 }
 
@@ -901,35 +1007,17 @@
                 const operand = input.getAttribute('data-operand')
                 const isShiftAmount = operand === '2' && ['<<', '>>', '>>>'].includes(state.op)
 
-                let newValue
-                if (isShiftAmount) {
-                    // For shift amount: parse as decimal, limit to 1-7
-                    const decimalStr = input.value.replace(/[^0-9]/g, '')
-                    newValue = decimalStr ? Math.min(Math.max(parseInt(decimalStr, 10), 1), 7) : 1
-                } else {
-                    // For binary values
-                    let binaryStr = input.value.replace(/[^01]/g, '')
-                    newValue = binaryStr ? parseInt(binaryStr, 2) : 0
-                }
+                // Parse input value
+                const newValue = parseInputValue(input.value, isShiftAmount, state.maxValue)
 
                 if (operand === '1') {
-                    state.value1 = Math.min(newValue, state.maxValue)
+                    state.value1 = newValue
                 } else if (operand === '2') {
                     state.value2 = newValue
                 }
 
-                // Stop any ongoing animation
-                if (state.phaseTimer) {
-                    clearTimeout(state.phaseTimer)
-                    state.phaseTimer = null
-                }
-                state.animationTimer = null
-
-                // Clear existing debounce timer
-                if (state.debounceTimer) {
-                    clearTimeout(state.debounceTimer)
-                    state.debounceTimer = null
-                }
+                // Stop any ongoing animations and clear timers
+                clearAnimationTimers(state)
 
                 // Recalculate and update UI
                 const calcResult = state.calculate()
@@ -937,43 +1025,12 @@
                 state.steps = calcResult.steps
                 state.resultBeforeMask = calcResult.resultBeforeMask
 
-                // Initialize arrays for real-time animation
-                if (state.op === 'add') {
-                    state.carryValues = new Array(state.bits).fill(null)
-                    state.currentCarry = 0
-                } else if (state.op === 'sub') {
-                    state.borrowValues = new Array(state.bits).fill(null)
-                    state.value1Crossed = new Array(state.bits).fill(false)
-                } else if (['<<', '>>', '>>>'].includes(state.op)) {
-                    state.shiftCurrentBits = null
-                    state.shiftOriginalBits = null
-                    state.shiftIteration = -1
-                    state.shiftPhase = null
-                }
-
-                // Reset animation state and show static result while waiting
-                state.animationStep = -1
-                state.animationHasRun = false // Reset flag when inputs change
+                // Reset animation state based on operation type
+                resetAnimationState(state)
                 updateCalcUI(wrapper, state)
 
                 // Start animation after debounce delay
-                if (state.op === 'add') {
-                    state.debounceTimer = setTimeout(() => {
-                        startAdditionAnimation(wrapper, state)
-                    }, ANIMATION_DEBOUNCE_MS)
-                } else if (state.op === 'sub') {
-                    state.debounceTimer = setTimeout(() => {
-                        startSubtractionAnimation(wrapper, state)
-                    }, ANIMATION_DEBOUNCE_MS)
-                } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
-                    state.debounceTimer = setTimeout(() => {
-                        startBitwiseAnimation(wrapper, state)
-                    }, ANIMATION_DEBOUNCE_MS)
-                } else if (['<<', '>>', '>>>'].includes(state.op)) {
-                    state.debounceTimer = setTimeout(() => {
-                        startShiftAnimation(wrapper, state)
-                    }, ANIMATION_DEBOUNCE_MS)
-                }
+                startAnimation(wrapper, state)
             }
 
             const handleBlur = () => {
