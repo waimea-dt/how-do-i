@@ -44,21 +44,72 @@
     /* Font settings */
     --calc-font-mono:           var(--font-family-mono);
 
+    /* Font sizes (em units - scale with base) */
+    --font-size-xs: 0.5em;        /* Stack header bits */
+    --font-size-sm: 0.75em;       /* Carry/borrow bits */
+    --font-size-base: 0.85rem;    /* Input labels */
+    --font-size-md: 1.1rem;       /* Operation name */
+    --font-size-lg: 1.5rem;       /* Input values */
+    --font-size-xl: 2.5rem;       /* Operation symbol (rem - constant) */
+    --font-size-op: 1.3em;        /* Stack operator */
+
+    /* Padding (em units - scale with font) */
+    --padding-wrapper: 1.5em;
+    --padding-input: 0.75em 1em;
+    --padding-digit: 0.15em 0.25em;
+    --padding-button: 0.5em 1em;
+    --padding-flag: 0.5em 1em;
+    --padding-steps: 1.25em;
+    --padding-stack: 2em 1em;
+    --padding-interp-row: 0.75em 1em;
+
+    /* Gaps (em units - scale with base) */
+    --gap-tight: 0.35em;          /* Stack cells horizontal */
+    --gap-small: 0.4em;           /* Stack cells vertical */
+    --gap-normal: 0.5em;          /* Input groups, interp table */
+    --gap-large: 1.5em;           /* Container sections, operation display */
+    --gap-inputs: 2em;            /* Input fields */
+    --gap-flags: 1em;             /* Flag items */
+    --gap-steps: 1em;             /* Steps section */
+
+    /* Margins (rare cases - prefer gap) */
+    --margin-divider: 0.2em 0;
+
+    container-type: inline-size;
     display: block;
     margin: var(--margin-block) 0;
+
+    /* Mobile-first defaults */
+    font-size: 0.9rem;
+    --padding-wrapper: 1em;
+    --gap-large: 1em;
+    --gap-inputs: 1em;
+    --padding-stack: 1.5em 0.5em;
+    --font-size-xl: 2rem;
+    --font-size-md: 0.95rem;
+
+    @container (min-width: 601px) {
+        font-size: 1rem;
+        --padding-wrapper: 1.5em;
+        --gap-large: 1.5em;
+        --gap-inputs: 2em;
+        --padding-stack: 2em 1em;
+        --font-size-xl: 2.5rem;
+        --font-size-md: 1.1rem;
+    }
 
     .calc-wrapper {
         background: var(--wrapper-bg);
         border: 2px solid var(--wrapper-border);
         border-radius: var(--border-radius);
-        padding: 1.5em;
+        padding: var(--padding-wrapper);
         box-shadow: var(--box-shadow);
     }
 
     .calc-container {
         display: flex;
         flex-direction: column;
-        gap: 1.5em;
+        gap: var(--gap-large);
     }
 
     /* Header with operation display */
@@ -72,18 +123,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 1.5em;
+        gap: var(--gap-large);
     }
 
     .calc-op-symbol {
-        font-size: 2.5rem;
+        font-size: var(--font-size-xl);
         font-weight: 700;
         color: var(--operation-color);
         font-family: var(--calc-font-mono);
     }
 
     .calc-op-name {
-        font-size: 1.1rem;
+        font-size: var(--font-size-md);
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.1em;
@@ -93,7 +144,7 @@
     /* Input fields */
     .calc-inputs {
         display: flex;
-        gap: 2em;
+        gap: var(--gap-inputs);
         justify-content: center;
         flex-wrap: wrap;
     }
@@ -101,12 +152,16 @@
     .calc-input-group {
         display: flex;
         flex-direction: column;
-        gap: 0.5em;
-        min-width: 180px;
+        gap: var(--gap-normal);
+        min-width: 140px;
+
+        @container (min-width: 601px) {
+            min-width: 180px;
+        }
     }
 
     .calc-input-label {
-        font-size: 0.85rem;
+        font-size: var(--font-size-base);
         font-weight: 600;
         color: var(--label-color);
         text-transform: uppercase;
@@ -116,12 +171,12 @@
 
     .calc-input {
         width: 12ch;
-        padding: 0.75em 1em;
+        padding: var(--padding-input);
         background: var(--input-bg);
         border: 2px solid var(--input-border);
         border-radius: var(--border-radius);
         font-family: var(--calc-font-mono);
-        font-size: 1.5rem;
+        font-size: var(--font-size-lg);
         font-weight: 600;
         color: var(--input-color);
         transition: border-color 0.2s, box-shadow 0.2s;
@@ -142,7 +197,7 @@
     .calc-binary-stack {
         display: flex;
         justify-content: center;
-        padding: 2em 1em;
+        padding: var(--padding-stack);
         overflow-x: auto;
         background: color-mix(in srgb, var(--color-mono-0), transparent 50%);
         border-radius: var(--border-radius);
@@ -151,11 +206,16 @@
     .calc-stack {
         display: grid;
         grid-template-columns: 1.8em 1.2em repeat(8, 1.2em) 1.5em repeat(3, minmax(3em, auto));
-        gap: 0.4em 0.35em;
+        gap: 0.3em 0.25em;
         font-family: var(--calc-font-mono);
-        font-size: clamp(1.2rem, 3vw, 2rem);
+        font-size: clamp(1rem, 4vw, 1.5rem);
         line-height: 1.6;
         align-items: center;
+
+        @container (min-width: 601px) {
+            gap: var(--gap-small) var(--gap-tight);
+            font-size: clamp(1.2rem, 3vw, 2rem);
+        }
     }
 
     /* Header row with bit place values and interpretation labels */
@@ -167,7 +227,7 @@
     .calc-stack-interp-header .calc-stack-interp-item {
         text-align: center;
         font-weight: 600;
-        font-size: 0.5em;
+        font-size: var(--font-size-xs);
         color: var(--label-color);
     }
 
@@ -178,7 +238,7 @@
     .calc-stack-operator {
         text-align: right;
         font-weight: 700;
-        font-size: 1.3em;
+        font-size: var(--font-size-op);
         grid-column: 1;
     }
 
@@ -193,7 +253,7 @@
     .calc-stack-digit {
         text-align: center;
         font-weight: 500;
-        padding: 0.15em 0.25em;
+        padding: var(--padding-digit);
         border-radius: 4px;
         transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
 
@@ -279,7 +339,7 @@
     .calc-stack-overflow-bit {
         color: var(--overflow-color);
         background: var(--overflow-bg);
-        padding: 0.15em 0.25em;
+        padding: var(--padding-digit);
         border-radius: 4px;
         font-weight: 600;
         animation: pulse-overflow 1.5s ease-in-out infinite;
@@ -302,7 +362,7 @@
         grid-column: 1 / -1;
         height: 3px;
         background: var(--color-text);
-        margin: 0.2em 0;
+        margin: var(--margin-divider);
         opacity: 0.6;
         border-radius: 2px;
     }
@@ -315,11 +375,11 @@
     .calc-stack-carry-bit {
         text-align: center;
         font-weight: 500;
-        font-size: 0.75em;
+        font-size: var(--font-size-sm);
         color: var(--palette-color-2);
         opacity: 0.8;
         font-style: italic;
-        padding: 0.15em 0.25em;
+        padding: var(--padding-digit);
         border-radius: 4px;
     }
 
@@ -331,7 +391,7 @@
     .calc-stack-borrow-bit {
         text-align: center;
         font-weight: 600;
-        font-size: 0.75em;
+        font-size: var(--font-size-sm);
         color: var(--palette-color-2);
         padding-block: 0.3em;
         line-height: 1;
@@ -397,32 +457,32 @@
 
     .calc-interp-table {
         display: grid;
-        gap: 0.5em;
+        gap: var(--gap-normal);
     }
 
     .calc-interp-row {
         display: grid;
-        grid-template-columns: 120px repeat(4, 1fr);
-        gap: 1em;
+        grid-template-columns: 100px repeat(4, 1fr);
+        gap: var(--gap-normal);
         align-items: center;
-        padding: 0.75em 1em;
+        padding: 0.6em 0.75em;
         background: var(--interp-bg);
         border-radius: var(--border-radius);
         font-family: var(--calc-font-mono);
-        font-size: 0.95rem;
+        font-size: 0.85rem;
 
-        @media (max-width: 768px) {
-            grid-template-columns: 100px repeat(4, 1fr);
-            gap: 0.5em;
-            font-size: 0.85rem;
-            padding: 0.6em 0.75em;
+        @container (min-width: 769px) {
+            grid-template-columns: 120px repeat(4, 1fr);
+            gap: var(--gap-steps);
+            padding: var(--padding-interp-row);
+            font-size: 0.95rem;
         }
     }
 
     .calc-interp-header-row {
         background: transparent;
         font-weight: 600;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: var(--label-color);
@@ -430,8 +490,8 @@
         padding-bottom: 0.5em;
         border-bottom: 2px solid var(--wrapper-border);
 
-        @media (max-width: 768px) {
-            font-size: 0.7rem;
+        @container (min-width: 769px) {
+            font-size: 0.8rem;
         }
     }
 
@@ -464,13 +524,13 @@
     /* Flags */
     .calc-flags {
         display: flex;
-        gap: 1em;
+        gap: var(--gap-flags);
         justify-content: center;
         flex-wrap: wrap;
     }
 
     .calc-flag {
-        padding: 0.5em 1em;
+        padding: var(--padding-flag);
         background: var(--flag-bg);
         border-radius: var(--border-radius);
         font-size: 0.8rem;
@@ -504,10 +564,10 @@
         background: var(--steps-bg);
         border-radius: var(--border-radius);
         border: 2px solid var(--wrapper-border);
-        padding: 1.25em;
+        padding: var(--padding-steps);
         display: flex;
         flex-direction: column;
-        gap: 1em;
+        gap: var(--gap-steps);
     }
 
     .calc-steps-title {
@@ -567,42 +627,6 @@
             padding: 0.2em 0.4em;
             border-radius: 3px;
             font-family: var(--calc-font-mono);
-        }
-    }
-
-    /* Mobile responsiveness */
-    @media (max-width: 600px) {
-        .calc-wrapper {
-            padding: 1em;
-        }
-
-        .calc-container {
-            gap: 1em;
-        }
-
-        .calc-inputs {
-            gap: 1em;
-        }
-
-        .calc-input-group {
-            min-width: 140px;
-        }
-
-        .calc-binary-stack {
-            padding: 1.5em 0.5em;
-        }
-
-        .calc-stack {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            gap: 0.3em 0.25em;
-        }
-
-        .calc-op-symbol {
-            font-size: 2rem;
-        }
-
-        .calc-op-name {
-            font-size: 0.95rem;
         }
     }
 }
