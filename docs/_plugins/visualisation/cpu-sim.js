@@ -449,175 +449,154 @@
 
     const VALID_OPERATIONS = ['LOAD', 'STORE', 'COPY', 'ADD', 'SUB', 'INC', 'DEC', 'AND', 'OR', 'NOT', 'JUMP', 'JUMPZ', 'JUMPN', 'JUMPNZ', 'HALT']
 
-    function parseAssembly(text) {
-        const lines = text.split('\n')
-        const program = []
-        const labels = {}
-        const dataValues = {}  // Store initial data values
-        const errors = []
-        let lineIndex = 0
-        let pendingLabel = null
-        let section = 'code'  // Current section: 'code' or 'data'
-        let dataAddress = DATA_MEM_START  // Data section starts at configured address
-
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i].trim()
-            const originalLine = line  // Keep original line with comments for display
-            const displayLineNum = i + 1  // For error messages (1-indexed)
-
-            // Skip empty lines
-            if (!line) {
-                continue
-            }
-
-            // Remove comments (semicolons) for parsing
-            const commentIndex = line.indexOf(';')
-            if (commentIndex !== -1) {
-                line = line.substring(0, commentIndex).trim()
-            }
-
-            // Skip if only a comment
-            if (!line) {
-                continue
-            }
-
-            // Check for section directives
-            if (line === '.code') {
-                section = 'code'
-                program.push({
-                    op: '.CODE',
-                    operands: [],
-                    text: '.code',
-                    label: null,
-                    lineNum: lineIndex,
-                    isExecutable: false,
-                    isDirective: true
-                })
-                continue
-            }
-            if (line === '.data') {
-                section = 'data'
-                program.push({
-                    op: '.DATA',
-                    operands: [],
-                    text: '.data',
-                    label: null,
-                    lineNum: lineIndex,
-                    isExecutable: false,
-                    isDirective: true
-                })
-                continue
-            }
-
-            // Handle data section
-            if (section === 'data') {
-                // Format: label: value
-                const dataMatch = line.match(/^(\w+):\s*(-?\d+|0x[0-9a-f]+|0b[01]+)$/i)
-                if (dataMatch) {
-                    const label = dataMatch[1]
-                    const valueStr = dataMatch[2]
-                    let value
-
-                    // Parse the value
-                    if (valueStr.match(/^0x/i)) {
-                        value = parseInt(valueStr, 16)
-                    } else if (valueStr.match(/^0b/i)) {
-                        value = parseInt(valueStr.slice(2), 2)
-                    } else {
-                        value = parseInt(valueStr, 10)
-                    }
-
-                    // Validate value range
-                    if (value < -128 || value > 255) {
-                        errors.push(`Line ${displayLineNum}: Data value ${valueStr} out of range (-128 to 255)`)
-                    }
-
-                    // Check data address limit
-                    if (dataAddress > DATA_MEM_END) {
-                        errors.push(`Line ${displayLineNum}: Data section overflow (max address is ${DATA_MEM_END})`)
-                    }
-
-                    value = value & 0xFF
-                    labels[label] = dataAddress
-                    dataValues[dataAddress] = value
-                    // Add to program as non-executable line
-                    program.push({
-                        op: 'DATA',
-                        operands: [],
-                        text: line,
-                        label: label,
-                        lineNum: lineIndex,
-                        memoryAddress: dataAddress,
-                        isExecutable: false
-                    })
-                    dataAddress++
-                } else {
-                    errors.push(`Line ${displayLineNum}: Invalid data definition format (expected: label: value)`)
-                }
-                continue
-            }
-
-            // Handle code section
-            let labelName = null
-            let displayText = originalLine  // Use original line with comments for display
-
-            // Check for label (ends with colon, may be inline or standalone)
-            const labelMatch = line.match(/^(\w+):/)
-            if (labelMatch) {
-                labelName = labelMatch[1]
-                line = line.substring(labelMatch[0].length).trim()
-                // displayText already has the full original line with label and comment
-                if (line) {
-                    labels[labelName] = lineIndex  // Inline label - set address now
-                }
-            }
-
-            // If label is on its own line, save it for the next instruction
-            if (!line && labelName) {
-                pendingLabel = labelName
-                continue
-            }
-
-            // Skip if still empty
-            if (!line) {
-                continue
-            }
-
-            // Parse instruction
-            const parts = line.split(/[\s,]+/).filter(p => p)
-            if (parts.length === 0) continue
-
-            const op = parts[0].toUpperCase()
-
-            // Validate operation
-            if (!VALID_OPERATIONS.includes(op)) {
-                errors.push(`Line ${displayLineNum}: Invalid operation '${parts[0]}' (must be one of: ${VALID_OPERATIONS.join(', ')})`)
-            }
-
-            const operandResults = parts.slice(1).map((opStr, idx) => parseOperand(opStr, displayLineNum, idx, errors))
-            const operands = operandResults.filter(r => r !== null)
-
-            // If we have a pending label, attach it and update display text
-            if (pendingLabel) {
-                labelName = pendingLabel
-                displayText = `${pendingLabel}: ${displayText}`
-                labels[pendingLabel] = lineIndex  // Set label address to this instruction
-                pendingLabel = null
-            }
-
+    /**
+     * Parse a directive line (.code or .data)
+     */
+    function parseDirectiveLine(line, section, program, lineIndex) {
+        if (line === '.code') {
             program.push({
-                op,
-                operands,
-                text: displayText,
-                label: labelName,
+                op: '.CODE',
+                operands: [],
+                text: '.code',
+                label: null,
                 lineNum: lineIndex,
-                isExecutable: true
+                isExecutable: false,
+                isDirective: true
             })
+            return 'code'
+        }
+        if (line === '.data') {
+            program.push({
+                op: '.DATA',
+                operands: [],
+                text: '.data',
+                label: null,
+                lineNum: lineIndex,
+                isExecutable: false,
+                isDirective: true
+            })
+            return 'data'
+        }
+        return null
+    }
 
-            lineIndex++
+    /**
+     * Parse a data definition line (label: value)
+     */
+    function parseDataLine(line, displayLineNum, dataAddress, labels, dataValues, program, lineIndex, errors) {
+        const dataMatch = line.match(/^(\w+):\s*(-?\d+|0x[0-9a-f]+|0b[01]+)$/i)
+        if (dataMatch) {
+            const label = dataMatch[1]
+            const valueStr = dataMatch[2]
+            let value
+
+            // Parse the value
+            if (valueStr.match(/^0x/i)) {
+                value = parseInt(valueStr, 16)
+            } else if (valueStr.match(/^0b/i)) {
+                value = parseInt(valueStr.slice(2), 2)
+            } else {
+                value = parseInt(valueStr, 10)
+            }
+
+            // Validate value range
+            if (value < -128 || value > 255) {
+                errors.push(`Line ${displayLineNum}: Data value ${valueStr} out of range (-128 to 255)`)
+            }
+
+            // Check data address limit
+            if (dataAddress > DATA_MEM_END) {
+                errors.push(`Line ${displayLineNum}: Data section overflow (max address is ${DATA_MEM_END})`)
+            }
+
+            value = value & 0xFF
+            labels[label] = dataAddress
+            dataValues[dataAddress] = value
+            // Add to program as non-executable line
+            program.push({
+                op: 'DATA',
+                operands: [],
+                text: line,
+                label: label,
+                lineNum: lineIndex,
+                memoryAddress: dataAddress,
+                isExecutable: false
+            })
+            return dataAddress + 1
+        } else {
+            errors.push(`Line ${displayLineNum}: Invalid data definition format (expected: label: value)`)
+            return dataAddress
+        }
+    }
+
+    /**
+     * Parse a code instruction line
+     */
+    function parseCodeLine(line, originalLine, displayLineNum, lineIndex, labels, pendingLabel, program, errors) {
+        let labelName = null
+        let displayText = originalLine  // Use original line with comments for display
+
+        // Check for label (ends with colon, may be inline or standalone)
+        const labelMatch = line.match(/^(\w+):/)
+        if (labelMatch) {
+            labelName = labelMatch[1]
+            line = line.substring(labelMatch[0].length).trim()
+            // displayText already has the full original line with label and comment
+            if (line) {
+                labels[labelName] = lineIndex  // Inline label - set address now
+            }
         }
 
-        // Validate label references
+        // If label is on its own line, save it for the next instruction
+        if (!line && labelName) {
+            return { lineIndex, pendingLabel: labelName }
+        }
+
+        // Skip if still empty
+        if (!line) {
+            return { lineIndex, pendingLabel }
+        }
+
+        // Parse instruction
+        const parts = line.split(/[\s,]+/).filter(p => p)
+        if (parts.length === 0) {
+            return { lineIndex, pendingLabel }
+        }
+
+        const op = parts[0].toUpperCase()
+
+        // Validate operation
+        if (!VALID_OPERATIONS.includes(op)) {
+            errors.push(`Line ${displayLineNum}: Invalid operation '${parts[0]}' (must be one of: ${VALID_OPERATIONS.join(', ')})`)
+        }
+
+        const operandResults = parts.slice(1).map((opStr, idx) => parseOperand(opStr, displayLineNum, idx, errors))
+        const operands = operandResults.filter(r => r !== null)
+
+        // If we have a pending label, attach it and update display text
+        if (pendingLabel) {
+            labelName = pendingLabel
+            displayText = `${pendingLabel}: ${displayText}`
+            labels[pendingLabel] = lineIndex  // Set label address to this instruction
+            pendingLabel = null
+        }
+
+        program.push({
+            op,
+            operands,
+            text: displayText,
+            label: labelName,
+            lineNum: lineIndex,
+            isExecutable: true
+        })
+
+        return { lineIndex: lineIndex + 1, pendingLabel: null }
+    }
+
+    /**
+     * Validate all label references in the program
+     */
+    function validateLabelReferences(program, labels, errors) {
         for (const instruction of program) {
             if (!instruction.isExecutable) continue
 
@@ -647,6 +626,60 @@
                 }
             }
         }
+    }
+
+    /**
+     * Main assembly parser
+     */
+    function parseAssembly(text) {
+        const lines = text.split('\n')
+        const program = []
+        const labels = {}
+        const dataValues = {}  // Store initial data values
+        const errors = []
+        let lineIndex = 0
+        let pendingLabel = null
+        let section = 'code'  // Current section: 'code' or 'data'
+        let dataAddress = DATA_MEM_START  // Data section starts at configured address
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim()
+            const originalLine = line  // Keep original line with comments for display
+            const displayLineNum = i + 1  // For error messages (1-indexed)
+
+            // Skip empty lines
+            if (!line) continue
+
+            // Remove comments (semicolons) for parsing
+            const commentIndex = line.indexOf(';')
+            if (commentIndex !== -1) {
+                line = line.substring(0, commentIndex).trim()
+            }
+
+            // Skip if only a comment
+            if (!line) continue
+
+            // Check for section directives
+            const newSection = parseDirectiveLine(line, section, program, lineIndex)
+            if (newSection) {
+                section = newSection
+                continue
+            }
+
+            // Handle data section
+            if (section === 'data') {
+                dataAddress = parseDataLine(line, displayLineNum, dataAddress, labels, dataValues, program, lineIndex, errors)
+                continue
+            }
+
+            // Handle code section
+            const result = parseCodeLine(line, originalLine, displayLineNum, lineIndex, labels, pendingLabel, program, errors)
+            lineIndex = result.lineIndex
+            pendingLabel = result.pendingLabel
+        }
+
+        // Validate label references
+        validateLabelReferences(program, labels, errors)
 
         // If there are errors, throw them
         if (errors.length > 0) {
@@ -820,7 +853,10 @@
         return wrapper
     }
 
-    function updateUI(cpu, container, highlight = {}) {
+    /**
+     * Update control registers (PC and IR)
+     */
+    function updateControlRegisters(cpu, container, highlight) {
         // Update PC (12-bit address as 3-digit hex)
         const pcValue = container.querySelector('[data-reg="pc"]')
         if (pcValue) {
@@ -845,134 +881,155 @@
             }
             irValue.parentElement.classList.toggle('highlight', !!highlight.ir)
         }
+    }
 
-        // Update registers
+    /**
+     * Update general-purpose registers
+     */
+    function updateGeneralRegisters(cpu, container, highlight) {
         const regContainer = container.querySelector('.cpu-registers')
-        if (regContainer) {
-            regContainer.innerHTML = Object.entries(cpu.registers)
-                .map(([name, value]) => {
-                    // Calculate signed value for display (8-bit two's complement)
-                    const hexDisplay = value.toString(16).toUpperCase().padStart(2, '0')
-                    const binDisplay = value.toString(2).padStart(8, '0')
-                    const signedValue = value > 127 ? value - 256 : null
-                    const signedDisplay = signedValue !== null ? `${signedValue}` : ''
+        if (!regContainer) return
 
-                    return `
-                        <div class="cpu-register ${highlight.register === name ? 'highlight' : ''}">
-                            <span class="reg-label">${name}</span>
-                            <span class="reg-value">${value.toString().padStart(3, '0')}</span>
-                            <span class="reg-alt-value">${hexDisplay}<sub>16</sub> ${binDisplay}<sub>2</sub> ${signedDisplay}</span>
-                        </div>
-                    `
-                }).join('')
-        }
+        regContainer.innerHTML = Object.entries(cpu.registers)
+            .map(([name, value]) => {
+                // Calculate signed value for display (8-bit two's complement)
+                const hexDisplay = value.toString(16).toUpperCase().padStart(2, '0')
+                const binDisplay = value.toString(2).padStart(8, '0')
+                const signedValue = value > 127 ? value - 256 : null
+                const signedDisplay = signedValue !== null ? `${signedValue}` : ''
 
-        // Update flags
+                return `
+                    <div class="cpu-register ${highlight.register === name ? 'highlight' : ''}">
+                        <span class="reg-label">${name}</span>
+                        <span class="reg-value">${value.toString().padStart(3, '0')}</span>
+                        <span class="reg-alt-value">${hexDisplay}<sub>16</sub> ${binDisplay}<sub>2</sub> ${signedDisplay}</span>
+                    </div>
+                `
+            }).join('')
+    }
+
+    /**
+     * Update CPU flags
+     */
+    function updateFlagsDisplay(cpu, container, highlight) {
         const flagContainer = container.querySelector('.cpu-flags')
-        if (flagContainer) {
-            flagContainer.innerHTML = Object.entries(cpu.flags)
-                .map(([name, value]) => `
-                    <span class="cpu-flag ${value === 1 ? 'active' : ''} ${highlight.flags ? 'highlight' : ''}">
-                        ${name}: ${value}
-                    </span>
-                `).join('')
-        }
+        if (!flagContainer) return
 
-        // Update memory (configurable data section)
+        flagContainer.innerHTML = Object.entries(cpu.flags)
+            .map(([name, value]) => `
+                <span class="cpu-flag ${value === 1 ? 'active' : ''} ${highlight.flags ? 'highlight' : ''}">
+                    ${name}: ${value}
+                </span>
+            `).join('')
+    }
+
+    /**
+     * Update memory display
+     */
+    function updateMemoryDisplay(cpu, container, highlight) {
         const memContainer = container.querySelector('.memory-display')
-        if (memContainer) {
-            // Create reverse lookup for labels (address -> label name)
-            const addressLabels = {}
-            Object.entries(cpu.labels).forEach(([label, addr]) => {
-                if (addr >= DATA_MEM_START && addr <= DATA_MEM_END) {
-                    addressLabels[addr] = label
-                }
-            })
+        if (!memContainer) return
 
-            memContainer.innerHTML = cpu.memory
-                .slice(DATA_MEM_START, DATA_MEM_END + 1)  // Show configured data memory locations
-                .map((value, index) => {
-                    const addr = DATA_MEM_START + index
-                    const label = addressLabels[addr] || ''
-                    return `
-                        <div class="memory-cell ${highlight.memory === addr ? 'highlight' : ''}">
-                            <span class="mem-addr">${addr.toString().padStart(3, '0')}</span>
-                            <span class="mem-value">${value.toString().padStart(3, '0')}</span>
-                            ${label ? `<span class="mem-label">${label.substring(0, 6)}</span>` : '<span class="mem-label"></span>'}
-                        </div>
-                    `
-                }).join('')
-        }
+        // Create reverse lookup for labels (address -> label name)
+        const addressLabels = {}
+        Object.entries(cpu.labels).forEach(([label, addr]) => {
+            if (addr >= DATA_MEM_START && addr <= DATA_MEM_END) {
+                addressLabels[addr] = label
+            }
+        })
 
-        // Update code display
+        memContainer.innerHTML = cpu.memory
+            .slice(DATA_MEM_START, DATA_MEM_END + 1)  // Show configured data memory locations
+            .map((value, index) => {
+                const addr = DATA_MEM_START + index
+                const label = addressLabels[addr] || ''
+                return `
+                    <div class="memory-cell ${highlight.memory === addr ? 'highlight' : ''}">
+                        <span class="mem-addr">${addr.toString().padStart(3, '0')}</span>
+                        <span class="mem-value">${value.toString().padStart(3, '0')}</span>
+                        ${label ? `<span class="mem-label">${label.substring(0, 6)}</span>` : '<span class="mem-label"></span>'}
+                    </div>
+                `
+            }).join('')
+    }
+
+    /**
+     * Update code display with execution highlighting
+     */
+    function updateCodeDisplay(cpu, container) {
         const codeContainer = container.querySelector('.code-display')
-        if (codeContainer) {
-            codeContainer.innerHTML = cpu.program
-                .map((instruction, idx) => {
-                    let className = 'code-line'
-                    let marker = ''
+        if (!codeContainer) return
 
-                    // Non-executable lines (directives and data) don't get highlighting
-                    if (instruction.isExecutable === false) {
-                        className += ' non-executable'
-                        if (instruction.isDirective) {
-                            className += ' directive'
-                        }
-                    } else {
-                        if (cpu.started && instruction.lineNum === cpu.pc && cpu.displayPhase === 'fetch') {
-                            className += ' current-line fetching'
-                            marker = '→'
-                        } else if (cpu.started && idx === cpu.currentInstructionAddr && cpu.displayPhase === 'decode') {
-                            className += ' current-line decoding'
-                            marker = '?'
-                        } else if (cpu.started && idx === cpu.currentInstructionAddr && cpu.displayPhase === 'execute') {
-                            className += ' current-line executing'
-                            marker = '▶'
-                        } else if (cpu.started && instruction.lineNum < cpu.pc) {
-                            className += ' executed'
-                        }
-                    }
+        codeContainer.innerHTML = cpu.program
+            .map((instruction, idx) => {
+                let className = 'code-line'
+                let marker = ''
 
-                    // Format the code text and label separately
-                    let labelText = ''
-                    let formattedCode = ''
-
-                    if (instruction.label) {
-                        // Label in its own column, code without label
-                        const paddedLabel = instruction.label.substring(0, 6).padStart(6, ' ')
-                        labelText = `<span class="hl-name">${escapeHtml(paddedLabel)}</span><span class="hl-punctuation">:</span>`
-                        const codeWithoutLabel = instruction.text.replace(new RegExp(`^${instruction.label}:\\s*`), '')
-                        formattedCode = highlightAsmSyntax(codeWithoutLabel)
-                    } else {
-                        // No label: empty label column
-                        labelText = ''
-                        formattedCode = highlightAsmSyntax(instruction.text.trimStart())
-                    }
-
-                    // Determine what to show in the line number column
-                    let lineNumDisplay = ''
+                // Non-executable lines (directives and data) don't get highlighting
+                if (instruction.isExecutable === false) {
+                    className += ' non-executable'
                     if (instruction.isDirective) {
-                        // Directives (.code, .data) don't show line numbers
-                        lineNumDisplay = ''
-                    } else if (instruction.memoryAddress !== undefined) {
-                        // Data definitions show their memory address
-                        lineNumDisplay = instruction.memoryAddress.toString().padStart(3, '0')
-                    } else {
-                        // Regular code shows instruction address
-                        lineNumDisplay = instruction.lineNum.toString().padStart(3, '0')
+                        className += ' directive'
                     }
+                } else {
+                    if (cpu.started && instruction.lineNum === cpu.pc && cpu.displayPhase === 'fetch') {
+                        className += ' current-line fetching'
+                        marker = '→'
+                    } else if (cpu.started && idx === cpu.currentInstructionAddr && cpu.displayPhase === 'decode') {
+                        className += ' current-line decoding'
+                        marker = '?'
+                    } else if (cpu.started && idx === cpu.currentInstructionAddr && cpu.displayPhase === 'execute') {
+                        className += ' current-line executing'
+                        marker = '▶'
+                    } else if (cpu.started && instruction.lineNum < cpu.pc) {
+                        className += ' executed'
+                    }
+                }
 
-                    return `
-                        <div class="${className}">
-                            <span class="line-marker">${marker}</span>
-                            <span class="line-num">${lineNumDisplay}</span>
-                            <span class="line-label">${labelText}</span>
-                            <span class="line-code">${formattedCode}</span>
-                        </div>
-                    `
-                }).join('')
-        }
+                // Format the code text and label separately
+                let labelText = ''
+                let formattedCode = ''
 
+                if (instruction.label) {
+                    // Label in its own column, code without label
+                    const paddedLabel = instruction.label.substring(0, 6).padStart(6, ' ')
+                    labelText = `<span class="hl-name">${escapeHtml(paddedLabel)}</span><span class="hl-punctuation">:</span>`
+                    const codeWithoutLabel = instruction.text.replace(new RegExp(`^${instruction.label}:\\s*`), '')
+                    formattedCode = highlightAsmSyntax(codeWithoutLabel)
+                } else {
+                    // No label: empty label column
+                    labelText = ''
+                    formattedCode = highlightAsmSyntax(instruction.text.trimStart())
+                }
+
+                // Determine what to show in the line number column
+                let lineNumDisplay = ''
+                if (instruction.isDirective) {
+                    // Directives (.code, .data) don't show line numbers
+                    lineNumDisplay = ''
+                } else if (instruction.memoryAddress !== undefined) {
+                    // Data definitions show their memory address
+                    lineNumDisplay = instruction.memoryAddress.toString().padStart(3, '0')
+                } else {
+                    // Regular code shows instruction address
+                    lineNumDisplay = instruction.lineNum.toString().padStart(3, '0')
+                }
+
+                return `
+                    <div class="${className}">
+                        <span class="line-marker">${marker}</span>
+                        <span class="line-num">${lineNumDisplay}</span>
+                        <span class="line-label">${labelText}</span>
+                        <span class="line-code">${formattedCode}</span>
+                    </div>
+                `
+            }).join('')
+    }
+
+    /**
+     * Update phase indicator and cycle count
+     */
+    function updatePhaseAndCycle(cpu, container) {
         // Update phase indicator
         const phaseSteps = container.querySelectorAll('.phase-step')
         phaseSteps.forEach(step => {
@@ -990,6 +1047,18 @@
         if (cycleCount) {
             cycleCount.textContent = cpu.cycle
         }
+    }
+
+    /**
+     * Main UI update coordinator
+     */
+    function updateUI(cpu, container, highlight = {}) {
+        updateControlRegisters(cpu, container, highlight)
+        updateGeneralRegisters(cpu, container, highlight)
+        updateFlagsDisplay(cpu, container, highlight)
+        updateMemoryDisplay(cpu, container, highlight)
+        updateCodeDisplay(cpu, container)
+        updatePhaseAndCycle(cpu, container)
     }
 
     function escapeHtml(text) {
