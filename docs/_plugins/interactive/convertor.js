@@ -78,7 +78,7 @@
         }
 
         getDecimal() {
-            return this.decimalValue
+            return this.decimalValue.toString(10).padStart(3, '0')
         }
 
         getHex() {
