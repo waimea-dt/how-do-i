@@ -6,49 +6,49 @@ Interactive calculator for exploring binary arithmetic and bitwise operations wi
 
 ### Addition
 
-<calc value1="100" value2="123" op="add" bits="8"></calc>
+<calc value1="100" value2="123" op="add"></calc>
 
 ### Subtraction
 
-<calc value1="200" value2="75" op="sub" bits="8"></calc>
+<calc value1="200" value2="75" op="sub"></calc>
 
 ## Bitwise Operations
 
 ### AND Operation
 
-<calc value1="170" value2="85" op="and" bits="8"></calc>
+<calc value1="170" value2="85" op="and"></calc>
 
 ### OR Operation
 
-<calc value1="170" value2="85" op="or" bits="8"></calc>
+<calc value1="170" value2="85" op="or"></calc>
 
 ### XOR Operation
 
-<calc value1="170" value2="85" op="xor" bits="8"></calc>
+<calc value1="170" value2="85" op="xor"></calc>
 
 ### NOT Operation
 
-<calc value1="170" op="not" bits="8"></calc>
+<calc value1="170" op="not"></calc>
 
 ## Shift Operations
 
 ### Left Shift
 
-<calc value1="5" value2="2" op="<<" bits="8"></calc>
+<calc value1="5" value2="2" op="<<"></calc>
 
 ### Logical Right Shift
 
-<calc value1="160" value2="2" op=">>" bits="8"></calc>
+<calc value1="160" value2="2" op=">>"></calc>
 
 ### Arithmetic Right Shift
 
-<calc value1="160" value2="2" op=">>>" bits="8"></calc>
+<calc value1="160" value2="2" op=">>>"></calc>
 
 ## Two's Complement
 
 ### Negation
 
-<calc value1="42" op="neg" bits="8"></calc>
+<calc value1="42" op="neg"></calc>
 
 ## Interactive Features
 

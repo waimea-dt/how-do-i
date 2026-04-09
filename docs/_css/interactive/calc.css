@@ -7,20 +7,18 @@
 .markdown-section calc {
     /* Component-specific colors */
     --operand1-color:           var(--theme-color);
-    --operand2-color:           var(--secondary-color);
-    --result-color:             var(--palette-color-1);
-    --operation-color:          var(--palette-color-2);
+    --operand2-color:           var(--palette-color-1);
+    --result-color:             var(--secondary-color);
+    --operation-color:          var(--secondary-color);
     --overflow-color:           var(--error-color);
 
     /* Background colors */
     --wrapper-bg:               var(--color-mono-1);
-    --operand1-bg:              color-mix(in srgb, var(--theme-color), transparent 85%);
-    --operand2-bg:              color-mix(in srgb, var(--secondary-color), transparent 85%);
-    --result-bg:                color-mix(in srgb, var(--palette-color-1), transparent 85%);
-    --overflow-bg:              color-mix(in srgb, var(--error-color), transparent 80%);
+    --operand1-bg:              color-mix(in srgb, var(--operand1-color), transparent 85%);
+    --operand2-bg:              color-mix(in srgb, var(--operand2-color), transparent 85%);
+    --result-bg:                color-mix(in srgb, var(--result-color), transparent 85%);
+    --overflow-bg:              color-mix(in srgb, var(--overflow-color), transparent 80%);
     --input-bg:                 var(--color-mono-0);
-    --interp-bg:                var(--color-mono-2);
-    --interp-result-bg:         color-mix(in srgb, var(--palette-color-1), transparent 90%);
     --steps-bg:                 var(--color-mono-2);
 
     /* Border colors */
@@ -28,68 +26,42 @@
     --input-border:             var(--color-mono-4);
     --input-border-hover:       var(--color-mono-5);
     --input-border-focus:       var(--theme-color);
-    --interp-result-border:     var(--palette-color-1);
 
     /* Text colors */
     --input-color:              var(--color-text);
     --label-color:              var(--color-mono-7);
     --steps-title-color:        var(--color-mono-9);
-    --flag-color:               var(--color-mono-6);
-    --flag-active-color:        var(--color-mono-0);
-
-    /* Flag colors */
-    --flag-bg:                  var(--color-mono-3);
-    --flag-active-bg:           var(--error-color);
 
     /* Font settings */
     --calc-font-mono:           var(--font-family-mono);
 
     /* Font sizes (em units - scale with base) */
+    --font-size-base: 0.85rem;
     --font-size-xs: 0.5em;        /* Stack header bits */
     --font-size-sm: 0.75em;       /* Carry/borrow bits */
-    --font-size-base: 0.85rem;    /* Input labels */
-    --font-size-md: 1.1rem;       /* Operation name */
-    --font-size-lg: 1.5rem;       /* Input values */
-    --font-size-xl: 2.5rem;       /* Operation symbol (rem - constant) */
+    --font-size-md: 0.95rem;      /* Operation name */
+    --font-size-lg: 1.8rem;       /* Input values */
+    --font-size-xl: 2.2rem;       /* Operation symbol (rem - constant) */
     --font-size-op: 1.3em;        /* Stack operator */
 
     /* Padding (em units - scale with font) */
-    --padding-wrapper: 1.5em;
-    --padding-input: 0.75em 1em;
+    --padding-wrapper: 1em;
+    --padding-input: 0.4em 1em;
     --padding-digit: 0.15em 0.25em;
     --padding-button: 0.5em 1em;
-    --padding-flag: 0.5em 1em;
     --padding-steps: 1.25em;
-    --padding-stack: 2em 1em;
-    --padding-interp-row: 0.75em 1em;
+    --padding-stack: 1.5em 0.5em;
 
     /* Gaps (em units - scale with base) */
-    --gap-tight: 0.35em;          /* Stack cells horizontal */
-    --gap-small: 0.4em;           /* Stack cells vertical */
-    --gap-normal: 0.5em;          /* Input groups, interp table */
-    --gap-large: 1.5em;           /* Container sections, operation display */
-    --gap-inputs: 2em;            /* Input fields */
-    --gap-flags: 1em;             /* Flag items */
+    --gap-tight: 0.2em;           /* Stack cells horizontal */
+    --gap-small: 0.3em;           /* Stack cells vertical */
+    --gap-normal: 1em;            /* Input groups */
+    --gap-large: 1em;             /* Container sections, operation display */
+    --gap-inputs: 1em;            /* Input fields */
     --gap-steps: 1em;             /* Steps section */
 
-    /* Margins (rare cases - prefer gap) */
-    --margin-divider: 0.2em 0;
-
-    container-type: inline-size;
-    display: block;
-    margin: var(--margin-block) 0;
-
-    /* Mobile-first defaults */
-    font-size: 0.9rem;
-    --padding-wrapper: 1em;
-    --gap-large: 1em;
-    --gap-inputs: 1em;
-    --padding-stack: 1.5em 0.5em;
-    --font-size-xl: 2rem;
-    --font-size-md: 0.95rem;
-
-    @container (min-width: 601px) {
-        font-size: 1rem;
+    @container (min-width: 600px) {
+        --font-size-base: 1rem;
         --padding-wrapper: 1.5em;
         --gap-large: 1.5em;
         --gap-inputs: 2em;
@@ -97,6 +69,12 @@
         --font-size-xl: 2.5rem;
         --font-size-md: 1.1rem;
     }
+
+    container-type: inline-size;
+    display: block;
+    margin: var(--margin-block) 0;
+
+    font-size: var(--font-size-base);
 
     .calc-wrapper {
         background: var(--wrapper-bg);
@@ -115,15 +93,12 @@
     /* Header with operation display */
     .calc-header {
         text-align: center;
-        padding-bottom: 1em;
-        border-bottom: 2px solid var(--wrapper-border);
-    }
 
-    .calc-operation-display {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--gap-large);
+        .calc-op-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--operation-color);
+        }
     }
 
     .calc-op-symbol {
@@ -133,40 +108,39 @@
         font-family: var(--calc-font-mono);
     }
 
-    .calc-op-name {
-        font-size: var(--font-size-md);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--operation-color);
-    }
-
     /* Input fields */
     .calc-inputs {
         display: flex;
         gap: var(--gap-inputs);
         justify-content: center;
+        align-items: center;
         flex-wrap: wrap;
     }
 
     .calc-input-group {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         gap: var(--gap-normal);
-        min-width: 140px;
 
-        @container (min-width: 601px) {
-            min-width: 180px;
-        }
     }
 
     .calc-input-label {
-        font-size: var(--font-size-base);
+        font-size: var(--font-size-xl);
         font-weight: 600;
         color: var(--label-color);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
         text-align: center;
+
+        &:not([data-operand]) {
+            font-weight: 400;
+        }
+
+        &[data-operand="1"] {
+            color: var(--operand1-color);
+        }
+
+        &[data-operand="2"] {
+            color: var(--operand2-color);
+        }
     }
 
     .calc-input {
@@ -182,6 +156,10 @@
         transition: border-color 0.2s, box-shadow 0.2s;
         text-align: center;
 
+        &.decimal-input {
+            width: 5ch;
+        }
+
         &:focus {
             outline: none;
             border-color: var(--input-border-focus);
@@ -190,6 +168,38 @@
 
         &:hover:not(:focus) {
             border-color: var(--input-border-hover);
+        }
+    }
+
+    /* Animation toggle */
+    .calc-animate-toggle {
+        min-width: auto;
+        opacity: 0.4;
+        transition: opacity 250ms;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        .calc-input-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: var(--font-size-base);
+            text-transform: none;
+
+            &:hover {
+                color: var(--theme-color);
+            }
+        }
+
+        .calc-animate-checkbox {
+            width: 1.2em;
+            height: 1.2em;
+            cursor: pointer;
+            accent-color: var(--theme-color);
         }
     }
 
@@ -205,15 +215,14 @@
 
     .calc-stack {
         display: grid;
-        grid-template-columns: 1.8em 1.2em repeat(8, 1.2em) 1.5em repeat(3, minmax(3em, auto));
-        gap: 0.3em 0.25em;
+        grid-template-columns: 5em repeat(10, 1.2em) 0em repeat(3, minmax(3em, auto));
+        gap: var(--gap-small) var(--gap-tight);
         font-family: var(--calc-font-mono);
         font-size: clamp(1rem, 4vw, 1.5rem);
         line-height: 1.6;
         align-items: center;
 
-        @container (min-width: 601px) {
-            gap: var(--gap-small) var(--gap-tight);
+        @container (min-width: 600px) {
             font-size: clamp(1.2rem, 3vw, 2rem);
         }
     }
@@ -224,6 +233,8 @@
     }
 
     .calc-stack-bit-header,
+    .calc-stack-overflow-header,
+    .calc-stack-undercarry-header,
     .calc-stack-interp-header .calc-stack-interp-item {
         text-align: center;
         font-weight: 600;
@@ -240,6 +251,7 @@
         font-weight: 700;
         font-size: var(--font-size-op);
         grid-column: 1;
+        margin-right: var(--gap-small);
     }
 
     .calc-stack-value1 .calc-stack-operator {
@@ -248,6 +260,20 @@
 
     .calc-stack-value2 .calc-stack-operator {
         color: var(--operand2-color);
+    }
+
+    /* Overflow and undercarry placeholder columns */
+    .calc-stack-overflow-placeholder,
+    .calc-stack-undercarry-placeholder {
+        /* Empty grid cells for alignment - force them to occupy space */
+        width: 1.2em;
+        display: inline-block;
+    }
+
+    .calc-stack-overflow-placeholder::after,
+    .calc-stack-undercarry-placeholder::after {
+        content: '\00A0'; /* non-breaking space to prevent collapse */
+        opacity: 0;
     }
 
     .calc-stack-digit {
@@ -329,6 +355,10 @@
     }
 
     .calc-stack-result {
+        .calc-stack-operator {
+            color: var(--result-color);
+        }
+
         .calc-stack-digit {
             background: var(--result-bg);
             color: var(--result-color);
@@ -362,7 +392,7 @@
         grid-column: 1 / -1;
         height: 3px;
         background: var(--color-text);
-        margin: var(--margin-divider);
+        margin: var(--gap-small) 0;
         opacity: 0.6;
         border-radius: 2px;
     }
@@ -440,123 +470,6 @@
 
     .calc-stack-result .calc-stack-interp-value {
         color: var(--result-color);
-    }
-
-    /* Hide interpretations table (now inline) */
-    .calc-interpretations {
-        display: none;
-    }
-
-    .calc-interp-header {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--label-color);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-
-    .calc-interp-table {
-        display: grid;
-        gap: var(--gap-normal);
-    }
-
-    .calc-interp-row {
-        display: grid;
-        grid-template-columns: 100px repeat(4, 1fr);
-        gap: var(--gap-normal);
-        align-items: center;
-        padding: 0.6em 0.75em;
-        background: var(--interp-bg);
-        border-radius: var(--border-radius);
-        font-family: var(--calc-font-mono);
-        font-size: 0.85rem;
-
-        @container (min-width: 769px) {
-            grid-template-columns: 120px repeat(4, 1fr);
-            gap: var(--gap-steps);
-            padding: var(--padding-interp-row);
-            font-size: 0.95rem;
-        }
-    }
-
-    .calc-interp-header-row {
-        background: transparent;
-        font-weight: 600;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--label-color);
-        font-family: var(--font-family);
-        padding-bottom: 0.5em;
-        border-bottom: 2px solid var(--wrapper-border);
-
-        @container (min-width: 769px) {
-            font-size: 0.8rem;
-        }
-    }
-
-    .calc-interp-label {
-        font-weight: 700;
-        color: var(--color-text);
-        text-align: left;
-    }
-
-    .calc-interp-value {
-        text-align: center;
-        color: var(--color-text);
-    }
-
-    .calc-interp-result-row {
-        background: var(--interp-result-bg);
-        border: 2px solid var(--interp-result-border);
-        font-weight: 700;
-        margin-top: 0.25em;
-
-        .calc-interp-label {
-            color: var(--result-color);
-        }
-
-        .calc-interp-value {
-            color: var(--result-color);
-        }
-    }
-
-    /* Flags */
-    .calc-flags {
-        display: flex;
-        gap: var(--gap-flags);
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .calc-flag {
-        padding: var(--padding-flag);
-        background: var(--flag-bg);
-        border-radius: var(--border-radius);
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--flag-color);
-        transition: all 0.3s;
-        border: 2px solid transparent;
-
-        &.calc-flag-active {
-            background: var(--flag-active-bg);
-            color: var(--flag-active-color);
-            border-color: var(--flag-active-bg);
-            box-shadow: 0 0 12px color-mix(in srgb, var(--flag-active-bg), transparent 50%);
-            animation: pulse-flag 2s ease-in-out infinite;
-        }
-    }
-
-    @keyframes pulse-flag {
-        0%, 100% {
-            box-shadow: 0 0 12px color-mix(in srgb, var(--flag-active-bg), transparent 50%);
-        }
-        50% {
-            box-shadow: 0 0 20px color-mix(in srgb, var(--flag-active-bg), transparent 30%);
-        }
     }
 
     /* Steps explanation */

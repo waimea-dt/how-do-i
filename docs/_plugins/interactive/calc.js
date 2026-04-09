@@ -5,16 +5,18 @@
  * and step-by-step explanations.
  *
  * Usage in markdown:
- *   <calc value1="100" value2="123" op="add" bits="8"></calc>
- *   <calc value1="100" value2="123" op="or" bits="8"></calc>
- *   <calc value1="100" op="not" bits="8"></calc>
- *   <calc value1="100" value2="3" op="<<" bits="8"></calc>
+ *   <calc value1="100" value2="123" op="add"></calc>
+ *   <calc value1="100" value2="123" op="or"></calc>
+ *   <calc value1="100" op="not"></calc>
+ *   <calc value1="100" value2="3" op="<<"></calc>
  *
  * Supported operations:
  *   - Arithmetic: add, sub
  *   - Bitwise: and, or, xor, not
  *   - Shifts: <<, >> (logical), >>> (arithmetic)
  *   - Special: neg (two's complement negation)
+ *
+ * Note: All operations use 8-bit values.
  */
 
 ;(function () {
@@ -45,18 +47,72 @@
     const ANIMATION_SHIFT_PAUSE_PHASE_MS = 0       // No pause - shift happens immediately
 
     // -------------------------------------------------------------------------
+    // CSS Class Constants
+    // -------------------------------------------------------------------------
+    const CSS = {
+        ACTIVE: ' calc-stack-active',
+        ERROR: ' calc-stack-error',
+        UNKNOWN: ' calc-stack-unknown',
+        BIT_ONE: ' calc-stack-bit-one',
+        BORROWED: ' calc-stack-borrowed'
+    }
+
+    // -------------------------------------------------------------------------
+    // HTML Helper Functions
+    // -------------------------------------------------------------------------
+
+    /**
+     * Generate active class string based on state
+     */
+    function getActiveClass(isActive) {
+        return isActive === 'error' ? CSS.ERROR : (isActive ? CSS.ACTIVE : '')
+    }
+
+    /**
+     * Render empty interpretation columns (spacer + 3 items)
+     */
+    function renderEmptyInterpretations() {
+        return `
+            <span class="calc-stack-spacer"></span>
+            <span class="calc-stack-interp-item"></span>
+            <span class="calc-stack-interp-item"></span>
+            <span class="calc-stack-interp-item"></span>
+        `
+    }
+
+    /**
+     * Render unknown interpretation columns (spacer + 3 ? items)
+     */
+    function renderUnknownInterpretations() {
+        return `
+            <span class="calc-stack-spacer"></span>
+            <span class="calc-stack-interp-item">
+                <span class="calc-stack-interp-value calc-stack-unknown">?</span>
+            </span>
+            <span class="calc-stack-interp-item">
+                <span class="calc-stack-interp-value calc-stack-unknown">?</span>
+            </span>
+            <span class="calc-stack-interp-item">
+                <span class="calc-stack-interp-value calc-stack-unknown">?</span>
+            </span>
+        `
+    }
+
+    // -------------------------------------------------------------------------
     // Calculator State Model
     // -------------------------------------------------------------------------
 
     class CalcState {
-        constructor(value1, value2, op, bits) {
+        constructor(value1, value2, op) {
             this.value1 = parseInt(value1) || 0
             this.value2 = value2 !== null ? parseInt(value2) : null
             this.op = op
-            this.bits = Math.min(parseInt(bits) || 8, 8)
+            this.bits = 8
             this.maxValue = Math.pow(2, this.bits) - 1
             this.result = null
             this.steps = []
+            // Animation settings
+            this.animateEnabled = true // Toggle for animations (default: on)
             // Animation state
             this.animationStep = -1 // -1 = not started/complete, 0..bits-1 = current position
             this.animationPhase = 'inputs' // For add: 'inputs', 'carryOut', 'pause'. For sub: 'inputs', 'borrow', 'result', 'pause'
@@ -78,6 +134,7 @@
             this.shiftOriginalBits = null // Boolean array marking bits from original value (for highlighting)
             this.shiftIteration = -1 // Current shift iteration (0 to shiftAmount-1)
             this.shiftPhase = null // 'highlight-value1', 'copy', 'shift'
+            this.shiftLostBit = null // The bit that was shifted out (for carry/undercarry display)
         }
 
         calculate() {
@@ -322,27 +379,40 @@
 
         const opInfo = getOperationInfo(state.op)
         const isBinaryOp = state.value2 !== null
+        const isShiftOp = ['<<', '>>', '>>>'].includes(state.op)
 
         wrapper.innerHTML = `
             <div class="calc-container">
                 <div class="calc-header">
-                    <div class="calc-operation-display">
-                        <span class="calc-op-symbol">${opInfo.symbol}</span>
-                        <span class="calc-op-name">${opInfo.name}</span>
-                    </div>
+                    <div class="calc-op-name">${opInfo.name}</div>
                 </div>
 
                 <div class="calc-inputs">
+                    ${!isBinaryOp ? `
+                    <div class="calc-operation-display">
+                        <div class="calc-op-symbol">${opInfo.symbol}</div>
+                    </div>
+                    ` : ''}
                     <div class="calc-input-group">
-                        <label class="calc-input-label">Value 1 (Binary)</label>
+                        <label class="calc-input-label" data-operand="1">A</label>
                         <input type="text" class="calc-input" data-operand="1" value="${state.value1.toString(2).padStart(state.bits, '0')}" maxlength="${state.bits}" pattern="[01]*">
                     </div>
                     ${isBinaryOp ? `
+                    <div class="calc-operation-display">
+                        <div class="calc-op-symbol">${opInfo.symbol}</div>
+                    </div>
                     <div class="calc-input-group">
-                        <label class="calc-input-label">${['<<', '>>', '>>>'].includes(state.op) ? 'Shift Amount (Decimal)' : 'Value 2 (Binary)'}</label>
-                        <input type="text" class="calc-input" data-operand="2" value="${['<<', '>>', '>>>'].includes(state.op) ? state.value2 : state.value2.toString(2).padStart(state.bits, '0')}" maxlength="${['<<', '>>', '>>>'].includes(state.op) ? '1' : state.bits}" pattern="${['<<', '>>', '>>>'].includes(state.op) ? '[0-9]*' : '[01]*'}">
+                        ${!isShiftOp ? '<label class="calc-input-label" data-operand="2">B</label>' : ''}
+                        <input type="text" class="calc-input ${isShiftOp ? 'decimal-input' : ''}" data-operand="2" value="${isShiftOp ? state.value2 : state.value2.toString(2).padStart(state.bits, '0')}" maxlength="${isShiftOp ? '1' : state.bits}" pattern="${isShiftOp ? '[0-7]*' : '[01]*'}">
+                        ${isShiftOp ? '<label class="calc-input-label">bits</label>' : ''}
                     </div>
                     ` : ''}
+                    <div class="calc-input-group calc-animate-toggle">
+                        <label class="calc-input-label">
+                            <input type="checkbox" class="calc-animate-checkbox" ${state.animateEnabled ? 'checked' : ''}>
+                            Animate
+                        </label>
+                    </div>
                 </div>
 
                 <div class="calc-binary-stack">
@@ -401,14 +471,12 @@
                 isActive = true
             }
 
-            const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
+            const activeClass = getActiveClass(isActive)
             html += `<span class="calc-stack-borrow-bit${activeClass}">${displayValue}</span>`
         }
 
-        html += '<span class="calc-stack-spacer"></span>'
-        html += '<span class="calc-stack-interp-item"></span>'
-        html += '<span class="calc-stack-interp-item"></span>'
-        html += '<span class="calc-stack-interp-item"></span>'
+        html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        html += renderEmptyInterpretations()
         html += '</div>'
 
         return html
@@ -420,12 +488,8 @@
     function renderValue1Row(state, binary1, animStep, isAnimating, isShiftAnimating, opInfo, isBinaryOp, isShiftOp) {
         let html = `<div class="calc-stack-row calc-stack-value1">`
 
-        // Operator column
-        if (isBinaryOp && !isShiftOp) {
-            html += `<span class="calc-stack-operator"></span>`
-        } else {
-            html += `<span class="calc-stack-operator">${opInfo.symbol}</span>`
-        }
+        // Operator column - show "A" label
+        html += `<span class="calc-stack-operator">A</span>`
         html += '<span class="calc-stack-overflow-placeholder"></span>'
 
         // Render bits based on operation type
@@ -435,8 +499,8 @@
                 const bit = binary1[i]
                 const bitPos = state.bits - 1 - i
                 const isActive = bitPos === animStep && state.animationPhase === 'inputs'
-                const activeClass = isActive ? ' calc-stack-active' : ''
-                const bitOneClass = isActive && bit === '1' ? ' calc-stack-bit-one' : ''
+                const activeClass = getActiveClass(isActive)
+                const bitOneClass = isActive && bit === '1' ? CSS.BIT_ONE : ''
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${bitOneClass}">${bit}</span>`
             }
         } else if (state.op === 'sub' && state.value1Crossed) {
@@ -462,8 +526,8 @@
                     }
                 }
 
-                const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
-                const greyedClass = isCrossed ? ' calc-stack-borrowed' : ''
+                const activeClass = getActiveClass(isActive)
+                const greyedClass = isCrossed ? CSS.BORROWED : ''
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${greyedClass}">${bit}</span>`
             }
         } else if (state.op === 'add') {
@@ -472,7 +536,7 @@
                 const bit = binary1[i]
                 const bitPos = state.bits - 1 - i
                 const isActive = isAnimating && bitPos === animStep && state.animationPhase === 'inputs'
-                const activeClass = isActive ? ' calc-stack-active' : ''
+                const activeClass = getActiveClass(isActive)
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}">${bit}</span>`
             }
         } else if (isShiftAnimating) {
@@ -480,13 +544,14 @@
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary1[i]
                 const isActive = state.shiftPhase === 'highlight-value1'
-                const activeClass = isActive ? ' calc-stack-active' : ''
+                const activeClass = getActiveClass(isActive)
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}">${bit}</span>`
             }
         } else {
             html += renderBinaryDigits(binary1, 'value1')
         }
 
+        html += '<span class="calc-stack-undercarry-placeholder"></span>'
         html += renderInterpretations(state.value1, state)
         html += '</div>'
 
@@ -498,7 +563,8 @@
      */
     function renderValue2Row(state, binary2, animStep, isAnimating, opInfo) {
         let html = `<div class="calc-stack-row calc-stack-value2">`
-        html += `<span class="calc-stack-operator">${opInfo.symbol}</span>`
+        // Show "B" label in operator column
+        html += `<span class="calc-stack-operator">B</span>`
         html += '<span class="calc-stack-overflow-placeholder"></span>'
 
         // Render bits based on operation type
@@ -508,8 +574,8 @@
                 const bit = binary2[i]
                 const bitPos = state.bits - 1 - i
                 const isActive = bitPos === animStep && state.animationPhase === 'inputs'
-                const activeClass = isActive ? ' calc-stack-active' : ''
-                const bitOneClass = isActive && bit === '1' ? ' calc-stack-bit-one' : ''
+                const activeClass = getActiveClass(isActive)
+                const bitOneClass = isActive && bit === '1' ? CSS.BIT_ONE : ''
                 html += `<span class="calc-stack-digit calc-stack-value2${activeClass}${bitOneClass}">${bit}</span>`
             }
         } else if (state.op === 'add' || state.op === 'sub') {
@@ -537,13 +603,14 @@
                     isActive = true
                 }
 
-                const activeClass = isActive === 'error' ? ' calc-stack-error' : (isActive ? ' calc-stack-active' : '')
+                const activeClass = getActiveClass(isActive)
                 html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">${bit}</span>`
             }
         } else {
             html += renderBinaryDigits(binary2, 'value2')
         }
 
+        html += '<span class="calc-stack-undercarry-placeholder"></span>'
         html += renderInterpretations(state.value2, state)
         html += '</div>'
 
@@ -571,16 +638,14 @@
             const isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'carryOut'
 
             const isActive = isCarryIn || isCarryOut
-            const activeClass = isActive ? ' calc-stack-active' : ''
+            const activeClass = getActiveClass(isActive)
             const displayValue = carryBit !== null ? (carryBit === 1 ? '1' : '·') : '·'
 
             html += `<span class="calc-stack-carry-bit${activeClass}">${displayValue}</span>`
         }
 
-        html += '<span class="calc-stack-spacer"></span>'
-        html += '<span class="calc-stack-interp-item"></span>'
-        html += '<span class="calc-stack-interp-item"></span>'
-        html += '<span class="calc-stack-interp-item"></span>'
+        html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        html += renderEmptyInterpretations()
         html += '</div>'
 
         return html
@@ -591,37 +656,56 @@
      */
     function renderResultRow(state, binaryResult, animStep, isAnimating, isShiftAnimating, isShiftOp, hasOverflowBit, overflowBit) {
         let html = `<div class="calc-stack-row calc-stack-result">`
-        html += '<span class="calc-stack-operator"></span>'
+
+        // Show operation expression in operator column
+        const opInfo = getOperationInfo(state.op)
+        let opExpression = ''
+        if (['not', 'neg'].includes(state.op)) {
+            // Unary operations: ~A or −A
+            opExpression = `${opInfo.symbol}A`
+        } else if (['<<', '>>', '>>>'].includes(state.op)) {
+            // Shift operations: A<<N, A>>N, A>>>N
+            opExpression = `A${opInfo.symbol}${state.value2}`
+        } else {
+            // Binary operations: A&B, A|B, A+B, etc.
+            opExpression = `A${opInfo.symbol}B`
+        }
+        html += `<span class="calc-stack-operator">${opExpression}</span>`
 
         // Handle shift operations separately
         if (isShiftAnimating) {
-            html += '<span class="calc-stack-overflow-placeholder"></span>'
+            // Show left shift lost bit in overflow position - only during shift phase when bit is actually lost
+            if (state.op === '<<' && state.shiftPhase === 'shift' && state.shiftLostBit !== null) {
+                const lostBit = state.shiftLostBit
+                html += `<span class="calc-stack-overflow-bit${CSS.ACTIVE}">${lostBit}</span>`
+            } else {
+                html += '<span class="calc-stack-overflow-placeholder"></span>'
+            }
 
             if (state.shiftPhase === 'highlight-value1') {
                 // Show ? during highlight-value1 phase
                 for (let i = 0; i < state.bits; i++) {
                     html += `<span class="calc-stack-digit calc-stack-result calc-stack-unknown">?</span>`
                 }
-                html += `
-                    <span class="calc-stack-spacer"></span>
-                    <span class="calc-stack-interp-item">
-                        <span class="calc-stack-interp-value calc-stack-unknown">?</span>
-                    </span>
-                    <span class="calc-stack-interp-item">
-                        <span class="calc-stack-interp-value calc-stack-unknown">?</span>
-                    </span>
-                    <span class="calc-stack-interp-item">
-                        <span class="calc-stack-interp-value calc-stack-unknown">?</span>
-                    </span>
-                `
+
+                html += '<span class="calc-stack-undercarry-placeholder"></span>'
+                html += renderUnknownInterpretations()
             } else {
                 // Show bits during copy and shift phases
                 for (let i = 0; i < state.bits; i++) {
                     const bit = state.shiftCurrentBits[i]
                     const isOriginal = state.shiftOriginalBits[i]
                     const isActive = state.shiftPhase === 'copy' || (state.shiftPhase === 'shift' && isOriginal)
-                    const activeClass = isActive ? ' calc-stack-active' : ''
+                    const activeClass = getActiveClass(isActive)
                     html += `<span class="calc-stack-digit calc-stack-result${activeClass}">${bit}</span>`
+                }
+
+                // Show right shift lost bit in undercarry position - only during shift phase when bit is actually lost
+                if ((state.op === '>>' || state.op === '>>>') && state.shiftPhase === 'shift' && state.shiftLostBit !== null) {
+                    const lostBit = state.shiftLostBit
+                    html += `<span class="calc-stack-overflow-bit${CSS.ACTIVE}">${lostBit}</span>`
+                } else {
+                    html += '<span class="calc-stack-undercarry-placeholder"></span>'
                 }
 
                 const currentValue = parseInt(state.shiftCurrentBits.join(''), 2)
@@ -636,28 +720,33 @@
         let showOverflowBit = false
         if (hasOverflowBit && (state.op === 'add' || state.op === 'sub')) {
             if (state.animationStep < 0 && state.animationHasRun) {
+                // Animation complete - show overflow bit
                 showOverflowBit = true
             } else if (state.op === 'add' && state.currentCarry === 1 && state.animationStep >= state.bits - 1 &&
                        (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')) {
+                // Addition: show overflow bit during/after carryOut phase of final position
                 showOverflowBit = true
-            } else if (state.op === 'sub' && state.animationStep >= 0) {
+            } else if (state.op === 'sub' && state.animationStep >= state.bits - 1 &&
+                       (state.animationPhase === 'result' || state.animationPhase === 'pause')) {
+                // Subtraction: show overflow bit during/after result phase of final position
                 showOverflowBit = true
             }
         }
 
         const isOverflowHighlighted = state.op === 'add' && isAnimating && state.animationStep === state.bits - 1 &&
                                       state.animationPhase === 'carryOut' && showOverflowBit
-        const overflowActiveClass = isOverflowHighlighted ? ' calc-stack-active' : ''
-
-        if (showOverflowBit) {
-            html += `<span class="calc-stack-overflow-bit${overflowActiveClass}">${overflowBit}</span>`
-        } else {
-            html += '<span class="calc-stack-overflow-placeholder"></span>'
-        }
+        const overflowActiveClass = getActiveClass(isOverflowHighlighted)
 
         // Progressive revelation for add/sub/bitwise
         let partialResultBits = []
         if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not'].includes(state.op)) {
+            // Add overflow placeholder for add/sub
+            if (showOverflowBit) {
+                html += `<span class="calc-stack-overflow-bit${overflowActiveClass}">${overflowBit}</span>`
+            } else {
+                html += '<span class="calc-stack-overflow-placeholder"></span>'
+            }
+
             for (let i = 0; i < state.bits; i++) {
                 const bit = binaryResult[i]
                 const bitPos = state.bits - 1 - i
@@ -687,15 +776,19 @@
                     }
                 }
 
-                const activeClass = isActive ? ' calc-stack-active' : ''
+                const activeClass = getActiveClass(isActive)
                 const displayValue = isVisible ? bit : '?'
-                const unknownClass = !isVisible ? ' calc-stack-unknown' : ''
+                const unknownClass = !isVisible ? CSS.UNKNOWN : ''
                 html += `<span class="calc-stack-digit calc-stack-result${activeClass}${unknownClass}">${displayValue}</span>`
 
                 partialResultBits.push(isVisible ? bit : '0')
             }
+
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
         } else if (isShiftOp) {
-            // Shift operations not animating
+            // Shift operations not animating - don't show lost bits
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
+
             if (!state.animationHasRun) {
                 for (let i = 0; i < state.bits; i++) {
                     html += `<span class="calc-stack-digit calc-stack-result calc-stack-unknown">?</span>`
@@ -703,24 +796,18 @@
             } else {
                 html += renderBinaryDigits(binaryResult, 'result')
             }
+
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
         } else {
+            // Other operations (shouldn't normally reach here)
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
             html += renderBinaryDigits(binaryResult, 'result')
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
         }
 
         // Interpretations
         if (!state.animationHasRun) {
-            html += `
-                <span class="calc-stack-spacer"></span>
-                <span class="calc-stack-interp-item">
-                    <span class="calc-stack-interp-value calc-stack-unknown">?</span>
-                </span>
-                <span class="calc-stack-interp-item">
-                    <span class="calc-stack-interp-value calc-stack-unknown">?</span>
-                </span>
-                <span class="calc-stack-interp-item">
-                    <span class="calc-stack-interp-value calc-stack-unknown">?</span>
-                </span>
-            `
+            html += renderUnknownInterpretations()
         } else if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not'].includes(state.op)) {
             const partialValue = parseInt(partialResultBits.join(''), 2)
             html += renderInterpretations(partialValue, state)
@@ -759,8 +846,9 @@
         // Header
         html += '<div class="calc-stack-header">'
         html += '<span class="calc-stack-operator"></span>'
-        html += '<span class="calc-stack-overflow-header"></span>'
+        html += '<span class="calc-stack-overflow-header">&nbsp;</span>'
         html += renderBitHeaders(state.bits)
+        html += '<span class="calc-stack-undercarry-header">&nbsp;</span>'  // Undercarry column header
         html += renderInterpretationHeaders()
         html += '</div>'
 
@@ -866,16 +954,16 @@
 
     function getOperationInfo(op) {
         const operations = {
-            'add': { symbol: '+', name: 'Addition' },
-            'sub': { symbol: '−', name: 'Subtraction' },
-            'and': { symbol: '∧', name: 'Bitwise AND' },
-            'or': { symbol: '∨', name: 'Bitwise OR' },
-            'xor': { symbol: '⊕', name: 'Bitwise XOR' },
-            'not': { symbol: '¬', name: 'Bitwise NOT' },
-            '<<': { symbol: '<<', name: 'Left Shift' },
-            '>>': { symbol: '>>', name: 'Logical Right Shift' },
+            'add': { symbol: '+', name: 'Binary Addition' },
+            'sub': { symbol: '−', name: 'Binary Subtraction' },
+            'and': { symbol: '&', name: 'Bitwise AND' },
+            'or':  { symbol: '|', name: 'Bitwise OR' },
+            'xor': { symbol: '^', name: 'Bitwise XOR (Exclusive-OR)' },
+            'not': { symbol: '~', name: 'Bitwise NOT' },
+            '<<':  { symbol: '<<', name: 'Logical Left Shift' },
+            '>>':  { symbol: '>>', name: 'Logical Right Shift' },
             '>>>': { symbol: '>>>', name: 'Arithmetic Right Shift' },
-            'neg': { symbol: '−', name: 'Two\'s Complement' }
+            'neg': { symbol: '−', name: 'Two\'s Compliment' }
         }
         return operations[op] || { symbol: '?', name: 'Unknown' }
     }
@@ -934,11 +1022,11 @@
             'add': () => startAdditionAnimation(wrapper, state),
             'sub': () => startSubtractionAnimation(wrapper, state),
             'and': () => startBitwiseAnimation(wrapper, state),
-            'or': () => startBitwiseAnimation(wrapper, state),
+            'or':  () => startBitwiseAnimation(wrapper, state),
             'xor': () => startBitwiseAnimation(wrapper, state),
             'not': () => startBitwiseAnimation(wrapper, state),
-            '<<': () => startShiftAnimation(wrapper, state),
-            '>>': () => startShiftAnimation(wrapper, state),
+            '<<':  () => startShiftAnimation(wrapper, state),
+            '>>':  () => startShiftAnimation(wrapper, state),
             '>>>': () => startShiftAnimation(wrapper, state)
         }
 
@@ -953,8 +1041,8 @@
      */
     function parseInputValue(inputValue, isShiftAmount, maxValue) {
         if (isShiftAmount) {
-            const decimalStr = inputValue.replace(/[^0-9]/g, '')
-            return decimalStr ? Math.min(Math.max(parseInt(decimalStr, 10), 1), 7) : 1
+            const decimalStr = inputValue.replace(/[^0-7]/g, '')
+            return decimalStr ? Math.min(Math.max(parseInt(decimalStr, 10), 0), 7) : 0
         }
         const binaryStr = inputValue.replace(/[^01]/g, '')
         return binaryStr ? Math.min(parseInt(binaryStr, 2), maxValue) : 0
@@ -1029,8 +1117,15 @@
                 resetAnimationState(state)
                 updateCalcUI(wrapper, state)
 
-                // Start animation after debounce delay
-                startAnimation(wrapper, state)
+                // Start animation after debounce delay (only if enabled)
+                if (state.animateEnabled) {
+                    startAnimation(wrapper, state)
+                } else {
+                    // Show result immediately without animation
+                    state.animationHasRun = true
+                    state.animationStep = -1
+                    updateCalcUI(wrapper, state)
+                }
             }
 
             const handleBlur = () => {
@@ -1053,6 +1148,30 @@
             input.addEventListener('keyup', handleInput)
             input.addEventListener('blur', handleBlur)
         })
+
+        // Animation toggle checkbox listener
+        const animateCheckbox = wrapper.querySelector('.calc-animate-checkbox')
+        if (animateCheckbox) {
+            animateCheckbox.addEventListener('change', (e) => {
+                state.animateEnabled = e.target.checked
+
+                // Stop any ongoing animations
+                clearAnimationTimers(state)
+
+                if (!state.animateEnabled) {
+                    // Show result immediately without animation
+                    resetAnimationState(state)
+                    state.animationHasRun = true
+                    state.animationStep = -1
+                    updateCalcUI(wrapper, state)
+                } else {
+                    // Reset and restart animation
+                    resetAnimationState(state)
+                    updateCalcUI(wrapper, state)
+                    startAnimation(wrapper, state)
+                }
+            })
+        }
     }
 
     function startAdditionAnimation(wrapper, state) {
@@ -1388,7 +1507,7 @@
     }
 
     function startShiftAnimation(wrapper, state) {
-        const shiftAmount = state.value2 || 1
+        const shiftAmount = state.value2
 
         state.animationHasRun = true
 
@@ -1398,6 +1517,7 @@
         // Initialize bits at the start (needed for isShiftAnimating check)
         state.shiftCurrentBits = binary1.split('')
         state.shiftOriginalBits = new Array(state.bits).fill(true)
+        state.shiftLostBit = null // Initialize lost bit
 
         // Phase 1: Highlight 1s in value1
         state.shiftPhase = 'highlight-value1'
@@ -1419,6 +1539,7 @@
                 // Animation complete
                 state.shiftCurrentBits = null
                 state.shiftOriginalBits = null
+                state.shiftLostBit = null
                 state.shiftIteration = -1
                 state.shiftPhase = null
                 state.phaseTimer = null
@@ -1436,21 +1557,21 @@
                 paddingBit = signBit
             }
 
-            // Perform the shift
+            // Perform the shift and capture the lost bit
             if (state.op === '<<') {
                 // Left shift: move bits left, add 0 on right
+                state.shiftLostBit = state.shiftCurrentBits.shift() // Capture bit shifted out from left
                 state.shiftCurrentBits.push(paddingBit)
-                state.shiftCurrentBits.shift()
 
-                state.shiftOriginalBits.push(false) // Padding bit is not original
                 state.shiftOriginalBits.shift()
+                state.shiftOriginalBits.push(false) // Padding bit is not original
             } else {
                 // Right shift: move bits right, add padding on left
+                state.shiftLostBit = state.shiftCurrentBits.pop() // Capture bit shifted out from right
                 state.shiftCurrentBits.unshift(paddingBit)
-                state.shiftCurrentBits.pop()
 
-                state.shiftOriginalBits.unshift(false) // Padding bit is not original
                 state.shiftOriginalBits.pop()
+                state.shiftOriginalBits.unshift(false) // Padding bit is not original
             }
 
             // Phase 3: Shift with highlighting
@@ -1514,9 +1635,8 @@
             const value1 = element.getAttribute('value1') || '0'
             const value2 = element.getAttribute('value2')
             const op = element.getAttribute('op') || 'add'
-            const bits = element.getAttribute('bits') || '8'
 
-            const state = new CalcState(value1, value2, op, bits)
+            const state = new CalcState(value1, value2, op)
             const calcResult = state.calculate()
             state.result = calcResult.result
             state.steps = calcResult.steps
