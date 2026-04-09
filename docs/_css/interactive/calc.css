@@ -215,7 +215,7 @@
 
     .calc-stack {
         display: grid;
-        grid-template-columns: 5em repeat(10, 1.2em) 0em repeat(3, minmax(3em, auto));
+        grid-template-columns: 5em 0.5em repeat(10, 1.2em) 0em repeat(3, minmax(3em, auto));
         gap: var(--gap-small) var(--gap-tight);
         font-family: var(--calc-font-mono);
         font-size: clamp(1rem, 4vw, 1.5rem);
@@ -225,6 +225,27 @@
         @container (min-width: 600px) {
             font-size: clamp(1.2rem, 3vw, 2rem);
         }
+    }
+
+    /* Layout variations based on which columns are present */
+    .calc-stack-both-columns {
+        /* Default: overflow + 8 bits + undercarry = 10 columns */
+        grid-template-columns: 5em 0.5em repeat(10, 1.2em) 0em repeat(3, minmax(3em, auto));
+    }
+
+    .calc-stack-overflow-only {
+        /* Overflow + 8 bits = 9 columns */
+        grid-template-columns: 5em 0.5em repeat(9, 1.2em) 0em repeat(3, minmax(3em, auto));
+    }
+
+    .calc-stack-undercarry-only {
+        /* 8 bits + undercarry = 9 columns */
+        grid-template-columns: 5em 0.5em repeat(9, 1.2em) 0em repeat(3, minmax(3em, auto));
+    }
+
+    .calc-stack-no-extra-columns {
+        /* Just 8 bits = 8 columns */
+        grid-template-columns: 5em 0.5em repeat(8, 1.2em) 0em repeat(3, minmax(3em, auto));
     }
 
     /* Header row with bit place values and interpretation labels */
@@ -251,7 +272,6 @@
         font-weight: 700;
         font-size: var(--font-size-op);
         grid-column: 1;
-        margin-right: var(--gap-small);
     }
 
     .calc-stack-value1 .calc-stack-operator {

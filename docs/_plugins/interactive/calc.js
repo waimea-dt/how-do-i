@@ -98,6 +98,22 @@
         `
     }
 
+    /**
+     * Determine if operation needs overflow/carry column
+     * Addition, left shift, negation need overflow
+     */
+    function needsOverflowColumn(op) {
+        return ['add', '<<', 'neg'].includes(op)
+    }
+
+    /**
+     * Determine if operation needs undercarry column
+     * Right shifts need undercarry
+     */
+    function needsUndercarryColumn(op) {
+        return ['>>', '>>>'].includes(op)
+    }
+
     // -------------------------------------------------------------------------
     // Calculator State Model
     // -------------------------------------------------------------------------
@@ -443,7 +459,10 @@
 
         let html = `<div class="calc-stack-row calc-stack-borrow">`
         html += '<span class="calc-stack-operator"></span>'
-        html += '<span class="calc-stack-overflow-placeholder"></span>'
+        html += '<span class="calc-stack-spacer"></span>'
+        if (needsOverflowColumn(state.op)) {
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
+        }
 
         for (let i = 0; i < state.bits; i++) {
             const bitPos = state.bits - 1 - i
@@ -475,7 +494,9 @@
             html += `<span class="calc-stack-borrow-bit${activeClass}">${displayValue}</span>`
         }
 
-        html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        if (needsUndercarryColumn(state.op)) {
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        }
         html += renderEmptyInterpretations()
         html += '</div>'
 
@@ -490,7 +511,10 @@
 
         // Operator column - show "A" label
         html += `<span class="calc-stack-operator">A</span>`
-        html += '<span class="calc-stack-overflow-placeholder"></span>'
+        html += '<span class="calc-stack-spacer"></span>'
+        if (needsOverflowColumn(state.op)) {
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
+        }
 
         // Render bits based on operation type
         if (['and', 'or', 'xor', 'not'].includes(state.op) && state.animationStep >= 0 && state.animationStep < state.bits) {
@@ -551,7 +575,9 @@
             html += renderBinaryDigits(binary1, 'value1')
         }
 
-        html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        if (needsUndercarryColumn(state.op)) {
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        }
         html += renderInterpretations(state.value1, state)
         html += '</div>'
 
@@ -565,7 +591,10 @@
         let html = `<div class="calc-stack-row calc-stack-value2">`
         // Show "B" label in operator column
         html += `<span class="calc-stack-operator">B</span>`
-        html += '<span class="calc-stack-overflow-placeholder"></span>'
+        html += '<span class="calc-stack-spacer"></span>'
+        if (needsOverflowColumn(state.op)) {
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
+        }
 
         // Render bits based on operation type
         if (['and', 'or', 'xor'].includes(state.op) && state.animationStep >= 0 && state.animationStep < state.bits) {
@@ -610,7 +639,9 @@
             html += renderBinaryDigits(binary2, 'value2')
         }
 
-        html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        if (needsUndercarryColumn(state.op)) {
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        }
         html += renderInterpretations(state.value2, state)
         html += '</div>'
 
@@ -625,7 +656,10 @@
 
         let html = `<div class="calc-stack-row calc-stack-carry">`
         html += '<span class="calc-stack-operator"></span>'
-        html += '<span class="calc-stack-overflow-placeholder"></span>'
+        html += '<span class="calc-stack-spacer"></span>'
+        if (needsOverflowColumn(state.op)) {
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
+        }
 
         for (let i = 0; i < state.bits; i++) {
             const bitPos = state.bits - 1 - i
@@ -644,7 +678,9 @@
             html += `<span class="calc-stack-carry-bit${activeClass}">${displayValue}</span>`
         }
 
-        html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        if (needsUndercarryColumn(state.op)) {
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        }
         html += renderEmptyInterpretations()
         html += '</div>'
 
@@ -671,15 +707,18 @@
             opExpression = `A${opInfo.symbol}B`
         }
         html += `<span class="calc-stack-operator">${opExpression}</span>`
+        html += '<span class="calc-stack-spacer"></span>'
 
         // Handle shift operations separately
         if (isShiftAnimating) {
             // Show left shift lost bit in overflow position - only during shift phase when bit is actually lost
-            if (state.op === '<<' && state.shiftPhase === 'shift' && state.shiftLostBit !== null) {
-                const lostBit = state.shiftLostBit
-                html += `<span class="calc-stack-overflow-bit${CSS.ACTIVE}">${lostBit}</span>`
-            } else {
-                html += '<span class="calc-stack-overflow-placeholder"></span>'
+            if (needsOverflowColumn(state.op)) {
+                if (state.op === '<<' && state.shiftPhase === 'shift' && state.shiftLostBit !== null) {
+                    const lostBit = state.shiftLostBit
+                    html += `<span class="calc-stack-overflow-bit${CSS.ACTIVE}">${lostBit}</span>`
+                } else {
+                    html += '<span class="calc-stack-overflow-placeholder"></span>'
+                }
             }
 
             if (state.shiftPhase === 'highlight-value1') {
@@ -688,7 +727,9 @@
                     html += `<span class="calc-stack-digit calc-stack-result calc-stack-unknown">?</span>`
                 }
 
-                html += '<span class="calc-stack-undercarry-placeholder"></span>'
+                if (needsUndercarryColumn(state.op)) {
+                    html += '<span class="calc-stack-undercarry-placeholder"></span>'
+                }
                 html += renderUnknownInterpretations()
             } else {
                 // Show bits during copy and shift phases
@@ -701,11 +742,13 @@
                 }
 
                 // Show right shift lost bit in undercarry position - only during shift phase when bit is actually lost
-                if ((state.op === '>>' || state.op === '>>>') && state.shiftPhase === 'shift' && state.shiftLostBit !== null) {
-                    const lostBit = state.shiftLostBit
-                    html += `<span class="calc-stack-overflow-bit${CSS.ACTIVE}">${lostBit}</span>`
-                } else {
-                    html += '<span class="calc-stack-undercarry-placeholder"></span>'
+                if (needsUndercarryColumn(state.op)) {
+                    if ((state.op === '>>' || state.op === '>>>') && state.shiftPhase === 'shift' && state.shiftLostBit !== null) {
+                        const lostBit = state.shiftLostBit
+                        html += `<span class="calc-stack-overflow-bit${CSS.ACTIVE}">${lostBit}</span>`
+                    } else {
+                        html += '<span class="calc-stack-undercarry-placeholder"></span>'
+                    }
                 }
 
                 const currentValue = parseInt(state.shiftCurrentBits.join(''), 2)
@@ -740,11 +783,13 @@
         // Progressive revelation for add/sub/bitwise
         let partialResultBits = []
         if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not'].includes(state.op)) {
-            // Add overflow placeholder for add/sub
-            if (showOverflowBit) {
-                html += `<span class="calc-stack-overflow-bit${overflowActiveClass}">${overflowBit}</span>`
-            } else {
-                html += '<span class="calc-stack-overflow-placeholder"></span>'
+            // Add overflow placeholder for add/sub/neg
+            if (needsOverflowColumn(state.op)) {
+                if (showOverflowBit) {
+                    html += `<span class="calc-stack-overflow-bit${overflowActiveClass}">${overflowBit}</span>`
+                } else {
+                    html += '<span class="calc-stack-overflow-placeholder"></span>'
+                }
             }
 
             for (let i = 0; i < state.bits; i++) {
@@ -784,10 +829,14 @@
                 partialResultBits.push(isVisible ? bit : '0')
             }
 
-            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            if (needsUndercarryColumn(state.op)) {
+                html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            }
         } else if (isShiftOp) {
             // Shift operations not animating - don't show lost bits
-            html += '<span class="calc-stack-overflow-placeholder"></span>'
+            if (needsOverflowColumn(state.op)) {
+                html += '<span class="calc-stack-overflow-placeholder"></span>'
+            }
 
             if (!state.animationHasRun) {
                 for (let i = 0; i < state.bits; i++) {
@@ -797,12 +846,18 @@
                 html += renderBinaryDigits(binaryResult, 'result')
             }
 
-            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            if (needsUndercarryColumn(state.op)) {
+                html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            }
         } else {
             // Other operations (shouldn't normally reach here)
-            html += '<span class="calc-stack-overflow-placeholder"></span>'
+            if (needsOverflowColumn(state.op)) {
+                html += '<span class="calc-stack-overflow-placeholder"></span>'
+            }
             html += renderBinaryDigits(binaryResult, 'result')
-            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            if (needsUndercarryColumn(state.op)) {
+                html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            }
         }
 
         // Interpretations
@@ -840,15 +895,35 @@
         const isShiftAnimating = (['<<', '>>', '>>>'].includes(state.op)) && state.shiftCurrentBits !== null
         const isShiftOp = ['<<', '>>', '>>>'].includes(state.op)
 
+        // Determine grid layout class based on which columns are needed
+        let layoutClass = ''
+        const hasOverflow = needsOverflowColumn(state.op)
+        const hasUndercarry = needsUndercarryColumn(state.op)
+
+        if (hasOverflow && hasUndercarry) {
+            layoutClass = ' calc-stack-both-columns'
+        } else if (hasOverflow) {
+            layoutClass = ' calc-stack-overflow-only'
+        } else if (hasUndercarry) {
+            layoutClass = ' calc-stack-undercarry-only'
+        } else {
+            layoutClass = ' calc-stack-no-extra-columns'
+        }
+
         // Build HTML
-        let html = '<div class="calc-stack">'
+        let html = `<div class="calc-stack${layoutClass}">`
 
         // Header
         html += '<div class="calc-stack-header">'
         html += '<span class="calc-stack-operator"></span>'
-        html += '<span class="calc-stack-overflow-header">&nbsp;</span>'
+        html += '<span class="calc-stack-spacer"></span>'
+        if (needsOverflowColumn(state.op)) {
+            html += '<span class="calc-stack-overflow-header">&nbsp;</span>'
+        }
         html += renderBitHeaders(state.bits)
-        html += '<span class="calc-stack-undercarry-header">&nbsp;</span>'  // Undercarry column header
+        if (needsUndercarryColumn(state.op)) {
+            html += '<span class="calc-stack-undercarry-header">&nbsp;</span>'
+        }
         html += renderInterpretationHeaders()
         html += '</div>'
 
