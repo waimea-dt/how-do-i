@@ -29,12 +29,6 @@
     const ANIMATION_PAUSE_PHASE_MS = 500       // Duration of pause between bit positions (no highlighting)
     const ANIMATION_DEBOUNCE_MS = 2000         // Delay before starting animation after input change
 
-    // Subtraction animation timing
-    const ANIMATION_SUB_INPUT_PHASE_MS = 1000  // Duration to highlight digits to subtract
-    const ANIMATION_SUB_BORROW_STEP_MS = 500   // Duration for each borrow propagation step
-    const ANIMATION_SUB_RESULT_PHASE_MS = 1000 // Duration to highlight result (matches addition)
-    const ANIMATION_SUB_PAUSE_PHASE_MS = 500   // Duration of pause between positions
-
     // Bitwise operation animation timing
     const ANIMATION_BITWISE_INPUT_PHASE_MS = 1000  // Duration to highlight input bits that are 1
     const ANIMATION_BITWISE_RESULT_PHASE_MS = 1000 // Duration to highlight result bit
@@ -53,6 +47,13 @@
     const ANIMATION_NEG_PLUSONE_PHASE_MS = 1000    // Duration to highlight +1 row (1s)
     const ANIMATION_NEG_RESULT_PHASE_MS = 1000     // Duration to highlight result (1s)
 
+    // Subtraction (two's complement) animation timing
+    const ANIMATION_SUB_HIGHLIGHT_B_MS = 1000      // Duration to highlight all of B (1s)
+    const ANIMATION_SUB_SHOW_NEGB_MS = 1000        // Duration to show -B highlighted (1s)
+    const ANIMATION_SUB_ADD_INPUT_MS = 1000        // Duration to highlight addition inputs per bit (1s)
+    const ANIMATION_SUB_ADD_CARRYOUT_MS = 1000     // Duration to highlight addition carry out per bit (1s)
+    const ANIMATION_SUB_ADD_PAUSE_MS = 500         // Duration of pause between bits (0.5s)
+
     // -------------------------------------------------------------------------
     // CSS Class Constants
     // -------------------------------------------------------------------------
@@ -60,8 +61,7 @@
         ACTIVE: ' calc-stack-active',
         ERROR: ' calc-stack-error',
         UNKNOWN: ' calc-stack-unknown',
-        BIT_ONE: ' calc-stack-bit-one',
-        BORROWED: ' calc-stack-borrowed'
+        BIT_ONE: ' calc-stack-bit-one'
     }
 
     // -------------------------------------------------------------------------
@@ -107,10 +107,10 @@
 
     /**
      * Determine if operation needs overflow/carry column
-     * Addition, left shift, negation need overflow
+     * Addition, subtraction, left shift, negation need overflow
      */
     function needsOverflowColumn(op) {
-        return ['add', '<<', 'neg'].includes(op)
+        return ['add', 'sub', '<<', 'neg'].includes(op)
     }
 
     /**
@@ -138,20 +138,14 @@
             this.animateEnabled = true // Toggle for animations (default: on)
             // Animation state
             this.animationStep = -1 // -1 = not started/complete, 0..bits-1 = current position
-            this.animationPhase = 'inputs' // For add: 'inputs', 'carryOut', 'pause'. For sub: 'inputs', 'borrow', 'result', 'pause'
+            this.animationPhase = 'inputs' // Animation phase varies by operation (e.g., 'inputs', 'result', 'pause', etc.)
             this.animationTimer = null
             this.phaseTimer = null
             this.debounceTimer = null
-            this.animationHasRun = false // Track if animation has started (to hide carries/borrows initially)
+            this.animationHasRun = false // Track if animation has started (to hide carries initially)
             // Real-time addition animation state
             this.carryValues = null // Array of carry values (null = not calculated yet, 0 or 1 = carry value)
             this.currentCarry = 0 // Current carry value during addition
-            // Real-time subtraction animation state
-            this.borrowValues = null // Array of borrow values (null = not set, number = borrow value)
-            this.value1Crossed = null // Array of booleans indicating if value1 bit has been crossed out
-            this.borrowSearchPos = -1 // Current position being searched during borrow
-            this.borrowSourcePos = -1 // Position we're borrowing from
-            this.borrowPropagatePos = -1 // Current position during propagation
             // Real-time shift animation state (ripple animation)
             this.shiftCurrentBits = null // Array of current bit values during animation
             this.shiftOriginalBits = null // Boolean array marking bits from original value (for highlighting)
@@ -160,6 +154,8 @@
             this.shiftLostBit = null // The bit that was shifted out (for carry/undercarry display)
             // Real-time negation animation state
             this.negateInvertedBits = null // Array of inverted bits as they're calculated
+            // Real-time subtraction animation state
+            this.subNegatedValue = null // The negated value of B (two's complement)
         }
 
         calculate() {
@@ -208,9 +204,9 @@
             const negV2 = ((~v2) + 1) & this.maxValue
             const sum = v1 + negV2
             const result = sum & this.maxValue
-            const borrow = sum <= this.maxValue
+            const carryOut = sum > this.maxValue
 
-            const steps = this.generateSubSteps(v1, v2, negV2, result, borrow)
+            const steps = this.generateSubSteps(v1, v2, negV2, result, carryOut)
 
             return { result, steps, resultBeforeMask: sum }
         }
@@ -296,33 +292,68 @@
         generateAddSteps(v1, v2, result, carry) {
             const steps = []
             steps.push(`<p class="calc-step-title">Binary Addition</p>`)
-            steps.push(`Perform bit-by-bit addition from right to left`)
+            steps.push(`Add two binary numbers together, bit by bit, from right to left`)
+            steps.push(`<strong>Input values:</strong>`)
+            steps.push(`>>> A = ${this.toBinary(v1)} (${v1} in decimal)`)
+            steps.push(`>>> B = ${this.toBinary(v2)} (${v2} in decimal)`)
 
-            // Show the addition process
+            steps.push(`<strong>Process:</strong>`)
+            steps.push(`>>> Start with the rightmost bit (least significant)`)
+            steps.push(`>>> Add each bit position: bit₁ + bit₂ + carry`)
+            steps.push(`>>> If the sum is 2 or more, carry 1 to the next position`)
+
             const carryBits = this.calculateCarryBits(v1, v2)
+            steps.push(`>>> Carry values: ${carryBits.join(' ')}`)
 
-            steps.push(`>>> Carry bits: ${carryBits.join(' ')}`)
-            steps.push(`Final carry: ${carry ? '1 (overflow detected)' : '0'}`)
+            steps.push(`<strong>Result:</strong>`)
+            steps.push(`>>> ${this.toBinary(result)} (${result} in decimal)`)
+            if (carry) {
+                steps.push(`>>> ⚠️ Overflow bit = 1 (result doesn't fit in ${this.bits} bits)`)
+            }
 
             return steps
         }
 
-        generateSubSteps(v1, v2, negV2, result, borrow) {
+        generateSubSteps(v1, v2, negV2, result, carryOut) {
             const steps = []
             steps.push(`<p class="calc-step-title">Binary Subtraction</p>`)
-            steps.push(`Convert to addition using two's complement`)
-            steps.push(`>>> Invert ${v2}: ${this.toBinary(~v2 & this.maxValue)}`)
-            steps.push(`>>> Add 1: ${this.toBinary(negV2)}`)
-            steps.push(`Add ${v1} + ${negV2} = ${result}`)
-            steps.push(`Borrow: ${!borrow ? '1 (underflow)' : '0'}`)
+            steps.push(`Subtract using two's complement: convert B to −B, then add`)
+            steps.push(`<strong>Input values:</strong>`)
+            steps.push(`>>> A = ${this.toBinary(v1)} (${v1} in decimal)`)
+            steps.push(`>>> B = ${this.toBinary(v2)} (${v2} in decimal)`)
+
+            steps.push(`<strong>Process:</strong>`)
+            steps.push(`>>> Step 1: Invert all bits of B`)
+            steps.push(`>>> ${this.toBinary(v2)} → ${this.toBinary(~v2 & this.maxValue)}`)
+            steps.push(`>>> Step 2: Add 1 to get −B (two's complement)`)
+            steps.push(`>>> ${this.toBinary(~v2 & this.maxValue)} + 1 = ${this.toBinary(negV2)} (−B = ${this.toSigned(negV2)} in decimal)`)
+            steps.push(`>>> Step 3: Add A + (−B)`)
+            steps.push(`>>> ${v1} + ${this.toSigned(negV2)} = ${this.toSigned(result)}`)
+
+            steps.push(`<strong>Result:</strong>`)
+            steps.push(`>>> ${this.toBinary(result)} (${this.toSigned(result)} in decimal)`)
+            if (carryOut) {
+                steps.push(`>>> Carry-out = 1 (discarded, result is valid)`)
+            } else {
+                steps.push(`>>> ⚠️ Carry-out = 0 (indicates underflow)`)
+            }
 
             return steps
         }
 
         generateBitwiseSteps(opName, v1, v2, result) {
             const steps = []
+            const opDescriptions = {
+                'AND': 'Returns 1 only when both bits are 1',
+                'OR': 'Returns 1 when at least one bit is 1',
+                'XOR': 'Returns 1 when bits are different (exclusive-OR)'
+            }
+
             steps.push(`<p class="calc-step-title">${opName} Operation</p>`)
-            steps.push(`Apply ${opName} to each bit position`)
+            steps.push(`${opDescriptions[opName] || 'Compare bits at each position'}`)
+            steps.push(`<strong>Input values:</strong>`)
+            steps.push(`>>> A = ${this.toBinary(v1)} (${v1} in decimal)`)
+            steps.push(`>>> B = ${this.toBinary(v2)} (${v2} in decimal)`)
 
             const truthTable = {
                 'AND': [[0,0,0], [0,1,0], [1,0,0], [1,1,1]],
@@ -331,8 +362,19 @@
             }[opName]
 
             if (truthTable) {
-                steps.push(`>>> Truth table: ${truthTable.map(r => `${r[0]}${opName}${r[1]}=${r[2]}`).join(', ')}`)
+                steps.push(`<strong>Truth table:</strong>`)
+                const opSymbol = {'AND': '&', 'OR': '|', 'XOR': '^'}[opName]
+                const tableRows = truthTable.map(r =>
+                    `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`
+                ).join('')
+                steps.push(`>>> <table class="calc-truth-table"><thead><tr><th>A</th><th>B</th><th>A ${opSymbol} B</th></tr></thead><tbody>${tableRows}</tbody></table>`)
             }
+
+            steps.push(`<strong>Process:</strong>`)
+            steps.push(`>>> Compare each bit position using the truth table above`)
+
+            steps.push(`<strong>Result:</strong>`)
+            steps.push(`>>> ${this.toBinary(result)} (${result} in decimal)`)
 
             return steps
         }
@@ -340,8 +382,16 @@
         generateNotSteps(v1, result) {
             const steps = []
             steps.push(`<p class="calc-step-title">NOT Operation (Bitwise Inversion)</p>`)
-            steps.push(`Flip each bit: 0 → 1, 1 → 0`)
-            steps.push(`Result: ${this.toBinary(result)}`)
+            steps.push(`Flip every bit: change 0 to 1 and 1 to 0`)
+            steps.push(`<strong>Input value:</strong>`)
+            steps.push(`>>> A = ${this.toBinary(v1)} (${v1} in decimal)`)
+
+            steps.push(`<strong>Process:</strong>`)
+            steps.push(`>>> Go through each bit position from left to right`)
+            steps.push(`>>> Change 0 → 1 and 1 → 0`)
+
+            steps.push(`<strong>Result:</strong>`)
+            steps.push(`>>> ${this.toBinary(result)} (${result} in decimal)`)
 
             return steps
         }
@@ -355,16 +405,45 @@
             steps.push(`<p class="calc-step-title">${dirName}</p>`)
 
             if (direction === 'left') {
-                steps.push(`Shift bits ${amount} position(s) to the left`)
-                steps.push(`>>> Fill with zeros on the right`)
-                steps.push(`>>> Equivalent to multiplying by 2<sup>${amount}</sup> = ${Math.pow(2, amount)}`)
+                steps.push(`Move all bits ${amount} position${amount === 1 ? '' : 's'} to the left`)
+                steps.push(`<strong>Input value:</strong>`)
+                steps.push(`>>> A = ${this.toBinary(v1)} (${v1} in decimal)`)
+
+                steps.push(`<strong>Process:</strong>`)
+                steps.push(`>>> Shift each bit ${amount} position${amount === 1 ? '' : 's'} left`)
+                steps.push(`>>> Fill empty positions on the right with 0`)
+                steps.push(`>>> Bits shifted out on the left are lost`)
+                steps.push(`>>> This multiplies the value by 2<sup>${amount}</sup> = ${Math.pow(2, amount)}`)
+
+                steps.push(`<strong>Result:</strong>`)
+                steps.push(`>>> ${this.toBinary(result)} (${result} in decimal)`)
+                steps.push(`>>> ${v1} × ${Math.pow(2, amount)} = ${result} (before overflow)`)
             } else if (direction === 'arithmetic-right') {
-                steps.push(`Shift bits ${amount} position(s) to the right`)
-                steps.push(`>>> Fill with sign bit (preserve sign)`)
-                steps.push(`>>> Equivalent to dividing by 2<sup>${amount}</sup> = ${Math.pow(2, amount)}`)
+                const signBit = (v1 >> (this.bits - 1)) & 1
+                steps.push(`Move all bits ${amount} position${amount === 1 ? '' : 's'} to the right, preserving the sign`)
+                steps.push(`<strong>Input value:</strong>`)
+                steps.push(`>>> A = ${this.toBinary(v1)} (${this.toSigned(v1)} in signed decimal)`)
+
+                steps.push(`<strong>Process:</strong>`)
+                steps.push(`>>> Shift each bit ${amount} position${amount === 1 ? '' : 's'} right`)
+                steps.push(`>>> Fill empty positions on the left with sign bit (${signBit})`)
+                steps.push(`>>> Bits shifted out on the right are lost`)
+                steps.push(`>>> This divides the value by 2<sup>${amount}</sup> = ${Math.pow(2, amount)} (rounded down)`)
+
+                steps.push(`<strong>Result:</strong>`)
+                steps.push(`>>> ${this.toBinary(result)} (${this.toSigned(result)} in signed decimal)`)
             } else {
-                steps.push(`Shift bits ${amount} position(s) to the right`)
-                steps.push(`>>> Fill with zeros on the left`)
+                steps.push(`Move all bits ${amount} position${amount === 1 ? '' : 's'} to the right`)
+                steps.push(`<strong>Input value:</strong>`)
+                steps.push(`>>> A = ${this.toBinary(v1)} (${v1} in decimal)`)
+
+                steps.push(`<strong>Process:</strong>`)
+                steps.push(`>>> Shift each bit ${amount} position${amount === 1 ? '' : 's'} right`)
+                steps.push(`>>> Fill empty positions on the left with 0`)
+                steps.push(`>>> Bits shifted out on the right are lost`)
+
+                steps.push(`<strong>Result:</strong>`)
+                steps.push(`>>> ${this.toBinary(result)} (${result} in decimal)`)
             }
 
             return steps
@@ -373,10 +452,19 @@
         generateNegateSteps(v1, result) {
             const steps = []
             steps.push(`<p class="calc-step-title">Two's Complement Negation</p>`)
-            steps.push(`Step 1: Invert all bits`)
+            steps.push(`Convert a number to its negative using two's complement`)
+            steps.push(`<strong>Input value:</strong>`)
+            steps.push(`>>> A = ${this.toBinary(v1)} (${v1} in decimal, ${this.toSigned(v1)} in signed)`)
+
+            steps.push(`<strong>Process:</strong>`)
+            steps.push(`>>> Step 1: Invert all bits (flip 0→1, 1→0)`)
             steps.push(`>>> ${this.toBinary(v1)} → ${this.toBinary(~v1 & this.maxValue)}`)
-            steps.push(`Step 2: Add 1`)
-            steps.push(`>>> ${this.toBinary((~v1) & this.maxValue)} + 1 = ${this.toBinary(result)}`)
+            steps.push(`>>> Step 2: Add 1 to the inverted value`)
+            steps.push(`>>> ${this.toBinary(~v1 & this.maxValue)} + 1 = ${this.toBinary(result)}`)
+
+            steps.push(`<strong>Result:</strong>`)
+            steps.push(`>>> ${this.toBinary(result)} (${result} in decimal, ${this.toSigned(result)} in signed)`)
+            steps.push(`>>> This represents −${v1} in two's complement`)
 
             return steps
         }
@@ -413,24 +501,33 @@
                 </div>
 
                 <div class="calc-inputs">
-                    ${!isBinaryOp ? `
-                    <div class="calc-operation-display">
-                        <div class="calc-op-symbol">${opInfo.symbol}</div>
-                    </div>
-                    ` : ''}
                     <div class="calc-input-group">
+                        ${!isBinaryOp ? `
+                            <div class="calc-operation-display">
+                                <div class="calc-op-symbol">${opInfo.symbol}</div>
+                            </div>
+                        ` : ''}
                         <label class="calc-input-label" data-operand="1">A</label>
                         <input type="text" class="calc-input" data-operand="1" value="${state.value1.toString(2).padStart(state.bits, '0')}" maxlength="${state.bits}" pattern="[01]*">
                     </div>
                     ${isBinaryOp ? `
-                    <div class="calc-operation-display">
-                        <div class="calc-op-symbol">${opInfo.symbol}</div>
-                    </div>
-                    <div class="calc-input-group">
-                        ${!isShiftOp ? '<label class="calc-input-label" data-operand="2">B</label>' : ''}
-                        <input type="text" class="calc-input ${isShiftOp ? 'decimal-input' : ''}" data-operand="2" value="${isShiftOp ? state.value2 : state.value2.toString(2).padStart(state.bits, '0')}" maxlength="${isShiftOp ? '1' : state.bits}" pattern="${isShiftOp ? '[0-7]*' : '[01]*'}">
-                        ${isShiftOp ? '<label class="calc-input-label">bits</label>' : ''}
-                    </div>
+                        ${!isShiftOp ? `
+                            <div class="calc-operation-display">
+                                <div class="calc-op-symbol">${opInfo.symbol}</div>
+                            </div>
+                        ` : ''}
+                        <div class="calc-input-group">
+                            ${isShiftOp ? `
+                                <div class="calc-operation-display">
+                                    <div class="calc-op-symbol">${opInfo.symbol}</div>
+                                </div>
+                                <input type="text" class="calc-input decimal-input" data-operand="2" value="${state.value2}" maxlength="1" pattern="[0-7]*">
+                                <label class="calc-input-label">bits</label>
+                            ` : `
+                                <label class="calc-input-label" data-operand="2">B</label>
+                                <input type="text" class="calc-input" data-operand="2" value="${state.value2.toString(2).padStart(state.bits, '0')}" maxlength="${state.bits}" pattern="[01]*">
+                            `}
+                        </div>
                     ` : ''}
                     <div class="calc-input-group calc-animate-toggle">
                         <label class="calc-input-label">
@@ -444,12 +541,12 @@
                     ${renderBinaryStack(state, opInfo, isBinaryOp)}
                 </div>
 
-                <div class="calc-steps">
-                    <div class="calc-steps-title">How It Works</div>
+                <details class="calc-steps">
+                    <summary class="calc-steps-title">How It Works</summary>
                     <div class="calc-steps-list">
                         ${renderSteps(state.steps)}
                     </div>
-                </div>
+                </details>
             </div>
         `
 
@@ -497,6 +594,11 @@
                 isActive = true
             }
 
+            // Highlight during addition animation if this is the current position
+            if (isAnimating && bitPos === animStep && state.animationPhase === 'neg-add-inputs') {
+                isActive = true
+            }
+
             const activeClass = getActiveClass(isActive)
             const unknownClass = invertedBit === null ? CSS.UNKNOWN : ''
             html += `<span class="calc-stack-digit calc-stack-value2${activeClass}${unknownClass}">${displayValue}</span>`
@@ -524,10 +626,18 @@
     function renderPlusOneRow(state, isAnimating) {
         if (state.op !== 'neg') return ''
 
-        // Show the +1 bit only during plus-one, result, and complete phases (not during pause)
-        const showPlusOneBit = state.animationHasRun && (state.animationPhase === 'plus-one' || state.animationPhase === 'result' || state.animationPhase === 'complete')
-        // Highlight during plus-one phase
-        const isPlusOnePhase = state.animationPhase === 'plus-one'
+        // Show the +1 bit only during plus-one and addition phases, result, and complete phases
+        const showPlusOneBit = state.animationHasRun && (
+            state.animationPhase === 'plus-one' ||
+            state.animationPhase === 'neg-add-inputs' ||
+            state.animationPhase === 'neg-add-carryout' ||
+            state.animationPhase === 'neg-add-pause' ||
+            state.animationPhase === 'result' ||
+            state.animationPhase === 'complete'
+        )
+        // Highlight during plus-one phase or during neg-add-inputs phase at bit position 0
+        const isPlusOnePhase = state.animationPhase === 'plus-one' ||
+                               (state.animationPhase === 'neg-add-inputs' && state.animationStep === 0)
 
         let html = `<div class="calc-stack-row calc-stack-value2 calc-stack-plusone">`
         html += `<span class="calc-stack-operator">+</span>`
@@ -546,11 +656,11 @@
                     html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">1</span>`
                 } else {
                     // Show empty space during inversion
-                    html += `<span class="calc-stack-digit calc-stack-value2"></span>`
+                    html += `<span class="calc-stack-digit calc-stack-value2">&nbsp;</span>`
                 }
             } else {
                 // All other positions - show empty space
-                html += `<span class="calc-stack-digit calc-stack-value2"></span>`
+                html += `<span class="calc-stack-digit calc-stack-value2 calc-stack-blank"></span>`
             }
         }
 
@@ -571,54 +681,59 @@
     }
 
     /**
-     * Render the borrow row for subtraction operations
+     * Render the -B row for subtraction operations (two's complement of B)
      */
-    function renderBorrowRow(state, animStep, isAnimating) {
-        if (state.op !== 'sub' || !state.borrowValues) return ''
+    function renderNegatedValueRow(state, isAnimating) {
+        if (state.op !== 'sub') return ''
 
-        let html = `<div class="calc-stack-row calc-stack-borrow">`
-        html += '<span class="calc-stack-operator"></span>'
+        let html = `<div class="calc-stack-row calc-stack-value2">`
+        html += '<span class="calc-stack-operator">−B</span>'
         html += '<span class="calc-stack-spacer"></span>'
         if (needsOverflowColumn(state.op)) {
             html += '<span class="calc-stack-overflow-placeholder"></span>'
         }
 
-        for (let i = 0; i < state.bits; i++) {
-            const bitPos = state.bits - 1 - i
-            const borrowValue = state.borrowValues[bitPos]
+        // Show -B during show-negb phase and later, otherwise show ?s
+        const showNegB = state.animationHasRun && (state.animationPhase === 'show-negb' || state.animationPhase === 'add-inputs' || state.animationPhase === 'add-carryout' || state.animationPhase === 'add-pause' || state.animationPhase === 'complete')
+        const isHighlighted = state.animationPhase === 'show-negb'
 
-            let displayValue = '\u00b7' // Default: dot for null
-            let isActive = false
+        if (showNegB && state.subNegatedValue !== null) {
+            // Show the negated value
+            const binaryNegB = state.subNegatedValue.toString(2).padStart(state.bits, '0')
+            for (let i = 0; i < state.bits; i++) {
+                const bit = binaryNegB[i]
+                const bitPos = state.bits - 1 - i
 
-            if (borrowValue !== null) {
-                displayValue = borrowValue.toString()
-            }
-
-            // Highlight during inputs phase if this is the current position and has a borrow
-            if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs' && borrowValue !== null) {
-                const v2Bit = (state.value2 >> bitPos) & 1
-                if (borrowValue < v2Bit) {
-                    isActive = 'error'
-                } else {
+                // Highlight during add-inputs phase if this is the current position
+                let isActive = false
+                if (state.animationPhase === 'add-inputs' && bitPos === state.animationStep) {
+                    isActive = true
+                } else if (isHighlighted) {
+                    // Highlight all bits during show-negb phase
                     isActive = true
                 }
+
+                const activeClass = getActiveClass(isActive)
+                html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">${bit}</span>`
             }
 
-            // Highlight during borrow propagate phase only
-            if (isAnimating && state.animationPhase === 'borrow' && bitPos === state.borrowPropagatePos) {
-                isActive = true
+            if (needsUndercarryColumn(state.op)) {
+                html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            }
+            html += renderInterpretations(state.subNegatedValue, state)
+        } else {
+            // Show ?s before -B is calculated
+            for (let i = 0; i < state.bits; i++) {
+                html += `<span class="calc-stack-digit calc-stack-value2 calc-stack-unknown">?</span>`
             }
 
-            const activeClass = getActiveClass(isActive)
-            html += `<span class="calc-stack-borrow-bit${activeClass}">${displayValue}</span>`
+            if (needsUndercarryColumn(state.op)) {
+                html += '<span class="calc-stack-undercarry-placeholder"></span>'
+            }
+            html += renderUnknownInterpretations()
         }
 
-        if (needsUndercarryColumn(state.op)) {
-            html += '<span class="calc-stack-undercarry-placeholder"></span>'
-        }
-        html += renderEmptyInterpretations()
         html += '</div>'
-
         return html
     }
 
@@ -655,39 +770,21 @@
                 const bitOneClass = isActive && bit === '1' ? CSS.BIT_ONE : ''
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${bitOneClass}">${bit}</span>`
             }
-        } else if (state.op === 'sub' && state.value1Crossed) {
-            // Subtraction with crossed-out digits
-            for (let i = 0; i < state.bits; i++) {
-                const bit = binary1[i]
-                const bitPos = state.bits - 1 - i
-                const isCrossed = state.value1Crossed[bitPos]
-                let isActive = false
-
-                if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs') {
-                    const borrowValue = state.borrowValues[bitPos]
-                    if (borrowValue === null) {
-                        const v1Bit = (state.value1 >> bitPos) & 1
-                        const v2Bit = (state.value2 >> bitPos) & 1
-                        isActive = v1Bit < v2Bit ? 'error' : true
-                    }
-                }
-
-                if (isAnimating && state.animationPhase === 'borrow') {
-                    if (bitPos === state.borrowSearchPos || bitPos === state.borrowSourcePos) {
-                        isActive = true
-                    }
-                }
-
-                const activeClass = getActiveClass(isActive)
-                const greyedClass = isCrossed ? CSS.BORROWED : ''
-                html += `<span class="calc-stack-digit calc-stack-value1${activeClass}${greyedClass}">${bit}</span>`
-            }
         } else if (state.op === 'add') {
             // Addition
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary1[i]
                 const bitPos = state.bits - 1 - i
                 const isActive = isAnimating && bitPos === animStep && state.animationPhase === 'inputs'
+                const activeClass = getActiveClass(isActive)
+                html += `<span class="calc-stack-digit calc-stack-value1${activeClass}">${bit}</span>`
+            }
+        } else if (state.op === 'sub') {
+            // Subtraction - highlight during add-inputs phase
+            for (let i = 0; i < state.bits; i++) {
+                const bit = binary1[i]
+                const bitPos = state.bits - 1 - i
+                const isActive = isAnimating && bitPos === animStep && state.animationPhase === 'add-inputs'
                 const activeClass = getActiveClass(isActive)
                 html += `<span class="calc-stack-digit calc-stack-value1${activeClass}">${bit}</span>`
             }
@@ -735,31 +832,20 @@
                 const bitOneClass = isActive && bit === '1' ? CSS.BIT_ONE : ''
                 html += `<span class="calc-stack-digit calc-stack-value2${activeClass}${bitOneClass}">${bit}</span>`
             }
-        } else if (state.op === 'add' || state.op === 'sub') {
-            // Addition and subtraction
+        } else if (state.op === 'add') {
+            // Addition
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary2[i]
                 const bitPos = state.bits - 1 - i
-                let isActive = false
-
-                if (isAnimating && bitPos === animStep && state.animationPhase === 'inputs') {
-                    if (state.op === 'sub') {
-                        const borrowValue = state.borrowValues[bitPos]
-                        const v1Bit = (state.value1 >> bitPos) & 1
-                        const v2Bit = (state.value2 >> bitPos) & 1
-                        const effectiveV1 = borrowValue !== null ? borrowValue : v1Bit
-                        isActive = effectiveV1 < v2Bit ? 'error' : true
-                    } else {
-                        isActive = true
-                    }
-                }
-
-                // Subtraction: highlight during borrow propagate phase
-                if (state.op === 'sub' && isAnimating && state.animationPhase === 'borrow' &&
-                    bitPos === animStep && bitPos === state.borrowPropagatePos) {
-                    isActive = true
-                }
-
+                const isActive = isAnimating && bitPos === animStep && state.animationPhase === 'inputs'
+                const activeClass = getActiveClass(isActive)
+                html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">${bit}</span>`
+            }
+        } else if (state.op === 'sub') {
+            // Subtraction - highlight all bits during highlight-b phase
+            for (let i = 0; i < state.bits; i++) {
+                const bit = binary2[i]
+                const isActive = isAnimating && state.animationPhase === 'highlight-b'
                 const activeClass = getActiveClass(isActive)
                 html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">${bit}</span>`
             }
@@ -777,10 +863,10 @@
     }
 
     /**
-     * Render the carry row for addition operations
+     * Render the carry row for addition/subtraction operations
      */
     function renderCarryRow(state, animStep, isAnimating) {
-        if (state.op !== 'add' || !state.carryValues) return ''
+        if ((state.op !== 'add' && state.op !== 'sub' && state.op !== 'neg') || !state.carryValues) return ''
 
         let html = `<div class="calc-stack-row calc-stack-carry">`
         html += '<span class="calc-stack-operator"></span>'
@@ -791,13 +877,30 @@
 
         for (let i = 0; i < state.bits; i++) {
             const bitPos = state.bits - 1 - i
-            const carryBit = state.carryValues[bitPos]
 
-            // Highlight carry IN during 'inputs' phase
-            const isCarryIn = isAnimating && bitPos === animStep && carryBit === 1 && state.animationPhase === 'inputs'
+            // Animation uses carryValues[bitPos], static uses carryValues[i]
+            const carryIndex = state.animateEnabled ? bitPos : i
+            const carryBit = state.carryValues[carryIndex]
 
-            // Highlight carry OUT during 'carryOut' phase
-            const isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'carryOut'
+            let isCarryIn = false
+            let isCarryOut = false
+
+            if (state.op === 'add') {
+                // Highlight carry IN during 'inputs' phase
+                isCarryIn = isAnimating && bitPos === animStep && carryBit === 1 && state.animationPhase === 'inputs'
+                // Highlight carry OUT during 'carryOut' phase
+                isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'carryOut'
+            } else if (state.op === 'sub') {
+                // Highlight carry IN during 'add-inputs' phase
+                isCarryIn = isAnimating && bitPos === animStep && carryBit === 1 && state.animationPhase === 'add-inputs'
+                // Highlight carry OUT during 'add-carryout' phase
+                isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'add-carryout'
+            } else if (state.op === 'neg') {
+                // Highlight carry IN during 'neg-add-inputs' phase
+                isCarryIn = isAnimating && bitPos === animStep && carryBit === 1 && state.animationPhase === 'neg-add-inputs'
+                // Highlight carry OUT during 'neg-add-carryout' phase
+                isCarryOut = isAnimating && bitPos === animStep + 1 && carryBit === 1 && state.animationPhase === 'neg-add-carryout'
+            }
 
             const isActive = isCarryIn || isCarryOut
             const activeClass = getActiveClass(isActive)
@@ -830,6 +933,9 @@
         } else if (['<<', '>>', '>>>'].includes(state.op)) {
             // Shift operations: A<<N, A>>N, A>>>N
             opExpression = `A${opInfo.symbol}${state.value2}`
+        } else if (state.op === 'sub') {
+            // Subtraction: show A+(−B) to reflect two's complement
+            opExpression = `A+(−B)`
         } else {
             // Binary operations: A&B, A|B, A+B, etc.
             opExpression = `A${opInfo.symbol}B`
@@ -891,21 +997,24 @@
         let showOverflowBit = false
         if (hasOverflowBit && (state.op === 'add' || state.op === 'sub')) {
             if (state.animationStep < 0 && state.animationHasRun) {
-                // Animation complete - show overflow bit
-                showOverflowBit = true
+                // Animation complete or no animation - show overflow bit
+                // For subtraction, don't show during initial phases (highlight-b, show-negb)
+                showOverflowBit = !(state.op === 'sub' && (state.animationPhase === 'highlight-b' || state.animationPhase === 'show-negb'))
             } else if (state.op === 'add' && state.currentCarry === 1 && state.animationStep >= state.bits - 1 &&
                        (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')) {
                 // Addition: show overflow bit during/after carryOut phase of final position
                 showOverflowBit = true
-            } else if (state.op === 'sub' && state.animationStep >= state.bits - 1 &&
-                       (state.animationPhase === 'result' || state.animationPhase === 'pause')) {
-                // Subtraction: show overflow bit during/after result phase of final position
+            } else if (state.op === 'sub' && state.currentCarry === 1 && state.animationStep >= state.bits - 1 &&
+                       (state.animationPhase === 'add-carryout' || state.animationPhase === 'add-pause')) {
+                // Subtraction: show overflow bit during/after add-carryout phase of final position
                 showOverflowBit = true
             }
         }
 
-        const isOverflowHighlighted = state.op === 'add' && isAnimating && state.animationStep === state.bits - 1 &&
-                                      state.animationPhase === 'carryOut' && showOverflowBit
+        const isOverflowHighlighted = ((state.op === 'add' && isAnimating && state.animationStep === state.bits - 1 &&
+                                       state.animationPhase === 'carryOut' && showOverflowBit) ||
+                                      (state.op === 'sub' && isAnimating && state.animationStep === state.bits - 1 &&
+                                       state.animationPhase === 'add-carryout' && showOverflowBit))
         const overflowActiveClass = getActiveClass(isOverflowHighlighted)
 
         // Progressive revelation for add/sub/bitwise/neg
@@ -927,16 +1036,36 @@
                 let isVisible = false
                 if (state.animationHasRun) {
                     if (state.op === 'neg') {
-                        // For negation, show result bits during result and complete phases (after +1 is highlighted)
-                        isVisible = state.animationPhase === 'result' || state.animationPhase === 'complete'
+                        // For negation, show result bits progressively during addition animation
+                        if (state.animationPhase === 'invert-input' || state.animationPhase === 'invert-output' ||
+                            state.animationPhase === 'pause' || state.animationPhase === 'plus-one') {
+                            // Don't show result during inversion or +1 highlight
+                            isVisible = false
+                        } else if (state.animationPhase === 'result' || state.animationPhase === 'complete') {
+                            // Show all bits during final result phases
+                            isVisible = true
+                        } else {
+                            // Progressive revelation during addition animation
+                            const isPastPosition = bitPos < animStep
+                            const isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'neg-add-carryout' || state.animationPhase === 'neg-add-pause')
+                            isVisible = state.animationStep < 0 || isPastPosition || isCurrentAndShown
+                        }
+                    } else if (state.op === 'sub') {
+                        // For subtraction, show result bits progressively during add phases (after -B is shown)
+                        if (state.animationPhase === 'highlight-b' || state.animationPhase === 'show-negb') {
+                            // Don't show result during B highlighting or -B reveal
+                            isVisible = false
+                        } else {
+                            const isPastPosition = bitPos < animStep
+                            const isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'add-carryout' || state.animationPhase === 'add-pause')
+                            isVisible = state.animationStep < 0 || isPastPosition || isCurrentAndShown
+                        }
                     } else {
                         const isPastPosition = bitPos < animStep
                         let isCurrentAndShown = false
 
                         if (state.op === 'add') {
                             isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')
-                        } else if (state.op === 'sub') {
-                            isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
                         } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
                             isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
                         }
@@ -948,9 +1077,9 @@
                 let isActive = false
                 if (isAnimating) {
                     if ((state.op === 'add' && bitPos === animStep && state.animationPhase === 'carryOut') ||
-                        (state.op === 'sub' && bitPos === animStep && state.animationPhase === 'result') ||
-                        (['and', 'or', 'xor', 'not'].includes(state.op) && bitPos === animStep && state.animationPhase === 'result') ||
-                        (state.op === 'neg' && state.animationPhase === 'result')) {
+                        (state.op === 'sub' && bitPos === animStep && state.animationPhase === 'add-carryout') ||
+                        (state.op === 'neg' && bitPos === animStep && state.animationPhase === 'neg-add-carryout') ||
+                        (['and', 'or', 'xor', 'not'].includes(state.op) && bitPos === animStep && state.animationPhase === 'result')) {
                         isActive = true
                     }
                 }
@@ -998,8 +1127,9 @@
         if (!state.animationHasRun) {
             html += renderUnknownInterpretations()
         } else if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not', 'neg'].includes(state.op)) {
-            // For negation, only show real interpretations during result and complete phases
-            if (state.op === 'neg' && state.animationPhase !== 'result' && state.animationPhase !== 'complete') {
+            // For negation, only show real interpretations during addition animation and result phases
+            if (state.op === 'neg' && state.animationPhase !== 'neg-add-inputs' && state.animationPhase !== 'neg-add-carryout' &&
+                state.animationPhase !== 'neg-add-pause' && state.animationPhase !== 'result' && state.animationPhase !== 'complete') {
                 html += renderUnknownInterpretations()
             } else {
                 const partialValue = parseInt(partialResultBits.join(''), 2)
@@ -1029,7 +1159,11 @@
 
         // Animation state
         const isAnimating = (['add', 'sub', 'and', 'or', 'xor', 'not', 'neg'].includes(state.op)) &&
-                           (state.animationStep >= 0 || (state.op === 'neg' && (state.animationPhase === 'plus-one' || state.animationPhase === 'result')))
+                           (state.animationStep >= 0 ||
+                            (state.op === 'neg' && (state.animationPhase === 'plus-one' || state.animationPhase === 'neg-add-inputs' ||
+                                                     state.animationPhase === 'neg-add-carryout' || state.animationPhase === 'neg-add-pause' ||
+                                                     state.animationPhase === 'result')) ||
+                            (state.op === 'sub' && (state.animationPhase === 'highlight-b' || state.animationPhase === 'show-negb')))
         const animStep = state.animationStep
         const isShiftAnimating = (['<<', '>>', '>>>'].includes(state.op)) && state.shiftCurrentBits !== null
         const isShiftOp = ['<<', '>>', '>>>'].includes(state.op)
@@ -1067,11 +1201,15 @@
         html += '</div>'
 
         // Rows
-        html += renderBorrowRow(state, animStep, isAnimating)
         html += renderValue1Row(state, binary1, animStep, isAnimating, isShiftAnimating, opInfo, isBinaryOp, isShiftOp)
 
         if (isBinaryOp && !isShiftOp) {
             html += renderValue2Row(state, binary2, animStep, isAnimating, opInfo)
+        }
+
+        // Subtraction-specific row
+        if (state.op === 'sub') {
+            html += renderNegatedValueRow(state, isAnimating)
         }
 
         // Negation-specific rows
@@ -1112,9 +1250,9 @@
     function renderInterpretationHeaders() {
         return `
             <span class="calc-stack-spacer"></span>
-            <span class="calc-stack-interp-item calc-stack-bit-header">U</span>
-            <span class="calc-stack-interp-item calc-stack-bit-header">S</span>
-            <span class="calc-stack-interp-item calc-stack-bit-header">H</span>
+            <span class="calc-stack-interp-item calc-stack-bit-header">Unsign</span>
+            <span class="calc-stack-interp-item calc-stack-bit-header">Sign</span>
+            <span class="calc-stack-interp-item calc-stack-bit-header">Hex</span>
         `
     }
 
@@ -1163,13 +1301,30 @@
             return '<p>No steps available</p>'
         }
 
-        return steps.map(step => {
+        const result = []
+        let i = 0
+
+        while (i < steps.length) {
+            const step = steps[i]
+
             if (step.startsWith('>>>')) {
-                return `<ul class="calc-nested-steps"><li>${step.substring(3).trim()}</li></ul>`
+                // Collect all consecutive list items
+                const listItems = []
+                while (i < steps.length && steps[i].startsWith('>>>')) {
+                    listItems.push(steps[i].substring(3).trim())
+                    i++
+                }
+                // Wrap all items in a single list
+                const items = listItems.map(item => `<li>${item}</li>`).join('')
+                result.push(`<ul class="calc-nested-steps">${items}</ul>`)
             } else {
-                return `<p>${step}</p>`
+                // Regular paragraph
+                result.push(`<p>${step}</p>`)
+                i++
             }
-        }).join('')
+        }
+
+        return result.join('')
     }
 
     function getOperationInfo(op) {
@@ -1178,7 +1333,7 @@
             'sub': { symbol: '−', name: 'Binary Subtraction' },
             'and': { symbol: '&', name: 'Bitwise AND' },
             'or':  { symbol: '|', name: 'Bitwise OR' },
-            'xor': { symbol: '^', name: 'Bitwise XOR (Exclusive-OR)' },
+            'xor': { symbol: '^', name: 'Bitwise XOR' },
             'not': { symbol: '~', name: 'Bitwise NOT' },
             '<<':  { symbol: '<<', name: 'Logical Left Shift' },
             '>>':  { symbol: '>>', name: 'Logical Right Shift' },
@@ -1222,8 +1377,9 @@
             state.carryValues = new Array(state.bits).fill(null)
             state.currentCarry = 0
         } else if (state.op === 'sub') {
-            state.borrowValues = new Array(state.bits).fill(null)
-            state.value1Crossed = new Array(state.bits).fill(false)
+            state.carryValues = new Array(state.bits).fill(null)
+            state.currentCarry = 0
+            state.subNegatedValue = null
         } else if (['<<', '>>', '>>>'].includes(state.op)) {
             state.shiftCurrentBits = null
             state.shiftOriginalBits = null
@@ -1231,6 +1387,8 @@
             state.shiftPhase = null
         } else if (state.op === 'neg') {
             state.negateInvertedBits = new Array(state.bits).fill(null)
+            state.carryValues = new Array(state.bits).fill(null)
+            state.currentCarry = 0
         }
     }
 
@@ -1244,9 +1402,18 @@
                 const bit = (state.value1 >> i) & 1
                 state.negateInvertedBits[i] = bit ^ 1
             }
+            // Populate carry values for the addition of inverted bits + 1
+            const invertedValue = (~state.value1) & state.maxValue
+            const carryBits = state.calculateCarryBits(invertedValue, 1)
+            state.carryValues = carryBits.slice(1) // Remove first carry out
         } else if (state.op === 'add') {
             // Populate all carry values
             const carryBits = state.calculateCarryBits(state.value1, state.value2)
+            state.carryValues = carryBits.slice(1) // Remove first carry out
+        } else if (state.op === 'sub') {
+            // Populate negated value and carry values
+            state.subNegatedValue = ((~state.value2) + 1) & state.maxValue
+            const carryBits = state.calculateCarryBits(state.value1, state.subNegatedValue)
             state.carryValues = carryBits.slice(1) // Remove first carry out
         }
         // Other operations don't need immediate state population
@@ -1426,6 +1593,7 @@
         state.animationPhase = 'inputs'
         state.animationHasRun = true
         state.currentCarry = 0 // Start with no carry
+        state.carryValues[0] = 0 // Initial carry-in to position 0 is always 0
         updateCalcUI(wrapper, state)
 
         const runBitAnimation = () => {
@@ -1484,225 +1652,6 @@
         runBitAnimation()
     }
 
-    function startSubtractionAnimation(wrapper, state) {
-        // Real-time subtraction animation with on-the-fly borrow calculation
-        // Start at position 0 (rightmost)
-        state.animationStep = 0
-        state.animationPhase = 'inputs'
-        state.animationHasRun = true
-        state.borrowSearchPos = -1
-        state.borrowSourcePos = -1
-        state.borrowPropagatePos = -1
-        updateCalcUI(wrapper, state)
-
-        const runBitAnimation = () => {
-            const bitPos = state.animationStep
-
-            // Phase 1: Show inputs (highlight value2 and borrow/value1)
-            state.animationPhase = 'inputs'
-            state.borrowSearchPos = -1
-            state.borrowSourcePos = -1
-            state.borrowPropagatePos = -1
-            updateCalcUI(wrapper, state)
-
-            state.phaseTimer = setTimeout(() => {
-                // Check if we need to borrow
-                const borrowValue = state.borrowValues[bitPos]
-                const v1Bit = (state.value1 >> bitPos) & 1
-                const v2Bit = (state.value2 >> bitPos) & 1
-                const effectiveV1 = borrowValue !== null ? borrowValue : v1Bit
-
-                if (effectiveV1 < v2Bit) {
-                    // Need to borrow - search left for a non-zero value
-                    state.animationPhase = 'borrow'
-
-                    // Search left starting from next position
-                    let searchPos = bitPos + 1
-                    let foundPos = -1
-
-                    const animateSearch = () => {
-                        if (searchPos >= state.bits) {
-                            // Reached end without finding - shouldn't happen in valid subtraction
-                            // Just proceed with result showing error
-                            showResultAndContinue()
-                            return
-                        }
-
-                        state.borrowSearchPos = searchPos
-                        updateCalcUI(wrapper, state)
-
-                        state.phaseTimer = setTimeout(() => {
-                            // Check if this position has a non-zero value
-                            const searchBorrowValue = state.borrowValues[searchPos]
-                            const searchV1Bit = (state.value1 >> searchPos) & 1
-                            const searchEffectiveValue = searchBorrowValue !== null ? searchBorrowValue : searchV1Bit
-
-                            if (searchEffectiveValue > 0) {
-                                // Found a value to borrow from!
-                                foundPos = searchPos
-                                state.borrowSourcePos = foundPos
-                                state.borrowSearchPos = -1
-                                updateCalcUI(wrapper, state)
-
-                                // Now propagate the borrow back to the right (0.5s delay after finding)
-                                state.phaseTimer = setTimeout(() => {
-                                    animatePropagate(foundPos)
-                                }, ANIMATION_SUB_BORROW_STEP_MS)
-                            } else {
-                                // Continue searching left
-                                searchPos++
-                                animateSearch()
-                            }
-                        }, ANIMATION_SUB_BORROW_STEP_MS)
-                    }
-
-                    const animatePropagate = (sourcePos) => {
-                        // Start by reducing the source value by 1
-                        const sourceBorrowValue = state.borrowValues[sourcePos]
-                        const sourceV1Bit = (state.value1 >> sourcePos) & 1
-
-                        if (sourceBorrowValue !== null) {
-                            // Reduce borrow value
-                            state.borrowValues[sourcePos] = sourceBorrowValue - 1
-                        } else {
-                            // Cross out value1 bit and set borrow to bit value - 1
-                            state.value1Crossed[sourcePos] = true
-                            state.borrowValues[sourcePos] = sourceV1Bit - 1
-                        }
-
-                        // Now propagate right, adding 2 (binary 10) to each position until we reach target
-                        let currentPos = sourcePos - 1
-
-                        const propagateStep = () => {
-                            if (currentPos < bitPos) {
-                                // Done propagating - reached target
-                                showResultAndContinue()
-                                return
-                            }
-
-                            // Step 1: Add 2 to current position (becomes "10" in binary) and cross out value1 immediately
-                            const currentBorrowValue = state.borrowValues[currentPos]
-                            const currentV1Bit = (state.value1 >> currentPos) & 1
-
-                            // Only add +2 if not already added by previous iteration
-                            const alreadyAdded = currentBorrowValue !== null && currentBorrowValue >= 2
-
-                            if (!alreadyAdded) {
-                                if (currentBorrowValue !== null) {
-                                    state.borrowValues[currentPos] = currentBorrowValue + 2
-                                } else {
-                                    state.borrowValues[currentPos] = currentV1Bit + 2
-                                }
-
-                                // Cross out value1 bit immediately when borrow value becomes 2
-                                if (!state.value1Crossed[currentPos]) {
-                                    state.value1Crossed[currentPos] = true
-                                }
-
-                                // Show the position with +2 value and crossed out value1
-                                state.borrowPropagatePos = currentPos
-                                updateCalcUI(wrapper, state)
-
-                                // Wait 500ms to show the "2" before processing it
-                                state.phaseTimer = setTimeout(() => {
-                                    processBorrowPosition()
-                                }, ANIMATION_SUB_BORROW_STEP_MS)
-                            } else {
-                                // Already added, just process it
-                                processBorrowPosition()
-                            }
-                        }
-
-                        const processBorrowPosition = () => {
-                            if (currentPos === bitPos) {
-                                // Target position - hold for 1s with both borrow value and value2 highlighted before showing result
-                                state.phaseTimer = setTimeout(() => {
-                                    currentPos--
-                                    propagateStep()
-                                }, ANIMATION_SUB_INPUT_PHASE_MS)
-                            } else {
-                                // Intermediate position - borrow from it (reduce by 1) and simultaneously prepare next position
-                                // Step 2: Borrow from this position (2 becomes 1)
-                                state.borrowValues[currentPos] = state.borrowValues[currentPos] - 1
-
-                                // Move to next position
-                                currentPos--
-
-                                // Immediately add 2 to next position and cross out its value1 (so both appear together)
-                                const nextBorrowValue = state.borrowValues[currentPos]
-                                const nextV1Bit = (state.value1 >> currentPos) & 1
-
-                                if (nextBorrowValue !== null) {
-                                    state.borrowValues[currentPos] = nextBorrowValue + 2
-                                } else {
-                                    state.borrowValues[currentPos] = nextV1Bit + 2
-                                }
-
-                                if (!state.value1Crossed[currentPos]) {
-                                    state.value1Crossed[currentPos] = true
-                                }
-
-                                // Update propagate position to highlight next position
-                                state.borrowPropagatePos = currentPos
-
-                                // Update display to show both: previous position with 1, current position with 2
-                                updateCalcUI(wrapper, state)
-
-                                state.phaseTimer = setTimeout(() => {
-                                    // Continue processing the next position (reduce it from 2 to 1, and add to the one after)
-                                    propagateStep()
-                                }, ANIMATION_SUB_BORROW_STEP_MS)
-                            }
-                        }
-
-                        // Start propagation immediately (delay already happened after finding source)
-                        state.borrowSourcePos = -1
-                        propagateStep()
-                    }
-
-                    animateSearch()
-                } else {
-                    // No borrow needed - go straight to result
-                    showResultAndContinue()
-                }
-            }, ANIMATION_SUB_INPUT_PHASE_MS)
-        }
-
-        const showResultAndContinue = () => {
-            // Phase: Show result
-            state.animationPhase = 'result'
-            state.borrowSearchPos = -1
-            state.borrowSourcePos = -1
-            state.borrowPropagatePos = -1
-            updateCalcUI(wrapper, state)
-
-            state.phaseTimer = setTimeout(() => {
-                // Phase: Pause
-                state.animationPhase = 'pause'
-                updateCalcUI(wrapper, state)
-
-                state.phaseTimer = setTimeout(() => {
-                    // Move to next position
-                    state.animationStep++
-
-                    if (state.animationStep >= state.bits) {
-                        // Animation complete
-                        state.animationTimer = null
-                        state.phaseTimer = null
-                        state.animationStep = -1
-                        updateCalcUI(wrapper, state)
-                    } else {
-                        // Continue to next bit position
-                        runBitAnimation()
-                    }
-                }, ANIMATION_SUB_PAUSE_PHASE_MS)
-            }, ANIMATION_SUB_RESULT_PHASE_MS)
-        }
-
-        // Start the animation sequence
-        runBitAnimation()
-    }
-
     function startBitwiseAnimation(wrapper, state) {
         // Real-time bitwise operation animation
         // Start at position 0 (rightmost)
@@ -1755,11 +1704,13 @@
         // Two's complement negation animation
         // Phase 1: Invert bits one-by-one (left to right)
         // Phase 2: Show +1
-        // Phase 3: Show result
+        // Phase 3: Bit-by-bit addition animation
+        // Phase 4: Show result
 
         state.animationStep = state.bits - 1 // Start from leftmost (MSB)
         state.animationPhase = 'invert-input'
         state.animationHasRun = true
+        state.carryValues[0] = 0 // Initial carry-in is 0
         updateCalcUI(wrapper, state)
 
         const runBitInversion = () => {
@@ -1794,17 +1745,10 @@
                             updateCalcUI(wrapper, state)
 
                             state.phaseTimer = setTimeout(() => {
-                                // Show result with all bits highlighted
-                                state.animationPhase = 'result'
-                                updateCalcUI(wrapper, state)
-
-                                state.phaseTimer = setTimeout(() => {
-                                    // Animation complete - remove highlighting
-                                    state.animationStep = -1
-                                    state.animationPhase = 'complete'
-                                    state.phaseTimer = null
-                                    updateCalcUI(wrapper, state)
-                                }, ANIMATION_NEG_RESULT_PHASE_MS)
+                                // Start bit-by-bit addition animation
+                                state.animationStep = 0 // Start from rightmost (LSB)
+                                state.currentCarry = 0
+                                runBitAddition()
                             }, ANIMATION_NEG_PLUSONE_PHASE_MS)
                         }, ANIMATION_NEG_PAUSE_PHASE_MS)
                     } else {
@@ -1815,8 +1759,152 @@
             }, ANIMATION_NEG_INPUT_PHASE_MS)
         }
 
+        const runBitAddition = () => {
+            const bitPos = state.animationStep
+
+            // Phase 1: Show inputs (inverted bit + 1 if LSB + carry in)
+            state.animationPhase = 'neg-add-inputs'
+            updateCalcUI(wrapper, state)
+
+            state.phaseTimer = setTimeout(() => {
+                // Calculate addition for this position
+                const invertedBit = state.negateInvertedBits[bitPos]
+                const plusOneBit = bitPos === 0 ? 1 : 0 // Only add 1 at LSB
+                const sum = invertedBit + plusOneBit + state.currentCarry
+
+                // Calculate carry out for next position
+                const carryOut = sum >> 1
+
+                // Store the carry value at the NEXT position (to the left)
+                if (bitPos + 1 < state.bits) {
+                    state.carryValues[bitPos + 1] = carryOut
+                }
+
+                // Update current carry for next position
+                state.currentCarry = carryOut
+
+                // Phase 2: Show outputs (result and carry out)
+                state.animationPhase = 'neg-add-carryout'
+                updateCalcUI(wrapper, state)
+
+                state.phaseTimer = setTimeout(() => {
+                    // Phase 3: Pause
+                    state.animationPhase = 'neg-add-pause'
+                    updateCalcUI(wrapper, state)
+
+                    state.phaseTimer = setTimeout(() => {
+                        // Move to next position
+                        state.animationStep++
+
+                        if (state.animationStep >= state.bits) {
+                            // Addition complete - show final result highlighted
+                            state.animationPhase = 'result'
+                            updateCalcUI(wrapper, state)
+
+                            state.phaseTimer = setTimeout(() => {
+                                // Animation complete
+                                state.animationStep = -1
+                                state.animationPhase = 'complete'
+                                state.phaseTimer = null
+                                updateCalcUI(wrapper, state)
+                            }, ANIMATION_NEG_RESULT_PHASE_MS)
+                        } else {
+                            // Continue to next bit position
+                            runBitAddition()
+                        }
+                    }, ANIMATION_PAUSE_PHASE_MS)
+                }, ANIMATION_CARRYOUT_PHASE_MS)
+            }, ANIMATION_INPUT_PHASE_MS)
+        }
+
         // Start the animation sequence
         runBitInversion()
+    }
+
+    function startSubtractionAnimation(wrapper, state) {
+        // Subtraction animation using two's complement
+        // Phase 1: Highlight all of B (1s)
+        // Phase 2: Calculate and show -B (two's complement of B), highlighted (1s)
+        // Phase 3: Bit-by-bit addition of A + (-B)
+
+        state.animationStep = -1 // Not yet started bit-by-bit addition
+        state.animationPhase = 'highlight-b'
+        state.animationHasRun = true
+        state.currentCarry = 0
+        state.carryValues[0] = 0 // Initial carry-in to position 0 is always 0
+        updateCalcUI(wrapper, state)
+
+        // Phase 1: Highlight all of B for 1s
+        state.phaseTimer = setTimeout(() => {
+            // Calculate -B (two's complement)
+            state.subNegatedValue = ((~state.value2) + 1) & state.maxValue
+
+            // Phase 2: Show -B highlighted for 1s
+            state.animationPhase = 'show-negb'
+            updateCalcUI(wrapper, state)
+
+            state.phaseTimer = setTimeout(() => {
+                // Start bit-by-bit addition animation
+                state.animationStep = 0
+                state.animationPhase = 'add-inputs'
+                updateCalcUI(wrapper, state)
+
+                const runBitAddition = () => {
+                    const bitPos = state.animationStep
+
+                    // Phase 3a: Show inputs (A, -B, and carry in)
+                    state.animationPhase = 'add-inputs'
+                    updateCalcUI(wrapper, state)
+
+                    state.phaseTimer = setTimeout(() => {
+                        // Calculate addition for this position
+                        const bit1 = (state.value1 >> bitPos) & 1
+                        const bit2 = (state.subNegatedValue >> bitPos) & 1
+                        const sum = bit1 + bit2 + state.currentCarry
+
+                        // Calculate carry out for next position
+                        const carryOut = sum >> 1
+
+                        // Store the carry value at the NEXT position (to the left)
+                        if (bitPos + 1 < state.bits) {
+                            state.carryValues[bitPos + 1] = carryOut
+                        }
+
+                        // Update current carry for next position
+                        state.currentCarry = carryOut
+
+                        // Phase 3b: Show outputs (result and carry out)
+                        state.animationPhase = 'add-carryout'
+                        updateCalcUI(wrapper, state)
+
+                        state.phaseTimer = setTimeout(() => {
+                            // Phase 3c: Pause with no highlighting
+                            state.animationPhase = 'add-pause'
+                            updateCalcUI(wrapper, state)
+
+                            state.phaseTimer = setTimeout(() => {
+                                // Move to next position
+                                state.animationStep++
+
+                                if (state.animationStep >= state.bits) {
+                                    // Animation complete
+                                    state.animationStep = -1
+                                    state.animationPhase = 'complete'
+                                    state.phaseTimer = null
+                                    updateCalcUI(wrapper, state)
+                                } else {
+                                    // Continue to next bit
+                                    runBitAddition()
+                                }
+                            }, ANIMATION_SUB_ADD_PAUSE_MS)
+                        }, ANIMATION_SUB_ADD_CARRYOUT_MS)
+                    }, ANIMATION_SUB_ADD_INPUT_MS)
+                }
+
+                // Start the bit-by-bit addition
+                runBitAddition()
+            }, ANIMATION_SUB_SHOW_NEGB_MS)
+        }, ANIMATION_SUB_HIGHLIGHT_B_MS)
     }
 
     function startShiftAnimation(wrapper, state) {
@@ -1959,14 +2047,6 @@
             if (state.op === 'add') {
                 state.carryValues = new Array(state.bits).fill(null)
                 state.currentCarry = 0
-            } else if (state.op === 'sub') {
-                state.borrowValues = new Array(state.bits).fill(null)
-                state.value1Crossed = new Array(state.bits).fill(false)
-            } else if (['<<', '>>', '>>>'].includes(state.op)) {
-                state.shiftResultBits = null
-                state.shiftSourcePos = -1
-                state.shiftDestPos = -1
-                state.shiftPaddingPhase = false
             } else if (state.op === 'neg') {
                 state.negateInvertedBits = new Array(state.bits).fill(null)
             }
@@ -1980,10 +2060,6 @@
             if (state.op === 'add') {
                 state.debounceTimer = setTimeout(() => {
                     startAdditionAnimation(ui, state)
-                }, ANIMATION_DEBOUNCE_MS)
-            } else if (state.op === 'sub') {
-                state.debounceTimer = setTimeout(() => {
-                    startSubtractionAnimation(ui, state)
                 }, ANIMATION_DEBOUNCE_MS)
             } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
                 state.debounceTimer = setTimeout(() => {

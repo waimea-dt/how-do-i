@@ -8,7 +8,7 @@
     /* Component-specific colors */
     --operand1-color:           var(--theme-color);
     --operand2-color:           var(--palette-color-1);
-    --plusone-color:            var(--palette-color-2);
+    --plus-one-color:           var(--palette-color-2);
     --result-color:             var(--secondary-color);
     --operation-color:          var(--secondary-color);
     --overflow-color:           var(--error-color);
@@ -17,7 +17,7 @@
     --wrapper-bg:               var(--color-mono-1);
     --operand1-bg:              color-mix(in srgb, var(--operand1-color), transparent 85%);
     --operand2-bg:              color-mix(in srgb, var(--operand2-color), transparent 85%);
-    --plusone-bg:               color-mix(in srgb, var(--plusone-color), transparent 85%);
+    --plus-one-bg:              color-mix(in srgb, var(--plus-one-color), transparent 85%);
     --result-bg:                color-mix(in srgb, var(--result-color), transparent 85%);
     --overflow-bg:              color-mix(in srgb, var(--overflow-color), transparent 80%);
     --input-bg:                 var(--color-mono-0);
@@ -32,58 +32,57 @@
     /* Text colors */
     --input-color:              var(--color-text);
     --label-color:              var(--color-mono-7);
-    --steps-title-color:        var(--color-mono-9);
+    --steps-title-color:        var(--color-mono-8);
 
     /* Font settings */
     --calc-font-mono:           var(--font-family-mono);
 
     /* Font sizes (em units - scale with base) */
-    --font-size-base: 0.85rem;
-    --font-size-xs: 0.5em;        /* Stack header bits */
-    --font-size-sm: 0.75em;       /* Carry/borrow bits */
-    --font-size-md: 0.95rem;      /* Operation name */
-    --font-size-lg: 1.8rem;       /* Input values */
-    --font-size-xl: 2.2rem;       /* Operation symbol (rem - constant) */
-    --font-size-op: 1.3em;        /* Stack operator */
+    --font-size-base:        0.65rem;
+
+    --font-size-stack:       1.6em;        /* Stack overall */
+    --font-size-col-head:    0.5em;        /* Stack header bits */
+    --font-size-row-label:   1.2em;        /* Stack operator */
+    --font-size-carry-bit:   0.75em;       /* Carry bits */
+
+    --font-size-op-name:     1.4rem;       /* Operation name */
+    --font-size-value-input: 1.6rem;       /* Input values */
+    --font-size-op-label:    2.0rem;       /* Operation symbol */
+    --font-size-steps:       0.9rem;       /* How it works steps */
 
     /* Padding (em units - scale with font) */
     --padding-wrapper: 1em;
-    --padding-input: 0.4em 1em;
-    --padding-digit: 0.15em 0.25em;
+    --padding-input: 0.2em 0.5em;
+    --padding-digit: 0.05em 0.25em;
     --padding-button: 0.5em 1em;
     --padding-steps: 1.25em;
-    --padding-stack: 1.5em 0.5em;
+    --padding-stack: 0.75em;
 
     /* Gaps (em units - scale with base) */
     --gap-tight: 0.2em;           /* Stack cells horizontal */
-    --gap-small: 0.3em;           /* Stack cells vertical */
+    --gap-small: 0.1em;           /* Stack cells vertical */
     --gap-normal: 1em;            /* Input groups */
     --gap-large: 1em;             /* Container sections, operation display */
     --gap-inputs: 1em;            /* Input fields */
-    --gap-steps: 1em;             /* Steps section */
 
-    @container (min-width: 600px) {
-        --font-size-base: 1rem;
-        --padding-wrapper: 1.5em;
-        --gap-large: 1.5em;
-        --gap-inputs: 2em;
-        --padding-stack: 2em 1em;
-        --font-size-xl: 2.5rem;
-        --font-size-md: 1.1rem;
-    }
-
-    container-type: inline-size;
     display: block;
     margin: var(--margin-block) 0;
-
     font-size: var(--font-size-base);
 
     .calc-wrapper {
         background: var(--wrapper-bg);
-        border: 2px solid var(--wrapper-border);
+        border: 1px solid var(--wrapper-border);
         border-radius: var(--border-radius);
         padding: var(--padding-wrapper);
         box-shadow: var(--box-shadow);
+    }
+
+    @container (min-width: 640px) {
+        --font-size-base: 0.75rem;
+    }
+
+    @container (min-width: 850px) {
+        --font-size-base: 1rem;
     }
 
     .calc-container {
@@ -97,26 +96,32 @@
         text-align: center;
 
         .calc-op-name {
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-op-name);
             font-weight: 600;
             color: var(--operation-color);
         }
     }
 
     .calc-op-symbol {
-        font-size: var(--font-size-xl);
-        font-weight: 700;
+        font-size: var(--font-size-op-label);
+        font-weight: 600;
         color: var(--operation-color);
         font-family: var(--calc-font-mono);
+        line-height: 1;
     }
 
     /* Input fields */
     .calc-inputs {
         display: flex;
+        flex-direction: column;
         gap: var(--gap-inputs);
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+
+        @container (min-width: 600px) {
+            flex-direction: row;
+        }
     }
 
     .calc-input-group {
@@ -127,7 +132,7 @@
     }
 
     .calc-input-label {
-        font-size: var(--font-size-xl);
+        font-size: var(--font-size-op-label);
         font-weight: 600;
         color: var(--label-color);
         text-align: center;
@@ -146,20 +151,20 @@
     }
 
     .calc-input {
-        width: 12ch;
+        width: 11ch;
         padding: var(--padding-input);
         background: var(--input-bg);
         border: 2px solid var(--input-border);
         border-radius: var(--border-radius);
         font-family: var(--calc-font-mono);
-        font-size: var(--font-size-lg);
+        font-size: var(--font-size-value-input);
         font-weight: 600;
         color: var(--input-color);
         transition: border-color 0.2s, box-shadow 0.2s;
         text-align: center;
 
         &.decimal-input {
-            width: 5ch;
+            width: 4ch;
         }
 
         &:focus {
@@ -189,7 +194,7 @@
             gap: 0.5em;
             cursor: pointer;
             font-weight: 500;
-            font-size: var(--font-size-base);
+            font-size: 1em;
             text-transform: none;
 
             &:hover {
@@ -208,7 +213,7 @@
     /* Binary stack display - traditional arithmetic notation */
     .calc-binary-stack {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         padding: var(--padding-stack);
         overflow-x: auto;
         background: color-mix(in srgb, var(--color-mono-0), transparent 50%);
@@ -217,37 +222,35 @@
 
     .calc-stack {
         display: grid;
-        grid-template-columns: 5em 0.5em repeat(10, 1.2em) 0em repeat(3, minmax(3em, auto));
+        grid-template-columns: max-content 0.3em repeat(10, 1.1em) 0em repeat(3, minmax(2.6em, auto));
         gap: var(--gap-small) var(--gap-tight);
         font-family: var(--calc-font-mono);
-        font-size: clamp(1rem, 4vw, 1.5rem);
+        font-size: var(--font-size-stack);
         line-height: 1.6;
         align-items: center;
-
-        @container (min-width: 600px) {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-        }
+        margin: 0 auto;
+        width: fit-content;
     }
 
     /* Layout variations based on which columns are present */
     .calc-stack-both-columns {
         /* Default: overflow + 8 bits + undercarry = 10 columns */
-        grid-template-columns: 5em 0.5em repeat(10, 1.2em) 0em repeat(3, minmax(3em, auto));
+        grid-template-columns: max-content 0.3em repeat(10, 1.1em) 0em repeat(3, minmax(2.6em, auto));
     }
 
     .calc-stack-overflow-only {
         /* Overflow + 8 bits = 9 columns */
-        grid-template-columns: 5em 0.5em repeat(9, 1.2em) 0em repeat(3, minmax(3em, auto));
+        grid-template-columns: max-content 0.3em repeat(9, 1.1em) 0em repeat(3, minmax(2.6em, auto));
     }
 
     .calc-stack-undercarry-only {
         /* 8 bits + undercarry = 9 columns */
-        grid-template-columns: 5em 0.5em repeat(9, 1.2em) 0em repeat(3, minmax(3em, auto));
+        grid-template-columns: max-content 0.3em repeat(9, 1.1em) 0em repeat(3, minmax(2.6em, auto));
     }
 
     .calc-stack-no-extra-columns {
         /* Just 8 bits = 8 columns */
-        grid-template-columns: 5em 0.5em repeat(8, 1.2em) 0em repeat(3, minmax(3em, auto));
+        grid-template-columns: max-content 0.3em repeat(8, 1.1em) 0em repeat(3, minmax(2.6em, auto));
     }
 
     /* Header row with bit place values and interpretation labels */
@@ -261,7 +264,7 @@
     .calc-stack-interp-header .calc-stack-interp-item {
         text-align: center;
         font-weight: 600;
-        font-size: var(--font-size-xs);
+        font-size: var(--font-size-col-head);
         color: var(--label-color);
     }
 
@@ -271,8 +274,8 @@
 
     .calc-stack-operator {
         text-align: right;
-        font-weight: 700;
-        font-size: var(--font-size-op);
+        font-weight: 600;
+        font-size: var(--font-size-row-label);
         grid-column: 1;
     }
 
@@ -304,10 +307,10 @@
         padding: var(--padding-digit);
         border-radius: 4px;
         transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
+    }
 
-        &:hover {
-            transform: scale(1.15);
-        }
+    .calc-stack-blank {
+        opacity: 0;
     }
 
     /* Active digit during animation */
@@ -326,7 +329,7 @@
         }
     }
 
-    /* Error state during animation - red highlight for positions needing borrow */
+    /* Error state during animation */
     .calc-stack-error {
         box-shadow: inset 0 0 1px 2px var(--error-color);
         animation: pulse-error 0.8s ease-in-out infinite;
@@ -346,7 +349,7 @@
     /* Make 1-bits pop with highlight color when active - needs higher specificity */
     .calc-stack-digit.calc-stack-bit-one {
         color: var(--highlight-color) !important;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     /* Unknown/pending result digit during animation */
@@ -378,16 +381,16 @@
 
     .calc-stack-plusone {
         .calc-stack-operator {
-            color: var(--plusone-color);
+            color: var(--plus-one-color);
         }
 
         .calc-stack-digit {
-            background: var(--plusone-bg);
-            color: var(--plusone-color);
+            background: var(--plus-one-bg);
+            color: var(--plus-one-color);
         }
 
         .calc-stack-interp-value {
-            color: var(--plusone-color);
+            color: var(--plus-one-color);
         }
     }
 
@@ -410,7 +413,6 @@
         border-radius: 4px;
         font-weight: 600;
         animation: pulse-overflow 1.5s ease-in-out infinite;
-        /* box-shadow: inset 0 0 1px 2px var(--error-color); */
         text-align: center;
     }
 
@@ -428,9 +430,9 @@
     .calc-stack-divider {
         grid-column: 1 / -1;
         height: 3px;
-        background: var(--color-text);
+        background: var(--input-border);
         margin: var(--gap-small) 0;
-        opacity: 0.6;
+        /* opacity: 0.6; */
         border-radius: 2px;
     }
 
@@ -442,7 +444,7 @@
     .calc-stack-carry-bit {
         text-align: center;
         font-weight: 500;
-        font-size: var(--font-size-sm);
+        font-size: var(--font-size-carry-bit);
         color: var(--palette-color-2);
         opacity: 0.8;
         font-style: italic;
@@ -450,28 +452,7 @@
         border-radius: 4px;
     }
 
-    /* Borrow row for subtraction */
-    .calc-stack-borrow {
-        display: contents;
-    }
 
-    .calc-stack-borrow-bit {
-        text-align: center;
-        font-weight: 600;
-        font-size: var(--font-size-sm);
-        color: var(--palette-color-2);
-        padding-block: 0.3em;
-        line-height: 1;
-        white-space: nowrap;
-        border-radius: 4px;
-    }
-
-    /* Borrowed digits in value1 (show original as grey and crossed out) */
-    .calc-stack-borrowed {
-        opacity: 0.4;
-        color: var(--color-mono-6) !important;
-        text-decoration: line-through;
-    }
 
     /* Inline interpretations next to binary digits */
     .calc-stack-interp {
@@ -511,29 +492,44 @@
 
     /* Steps explanation */
     .calc-steps {
+        font-size: var(--font-size-steps);
         background: var(--steps-bg);
         border-radius: var(--border-radius);
-        border: 2px solid var(--wrapper-border);
         padding: var(--padding-steps);
-        display: flex;
-        flex-direction: column;
-        gap: var(--gap-steps);
+        margin: 0;
+        line-height: 1.5;
     }
 
     .calc-steps-title {
         margin: 0;
         padding: 0;
-        font-weight: 700;
-        font-size: 1rem;
+        font-weight: 600;
         color: var(--steps-title-color);
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        cursor: pointer;
+        user-select: none;
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &::before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 0.5em;
+            transition: transform 0.2s ease;
+        }
+    }
+
+    .calc-steps[open] .calc-steps-title::before {
+        transform: rotate(90deg);
     }
 
     .calc-steps-list {
         font-family: var(--calc-font-mono);
-        font-size: 0.9rem;
-        line-height: 1.6;
+        font-size: 0.9em;
         color: var(--color-text);
 
         p {
@@ -556,7 +552,7 @@
             padding: 0;
 
             li {
-                margin: 0.4em 0;
+                margin: 0;
                 padding-left: 0.5em;
                 color: var(--color-mono-7);
             }
@@ -577,6 +573,32 @@
             padding: 0.2em 0.4em;
             border-radius: 3px;
             font-family: var(--calc-font-mono);
+        }
+
+        .calc-truth-table {
+            margin: 0.75em 0;
+            border-collapse: collapse;
+            font-size: 0.95em;
+
+            th, td {
+                padding: 0.4em 0.8em;
+                text-align: center;
+                border: 1px solid var(--color-mono-4);
+            }
+
+            th {
+                background: var(--color-mono-3);
+                font-weight: 600;
+                color: var(--steps-title-color);
+            }
+
+            td {
+                background: var(--wrapper-bg);
+            }
+
+            tr:hover td {
+                background: var(--color-mono-2);
+            }
         }
     }
 }
