@@ -8,6 +8,7 @@
     /* Component-specific colors */
     --operand1-color:           var(--theme-color);
     --operand2-color:           var(--palette-color-1);
+    --plusone-color:            var(--palette-color-2);
     --result-color:             var(--secondary-color);
     --operation-color:          var(--secondary-color);
     --overflow-color:           var(--error-color);
@@ -16,6 +17,7 @@
     --wrapper-bg:               var(--color-mono-1);
     --operand1-bg:              color-mix(in srgb, var(--operand1-color), transparent 85%);
     --operand2-bg:              color-mix(in srgb, var(--operand2-color), transparent 85%);
+    --plusone-bg:               color-mix(in srgb, var(--plusone-color), transparent 85%);
     --result-bg:                color-mix(in srgb, var(--result-color), transparent 85%);
     --overflow-bg:              color-mix(in srgb, var(--overflow-color), transparent 80%);
     --input-bg:                 var(--color-mono-0);
@@ -371,6 +373,21 @@
         .calc-stack-digit {
             background: var(--operand2-bg);
             color: var(--operand2-color);
+        }
+    }
+
+    .calc-stack-plusone {
+        .calc-stack-operator {
+            color: var(--plusone-color);
+        }
+
+        .calc-stack-digit {
+            background: var(--plusone-bg);
+            color: var(--plusone-color);
+        }
+
+        .calc-stack-interp-value {
+            color: var(--plusone-color);
         }
     }
 

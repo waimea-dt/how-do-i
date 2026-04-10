@@ -46,6 +46,13 @@
     const ANIMATION_SHIFT_STEP_PHASE_MS = 1000     // Duration for each shift iteration (1s)
     const ANIMATION_SHIFT_PAUSE_PHASE_MS = 0       // No pause - shift happens immediately
 
+    // Negation (two's complement) animation timing
+    const ANIMATION_NEG_INPUT_PHASE_MS = 1000      // Duration to highlight input bit (1s)
+    const ANIMATION_NEG_INVERT_PHASE_MS = 500      // Duration to highlight inverted bit (0.5s)
+    const ANIMATION_NEG_PAUSE_PHASE_MS = 1000      // Duration of pause before +1 appears (1s)
+    const ANIMATION_NEG_PLUSONE_PHASE_MS = 1000    // Duration to highlight +1 row (1s)
+    const ANIMATION_NEG_RESULT_PHASE_MS = 1000     // Duration to highlight result (1s)
+
     // -------------------------------------------------------------------------
     // CSS Class Constants
     // -------------------------------------------------------------------------
@@ -151,6 +158,8 @@
             this.shiftIteration = -1 // Current shift iteration (0 to shiftAmount-1)
             this.shiftPhase = null // 'highlight-value1', 'copy', 'shift'
             this.shiftLostBit = null // The bit that was shifted out (for carry/undercarry display)
+            // Real-time negation animation state
+            this.negateInvertedBits = null // Array of inverted bits as they're calculated
         }
 
         calculate() {
@@ -452,6 +461,116 @@
     // -------------------------------------------------------------------------
 
     /**
+     * Render the inverted bits row for negation operations
+     */
+    function renderInvertedRow(state, animStep, isAnimating) {
+        if (state.op !== 'neg') return ''
+
+        let html = `<div class="calc-stack-row calc-stack-value2">`
+        html += '<span class="calc-stack-operator">~A</span>'
+        html += '<span class="calc-stack-spacer"></span>'
+        if (needsOverflowColumn(state.op)) {
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
+        }
+
+        // Build partial binary string for real-time interpretation
+        let partialBits = []
+        let hasAnyInvertedBit = false
+
+        for (let i = 0; i < state.bits; i++) {
+            const bitPos = state.bits - 1 - i
+            const invertedBit = state.negateInvertedBits ? state.negateInvertedBits[bitPos] : null
+
+            let displayValue = '?'
+            let isActive = false
+
+            if (invertedBit !== null) {
+                displayValue = invertedBit.toString()
+                partialBits.push(invertedBit.toString())
+                hasAnyInvertedBit = true
+            } else {
+                partialBits.push('0') // Use 0 for un-inverted positions in calculation
+            }
+
+            // Highlight during invert-output phase if this is the current position
+            if (isAnimating && bitPos === animStep && state.animationPhase === 'invert-output') {
+                isActive = true
+            }
+
+            const activeClass = getActiveClass(isActive)
+            const unknownClass = invertedBit === null ? CSS.UNKNOWN : ''
+            html += `<span class="calc-stack-digit calc-stack-value2${activeClass}${unknownClass}">${displayValue}</span>`
+        }
+
+        if (needsUndercarryColumn(state.op)) {
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        }
+
+        // Show real-time interpretations as bits are inverted
+        if (hasAnyInvertedBit) {
+            const partialValue = parseInt(partialBits.join(''), 2)
+            html += renderInterpretations(partialValue, state)
+        } else {
+            html += renderUnknownInterpretations()
+        }
+
+        html += '</div>'
+        return html
+    }
+
+    /**
+     * Render the +1 row for negation operations
+     */
+    function renderPlusOneRow(state, isAnimating) {
+        if (state.op !== 'neg') return ''
+
+        // Show the +1 bit only during plus-one, result, and complete phases (not during pause)
+        const showPlusOneBit = state.animationHasRun && (state.animationPhase === 'plus-one' || state.animationPhase === 'result' || state.animationPhase === 'complete')
+        // Highlight during plus-one phase
+        const isPlusOnePhase = state.animationPhase === 'plus-one'
+
+        let html = `<div class="calc-stack-row calc-stack-value2 calc-stack-plusone">`
+        html += `<span class="calc-stack-operator">+</span>`
+        html += '<span class="calc-stack-spacer"></span>'
+        if (needsOverflowColumn(state.op)) {
+            html += '<span class="calc-stack-overflow-placeholder"></span>'
+        }
+
+        // Show empty space for all positions except LSB, which shows "1" only after inversion complete
+        for (let i = 0; i < state.bits; i++) {
+            const bitPos = state.bits - 1 - i
+            if (bitPos === 0) {
+                // LSB position - show "1" only when all inverted bits are in place, and highlight during plus-one phase
+                if (showPlusOneBit) {
+                    const activeClass = getActiveClass(isPlusOnePhase)
+                    html += `<span class="calc-stack-digit calc-stack-value2${activeClass}">1</span>`
+                } else {
+                    // Show empty space during inversion
+                    html += `<span class="calc-stack-digit calc-stack-value2"></span>`
+                }
+            } else {
+                // All other positions - show empty space
+                html += `<span class="calc-stack-digit calc-stack-value2"></span>`
+            }
+        }
+
+        if (needsUndercarryColumn(state.op)) {
+            html += '<span class="calc-stack-undercarry-placeholder"></span>'
+        }
+
+        // Show interpretations only when the "1" bit is visible
+        if (showPlusOneBit) {
+            html += renderInterpretations(1, state)
+        } else {
+            html += renderEmptyInterpretations()
+        }
+
+        html += '</div>'
+
+        return html
+    }
+
+    /**
      * Render the borrow row for subtraction operations
      */
     function renderBorrowRow(state, animStep, isAnimating) {
@@ -517,7 +636,16 @@
         }
 
         // Render bits based on operation type
-        if (['and', 'or', 'xor', 'not'].includes(state.op) && state.animationStep >= 0 && state.animationStep < state.bits) {
+        if (state.op === 'neg' && state.animationStep >= 0) {
+            // Negation operation - highlight current bit during invert-input phase
+            for (let i = 0; i < state.bits; i++) {
+                const bit = binary1[i]
+                const bitPos = state.bits - 1 - i
+                const isActive = bitPos === animStep && state.animationPhase === 'invert-input'
+                const activeClass = getActiveClass(isActive)
+                html += `<span class="calc-stack-digit calc-stack-value1${activeClass}">${bit}</span>`
+            }
+        } else if (['and', 'or', 'xor', 'not'].includes(state.op) && state.animationStep >= 0 && state.animationStep < state.bits) {
             // Bitwise operations
             for (let i = 0; i < state.bits; i++) {
                 const bit = binary1[i]
@@ -780,9 +908,9 @@
                                       state.animationPhase === 'carryOut' && showOverflowBit
         const overflowActiveClass = getActiveClass(isOverflowHighlighted)
 
-        // Progressive revelation for add/sub/bitwise
+        // Progressive revelation for add/sub/bitwise/neg
         let partialResultBits = []
-        if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not'].includes(state.op)) {
+        if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not', 'neg'].includes(state.op)) {
             // Add overflow placeholder for add/sub/neg
             if (needsOverflowColumn(state.op)) {
                 if (showOverflowBit) {
@@ -798,25 +926,31 @@
 
                 let isVisible = false
                 if (state.animationHasRun) {
-                    const isPastPosition = bitPos < animStep
-                    let isCurrentAndShown = false
+                    if (state.op === 'neg') {
+                        // For negation, show result bits during result and complete phases (after +1 is highlighted)
+                        isVisible = state.animationPhase === 'result' || state.animationPhase === 'complete'
+                    } else {
+                        const isPastPosition = bitPos < animStep
+                        let isCurrentAndShown = false
 
-                    if (state.op === 'add') {
-                        isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')
-                    } else if (state.op === 'sub') {
-                        isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
-                    } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
-                        isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
+                        if (state.op === 'add') {
+                            isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'carryOut' || state.animationPhase === 'pause')
+                        } else if (state.op === 'sub') {
+                            isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
+                        } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
+                            isCurrentAndShown = bitPos === animStep && (state.animationPhase === 'result' || state.animationPhase === 'pause')
+                        }
+
+                        isVisible = state.animationStep < 0 || isPastPosition || isCurrentAndShown
                     }
-
-                    isVisible = state.animationStep < 0 || isPastPosition || isCurrentAndShown
                 }
 
                 let isActive = false
                 if (isAnimating) {
                     if ((state.op === 'add' && bitPos === animStep && state.animationPhase === 'carryOut') ||
                         (state.op === 'sub' && bitPos === animStep && state.animationPhase === 'result') ||
-                        (['and', 'or', 'xor', 'not'].includes(state.op) && bitPos === animStep && state.animationPhase === 'result')) {
+                        (['and', 'or', 'xor', 'not'].includes(state.op) && bitPos === animStep && state.animationPhase === 'result') ||
+                        (state.op === 'neg' && state.animationPhase === 'result')) {
                         isActive = true
                     }
                 }
@@ -863,9 +997,14 @@
         // Interpretations
         if (!state.animationHasRun) {
             html += renderUnknownInterpretations()
-        } else if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not'].includes(state.op)) {
-            const partialValue = parseInt(partialResultBits.join(''), 2)
-            html += renderInterpretations(partialValue, state)
+        } else if (state.op === 'add' || state.op === 'sub' || ['and', 'or', 'xor', 'not', 'neg'].includes(state.op)) {
+            // For negation, only show real interpretations during result and complete phases
+            if (state.op === 'neg' && state.animationPhase !== 'result' && state.animationPhase !== 'complete') {
+                html += renderUnknownInterpretations()
+            } else {
+                const partialValue = parseInt(partialResultBits.join(''), 2)
+                html += renderInterpretations(partialValue, state)
+            }
         } else {
             html += renderInterpretations(state.result, state)
         }
@@ -889,8 +1028,8 @@
         const overflowBit = hasOverflowBit ? fullBinaryResult[0] : null
 
         // Animation state
-        const isAnimating = (['add', 'sub', 'and', 'or', 'xor', 'not'].includes(state.op)) &&
-                           state.animationStep >= 0 && state.animationStep < state.bits
+        const isAnimating = (['add', 'sub', 'and', 'or', 'xor', 'not', 'neg'].includes(state.op)) &&
+                           (state.animationStep >= 0 || (state.op === 'neg' && (state.animationPhase === 'plus-one' || state.animationPhase === 'result')))
         const animStep = state.animationStep
         const isShiftAnimating = (['<<', '>>', '>>>'].includes(state.op)) && state.shiftCurrentBits !== null
         const isShiftOp = ['<<', '>>', '>>>'].includes(state.op)
@@ -933,6 +1072,12 @@
 
         if (isBinaryOp && !isShiftOp) {
             html += renderValue2Row(state, binary2, animStep, isAnimating, opInfo)
+        }
+
+        // Negation-specific rows
+        if (state.op === 'neg') {
+            html += renderInvertedRow(state, animStep, isAnimating)
+            html += renderPlusOneRow(state, isAnimating)
         }
 
         html += renderCarryRow(state, animStep, isAnimating)
@@ -1084,7 +1229,27 @@
             state.shiftOriginalBits = null
             state.shiftIteration = -1
             state.shiftPhase = null
+        } else if (state.op === 'neg') {
+            state.negateInvertedBits = new Array(state.bits).fill(null)
         }
+    }
+
+    /**
+     * Populate all animation state immediately (for when animation is disabled)
+     */
+    function populateImmediateState(state) {
+        if (state.op === 'neg') {
+            // Populate all inverted bits
+            for (let i = 0; i < state.bits; i++) {
+                const bit = (state.value1 >> i) & 1
+                state.negateInvertedBits[i] = bit ^ 1
+            }
+        } else if (state.op === 'add') {
+            // Populate all carry values
+            const carryBits = state.calculateCarryBits(state.value1, state.value2)
+            state.carryValues = carryBits.slice(1) // Remove first carry out
+        }
+        // Other operations don't need immediate state population
     }
 
     /**
@@ -1102,7 +1267,8 @@
             'not': () => startBitwiseAnimation(wrapper, state),
             '<<':  () => startShiftAnimation(wrapper, state),
             '>>':  () => startShiftAnimation(wrapper, state),
-            '>>>': () => startShiftAnimation(wrapper, state)
+            '>>>': () => startShiftAnimation(wrapper, state),
+            'neg': () => startNegateAnimation(wrapper, state)
         }
 
         const handler = animationMap[state.op]
@@ -1199,6 +1365,8 @@
                     // Show result immediately without animation
                     state.animationHasRun = true
                     state.animationStep = -1
+                    state.animationPhase = 'complete'
+                    populateImmediateState(state)
                     updateCalcUI(wrapper, state)
                 }
             }
@@ -1238,6 +1406,8 @@
                     resetAnimationState(state)
                     state.animationHasRun = true
                     state.animationStep = -1
+                    state.animationPhase = 'complete'
+                    populateImmediateState(state)
                     updateCalcUI(wrapper, state)
                 } else {
                     // Reset and restart animation
@@ -1581,6 +1751,74 @@
         runBitAnimation()
     }
 
+    function startNegateAnimation(wrapper, state) {
+        // Two's complement negation animation
+        // Phase 1: Invert bits one-by-one (left to right)
+        // Phase 2: Show +1
+        // Phase 3: Show result
+
+        state.animationStep = state.bits - 1 // Start from leftmost (MSB)
+        state.animationPhase = 'invert-input'
+        state.animationHasRun = true
+        updateCalcUI(wrapper, state)
+
+        const runBitInversion = () => {
+            const bitPos = state.animationStep
+
+            // Phase 1: Highlight input bit in value1 (1s)
+            state.animationPhase = 'invert-input'
+            updateCalcUI(wrapper, state)
+
+            state.phaseTimer = setTimeout(() => {
+                // Calculate inverted bit
+                const bit = (state.value1 >> bitPos) & 1
+                const invertedBit = bit ^ 1 // Flip the bit
+                state.negateInvertedBits[bitPos] = invertedBit
+
+                // Phase 2: Highlight inverted bit in row 2 (0.5s)
+                state.animationPhase = 'invert-output'
+                updateCalcUI(wrapper, state)
+
+                state.phaseTimer = setTimeout(() => {
+                    // Move to next position (going right)
+                    state.animationStep--
+
+                    if (state.animationStep < 0) {
+                        // All bits inverted - pause before showing +1
+                        state.animationPhase = 'pause'
+                        updateCalcUI(wrapper, state)
+
+                        state.phaseTimer = setTimeout(() => {
+                            // Now show and highlight +1
+                            state.animationPhase = 'plus-one'
+                            updateCalcUI(wrapper, state)
+
+                            state.phaseTimer = setTimeout(() => {
+                                // Show result with all bits highlighted
+                                state.animationPhase = 'result'
+                                updateCalcUI(wrapper, state)
+
+                                state.phaseTimer = setTimeout(() => {
+                                    // Animation complete - remove highlighting
+                                    state.animationStep = -1
+                                    state.animationPhase = 'complete'
+                                    state.phaseTimer = null
+                                    updateCalcUI(wrapper, state)
+                                }, ANIMATION_NEG_RESULT_PHASE_MS)
+                            }, ANIMATION_NEG_PLUSONE_PHASE_MS)
+                        }, ANIMATION_NEG_PAUSE_PHASE_MS)
+                    } else {
+                        // Continue to next bit
+                        runBitInversion()
+                    }
+                }, ANIMATION_NEG_INVERT_PHASE_MS)
+            }, ANIMATION_NEG_INPUT_PHASE_MS)
+        }
+
+        // Start the animation sequence
+        runBitInversion()
+    }
+
     function startShiftAnimation(wrapper, state) {
         const shiftAmount = state.value2
 
@@ -1729,6 +1967,8 @@
                 state.shiftSourcePos = -1
                 state.shiftDestPos = -1
                 state.shiftPaddingPhase = false
+            } else if (state.op === 'neg') {
+                state.negateInvertedBits = new Array(state.bits).fill(null)
             }
 
             const ui = createCalcUI(state)
@@ -1748,6 +1988,10 @@
             } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
                 state.debounceTimer = setTimeout(() => {
                     startBitwiseAnimation(ui, state)
+                }, ANIMATION_DEBOUNCE_MS)
+            } else if (state.op === 'neg') {
+                state.debounceTimer = setTimeout(() => {
+                    startNegateAnimation(ui, state)
                 }, ANIMATION_DEBOUNCE_MS)
             } else if (['<<', '>>', '>>>'].includes(state.op)) {
                 state.debounceTimer = setTimeout(() => {
