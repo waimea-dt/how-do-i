@@ -93,6 +93,11 @@
 }
 
 
+.content {
+    overflow-x: hidden;
+}
+
+
 /* Content section */
 .markdown-section {
     margin: var(--content-margin-block) auto 0 auto;

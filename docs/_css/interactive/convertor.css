@@ -183,7 +183,7 @@
         border: 1px solid var(--place-value-border);
         border-radius: calc(var(--border-radius) * 0.75);
         padding: 0.5em 0.2em 0.7em;
-        min-width: 3.25em;
+        min-width: max(2.9em, 5cqw);
         display: flex;
         flex-direction: column;
         align-items: center;

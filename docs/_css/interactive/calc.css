@@ -6,49 +6,49 @@
 
 .markdown-section calc {
     /* Component-specific colors */
-    --operand1-color:           var(--theme-color);
-    --operand2-color:           var(--palette-color-1);
-    --plus-one-color:           var(--palette-color-2);
-    --result-color:             var(--secondary-color);
-    --operation-color:          var(--secondary-color);
-    --overflow-color:           var(--error-color);
+    --operand1-color: var(--theme-color);
+    --operand2-color: var(--palette-color-1);
+    --plus-one-color: var(--palette-color-2);
+    --result-color: var(--secondary-color);
+    --operation-color: var(--secondary-color);
+    --overflow-color: var(--error-color);
 
     /* Background colors */
-    --wrapper-bg:               var(--color-mono-1);
-    --operand1-bg:              color-mix(in srgb, var(--operand1-color), transparent 85%);
-    --operand2-bg:              color-mix(in srgb, var(--operand2-color), transparent 85%);
-    --plus-one-bg:              color-mix(in srgb, var(--plus-one-color), transparent 85%);
-    --result-bg:                color-mix(in srgb, var(--result-color), transparent 85%);
-    --overflow-bg:              color-mix(in srgb, var(--overflow-color), transparent 80%);
-    --input-bg:                 var(--color-mono-0);
-    --steps-bg:                 var(--color-mono-2);
+    --wrapper-bg: var(--color-mono-1);
+    --operand1-bg: color-mix(in srgb, var(--operand1-color), transparent 85%);
+    --operand2-bg: color-mix(in srgb, var(--operand2-color), transparent 85%);
+    --plus-one-bg: color-mix(in srgb, var(--plus-one-color), transparent 85%);
+    --result-bg: color-mix(in srgb, var(--result-color), transparent 85%);
+    --overflow-bg: color-mix(in srgb, var(--overflow-color), transparent 80%);
+    --input-bg: var(--color-mono-0);
+    --steps-bg: var(--color-mono-2);
 
     /* Border colors */
-    --wrapper-border:           var(--color-mono-3);
-    --input-border:             var(--color-mono-4);
-    --input-border-hover:       var(--color-mono-5);
-    --input-border-focus:       var(--theme-color);
+    --wrapper-border: var(--color-mono-3);
+    --input-border: var(--color-mono-4);
+    --input-border-hover: var(--color-mono-5);
+    --input-border-focus: var(--theme-color);
 
     /* Text colors */
-    --input-color:              var(--color-text);
-    --label-color:              var(--color-mono-7);
-    --steps-title-color:        var(--color-mono-8);
+    --input-color: var(--color-text);
+    --label-color: var(--color-mono-7);
+    --steps-title-color: var(--color-mono-8);
 
     /* Font settings */
-    --calc-font-mono:           var(--font-family-mono);
+    --calc-font-mono: var(--font-family-mono);
 
     /* Font sizes (em units - scale with base) */
-    --font-size-base:        0.65rem;
+    --font-size-base: 0.65rem;
 
-    --font-size-stack:       1.6em;        /* Stack overall */
-    --font-size-col-head:    0.5em;        /* Stack header bits */
-    --font-size-row-label:   1.2em;        /* Stack operator */
-    --font-size-carry-bit:   0.75em;       /* Carry bits */
+    --font-size-stack: 1.6em;
+    --font-size-col-head: 0.5em;
+    --font-size-row-label: 1.2em;
+    --font-size-carry-bit: 0.75em;
 
-    --font-size-op-name:     1.4rem;       /* Operation name */
-    --font-size-value-input: 1.6rem;       /* Input values */
-    --font-size-op-label:    2.0rem;       /* Operation symbol */
-    --font-size-steps:       0.9rem;       /* How it works steps */
+    --font-size-op-name: 1.4rem;
+    --font-size-value-input: 1.6rem;
+    --font-size-op-label: 2.0rem;
+    --font-size-steps: 0.9rem;
 
     /* Padding (em units - scale with font) */
     --padding-wrapper: 1em;
@@ -59,11 +59,11 @@
     --padding-stack: 0.75em;
 
     /* Gaps (em units - scale with base) */
-    --gap-tight: 0.2em;           /* Stack cells horizontal */
-    --gap-small: 0.1em;           /* Stack cells vertical */
-    --gap-normal: 1em;            /* Input groups */
-    --gap-large: 1em;             /* Container sections, operation display */
-    --gap-inputs: 1em;            /* Input fields */
+    --gap-tight: 0.2em;
+    --gap-small: 0.1em;
+    --gap-normal: 1em;
+    --gap-large: 1em;
+    --gap-inputs: 1em;
 
     display: block;
     margin: var(--margin-block) 0;
@@ -93,6 +93,10 @@
 
     /* Header with operation display */
     .calc-header {
+        display: flex;
+        gap: var(--gap-normal);
+        align-items: center;
+        justify-content: center;
         text-align: center;
 
         .calc-op-name {
@@ -118,6 +122,7 @@
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        margin-block: var(--gap-normal);
 
         @container (min-width: 600px) {
             flex-direction: row;
@@ -176,37 +181,76 @@
         &:hover:not(:focus) {
             border-color: var(--input-border-hover);
         }
+
+        /* Colored borders for operand inputs */
+        &[data-operand="1"] {
+            border-color: var(--operand1-color);
+
+            &:focus {
+                border-color: var(--operand1-color);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--operand1-color), transparent 70%);
+            }
+
+            &:hover:not(:focus) {
+                border-color: color-mix(in srgb, var(--operand1-color), var(--text) 20%);
+            }
+        }
+
+        &[data-operand="2"]:not(.decimal-input) {
+            border-color: var(--operand2-color);
+
+            &:focus {
+                border-color: var(--operand2-color);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--operand2-color), transparent 70%);
+            }
+
+            &:hover:not(:focus) {
+                border-color: color-mix(in srgb, var(--operand2-color), var(--text) 20%);
+            }
+        }
     }
 
     /* Animation toggle */
     .calc-animate-toggle {
         min-width: auto;
-        opacity: 0.4;
         transition: opacity 250ms;
 
         &:hover {
             opacity: 1;
         }
+    }
 
-        .calc-input-label {
-            display: flex;
-            align-items: center;
-            gap: 0.5em;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 1em;
-            text-transform: none;
+    .calc-animate-btn {
+        background: none;
+        border: none;
+        padding: 0.25em 0.5em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s;
 
-            &:hover {
-                color: var(--theme-color);
-            }
+        &:hover {
+            transform: scale(1.2);
         }
 
-        .calc-animate-checkbox {
-            width: 1.2em;
-            height: 1.2em;
-            cursor: pointer;
-            accent-color: var(--theme-color);
+        &:active {
+            transform: scale(0.95);
+        }
+
+        .calc-animate-icon {
+            font-size: 1.2em;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        /* Color based on enabled state */
+        &[data-enabled="true"] .calc-animate-icon {
+            color: var(--theme-color-4);
+        }
+
+        &[data-enabled="false"] .calc-animate-icon {
+            color: var(--color-mono-4);
         }
     }
 
@@ -297,7 +341,8 @@
 
     .calc-stack-overflow-placeholder::after,
     .calc-stack-undercarry-placeholder::after {
-        content: '\00A0'; /* non-breaking space to prevent collapse */
+        content: '\00A0';
+        /* non-breaking space to prevent collapse */
         opacity: 0;
     }
 
@@ -321,9 +366,12 @@
     }
 
     @keyframes pulse-active {
-        0%, 100% {
+
+        0%,
+        100% {
             box-shadow: inset 0 0 1px 2px var(--highlight-color);
         }
+
         50% {
             box-shadow: inset 0 0 2px 3px var(--highlight-color);
         }
@@ -338,9 +386,12 @@
     }
 
     @keyframes pulse-error {
-        0%, 100% {
+
+        0%,
+        100% {
             box-shadow: inset 0 0 1px 2px var(--error-color);
         }
+
         50% {
             box-shadow: inset 0 0 2px 3px var(--error-color);
         }
@@ -417,10 +468,13 @@
     }
 
     @keyframes pulse-overflow {
-        0%, 100% {
+
+        0%,
+        100% {
             opacity: 1;
             transform: scale(1);
         }
+
         50% {
             opacity: 0.7;
             transform: scale(1.05);
@@ -580,7 +634,8 @@
             border-collapse: collapse;
             font-size: 0.95em;
 
-            th, td {
+            th,
+            td {
                 padding: 0.4em 0.8em;
                 text-align: center;
                 border: 1px solid var(--color-mono-4);

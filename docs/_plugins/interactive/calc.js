@@ -498,6 +498,12 @@
             <div class="calc-container">
                 <div class="calc-header">
                     <div class="calc-op-name">${opInfo.name}</div>
+
+                    <div class="calc-input-group calc-animate-toggle">
+                        <button class="calc-animate-btn" data-enabled="${state.animateEnabled}" aria-label="Toggle animation" title="Toggle animation">
+                            <span class="calc-animate-icon">▶</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="calc-inputs">
@@ -510,6 +516,7 @@
                         <label class="calc-input-label" data-operand="1">A</label>
                         <input type="text" class="calc-input" data-operand="1" value="${state.value1.toString(2).padStart(state.bits, '0')}" maxlength="${state.bits}" pattern="[01]*">
                     </div>
+
                     ${isBinaryOp ? `
                         ${!isShiftOp ? `
                             <div class="calc-operation-display">
@@ -524,17 +531,11 @@
                                 <input type="text" class="calc-input decimal-input" data-operand="2" value="${state.value2}" maxlength="1" pattern="[0-7]*">
                                 <label class="calc-input-label">bits</label>
                             ` : `
-                                <label class="calc-input-label" data-operand="2">B</label>
                                 <input type="text" class="calc-input" data-operand="2" value="${state.value2.toString(2).padStart(state.bits, '0')}" maxlength="${state.bits}" pattern="[01]*">
+                                <label class="calc-input-label" data-operand="2">B</label>
                             `}
                         </div>
                     ` : ''}
-                    <div class="calc-input-group calc-animate-toggle">
-                        <label class="calc-input-label">
-                            <input type="checkbox" class="calc-animate-checkbox" ${state.animateEnabled ? 'checked' : ''}>
-                            Animate
-                        </label>
-                    </div>
                 </div>
 
                 <div class="calc-binary-stack">
@@ -1559,11 +1560,12 @@
             input.addEventListener('blur', handleBlur)
         })
 
-        // Animation toggle checkbox listener
-        const animateCheckbox = wrapper.querySelector('.calc-animate-checkbox')
-        if (animateCheckbox) {
-            animateCheckbox.addEventListener('change', (e) => {
-                state.animateEnabled = e.target.checked
+        // Animation toggle button listener
+        const animateBtn = wrapper.querySelector('.calc-animate-btn')
+        if (animateBtn) {
+            animateBtn.addEventListener('click', (e) => {
+                state.animateEnabled = !state.animateEnabled
+                animateBtn.setAttribute('data-enabled', state.animateEnabled)
 
                 // Stop any ongoing animations
                 clearAnimationTimers(state)
