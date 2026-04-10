@@ -470,10 +470,10 @@
     }
 
     function createStepsSection(state) {
-        const section = document.createElement('div')
+        const section = document.createElement('details')
         section.className = 'convertor-steps'
 
-        const title = document.createElement('h4')
+        const title = document.createElement('summary')
         title.className = 'convertor-title'
         title.textContent = 'Conversion Steps'
         section.appendChild(title)

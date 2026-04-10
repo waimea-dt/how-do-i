@@ -261,6 +261,7 @@
         padding: var(--padding-stack);
         overflow-x: auto;
         background: color-mix(in srgb, var(--color-mono-0), transparent 50%);
+        border: 1px solid var(--wrapper-border);
         border-radius: var(--border-radius);
     }
 
@@ -549,6 +550,7 @@
         font-size: var(--font-size-steps);
         background: var(--steps-bg);
         border-radius: var(--border-radius);
+        border: 1px solid var(--wrapper-border);
         padding: var(--padding-steps);
         margin: 0;
         line-height: 1.5;

@@ -243,15 +243,45 @@
         grid-area: steps;
         background: var(--section-bg);
         border-radius: calc(var(--border-radius) * 0.75);
-        border: 1px solid var(--steps-color);
+        border: 1px solid var(--color-mono-3);
         padding: 1em;
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
+        margin-block: 0;
+        transition: border-color 100ms;
+
+        /* Summary (title) styles for details element */
+        .convertor-title {
+            cursor: pointer;
+            user-select: none;
+            list-style: none;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
+
+            &::before {
+                content: '▶';
+                display: inline-block;
+                margin-right: 0.5em;
+                transition: transform 0.2s ease;
+            }
+        }
+
+        /* Rotate triangle when open */
+        &[open] {
+            border-color: var(--steps-color);
+
+            .convertor-title {
+                margin-bottom: 1em;
+
+                &::before {
+                    transform: rotate(90deg);
+                }
+            }
+        }
     }
 
     .convertor-conversion-title {
-        margin: 0;
+        margin: 0 0 1em 0;
         padding: 0;
         font-weight: 500;
         font-family: var(--convertor-font-mono);
@@ -260,6 +290,7 @@
     }
 
     .convertor-steps-list {
+        margin: 0;
         padding-left: 2em;
         font-family: var(--convertor-font-mono);
         line-height: 1.3;
