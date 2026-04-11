@@ -6,6 +6,7 @@ This document tracks potential plugin implementations for the dt-notes education
 
 - ✅ **memory-sim.js** - Kotlin OOP memory visualization with stack/heap and garbage collection
 - ✅ **cpu-sim.js** - TINY-8 CPU simulator with fetch-decode-execute cycle visualization
+- ✅ **python-test.js** - Code coverage heat map for TDD education with AST-based instrumentation
 
 ---
 
@@ -49,7 +50,7 @@ int arr[3] = {1, 2, 3};
 
 ## Medium Priority
 
-### 3. Performance Profiler
+### 4. Performance Profiler
 **Purpose**: Teach algorithm complexity and performance analysis
 **Features**:
 - Big-O notation visualizations
@@ -65,7 +66,7 @@ def optimized(): ...
 </profile>
 ```
 
-### 4. Recursion Tree Visualizer
+### 3. Recursion Tree Visualizer
 **Purpose**: Help students understand recursive function calls
 **Features**:
 - Call stack visualization
@@ -80,14 +81,6 @@ def optimized(): ...
 fibonacci(5)
 </recursion>
 ```
-
-### 5. Code Coverage Heat Map
-**Purpose**: Teaching TDD and testing concepts
-**Features**:
-- Show which lines of code are tested
-- Visual representation of test coverage
-- Highlight untested code paths
-- Integration with testing frameworks
 
 ---
 

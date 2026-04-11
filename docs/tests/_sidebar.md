@@ -10,6 +10,7 @@
     - [Scratch Blocks & Stage](tests/scratch.md)
     - [PseudoCode](tests/pseudo.md)
     - [Python Runner](tests/python.md)
+    - [Python Coverage](tests/coverage.md)
     - [Kotlin Runner](tests/kotlin.md)
 
 - <i data-lucide="binary"></i>Databases

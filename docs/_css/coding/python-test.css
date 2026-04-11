@@ -1,0 +1,583 @@
+/**
+ * Python Test Coverage Styles
+ * Visual code coverage analysis for Python testing education
+ */
+
+.markdown-section .python-test-container {
+    /* Coverage color palette */
+    --coverage-hit-color: var(--color-good);
+    --coverage-miss-color: var(--color-attention);
+    --coverage-partial-color: var(--color-important);
+    --coverage-neutral-color: transparent;
+
+    --coverage-hit-bg: color-mix(in srgb, var(--coverage-hit-color) 15%, transparent);
+    --coverage-miss-bg: color-mix(in srgb, var(--coverage-miss-color) 15%, transparent);
+    --coverage-partial-bg: color-mix(in srgb, var(--coverage-partial-color) 15%, transparent);
+
+    /* Button colors */
+    --btn-bg: var(--theme-color-3);
+    --btn-bg-hover: var(--theme-color-4);
+    --btn-text: var(--color-text);
+    --btn-border: var(--border-color);
+    --btn-clear-bg: var(--color-mono-3);
+    --btn-clear-bg-hover: var(--color-mono-4);
+
+    /* Results colors */
+    --results-bg: var(--code-bg-color);
+
+    /* Stats colors */
+    --stats-bg: var(--theme-color-1);
+    --stats-border: var(--border-color);
+    --stats-excellent: var(--color-good);
+    --stats-good: var(--palette-color-1);
+    --stats-fair: var(--color-important);
+    --stats-poor: var(--color-attention);
+
+    /* Gutter marker colors */
+    --gutter-hit-color: var(--coverage-hit-color);
+    --gutter-miss-color: var(--coverage-miss-color);
+    --gutter-bg: color-mix(in srgb, var(--color-mono-0) 15%, transparent);
+
+    /* Typography */
+    --font-family: var(--font-family-mono);
+    --font-size-base: 0.9rem;
+    --font-size-sm: 0.85rem;
+    --font-size-xs: 0.75rem;
+
+    /* Spacing */
+    --padding-container: 1rem;
+    --padding-button: 0.5rem 1rem;
+    --padding-code: 0.5rem;
+    --padding-gutter: 0.25rem 0.5rem;
+    --gap-controls: 0.5rem;
+    --gap-stats: 1rem;
+
+    /* Effects */
+    --border-radius-sm: calc(var(--border-radius) * 0.5);
+    --border-radius-md: var(--border-radius);
+    --transition-duration: 200ms;
+
+    /* Container layout */
+    container-type: inline-size;
+    position: relative;
+    margin: var(--margin-block) 0;
+    padding: var(--padding-container);
+    background: var(--theme-color-1);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+
+    /* Source code section (read-only) */
+    .python-test-source-section,
+    .python-test-tests-section {
+        margin-bottom: var(--gap-stats);
+    }
+
+    .python-test-source-label,
+    .python-test-tests-label {
+        margin-bottom: 0.5rem;
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        color: var(--theme-color-6);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.8;
+    }
+
+    .python-test-source {
+        position: relative;
+
+        pre {
+            margin: 0;
+            border-radius: var(--border-radius-sm);
+
+            code {
+                display: block;
+            }
+        }
+    }
+
+    /* Coverage highlighting for source code */
+    .python-test-highlighted {
+        padding: var(--padding-code) 0;
+        margin: 0;
+
+        .python-test-line {
+            display: flex;
+            line-height: var(--code-line-height);
+
+            &.python-test-hit {
+             background: var(--coverage-hit-bg);
+            }
+
+            &.python-test-miss {
+                background: var(--coverage-miss-bg);
+            }
+
+            .python-test-gutter {
+                display: inline-flex;
+                align-items: center;
+                justify-content: space-between;
+                min-width: 3.25em;
+                padding: 0 0.5em;
+                background: var(--gutter-bg);
+                border-right: 1px solid var(--code-color-dark);
+                flex-shrink: 0;
+            }
+
+            &:first-child {
+                .python-test-gutter {
+                    margin-top: calc(-1 * var(--padding-code));
+                    padding-top: var(--padding-code);
+                }
+            }
+
+            &:last-child {
+                .python-test-gutter {
+                    margin-bottom: calc(-1 * var(--padding-code));
+                    padding-bottom: var(--padding-code);
+                }
+            }
+
+            .python-test-line-number {
+                color: var(--code-color-muted);
+                min-width: 1.5em;
+                text-align: right;
+                margin-right: 0.5em;
+            }
+
+            .python-test-gutter-marker {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 1em;
+            }
+
+            .python-test-hit-count {
+                color: var(--gutter-hit-color);
+                font-weight: 600;
+                font-size: var(--font-size-xs);
+            }
+
+            .python-test-miss-marker {
+                color: var(--gutter-miss-color);
+                font-weight: 700;
+                font-size: var(--font-size-sm);
+            }
+
+            .python-test-code {
+                flex: 1;
+                padding-left: 0.5em;
+                white-space: pre;
+                overflow-x: auto;
+            }
+        }
+    }
+
+    /* Tests editor section */
+    .python-test-tests {
+        padding: 0 0.7rem;
+        background-color: var(--code-bg-color);
+        border-radius: var(--border-radius-sm);
+
+        .CodeMirror {
+            font-family: var(--code-font-family);
+            font-size: var(--code-font-size);
+            background-color: transparent;
+        }
+    }
+
+    /* Hide original markdown code */
+    .python-test-original {
+        display: none !important;
+    }
+
+    /* Controls */
+    .python-test-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gap-controls);
+        margin-bottom: var(--gap-controls);
+
+        button {
+            padding: var(--padding-button);
+            font-family: var(--font-family);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--btn-text);
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-duration) ease;
+
+            &:hover:not(:disabled) {
+                background: var(--btn-bg-hover);
+                transform: translateY(-1px);
+                box-shadow: var(--box-shadow-small);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+
+        .python-test-run-btn {
+            flex: 1;
+            min-width: fit-content;
+        }
+
+        .python-test-clear-btn {
+            background: var(--btn-clear-bg);
+
+            &:hover:not(:disabled) {
+                background: var(--btn-clear-bg-hover);
+            }
+        }
+    }
+
+    /* Direct feedback blocks (no wrapper) */
+    .python-test-loading {
+        margin-top: var(--gap-stats);
+        padding: 2rem 1rem;
+        text-align: center;
+        color: var(--color-text-dim);
+        font-style: italic;
+        opacity: 0.7;
+        animation: pulse 1.5s ease-in-out infinite;
+        background: var(--stats-bg);
+        border: 1px solid var(--stats-border);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+
+    .python-test-error {
+        margin-top: var(--gap-stats);
+        padding: 1rem;
+        color: var(--color-text-bright);
+        background: rgba(255, 68, 68, 0.15);
+        border: 1px solid var(--coverage-miss-color);
+        border-left: 3px solid var(--coverage-miss-color);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--font-size-sm);
+        font-weight: 400;
+        line-height: 1.6;
+
+        strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--coverage-miss-color);
+        }
+
+        .error-message {
+            margin-top: 0.5rem;
+
+            code {
+                background: rgba(0, 0, 0, 0.3);
+                padding: 0.2em 0.4em;
+                border-radius: var(--border-radius-sm);
+                font-family: var(--font-family-mono);
+                font-size: 0.95em;
+                color: var(--color-text-bright);
+            }
+        }
+    }
+
+    /* Stats grid layout */
+    .python-test-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
+        gap: var(--gap-stats);
+        margin-bottom: var(--gap-stats);
+    }
+
+    .python-test-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+
+        .python-test-stat-label {
+            font-size: var(--font-size-xs);
+            text-transform: uppercase;
+            opacity: 0.7;
+            letter-spacing: 0.05em;
+        }
+
+        .python-test-stat-value {
+            font-size: 1.5em;
+            font-weight: 600;
+            font-family: var(--font-family-mono);
+        }
+
+        /* Coverage level colors */
+        .python-test-stat-excellent {
+            color: var(--stats-excellent);
+        }
+
+        .python-test-stat-good {
+            color: var(--stats-good);
+        }
+
+        .python-test-stat-fair {
+            color: var(--stats-fair);
+        }
+
+        .python-test-stat-poor {
+            color: var(--stats-poor);
+        }
+    }
+
+    /* Output display */
+    .python-test-output {
+        margin-top: calc(var(--gap-stats) / 2);
+        padding: 0.5rem;
+        background: var(--code-color-back);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--font-size-sm);
+
+        strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--theme-color-6);
+        }
+
+        pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+            font-family: var(--font-family-mono);
+            font-size: inherit;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    }
+
+    /* Test results display */
+    .python-test-results {
+        margin-top: calc(var(--gap-stats) / 2);
+        padding: 0.75rem;
+        background: var(--results-bg);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--font-size-sm);
+
+        strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-bright);
+        }
+    }
+
+    /* Uncovered lines notice */
+    .python-test-uncovered {
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        background: rgba(255, 68, 68, 0.15);
+        border-left: 4px solid var(--coverage-miss-color);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--font-size-sm);
+
+        strong {
+            display: inline;
+            color: var(--coverage-miss-color);
+            font-weight: 600;
+        }
+    }
+
+    .python-test-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            padding: 0.5rem;
+            margin-bottom: 0.25rem;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+
+            &.test-pass {
+                background: var(--coverage-hit-bg);
+                border-left: 3px solid var(--coverage-hit-color);
+
+                .test-icon {
+                    color: var(--coverage-hit-color);
+                    font-weight: bold;
+                }
+            }
+
+            &.test-fail {
+                background: var(--coverage-miss-bg);
+                border-left: 3px solid var(--coverage-miss-color);
+
+                .test-icon {
+                    color: var(--coverage-miss-color);
+                    font-weight: bold;
+                }
+            }
+
+            .test-content {
+                flex: 1;
+            }
+
+            code {
+                /* background: transparent; */
+                /* padding: 0; */
+                font-size: inherit;
+            }
+
+            .test-error {
+                display: block;
+                margin-top: 0.25rem;
+                font-size: var(--font-size-xs);
+                color: var(--color-text);
+                /* font-style: italic; */
+            }
+        }
+    }
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "source"
+        "tests"
+        "controls"
+        "summary"
+        "results"
+        "output";
+    gap: var(--gap-stats);
+
+    .python-test-source-section {
+        grid-area: source;
+    }
+
+    .python-test-tests-section {
+        grid-area: tests;
+    }
+
+    .python-test-controls {
+        grid-area: controls;
+    }
+
+    .python-test-results {
+        grid-area: results;
+    }
+
+    .python-test-stats-grid {
+        grid-area: summary;
+    }
+
+    .python-test-output {
+        grid-area: output;
+    }
+
+    /* Responsive adjustments */
+    @container (min-width: 850px) {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        grid-template-rows: 1fr auto auto auto;
+        grid-template-areas:
+            "source tests"
+            "source controls"
+            "results summary"
+            "results output";
+        gap: var(--gap-stats);
+        align-items: stretch;
+
+        .python-test-source-section,
+        .python-test-tests-section {
+            margin-bottom: 0;
+        }
+
+        .python-test-source-section {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+
+            .python-test-source {
+                flex: 1;
+                display: flex;
+                overflow-x: auto;
+
+                pre {
+                    width: 100%;
+                    height: 100%;
+
+                    code {
+                        border-radius: var(--border-radius-sm);
+                    }
+                }
+            }
+        }
+
+        .python-test-tests-section {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+
+            .python-test-tests {
+                flex: 1;
+                display: flex;
+                align-items: stretch;
+
+                .CodeMirror {
+                    width: 100%;
+                    min-height: 100%;
+                }
+            }
+        }
+
+        .python-test-controls {
+            align-self: end;
+            margin-bottom: 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+
+            .python-test-run-btn {
+                min-width: 0;
+            }
+        }
+
+        .python-test-results {
+            margin-top: 0;
+        }
+
+        .python-test-stats-grid {
+            align-self: start;
+        }
+
+        .python-test-output {
+            margin-top: 0;
+            align-self: start;
+        }
+    }
+}
+
+/* Hide the Codapi snippet (execution happens programmatically) */
+.python-test-container + codapi-snippet {
+    display: none;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
