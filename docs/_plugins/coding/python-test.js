@@ -432,7 +432,7 @@
             // Capture stdout
             let output = ''
             pyodide.setStdout({
-                batched: (text) => { output += text }
+                batched: (text) => { output += text + '\n' }
             })
 
             // Run the code
@@ -630,20 +630,25 @@
         const testResults = coverage.testResults || []
         const passedTests = testResults.filter(t => t.passed).length
         const totalTests = testResults.length
+        const testsPercentage = passedTests * 100 / totalTests
 
         let html = `
-            <div class="python-test-stats-grid">
+            <div class="python-test-stats">
+                <div class="python-test-stat">
+                    <span class="python-test-stat-label">Tests</span>
+                    <span class="python-test-stat-value python-test-stat-${totalTests === passedTests ? 'excellent' : 'poor'}">${testsPercentage}%</span>
+                </div>
+                <div class="python-test-stat">
+                    <span class="python-test-stat-label">Tests</span>
+                    <span class="python-test-stat-value">${passedTests}/${totalTests}</span>
+                </div>
                 <div class="python-test-stat">
                     <span class="python-test-stat-label">Coverage</span>
                     <span class="python-test-stat-value python-test-stat-${getCoverageLevel(coverage.percentage)}">${coverage.percentage}%</span>
                 </div>
                 <div class="python-test-stat">
-                    <span class="python-test-stat-label">Tests</span>
-                    <span class="python-test-stat-value python-test-stat-${totalTests === passedTests ? 'excellent' : 'poor'}">${passedTests} / ${totalTests}</span>
-                </div>
-                <div class="python-test-stat">
                     <span class="python-test-stat-label">Lines</span>
-                    <span class="python-test-stat-value">${coverage.coveredCount} / ${coverage.executableCount}</span>
+                    <span class="python-test-stat-value">${coverage.coveredCount}/${coverage.executableCount}</span>
                 </div>
             </div>
         `
@@ -651,11 +656,11 @@
         // Show test results
         if (testResults.length > 0) {
             html += '<div class="python-test-results">'
-            html += '<strong>Test Results:</strong>'
+            html += '<div class="python-test-results-label">Test Results</div>'
             html += '<ul class="python-test-list">'
 
             testResults.forEach(test => {
-                const icon = test.passed ? '✓' : '✗'
+                const icon = test.passed ? '✓ Pass' : '✗ Fail'
                 const cssClass = test.passed ? 'test-pass' : 'test-fail'
                 html += `<li class="${cssClass}">
                     <span class="test-icon">${icon}</span>
@@ -665,21 +670,21 @@
                 </li>`
             })
 
-            html += '</ul>'
-
             // Add untested lines inside test results section
             if (coverage.uncovered.length > 0) {
-                html += `<div class="python-test-uncovered">
+                html += `<li class="python-test-uncovered">
                     <strong>Untested lines:</strong> ${coverage.uncovered.join(', ')}
-                </div>`
+                </li>`
             }
+
+            html += '</ul>'
 
             html += '</div>'
         }
 
         if (cleanOutput) {
             html += `<div class="python-test-output">
-                <strong>Output:</strong>
+                <div class="python-test-output-label">Code Output</div>
                 <pre>${escapeHtml(cleanOutput)}</pre>
             </div>`
         }
@@ -691,7 +696,7 @@
         return Array.from(container.children).filter((child) => (
             child.classList.contains('python-test-loading') ||
             child.classList.contains('python-test-error') ||
-            child.classList.contains('python-test-stats-grid') ||
+            child.classList.contains('python-test-stats') ||
             child.classList.contains('python-test-results') ||
             child.classList.contains('python-test-output')
         ))
@@ -736,8 +741,8 @@
 
     function getCoverageLevel(percentage) {
         if (percentage >= 90) return 'excellent'
-        if (percentage >= 70) return 'good'
-        if (percentage >= 50) return 'fair'
+        if (percentage >= 80) return 'good'
+        if (percentage >= 70) return 'fair'
         return 'poor'
     }
 

@@ -18,6 +18,9 @@ Use the simple `input -> expected` syntax to write tests:
 
 ```python test
 def calculate_grade(score):
+    print("Let's go!")
+    print("Testing...")
+    
     if score >= 90:
         return "A"
     elif score >= 80:

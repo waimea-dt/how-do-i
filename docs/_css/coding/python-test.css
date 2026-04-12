@@ -4,6 +4,14 @@
  */
 
 .markdown-section .python-test-container {
+    /* Wrapper */
+    --wrapper-bg: var(--color-mono-1);
+    --wrapper-border: var(--color-mono-2);
+
+    /* Wrapper */
+    --section-bg: var(--color-mono-0);
+    --section-border: var(--color-mono-3);
+
     /* Coverage color palette */
     --coverage-hit-color: var(--color-good);
     --coverage-miss-color: var(--color-attention);
@@ -23,11 +31,15 @@
     --btn-clear-bg-hover: var(--color-mono-4);
 
     /* Results colors */
-    --results-bg: var(--code-bg-color);
+    --results-bg: var(--section-bg);
+    --results-border: var(--section-border);
+
+    --results-pass-bg: color-mix(in srgb, var(--color-good) 10%, transparent);
+    --results-fail-bg: color-mix(in srgb, var(--color-attention) 10%, transparent);
 
     /* Stats colors */
-    --stats-bg: var(--theme-color-1);
-    --stats-border: var(--border-color);
+    --stats-bg: var(--section-bg);
+    --stats-border: var(--section-border);
     --stats-excellent: var(--color-good);
     --stats-good: var(--palette-color-1);
     --stats-fair: var(--color-important);
@@ -46,14 +58,16 @@
 
     /* Spacing */
     --padding-container: 1rem;
-    --padding-button: 0.5rem 1rem;
+    --padding-section: 0.75rem;
+    --padding-message: 0.25em 0.5em;
+    --padding-button: 0.5em 1em;
     --padding-code: 0.5rem;
     --padding-gutter: 0.25rem 0.5rem;
     --gap-controls: 0.5rem;
     --gap-stats: 1rem;
 
     /* Effects */
-    --border-radius-sm: calc(var(--border-radius) * 0.5);
+    --border-radius-sm: calc(var(--border-radius) * 0.75);
     --border-radius-md: var(--border-radius);
     --transition-duration: 200ms;
 
@@ -62,21 +76,17 @@
     position: relative;
     margin: var(--margin-block) 0;
     padding: var(--padding-container);
-    background: var(--theme-color-1);
-    border: 1px solid var(--border-color);
+    background: var(--wrapper-bg);
+    border: 1px solid var(--wrapper-border);
     border-radius: var(--border-radius-md);
     box-shadow: var(--box-shadow);
     font-family: var(--font-family);
     font-size: var(--font-size-base);
 
-    /* Source code section (read-only) */
-    .python-test-source-section,
-    .python-test-tests-section {
-        margin-bottom: var(--gap-stats);
-    }
-
     .python-test-source-label,
-    .python-test-tests-label {
+    .python-test-tests-label,
+    .python-test-output-label,
+    .python-test-results-label {
         margin-bottom: 0.5rem;
         font-size: var(--font-size-sm);
         font-weight: 600;
@@ -181,6 +191,7 @@
         padding: 0 0.7rem;
         background-color: var(--code-bg-color);
         border-radius: var(--border-radius-sm);
+        border: 1px solid var(--section-border);
 
         .CodeMirror {
             font-family: var(--code-font-family);
@@ -199,7 +210,6 @@
         display: flex;
         flex-wrap: wrap;
         gap: var(--gap-controls);
-        margin-bottom: var(--gap-controls);
 
         button {
             padding: var(--padding-button);
@@ -245,14 +255,13 @@
 
     /* Direct feedback blocks (no wrapper) */
     .python-test-loading {
-        margin-top: var(--gap-stats);
-        padding: 2rem 1rem;
+        padding: var(--padding-section);
         text-align: center;
         color: var(--color-text-dim);
         font-style: italic;
         opacity: 0.7;
         animation: pulse 1.5s ease-in-out infinite;
-        background: var(--stats-bg);
+        background: var(--wrapper-bg);
         border: 1px solid var(--stats-border);
         border-radius: var(--border-radius-sm);
         font-size: var(--font-size-sm);
@@ -260,10 +269,9 @@
     }
 
     .python-test-error {
-        margin-top: var(--gap-stats);
         padding: 1rem;
         color: var(--color-text-bright);
-        background: rgba(255, 68, 68, 0.15);
+        background: var(--coverage-miss-bg);
         border: 1px solid var(--coverage-miss-color);
         border-left: 3px solid var(--coverage-miss-color);
         border-radius: var(--border-radius-sm);
@@ -283,7 +291,7 @@
 
             code {
                 background: rgba(0, 0, 0, 0.3);
-                padding: 0.2em 0.4em;
+                padding: var(--padding-message);
                 border-radius: var(--border-radius-sm);
                 font-family: var(--font-family-mono);
                 font-size: 0.95em;
@@ -293,11 +301,14 @@
     }
 
     /* Stats grid layout */
-    .python-test-stats-grid {
+    .python-test-stats {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
         gap: var(--gap-stats);
-        margin-bottom: var(--gap-stats);
+        background-color: var(--stats-bg);
+        border: 1px solid var(--stats-border);
+        border-radius: var(--border-radius-sm);
+        padding: var(--padding-section);
     }
 
     .python-test-stat {
@@ -339,11 +350,8 @@
 
     /* Output display */
     .python-test-output {
-        margin-top: calc(var(--gap-stats) / 2);
-        padding: 0.5rem;
-        background: var(--code-color-back);
-        border-radius: var(--border-radius-sm);
         font-size: var(--font-size-sm);
+        align-self: stretch;
 
         strong {
             display: block;
@@ -354,8 +362,10 @@
         pre {
             margin: 0;
             padding: 0;
-            background: transparent;
-            border: none;
+            padding: var(--padding-section);
+            background: var(--code-color-back);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--section-border);
             font-family: var(--font-family-mono);
             font-size: inherit;
             line-height: 1.4;
@@ -366,50 +376,31 @@
 
     /* Test results display */
     .python-test-results {
-        margin-top: calc(var(--gap-stats) / 2);
-        padding: 0.75rem;
-        background: var(--results-bg);
-        border-radius: var(--border-radius-sm);
         font-size: var(--font-size-sm);
-
-        strong {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--color-text-bright);
-        }
-    }
-
-    /* Uncovered lines notice */
-    .python-test-uncovered {
-        margin-top: 0.75rem;
-        padding: 0.75rem;
-        background: rgba(255, 68, 68, 0.15);
-        border-left: 4px solid var(--coverage-miss-color);
-        border-radius: var(--border-radius-sm);
-        font-size: var(--font-size-sm);
-
-        strong {
-            display: inline;
-            color: var(--coverage-miss-color);
-            font-weight: 600;
-        }
     }
 
     .python-test-list {
         list-style: none;
         padding: 0;
         margin: 0;
+        padding: var(--padding-section);
+        background: var(--results-bg);
+        border-radius: var(--border-radius-sm);
+        border: 1px solid var(--results-border);
 
         li {
-            padding: 0.5rem;
-            margin-bottom: 0.25rem;
-            border-radius: var(--border-radius-sm);
+            padding:  var(--padding-message);
+            /* border-radius: var(--border-radius-sm); */
             display: flex;
             align-items: flex-start;
             gap: 0.5rem;
 
+            &:not(:last-child) {
+                margin-bottom: 0.25rem;
+            }
+
             &.test-pass {
-                background: var(--coverage-hit-bg);
+                background: var(--results-pass-bg);
                 border-left: 3px solid var(--coverage-hit-color);
 
                 .test-icon {
@@ -419,7 +410,7 @@
             }
 
             &.test-fail {
-                background: var(--coverage-miss-bg);
+                background: var(--results-fail-bg);
                 border-left: 3px solid var(--coverage-miss-color);
 
                 .test-icon {
@@ -428,22 +419,30 @@
                 }
             }
 
+            &.python-test-uncovered {
+                background: var(--results-fail-bg);
+                border-left: 3px solid var(--coverage-miss-color);
+                margin-top: var(--padding-section);
+
+                strong {
+                    display: inline;
+                    color: var(--coverage-miss-color);
+                    font-weight: bold;
+                }
+            }
+
+            code {
+                padding: 0.1em 0.3em 0.2em;
+            }
+
             .test-content {
                 flex: 1;
             }
 
-            code {
-                /* background: transparent; */
-                /* padding: 0; */
-                font-size: inherit;
-            }
-
             .test-error {
                 display: block;
-                margin-top: 0.25rem;
-                font-size: var(--font-size-xs);
+                margin-top: var(--padding-section);
                 color: var(--color-text);
-                /* font-style: italic; */
             }
         }
     }
@@ -454,115 +453,79 @@
         "source"
         "tests"
         "controls"
-        "summary"
+        "output"
         "results"
-        "output";
-    gap: var(--gap-stats);
+        "summary";
+    gap: var(--padding-container);
+
+    @container (min-width: 850px) {
+        grid-template-columns: 3fr 2fr;
+        grid-template-areas:
+            "source   tests"
+            "source   output"
+            "source   controls"
+            "results  summary";
+    }
 
     .python-test-source-section {
         grid-area: source;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+
+        .python-test-source {
+            flex: 1;
+            overflow-x: auto;
+
+            pre {
+                width: 100%;
+                height: 100%;
+
+                code {
+                    border-radius: var(--border-radius-sm);
+                    border: 1px solid var(--section-border);
+                }
+            }
+        }
     }
 
     .python-test-tests-section {
         grid-area: tests;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+
+        .python-test-tests {
+            flex: 1;
+            display: flex;
+            align-items: stretch;
+
+            .CodeMirror {
+                width: 100%;
+                min-height: 100%;
+            }
+        }
     }
 
     .python-test-controls {
         grid-area: controls;
+        align-self: end;
+        display: flex;
+        gap: var(--gap-controls);
     }
 
     .python-test-results {
         grid-area: results;
     }
 
-    .python-test-stats-grid {
+    .python-test-stats {
         grid-area: summary;
+        align-self: end;
     }
 
     .python-test-output {
         grid-area: output;
-    }
-
-    /* Responsive adjustments */
-    @container (min-width: 850px) {
-        display: grid;
-        grid-template-columns: 3fr 2fr;
-        grid-template-rows: 1fr auto auto auto;
-        grid-template-areas:
-            "source tests"
-            "source controls"
-            "results summary"
-            "results output";
-        gap: var(--gap-stats);
-        align-items: stretch;
-
-        .python-test-source-section,
-        .python-test-tests-section {
-            margin-bottom: 0;
-        }
-
-        .python-test-source-section {
-            align-self: stretch;
-            display: flex;
-            flex-direction: column;
-
-            .python-test-source {
-                flex: 1;
-                display: flex;
-                overflow-x: auto;
-
-                pre {
-                    width: 100%;
-                    height: 100%;
-
-                    code {
-                        border-radius: var(--border-radius-sm);
-                    }
-                }
-            }
-        }
-
-        .python-test-tests-section {
-            align-self: stretch;
-            display: flex;
-            flex-direction: column;
-
-            .python-test-tests {
-                flex: 1;
-                display: flex;
-                align-items: stretch;
-
-                .CodeMirror {
-                    width: 100%;
-                    min-height: 100%;
-                }
-            }
-        }
-
-        .python-test-controls {
-            align-self: end;
-            margin-bottom: 0;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            align-items: center;
-
-            .python-test-run-btn {
-                min-width: 0;
-            }
-        }
-
-        .python-test-results {
-            margin-top: 0;
-        }
-
-        .python-test-stats-grid {
-            align-self: start;
-        }
-
-        .python-test-output {
-            margin-top: 0;
-            align-self: start;
-        }
+        align-self: stretch;
     }
 }
 
