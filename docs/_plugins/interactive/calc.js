@@ -5,17 +5,19 @@
  * and step-by-step explanations.
  *
  * Usage in markdown:
- *   <calc value1="100" value2="123" op="add"></calc>
- *   <calc value1="100" value2="123" op="or"></calc>
- *   <calc value1="100" op="not"></calc>
- *   <calc value1="100" value2="3" op="<<"></calc>
+ *   <calculator>01100100 + 01111011</calculator>
+ *   <calculator>01100100 or 01111011</calculator>
+ *   <calculator>not 01111011</calculator>
+ *   <calculator>01100100 << 11</calculator>
+ *   <calculator>neg 01111011</calculator>
  *
  * Supported operations:
- *   - Arithmetic: add, sub
+ *   - Arithmetic: + (add), - (sub)
  *   - Bitwise: and, or, xor, not
  *   - Shifts: <<, >> (logical), >>> (arithmetic)
  *   - Special: neg (two's complement negation)
  *
+ * Values can be in binary (01100100) or decimal (100) format.
  * Note: All operations use 8-bit values.
  */
 
@@ -2025,19 +2027,83 @@
     }
 
     // -------------------------------------------------------------------------
+    // Expression Parser
+    // -------------------------------------------------------------------------
+
+    /**
+     * Parse calculator expression from element content
+     * Formats:
+     *   Binary ops: "01100100 + 01111011" or "100 + 123"
+     *   Unary ops: "not 01111011" or "neg 100"
+     * Returns: { value1, value2, op }
+     */
+    function parseCalculatorExpression(content) {
+        const trimmed = content.trim()
+
+        // Helper to convert binary or decimal to decimal number
+        const parseValue = (str) => {
+            str = str.trim()
+            // Check if it's binary (only 0s and 1s)
+            if (/^[01]+$/.test(str)) {
+                return parseInt(str, 2)
+            }
+            // Otherwise parse as decimal
+            return parseInt(str, 10)
+        }
+
+        // Unary operations: "not <value>" or "neg <value>"
+        let match = trimmed.match(/^(not|neg)\s+([01]+|\d+)$/i)
+        if (match) {
+            return {
+                value1: parseValue(match[2]),
+                value2: null,
+                op: match[1].toLowerCase()
+            }
+        }
+
+        // Binary operations with symbol operators: "<value1> <op> <value2>"
+        // Support: +, -, <<, >>, >>>, and, or, xor
+        match = trimmed.match(/^([01]+|\d+)\s*(\+|\-|<<|>>>|>>|and|or|xor)\s+([01]+|\d+)$/i)
+        if (match) {
+            const opMap = {
+                '+': 'add',
+                '-': 'sub',
+                '<<': '<<',
+                '>>': '>>',
+                '>>>': '>>>',
+                'and': 'and',
+                'or': 'or',
+                'xor': 'xor'
+            }
+            return {
+                value1: parseValue(match[1]),
+                value2: parseValue(match[3]),
+                op: opMap[match[2].toLowerCase()] || match[2].toLowerCase()
+            }
+        }
+
+        // Fallback: return defaults
+        console.warn('Could not parse calculator expression:', trimmed)
+        return { value1: 0, value2: 0, op: 'add' }
+    }
+
+    // -------------------------------------------------------------------------
     // Main Plugin Function
     // -------------------------------------------------------------------------
 
     function processCalculators() {
-        const calcElements = document.querySelectorAll('.markdown-section calc')
+        const calcElements = document.querySelectorAll('.markdown-section calculator')
 
         calcElements.forEach(element => {
             // Skip if already processed
             if (element.querySelector('.calc-wrapper')) return
 
-            const value1 = element.getAttribute('value1') || '0'
-            const value2 = element.getAttribute('value2')
-            const op = element.getAttribute('op') || 'add'
+            // Parse expression from element content
+            const expression = element.textContent || ''
+            const { value1, value2, op } = parseCalculatorExpression(expression)
+
+            // Clear the original text content
+            element.textContent = ''
 
             const state = new CalcState(value1, value2, op)
             const calcResult = state.calculate()

@@ -6,49 +6,49 @@ Interactive calculator for exploring binary arithmetic and bitwise operations wi
 
 ### Addition
 
-<calc value1="100" value2="123" op="add"></calc>
+<calculator>01100100 + 01111011</calculator>
 
 ### Subtraction
 
-<calc value1="200" value2="75" op="sub"></calc>
+<calculator>11001000 - 01001011</calculator>
 
 ## Bitwise Operations
 
 ### AND Operation
 
-<calc value1="170" value2="85" op="and"></calc>
+<calculator>10101010 and 01010101</calculator>
 
 ### OR Operation
 
-<calc value1="170" value2="85" op="or"></calc>
+<calculator>10101010 or 01010101</calculator>
 
 ### XOR Operation
 
-<calc value1="170" value2="85" op="xor"></calc>
+<calculator>10101010 xor 01010101</calculator>
 
 ### NOT Operation
 
-<calc value1="170" op="not"></calc>
+<calculator>not 10101010</calculator>
 
 ## Shift Operations
 
 ### Left Shift
 
-<calc value1="5" value2="2" op="<<"></calc>
+<calculator>00000101 << 2</calculator>
 
 ### Logical Right Shift
 
-<calc value1="160" value2="2" op=">>"></calc>
+<calculator>10100000 >> 2</calculator>
 
 ### Arithmetic Right Shift
 
-<calc value1="160" value2="2" op=">>>"></calc>
+<calculator>10100000 >>> 2</calculator>
 
 ## Two's Complement
 
 ### Negation
 
-<calc value1="42" op="neg"></calc>
+<calculator>neg 00101010</calculator>
 
 ## Interactive Features
 
@@ -83,6 +83,26 @@ Used for representing signed integers:
 2. Add 1 to the result
 
 This gives the negative of a number in signed representation.
+
+## Mixed Format Examples
+
+You can mix decimal and binary formats in the same expression:
+
+### Decimal + Binary
+
+<calculator>127 + 00000001</calculator>
+
+### Binary AND Decimal
+
+<calculator>11111111 and 170</calculator>
+
+### Large Shift Amount
+
+<calculator>00000001 << 7</calculator>
+
+### XOR with Decimal
+
+<calculator>11110000 xor 255</calculator>
 
 ## Try These Examples
 

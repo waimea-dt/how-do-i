@@ -4,7 +4,7 @@
  * Displays numbers in vertical stack notation like traditional arithmetic
  */
 
-.markdown-section calc {
+.markdown-section calculator {
     /* Component-specific colors */
     --operand1-color: var(--theme-color);
     --operand2-color: var(--palette-color-1);
