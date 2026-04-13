@@ -8,7 +8,7 @@
     --wrapper-bg: var(--color-mono-1);
     --wrapper-border: var(--color-mono-2);
 
-    /* Wrapper */
+    /* Sections */
     --section-bg: var(--color-mono-0);
     --section-border: var(--color-mono-3);
 
@@ -35,7 +35,7 @@
     --results-border: var(--section-border);
 
     --results-pass-bg: color-mix(in srgb, var(--color-good) 10%, transparent);
-    --results-fail-bg: color-mix(in srgb, var(--color-attention) 10%, transparent);
+    --results-fail-bg: color-mix(in srgb, var(--color-attention) 20%, transparent);
 
     /* Stats colors */
     --stats-bg: var(--section-bg);
@@ -48,7 +48,7 @@
     /* Gutter marker colors */
     --gutter-hit-color: var(--coverage-hit-color);
     --gutter-miss-color: var(--coverage-miss-color);
-    --gutter-bg: color-mix(in srgb, var(--color-mono-0) 15%, transparent);
+    --gutter-bg: color-mix(in srgb, var(--color-mono-0) 80%, transparent);
 
     /* Typography */
     --font-family: var(--font-family-mono);
@@ -83,132 +83,193 @@
     font-family: var(--font-family);
     font-size: var(--font-size-base);
 
-    .python-test-source-label,
-    .python-test-tests-label,
-    .python-test-output-label,
-    .python-test-results-label {
-        margin-bottom: 0.5rem;
-        font-size: var(--font-size-sm);
-        font-weight: 600;
-        color: var(--theme-color-6);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        opacity: 0.8;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "source"
+        "tests"
+        "controls"
+        "output"
+        "summary"
+        "results"
+        "coverage";
+    gap: var(--padding-container);
+
+    @container (min-width: 850px) {
+        grid-template-columns: 3fr 2fr;
+        grid-template-areas:
+            "source  tests"
+            "output  controls"
+            "results coverage"
+            "results summary";
     }
 
-    .python-test-source {
-        position: relative;
+    /* Collapse grid when no test results exist yet */
+    &:not(:has(.python-test-results)) {
+        grid-template-areas:
+            "source"
+            "tests"
+            "controls"
+            "output";
 
-        pre {
-            margin: 0;
-            border-radius: var(--border-radius-sm);
-
-            code {
-                display: block;
-            }
+        @container (min-width: 850px) {
+            grid-template-areas:
+                "source tests"
+                "output controls";
         }
     }
 
-    /* Coverage highlighting for source code */
-    .python-test-highlighted {
-        padding: var(--padding-code) 0;
-        margin: 0;
+    .python-test-source-section {
+        grid-area: source;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
 
-        .python-test-line {
-            display: flex;
-            line-height: var(--code-line-height);
+        .python-test-source {
+            position: relative;
+            flex: 1;
 
-            &.python-test-hit {
-             background: var(--coverage-hit-bg);
-            }
-
-            &.python-test-miss {
-                background: var(--coverage-miss-bg);
-            }
-
-            .python-test-gutter {
-                display: inline-flex;
-                align-items: center;
-                justify-content: space-between;
-                min-width: 3.25em;
-                padding: 0 0.5em;
-                background: var(--gutter-bg);
-                border-right: 1px solid var(--code-color-dark);
-                flex-shrink: 0;
-            }
-
-            &:first-child {
-                .python-test-gutter {
-                    margin-top: calc(-1 * var(--padding-code));
-                    padding-top: var(--padding-code);
-                }
-            }
-
-            &:last-child {
-                .python-test-gutter {
-                    margin-bottom: calc(-1 * var(--padding-code));
-                    padding-bottom: var(--padding-code);
-                }
-            }
-
-            .python-test-line-number {
-                color: var(--code-color-muted);
-                min-width: 1.5em;
-                text-align: right;
-                margin-right: 0.5em;
-            }
-
-            .python-test-gutter-marker {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 1em;
-            }
-
-            .python-test-hit-count {
-                color: var(--gutter-hit-color);
-                font-weight: 600;
-                font-size: var(--font-size-xs);
-            }
-
-            .python-test-miss-marker {
-                color: var(--gutter-miss-color);
-                font-weight: 700;
-                font-size: var(--font-size-sm);
-            }
-
-            .python-test-code {
-                flex: 1;
-                padding-left: 0.5em;
-                white-space: pre;
+            pre.python-test-source-code {
+                margin: 0;
+                border-radius: var(--border-radius-sm);
+                border: 1px solid var(--section-border);
                 overflow-x: auto;
+                max-width: 100% !important;
+                background-color: var(--code-bg-color);
+
+                code {
+                    border-radius: var(--border-radius-sm);
+                    display: inline-block;
+                    min-width: 100%;
+                    background-color: transparent;
+                }
+            }
+
+            /* Coverage highlighting for source code */
+            .python-test-highlighted {
+                padding: var(--padding-code) 0;
+                margin: 0;
+
+                .python-test-line {
+                    display: flex;
+                    line-height: var(--code-line-height);
+                    width: max-content;
+                    min-width: 100%;
+                    padding-left: 4em;
+
+                    &.python-test-hit {
+                        background: var(--coverage-hit-bg);
+                    }
+
+                    &.python-test-miss {
+                        background: var(--coverage-miss-bg);
+                    }
+
+                    .python-test-gutter {
+                        position: absolute;
+                        left: 1px;
+                        z-index: 1;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        min-width: 3.5em;
+                        padding: 0 0.5em;
+                        background: var(--gutter-bg);
+                        border-right: 1px solid var(--code-color-dark);
+                        flex-shrink: 0;
+                    }
+
+                    &:first-child {
+                        .python-test-gutter {
+                            margin-top: calc(-1 * var(--padding-code));
+                            padding-top: var(--padding-code);
+                            border-top-left-radius: var(--border-radius-sm);
+                        }
+                    }
+
+                    &:last-child {
+                        .python-test-gutter {
+                            margin-bottom: calc(-1 * var(--padding-code));
+                            padding-bottom: var(--padding-code);
+                            border-bottom-left-radius: var(--border-radius-sm);
+                        }
+                    }
+
+                    .python-test-line-number {
+                        color: var(--code-color-muted);
+                        min-width: 1.5em;
+                        text-align: right;
+                        margin-right: 0.5em;
+                    }
+
+                    .python-test-gutter-marker {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: 1em;
+                    }
+
+                    .python-test-hit-count {
+                        color: var(--gutter-hit-color);
+                        font-weight: bold;
+                        font-size: var(--font-size-xs);
+                    }
+
+                    .python-test-miss-marker {
+                        color: var(--gutter-miss-color);
+                        font-weight: bold;
+                        font-size: var(--font-size-sm);
+                    }
+
+                    .python-test-boundary-indicator {
+                        color: var(--color-important);
+                        font-size: 0.7em;
+                        opacity: 0.8;
+                    }
+
+                    .python-test-code {
+                        flex: 1;
+                        padding-left: 0.5em;
+                        white-space: pre;
+                    }
+                }
             }
         }
     }
 
     /* Tests editor section */
-    .python-test-tests {
-        padding: 0 0.7rem;
-        background-color: var(--code-bg-color);
-        border-radius: var(--border-radius-sm);
-        border: 1px solid var(--section-border);
+    .python-test-tests-section {
+        grid-area: tests;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
 
-        .CodeMirror {
-            font-family: var(--code-font-family);
-            font-size: var(--code-font-size);
-            background-color: transparent;
+        .python-test-tests {
+            flex: 1;
+            display: flex;
+            align-items: stretch;
+            padding: 0 0.7rem;
+            background-color: var(--code-bg-color);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--section-border);
+
+            .CodeMirror {
+                width: 100%;
+                min-height: 100%;
+                font-family: var(--code-font-family);
+                font-size: var(--code-font-size);
+                background-color: transparent;
+            }
         }
-    }
-
-    /* Hide original markdown code */
-    .python-test-original {
-        display: none !important;
     }
 
     /* Controls */
     .python-test-controls {
+        grid-area: controls;
+        align-self: end;
         display: flex;
-        flex-wrap: wrap;
         gap: var(--gap-controls);
 
         button {
@@ -253,55 +314,10 @@
         }
     }
 
-    /* Direct feedback blocks (no wrapper) */
-    .python-test-loading {
-        padding: var(--padding-section);
-        text-align: center;
-        color: var(--color-text-dim);
-        font-style: italic;
-        opacity: 0.7;
-        animation: pulse 1.5s ease-in-out infinite;
-        background: var(--wrapper-bg);
-        border: 1px solid var(--stats-border);
-        border-radius: var(--border-radius-sm);
-        font-size: var(--font-size-sm);
-        line-height: 1.5;
-    }
-
-    .python-test-error {
-        padding: 1rem;
-        color: var(--color-text-bright);
-        background: var(--coverage-miss-bg);
-        border: 1px solid var(--coverage-miss-color);
-        border-left: 3px solid var(--coverage-miss-color);
-        border-radius: var(--border-radius-sm);
-        font-size: var(--font-size-sm);
-        font-weight: 400;
-        line-height: 1.6;
-
-        strong {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--coverage-miss-color);
-        }
-
-        .error-message {
-            margin-top: 0.5rem;
-
-            code {
-                background: rgba(0, 0, 0, 0.3);
-                padding: var(--padding-message);
-                border-radius: var(--border-radius-sm);
-                font-family: var(--font-family-mono);
-                font-size: 0.95em;
-                color: var(--color-text-bright);
-            }
-        }
-    }
-
     /* Stats grid layout */
     .python-test-stats {
+        grid-area: summary;
+        align-self: end;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
         gap: var(--gap-stats);
@@ -309,49 +325,138 @@
         border: 1px solid var(--stats-border);
         border-radius: var(--border-radius-sm);
         padding: var(--padding-section);
+
+        .python-test-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25em;
+
+            .python-test-stat-label {
+                font-size: var(--font-size-xs);
+                text-transform: uppercase;
+                opacity: 0.7;
+                letter-spacing: 0.05em;
+            }
+
+            .python-test-stat-percentage {
+                font-size: 1.5em;
+                font-weight: 600;
+                font-family: var(--font-family-mono);
+            }
+
+            .python-test-stat-fraction {
+                font-size: 1em;
+                font-weight: 500;
+                font-family: var(--font-family-mono);
+                opacity: 0.8;
+            }
+
+            /* Coverage level colors */
+            .python-test-stat-excellent {
+                color: var(--stats-excellent);
+            }
+
+            .python-test-stat-good {
+                color: var(--stats-good);
+            }
+
+            .python-test-stat-fair {
+                color: var(--stats-fair);
+            }
+
+            .python-test-stat-poor {
+                color: var(--stats-poor);
+            }
+        }
     }
 
-    .python-test-stat {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.25rem;
+    /* Shared list styles for results and coverage */
+    .python-test-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding: var(--padding-section);
+        background: var(--results-bg);
+        border-radius: var(--border-radius-sm);
+        border: 1px solid var(--results-border);
 
-        .python-test-stat-label {
-            font-size: var(--font-size-xs);
-            text-transform: uppercase;
-            opacity: 0.7;
-            letter-spacing: 0.05em;
+        li {
+            padding: var(--padding-message);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+
+            &:not(:last-child) {
+                margin-bottom: 0.25rem;
+            }
+
+            &.test-pass,
+            &.coverage-pass {
+                background: var(--results-pass-bg);
+                border-left: 3px solid var(--coverage-hit-color);
+
+                .test-icon {
+                    color: var(--coverage-hit-color);
+                    font-weight: bold;
+                }
+            }
+
+            &.test-fail,
+            &.coverage-fail {
+                background: var(--results-fail-bg);
+                border-left: 3px solid var(--coverage-miss-color);
+
+                .test-icon {
+                    color: var(--coverage-miss-color);
+                    font-weight: bold;
+                }
+            }
         }
+    }
 
-        .python-test-stat-value {
-            font-size: 1.5em;
-            font-weight: 600;
-            font-family: var(--font-family-mono);
+    /* Test results display */
+    .python-test-results {
+        grid-area: results;
+        font-size: var(--font-size-sm);
+
+        .python-test-list {
+            li {
+                code {
+                    padding: 0.1em 0.3em 0.2em;
+                }
+
+                .test-content {
+                    flex: 1;
+                }
+
+                .test-type {
+                    color: var(--color-text);
+                    opacity: 0.7;
+                }
+            }
         }
+    }
 
-        /* Coverage level colors */
-        .python-test-stat-excellent {
-            color: var(--stats-excellent);
-        }
+    /* Coverage feedback display */
+    .python-test-coverage {
+        grid-area: coverage;
+        font-size: var(--font-size-sm);
 
-        .python-test-stat-good {
-            color: var(--stats-good);
-        }
-
-        .python-test-stat-fair {
-            color: var(--stats-fair);
-        }
-
-        .python-test-stat-poor {
-            color: var(--stats-poor);
+        .python-test-list {
+            li {
+                .coverage-lines {
+                    opacity: 0.9;
+                }
+            }
         }
     }
 
     /* Output display */
     .python-test-output {
-        font-size: var(--font-size-sm);
+        grid-area: output;
         align-self: stretch;
+        font-size: var(--font-size-sm);
 
         strong {
             display: block;
@@ -374,158 +479,74 @@
         }
     }
 
-    /* Test results display */
-    .python-test-results {
+
+
+    .python-test-source-label,
+    .python-test-tests-label,
+    .python-test-output-label,
+    .python-test-results-label,
+    .python-test-coverage-label {
+        margin-bottom: 0.5rem;
         font-size: var(--font-size-sm);
+        font-weight: 600;
+        color: var(--theme-color-6);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.8;
     }
 
-    .python-test-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    /* Hide original markdown code */
+    .python-test-original {
+        display: none !important;
+    }
+
+
+    /* Direct feedback blocks (no wrapper) */
+    .python-test-loading {
+        grid-area: output;
         padding: var(--padding-section);
-        background: var(--results-bg);
+        text-align: center;
+        color: var(--color-text-dim);
+        font-style: italic;
+        opacity: 0.7;
+        animation: pulse 1.5s ease-in-out infinite;
+        background: var(--section-bg);
+        border: 1px solid var(--stats-border);
         border-radius: var(--border-radius-sm);
-        border: 1px solid var(--results-border);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
 
-        li {
-            padding:  var(--padding-message);
-            /* border-radius: var(--border-radius-sm); */
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
+    .python-test-error {
+        grid-area: output;
+        padding: var(--padding-section);
+        color: var(--color-text-bright);
+        background: var(--coverage-miss-bg);
+        border: 1px solid var(--coverage-miss-color);
+        border-radius: var(--border-radius-sm);
+        font-size: var(--font-size-sm);
+        font-weight: 400;
+        line-height: 1.5;
 
-            &:not(:last-child) {
-                margin-bottom: 0.25rem;
-            }
+        strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--coverage-miss-color);
+        }
 
-            &.test-pass {
-                background: var(--results-pass-bg);
-                border-left: 3px solid var(--coverage-hit-color);
-
-                .test-icon {
-                    color: var(--coverage-hit-color);
-                    font-weight: bold;
-                }
-            }
-
-            &.test-fail {
-                background: var(--results-fail-bg);
-                border-left: 3px solid var(--coverage-miss-color);
-
-                .test-icon {
-                    color: var(--coverage-miss-color);
-                    font-weight: bold;
-                }
-            }
-
-            &.python-test-uncovered {
-                background: var(--results-fail-bg);
-                border-left: 3px solid var(--coverage-miss-color);
-                margin-top: var(--padding-section);
-
-                strong {
-                    display: inline;
-                    color: var(--coverage-miss-color);
-                    font-weight: bold;
-                }
-            }
+        .error-message {
+            margin-top: 0.5rem;
 
             code {
-                padding: 0.1em 0.3em 0.2em;
-            }
-
-            .test-content {
-                flex: 1;
-            }
-
-            .test-error {
-                display: block;
-                margin-top: var(--padding-section);
-                color: var(--color-text);
+                background: rgba(0, 0, 0, 0.3);
+                padding: var(--padding-message);
+                border-radius: var(--border-radius-sm);
+                font-family: var(--font-family-mono);
+                font-size: 0.95em;
+                color: var(--color-text-bright);
             }
         }
-    }
-
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-        "source"
-        "tests"
-        "controls"
-        "output"
-        "results"
-        "summary";
-    gap: var(--padding-container);
-
-    @container (min-width: 850px) {
-        grid-template-columns: 3fr 2fr;
-        grid-template-areas:
-            "source   tests"
-            "source   output"
-            "source   controls"
-            "results  summary";
-    }
-
-    .python-test-source-section {
-        grid-area: source;
-        align-self: stretch;
-        display: flex;
-        flex-direction: column;
-
-        .python-test-source {
-            flex: 1;
-            overflow-x: auto;
-
-            pre {
-                width: 100%;
-                height: 100%;
-
-                code {
-                    border-radius: var(--border-radius-sm);
-                    border: 1px solid var(--section-border);
-                }
-            }
-        }
-    }
-
-    .python-test-tests-section {
-        grid-area: tests;
-        align-self: stretch;
-        display: flex;
-        flex-direction: column;
-
-        .python-test-tests {
-            flex: 1;
-            display: flex;
-            align-items: stretch;
-
-            .CodeMirror {
-                width: 100%;
-                min-height: 100%;
-            }
-        }
-    }
-
-    .python-test-controls {
-        grid-area: controls;
-        align-self: end;
-        display: flex;
-        gap: var(--gap-controls);
-    }
-
-    .python-test-results {
-        grid-area: results;
-    }
-
-    .python-test-stats {
-        grid-area: summary;
-        align-self: end;
-    }
-
-    .python-test-output {
-        grid-area: output;
-        align-self: stretch;
     }
 }
 

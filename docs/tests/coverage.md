@@ -18,31 +18,41 @@ Use the simple `input -> expected` syntax to write tests:
 
 ```python test
 def calculate_grade(score):
-    print("Let's go!")
-    print("Testing...")
-    
-    if score >= 90:
-        return "A"
+    """ Return grade (NA/A/M/E) for given score (0-100) """
+    if score > 100 or score < 0:
+        return "Invalid"
+    elif score >= 90:
+        return "E"
     elif score >= 80:
-        return "B"
+        return "M"
     elif score >= 70:
-        return "C"
-    elif score >= 60:
-        return "D"
+        return "A"
     else:
-        return "F"
+        return "NA"
 
-# Tests
-95 -> "A"
-85 -> "B"
-50 -> "F"
+# Tests -------------------------------------
+
+# Invalid Values
+-5  -> "Invalid"
+105 -> "Invalid"
+
+# Valid Values
+95 -> "E"
+85 -> "M"
+50 -> "NA"
+
+# Boundary Values
+100 -> "E"
+90  -> "E"
+89  -> "M"
+
+
 ```
 
-Notice that lines 7-9 (grade C and D) are not covered by the tests! Try adding:
-- `75 -> "C"` (valid case)
-- `65 -> "D"` (valid case)
-- `60 -> "D"` (boundary case)
-- `59 -> "F"` (boundary case)
+Notice that line 7 (grade A) is not covered by the tests! Try adding:
+- `75 -> "A"` (valid case)
+- `70 -> "A"` (boundary case)
+- `69 -> "NA"` (boundary case)
 
 ---
 
@@ -50,6 +60,7 @@ Notice that lines 7-9 (grade C and D) are not covered by the tests! Try adding:
 
 ```python test
 def is_valid_password(password):
+    """ Check if password meets security requirements """
     if len(password) < 8:
         return False
     if not any(c.isdigit() for c in password):
@@ -59,9 +70,18 @@ def is_valid_password(password):
     return True
 
 # Tests
+
+# Invalid Values
 "Short1" -> False
 "nouppercase123" -> False
+"nodigits" -> False
+
+# Valid Values
 "ValidPass123" -> True
+
+# Boundary Values
+"Short12" -> False
+"Valid123" -> True
 ```
 
 Full coverage! Every condition is tested.
@@ -72,6 +92,7 @@ Full coverage! Every condition is tested.
 
 ```python test
 def find_maximum(numbers):
+    """ Find the largest number in a list """
     if not numbers:
         return None
 
@@ -82,9 +103,14 @@ def find_maximum(numbers):
     return max_val
 
 # Tests
+
+# Invalid Values
+[]  -> None
+
+# Valid Values
 [3, 7, 2, 9, 1] -> 9
 [5]             -> 5
-[]              -> None
+[-10, -5, -20]  -> -5
 ```
 
 ---
@@ -95,6 +121,7 @@ Can you improve the coverage of this function?
 
 ```python test
 def categorize_age(age):
+    """ Categorize a person by age group """
     if age < 0:
         return "Invalid"
     elif age < 13:
@@ -106,12 +133,21 @@ def categorize_age(age):
     else:
         return "Senior"
 
-# Tests
+# Tests - try to improve coverage!
+
+# Valid Values
 10 -> "Child"
 25 -> "Adult"
+
+# Invalid Values
+
+
+# Boundary Values
+
+
 ```
 
-**Challenge**: Add tests to achieve 100% coverage!
+**Challenge**: Add Invalid and Boundary tests to achieve 100% coverage!
 
 ---
 
@@ -119,6 +155,7 @@ def categorize_age(age):
 
 ```python test
 def discount_price(price, customer_type, is_member):
+    """ Calculate discounted price based on customer type and membership """
     discount = 0
 
     if customer_type == "student":
@@ -132,9 +169,12 @@ def discount_price(price, customer_type, is_member):
     return price * (1 - discount)
 
 # Tests
-100, "student", False -> 90
-100, "senior",  True  -> 80
-100, "regular", False -> 100
+
+# Valid Values
+100, "student", False -> 90.0
+100, "senior",  True  -> 80.0
+100, "regular", False -> 100.0
+100, "regular", True  -> 95.0
 ```
 
 ---

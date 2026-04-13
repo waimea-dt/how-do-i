@@ -1,9 +1,17 @@
 /**
- * docsify-python-test.js — Code coverage visualization for Python testing
+ * docsify-python-test.js — Interactive code coverage visualization for Python testing
  *
- * Adds test coverage analysis to Python code blocks using AST-based instrumentation.
- * Executes via Codapi's WASI engine (same as python-runner.js) and visualizes
- * line coverage with color-coded heat maps directly on editable CodeMirror blocks.
+ * Provides comprehensive test coverage analysis for Python code blocks with:
+ * - Direct line instrumentation to track execution
+ * - Simple arrow syntax for test cases (e.g., `95 -> "A"`)
+ * - Automatic boundary detection in conditionals (e.g., `if score >= 90`)
+ * - Test categorization (Invalid/Valid/Boundary sections)
+ * - Visual heat map showing covered/uncovered lines
+ * - Live statistics: coverage %, test results, boundary testing
+ * - Split-panel layout with editable tests and read-only source
+ *
+ * Executes Python via Pyodide (browser-based Python runtime) with full
+ * stdout capture and detailed error reporting tied to specific test lines.
  *
  * Usage in markdown:
  *   ```python test
@@ -15,14 +23,20 @@
  *       return "F"
  *
  *   # Tests
- *   assert calculate_grade(95) == "A"
- *   assert calculate_grade(65) == "F"
+ *   # Valid Values
+ *   95 -> "A"
+ *   75 -> "B"
+ *   # Boundary Values
+ *   90 -> "A"
+ *   70 -> "B"
+ *   # Invalid Values
+ *   65 -> "F"
  *   ```
  *
  * Requirements:
- *   - python-runner.js must be loaded first
- *   - Codapi/WASI engine must be available
- *   - CodeMirror must be loaded
+ *   - Pyodide v0.25.0 (loaded automatically from CDN)
+ *   - CodeMirror for editable test panel
+ *   - Prism.js for syntax highlighting
  */
 
 (function () {
@@ -58,8 +72,6 @@
         container.appendChild(globalSnippet)
 
         document.body.appendChild(container)
-
-        console.log('Created global snippet for test execution')
     }
 
     var docsifyPythonTest = function (hook) {
@@ -81,17 +93,17 @@
                 function (preBlock) {
                     const cleaned = preBlock.replace(/\bpython-test\b/g, 'python')
                     return '<div class="python-test-container">' +
-                           '<div class="python-test-source-section">' +
-                           '<div class="python-test-source-label">Source Code</div>' +
-                           '<div class="python-test-source"></div>' +
+                            '<div class="python-test-source-section">' +
+                            '<div class="python-test-source-label">Source Code</div>' +
+                            '<div class="python-test-source"></div>' +
                            '</div>' +
                            '<div class="python-test-tests-section">' +
-                           '<div class="python-test-tests-label">Tests (editable)</div>' +
-                           '<div class="python-test-tests"></div>' +
+                            '<div class="python-test-tests-label">Tests (editable)</div>' +
+                            '<div class="python-test-tests"></div>' +
                            '</div>' +
                            '<div class="python-test-controls">' +
-                           '<button class="python-test-run-btn">▶ Run Tests</button>' +
-                           '<button class="python-test-clear-btn">Reset</button>' +
+                            '<button class="python-test-run-btn">▶ Run Tests</button>' +
+                            '<button class="python-test-clear-btn">Reset</button>' +
                            '</div>' +
                            '<div class="python-test-original" style="display:none;">' + cleaned + '</div>' +
                            '</div>'
@@ -164,9 +176,6 @@
 
                         const instrumentedCode = instrumentCode(sourceCode, currentTestCode)
 
-                        // Debug: log the instrumented code
-                        console.log('Instrumented code:', instrumentedCode)
-
                         // Preserve current height to prevent content jump.
                         const previousHeight = Math.max(
                             getFeedbackHeight(container),
@@ -180,7 +189,7 @@
                         const output = await executeSnippetDirect(instrumentedCode)
 
                         // Parse coverage data
-                        const coverage = parseCoverageOutput(output, sourceCode)
+                        const coverage = parseCoverageOutput(output, sourceCode, currentTestCode)
 
                         // Apply visual heat map to read-only source code
                         applyHeatMapToSource(container, coverage, sourceCode)
@@ -281,9 +290,9 @@
         const lines = code.split('\n')
         let testStartIndex = -1
 
-        // Find the line with # Tests comment
+        // Find the line with # Tests comment (can have extra chars like dashes)
         for (let i = 0; i < lines.length; i++) {
-            if (/^\s*#\s*Tests?\s*$/i.test(lines[i])) {
+            if (/^\s*#\s*Tests?\b/i.test(lines[i])) {
                 testStartIndex = i
                 break
             }
@@ -313,6 +322,198 @@
         testCode = testCode.replace(/^\n+/, '')
 
         return { sourceCode, testCode }
+    }
+
+    // -------------------------------------------------------------------------
+    // Boundary Detection
+    // -------------------------------------------------------------------------
+
+    function detectBoundaries(sourceCode) {
+        /**
+         * Detect boundary conditions in source code
+         * Returns array of boundary objects with line number, operator, and threshold
+         */
+        const boundaries = []
+        const lines = sourceCode.split('\n')
+
+        lines.forEach((line, idx) => {
+            const lineNum = idx + 1
+            // Match comparison operators with numeric literals
+            // Patterns: if x >= 90, len(password) < 8, etc.
+            const patterns = [
+                // Match: variable or function_call(args) operator number
+                /\b(\w+(?:\([^)]*\))?)\s*(>=|<=|>|<)\s*(-?\d+\.?\d*)/g,
+                // Match: number operator variable or function_call(args)
+                /(-?\d+\.?\d*)\s*(>=|<=|>|<)\s*(\w+(?:\([^)]*\))?)/g
+            ]
+
+            patterns.forEach(pattern => {
+                let match
+                while ((match = pattern.exec(line)) !== null) {
+                    let variable, operator, threshold
+
+                    if (match[1] && match[2] && match[3]) {
+                        // Pattern 1: variable/function operator number
+                        if (isNaN(match[1])) {
+                            variable = match[1]
+                            operator = match[2]
+                            threshold = parseFloat(match[3])
+                        } else {
+                            // Pattern 2: number operator variable/function (reverse)
+                            threshold = parseFloat(match[1])
+                            operator = reverseOperator(match[2])
+                            variable = match[3]
+                        }
+
+                        boundaries.push({
+                            lineNum,
+                            variable,
+                            operator,
+                            threshold,
+                            line: line.trim()
+                        })
+                    }
+                }
+            })
+        })
+
+        return boundaries
+    }
+
+    function reverseOperator(op) {
+        // Reverse comparison operator when threshold is on left
+        // 90 <= x  becomes  x >= 90
+        const reverseMap = { '>=': '<=', '<=': '>=', '>': '<', '<': '>' }
+        return reverseMap[op] || op
+    }
+
+    function categorizeTests(testCode, tests) {
+        /**
+         * Categorize tests based on section headers in test code
+         * Sections: # Invalid Values, # Valid Values, # Boundary Values
+         */
+        const lines = testCode.split('\n')
+        const categorized = { invalid: [], valid: [], boundary: [] }
+        let currentCategory = 'valid'  // default
+
+        let testIndex = 0
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim()
+
+            // Check for category headers
+            if (/^#\s*Invalid/i.test(line)) {
+                currentCategory = 'invalid'
+            } else if (/^#\s*Valid(?!\s+Values)/i.test(line) || /^#\s*Valid\s+Values/i.test(line)) {
+                currentCategory = 'valid'
+            } else if (/^#\s*Boundary/i.test(line)) {
+                currentCategory = 'boundary'
+            } else if (line && !line.startsWith('#') && line.includes('->')) {
+                // This is a test line
+                if (testIndex < tests.length) {
+                    const test = tests[testIndex]
+                    test.category = currentCategory
+                    categorized[currentCategory].push(test)
+                    testIndex++
+                }
+            }
+        }
+
+        return categorized
+    }
+
+    function analyzeBoundaries(boundaries, categorizedTests) {
+        /**
+         * Analyze which boundary values are tested
+         * Returns boundary coverage statistics
+         */
+        const boundaryTests = categorizedTests.boundary || []
+        let totalBoundaries = 0
+        let testedBoundaries = 0
+
+        // Each boundary line needs 2 tests: valid threshold and invalid threshold
+        boundaries.forEach(boundary => {
+            const { threshold, operator } = boundary
+
+            // Determine what values satisfy this boundary
+            let validValue, invalidValue
+
+            switch (operator) {
+                case '>=':
+                    validValue = threshold
+                    invalidValue = threshold - 1
+                    break
+                case '>':
+                    validValue = threshold + 1
+                    invalidValue = threshold
+                    break
+                case '<=':
+                    validValue = threshold
+                    invalidValue = threshold + 1
+                    break
+                case '<':
+                    validValue = threshold - 1
+                    invalidValue = threshold
+                    break
+            }
+
+            // Check if we have tests near this boundary
+            // For len() functions, compare string lengths; otherwise compare numeric values
+            const isLengthCheck = boundary.variable.startsWith('len(')
+
+            const hasValidTest = boundaryTests.some(test => {
+                const input = isLengthCheck ? parseStringLength(test.inputs) : parseTestInput(test.inputs)
+                return Math.abs(input - validValue) < 0.01
+            })
+
+            const hasInvalidTest = boundaryTests.some(test => {
+                const input = isLengthCheck ? parseStringLength(test.inputs) : parseTestInput(test.inputs)
+                return Math.abs(input - invalidValue) < 0.01
+            })
+
+            totalBoundaries += 2  // Valid and invalid sides
+            if (hasValidTest) testedBoundaries++
+            if (hasInvalidTest) testedBoundaries++
+
+            boundary.validTested = hasValidTest
+            boundary.invalidTested = hasInvalidTest
+        })
+
+        return {
+            boundaries,
+            totalBoundaries,
+            testedBoundaries,
+            percentage: totalBoundaries > 0 ? Math.round((testedBoundaries / totalBoundaries) * 100) : 0
+        }
+    }
+
+    function parseTestInput(inputStr) {
+        /**
+         * Extract numeric value from test input string
+         * Handles: "95", "-5", "95, 'A'", etc.
+         */
+        if (!inputStr) return NaN
+
+        // Try to extract first numeric value
+        const match = inputStr.match(/-?\d+\.?\d*/)
+        return match ? parseFloat(match[0]) : NaN
+    }
+
+    function parseStringLength(inputStr) {
+        /**
+         * Extract string length from test input
+         * Handles: "Short1" -> 6, '"ValidPass123"' -> 12
+         */
+        if (!inputStr) return NaN
+
+        // Try to extract string literal (with quotes)
+        const stringMatch = inputStr.match(/["']([^"']+)["']/)
+        if (stringMatch && stringMatch[1]) {
+            return stringMatch[1].length
+        }
+
+        // Fallback: treat the whole input as a string (without quotes)
+        return inputStr.trim().length
     }
 
     // -------------------------------------------------------------------------
@@ -374,6 +575,8 @@
 
         for (let i = 0; i < tests.length; i++) {
             const test = tests[i]
+            // Add marker comment to identify which test this is (no escaping needed in comments)
+            instrumentedLines.push(`# TEST_LINE: ${test.originalLine}`)
             instrumentedLines.push(`try:`)
             instrumentedLines.push(`    ${test.testCode}`)
             instrumentedLines.push(`    _test_results.append({"test": ${i + 1}, "passed": True, "line": "${escapeForPython(test.originalLine)}"})`)
@@ -405,7 +608,6 @@
         try {
             // Load Pyodide if not already loaded
             if (!window.pyodideInstance) {
-                console.log('Loading Pyodide for the first time...')
 
                 // Load Pyodide from CDN
                 if (typeof loadPyodide === 'undefined') {
@@ -420,11 +622,9 @@
                 }
 
                 // Initialize Pyodide
-                console.log('Initializing Pyodide...')
                 window.pyodideInstance = await loadPyodide({
                     indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
                 })
-                console.log('Pyodide ready')
             }
 
             const pyodide = window.pyodideInstance
@@ -438,7 +638,6 @@
             // Run the code
             await pyodide.runPythonAsync(code)
 
-            console.log('Pyodide execution output:', output)
             return output
 
         } catch (err) {
@@ -460,37 +659,53 @@
         const errorType = errorTypeMatch[1]
         const errorDetail = errorTypeMatch[2]
 
-        // Special handling for common test syntax errors
+        // Try to find which test line caused the error
+        const lines = instrumentedCode.split('\n')
+        // Match the line number from the File "<exec>" reference specifically
+        const testLineMatch = errorMessage.match(/File\s+"<exec>",\s+line\s+(\d+)/)
+
+        if (testLineMatch) {
+            const errorLine = parseInt(testLineMatch[1])
+
+            // Look backwards from error line to find the TEST_LINE marker
+            let testMarker = null
+            const startIndex = Math.min(errorLine - 2, lines.length - 1)
+
+            for (let i = startIndex; i >= 0; i--) {
+                const line = lines[i]
+                if (!line) continue
+
+                const markerMatch = line.match(/^# TEST_LINE: (.+)$/)
+                if (markerMatch) {
+                    testMarker = markerMatch[1]
+                    break
+                }
+
+                // Stop searching if we hit the "Execute tests" marker or go too far
+                if (line.includes('# Execute tests') || errorLine - i > 15) {
+                    break
+                }
+            }
+
+            if (testMarker) {
+                // Special handling for common syntax errors
+                if (errorType === 'SyntaxError' && errorDetail.includes('unterminated string')) {
+                    return `Syntax error in test <code>${testMarker}</code>: Missing closing quote. Make sure strings are properly closed.`
+                }
+                return `${errorType} in test <code>${testMarker}</code>: ${errorDetail}`
+            }
+        }
+
+        // Special handling for common test syntax errors (fallback)
         if (errorType === 'NameError') {
             const nameMatch = errorDetail.match(/name '(\w+)' is not defined/)
             if (nameMatch) {
                 const missingName = nameMatch[1]
                 // Check if it looks like it should be a string
                 if (missingName.length === 1 || missingName[0] === missingName[0].toUpperCase()) {
-                    return `Syntax error in test: <code>${missingName}</code> is not defined. Did you forget quotes? Try <code>"${missingName}"</code> instead.`
+                    return `${errorType}: <code>${missingName}</code> is not defined. Did you forget quotes? Try <code>"${missingName}"</code> instead.`
                 }
             }
-        }
-
-        // Try to find which test line caused the error
-        // Look for the test assertion lines in the instrumented code
-        const lines = instrumentedCode.split('\n')
-        const testLineMatch = errorMessage.match(/line (\d+)/)
-
-        if (testLineMatch) {
-            const errorLine = parseInt(testLineMatch[1])
-            // Find the test that corresponds to this line
-            let testContext = ''
-            if (errorLine >= 0 && errorLine < lines.length) {
-                const codeLine = lines[errorLine - 1]
-                // Try to extract the original test from the assertion
-                const assertMatch = codeLine.match(/assert.*'Test failed: (.+)'$/)
-                if (assertMatch) {
-                    testContext = ` in test: <code>${assertMatch[1]}</code>`
-                }
-            }
-
-            return `${errorType}: ${errorDetail}${testContext}`
         }
 
         return `${errorType}: ${errorDetail}`
@@ -500,9 +715,7 @@
     // Coverage Parsing
     // -------------------------------------------------------------------------
 
-    function parseCoverageOutput(output, sourceCode) {
-        // Debug: log the actual output
-        console.log('Python output:', output)
+    function parseCoverageOutput(output, sourceCode, testCode) {
 
         // Extract coverage data (match simple flat object with no nesting)
         const coverageMatch = output.match(/__COVERAGE__:\s*(\{[^}]*\})/)
@@ -525,10 +738,13 @@
             const line = sourceLines[i].trim()
 
             // A line is executable if it's not empty, not a comment,
-            // not just a declaration, and is indented (inside a function)
+            // not a docstring, not just a declaration, and is indented (inside a function)
             const isIndented = sourceLines[i].match(/^\s+/)
+            const isDocstring = line.startsWith('"""') || line.startsWith("'''") ||
+                               /^["']{3}.*["']{3}$/.test(line)
             const isExecutable = line.length > 0 &&
                                 !line.startsWith('#') &&
+                                !isDocstring &&
                                 !line.endsWith(':') &&
                                 !line.startsWith('def ') &&
                                 !line.startsWith('class ') &&
@@ -540,8 +756,7 @@
         }
 
         // Calculate statistics
-        const coveredLines = Object.keys(coverageLines).map(Number).filter(line => coverageLines[line] > 0)
-        const coveredCount = coveredLines.length
+        const coveredCount = executable.filter(line => coverageLines[line] > 0).length
         const executableCount = executable.length
         const percentage = executableCount > 0
             ? Math.round((coveredCount / executableCount) * 100)
@@ -549,6 +764,17 @@
 
         // Find uncovered lines
         const uncovered = executable.filter(line => !coverageLines[line])
+
+        // Detect boundaries in source code
+        const detectedBoundaries = detectBoundaries(sourceCode)
+
+        // Parse and categorize tests
+        const functionName = extractFunctionName(sourceCode)
+        const parsedTests = parseSimpleTests(testCode, functionName)
+        const categorizedTests = categorizeTests(testCode, parsedTests)
+
+        // Analyze boundary coverage
+        const boundaryAnalysis = analyzeBoundaries(detectedBoundaries, categorizedTests)
 
         return {
             lines: coverageLines,
@@ -558,7 +784,14 @@
             executableCount,
             percentage,
             sourceLines,
-            testResults
+            testResults,
+            boundaries: boundaryAnalysis.boundaries,
+            boundaryStats: {
+                total: boundaryAnalysis.totalBoundaries,
+                tested: boundaryAnalysis.testedBoundaries,
+                percentage: boundaryAnalysis.percentage
+            },
+            categorizedTests
         }
     }
 
@@ -570,14 +803,22 @@
         const sourceCodeEl = container._sourceElement
         const sourceLines = sourceCode.split('\n')
 
+        // Get boundary lines
+        const boundaryLines = new Set((coverage.boundaries || []).map(b => b.lineNum))
+
         // Wrap each line with coverage information
         const wrappedLines = sourceLines.map((line, index) => {
             const lineNum = index + 1
             const hits = coverage.lines[lineNum] || 0
             const isExecutable = coverage.executable.includes(lineNum)
+            const isBoundary = boundaryLines.has(lineNum)
 
             let className = 'python-test-line'
             let gutterContent = ''
+
+            if (isBoundary) {
+                className += ' python-test-boundary'
+            }
 
             if (isExecutable) {
                 if (hits > 0) {
@@ -587,6 +828,11 @@
                     className += ' python-test-miss'
                     gutterContent = `<span class="python-test-miss-marker" title="Not covered by tests">!</span>`
                 }
+            }
+
+            // Add boundary indicator on left side of gutter
+            if (isBoundary) {
+                gutterContent += `<span class="python-test-boundary-indicator" title="Boundary condition">◆</span>`
             }
 
             const highlightedLine = highlightPythonLine(line)
@@ -605,11 +851,28 @@
         // Restore source code with neutral gutter markup (keeps layout stable)
         const sourceCode = container._sourceCode
         if (sourceCode) {
+            // Detect boundaries even when clearing (to show boundary markers)
+            const boundaries = detectBoundaries(sourceCode)
+            const boundaryLines = new Set(boundaries.map(b => b.lineNum))
+
             const sourceLines = sourceCode.split('\n')
             const wrappedLines = sourceLines.map((line, index) => {
                 const lineNum = index + 1
+                const isBoundary = boundaryLines.has(lineNum)
+
+                let className = 'python-test-line'
+                if (isBoundary) {
+                    className += ' python-test-boundary'
+                }
+
+                // Add boundary indicator on left side of gutter
+                let gutterContent = ''
+                if (isBoundary) {
+                    gutterContent = `<span class="python-test-boundary-indicator" title="Boundary condition">◆</span>`
+                }
+
                 const highlightedLine = highlightPythonLine(line)
-                return `<div class="python-test-line"><span class="python-test-gutter"><span class="python-test-line-number">${lineNum}</span><span class="python-test-gutter-marker"></span></span><span class="python-test-code">${highlightedLine}</span></div>`
+                return `<div class="${className}"><span class="python-test-gutter"><span class="python-test-line-number">${lineNum}</span><span class="python-test-gutter-marker">${gutterContent}</span></span><span class="python-test-code">${highlightedLine}</span></div>`
             }).join('')
 
             sourceCodeEl.innerHTML = wrappedLines
@@ -621,6 +884,40 @@
     // Statistics Display
     // -------------------------------------------------------------------------
 
+    function renderTestResultItem(test, testResults, category) {
+        /**
+         * Render a single test result list item
+         */
+        const result = testResults.find(r => r.line === test.originalLine)
+        if (!result) return ''
+
+        const icon = result.passed ? '✓' : '✗'
+        const cssClass = result.passed ? 'test-pass' : 'test-fail'
+        return `<li class="${cssClass}">
+            <span class="test-icon">${icon}</span>
+            <span class="test-content"><code>${escapeHtml(result.line)}</code></span>
+            <span class="test-type">${category}</span>
+        </li>`
+    }
+
+    function renderCoverageItem(lines, type) {
+        /**
+         * Render a coverage feedback item (covered or uncovered lines)
+         */
+        if (lines.length === 0) return ''
+
+        const isCovered = type === 'covered'
+        const cssClass = isCovered ? 'coverage-pass' : 'coverage-fail'
+        const icon = isCovered ? '✓' : '✗'
+        const label = isCovered ? 'Covered line numbers:' : 'Untested line numbers:'
+
+        return `<li class="${cssClass}">
+                    <span class="test-icon">${icon}</span>
+                    <span>${label}</span>
+                    <span class="coverage-lines">${lines.join(', ')}</span>
+                </li>`
+    }
+
     function displayStats(container, coverage, output) {
         const cleanOutput = output
             .replace(/__COVERAGE__:.*$/m, '')
@@ -630,57 +927,67 @@
         const testResults = coverage.testResults || []
         const passedTests = testResults.filter(t => t.passed).length
         const totalTests = testResults.length
-        const testsPercentage = passedTests * 100 / totalTests
+        const testsPercentage = totalTests > 0 ? Math.round((passedTests * 100) / totalTests) : 0
+
+        // Get boundary stats
+        const boundaryStats = coverage.boundaryStats || { total: 0, tested: 0, percentage: 0 }
+        const categorizedTests = coverage.categorizedTests || { invalid: [], valid: [], boundary: [] }
 
         let html = `
             <div class="python-test-stats">
                 <div class="python-test-stat">
-                    <span class="python-test-stat-label">Tests</span>
-                    <span class="python-test-stat-value python-test-stat-${totalTests === passedTests ? 'excellent' : 'poor'}">${testsPercentage}%</span>
-                </div>
-                <div class="python-test-stat">
-                    <span class="python-test-stat-label">Tests</span>
-                    <span class="python-test-stat-value">${passedTests}/${totalTests}</span>
-                </div>
-                <div class="python-test-stat">
                     <span class="python-test-stat-label">Coverage</span>
-                    <span class="python-test-stat-value python-test-stat-${getCoverageLevel(coverage.percentage)}">${coverage.percentage}%</span>
+                    <span class="python-test-stat-percentage python-test-stat-${getCoverageLevel(coverage.percentage)}">${coverage.percentage}%</span>
+                    <span class="python-test-stat-fraction python-test-stat-${coverage.coveredCount === coverage.executableCount ? 'excellent' : 'poor'}">${coverage.coveredCount}/${coverage.executableCount}</span>
                 </div>
                 <div class="python-test-stat">
-                    <span class="python-test-stat-label">Lines</span>
-                    <span class="python-test-stat-value">${coverage.coveredCount}/${coverage.executableCount}</span>
+                    <span class="python-test-stat-label">Tests</span>
+                    <span class="python-test-stat-percentage python-test-stat-${testsPercentage === 100 ? 'excellent' : 'poor'}">${testsPercentage}%</span>
+                    <span class="python-test-stat-fraction python-test-stat-${totalTests === passedTests ? 'excellent' : 'poor'}">${passedTests}/${totalTests}</span>
+                </div>
+                <div class="python-test-stat">
+                    <span class="python-test-stat-label">Boundaries</span>
+                    <span class="python-test-stat-percentage ${boundaryStats.total > 0 ? `python-test-stat-${boundaryStats.percentage === 100 ? 'excellent' : 'poor'}` : ''}">${boundaryStats.total > 0 ? `${boundaryStats.percentage}%` : '—'}</span>
+                    <span class="python-test-stat-fraction ${boundaryStats.total > 0 ? `python-test-stat-${boundaryStats.tested === boundaryStats.total ? 'excellent' : 'poor'}` : ''}">${boundaryStats.total > 0 ? `${boundaryStats.tested}/${boundaryStats.total}` : '—'}</span>
                 </div>
             </div>
         `
 
-        // Show test results
+        // Show test results categorized by section
         if (testResults.length > 0) {
             html += '<div class="python-test-results">'
             html += '<div class="python-test-results-label">Test Results</div>'
             html += '<ul class="python-test-list">'
 
-            testResults.forEach(test => {
-                const icon = test.passed ? '✓ Pass' : '✗ Fail'
-                const cssClass = test.passed ? 'test-pass' : 'test-fail'
-                html += `<li class="${cssClass}">
-                    <span class="test-icon">${icon}</span>
-                    <div class="test-content">
-                        <code>${escapeHtml(test.line)}</code>
-                    </div>
-                </li>`
+            // Render all categories using helper function
+            categorizedTests.invalid.forEach(test => {
+                html += renderTestResultItem(test, testResults, 'Invalid')
             })
 
-            // Add untested lines inside test results section
-            if (coverage.uncovered.length > 0) {
-                html += `<li class="python-test-uncovered">
-                    <strong>Untested lines:</strong> ${coverage.uncovered.join(', ')}
-                </li>`
-            }
+            categorizedTests.valid.forEach(test => {
+                html += renderTestResultItem(test, testResults, 'Valid')
+            })
+
+            categorizedTests.boundary.forEach(test => {
+                html += renderTestResultItem(test, testResults, 'Boundary')
+            })
 
             html += '</ul>'
-
             html += '</div>'
         }
+
+        // Coverage feedback block
+        html += '<div class="python-test-coverage">'
+        html += '<div class="python-test-coverage-label">Test Coverage</div>'
+        html += '<ul class="python-test-list">'
+
+        // Show covered and uncovered lines
+        const coveredLines = coverage.executable.filter(line => coverage.lines[line] > 0)
+        html += renderCoverageItem(coveredLines, 'covered')
+        html += renderCoverageItem(coverage.uncovered, 'uncovered')
+
+        html += '</ul>'
+        html += '</div>'
 
         if (cleanOutput) {
             html += `<div class="python-test-output">
@@ -698,6 +1005,7 @@
             child.classList.contains('python-test-error') ||
             child.classList.contains('python-test-stats') ||
             child.classList.contains('python-test-results') ||
+            child.classList.contains('python-test-coverage') ||
             child.classList.contains('python-test-output')
         ))
     }
@@ -740,10 +1048,7 @@
     }
 
     function getCoverageLevel(percentage) {
-        if (percentage >= 90) return 'excellent'
-        if (percentage >= 80) return 'good'
-        if (percentage >= 70) return 'fair'
-        return 'poor'
+        return percentage === 100 ? 'excellent' : 'poor'
     }
 
     function escapeHtml(text) {
