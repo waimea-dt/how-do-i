@@ -7,6 +7,8 @@
  *   - Object instantiation and field storage
  *   - Reference copying and aliasing
  *   - Null references
+ *   - Object composition (objects referencing other objects)
+ *   - Nested field access through references
  *
  * Usage in markdown:
  *   ```memory-sim
@@ -16,17 +18,26 @@
  *   // Step: Create object
  *   val person = Person("Alice", 25)
  *
+ *   // Step: Create object with reference to another
+ *   val player = Player(person, "wizard", 100)
+ *
  *   // Step: Copy reference
  *   val person2 = person
  *
  *   // Step: Modify through reference
  *   person2.age = 26
+ *
+ *   // Step: Modify nested field
+ *   player.person.age = 27
  *   ```
  *
  * Syntax:
  *   - Lines starting with "// Step:" mark execution steps
  *   - Supports: val declarations, object creation, field updates, null assignments
  *   - Object syntax: ClassName(field1, field2, ...)
+ *   - Constructor args can be primitives or variable references
+ *   - Field updates support nested paths: obj.field.subfield = value
+ *   - Supports overloaded constructors (e.g., Rectangle(w, h) or Rectangle(x, y, w, h))
  */
 
 ;(function () {
@@ -141,20 +152,124 @@
             }
         }
 
-        // Update an object field
-        updateField(varName, fieldName, value) {
+        // Update an object field (supports nested: obj.field.subfield = value)
+        updateField(path, value) {
+            const parts = path.split('.')
+            if (parts.length < 2) return
+
+            const varName = parts[0]
             const stackVar = this.stack.find(v => v.name === varName)
             if (!stackVar || stackVar.type !== 'reference') return
 
-            const obj = this.heap.find(o => o.id === stackVar.objectId)
-            if (obj) {
-                obj.fields[fieldName] = value
+            let currentObj = this.heap.find(o => o.id === stackVar.objectId)
+            if (!currentObj) return
+
+            // Navigate through nested references
+            for (let i = 1; i < parts.length - 1; i++) {
+                const fieldName = parts[i]
+                const fieldValue = currentObj.fields[fieldName]
+
+                // If field is a reference, follow it
+                if (fieldValue && typeof fieldValue === 'object' && fieldValue.$ref) {
+                    currentObj = this.heap.find(o => o.id === fieldValue.$ref)
+                    if (!currentObj) return
+                } else {
+                    // Can't navigate further
+                    return
+                }
             }
+
+            // Update the final field
+            const finalField = parts[parts.length - 1]
+            currentObj.fields[finalField] = value
         }
 
         // Get object by ID
         getObject(id) {
             return this.heap.find(o => o.id === id)
+        }
+
+        // Snapshot current state for change detection
+        snapshot() {
+            return {
+                stack: this.stack.map(v => ({ ...v })),
+                heap: this.heap.map(o => ({
+                    id: o.id,
+                    className: o.className,
+                    fields: { ...o.fields }
+                }))
+            }
+        }
+
+        // Find what changed between snapshots
+        getChanges(previousSnapshot) {
+            const changes = {
+                stackVariables: new Set(),
+                objectFields: new Map(), // objectId -> Set of field names
+                flashedObjects: new Set() // objectIds to flash (when referenced)
+            }
+
+            if (!previousSnapshot) return changes
+
+            // Check stack variables for changes
+            for (const currentVar of this.stack) {
+                const prevVar = previousSnapshot.stack.find(v => v.name === currentVar.name)
+                if (!prevVar) {
+                    // New variable
+                    changes.stackVariables.add(currentVar.name)
+                    // If it's a reference, flash the object too
+                    if (currentVar.type === 'reference') {
+                        changes.flashedObjects.add(currentVar.objectId)
+                    }
+                } else if (currentVar.type !== prevVar.type ||
+                          currentVar.value !== prevVar.value ||
+                          currentVar.objectId !== prevVar.objectId) {
+                    // Modified variable
+                    changes.stackVariables.add(currentVar.name)
+                    // If it's a reference, flash the object too
+                    if (currentVar.type === 'reference') {
+                        changes.flashedObjects.add(currentVar.objectId)
+                    }
+                }
+            }
+
+            // Check object fields for changes
+            for (const currentObj of this.heap) {
+                const prevObj = previousSnapshot.heap.find(o => o.id === currentObj.id)
+                if (!prevObj) {
+                    // New object - mark all fields as changed
+                    const fieldSet = new Set(Object.keys(currentObj.fields))
+                    changes.objectFields.set(currentObj.id, fieldSet)
+                    // Flash the new object itself
+                    changes.flashedObjects.add(currentObj.id)
+
+                    // Also flash any objects referenced by this new object's fields
+                    for (const [fieldName, fieldValue] of Object.entries(currentObj.fields)) {
+                        if (fieldValue && typeof fieldValue === 'object' && fieldValue.$ref) {
+                            changes.flashedObjects.add(fieldValue.$ref)
+                        }
+                    }
+                } else {
+                    // Check each field for changes
+                    const changedFields = new Set()
+                    for (const [fieldName, fieldValue] of Object.entries(currentObj.fields)) {
+                        const prevValue = prevObj.fields[fieldName]
+                        // Deep compare for reference objects
+                        if (JSON.stringify(fieldValue) !== JSON.stringify(prevValue)) {
+                            changedFields.add(fieldName)
+                            // If the changed field is a reference, flash the referenced object
+                            if (fieldValue && typeof fieldValue === 'object' && fieldValue.$ref) {
+                                changes.flashedObjects.add(fieldValue.$ref)
+                            }
+                        }
+                    }
+                    if (changedFields.size > 0) {
+                        changes.objectFields.set(currentObj.id, changedFields)
+                    }
+                }
+            }
+
+            return changes
         }
 
         // Execute the current step
@@ -260,7 +375,7 @@
             if (objectMatch) {
                 const className = objectMatch[1]
                 const argsStr = objectMatch[2]
-                const fields = parseObjectArgs(className, argsStr)
+                const fields = parseObjectArgs(className, argsStr, memory)
                 memory.addObject(varName, className, fields)
                 return
             }
@@ -283,13 +398,12 @@
             return
         }
 
-        // varName.field = value
-        const fieldUpdateMatch = line.match(/^(\w+)\.(\w+)\s*=\s*(.+)$/)
+        // varName.field = value (supports nested: obj.field.subfield = value)
+        const fieldUpdateMatch = line.match(/^(\w+(?:\.\w+)+)\s*=\s*(.+)$/)
         if (fieldUpdateMatch) {
-            const varName = fieldUpdateMatch[1]
-            const fieldName = fieldUpdateMatch[2]
-            const value = parseValue(fieldUpdateMatch[3])
-            memory.updateField(varName, fieldName, value)
+            const fieldPath = fieldUpdateMatch[1]
+            const value = parseValue(fieldUpdateMatch[2])
+            memory.updateField(fieldPath, value)
             return
         }
 
@@ -314,28 +428,84 @@
         }
     }
 
-    function parseObjectArgs(className, argsStr) {
+    function parseObjectArgs(className, argsStr, memory) {
         if (!argsStr.trim()) return {}
 
         const args = argsStr.split(',').map(s => s.trim())
         const fields = {}
 
-        // Common class patterns - infer field names
+        // Common class patterns - infer field names based on argument count
+        // Format: className: { argCount: [fieldNames] } or just [fieldNames] for single pattern
         const patterns = {
             Person: ['name', 'age'],
+
             Student: ['name', 'id', 'grade'],
+            Teacher: ['name', 'code'],
+            Class: ['code', 'subject', 'teacher'],
+
+            Staff: ['person', 'role', 'salary'],
+            Dept: ['name', 'head', 'assist'],
+
+            Player: ['person', 'role', 'health'],
+            Team: ['name', 'captain', 'size'],
+
             Book: ['title', 'author', 'year'],
             Car: ['make', 'model', 'year'],
+
             Point: ['x', 'y'],
-            Rectangle: ['x', 'y', 'width', 'height']
+            Rectangle: {
+                3: ['point', 'width', 'height'],
+                4: ['x', 'y', 'width', 'height']
+            },
+            Circle: {
+                2: ['point', 'radius'],
+                3: ['x', 'y', 'radius']
+            },
+
+            Location: ['name', 'north', 'east', 'south', 'west']
         }
 
-        const fieldNames = patterns[className] || args.map((_, i) => `field${i}`)
+        // Get field names based on class and arg count
+        let fieldNames
+        const pattern = patterns[className]
+        if (pattern) {
+            if (Array.isArray(pattern)) {
+                // Single pattern for this class
+                fieldNames = pattern
+            } else {
+                // Multiple patterns based on arg count
+                fieldNames = pattern[args.length]
+            }
+        }
+
+        // Fall back to generic field names if no pattern matched
+        if (!fieldNames) {
+            fieldNames = args.map((_, i) => `field${i}`)
+        }
 
         args.forEach((arg, i) => {
             const fieldName = fieldNames[i] || `field${i}`
+
+            // Check if arg is a variable reference
+            if (/^[a-zA-Z_]\w*$/.test(arg) && memory) {
+                const stackVar = memory.stack.find(v => v.name === arg)
+                if (stackVar && stackVar.type === 'reference') {
+                    // Store as reference to another object
+                    fields[fieldName] = { $ref: stackVar.objectId }
+                    return
+                }
+            }
+
+            // Otherwise parse as primitive value
             fields[fieldName] = parseValue(arg)
         })
+
+        // If pattern matched but not enough args provided, set remaining fields to null
+        if (fieldNames && fieldNames.length > args.length) {
+            for (let i = args.length; i < fieldNames.length; i++) {
+                fields[fieldNames[i]] = null
+            }
+        }
 
         return fields
     }
@@ -371,9 +541,9 @@
         return div.innerHTML
     }
 
-    function updateUI(container, memory) {
-        const variablesHtml = generateVariablesView(memory)
-        const heapHtml = generateHeapView(memory)
+    function updateUI(container, memory, changes = null) {
+        const variablesHtml = generateVariablesView(memory, changes)
+        const heapHtml = generateHeapView(memory, changes)
 
         const memoryView = container.querySelector('.memory-view')
         memoryView.innerHTML = `
@@ -390,6 +560,28 @@
                 </div>
             </div>
         `
+
+        // Add click handlers to reference elements to highlight referenced objects
+        const references = memoryView.querySelectorAll('.value-reference, .field-ref')
+        references.forEach(refElement => {
+            refElement.addEventListener('click', () => {
+                const objectId = refElement.dataset.objectId || refElement.dataset.refId
+                const heapObject = container.querySelector(`#heap-object-${objectId}`)
+
+                if (heapObject) {
+                    // Add flash animation
+                    heapObject.classList.add('flash-object')
+
+                    // Scroll into view
+                    heapObject.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+
+                    // Remove flash class after animation completes
+                    setTimeout(() => {
+                        heapObject.classList.remove('flash-object')
+                    }, 1000)
+                }
+            })
+        })
 
         // Update step display
         const stepInfo = container.querySelector('.step-info')
@@ -411,21 +603,23 @@
         resetBtn.disabled = memory.currentStep === 0
     }
 
-    function generateVariablesView(memory) {
+    function generateVariablesView(memory, changes = null) {
         if (memory.stack.length === 0) {
             return '<div class="memory-empty">Empty</div>'
         }
 
         return memory.stack.map(variable => {
             let valueDisplay = ''
+            const isChanged = changes && changes.stackVariables.has(variable.name)
+            const flashClass = isChanged ? ' flash' : ''
 
             if (variable.type === 'primitive') {
                 valueDisplay = `<span class="value-primitive">${escapeHtml(String(variable.value))}</span>`
             } else if (variable.type === 'reference') {
                 const obj = memory.getObject(variable.objectId)
                 valueDisplay = `
-                    <span class="value-reference" data-object-id="${variable.objectId}">
-                        → #${variable.objectId} (${escapeHtml(obj.className)})
+                    → <span class="value-reference" data-object-id="${variable.objectId}">
+                        #${variable.objectId} (${escapeHtml(obj.className)})
                     </span>
                 `
             } else if (variable.type === 'null') {
@@ -433,7 +627,7 @@
             }
 
             return `
-                <div class="variable-item">
+                <div class="variable-item${flashClass}">
                     <span class="var-name">${escapeHtml(variable.name)}</span>
                     <span class="var-value">${valueDisplay}</span>
                 </div>
@@ -451,13 +645,19 @@
             }
         }
 
-        // Future enhancement: Could also check for references in object fields
-        // if we support objects referencing other objects
+        // Check for references in object fields
+        for (const obj of memory.heap) {
+            for (const [key, value] of Object.entries(obj.fields)) {
+                if (value && typeof value === 'object' && value.$ref) {
+                    referencedIds.add(value.$ref)
+                }
+            }
+        }
 
         return referencedIds
     }
 
-    function generateHeapView(memory) {
+    function generateHeapView(memory, changes = null) {
         if (memory.heap.length === 0) {
             return '<div class="memory-empty">Empty</div>'
         }
@@ -465,23 +665,53 @@
         const referencedIds = findReferencedObjectIds(memory)
 
         return memory.heap.map(obj => {
-            const fieldsHtml = Object.entries(obj.fields).map(([key, value]) => `
-                <div class="object-field">
-                    <span class="field-name">${escapeHtml(key)}</span>
-                    <span class="field-value">${escapeHtml(String(value))}</span>
-                </div>
-            `).join('')
+            const changedFields = changes && changes.objectFields.get(obj.id)
 
-            // Count references to this object
-            const refCount = memory.stack.filter(v =>
+            const fieldsHtml = Object.entries(obj.fields).map(([key, value]) => {
+                let valueHtml
+                const isFieldChanged = changedFields && changedFields.has(key)
+                const flashClass = isFieldChanged ? ' flash' : ''
+
+                // Check if value is a reference to another object
+                if (value && typeof value === 'object' && value.$ref) {
+                    const refObj = memory.getObject(value.$ref)
+                    const refClass = refObj ? refObj.className : 'Object'
+                    valueHtml = `→ <span class="field-value field-ref" data-ref-id="${value.$ref}">#${value.$ref} (${escapeHtml(refClass)})</span>`
+                } else if (value === null) {
+                    valueHtml = `<span class="field-value value-null">null</span>`
+                } else {
+                    valueHtml = `<span class="field-value">${escapeHtml(String(value))}</span>`
+                }
+
+                return `
+                    <div class="object-field${flashClass}">
+                        <span class="field-name">${escapeHtml(key)}</span>
+                        ${valueHtml}
+                    </div>
+                `
+            }).join('')
+
+            // Count references to this object (from stack variables and object fields)
+            let refCount = memory.stack.filter(v =>
                 v.type === 'reference' && v.objectId === obj.id
             ).length
 
+            // Also count references from object fields
+            for (const heapObj of memory.heap) {
+                for (const [key, value] of Object.entries(heapObj.fields)) {
+                    if (value && typeof value === 'object' && value.$ref === obj.id) {
+                        refCount++
+                    }
+                }
+            }
+
             const isUnreferenced = !referencedIds.has(obj.id)
             const unreferencedClass = isUnreferenced ? ' unreferenced' : ''
+            const isObjectFlashed = changes && changes.flashedObjects.has(obj.id)
+            const objectFlashClass = isObjectFlashed ? ' flash-object' : ''
 
             return `
-                <div class="heap-object${unreferencedClass}" id="heap-object-${obj.id}" data-object-id="${obj.id}">
+                <div class="heap-object${unreferencedClass}${objectFlashClass}" id="heap-object-${obj.id}" data-object-id="${obj.id}" ${isUnreferenced ? 'data-tooltip="This object is unreferenced. It will be cleaned up by the garbage collector"' : ''}>
                     <div class="object-header">
                         <span class="object-id">#${obj.id}</span>
                         <span class="object-class">${escapeHtml(obj.className)}</span>
@@ -664,8 +894,22 @@
         const resetBtn = container.querySelector('.mem-btn-reset')
 
         nextBtn.addEventListener('click', () => {
+            // Take snapshot before executing
+            const previousSnapshot = memory.snapshot()
+
             if (memory.executeCurrentStep()) {
-                updateUI(container, memory)
+                const changes = memory.getChanges(previousSnapshot)
+                updateUI(container, memory, changes)
+
+                // Remove flash classes after animation
+                setTimeout(() => {
+                    container.querySelectorAll('.flash').forEach(el => {
+                        el.classList.remove('flash')
+                    })
+                    container.querySelectorAll('.flash-object').forEach(el => {
+                        el.classList.remove('flash-object')
+                    })
+                }, 1000)
 
                 // Check if this was the last step
                 if (!memory.canStepForward()) {
