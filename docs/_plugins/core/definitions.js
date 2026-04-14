@@ -219,68 +219,8 @@
       }
     });
 
-    // Add tooltip positioning after DOM is ready
-    hook.doneEach(function () {
-      if (!glossaryLoaded) return;
-
-      const glossaryTerms = document.querySelectorAll('abbr.glossary-term[data-tooltip]');
-
-      glossaryTerms.forEach(term => {
-        // Add mouseenter event to adjust tooltip position
-        term.addEventListener('mouseenter', function() {
-          // Use requestAnimationFrame to ensure tooltip pseudo-element is rendered
-          requestAnimationFrame(() => {
-            // Get container boundaries (section.content excludes sidebar)
-            const contentContainer = document.querySelector('section.content');
-            if (!contentContainer) return;
-
-            const containerRect = contentContainer.getBoundingClientRect();
-            const termRect = term.getBoundingClientRect();
-            const tooltipText = term.getAttribute('data-tooltip');
-
-            // Match CSS max-width calculation: min(25ch, 100vw - 2rem)
-            const baseFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-            const remInPx = baseFontSize;
-            const maxWidthFromVw = window.innerWidth - (2 * remInPx);
-            const maxWidthFrom25Ch = 25 * baseFontSize;
-            const maxWidth = Math.min(maxWidthFrom25Ch, maxWidthFromVw);
-
-            // Better width estimation: using measured character width from CSS
-            // Approximate: 0.55ch per character for typical fonts at 0.9rem
-            const estimatedCharWidth = (0.9 * baseFontSize) * 0.55;
-            const tooltipPadding = 2.9 * remInPx; // Left padding includes icon space
-
-            // Estimate actual width considering line wrapping
-            let estimatedWidth = (tooltipText.length * estimatedCharWidth) + tooltipPadding;
-            if (estimatedWidth > maxWidth) {
-              // Text will wrap, so width is capped
-              estimatedWidth = maxWidth;
-            }
-
-            // Calculate where the tooltip edges would be if centered
-            const termCenterX = termRect.left + termRect.width / 2;
-            const tooltipLeft = termCenterX - estimatedWidth / 2;
-            const tooltipRight = termCenterX + estimatedWidth / 2;
-
-            // Check against content container boundaries (excludes sidebar area)
-            const safetyMargin = remInPx * 0.5;
-
-            // Add data attributes to control positioning via CSS
-            // Only align to edges if there's actually not enough space
-            if (tooltipLeft < containerRect.left + safetyMargin) {
-              // Would overflow left edge of content area
-              term.setAttribute('data-tooltip-align', 'left');
-            } else if (tooltipRight > containerRect.right - safetyMargin) {
-              // Would overflow right edge of content area
-              term.setAttribute('data-tooltip-align', 'right');
-            } else {
-              // Center is fine - there's enough space
-              term.setAttribute('data-tooltip-align', 'center');
-            }
-          });
-        });
-      });
-    });
+    // Note: Tooltip positioning is handled by the tooltips.js plugin
+    // which provides smart positioning for all [data-tooltip] elements
   }
 
   // Add plugin to docsify

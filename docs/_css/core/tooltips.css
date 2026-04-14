@@ -1,0 +1,70 @@
+/* Required for custom tooltip positioning */
+[data-tooltip] {
+    --tooltip-back-color:   var(--theme-color-2);
+    --tooltip-text-color:   var(--color-mono-9);
+    --tooltip-border-color: var(--theme-color-3);
+
+    position: relative;
+}
+
+/* Custom tooltip - the tooltip box */
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 1rem;
+    padding: 0.5rem 0.7rem 0.5rem 2.2rem;
+
+    background: var(--tooltip-back-color);
+    color: var(--tooltip-text-color);
+    font-size: 0.9rem;
+    font-weight: normal;
+    line-height: 1.4;
+    border: 1px solid var(--tooltip-border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-small);
+
+    /* Text wrapping with viewport constraint */
+    max-width: min(25ch, calc(100vw - 2rem));
+    width: max-content;
+    white-space: normal;
+    text-align: left;
+
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+
+    /* Prevent interaction */
+    pointer-events: none;
+    z-index: 1000;
+
+    /* Lucide info icon - inline SVG */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 0.5rem 0.7rem;
+    background-size: 1.2rem 1.2rem;
+}
+
+/* Tooltip alignment adjustments for edge cases */
+[data-tooltip-align="left"]::before {
+    left: 0;
+    transform: translateX(0);
+}
+
+[data-tooltip-align="right"]::before {
+    left: auto;
+    right: 0;
+    transform: translateX(0);
+}
+
+/* Center is default, no override needed */
+
+/* Show custom tooltip on hover */
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
