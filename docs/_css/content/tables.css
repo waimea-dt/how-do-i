@@ -15,6 +15,8 @@
     --table-highlight-color:        var(--highlight-color);
     --table-highlight-cell-color:   color-mix(in srgb, var(--highlight-color), transparent 90%);
 
+    --table-cell-inline-padding:    min(1rem, 3vw);
+
     /* Scrolling behavior */
     width: 100%;
     overflow-x: auto;
@@ -58,7 +60,7 @@
     }
 
     th, td {
-        padding: 0.5rem 1rem;
+        padding: 0.5rem var(--table-cell-inline-padding);
         text-align: left;
         border: 1px solid var(--table-border-color);
 
