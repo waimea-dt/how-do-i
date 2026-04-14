@@ -5,12 +5,11 @@
     /* Colors */
     --quiz-title-color:                 var(--theme-color);
 
-    --quiz-back-color:                  var(--theme-color-0);
+    --quiz-back-color:                  var(--color-mono-0);
     --quiz-border-color:                var(--color-mono-3);
 
     --quiz-border-color--bright:        var(--color-mono-5);
     --quiz-answered-border-color:       var(--theme-color-5);
-
 
     --quiz-question-back-color:         var(--color-mono-1);
 
@@ -32,25 +31,31 @@
     --quiz-star-color:                  var(--color-important);
     --quiz-stamp-color:                 var(--color-mono-8);
 
+    --quiz-padding:                     0.6rem;
+
     --quiz-shadow:                      Var(--box-shadow-small);
 
     /* Layout */
     margin: var(--margin-block) 0 !important;
-    padding: 1rem;
+    padding: var(--quiz-padding);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--quiz-padding);
     background-color: var(--quiz-back-color);
-    border: var(--quiz-border-width) dashed var(--quiz-border-color);
+    border: var(--quiz-border-width) solid var(--quiz-border-color);
     border-radius: calc(var(--border-radius) * 2.5);
+
+    @container (min-width: 768px) {
+        --quiz-padding: 1rem;
+    }
 
     .question {
         position: relative;
         list-style: none;
-        padding: 1em 1em 1.1em;
+        padding: var(--quiz-padding);
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--quiz-padding);
         background-color: var(--quiz-question-back-color);
         border: var(--quiz-border-width) solid var(--quiz-border-color);
         border-radius: calc(var(--border-radius) * 1);
@@ -78,13 +83,13 @@
         .answers {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1em;
+            gap: var(--quiz-padding);
             padding: 0;
             margin: 0.5rem 0 0;
             list-style: none;
 
             /* 2 columns on larger screens */
-            @media screen and (min-width: 768px) {
+            @container (min-width: 768px) {
                 grid-template-columns: repeat(2, 1fr);
             }
 
