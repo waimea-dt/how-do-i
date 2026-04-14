@@ -1281,7 +1281,7 @@
             }
 
             btnRun.querySelector('.btn-text').textContent = 'Pause'
-            btnRun.querySelector('.btn-icon').textContent = '⏸'
+            btnRun.querySelector('.btn-icon').textContent = '❙❙'
             btnRun.classList.add('running')
 
             runInterval = setInterval(() => {

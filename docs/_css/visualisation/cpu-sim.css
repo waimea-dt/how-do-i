@@ -60,10 +60,10 @@
     --font-size-lg: 1.18em;   /* Large - icons */
 
     /* Padding (em units - scale with font size) */
-    --padding-cell: 0.25em 0.5em;      /* Cells: memory, registers, flags, control registers */
-    --padding-button: 0.3em 0.6em;     /* Buttons, controls, dropdowns */
-    --padding-code-line: 0.1em 0.5em;  /* Code display lines */
-    --padding-panel: 0.8em;            /* Panel containers */
+    --padding-cell: 0.25em 0.5em;        /* Cells: memory, registers, flags, control registers */
+    --padding-button: 0.3em 0.6em 0.5em; /* Buttons, controls, dropdowns */
+    --padding-code-line: 0.1em 0.5em;    /* Code display lines */
+    --padding-panel: 0.8em;              /* Panel containers */
 
     /* Gap (rem units - consistent spacing) */
     --gap-tight: 0.3em;      /* Between cells in lists */
