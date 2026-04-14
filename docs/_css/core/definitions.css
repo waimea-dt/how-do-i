@@ -55,8 +55,8 @@ abbr.glossary-term {
         border-radius: var(--border-radius);
         box-shadow: var(--box-shadow-small);
 
-        /* Text wrapping */
-        max-width: 25ch;
+        /* Text wrapping with viewport constraint */
+        max-width: min(25ch, calc(100vw - 2rem));
         width: max-content;
         white-space: normal;
         text-align: left;
@@ -76,6 +76,20 @@ abbr.glossary-term {
         background-position: 0.5rem 0.7rem;
         background-size: 1.2rem 1.2rem;
     }
+
+    /* Tooltip alignment adjustments for edge cases */
+    &[data-tooltip-align="left"]::before {
+        left: 0;
+        transform: translateX(0);
+    }
+
+    &[data-tooltip-align="right"]::before {
+        left: auto;
+        right: 0;
+        transform: translateX(0);
+    }
+
+    /* Center is default, no override needed */
 
     /* Show custom tooltip on hover */
     &[data-tooltip]:hover::before,
