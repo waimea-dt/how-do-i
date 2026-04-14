@@ -6,14 +6,63 @@
  *
  * Usage in markdown:
  *   <quiz>
- *   - What is 2 + 2?
- *     - [ ] 3
- *     - [x] 4
- *     - [ ] 5
- *     - [ ] Not quite, try again.
- *     - [x] Correct.
+ *
+ *   - # 1. Variable Assignment
+ *
+ *       What will be the value of `x` after executing this code?
+ *
+ *       ```python
+ *       x = 10
+ *       x = x + 5
+ *       ```
+ *
+ *       ---
+ *
+ *       - [ ] 10
+ *       - [x] 15
+ *       - [ ] 105
+ *       - [ ] Error
+ *
+ *       ---
+ *
+ *       - [x] **Correct!** The variable `x` starts at 10, then `x + 5` evaluates to 15.
+ *
+ *           ```python
+ *           x = 10    # x is now 10
+ *           x = x + 5 # x is now 15
+ *           ```
+ *
+ *       - [ ] **Not quite.** Remember that `x = x + 5` means "take the current value of x, add 5."
+ *
+ *
+ *   - # 2. String Concatenation
+ *
+ *       What is the output of this code?
+ *
+ *       ```python
+ *       print("Hello" + " " + "Python")
+ *       ```
+ *
+ *       ---
+ *
+ *       - [ ] HelloPython
+ *       - [x] Hello Python
+ *       - [ ] Error
+ *
+ *       ---
+ *
+ *       - [x] **Perfect!** The `+` operator concatenates strings. The space `" "` is added between them.
+ *       - [ ] **Incorrect.** The `+` operator joins strings together.
+ *
  *   </quiz>
+ *
+ * Format:
+ *   - Questions: `- # N. Title` followed by question text (can include code blocks)
+ *   - Separator: `---` between question, answers, and feedback sections
+ *   - Answers: `- [x]` marks correct answer, `- [ ]` for incorrect
+ *   - Feedback: `- [x]` shows when correct, `- [ ]` shows when incorrect
  */
+
 (function () {
 
     function processQuizzes() {
@@ -31,6 +80,14 @@
         }
 
         const showQuiz = (element) => {
+            // Check if first child is a heading (quiz title)
+            let quizTitle = null
+            const firstChild = element.firstElementChild
+            if (firstChild && ['H1', 'H2', 'H3'].includes(firstChild.tagName)) {
+                quizTitle = firstChild.textContent
+                firstChild.remove()
+            }
+
             // Find the list inside the wrapper
             let quizList = element.querySelector('ul')
             if (!quizList) return
@@ -38,6 +95,63 @@
 
             const questions = quizList.children
             if (questions.length === 0) return
+
+            // Create score tracker
+            const totalQuestions = questions.length
+            const maxScore = totalQuestions * 3
+            const scoreDisplay = document.createElement('div')
+            scoreDisplay.className = 'quiz-score'
+
+            let scoreHTML = ''
+            if (quizTitle) {
+                scoreHTML += `<div class="quiz-title">${quizTitle}</div>`
+            }
+            scoreHTML += `<div class="score-progress">Progress: <span class="progress-value">0</span> / ${totalQuestions}</div>`
+            scoreHTML += `<div class="score-stars">★ <span class="score-value">0</span> / ${maxScore}</div>`
+            scoreDisplay.innerHTML = scoreHTML
+
+            // Function to calculate and update total score
+            const updateScore = () => {
+                let answeredQuestions = 0
+                let totalStars = 0
+                for (const question of questions) {
+                    const correctAnswer = question.querySelector('.answer.correct.revealed')
+                    if (correctAnswer) {
+                        const wrongRevealed = question.querySelectorAll('.answer.wrong.revealed').length
+                        const stars = Math.max(0, Math.min(3, 3 - wrongRevealed))
+                        totalStars += stars
+                        answeredQuestions++
+                    }
+                }
+                const progressValueElement = scoreDisplay.querySelector('.progress-value')
+                progressValueElement.textContent = answeredQuestions
+
+                const scoreValueElement = scoreDisplay.querySelector('.score-value')
+                const currentScore = parseInt(scoreValueElement.textContent)
+                scoreValueElement.textContent = totalStars
+
+                if (totalStars > currentScore) {
+                    // Pulse animation
+                    scoreDisplay.classList.remove('pulse')
+                    void scoreDisplay.offsetWidth // Force reflow
+                    scoreDisplay.classList.add('pulse')
+                }
+            }
+
+            // Create sentinel to detect sticky state
+            const sentinel = document.createElement('div')
+            sentinel.className = 'quiz-score-sentinel'
+
+            // Observe sentinel to detect when score block is sticking
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    scoreDisplay.classList.remove('is-sticking')
+                } else {
+                    scoreDisplay.classList.add('is-sticking')
+                }
+            }, { threshold: [1] })
+
+            observer.observe(sentinel)
 
             for (const question of questions) {
                 question.classList.add('question')
@@ -107,6 +221,8 @@
                                     wrongFeedback.classList.add('hidden')
                                 }
                             }
+
+                            updateScore()
                         })
                     }
                 }
@@ -128,10 +244,16 @@
                                     correctFeedback.classList.add('hidden')
                                 }
                             }
+
+                            updateScore()
                         })
                     }
                 }
             }
+
+            // Add score tracker
+            quizList.insertBefore(sentinel, quizList.firstChild)
+            quizList.insertBefore(scoreDisplay, quizList.firstChild)
         }
 
         const quizBlocks = document.querySelectorAll('.markdown-section quiz')
