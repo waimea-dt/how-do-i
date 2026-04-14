@@ -10,12 +10,26 @@
 (function () {
     var docsifyScrollToTop = function (hook) {
         hook.doneEach(function () {
-            // Docsify route changes do not reload the document, so preserve classic page-load behavior manually.
-            window.scrollTo(0, 0);
+            // Use requestAnimationFrame to ensure this runs after all DOM updates
+            // and other plugins have finished their work
+            requestAnimationFrame(function () {
+                // Scroll both window and the main content area
+                window.scrollTo({ top: 0, behavior: 'instant' });
+
+                // Also try scrolling the main content container if it exists
+                var main = document.querySelector('.markdown-section');
+                if (main && main.parentElement) {
+                    main.parentElement.scrollTop = 0;
+                }
+
+                // Reset document scroll as fallback
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            });
         });
     };
 
     window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [docsifyScrollToTop].concat(window.$docsify.plugins || []);
+    window.$docsify.plugins = [].concat(docsifyScrollToTop, window.$docsify.plugins || []);
 })();
 
