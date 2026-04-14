@@ -4,8 +4,9 @@
  */
 
 .markdown-section .memory-sim {
-    --memory-wrapper-back-color: var(--color-mono-1);
-    --memory-panel-back-color: var(--color-mono-0);
+    --memory-wrapper-back-color: var(--theme-color-1);
+    --memory-border-color:       var(--color-mono-3);
+    --memory-panel-back-color:   var(--color-mono-0);
 
     /* Component-specific colors */
     --memory-variables-color: var(--palette-color-3);
@@ -53,7 +54,7 @@
     margin: var(--margin-block);
     padding: var(--padding-panel);
     background: var(--memory-wrapper-back-color);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--memory-border-color);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     font-family: var(--font-family-mono);

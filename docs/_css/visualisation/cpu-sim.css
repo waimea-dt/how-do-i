@@ -3,6 +3,10 @@
  */
 
 .markdown-section .cpu-simulator {
+    --cpu-wrapper-back-color:   var(--theme-color-1);
+    --cpu-border-color:         var(--color-mono-3);
+    --cpu-panel-back-color:     var(--color-mono-0);
+
     /* Component-specific colors */
     --cpu-fetch-color:          var(--palette-color-3);
     --cpu-decode-color:         var(--color-warning);
@@ -105,8 +109,8 @@
     container-type: inline-size;
     margin: var(--margin-block) 0;
     padding: var(--gap-large);
-    background: var(--theme-color-1);
-    border: 1px solid var(--border-color);
+    background: var(--cpu-wrapper-back-color);
+    border: 1px solid var(--cpu-border-color);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     font-family: var(--font-family-mono);
@@ -171,7 +175,7 @@
     }
 
     .cpu-sim-panel {
-        background: var(--color-mono-min);
+        background: var(--cpu-panel-back-color);
         border: 1px solid var(--border-color);
         border-radius: calc(var(--border-radius) / 2);
         padding: var(--padding-panel);
