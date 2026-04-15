@@ -1,0 +1,390 @@
+/**
+ * sim-core.css — Shared styles for educational simulator plugins
+ *
+ * Provides base styling for any .sim-block component.
+ * Individual sims extend this with their own scoped styles.
+ *
+ * Class conventions:
+ *   .sim-block            — outer wrapper (any sim)
+ *   .sim-panel            — content panel
+ *   .sim-grid             — responsive grid layout
+ *   .sim-empty            — empty-state placeholder
+ *   .sim-btn              — control button
+ *   .sim-btn-reset        — reset button variant
+ *   .sim-btn-next         — next button variant
+ *   .sim-ref              — clickable reference link
+ *   .variable-item        — stack variable row
+ *   .object-field         — heap field row
+ *   .value-primitive      — primitive value span
+ *   .value-reference      — reference value span
+ *   .value-null           — null value span
+ *   .field-name           — field name span
+ *   .field-value          — field value span
+ *   .field-ref            — reference field value
+ *   .code-line            — single line in code listing
+ *   .flash                — triggers value-flash animation
+ *   .flash-object         — triggers object-flash animation
+ */
+
+/* ============================================================
+   Base wrapper
+   ============================================================ */
+
+.markdown-section .sim-block {
+    /* Design tokens - all sims share these; override per-sim */
+    --sim-wrapper-back:     var(--theme-color-1);
+    --sim-panel-back:       var(--color-mono-0);
+    --sim-border-color:     var(--color-mono-3);
+    --sim-header-color:     var(--theme-color-6);
+    --sim-highlight-color:  var(--highlight-color);
+
+    /* Update animations */
+    --sim-flash-duration:   1000ms;
+
+    /* Value type colors */
+    --sim-primitive-color:  var(--palette-color-2);
+    --sim-reference-color:  var(--palette-color-1);
+    --sim-null-color:       var(--color-mono-5);
+    --sim-fieldname-color:  var(--color-mono-6);
+
+    /* Controls */
+    --sim-btn-bg:           var(--color-mono-min);
+    --sim-btn-border:       var(--border-color);
+    --sim-btn-text:         var(--color-text);
+    --sim-btn-hover:        var(--theme-color);
+    --sim-btn-reset-color:  var(--color-attention);
+    --sim-btn-next-color:   var(--palette-color-3);
+
+    /* Spacing */
+    --sim-gap:              0.5em;
+    --sim-gap-lg:           1rem;
+    --sim-padding:          1rem;
+    --sim-padding-cell:     0.25em 0.5em;
+    --sim-padding-btn:      0.3em 0.6em;
+
+    /* Typography */
+    --sim-font-xs:   0.88em;
+    --sim-font-sm:   0.94em;
+    --sim-font-base: 1em;
+    --sim-font-lg:   1.18em;
+
+    container-type: inline-size;
+    margin: var(--margin-block);
+    padding: var(--sim-padding);
+    background: var(--sim-wrapper-back);
+    border: 1px solid var(--sim-border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    font-family: var(--font-family-mono);
+    font-size: 0.85rem;
+
+    @container (min-width: 600px) {
+        font-size: 0.9rem;
+    }
+}
+
+/* ============================================================
+   Grid + Panels
+   ============================================================ */
+
+.sim-block .sim-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sim-gap-lg);
+}
+
+.sim-block .sim-panel {
+    background: var(--sim-panel-back);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) / 2);
+    padding: var(--sim-padding);
+
+    h4 {
+        margin: 0 0 0.75em 0;
+        font-size: var(--sim-font-base);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--sim-header-color);
+        padding-bottom: var(--sim-gap);
+    }
+}
+
+.sim-block .sim-panel-scroll {
+    overflow: auto;
+}
+
+/* Empty state */
+.sim-block .sim-empty {
+    padding: var(--sim-padding);
+    text-align: center;
+    color: var(--sim-null-color);
+    font-style: italic;
+    font-size: var(--sim-font-sm);
+}
+
+/* ============================================================
+   Code Display
+   ============================================================ */
+
+.sim-block .code-listing {
+    margin: 0;
+    padding: var(--sim-padding);
+    background: var(--code-bg-color, var(--color-mono-1));
+    border-radius: calc(var(--border-radius) / 2);
+    font-family: var(--font-family-mono);
+    font-size: var(--sim-font-sm);
+    line-height: 1.6;
+    overflow-x: auto;
+
+    code {
+        background: none;
+        padding: 0;
+        color: var(--code-fg-color, var(--color-text));
+        border: none;
+        display: block;
+    }
+}
+
+.sim-block .code-line {
+    padding: 0.15em 0.5em;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    margin-left: -0.8em;
+    padding-left: calc(0.8em - 3px);
+
+    &.executed {
+        opacity: 0.6;
+    }
+
+    &.current {
+        background-color: color-mix(in srgb, var(--sim-highlight-color), transparent 90%);
+        border-left-color: var(--sim-highlight-color);
+        opacity: 1;
+        font-weight: 500;
+    }
+}
+
+/* Syntax highlight classes (shared, uses code.css vars) */
+.sim-block .hl-keyword    { color: var(--code-hl-keyword-color);    font-weight: 500; }
+.sim-block .hl-string     { color: var(--code-hl-string-color); }
+.sim-block .hl-number     { color: var(--code-hl-number-color); }
+.sim-block .hl-comment    { color: var(--code-hl-comment-color);    font-style: italic; }
+.sim-block .hl-class      { color: var(--code-hl-type-color); }
+.sim-block .hl-operator   { color: var(--code-hl-operator-color); }
+.sim-block .hl-punctuation{ color: var(--code-hl-punctuation-color); }
+
+/* ============================================================
+   Value types
+   ============================================================ */
+
+.sim-block .value-primitive {
+    color: var(--sim-primitive-color);
+    font-weight: 500;
+}
+
+.sim-block .value-null {
+    color: var(--sim-null-color);
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Clickable reference (stack variable and field) */
+.sim-block .sim-ref {
+    color: var(--sim-reference-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms;
+
+    &:hover {
+        text-decoration: underline;
+        opacity: 0.8;
+    }
+
+    &:active {
+        transform: scale(0.95);
+        opacity: 0.6;
+    }
+}
+
+/* ============================================================
+   Variable rows
+   ============================================================ */
+
+.sim-block .variable-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sim-gap);
+    padding: var(--sim-padding-cell);
+    border-radius: calc(var(--border-radius) / 2);
+    transition: all 0.3s ease;
+
+    .var-name {
+        font-weight: 600;
+        color: var(--color-text);
+        font-size: var(--sim-font-sm);
+    }
+
+    .var-value {
+        font-family: var(--font-family-mono);
+        font-size: var(--sim-font-sm);
+        text-align: right;
+    }
+}
+
+/* ============================================================
+   Object fields
+   ============================================================ */
+
+.sim-block .object-field {
+    display: flex;
+    gap: var(--sim-gap);
+    padding: var(--sim-padding-cell);
+    border-radius: calc(var(--border-radius) / 2);
+
+    .field-name {
+        flex: 1;
+        font-weight: normal;
+        color: var(--sim-fieldname-color);
+        font-size: var(--sim-font-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .field-value {
+        font-family: var(--font-family-mono);
+        font-size: var(--sim-font-sm);
+        color: var(--color-text);
+        text-align: right;
+        font-weight: 500;
+
+        &.field-ref {
+            color: var(--sim-reference-color);
+            transition: all 150ms;
+
+            &:hover {
+                color: var(--theme-color);
+                transform: translateX(-2px);
+            }
+
+            &:active {
+                transform: translateX(-2px) scale(0.95);
+                opacity: 0.6;
+            }
+        }
+    }
+}
+
+/* ============================================================
+   Status bar
+   ============================================================ */
+
+.sim-block .sim-status {
+    display: flex;
+    align-items: center;
+    padding: var(--sim-padding);
+    background: var(--sim-panel-back);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) / 2);
+
+    .step-info {
+        font-size: var(--sim-font-base);
+        color: var(--color-text);
+        font-weight: 500;
+    }
+}
+
+/* ============================================================
+   Controls
+   ============================================================ */
+
+.sim-block .sim-controls {
+    display: flex;
+    gap: var(--sim-gap);
+    padding: var(--sim-padding);
+    background: var(--sim-panel-back);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) / 2);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.sim-block .sim-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sim-gap);
+    padding: var(--sim-padding-btn);
+    background: var(--sim-btn-bg);
+    border: 1px solid var(--sim-btn-border);
+    border-radius: calc(var(--border-radius) / 2);
+    color: var(--sim-btn-text);
+    font-family: inherit;
+    font-size: var(--sim-font-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+        background: var(--color-mono-1);
+        border-color: var(--sim-btn-hover);
+        transform: translateY(-1px);
+        box-shadow: var(--box-shadow-small);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .btn-icon {
+        font-size: var(--sim-font-lg);
+        line-height: 1;
+    }
+}
+
+.sim-block .sim-btn-reset:hover:not(:disabled) {
+    border-color: var(--sim-btn-reset-color);
+    color: var(--sim-btn-reset-color);
+}
+
+.sim-block .sim-btn-next:hover:not(:disabled) {
+    border-color: var(--sim-btn-next-color);
+    color: var(--sim-btn-next-color);
+}
+
+/* ============================================================
+   Flash animations
+   ============================================================ */
+
+.sim-block .flash {
+    animation: sim-value-flash var(--sim-flash-duration) ease-out;
+}
+
+.sim-block .flash-object {
+    animation: sim-object-flash var(--sim-flash-duration) ease-out;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .markdown-section .sim-block {
+        font-size: 0.8rem;
+        padding: calc(var(--sim-padding) * 0.75);
+    }
+}
+
+/* ============================================================
+   Keyframes (global scope — not nested)
+   ============================================================ */
+
+@keyframes sim-value-flash {
+    0%   { background-color: transparent; }
+    30%  { background-color: var(--sim-highlight-color, var(--highlight-color)); transform: scale(1.02); }
+    100% { background-color: transparent; transform: scale(1); }
+}

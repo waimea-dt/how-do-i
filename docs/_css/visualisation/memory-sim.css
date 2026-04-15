@@ -4,7 +4,7 @@
  */
 
 .markdown-section .memory-sim {
-    --memory-wrapper-back-color: var(--theme-color-1);
+    /* Also acts as a .sim-block — sim-core.css provides shared tokens and animations */
     --memory-border-color:       var(--color-mono-3);
     --memory-panel-back-color:   var(--color-mono-0);
 
@@ -467,61 +467,26 @@
         justify-content: flex-start;
     }
 
-    .mem-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--gap-normal);
-        padding: var(--padding-button);
-        background: var(--btn-bg);
-        border: 1px solid var(--btn-border);
-        border-radius: calc(var(--border-radius) / 2);
-        color: var(--btn-text);
-        font-family: inherit;
-        font-size: var(--font-size-base);
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
+    /* sim-core btn overrides for memory-sim accent colors */
 
-        &:hover:not(:disabled) {
-            background: var(--color-mono-1);
-            border-color: var(--btn-hover-border);
-            transform: translateY(-1px);
-            box-shadow: var(--box-shadow-small);
-        }
-
-        &:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-icon {
-            font-size: var(--font-size-lg);
-            line-height: 1;
-        }
-    }
-
-    .mem-btn-reset:hover:not(:disabled) {
+    .sim-btn-reset:hover:not(:disabled) {
         border-color: var(--btn-reset-color);
         color: var(--btn-reset-color);
     }
 
-    .mem-btn-next:hover:not(:disabled) {
+    .sim-btn-next:hover:not(:disabled) {
         border-color: var(--btn-next-color);
         color: var(--btn-next-color);
     }
 
-    /* Change highlighting animation */
+    /* Change highlighting animation — delegates to sim-core keyframes */
 
     .variable-item.flash {
-        animation: value-flash 1000ms ease-out;
+        animation: sim-value-flash 1000ms ease-out;
     }
 
     .object-field.flash {
-        animation: value-flash 1000ms ease-out;
+        animation: sim-value-flash 1000ms ease-out;
     }
 
     .heap-object.flash-object {
@@ -533,22 +498,6 @@
     @media (max-width: 768px) {
         font-size: 0.8rem;
         padding: calc(var(--padding-panel) * 0.75);
-    }
-}
-
-@keyframes value-flash {
-    0% {
-        background-color: transparent;
-    }
-
-    30% {
-        background-color: var(--memory-highlight-color);
-        transform: scale(1.02);
-    }
-
-    100% {
-        background-color: transparent;
-        transform: scale(1);
     }
 }
 

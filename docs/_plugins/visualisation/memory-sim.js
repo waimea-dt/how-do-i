@@ -46,260 +46,9 @@
     // Memory State Model
     // -------------------------------------------------------------------------
 
-    class MemoryState {
+    class MemoryState extends SimCore.HeapState {
         constructor() {
-            this.stack = []         // Local variables (both primitives and references)
-            this.heap = []          // Heap objects with unique IDs
-            this.nextObjectId = 1   // Auto-increment object IDs
-            this.currentStep = 0    // Current execution step
-            this.steps = []         // Array of parsed steps
-        }
-
-        reset() {
-            this.stack = []
-            this.heap = []
-            this.nextObjectId = 1
-            this.currentStep = 0
-        }
-
-        // Add a primitive value to local variables
-        addPrimitive(name, value) {
-            const existing = this.stack.find(v => v.name === name)
-            if (existing) {
-                existing.value = value
-                existing.type = 'primitive'
-            } else {
-                this.stack.push({
-                    name,
-                    value,
-                    type: 'primitive'
-                })
-            }
-        }
-
-        // Add a reference to local variables and create object on heap
-        addObject(name, className, fields) {
-            const objectId = this.nextObjectId++
-
-            // Create object on heap
-            this.heap.push({
-                id: objectId,
-                className,
-                fields: { ...fields }
-            })
-
-            // Add reference to local variables
-            const existing = this.stack.find(v => v.name === name)
-            if (existing) {
-                existing.type = 'reference'
-                existing.objectId = objectId
-            } else {
-                this.stack.push({
-                    name,
-                    type: 'reference',
-                    objectId
-                })
-            }
-        }
-
-        // Copy a reference
-        copyReference(newName, existingName) {
-            const existing = this.stack.find(v => v.name === existingName)
-            if (!existing) return
-
-            const target = this.stack.find(v => v.name === newName)
-
-            if (existing.type === 'reference') {
-                if (target) {
-                    target.type = 'reference'
-                    target.objectId = existing.objectId
-                    delete target.value
-                } else {
-                    this.stack.push({
-                        name: newName,
-                        type: 'reference',
-                        objectId: existing.objectId
-                    })
-                }
-            } else {
-                // Copy primitive value
-                if (target) {
-                    target.type = 'primitive'
-                    target.value = existing.value
-                    delete target.objectId
-                } else {
-                    this.stack.push({
-                        name: newName,
-                        type: 'primitive',
-                        value: existing.value
-                    })
-                }
-            }
-        }
-
-        // Set reference to null
-        setNull(name) {
-            const existing = this.stack.find(v => v.name === name)
-            if (existing) {
-                existing.type = 'null'
-                delete existing.objectId
-                delete existing.value
-            } else {
-                this.stack.push({
-                    name,
-                    type: 'null'
-                })
-            }
-        }
-
-        // Update an object field (supports nested: obj.field.subfield = value)
-        updateField(path, value) {
-            const parts = path.split('.')
-            if (parts.length < 2) return
-
-            const varName = parts[0]
-            const stackVar = this.stack.find(v => v.name === varName)
-            if (!stackVar || stackVar.type !== 'reference') return
-
-            let currentObj = this.heap.find(o => o.id === stackVar.objectId)
-            if (!currentObj) return
-
-            // Navigate through nested references
-            for (let i = 1; i < parts.length - 1; i++) {
-                const fieldName = parts[i]
-                const fieldValue = currentObj.fields[fieldName]
-
-                // If field is a reference, follow it
-                if (fieldValue && typeof fieldValue === 'object' && fieldValue.$ref) {
-                    currentObj = this.heap.find(o => o.id === fieldValue.$ref)
-                    if (!currentObj) return
-                } else {
-                    // Can't navigate further
-                    return
-                }
-            }
-
-            // Update the final field
-            const finalField = parts[parts.length - 1]
-            currentObj.fields[finalField] = value
-        }
-
-        // Get object by ID
-        getObject(id) {
-            return this.heap.find(o => o.id === id)
-        }
-
-        // Snapshot current state for change detection
-        snapshot() {
-            return {
-                stack: this.stack.map(v => ({ ...v })),
-                heap: this.heap.map(o => ({
-                    id: o.id,
-                    className: o.className,
-                    fields: { ...o.fields }
-                }))
-            }
-        }
-
-        // Find what changed between snapshots
-        getChanges(previousSnapshot) {
-            const changes = {
-                stackVariables: new Set(),
-                objectFields: new Map(), // objectId -> Set of field names
-                flashedObjects: new Set() // objectIds to flash (when referenced)
-            }
-
-            if (!previousSnapshot) return changes
-
-            // Check stack variables for changes
-            for (const currentVar of this.stack) {
-                const prevVar = previousSnapshot.stack.find(v => v.name === currentVar.name)
-                if (!prevVar) {
-                    // New variable
-                    changes.stackVariables.add(currentVar.name)
-                    // If it's a reference, flash the object too
-                    if (currentVar.type === 'reference') {
-                        changes.flashedObjects.add(currentVar.objectId)
-                    }
-                } else if (currentVar.type !== prevVar.type ||
-                          currentVar.value !== prevVar.value ||
-                          currentVar.objectId !== prevVar.objectId) {
-                    // Modified variable
-                    changes.stackVariables.add(currentVar.name)
-                    // If it's a reference, flash the object too
-                    if (currentVar.type === 'reference') {
-                        changes.flashedObjects.add(currentVar.objectId)
-                    }
-                }
-            }
-
-            // Check object fields for changes
-            for (const currentObj of this.heap) {
-                const prevObj = previousSnapshot.heap.find(o => o.id === currentObj.id)
-                if (!prevObj) {
-                    // New object - mark all fields as changed
-                    const fieldSet = new Set(Object.keys(currentObj.fields))
-                    changes.objectFields.set(currentObj.id, fieldSet)
-                    // Flash the new object itself
-                    changes.flashedObjects.add(currentObj.id)
-
-                    // Also flash any objects referenced by this new object's fields
-                    for (const [fieldName, fieldValue] of Object.entries(currentObj.fields)) {
-                        if (fieldValue && typeof fieldValue === 'object' && fieldValue.$ref) {
-                            changes.flashedObjects.add(fieldValue.$ref)
-                        }
-                    }
-                } else {
-                    // Check each field for changes
-                    const changedFields = new Set()
-                    for (const [fieldName, fieldValue] of Object.entries(currentObj.fields)) {
-                        const prevValue = prevObj.fields[fieldName]
-                        // Deep compare for reference objects
-                        if (JSON.stringify(fieldValue) !== JSON.stringify(prevValue)) {
-                            changedFields.add(fieldName)
-                            // If the changed field is a reference, flash the referenced object
-                            if (fieldValue && typeof fieldValue === 'object' && fieldValue.$ref) {
-                                changes.flashedObjects.add(fieldValue.$ref)
-                            }
-                        }
-                    }
-                    if (changedFields.size > 0) {
-                        changes.objectFields.set(currentObj.id, changedFields)
-                    }
-                }
-            }
-
-            return changes
-        }
-
-        // Execute the current step
-        executeCurrentStep() {
-            if (this.currentStep >= this.steps.length) return false
-
-            const step = this.steps[this.currentStep]
-            step.execute(this)
-            this.currentStep++
-            return true
-        }
-
-        // Go to previous step by resetting and replaying
-        previousStep() {
-            if (this.currentStep <= 0) return
-
-            this.currentStep--
-            this.reset()
-
-            for (let i = 0; i < this.currentStep; i++) {
-                this.steps[i].execute(this)
-            }
-        }
-
-        canStepForward() {
-            return this.currentStep < this.steps.length
-        }
-
-        canStepBack() {
-            return this.currentStep > 0
+            super()
         }
     }
 
@@ -510,36 +259,13 @@
         return fields
     }
 
-    function parseValue(str) {
-        str = str.trim()
-
-        // String literal
-        if (str.startsWith('"') && str.endsWith('"')) {
-            return str.slice(1, -1)
-        }
-
-        // Number
-        if (/^-?\d+(\.\d+)?$/.test(str)) {
-            return parseFloat(str)
-        }
-
-        // Boolean
-        if (str === 'true') return true
-        if (str === 'false') return false
-
-        // Default: treat as string
-        return str
-    }
+    const parseValue = SimCore.parseValue
 
     // -------------------------------------------------------------------------
     // UI Generation
     // -------------------------------------------------------------------------
 
-    function escapeHtml(text) {
-        const div = document.createElement('div')
-        div.textContent = text
-        return div.innerHTML
-    }
+    const escapeHtml = SimCore.escapeHtml
 
     function updateUI(container, memory, changes = null) {
         const variablesHtml = generateVariablesView(memory, changes)
@@ -561,27 +287,7 @@
             </div>
         `
 
-        // Add click handlers to reference elements to highlight referenced objects
-        const references = memoryView.querySelectorAll('.value-reference, .field-ref')
-        references.forEach(refElement => {
-            refElement.addEventListener('click', () => {
-                const objectId = refElement.dataset.objectId || refElement.dataset.refId
-                const heapObject = container.querySelector(`#heap-object-${objectId}`)
-
-                if (heapObject) {
-                    // Add flash animation
-                    heapObject.classList.add('flash-object')
-
-                    // Scroll into view
-                    heapObject.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-
-                    // Remove flash class after animation completes
-                    setTimeout(() => {
-                        heapObject.classList.remove('flash-object')
-                    }, 1000)
-                }
-            })
-        })
+        SimCore.attachReferenceHandlers(container)
 
         // Update step display
         const stepInfo = container.querySelector('.step-info')
@@ -595,12 +301,7 @@
         // Update code highlighting
         updateCodeHighlight(container, memory)
 
-        // Update button states
-        const nextBtn = container.querySelector('.mem-btn-next')
-        const resetBtn = container.querySelector('.mem-btn-reset')
-
-        nextBtn.disabled = !memory.canStepForward()
-        resetBtn.disabled = memory.currentStep === 0
+        SimCore.syncButtonStates(container, memory)
     }
 
     function generateVariablesView(memory, changes = null) {
@@ -635,298 +336,28 @@
         }).join('')
     }
 
-    function findReferencedObjectIds(memory) {
-        // Find all object IDs that are referenced from the stack
-        const referencedIds = new Set()
-
-        for (const variable of memory.stack) {
-            if (variable.type === 'reference' && variable.objectId !== undefined) {
-                referencedIds.add(variable.objectId)
-            }
-        }
-
-        // Check for references in object fields
-        for (const obj of memory.heap) {
-            for (const [key, value] of Object.entries(obj.fields)) {
-                if (value && typeof value === 'object' && value.$ref) {
-                    referencedIds.add(value.$ref)
-                }
-            }
-        }
-
-        return referencedIds
-    }
-
     function generateHeapView(memory, changes = null) {
         if (memory.heap.length === 0) {
-            return '<div class="memory-empty">Empty</div>'
+            return SimCore.renderEmpty()
         }
-
-        const referencedIds = findReferencedObjectIds(memory)
-
-        return memory.heap.map(obj => {
-            const changedFields = changes && changes.objectFields.get(obj.id)
-
-            const fieldsHtml = Object.entries(obj.fields).map(([key, value]) => {
-                let valueHtml
-                const isFieldChanged = changedFields && changedFields.has(key)
-                const flashClass = isFieldChanged ? ' flash' : ''
-
-                // Check if value is a reference to another object
-                if (value && typeof value === 'object' && value.$ref) {
-                    const refObj = memory.getObject(value.$ref)
-                    const refClass = refObj ? refObj.className : 'Object'
-                    valueHtml = `→ <span class="field-value field-ref" data-ref-id="${value.$ref}">#${value.$ref} (${escapeHtml(refClass)})</span>`
-                } else if (value === null) {
-                    valueHtml = `<span class="field-value value-null">null</span>`
-                } else {
-                    valueHtml = `<span class="field-value">${escapeHtml(String(value))}</span>`
-                }
-
-                return `
-                    <div class="object-field${flashClass}">
-                        <span class="field-name">${escapeHtml(key)}</span>
-                        ${valueHtml}
-                    </div>
-                `
-            }).join('')
-
-            // Count references to this object (from stack variables and object fields)
-            let refCount = memory.stack.filter(v =>
-                v.type === 'reference' && v.objectId === obj.id
-            ).length
-
-            // Also count references from object fields
-            for (const heapObj of memory.heap) {
-                for (const [key, value] of Object.entries(heapObj.fields)) {
-                    if (value && typeof value === 'object' && value.$ref === obj.id) {
-                        refCount++
-                    }
-                }
-            }
-
-            const isUnreferenced = !referencedIds.has(obj.id)
-            const unreferencedClass = isUnreferenced ? ' unreferenced' : ''
-            const isObjectFlashed = changes && changes.flashedObjects.has(obj.id)
-            const objectFlashClass = isObjectFlashed ? ' flash-object' : ''
-
-            return `
-                <div class="heap-object${unreferencedClass}${objectFlashClass}" id="heap-object-${obj.id}" data-object-id="${obj.id}" ${isUnreferenced ? 'data-tooltip="This object is unreferenced. It will be cleaned up by the garbage collector"' : ''}>
-                    <div class="object-header">
-                        <span class="object-id">#${obj.id}</span>
-                        <span class="object-class">${escapeHtml(obj.className)}</span>
-                        <span class="object-refs">${refCount} ref${refCount !== 1 ? 's' : ''}</span>
-                    </div>
-                    <div class="object-fields">
-                        ${fieldsHtml}
-                    </div>
-                </div>
-            `
-        }).join('')
+        const referencedIds = SimCore.findReferencedObjectIds(memory)
+        return memory.heap.map(obj =>
+            SimCore.renderHeapObject(obj, memory, changes, referencedIds)
+        ).join('')
     }
 
     function updateCodeHighlight(container, memory) {
-        const codeLines = container.querySelectorAll('.code-line')
-        codeLines.forEach((line) => {
-            line.classList.remove('executed', 'current')
-        })
-
-        if (memory.currentStep > 0) {
-            const currentStep = memory.steps[memory.currentStep - 1]
-
-            // Highlight comment line
-            if (currentStep.commentLineNum >= 0) {
-                const commentLine = codeLines[currentStep.commentLineNum]
-                if (commentLine) commentLine.classList.add('current')
-            }
-
-            // Highlight code lines for current step
-            for (let i = currentStep.startLineNum; i <= currentStep.endLineNum; i++) {
-                const codeLine = codeLines[i]
-                if (codeLine) codeLine.classList.add('current')
-            }
-
-            // Mark previous steps as executed
-            for (let stepIdx = 0; stepIdx < memory.currentStep - 1; stepIdx++) {
-                const step = memory.steps[stepIdx]
-                if (step.commentLineNum >= 0) {
-                    const commentLine = codeLines[step.commentLineNum]
-                    if (commentLine) commentLine.classList.add('executed')
-                }
-                for (let i = step.startLineNum; i <= step.endLineNum; i++) {
-                    const codeLine = codeLines[i]
-                    if (codeLine) codeLine.classList.add('executed')
-                }
-            }
-        }
+        SimCore.updateCodeHighlight(container, memory.steps, memory.currentStep)
     }
 
-    function clearCodeHighlight(container) {
-        const codeLines = container.querySelectorAll('.code-line')
-        codeLines.forEach((line) => {
-            // Remove current highlighting and add executed state (dimmed)
-            line.classList.remove('current')
-            line.classList.add('executed')
-        })
-    }
-
-    function generateCodeView(allLines) {
-        const linesHtml = allLines.map((line, idx) => {
-            const highlightedLine = highlightKotlinSyntax(line)
-            return `<div class="code-line" data-line="${idx}">${highlightedLine}</div>`
-        }).join('')
-
-        return `<pre class="code-listing"><code>${linesHtml}</code></pre>`
-    }
-
-    function highlightKotlinSyntax(line) {
-        if (!line.trim()) return '&nbsp;'
-
-        let result = ''
-        let remaining = line
-
-        // Preserve leading whitespace
-        const leadingSpaceMatch = line.match(/^(\s*)/)
-        if (leadingSpaceMatch && leadingSpaceMatch[1]) {
-            result += leadingSpaceMatch[1]
-            remaining = line.slice(leadingSpaceMatch[1].length)
-        }
-
-        // Check for full-line comment
-        if (remaining.trim().startsWith('//')) {
-            const commentMatch = remaining.match(/(\/\/.*)$/)
-            if (commentMatch) {
-                result += `<span class="hl-comment">${escapeHtml(commentMatch[1])}</span>`
-                return result
-            }
-        }
-
-        // Keywords
-        const keywords = ['val', 'var', 'fun', 'class', 'object', 'interface', 'enum', 'data', 'sealed',
-                         'return', 'if', 'else', 'when', 'for', 'while', 'do', 'break', 'continue',
-                         'null', 'true', 'false', 'this', 'super', 'is', 'in', 'as', 'try', 'catch',
-                         'finally', 'throw', 'import', 'package', 'public', 'private', 'protected',
-                         'internal', 'abstract', 'final', 'open', 'override', 'companion']
-
-        const keywordPattern = new RegExp(`\\b(${keywords.join('|')})\\b`, 'g')
-
-        // Process the line with multiple patterns
-        const tokens = []
-        let pos = 0
-
-        // Tokenize: strings, comments, identifiers, numbers, keywords, classes, operators
-        const patterns = [
-            { regex: /\/\/.*$/, type: 'comment' },
-            { regex: /"(?:[^"\\]|\\.)*"/, type: 'string' },
-            { regex: new RegExp(`\\b(${keywords.join('|')})\\b`), type: 'keyword' },
-            { regex: /\b[A-Z][a-zA-Z0-9]*\b/, type: 'class' },
-            { regex: /\b[a-z_][a-zA-Z0-9_]*\b/, type: 'identifier' },
-            { regex: /\b\d+\.?\d*\b/, type: 'number' },
-            { regex: /[=+\-*/<>!&|]+/, type: 'operator' },
-            { regex: /[(){}\[\],.:;]/, type: 'punctuation' }
-        ]
-
-        while (pos < remaining.length) {
-            let matched = false
-
-            for (const { regex, type } of patterns) {
-                const tempRegex = new RegExp('^' + regex.source)
-                const match = remaining.slice(pos).match(tempRegex)
-
-                if (match) {
-                    tokens.push({ text: match[0], type })
-                    pos += match[0].length
-                    matched = true
-                    break
-                }
-            }
-
-            if (!matched) {
-                // Regular text
-                tokens.push({ text: remaining[pos], type: 'text' })
-                pos++
-            }
-        }
-
-        // Build result from tokens
-        for (const token of tokens) {
-            const escaped = escapeHtml(token.text)
-
-            switch (token.type) {
-                case 'comment':
-                    result += `<span class="hl-comment">${escaped}</span>`
-                    break
-                case 'string':
-                    result += `<span class="hl-string">${escaped}</span>`
-                    break
-                case 'number':
-                    result += `<span class="hl-number">${escaped}</span>`
-                    break
-                case 'keyword':
-                    result += `<span class="hl-keyword">${escaped}</span>`
-                    break
-                case 'class':
-                    result += `<span class="hl-class">${escaped}</span>`
-                    break
-                case 'identifier':
-                    result += escaped  // No special highlighting for identifiers
-                    break
-                case 'operator':
-                    result += `<span class="hl-operator">${escaped}</span>`
-                    break
-                case 'punctuation':
-                    result += `<span class="hl-punctuation">${escaped}</span>`
-                    break
-                default:
-                    result += escaped
-            }
-        }
-
-        return result || '&nbsp;'
-    }
+    const generateCodeView = SimCore.generateCodeView
 
     // -------------------------------------------------------------------------
     // Controls
     // -------------------------------------------------------------------------
 
     function setupControls(container, memory) {
-        const nextBtn = container.querySelector('.mem-btn-next')
-        const resetBtn = container.querySelector('.mem-btn-reset')
-
-        nextBtn.addEventListener('click', () => {
-            // Take snapshot before executing
-            const previousSnapshot = memory.snapshot()
-
-            if (memory.executeCurrentStep()) {
-                const changes = memory.getChanges(previousSnapshot)
-                updateUI(container, memory, changes)
-
-                // Remove flash classes after animation
-                setTimeout(() => {
-                    container.querySelectorAll('.flash').forEach(el => {
-                        el.classList.remove('flash')
-                    })
-                    container.querySelectorAll('.flash-object').forEach(el => {
-                        el.classList.remove('flash-object')
-                    })
-                }, 1000)
-
-                // Check if this was the last step
-                if (!memory.canStepForward()) {
-                    // Clear highlighting after 1 second
-                    setTimeout(() => {
-                        clearCodeHighlight(container)
-                    }, 2000)
-                }
-            }
-        })
-
-        resetBtn.addEventListener('click', () => {
-            memory.currentStep = 0
-            memory.reset()
-            updateUI(container, memory)
-        })
-
+        SimCore.setupControls(container, memory, updateUI)
         // Initial UI update
         updateUI(container, memory)
     }
@@ -949,7 +380,7 @@
 
             // Create container
             const container = document.createElement('div')
-            container.className = 'memory-sim'
+            container.className = 'memory-sim sim-block'
 
             container.innerHTML = `
                 <div class="memory-sim-grid">
@@ -968,15 +399,8 @@
                     <div class="memory-sim-status">
                         <div class="step-info">Ready to execute</div>
                     </div>
-                    <div class="memory-sim-controls">
-                        <button class="mem-btn mem-btn-reset" disabled>
-                            <span class="btn-icon">↺</span>
-                            <span class="btn-text">Reset</span>
-                        </button>
-                        <button class="mem-btn mem-btn-next">
-                            <span class="btn-icon">→</span>
-                            <span class="btn-text">Next</span>
-                        </button>
+                    <div class="memory-sim-controls sim-controls">
+                        ${SimCore.renderControls()}
                     </div>
                 </div>
             `
