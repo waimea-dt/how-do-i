@@ -1,14 +1,14 @@
 <div class="breadcrumbs">
 
-[Home](index.md)
-→ [Programming](programming/index.md)
+[Home](/)
+→ [Programming](programming/)
 → **Kotlin**
 
 </div>
 
 
 - <i class="si si-kotlin"></i>Kotlin Introduction
-    - [<i data-lucide="circle-question-mark"></i>The Kotlin Language](programming/kotlin/index.md)
+    - [<i data-lucide="circle-question-mark"></i>The Kotlin Language](programming/kotlin/)
     - [<i data-lucide="file-text"></i>Cheatsheet](programming/kotlin/cheatsheet.md)
     - [<i data-lucide="folder-tree"></i>Project Setup](programming/kotlin/project.md)
 

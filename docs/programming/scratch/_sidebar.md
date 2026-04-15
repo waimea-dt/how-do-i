@@ -1,12 +1,12 @@
 <div class="breadcrumbs">
 
-[Home](index.md)
-→ [Programming](programming/index.md)
+[Home](/)
+→ [Programming](programming/)
 → **Scratch**
 
 </div>
 
 
 - <i data-lucide="circle-question-mark"></i>Scratch
-    - [<i data-lucide="circle-question-mark"></i>Scratch Introduction](programming/scratch/index.md)
+    - [<i data-lucide="circle-question-mark"></i>Scratch Introduction](programming/scratch/)
 

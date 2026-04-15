@@ -1,14 +1,14 @@
 <div class="breadcrumbs">
 
-[Home](index.md)
-→ [Programming](programming/index.md)
+[Home](/)
+→ [Programming](programming/)
 → **Python**
 
 </div>
 
 
 - <i class="si si-python"></i>Python Introduction
-    - [<i data-lucide="circle-question-mark"></i>The Python Language](programming/python/index.md)
+    - [<i data-lucide="circle-question-mark"></i>The Python Language](programming/python/)
     - [<i data-lucide="info"></i>Python Cheatsheet](programming/python/cheatsheet.md)
 
 - <i data-lucide="scooter"></i>Python Basics

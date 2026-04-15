@@ -1,6 +1,6 @@
 <div class="breadcrumbs">
 
-[Home](index.md)
+[Home](/)
 → **Testing**
 
 </div>
@@ -45,6 +45,7 @@
     - [Requests](tests/requests.md)
     - [CPU Sim](tests/cpu-sim.md)
     - [Memory Sim](tests/memory-sim.md)
+    - [SimCore](tests/sim-core.md)
 
 - <i data-lucide="mouse-pointer-click"></i>Interactive
     - [Number Base Converter](tests/convertor.md)

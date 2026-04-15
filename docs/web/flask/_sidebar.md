@@ -1,7 +1,7 @@
 <div class="breadcrumbs">
 
-[Home](index.md)
-→ [Web Development](web/index.md)
+[Home](/)
+→ [Web Development](web/)
 → **Flask**
 
 </div>

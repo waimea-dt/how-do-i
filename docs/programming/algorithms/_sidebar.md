@@ -1,14 +1,14 @@
 <div class="breadcrumbs">
 
-[Home](index.md)
-→ [Programming](programming/index.md)
+[Home](/)
+→ [Programming](programming/)
 → **Algorithms**
 
 </div>
 
 
 - <i data-lucide="workflow"></i>Algorithm Introduction
-    - [<i data-lucide="circle-question-mark"></i>Algorithm Introduction](programming/algorithms/index.md)
+    - [<i data-lucide="circle-question-mark"></i>Algorithm Introduction](programming/algorithms/)
 
 - <i data-lucide="workflow"></i>Computer Algorithms
     - [<i data-lucide="repeat-2"></i>Game Loops](programming/algorithms/games.md)
