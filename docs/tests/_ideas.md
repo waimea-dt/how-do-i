@@ -1,18 +1,51 @@
-# Plugin Ideas & Roadmap
+# Plugin Ideas
 
-This document tracks potential plugin implementations for the dt-notes educational platform.
+## Ideas
 
-## Completed Plugins
+### Cipher Stepper
+**Purpose**: Step through classical encryption to build intuition before modern crypto
+**Features**:
+- Caesar cipher: character-by-character shifting with key highlighted
+- Vigenère cipher: repeating key shown aligned above plaintext
+- Frequency analysis panel showing letter distribution
+- Encrypt and decrypt modes
 
-- ✅ **memory-sim.js** - Kotlin OOP memory visualization with stack/heap and garbage collection
-- ✅ **cpu-sim.js** - TINY-8 CPU simulator with fetch-decode-execute cycle visualization
-- ✅ **python-test.js** - Code coverage heat map for TDD education with AST-based instrumentation
+### Diffie-Hellman Visualizer
+**Purpose**: Explain public-key exchange using the colour-mixing metaphor
+**Features**:
+- Stepped Alice/Bob protocol with colour swatches for public/private values
+- Actual modular arithmetic shown at each stage (gᵃ mod p, gᵇ mod p, etc.)
+- "Eavesdropper can see" vs "kept secret" visual separation
 
----
+### Hashing Demo
+**Purpose**: Teach hash functions, integrity, and the avalanche effect
+**Features**:
+- Type a string, see the hash output live
+- Change one character — highlight how much of the hash changes
+- Side-by-side password storage: plaintext vs hashed vs salted+hashed
 
-## High Priority
+### Algorithm Race
+**Purpose**: Show algorithmic complexity through direct comparison
+**Features**:
+- Run two algorithms side-by-side (e.g. linear vs binary search, bubble vs merge sort)
+- Live operation counter for each
+- Input-size slider to scale the problem
 
-### 1. Algorithm Visualizer
+### Growth Curve Plotter
+**Purpose**: Build intuition for Big-O growth rates
+**Features**:
+- Overlaid curves for O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ)
+- Draggable input-size slider watching lines diverge
+- Highlight which class a given algorithm falls into
+
+### Tractability Explorer
+**Purpose**: Demonstrate the combinatorial explosion of intractable problems
+**Features**:
+- TSP brute-force for small n (≤8 cities), counting routes tried
+- Show n! growth alongside the live search
+- Contrast with a greedy heuristic running in O(n²)
+
+### Algorithm Visualizer
 **Purpose**: Step-through visualization of common algorithms
 **Features**:
 - Sorting algorithms (bubble, merge, quick, insertion)
@@ -21,36 +54,7 @@ This document tracks potential plugin implementations for the dt-notes education
 - Linked list operations with pointer movements
 - Tree traversals (in-order, pre-order, post-order)
 
-**Usage Example**:
-```markdown
-<algo type="bubble-sort">
-[64, 34, 25, 12, 22, 11, 90]
-</algo>
-```
-
-### 2. C-Style Memory Diagram
-**Purpose**: Visualize low-level memory concepts (different from Kotlin memory-sim)
-**Features**:
-- Stack vs heap visualization for C/C++ style memory
-- Pointer relationships & dereferencing
-- Array memory layout
-- String storage diagrams
-- Pass-by-value vs pass-by-reference
-
-**Usage Example**:
-```markdown
-<memory>
-int x = 5;
-int* ptr = &x;
-int arr[3] = {1, 2, 3};
-</memory>
-```
-
----
-
-## Medium Priority
-
-### 4. Performance Profiler
+### Performance Profiler
 **Purpose**: Teach algorithm complexity and performance analysis
 **Features**:
 - Big-O notation visualizations
@@ -58,35 +62,7 @@ int arr[3] = {1, 2, 3};
 - Growth rate graphs (O(1) vs O(n) vs O(n²))
 - Performance metrics display
 
-**Usage Example**:
-```markdown
-<profile lang="python">
-def slow_method(): ...
-def optimized(): ...
-</profile>
-```
-
-### 3. Recursion Tree Visualizer
-**Purpose**: Help students understand recursive function calls
-**Features**:
-- Call stack visualization
-- Tree of recursive calls
-- Memoization benefits demonstration
-- Base case highlighting
-- Overlay actual execution order
-
-**Usage Example**:
-```markdown
-<recursion>
-fibonacci(5)
-</recursion>
-```
-
----
-
-## Nice to Have
-
-### 6. Color Scheme Designer
+### Color Scheme Designer
 **Purpose**: Teach color theory for UI/UX design (extends existing color work)
 **Features**:
 - Accessibility checker (WCAG contrast ratios)
@@ -94,7 +70,7 @@ fibonacci(5)
 - Complementary/analogous color suggestions
 - Color palette generation
 
-### 7. Syntax Error Detective
+### Syntax Error Detective
 **Purpose**: Help beginners understand and fix common errors
 **Features**:
 - Common error pattern highlighter
@@ -102,23 +78,7 @@ fibonacci(5)
 - "Learn from mistakes" teaching moments
 - Links to glossary terms for concepts
 
-### 8. Binary Calculator
-**Purpose**: Teach binary arithmetic and bit operations
-**Features**:
-- Interactive binary arithmetic (+, -, ×, ÷)
-- Bit shifting demonstrations (<<, >>)
-- Two's complement visualization
-- Bitwise operations (AND, OR, XOR, NOT)
-- Binary/decimal/hex conversion with steps shown
-
-**Usage Example**:
-```markdown
-<binary-calc>
-10110101 + 11001100
-</binary-calc>
-```
-
-### 9. Code Snippets Collection
+### Code Snippets Collection
 **Purpose**: Searchable library of common programming patterns
 **Features**:
 - Searchable common patterns library
@@ -129,13 +89,13 @@ fibonacci(5)
 
 ---
 
-## Top 3 Recommendations
+## Completed
 
-Based on CS/programming education focus:
-
-1. **Algorithm Visualizer** - Core to understanding how algorithms work step-by-step
-2. **Recursion Tree Visualizer** - Helps students grasp one of the most challenging concepts
-3. **Binary Calculator** - Essential for low-level computing concepts and bit manipulation
+- ✅ **memory-sim.js** - Kotlin/Python OOP memory visualization with stack/heap
+- ✅ **oop-sim.js** - Class definitions, instantiation, field updates and method calls
+- ✅ **cpu-sim.js** - TINY-8 CPU simulator with fetch-decode-execute cycle visualization
+- ✅ **python-test.js** - Code coverage heat map for TDD education with AST-based instrumentation
+- ✅ **Binary Calculator** - Binary arithmetic, bit operations, two's complement
 
 ---
 
@@ -149,3 +109,4 @@ When building new plugins:
 - Include comprehensive error validation
 - Auto-clear highlights after completion (with 1s delay)
 - Keep executed code dimmed for visual history
+
