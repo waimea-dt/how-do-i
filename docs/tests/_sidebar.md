@@ -45,6 +45,7 @@
     - [Requests](tests/requests.md)
     - [CPU Sim](tests/cpu-sim.md)
     - [Memory Sim](tests/memory-sim.md)
+    - [OOP Sim](tests/oop-sim.md)
     - [SimCore](tests/sim-core.md)
 
 - <i data-lucide="mouse-pointer-click"></i>Interactive

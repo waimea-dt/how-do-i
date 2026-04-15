@@ -9,6 +9,9 @@ The simulator shows:
 ## Example 1: Primitives vs Objects
 
 ```memory-sim
+// ClassDefs
+class Person(val name: String, var age: Int)
+
 // Step: Create a primitive value
 val age = 25
 
@@ -22,6 +25,9 @@ val count = 3
 ## Example 2: Reference Copying
 
 ```memory-sim
+// ClassDefs
+class Person(val name: String, var age: Int)
+
 // Step: Create first Person object
 val person1 = Person("Alice", 25)
 
@@ -37,6 +43,9 @@ This example demonstrates that `person1` and `person2` are two references pointi
 ## Example 3: Independent Objects
 
 ```memory-sim
+// ClassDefs
+class Person(val name: String, var age: Int)
+
 // Step: Create first Person
 val person1 = Person("Alice", 25)
 
@@ -55,6 +64,9 @@ This shows two independent objects in the heap. Modifying one does not affect th
 ## Example 4: Null References
 
 ```memory-sim
+// ClassDefs
+class Person(val name: String, var age: Int)
+
 // Step: Create an object
 val person = Person("Alice", 25)
 
@@ -68,6 +80,9 @@ person = null
 ## Example 5: Multiple References
 
 ```memory-sim
+// ClassDefs
+class Person(val name: String, var age: Int)
+
 // Step: Create initial object
 val original = Person("Alice", 25)
 
@@ -89,6 +104,11 @@ This demonstrates that multiple variables can hold references to the same object
 ## Example 6: Working with Different Classes
 
 ```memory-sim
+// ClassDefs
+class Student(val name: String, val id: Int, var grade: Int)
+class Book(val title: String, val author: String, val year: Int)
+class Point(val x: Int, val y: Int)
+
 // Step: Create a Student
 val student = Student("Alice", 12345, 95)
 
@@ -105,6 +125,9 @@ student.grade = 98
 ## Example 7: Complex Scenario
 
 ```memory-sim
+// ClassDefs
+class Student(val name: String, val id: Int, var grade: Int)
+
 // Step: Create first student
 val alice = Student("Alice", 1001, 85)
 
@@ -136,6 +159,9 @@ This complex example shows:
 ## Example 8: Value vs Reference Types
 
 ```memory-sim
+// ClassDefs
+class Person(val name: String, var age: Int)
+
 // Step: Create a primitive value
 val x = 10
 
@@ -157,6 +183,11 @@ Key concept: When you copy a primitive (`val z = x`), you get an independent cop
 ## Example 9: Object References (Composition)
 
 ```memory-sim
+// ClassDefs
+class Person(val name: String, var age: Int)
+class Staff(val person: Person, val role: String, var salary: Int)
+class Dept(val name: String, val head: Staff, val assist: Staff)
+
 // Step: Create a person
 val alice = Person("Alice", 25)
 
@@ -189,16 +220,18 @@ This example demonstrates **object composition** - objects that contain referenc
 ## Example 10: Object References (Composition)
 
 ```memory-sim
+// ClassDefs
+class Point(val x: Int, val y: Int)
+class Rectangle(val x: Int, val y: Int, val width: Int, val height: Int)
+class Circle(val centre: Point, val radius: Int)
+
 // Step: Create a point
 val pt1 = Point(3, 2)
 
 // Step: Here is a rect
 val rect1 = Rectangle(10, 10, 15, 5)
 
-// Step: And another, based on the point
-val rect2 = Rectangle(pt1, 5, 7)
-
-// Step: And a circle, based on the point
+// Step: And a circle centred on the point
 val circ1 = Circle(pt1, 3)
 ```
 
@@ -207,11 +240,57 @@ val circ1 = Circle(pt1, 3)
 ## Example 11: Object References (Composition)
 
 ```memory-sim
+// ClassDefs
+class Location(val name: String, var north: Location, var east: Location, var south: Location, var west: Location)
+
 // Step: Create some locations
 val hall = Location("Hall")
 val path = Location("Path")
 val tower = Location("Tower")
 
 // Step: Link them
+```
+
+## Example 12: Python — Primitives and Objects
+
+```memory-sim
+# ClassDefs
+class Person:
+    def __init__(self, name, age): pass
+
+# Step: Create a primitive
+age = 25
+
+# Step: Create an object
+person = Person("Alice", 25)
+
+# Step: Update a field
+person.age = 26
+
+# Step: Create a null reference
+nobody = None
+```
+
+## Example 13: Python — Reference Sharing
+
+```memory-sim
+# Multiple objects fro a class
+# ClassDefs
+class Student:
+    def __init__(self, name, id, grade): pass
+# test comment
+# Step: Create first object
+student1 = Student("Alice", 1001, 85)
+# Step: Create second object
+student2 = Student("Bob", 1002, 90)
+# Step: Copy a reference
+top = student1
+# Step: Modify through the copy
+top.grade = 99
+# Step: Reassign to other student
+top = student2
+# test comment
+# Step: Both now unreferenced if top moves on
+top.grade = 95
 ```
 

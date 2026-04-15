@@ -1,19 +1,21 @@
 /**
- * Memory Simulator Styles
- * Interactive visualization for teaching memory concepts
+ * OOP Simulator Styles
+ * Interactive visualization for teaching OOP: class definitions, instantiation,
+ * field updates, and method calls.
  */
 
-.markdown-section .memory-sim {
+.markdown-section .oop-sim {
 
     /* -----------------------------------------------------------------------
        Grid Layout
     ----------------------------------------------------------------------- */
 
-    .memory-sim-grid {
+    .oop-sim-grid {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-areas:
             "code"
+            "classes"
             "memory"
             "status"
             "controls";
@@ -22,15 +24,16 @@
         @container (min-width: 900px) {
             grid-template-columns: 1fr 1fr;
             grid-template-areas:
-                "code memory"
+                "code     classes"
+                "code     memory"
                 "controls status";
         }
     }
 
     /* Grid areas — sim-panel styles from the sim-panel class added by JS */
-    .memory-sim-code     { grid-area: code; }
-    .memory-sim-memory   { grid-area: memory; }
-    .memory-sim-status   { grid-area: status; }
-    .memory-sim-controls { grid-area: controls; }
-
+    .oop-sim-code     { grid-area: code; }
+    .oop-sim-classes  { grid-area: classes; }
+    .oop-sim-memory   { grid-area: memory; }
+    .oop-sim-status   { grid-area: status; }
+    .oop-sim-controls { grid-area: controls; }
 }

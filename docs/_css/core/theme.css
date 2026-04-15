@@ -59,6 +59,8 @@
     /* Layout */
     --border-color:               var(--color-mono-2);
     --border-radius:              0.5rem;
+    --border-radius-med:          0.4rem;
+    --border-radius-small:        0.27rem;
     --margin-block:               1.75rem;
 
     --content-max-width:          60rem;

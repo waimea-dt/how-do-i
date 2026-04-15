@@ -245,6 +245,8 @@
             this.nextObjectId = 1
             this.currentStep = 0
             this.steps = []
+            this.classes = []
+            this.pendingHighlight = null
         }
 
         reset() {
@@ -252,6 +254,8 @@
             this.heap = []
             this.nextObjectId = 1
             this.currentStep = 0
+            this.classes = []
+            this.pendingHighlight = null
         }
 
         addPrimitive(name, value) {
@@ -331,6 +335,26 @@
 
         getObject(id) {
             return this.heap.find(o => o.id === id)
+        }
+
+        defineClass(classDef) {
+            if (!this.classes.find(c => c.className === classDef.className)) {
+                this.classes.push(classDef)
+            }
+        }
+
+        callMethod(varName, methodName) {
+            const stackVar = this.stack.find(v => v.name === varName)
+            if (!stackVar || stackVar.type !== 'reference') return
+            const obj = this.getObject(stackVar.objectId)
+            if (!obj) return
+            this.pendingHighlight = { className: obj.className, methodName, objectId: stackVar.objectId }
+        }
+
+        highlightConstructor(className) {
+            const classDef = this.classes.find(c => c.className === className)
+            if (!classDef) return
+            this.pendingHighlight = { className, methodName: classDef.constructorLabel }
         }
 
         snapshot() {
@@ -453,12 +477,19 @@
      * @param {string[]} [extraSelectors] - additional selectors beyond default set
      */
     function scheduleFlashCleanup(container, extraSelectors = []) {
+        clearTimeout(container._simFlashTimer)
         const selectors = ['.flash', '.flash-object', ...extraSelectors]
-        setTimeout(() => {
+        container._simFlashTimer = setTimeout(() => {
+            container._simFlashTimer = null
             for (const sel of selectors) {
                 container.querySelectorAll(sel).forEach(el => el.classList.remove(sel.slice(1)))
             }
         }, FLASH_DURATION_MS)
+    }
+
+    function cancelFlashCleanup(container) {
+        clearTimeout(container._simFlashTimer)
+        container._simFlashTimer = null
     }
 
     // -------------------------------------------------------------------------
@@ -517,7 +548,7 @@
 
     const PYTHON_TOKEN_PATTERNS = [
         { regex: /#.*$/, type: 'comment' },
-        { regex: /"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/, type: 'string' },
+        { regex: /(?:"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/, type: 'string' },
         { regex: /@\w+/, type: 'class' },
         { regex: new RegExp(`\\b(${PYTHON_KEYWORDS.join('|')})\\b`), type: 'keyword' },
         { regex: /\b[A-Z][a-zA-Z0-9]*\b/, type: 'class' },
@@ -611,7 +642,11 @@
         const linesHtml = allLines.map((line, idx) =>
             `<div class="code-line" data-line="${idx}">${highlightSyntax(line, lang)}</div>`
         ).join('')
-        return `<pre class="code-listing"><code>${linesHtml}</code></pre>`
+        return `
+            <h4>Code</h4>
+            <div class="code-display">
+                <pre class="code-listing"><code>${linesHtml}</code></pre>
+            </div>`
     }
 
     /**
@@ -734,6 +769,295 @@
      * @param {Function} executeLineFn - (line: string, state: any) => void
      * @returns {{steps: Array, allLines: string[]}}
      */
+    // -------------------------------------------------------------------------
+    // Language Detection
+    // -------------------------------------------------------------------------
+
+    function detectLang(code) {
+        if (/\bdef\s+\w+/.test(code) || /^class\s+\w+\s*:/m.test(code) || /^#\s*Step:/m.test(code) || /^#\s*ClassDefs/m.test(code)) return 'python'
+        return 'kotlin'
+    }
+
+    // -------------------------------------------------------------------------
+    // Class Definition Parsing
+    // -------------------------------------------------------------------------
+
+    function parseClassDef(block, lang) {
+        return lang === 'python' ? parsePythonClass(block) : parseKotlinClass(block)
+    }
+
+    function parseKotlinClass(block) {
+        const headerMatch = block.match(/^class\s+(\w+)\s*\(([^)]*)/)
+        if (!headerMatch) return null
+        const className = headerMatch[1]
+        const fields = headerMatch[2]
+            .split(',')
+            .map(p => p.replace(/\b(val|var)\b/, '').replace(/:.*$/, '').trim())
+            .filter(Boolean)
+        const methods = []
+        let m
+        const methodRe = /\bfun\s+(\w+)\s*\(/g
+        while ((m = methodRe.exec(block)) !== null) methods.push(m[1])
+        return { className, fields, methods, constructorLabel: 'init' }
+    }
+
+    function parsePythonClass(block) {
+        const headerMatch = block.match(/^class\s+(\w+)/)
+        if (!headerMatch) return null
+        const className = headerMatch[1]
+        const initMatch = block.match(/\bdef\s+__init__\s*\(([^)]*)/)
+        const fields = initMatch
+            ? initMatch[1].split(',').map(p => p.trim()).filter(p => p && p !== 'self')
+            : []
+        const methods = []
+        let m
+        const methodRe = /\bdef\s+(\w+)\s*\(/g
+        while ((m = methodRe.exec(block)) !== null) {
+            if (m[1] !== '__init__') methods.push(m[1])
+        }
+        return { className, fields, methods, constructorLabel: '__init__' }
+    }
+
+    // -------------------------------------------------------------------------
+    // Unified Code Parser
+    // -------------------------------------------------------------------------
+
+    /**
+     * Parse a sim code block into steps + display lines.
+     *
+     * Sections:
+     *   // ClassDefs  (or # ClassDefs)
+     *     class Foo(...)         ← parsed into classes[], never shown
+     *   // Step: description     ← defines step boundary, hidden from display
+     *   # regular comment        ← shown in display as-is
+     *   code line                ← shown in display, executed for active step
+     *
+     * @param {string} code
+     * @param {function} fieldResolver  fn(className, argsStr, state) → fields object
+     * @returns {{ steps, displayLines, lang, classes }}
+     */
+    function parseSimCode(code, fieldResolver) {
+        const lang = detectLang(code)
+        const stepPrefix    = lang === 'python' ? '# Step:'    : '// Step:'
+        const classDefs     = lang === 'python' ? '# ClassDefs': '// ClassDefs'
+        const lineComment   = lang === 'python' ? '#'          : '//'
+
+        const rawLines = code.split('\n')
+        const classes  = []
+        const steps    = []
+        const displayLines = []   // lines to show in code panel
+
+        let inClassDefs   = false
+        let classDefBlock = []
+
+        let description     = ''
+        let stepDisplayStart = -1
+        let stepDisplayComment = -1
+        let stepCodeLines   = []   // trimmed code lines for the current step (for execute)
+
+        function flushStep() {
+            if (stepCodeLines.length === 0) return
+            const endLine = stepDisplayStart + stepCodeLines.length - 1
+            const lines   = stepCodeLines.slice()
+            const dl      = lang
+            // Class definition step — parse the whole block and define on state
+            const isClassDef = lines[0].startsWith('class ')
+            steps.push({
+                description: description || 'Execute',
+                code: lines.join('\n'),
+                commentLineNum:  stepDisplayComment,
+                startLineNum:    stepDisplayStart,
+                endLineNum:      endLine,
+                execute(state) {
+                    if (isClassDef) {
+                        const def = parseClassDef(lines.join('\n'), dl)
+                        if (def && typeof state.defineClass === 'function') state.defineClass(def)
+                    } else {
+                        for (const line of lines) executeSimLine(line, state, dl, fieldResolver)
+                    }
+                }
+            })
+            stepCodeLines   = []
+            stepDisplayStart = -1
+        }
+
+        for (let i = 0; i < rawLines.length; i++) {
+            const raw     = rawLines[i]
+            const trimmed = raw.trim()
+
+            // --- ClassDefs section start ---
+            if (trimmed === classDefs) {
+                flushStep()
+                inClassDefs   = true
+                classDefBlock = []
+                continue
+            }
+
+            // --- ClassDefs: accumulate until first Step marker or non-class line ---
+            if (inClassDefs) {
+                if (trimmed.startsWith(stepPrefix)) {
+                    // Parse accumulated class block then handle step marker below
+                    if (classDefBlock.length) {
+                        const def = parseClassDef(classDefBlock.join('\n'), lang)
+                        if (def) classes.push(def)
+                    }
+                    inClassDefs   = false
+                    classDefBlock = []
+                    // fall through to step marker handling
+                } else if (trimmed.startsWith('class ')) {
+                    // Start of a new class: save previous if any
+                    if (classDefBlock.length) {
+                        const def = parseClassDef(classDefBlock.join('\n'), lang)
+                        if (def) classes.push(def)
+                    }
+                    classDefBlock = [trimmed]
+                    continue
+                } else if (!trimmed || trimmed.startsWith('def ') || trimmed.startsWith('@') || /^\s/.test(raw)) {
+                    // Still inside class body (blank line, method def, decorator, indented body)
+                    if (classDefBlock.length) classDefBlock.push(trimmed)
+                    continue
+                } else {
+                    // Regular comment or code — ClassDefs section ends here; fall through
+                    if (classDefBlock.length) {
+                        const def = parseClassDef(classDefBlock.join('\n'), lang)
+                        if (def) classes.push(def)
+                        classDefBlock = []
+                    }
+                    inClassDefs = false
+                    // fall through to regular line handling below
+                }
+            }
+
+            // --- Step marker (hidden from display) ---
+            if (trimmed.startsWith(stepPrefix)) {
+                flushStep()
+                description          = trimmed.substring(trimmed.indexOf(':') + 1).trim()
+                stepDisplayComment   = displayLines.length   // next display line index
+                // Don't push to displayLines — step markers are hidden
+                continue
+            }
+
+            // --- Everything else goes to display ---
+            displayLines.push(raw)
+            const displayIdx = displayLines.length - 1
+
+            // Regular comment — shown in display but not executed
+            if (!trimmed || trimmed.startsWith(lineComment)) continue
+
+            // Code line — track for current step
+            if (stepDisplayStart === -1) stepDisplayStart = displayIdx
+            stepCodeLines.push(trimmed)
+        }
+
+        // Flush any remaining ClassDefs block
+        if (inClassDefs && classDefBlock.length) {
+            const def = parseClassDef(classDefBlock.join('\n'), lang)
+            if (def) classes.push(def)
+        }
+        flushStep()
+
+        return { steps, displayLines, lang, classes }
+    }
+
+    // -------------------------------------------------------------------------
+    // Unified Line Executor
+    // -------------------------------------------------------------------------
+
+    /**
+     * Execute a single statement against a HeapState.
+     * fieldResolver(className, argsStr, state) → fields object
+     */
+    function executeSimLine(line, state, lang, fieldResolver) {
+        const nullLiteral = lang === 'python' ? 'None' : 'null'
+
+        // Method call: name.method()  — before field/assignment checks
+        const methodCallMatch = line.match(/^(\w+)\.(\w+)\s*\(/)
+        if (methodCallMatch && !line.includes('=')) {
+            if (typeof state.callMethod === 'function') state.callMethod(methodCallMatch[1], methodCallMatch[2])
+            return
+        }
+
+        // Field update: name.field(.field)* = value
+        const fieldUpdateMatch = line.match(/^(\w+(?:\.\w+)+)\s*=\s*(.+)$/)
+        if (fieldUpdateMatch) {
+            state.updateField(fieldUpdateMatch[1], parseValue(fieldUpdateMatch[2]))
+            return
+        }
+
+        // Val declaration (Kotlin): val name = expr
+        const valMatch = line.match(/^val\s+(\w+)\s*=\s*(.+)$/)
+        if (valMatch) {
+            handleSimAssignment(valMatch[1], valMatch[2].trim(), state, lang, nullLiteral, fieldResolver)
+            return
+        }
+
+        // Bare assignment: name = expr  (Python, or Kotlin reassignment)
+        const assignMatch = line.match(/^([a-zA-Z_]\w*)\s*=\s*(.+)$/)
+        if (assignMatch) {
+            handleSimAssignment(assignMatch[1], assignMatch[2].trim(), state, lang, nullLiteral, fieldResolver)
+        }
+    }
+
+    function handleSimAssignment(varName, valueExpr, state, lang, nullLiteral, fieldResolver) {
+        if (valueExpr === nullLiteral || valueExpr === 'null' || valueExpr === 'None') {
+            state.setNull(varName)
+            return
+        }
+
+        // Object instantiation: ClassName(args)
+        const objectMatch = valueExpr.match(/^([A-Z]\w*)\s*\((.*)\)$/)
+        if (objectMatch) {
+            const fields = fieldResolver(objectMatch[1], objectMatch[2], state)
+            state.addObject(varName, objectMatch[1], fields)
+            if (typeof state.highlightConstructor === 'function') state.highlightConstructor(objectMatch[1])
+            return
+        }
+
+        // Reference copy: bare lowercase identifier that exists on the stack
+        if (/^[a-z_]\w*$/.test(valueExpr) && state.stack.find(v => v.name === valueExpr)) {
+            state.copyReference(varName, valueExpr)
+            return
+        }
+
+        state.addPrimitive(varName, parseValue(valueExpr))
+    }
+
+    // -------------------------------------------------------------------------
+    // Field Resolver — class-definition based (used by oop-sim + memory-sim)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Build a fieldResolver that looks class defs up from a source array.
+     * classesRef is either an array of classDef objects, or a function returning one.
+     * Pass a function when the array is populated lazily (e.g. oop-sim's state.classes).
+     */
+    function makeClassDefResolver(classesRef) {
+        return function(className, argsStr, state) {
+            const classes = typeof classesRef === 'function' ? classesRef() : classesRef
+            const classDef = classes.find(c => c.className === className)
+            const args = argsStr.trim() ? argsStr.split(',').map(s => s.trim()) : []
+            const fieldNames = classDef ? classDef.fields : args.map((_, i) => `field${i}`)
+            const fields = {}
+
+            args.forEach((arg, i) => {
+                const fieldName = fieldNames[i] || `field${i}`
+                if (/^[a-zA-Z_]\w*$/.test(arg)) {
+                    const stackVar = state.stack.find(v => v.name === arg)
+                    if (stackVar && stackVar.type === 'reference') {
+                        fields[fieldName] = { $ref: stackVar.objectId }
+                        return
+                    }
+                }
+                fields[fieldName] = parseValue(arg)
+            })
+
+            for (let i = args.length; i < fieldNames.length; i++) {
+                fields[fieldNames[i]] = null
+            }
+            return fields
+        }
+    }
+
     function parseSteps(code, executeLineFn) {
         const lines = code.split('\n')
         const steps = []
@@ -782,6 +1106,117 @@
     }
 
     // -------------------------------------------------------------------------
+    // Shared view renderers (used by memory-sim + oop-sim)
+    // -------------------------------------------------------------------------
+
+    function renderVariablesView(state, changes) {
+        if (state.stack.length === 0) return renderEmpty()
+        return state.stack.map(v =>
+            renderVariable(v, !!(changes && changes.stackVariables.has(v.name)), id => state.getObject(id))
+        ).join('')
+    }
+
+    function renderHeapView(state, changes) {
+        if (state.heap.length === 0) return renderEmpty()
+        const referencedIds = findReferencedObjectIds(state)
+        return state.heap.map(obj => renderHeapObject(obj, state, changes, referencedIds)).join('')
+    }
+
+    function updateStepInfo(container, state) {
+        const el = container.querySelector('.step-info')
+        if (!el) return
+        el.textContent = state.currentStep === 0
+            ? 'Ready to execute'
+            : state.steps[state.currentStep - 1].description
+    }
+
+    function renderMemoryPanel() {
+        return `
+            <h4>Memory</h4>
+            <div class="sim-memory-view">
+                <div class="sim-section sim-variables-section">
+                    <h5>Variables</h5>
+                    <div class="sim-variables-list"></div>
+                </div>
+                <div class="sim-section sim-heap-section">
+                    <h5>Heap</h5>
+                    <div class="sim-heap-list"></div>
+                </div>
+            </div>
+        `
+    }
+
+    function renderClassesPanel() {
+        return `
+            <h4>Classes</h4>
+            <div class="sim-classes-list"></div>
+        `
+    }
+
+    function renderClassesView(classes) {
+        if (!classes || classes.length === 0) return renderEmpty()
+        return classes.map(def => {
+            const fieldsHtml = def.fields.map(f => `
+                <div class="class-member class-field-member">
+                    <span class="member-name">${escapeHtml(f)}</span>
+                </div>
+            `).join('')
+
+            const constructorHtml = `
+                <div class="class-member class-constructor" data-method="${escapeHtml(def.constructorLabel)}">
+                    <span class="member-name constructor-name">${escapeHtml(def.constructorLabel)}</span>
+                    <span class="member-params">(${def.fields.map(escapeHtml).join(', ')})</span>
+                </div>
+            `
+
+            const methodsHtml = def.methods.map(m => `
+                <div class="class-member class-method-member" data-method="${escapeHtml(m)}">
+                    <span class="member-name method-name">${escapeHtml(m)}</span>
+                    <span class="member-params">()</span>
+                </div>
+            `).join('')
+
+            return `
+                <div class="class-def" id="class-def-${escapeHtml(def.className)}">
+                    <div class="class-header">${escapeHtml(def.className)}</div>
+                    <div class="class-body">
+                        ${constructorHtml}
+                        ${def.fields.length ? `<div class="class-divider"></div>${fieldsHtml}` : ''}
+                        ${def.methods.length ? `<div class="class-divider"></div>${methodsHtml}` : ''}
+                    </div>
+                </div>
+            `
+        }).join('')
+    }
+
+    /**
+     * Apply a pending class/method highlight flash and own the full flash lifecycle.
+     * If state.pendingHighlight is set: flash the heap object immediately, then flash
+     * the method card after 500ms and schedule cleanup inside that timeout.
+     * If no pending highlight: schedule cleanup immediately (for field-update flashes).
+     */
+    function applyPendingHighlight(container, state) {
+        if (state.pendingHighlight) {
+            const { className, methodName, objectId } = state.pendingHighlight
+            if (objectId != null) {
+                const objEl = container.querySelector(`.heap-object[data-object-id="${objectId}"]`)
+                if (objEl) objEl.classList.add('flash-object')
+            }
+            container._flashHighlightTimer = setTimeout(() => {
+                const card = container.querySelector(`#class-def-${CSS.escape(className)}`)
+                if (card) {
+                    const methodEl = card.querySelector(`[data-method="${CSS.escape(methodName)}"]`)
+                    if (methodEl) methodEl.classList.add('flash')
+                }
+                scheduleFlashCleanup(container)
+            }, 500)
+            state.pendingHighlight = null
+        } else {
+            scheduleFlashCleanup(container)
+        }
+    }
+
+    // -------------------------------------------------------------------------
     // Export
     // -------------------------------------------------------------------------
 
@@ -799,6 +1234,13 @@
         // Heap rendering
         findReferencedObjectIds,
         renderHeapObject,
+        renderVariablesView,
+        renderHeapView,
+        updateStepInfo,
+        renderMemoryPanel,
+        renderClassesPanel,
+        renderClassesView,
+        applyPendingHighlight,
 
         // Heap state base class
         HeapState,
@@ -810,6 +1252,7 @@
         // Animations
         FLASH_DURATION_MS,
         scheduleFlashCleanup,
+        cancelFlashCleanup,
         attachReferenceHandlers,
 
         // Syntax highlighting
@@ -828,7 +1271,16 @@
         syncButtonStates,
 
         // Parser
-        parseSteps
+        parseSteps,
+
+        // Unified parser + executor
+        detectLang,
+        parseClassDef,
+        parseKotlinClass,
+        parsePythonClass,
+        parseSimCode,
+        executeSimLine,
+        makeClassDefResolver,
     }
 
 })()
