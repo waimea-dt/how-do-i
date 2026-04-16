@@ -1,0 +1,338 @@
+/**
+ * Rainbow Table Attack Demo
+ * Interactive visualisation of pre-computed hash lookup tables
+ */
+
+.markdown-section rainbow {
+
+    /* ---- Design tokens (mapped from theme vars) ---- */
+    --rt-accent:              var(--theme-color);
+    --rt-crack-accent:        var(--palette-color-4);
+    --rt-found-color:         var(--color-good);
+
+    --rt-bg:                  var(--color-mono-0);
+    --rt-section-bg:          var(--color-mono-1);
+    --rt-border:              var(--color-mono-3);
+
+    --rt-label-color:         var(--color-mono-6);
+    --rt-note-color:          var(--color-mono-4);
+    --rt-hint-color:          var(--color-mono-5);
+
+    --rt-table-head-bg:       var(--color-mono-2);
+    --rt-table-row-bg:        var(--color-mono-1);
+    --rt-table-row-alt-bg:    var(--color-mono-0);
+    --rt-table-border:        var(--color-mono-2);
+
+    --rt-checking-bg:         color-mix(in srgb, var(--rt-accent),      transparent 82%);
+    --rt-checking-border:     var(--rt-accent);
+    --rt-found-bg:            color-mix(in srgb, var(--rt-found-color),  transparent 82%);
+    --rt-found-border:        var(--rt-found-color);
+
+    --rt-input-bg:            var(--color-mono-0);
+    --rt-input-border:        var(--color-mono-4);
+    --rt-input-border-hover:  var(--color-mono-5);
+    --rt-input-border-focus:  var(--rt-crack-accent);
+
+    --rt-start-btn-bg:        color-mix(in srgb, var(--rt-crack-accent), transparent 75%);
+    --rt-start-btn-border:    var(--rt-crack-accent);
+    --rt-start-btn-hover:     color-mix(in srgb, var(--rt-crack-accent), transparent 60%);
+
+    --rt-reset-btn-bg:        var(--color-mono-2);
+    --rt-reset-btn-border:    var(--color-mono-4);
+    --rt-reset-btn-hover:     var(--color-mono-3);
+
+    --rt-result-found-bg:     color-mix(in srgb, var(--rt-found-color),  transparent 88%);
+    --rt-result-found-border: var(--rt-found-color);
+    --rt-result-fail-bg:      color-mix(in srgb, var(--color-warning),   transparent 88%);
+    --rt-result-fail-border:  var(--color-warning);
+    --rt-result-error-bg:     color-mix(in srgb, var(--color-warning),   transparent 88%);
+    --rt-result-error-border: var(--color-warning);
+
+    --rt-font-mono:           var(--font-family-mono);
+
+    /* ---- Outer wrapper ---- */
+
+    .rt-wrapper {
+        background: var(--rt-bg);
+        border: 2px solid var(--rt-border);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* ---- Input section (top) ---- */
+
+    .rt-input-section {
+        padding: 1.25em 1.5em;
+        border-bottom: 2px solid var(--rt-border);
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em;
+    }
+
+    .rt-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--rt-label-color);
+    }
+
+    .rt-input-row {
+        display: flex;
+        gap: 0.5em;
+        align-items: stretch;
+    }
+
+    .rt-input {
+        flex: 1;
+        min-width: 0;
+        background: var(--rt-input-bg);
+        border: 2px solid var(--rt-input-border);
+        border-radius: calc(var(--border-radius) * 0.75);
+        padding: 0.5em 0.75em;
+        color: var(--color-text);
+        font-family: var(--rt-font-mono);
+        font-size: 0.78rem;
+        transition: border-color 150ms, box-shadow 150ms;
+
+        &:hover {
+            border-color: var(--rt-input-border-hover);
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--rt-input-border-focus);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--rt-crack-accent), transparent 75%);
+        }
+    }
+
+    /* Start / Reset buttons */
+
+    .rt-start-btn,
+    .rt-reset-btn {
+        flex-shrink: 0;
+        padding: 0.5em 1.1em;
+        border-radius: calc(var(--border-radius) * 0.75);
+        color: var(--color-text);
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 120ms;
+        white-space: nowrap;
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    }
+
+    .rt-start-btn {
+        background: var(--rt-start-btn-bg);
+        border: 2px solid var(--rt-start-btn-border);
+
+        &:hover:not(:disabled) {
+            background: var(--rt-start-btn-hover);
+        }
+    }
+
+    .rt-reset-btn {
+        background: var(--rt-reset-btn-bg);
+        border: 2px solid var(--rt-reset-btn-border);
+
+        &:hover:not(:disabled) {
+            background: var(--rt-reset-btn-hover);
+        }
+    }
+
+    /* ---- Section label (table header) ---- */
+
+    .rt-table-section {
+        padding: 1.25em 1.5em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75em;
+        flex: 1;
+        width: fit-content;
+    }
+
+    .rt-section-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--rt-label-color);
+    }
+
+    .rt-section-note {
+        font-size: 0.85em;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        text-transform: none;
+        color: var(--rt-note-color);
+    }
+
+    /* ---- Table ---- */
+
+    .table-scroll {
+        margin-block: 0;
+        padding: 0;
+    }
+
+    .rt-table {
+        width: auto;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+        table-layout: auto;
+
+        thead tr {
+            background: var(--rt-table-head-bg);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+
+            th {
+                padding: 0.25em 0.75em;
+                text-align: left;
+                font-size: 0.8rem;
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                color: var(--rt-label-color);
+                border-bottom: 1px solid var(--rt-table-border);
+
+                &:first-child    { width: 2.5em; }
+                &:nth-child(2)   { width: 8em; }
+            }
+        }
+
+        tbody .rt-row {
+            background: var(--rt-table-row-bg);
+            transition: background 150ms, opacity 150ms, outline 150ms;
+
+            &:nth-child(even) {
+                background: var(--rt-table-row-alt-bg);
+            }
+
+            td {
+                padding: 0.225em 0.75em;
+                border-bottom: 1px solid var(--rt-table-border);
+                vertical-align: middle;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            /* Scanning — current row being checked */
+            &.is-checking {
+                background: var(--rt-checking-bg) !important;
+                outline: 2px solid var(--rt-checking-border);
+                outline-offset: -2px;
+            }
+
+            /* Match found */
+            &.is-found {
+                background: var(--rt-found-bg) !important;
+                outline: 2px solid var(--rt-found-border);
+                outline-offset: -2px;
+
+                .rt-cell-hash {
+                    color: var(--highlight-color);
+                    font-weight: 600;
+                }
+
+                .rt-password-hidden {
+                    filter: none;
+                    opacity: 1;
+                    color: var(--rt-found-color);
+                    font-weight: 700;
+                    letter-spacing: 0.03em;
+                }
+            }
+
+            /* Already scanned, no match */
+            &.is-checked {
+                opacity: 0.35;
+            }
+        }
+    }
+
+    .rt-cell-num {
+        color: var(--rt-note-color);
+        font-size: 0.75rem;
+        text-align: right;
+    }
+
+    .rt-cell-hash {
+        font-family: var(--rt-font-mono);
+        font-size: 0.72rem;
+    }
+
+    /* Copy button in SHA-256 column header */
+
+    /* Password column — hidden until a row matches */
+
+    .rt-cell-password {
+        font-family: var(--rt-font-mono);
+        font-weight: 600;
+    }
+
+    .rt-password-hidden {
+        filter: blur(4px);
+        font-weight: 700;
+        opacity: 0.3;
+        transition: filter 400ms ease, opacity 400ms ease, color 300ms ease;
+        user-select: none;
+    }
+
+    /* ---- Result panel ---- */
+
+    .rt-result {
+        margin: 0.4em 1.5em 1.25em;
+        padding: 0.65em 1em;
+        border-radius: calc(var(--border-radius) * 0.75);
+        font-size: 0.9rem;
+        display: none;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5em;
+
+        &.is-found,
+        &.is-not-found,
+        &.is-error {
+            display: flex;
+        }
+
+        &.is-found {
+            background: var(--rt-result-found-bg);
+            border: 1px solid var(--rt-result-found-border);
+        }
+
+        &.is-not-found {
+            background: var(--rt-result-fail-bg);
+            border: 1px solid var(--rt-result-fail-border);
+        }
+
+        &.is-error {
+            background: var(--rt-result-error-bg);
+            border: 1px solid var(--rt-result-error-border);
+        }
+    }
+
+    .rt-result-icon   { font-size: 1.1em; }
+    .rt-result-label  { font-weight: 600; }
+
+    .rt-result-value {
+        font-family: var(--rt-font-mono);
+        font-weight: 700;
+        color: var(--rt-found-color);
+    }
+
+    .rt-result-note {
+        font-size: 0.85em;
+        color: var(--rt-hint-color);
+        width: 100%;
+    }
+}

@@ -1,0 +1,348 @@
+/**
+ * Hash Demo
+ * Interactive SHA-256 hashing visualisation
+ */
+
+.markdown-section hasher {
+
+    /* ---- Design tokens (mapped from theme vars) ---- */
+    --hasher-accent:             var(--theme-color);
+    --hasher-output-accent:      var(--palette-color-1);
+
+    --hasher-bg:                 var(--color-mono-0);
+    --hasher-section-bg:         var(--color-mono-1);
+    --hasher-border:             var(--color-mono-3);
+
+    --hasher-label-color:        var(--theme-color-6);
+    --hasher-label-note-color:   var(--color-mono-6);
+    --hasher-empty-color:        var(--color-mono-4);
+    --hasher-arrow-color:        var(--color-mono-4);
+
+    --hasher-input-bg:           var(--color-mono-1);
+    --hasher-input-border:       var(--color-mono-4);
+    --hasher-input-border-hover: var(--color-mono-5);
+    --hasher-input-border-focus: var(--hasher-accent);
+
+    --hasher-hash-color:         var(--hasher-output-accent);
+    --hasher-font-mono:          var(--font-family-mono);
+
+    --hasher-salt-color:         var(--palette-color-4);
+
+    display: block;
+    margin: var(--margin-block) 0;
+
+    /* ---- Outer wrapper ---- */
+
+    .hasher-wrapper {
+        background: var(--hasher-bg);
+        border: 2px solid var(--hasher-border);
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        box-shadow: var(--box-shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75em;
+        align-items: stretch;
+    }
+
+    /* ---- Sections ---- */
+
+    .hasher-input-section,
+    .hasher-output-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+    .hasher-output-section {
+        flex: 1;
+        background: var(--hasher-section-bg);
+        border: 1px solid var(--hasher-output-accent);
+        border-radius: calc(var(--border-radius) * 0.75);
+        padding: 0.75em 1em;
+    }
+
+    /* ---- Labels ---- */
+
+    .hasher-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--hasher-label-color);
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        flex-wrap: wrap;
+    }
+
+    .hasher-copy-btn {
+        margin-left: auto;
+        font-size: 0.6rem;
+        padding: 0.2em 0.5em;
+        background: transparent;
+        border: 1px solid var(--hasher-input-border);
+        border-radius: calc(var(--border-radius) * 0.5);
+        color: var(--hasher-label-color);
+        cursor: pointer;
+        font-weight: 500;
+        letter-spacing: 0;
+        text-transform: none;
+        transition: background 120ms, color 120ms;
+
+        &:hover {
+            background: color-mix(in srgb, var(--hasher-output-accent), transparent 80%);
+            border-color: var(--hasher-output-accent);
+            color: var(--color-text);
+        }
+    }
+
+    .hasher-label-note {
+        font-size: 0.85em;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        text-transform: none;
+        color: var(--hasher-label-note-color);
+    }
+
+    /* ---- Salt controls ---- */
+
+    .hasher-salt-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75em;
+        flex-wrap: wrap;
+        margin-top: 0.35em;
+
+        &[hidden] { display: none; }
+    }
+
+    .hasher-salt-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        font-size: 0.78rem;
+        color: var(--hasher-label-color);
+        cursor: pointer;
+        user-select: none;
+
+        input[type="checkbox"] {
+            cursor: pointer;
+            accent-color: var(--hasher-accent);
+        }
+    }
+
+    .hasher-salt-display {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        flex-wrap: wrap;
+    }
+
+    .hasher-salt-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--hasher-label-color);
+    }
+
+    .hasher-salt-value {
+        font-family: var(--hasher-font-mono);
+        font-size: 0.75rem;
+        color: var(--hasher-salt-color) !important;
+        letter-spacing: 0.04em;
+    }
+
+    .hasher-salt-refresh-btn {
+        font-size: 0.65rem;
+        padding: 0.15em 0.45em;
+        background: transparent;
+        border: 1px solid var(--hasher-input-border);
+        border-radius: calc(var(--border-radius) * 0.5);
+        color: var(--hasher-label-color);
+        cursor: pointer;
+        transition: background 120ms, border-color 120ms;
+
+        &:hover {
+            background: color-mix(in srgb, var(--hasher-accent), transparent 85%);
+            border-color: var(--hasher-accent);
+        }
+    }
+
+    /* ---- Input field ---- */
+
+    .hasher-input {
+        width: 100%;
+        box-sizing: border-box;
+        background: var(--hasher-input-bg);
+        border: 2px solid var(--hasher-input-border);
+        border-radius: calc(var(--border-radius) * 0.75);
+        padding: 0.5em 0.75em;
+        color: var(--color-text);
+        font-size: 1rem;
+        font-family: var(--font-family);
+        transition: border-color 150ms, box-shadow 150ms;
+
+        &:hover {
+            border-color: var(--hasher-input-border-hover);
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--hasher-input-border-focus);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--hasher-accent), transparent 75%);
+        }
+    }
+
+    /* ---- Arrow divider ---- */
+
+    .hasher-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--hasher-arrow-color);
+        font-size: 1.2rem;
+        flex-shrink: 0;
+
+        &::after {
+            content: '↓';
+        }
+    }
+
+    /* ---- Hash output ---- */
+
+    .hasher-output {
+        min-height: 1.75em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        align-items: flex-start;
+    }
+
+    .hasher-hash {
+        font-family: var(--hasher-font-mono);
+        font-size: 0.78rem;
+        color: var(--hasher-hash-color);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em 1em !important;
+        padding: 0.5em !important;
+        justify-content: center;
+        align-items: center;
+        min-height: 5em;
+        width: 100%;
+
+        &.is-updated {
+            animation: hasher-flash 350ms ease-out;
+        }
+    }
+
+    .hasher-group {
+        letter-spacing: 0.04em;
+    }
+
+    .hasher-empty {
+        color: var(--hasher-empty-color);
+        font-family: var(--hasher-font-mono);
+        font-size: 0.85rem;
+    }
+
+    /* ---- Flash animation ---- */
+
+    @keyframes hasher-flash {
+        0%   { opacity: 0.2; }
+        100% { opacity: 1; }
+    }
+
+    /* ---- History block ---- */
+
+    .hasher-history {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4em;
+    }
+
+    .hasher-history-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--hasher-label-color);
+    }
+
+    .hasher-history-note {
+        font-size: 0.85em;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        text-transform: none;
+        color: var(--hasher-label-note-color);
+    }
+
+    .hasher-history-pre {
+        margin: 0;
+        border: 1px solid var(--hasher-border);
+        background: var(--code-bg-color);
+        border-radius: calc(var(--border-radius) * 0.75);
+        overflow-y: hidden;
+        overflow-x: auto;
+        line-height: 1.5;
+
+        .hasher-history-code {
+            display: block;
+            font-family: var(--hasher-font-mono);
+            font-size: 1rem;
+            padding: 0.6em;
+            border: none;
+            height: 15em;
+            white-space: pre;
+
+            .input-value {
+                color: var(--hasher-accent);
+            }
+
+            .salt-value {
+                color: var(--hasher-salt-color);
+            }
+
+            .hash-value {
+                color: var(--hasher-hash-color);
+            }
+        }
+    }
+
+    /* ---- Responsive: side-by-side on wider screens ---- */
+
+    @container (min-width: 560px) {
+
+        .hasher-wrapper {
+            flex-direction: row;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .hasher-input-section {
+            flex: 1;
+        }
+
+        .hasher-arrow {
+            margin-top: 1.8em;
+
+            &::after {
+                content: '→';
+            }
+        }
+
+        .hasher-output-section {
+            flex: 1;
+        }
+
+        .hasher-history {
+            width: 100%;
+        }
+
+        .hasher-binary-section {
+            width: 100%;
+        }
+    }
+}

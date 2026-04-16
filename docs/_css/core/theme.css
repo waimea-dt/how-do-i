@@ -25,9 +25,9 @@
 
     /* Palette */
     --palette-color-1:            #54c09a;
-    --palette-color-2:            #9561df;
+    --palette-color-2:            #a16ee8;
     --palette-color-3:            #489ebb;
-    --palette-color-4:            #c55d74;
+    --palette-color-4:            #d9627b;
 
     --palette-color-1-dark:       color-mix(in srgb, var(--palette-color-1), var(--color-mono-min) 50%);
     --palette-color-2-dark:       color-mix(in srgb, var(--palette-color-2), var(--color-mono-min) 50%);
