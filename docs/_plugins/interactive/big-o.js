@@ -394,13 +394,50 @@
             // Track which complexity classes are currently visible
             const enabled = new Set(enabledSet)
 
-            function redraw() {
-                const n = parseInt(slider.value, 10)
-                nDisplay.textContent = n
-                renderChart(wrapper, n, enabled)
+
+            let animating = false;
+            let animationFrame = null;
+            let currentN = parseInt(slider.value, 10);
+
+            function animateToN(targetN) {
+                if (animating) cancelAnimationFrame(animationFrame);
+                animating = true;
+                const startN = currentN;
+                const endN = targetN;
+                const duration = 320; // ms
+                const step = 0.1;
+                const startTime = performance.now();
+
+                function animate(now) {
+                    const elapsed = now - startTime;
+                    const t = Math.min(elapsed / duration, 1);
+                    // Ease in-out
+                    const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+                    const n = startN + (endN - startN) * ease;
+                    currentN = n;
+                    nDisplay.textContent = n.toFixed(1).replace(/\.0$/, '');
+                    renderChart(wrapper, n, enabled);
+                    if (t < 1) {
+                        animationFrame = requestAnimationFrame(animate);
+                    } else {
+                        currentN = endN;
+                        nDisplay.textContent = endN;
+                        renderChart(wrapper, endN, enabled);
+                        animating = false;
+                    }
+                }
+                animationFrame = requestAnimationFrame(animate);
             }
 
-            slider.addEventListener('input', redraw)
+            slider.addEventListener('input', () => {
+                const n = parseInt(slider.value, 10);
+                animateToN(n);
+            });
+
+            // On initial load, set currentN and draw
+            currentN = parseInt(slider.value, 10);
+            nDisplay.textContent = currentN;
+            renderChart(wrapper, currentN, enabled);
 
             toggles.forEach(cb => {
                 cb.addEventListener('change', () => {
