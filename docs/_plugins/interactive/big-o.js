@@ -89,12 +89,12 @@
     ]
 
     // SVG viewport constants
-    const SVG_W   = 560
-    const SVG_H   = 300
-    const PAD_L   = 52    // room for y-axis labels
+    const SVG_W   = 480
+    const SVG_H   = 360
+    const PAD_L   = 48
     const PAD_R   = 16
     const PAD_T   = 16
-    const PAD_B   = 36    // room for x-axis labels
+    const PAD_B   = 44
     const PLOT_W  = SVG_W - PAD_L - PAD_R
     const PLOT_H  = SVG_H - PAD_T - PAD_B
 
@@ -216,7 +216,7 @@
             if (isFinite(v) && v > rawYMax) rawYMax = v
         }
 
-        const yMax = Math.max(rawYMax, 1)
+        const yMax = Math.max(rawYMax + 1, 1)
         const xMin = 1
         const xMax = n
 
@@ -235,19 +235,28 @@
             tickLabelHTML += `<text x="${(PAD_L - 6).toFixed(1)}" y="${sy.toFixed(1)}" class="bigo-tick-y">${fmtY(tv)}</text>`
         }
 
-        // X-axis ticks: spread ~5 labels across the range 1..n
-        const xSpan     = n - xMin
-        const xTickStep = Math.max(1, Math.ceil(xSpan / 5))
-        for (let xv = xMin; xv <= n; xv += xTickStep) {
+
+        // X-axis: label every integer from 1 to n
+        const sy = PAD_T + PLOT_H
+        for (let xv = xMin; xv <= n; xv++) {
             const [sx] = dataToSVG(xv, 0, xMin, xMax, yMax)
-            const sy   = PAD_T + PLOT_H
             tickLabelHTML += `<text x="${sx.toFixed(1)}" y="${(sy + 14).toFixed(1)}" class="bigo-tick-x">${xv}</text>`
         }
-        // Always show n itself
-        const [sxN] = dataToSVG(n, 0, xMin, xMax, yMax)
-        if ((n - xMin) % xTickStep !== 0) {
-            tickLabelHTML += `<text x="${sxN.toFixed(1)}" y="${(PAD_T + PLOT_H + 14).toFixed(1)}" class="bigo-tick-x">${n}</text>`
-        }
+
+        // Chart title (top-left, inside plot area)
+        const titleX = PAD_L + 16
+        const titleY = PAD_T + 16
+        tickLabelHTML += `<text x="${titleX}" y="${titleY}" class="bigo-title" text-anchor="start">Comparison of Algorithmic Complexity</text>`
+
+        // X-axis label (centered below axis)
+        const sxMid = PAD_L + PLOT_W / 2
+        const xAxisLabelY = sy + 36
+        tickLabelHTML += `<text x="${sxMid.toFixed(1)}" y="${xAxisLabelY.toFixed(1)}" class="bigo-axis-label" text-anchor="middle">Size of Input Data, N</text>`
+
+        // Y-axis label (vertical, left of ticks)
+        const yAxisLabelX = PAD_L - 38
+        const yAxisLabelY = PAD_T + PLOT_H / 2
+        tickLabelHTML += `<text x="${yAxisLabelX.toFixed(1)}" y="${yAxisLabelY.toFixed(1)}" class="bigo-axis-label" text-anchor="middle" transform="rotate(-90,${yAxisLabelX.toFixed(1)},${yAxisLabelY.toFixed(1)})">Computational Effort</text>`
 
         gridG.innerHTML   = gridHTML
         ticksG.innerHTML  = tickLabelHTML
@@ -285,7 +294,9 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 clip-path="url(#bigo-clip)"
-            />`
+            >
+                <title>${c.label} - ${c.title}</title>
+            </polyline>`
         }
         curvesG.innerHTML = curvesHTML
 

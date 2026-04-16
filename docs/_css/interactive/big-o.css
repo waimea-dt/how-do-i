@@ -10,6 +10,17 @@
     --bigo-border:          var(--color-mono-3);
     --bigo-section-bg:      var(--color-mono-1);
 
+    /* Big-O line colors */
+    --bigo-line-color-1:    var(--palette-color-1);
+    --bigo-line-color-2:    var(--palette-color-2);
+    --bigo-line-color-3:    var(--palette-color-3);
+    --bigo-line-color-4:    var(--palette-color-4);
+    --bigo-line-color-5:    var(--palette-color-7);
+    --bigo-line-color-6:    var(--palette-color-6);
+    --bigo-line-color-7:    var(--palette-color-8);
+    --bigo-line-color-8:    var(--palette-color-5);
+
+    --bigo-title-color:     var(--theme-color);
     --bigo-label-color:     var(--theme-color-6);
     --bigo-note-color:      var(--color-mono-6);
     --bigo-muted:           var(--color-mono-4);
@@ -38,23 +49,102 @@
         display:       flex;
         flex-direction: column;
         gap:           0.85rem;
-    }
 
-    /* ---- SVG chart ---- */
+        .bigo-legend {
+            display:   flex;
+            flex-wrap: wrap;
 
-    .bigo-chart-wrap {
-        width:  100%;
-        overflow: hidden;
-        border: 1px solid var(--bigo-border);
-        border-radius: calc(var(--border-radius) * 0.75);
-        background: var(--bigo-section-bg);
-    }
+            .bigo-legend-item {
+                display:     flex;
+                align-items: center;
+                gap:         0.4em;
+                cursor:      pointer;
+                user-select: none;
+                padding:     0.15em 0.5em;
+                border-radius: calc(var(--border-radius) * 0.5);
+                border:      1px solid transparent;
+                transition:  border-color 120ms, opacity 120ms;
 
-    .bigo-svg {
-        display:    block;
-        width:      100%;
-        height:     auto;
-        overflow:   visible;
+                &:hover {
+                    border-color: var(--bigo-border);
+                }
+
+                &.is-disabled {
+                    opacity: 0.4;
+                }
+
+                input[type="checkbox"] {
+                    display: none;  /* hidden — the swatch acts as visual indicator */
+                }
+
+                .bigo-legend-swatch {
+                    width:         10px;
+                    height:        10px;
+                    border-radius: 50%;
+                    flex-shrink:   0;
+                    transition:    opacity 150ms;
+                }
+
+                &.is-disabled .bigo-legend-swatch {
+                    background: var(--bigo-muted) !important;
+                }
+
+                .bigo-legend-label {
+                    font-family:  var(--bigo-font-mono);
+                    font-size:    0.75rem;
+                    font-weight:  600;
+                    color:        var(--color-text);
+                    white-space:  nowrap;
+                }
+
+                .bigo-legend-title {
+                    font-size:  0.65rem;
+                    color:      var(--bigo-note-color);
+                    white-space: nowrap;
+                }
+
+                .bigo-legend-value {
+                    font-family:  var(--bigo-font-mono);
+                    font-size:    0.7rem;
+                    color:        var(--bigo-label-color);
+                    margin-left:  0.25em;
+                    min-width:    3.5ch;
+                    text-align:   right;
+                    flex: 1;
+                }
+            }
+        }
+
+        .bigo-controls {
+            display:     flex;
+            align-items: center;
+            gap:         0.6em;
+
+            .bigo-ctrl-label {
+                font-size:    0.72rem;
+                font-weight:  600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                color:        var(--bigo-label-color);
+                white-space:  nowrap;
+            }
+
+            .bigo-slider {
+                flex:          1;
+                accent-color:  var(--bigo-slider-accent);
+                cursor:        pointer;
+                height:        4px;
+            }
+
+            .bigo-n-display {
+                font-family:  var(--bigo-font-mono);
+                font-size:    0.85rem;
+                font-weight:  600;
+                color:        var(--color-text);
+                min-width:    2.5ch;
+                text-align:   right;
+            }
+        }
     }
 
     /* Grid & axes */
@@ -101,124 +191,19 @@
 
     .bigo-curve {
         transition: opacity 150ms, stroke-width 150ms;
-        opacity: 0.92;
+        opacity: 0.8;
+    }
 
-        &:hover {
-            stroke-width: 4 !important;
-            opacity: 1;
+    .bigo-svg:hover {
+        .bigo-curve {
+            stroke-width: 3 !important;
+
+            &:hover {
+                stroke-width: 5 !important;
+                opacity: 1 !important;
+            }
         }
     }
-
-    /* ---- Legend ---- */
-
-    .bigo-legend {
-        display:   flex;
-        flex-wrap: wrap;
-        gap:       0.4rem 0.8rem;
-    }
-
-    .bigo-legend-item {
-        display:     flex;
-        align-items: center;
-        gap:         0.4em;
-        cursor:      pointer;
-        user-select: none;
-        padding:     0.25em 0.5em;
-        border-radius: calc(var(--border-radius) * 0.5);
-        border:      1px solid transparent;
-        transition:  border-color 120ms, opacity 120ms;
-
-        &:hover {
-            border-color: var(--bigo-border);
-        }
-
-        &.is-disabled {
-            opacity: 0.4;
-        }
-
-        input[type="checkbox"] {
-            display: none;  /* hidden — the swatch acts as visual indicator */
-        }
-    }
-
-    .bigo-legend-swatch {
-        width:         10px;
-        height:        10px;
-        border-radius: 50%;
-        flex-shrink:   0;
-        transition:    opacity 150ms;
-
-        .is-disabled & {
-            background: var(--bigo-muted) !important;
-        }
-    }
-
-    .bigo-legend-label {
-        font-family:  var(--bigo-font-mono);
-        font-size:    0.75rem;
-        font-weight:  600;
-        color:        var(--color-text);
-        white-space:  nowrap;
-    }
-
-    .bigo-legend-title {
-        font-size:  0.65rem;
-        color:      var(--bigo-note-color);
-        white-space: nowrap;
-    }
-
-    .bigo-legend-value {
-        font-family:  var(--bigo-font-mono);
-        font-size:    0.7rem;
-        color:        var(--bigo-label-color);
-        margin-left:  0.25em;
-        min-width:    3.5ch;
-        text-align:   right;
-        flex: 1;
-    }
-
-    /* ---- Controls (slider row) ---- */
-
-    .bigo-controls {
-        display:     flex;
-        align-items: center;
-        gap:         0.6em;
-    }
-
-    .bigo-ctrl-label {
-        font-size:    0.72rem;
-        font-weight:  600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color:        var(--bigo-label-color);
-        white-space:  nowrap;
-    }
-
-    .bigo-slider {
-        flex:          1;
-        accent-color:  var(--bigo-slider-accent);
-        cursor:        pointer;
-        height:        4px;
-    }
-
-    .bigo-n-display {
-        font-family:  var(--bigo-font-mono);
-        font-size:    0.85rem;
-        font-weight:  600;
-        color:        var(--color-text);
-        min-width:    2.5ch;
-        text-align:   right;
-    }
-
-    /* ---- Big-O line colors ---- */
-    --bigo-line-color-1: var(--palette-color-1); /* O(1)      green */
-    --bigo-line-color-2: var(--palette-color-2); /* O(log n)  blue  */
-    --bigo-line-color-3: var(--palette-color-3); /* O(n)      purple */
-    --bigo-line-color-4: var(--palette-color-7); /* O(n log n) gold */
-    --bigo-line-color-5: var(--palette-color-6); /* O(n^2)    red/pink */
-    --bigo-line-color-6: var(--palette-color-8); /* O(n^3)    dark purple */
-    --bigo-line-color-7: var(--palette-color-4); /* O(2^n)    teal */
-    --bigo-line-color-8: var(--palette-color-5); /* O(n!)     amber */
 
     /* ---- Responsive ---- */
 
@@ -237,12 +222,35 @@
         .bigo-legend {
             flex:           0 0 auto;
             flex-direction: column;
-            gap:            0.3rem;
             align-self:     center;
         }
 
         .bigo-controls {
             width: 100%;
         }
+    }
+
+    /* Chart title */
+    .bigo-title {
+        font-family: var(--font-family);
+        font-size: 1em;
+        letter-spacing: 0.01em;
+        font-weight: 400;
+        fill: var(--bigo-title-color);
+        dominant-baseline: middle;
+        pointer-events: none;
+    }
+
+    /* Axis labels */
+    .bigo-axis-label {
+        font-family: var(--font-family);
+        font-size: 0.6em;
+        letter-spacing: 0.05em;
+        font-weight: 400;
+        fill: var(--bigo-label-color);
+        text-shadow: 0 0 3px 2px #0008;
+        opacity: 0.92;
+        dominant-baseline: middle;
+        pointer-events: none;
     }
 }
