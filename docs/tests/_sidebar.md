@@ -53,6 +53,7 @@
     - [Binary Calculator](tests/calc.md)
     - [Hash Function Demo](tests/hasher.md)
     - [Rainbow Table Attack](tests/rainbow.md)
+    - [Big-O Growth Curves](tests/big-o.md)
     - [Flash Cards](tests/flash-cards.md)
     - [Reveal.js Slides](tests/slides.md)
     - [Quizzes](tests/quiz.md)

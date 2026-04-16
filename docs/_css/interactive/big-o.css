@@ -1,0 +1,248 @@
+/**
+ * Big-O Complexity Growth Visualiser
+ * Interactive chart showing how algorithm complexity classes diverge
+ */
+
+.markdown-section big-o {
+
+    /* ---- Design tokens ---- */
+    --bigo-bg:              var(--color-mono-0);
+    --bigo-border:          var(--color-mono-3);
+    --bigo-section-bg:      var(--color-mono-1);
+
+    --bigo-label-color:     var(--theme-color-6);
+    --bigo-note-color:      var(--color-mono-6);
+    --bigo-muted:           var(--color-mono-4);
+
+    --bigo-axis-color:      var(--color-mono-5);
+    --bigo-grid-color:      var(--color-mono-2);
+    --bigo-marker-color:    var(--color-mono-5);
+
+    --bigo-tick-color:      var(--color-mono-6);
+    --bigo-tick-size:       0.6rem;
+
+    --bigo-slider-accent:   var(--theme-color);
+    --bigo-font-mono:       var(--font-family-mono);
+
+    display: block;
+    margin: var(--margin-block) 0;
+
+    /* ---- Outer wrapper ---- */
+
+    .bigo-wrapper {
+        background:    var(--bigo-bg);
+        border:        2px solid var(--bigo-border);
+        border-radius: var(--border-radius);
+        padding:       1rem;
+        box-shadow:    var(--box-shadow);
+        display:       flex;
+        flex-direction: column;
+        gap:           0.85rem;
+    }
+
+    /* ---- SVG chart ---- */
+
+    .bigo-chart-wrap {
+        width:  100%;
+        overflow: hidden;
+        border: 1px solid var(--bigo-border);
+        border-radius: calc(var(--border-radius) * 0.75);
+        background: var(--bigo-section-bg);
+    }
+
+    .bigo-svg {
+        display:    block;
+        width:      100%;
+        height:     auto;
+        overflow:   visible;
+    }
+
+    /* Grid & axes */
+
+    .bigo-gridline {
+        stroke:           var(--bigo-grid-color);
+        stroke-width:     1;
+        stroke-dasharray: 3 4;
+    }
+
+    .bigo-axis {
+        stroke:       var(--bigo-axis-color);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+    }
+
+    /* Tick labels */
+
+    .bigo-tick-y {
+        font-family:  var(--bigo-font-mono);
+        font-size:    9px;
+        fill:         var(--bigo-tick-color);
+        text-anchor:  end;
+        dominant-baseline: middle;
+    }
+
+    .bigo-tick-x {
+        font-family:  var(--bigo-font-mono);
+        font-size:    9px;
+        fill:         var(--bigo-tick-color);
+        text-anchor:  middle;
+    }
+
+    /* Marker line */
+
+    .bigo-marker-line {
+        stroke:           var(--bigo-marker-color);
+        stroke-width:     1.5;
+        stroke-dasharray: 4 3;
+        opacity:          0.7;
+    }
+
+    /* Curve hover highlight */
+
+    .bigo-curve {
+        transition: opacity 150ms, stroke-width 150ms;
+        opacity: 0.92;
+
+        &:hover {
+            stroke-width: 4 !important;
+            opacity: 1;
+        }
+    }
+
+    /* ---- Legend ---- */
+
+    .bigo-legend {
+        display:   flex;
+        flex-wrap: wrap;
+        gap:       0.4rem 0.8rem;
+    }
+
+    .bigo-legend-item {
+        display:     flex;
+        align-items: center;
+        gap:         0.4em;
+        cursor:      pointer;
+        user-select: none;
+        padding:     0.25em 0.5em;
+        border-radius: calc(var(--border-radius) * 0.5);
+        border:      1px solid transparent;
+        transition:  border-color 120ms, opacity 120ms;
+
+        &:hover {
+            border-color: var(--bigo-border);
+        }
+
+        &.is-disabled {
+            opacity: 0.4;
+        }
+
+        input[type="checkbox"] {
+            display: none;  /* hidden — the swatch acts as visual indicator */
+        }
+    }
+
+    .bigo-legend-swatch {
+        width:         10px;
+        height:        10px;
+        border-radius: 50%;
+        flex-shrink:   0;
+        transition:    opacity 150ms;
+
+        .is-disabled & {
+            background: var(--bigo-muted) !important;
+        }
+    }
+
+    .bigo-legend-label {
+        font-family:  var(--bigo-font-mono);
+        font-size:    0.75rem;
+        font-weight:  600;
+        color:        var(--color-text);
+        white-space:  nowrap;
+    }
+
+    .bigo-legend-title {
+        font-size:  0.65rem;
+        color:      var(--bigo-note-color);
+        white-space: nowrap;
+    }
+
+    .bigo-legend-value {
+        font-family:  var(--bigo-font-mono);
+        font-size:    0.7rem;
+        color:        var(--bigo-label-color);
+        margin-left:  0.25em;
+        min-width:    3.5ch;
+        text-align:   right;
+        flex: 1;
+    }
+
+    /* ---- Controls (slider row) ---- */
+
+    .bigo-controls {
+        display:     flex;
+        align-items: center;
+        gap:         0.6em;
+    }
+
+    .bigo-ctrl-label {
+        font-size:    0.72rem;
+        font-weight:  600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color:        var(--bigo-label-color);
+        white-space:  nowrap;
+    }
+
+    .bigo-slider {
+        flex:          1;
+        accent-color:  var(--bigo-slider-accent);
+        cursor:        pointer;
+        height:        4px;
+    }
+
+    .bigo-n-display {
+        font-family:  var(--bigo-font-mono);
+        font-size:    0.85rem;
+        font-weight:  600;
+        color:        var(--color-text);
+        min-width:    2.5ch;
+        text-align:   right;
+    }
+
+    /* ---- Big-O line colors ---- */
+    --bigo-line-color-1: var(--palette-color-1); /* O(1)      green */
+    --bigo-line-color-2: var(--palette-color-2); /* O(log n)  blue  */
+    --bigo-line-color-3: var(--palette-color-3); /* O(n)      purple */
+    --bigo-line-color-4: var(--palette-color-7); /* O(n log n) gold */
+    --bigo-line-color-5: var(--palette-color-6); /* O(n^2)    red/pink */
+    --bigo-line-color-6: var(--palette-color-8); /* O(n^3)    dark purple */
+    --bigo-line-color-7: var(--palette-color-4); /* O(2^n)    teal */
+    --bigo-line-color-8: var(--palette-color-5); /* O(n!)     amber */
+
+    /* ---- Responsive ---- */
+
+    @container (min-width: 580px) {
+
+        .bigo-wrapper {
+            flex-direction: row;
+            flex-wrap:      wrap;
+            align-items:    flex-start;
+        }
+
+        .bigo-chart-wrap {
+            flex: 1 1 340px;
+        }
+
+        .bigo-legend {
+            flex:           0 0 auto;
+            flex-direction: column;
+            gap:            0.3rem;
+            align-self:     center;
+        }
+
+        .bigo-controls {
+            width: 100%;
+        }
+    }
+}

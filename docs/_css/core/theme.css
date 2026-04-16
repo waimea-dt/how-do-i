@@ -24,15 +24,27 @@
     --secondary-color-8:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 90%);
 
     /* Palette */
-    --palette-color-1:            #54c09a;
-    --palette-color-2:            #a16ee8;
-    --palette-color-3:            #489ebb;
-    --palette-color-4:            #d9627b;
+    --palette-color-1:            #54c09a;   /* green */
+    --palette-color-2:            #a16ee8;   /* purple */
+    --palette-color-3:            #489ebb;   /* blue */
+    --palette-color-4:            #d9627b;   /* red/pink */
+    --palette-color-5:            #e6e96a;   /* yellow */
+    --palette-color-6:            #d47ad9;   /* magenta */
+    --palette-color-7:            #f4a259;   /* orange */
+    --palette-color-8:            #4fd3e6;   /* cyan */
+    --palette-color-9:            #5a7be2;   /* deep blue */
+    --palette-color-10:           #3bbfa3;   /* blue-green */
 
     --palette-color-1-dark:       color-mix(in srgb, var(--palette-color-1), var(--color-mono-min) 50%);
     --palette-color-2-dark:       color-mix(in srgb, var(--palette-color-2), var(--color-mono-min) 50%);
     --palette-color-3-dark:       color-mix(in srgb, var(--palette-color-3), var(--color-mono-min) 50%);
     --palette-color-4-dark:       color-mix(in srgb, var(--palette-color-4), var(--color-mono-min) 50%);
+    --palette-color-5-dark:       color-mix(in srgb, var(--palette-color-5), var(--color-mono-min) 50%);
+    --palette-color-6-dark:       color-mix(in srgb, var(--palette-color-6), var(--color-mono-min) 50%);
+    --palette-color-7-dark:       color-mix(in srgb, var(--palette-color-7), var(--color-mono-min) 50%);
+    --palette-color-8-dark:       color-mix(in srgb, var(--palette-color-8), var(--color-mono-min) 50%);
+    --palette-color-9-dark:       color-mix(in srgb, var(--palette-color-9), var(--color-mono-min) 50%);
+    --palette-color-10-dark:      color-mix(in srgb, var(--palette-color-10), var(--color-mono-min) 50%);
 
     /* Semantic colors */
     --color-good:                 #47dd97;

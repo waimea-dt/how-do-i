@@ -17,13 +17,6 @@
 - Actual modular arithmetic shown at each stage (gᵃ mod p, gᵇ mod p, etc.)
 - "Eavesdropper can see" vs "kept secret" visual separation
 
-### Hashing Demo
-**Purpose**: Teach hash functions, integrity, and the avalanche effect
-**Features**:
-- Type a string, see the hash output live
-- Change one character — highlight how much of the hash changes
-- Side-by-side password storage: plaintext vs hashed vs salted+hashed
-
 ### Algorithm Race
 **Purpose**: Show algorithmic complexity through direct comparison
 **Features**:
@@ -96,6 +89,7 @@
 - ✅ **cpu-sim.js** - TINY-8 CPU simulator with fetch-decode-execute cycle visualization
 - ✅ **python-test.js** - Code coverage heat map for TDD education with AST-based instrumentation
 - ✅ **Binary Calculator** - Binary arithmetic, bit operations, two's complement
+- ✅ **Hashing Demo** - Live SHA-256, copy, salt (tri-state), history, binary view; rainbow table attack demo
 
 ---
 
