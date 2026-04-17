@@ -1,351 +1,573 @@
 /**
- * docsify-big-o.js — Interactive Big-O complexity growth visualiser
+ * docsify-big-o.js — Interactive Big-O algorithm complexity explorer
  *
  * Helps students understand:
- *   - How different complexity classes grow as input size (n) increases
- *   - Why O(n²) and O(2ⁿ) become impractical for large n
- *   - The massive divergence between classes as n grows
+ *   - Comparative complexity of real-world algorithms
+ *   - How different approaches to the same problem scale differently
+ *   - The practical impact of Big-O on algorithm selection
  *
  * Usage in markdown:
  *   <big-o></big-o>
- *   <big-o max="15"></big-o>
+ *   <big-o max="20"></big-o>
+ *   <big-o algos="search-linear search-binary sort-bubble" enabled="search-linear"></big-o>
+ *   <big-o algos="search sort"></big-o>  <!-- Use category IDs -->
+ *   <big-o step="5" max="50"></big-o>
+ *   <big-o step="x2" max="1024"></big-o>
+ *   <big-o best-worst></big-o>
  *
  * Attributes:
- *   - max: Maximum n shown on the slider (default: 10, range: 5–20)
+ *   - max: Maximum n shown in the table (default: 20, range: 10–1024)
+ *   - algos: Space-separated list of algorithm IDs or category IDs to show (default: all)
+ *            Category IDs: array, stack, search, sort, graph, tsp, knap, pack, crypt
+ *   - enabled: Space-separated list of algorithm IDs initially enabled (default: search-linear search-binary)
+ *   - step: How N increases - number for increment, 'x2'/'x5'/'x10' for multiplication (default: 1)
+ *   - best-worst: Show best, average, and worst case complexity columns (default: off)
  */
 
 ;(function () {
 
     // -------------------------------------------------------------------------
-    // Complexity classes
+    // Algorithm definitions
     // -------------------------------------------------------------------------
 
-    const CLASSES = [
+    const ALGORITHMS = [
+        // Basic - Data Structures
         {
-            id:    'o1',
-            label: 'O(1)',
-            title: 'Constant',
-            fn:    () => 1,
-            cssVar: '--bigo-line-color-1',
-            aliases: ['o1', '1', 'const'],
+            id: 'array-access',
+            name: 'Array: Access by Index',
+            category: 'array',
+            complexity: 'O(1)',
+            fn: n => 1,
+            complexityBest: 'O(1)',
+            fnBest: n => 1,  // always same
+            complexityAvg: 'O(1)',
+            fnAvg: n => 1,  // always same
         },
         {
-            id:    'ologn',
-            label: 'O(log n)',
-            title: 'Logarithmic',
-            fn:    n => Math.log2(n),
-            cssVar: '--bigo-line-color-2',
-            aliases: ['ologn', 'logn', 'log', 'log n'],
+            id: 'array-insert',
+            name: 'Array: Insert at Index',
+            category: 'array',
+            complexity: 'O(n)',
+            fn: n => n,  // worst case: insert at start
+            complexityBest: 'O(1)',
+            fnBest: n => 1,  // insert at end
+            complexityAvg: 'O(n/2) → O(n)',
+            fnAvg: n => n / 2,  // insert at middle
         },
         {
-            id:    'on',
-            label: 'O(n)',
-            title: 'Linear',
-            fn:    n => n,
-            cssVar: '--bigo-line-color-3',
-            aliases: ['on', 'n', 'linear'],
+            id: 'array-sorted',
+            name: 'Array: Check if Sorted',
+            category: 'array',
+            complexity: 'O(n)',
+            fn: n => n,  // worst case: fully sorted or last pair wrong
+            complexityBest: 'O(1)',
+            fnBest: n => 1,  // first two elements wrong
+            complexityAvg: 'O(n<em>/2</em>)',
+            fnAvg: n => n / 2,  // error in middle
         },
         {
-            id:    'onlogn',
-            label: 'O(n log n)',
-            title: 'Linear-Logarithmic',
-            fn:    n => n * Math.log2(n),
-            cssVar: '--bigo-line-color-4',
-            aliases: ['onlogn', 'nlogn', 'n log n', 'linear-log'],
+            id: 'array-minmax',
+            name: 'Array: Find Min/Max',
+            category: 'array',
+            complexity: 'O(n)',
+            fn: n => n,  // must check every element
+            complexityBest: 'O(n)',
+            fnBest: n => n,  // always same
+            complexityAvg: 'O(n)',
+            fnAvg: n => n,  // always same
         },
         {
-            id:    'on2',
-            label: 'O(n²)',
-            title: 'Quadratic',
-            fn:    n => n * n,
-            cssVar: '--bigo-line-color-5',
-            aliases: ['on2', 'n2', 'n^2', 'quadratic'],
+            id: 'stack-pushpop',
+            name: 'Stack: Push/Pop',
+            category: 'stack',
+            complexity: 'O(1)',
+            fn: n => 1,
         },
-        {
-            id:    'on3',
-            label: 'O(n³)',
-            title: 'Cubic',
-            fn:    n => n * n * n,
-            cssVar: '--bigo-line-color-6',
-            aliases: ['on3', 'n3', 'n^3', 'cubic'],
-        },
-        {
-            id:    'o2n',
-            label: 'O(2ⁿ)',
-            title: 'Exponential',
-            fn:    n => Math.pow(2, n),
-            cssVar: '--bigo-line-color-7',
-            aliases: ['o2n', '2n', '2^n', 'exp', 'exponential'],
-        },
-        {
-            id:    'ofact',
-            label: 'O(n!)',
-            title: 'Factorial',
-            // Stirling's approximation: n! ≈ √(2πn) · (n/e)ⁿ — smooth & accurate for n ≥ 2
-            fn:    n => Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n),
-            cssVar: '--bigo-line-color-8',
-            aliases: ['ofact', 'n!', 'factorial'],
-        },
-    ]
 
-    // SVG viewport constants
-    const SVG_W   = 480
-    const SVG_H   = 360
-    const PAD_L   = 48
-    const PAD_R   = 16
-    const PAD_T   = 16
-    const PAD_B   = 44
-    const PLOT_W  = SVG_W - PAD_L - PAD_R
-    const PLOT_H  = SVG_H - PAD_T - PAD_B
+        // Basic - Searching
+        {
+            id: 'search-linear',
+            name: 'Linear Search',
+            category: 'search',
+            complexity: 'O(n)',
+            fn: n => n,  // worst case
+            complexityBest: 'O(1)',
+            fnBest: n => 1,
+            complexityAvg: 'O(n<em>/2</em>)',
+            fnAvg: n => n / 2,
+        },
+        {
+            id: 'search-binary',
+            name: 'Binary Search',
+            category: 'search',
+            complexity: 'O(log n)',
+            fn: n => Math.log2(n),  // worst case
+            complexityBest: 'O(1)',
+            fnBest: n => 1,
+            complexityAvg: 'O(log n)',
+            fnAvg: n => Math.log2(n),
+        },
 
-    // -------------------------------------------------------------------------
-    // Maths helpers
-    // -------------------------------------------------------------------------
+        // Basic - Sorting
+        {
+            id: 'sort-bubble',
+            name: 'Bubble Sort',
+            category: 'sort',
+            complexity: 'O(n²)',
+            fn: n => n * n,  // worst case: fully reversed
+            complexityBest: 'O(n)',
+            fnBest: n => n,  // already sorted: one pass
+            complexityAvg: 'O(n²<em>/2</em>)',
+            fnAvg: n => (n * n) / 2,  // average: ~half of worst
+        },
+        {
+            id: 'sort-merge',
+            name: 'Merge Sort',
+            category: 'sort',
+            complexity: 'O(n log n)',
+            fn: n => n * Math.log2(n),  // worst case
+            complexityBest: 'O(n log n)',
+            fnBest: n => n * Math.log2(n),
+            complexityAvg: 'O(n log n)',
+            fnAvg: n => n * Math.log2(n),
+        },
+        {
+            id: 'sort-insert',
+            name: 'Insertion Sort',
+            category: 'sort',
+            complexity: 'O(n²)',
+            fn: n => n * n,  // worst case: fully reversed
+            complexityBest: 'O(n)',
+            fnBest: n => n,  // already sorted: just comparisons
+            complexityAvg: 'O(n²<em>/2</em>)',
+            fnAvg: n => (n * n) / 2,  // average: ~half of worst
+        },
 
-    function niceMax(rawMax) {
-        if (rawMax <= 0) return 1
-        const magnitude = Math.pow(10, Math.floor(Math.log10(rawMax)))
-        const normalised = rawMax / magnitude
-        let nice
-        if      (normalised <= 1)   nice = 1
-        else if (normalised <= 2)   nice = 2
-        else if (normalised <= 5)   nice = 5
-        else if (normalised <= 10)  nice = 10
-        else                        nice = 20
-        return nice * magnitude
+        // Graph Algorithms
+        {
+            id: 'graph-bfs',
+            name: 'Breadth-First Search (BFS)',
+            category: 'graph',
+            complexity: 'O(n)',
+            fn: n => n,
+        },
+        {
+            id: 'graph-dfs',
+            name: 'Depth-First Search (DFS)',
+            category: 'graph',
+            complexity: 'O(n)',
+            fn: n => n,
+        },
+        {
+            id: 'graph-dijkstra',
+            name: 'Dijkstra\'s Shortest Path',
+            category: 'graph',
+            complexity: 'O(n²)',
+            fn: n => n * n,
+            note: 'Simplification of O((V+E) log V)',
+        },
+
+        // Complex Problems - Travelling Salesman
+        {
+            id: 'tsp-brute',
+            name: 'TSP: Brute Force',
+            category: 'tsp',
+            complexity: 'O(n!)',
+            fn: n => {
+                // Stirling's approximation for factorial
+                return Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n);
+            },
+        },
+        {
+            id: 'tsp-nearest',
+            name: 'TSP: Nearest Neighbour',
+            category: 'tsp',
+            complexity: 'O(n²)',
+            fn: n => n * n,
+        },
+        {
+            id: 'tsp-2opt',
+            name: 'TSP: NN with 2-Opt',
+            category: 'tsp',
+            complexity: 'O(n³)',
+            fn: n => n * n * n,
+        },
+
+        // Complex Problems - Knapsack
+        {
+            id: 'knap-brute',
+            name: 'Knapsack: Brute Force',
+            category: 'knap',
+            complexity: 'O(2ⁿ)',
+            fn: n => Math.pow(2, n),
+        },
+        {
+            id: 'knap-dynamic',
+            name: 'Knapsack: Dynamic Prog.',
+            category: 'knap',
+            complexity: 'O(n²)',
+            fn: n => n * n,
+            note: 'Simplification of O(n × W)',
+        },
+        {
+            id: 'knap-greedy',
+            name: 'Knapsack: Greedy',
+            category: 'knap',
+            complexity: 'O(n log n)',
+            fn: n => n * Math.log2(n),
+        },
+
+        // Complex Problems - Bin Packing
+        {
+            id: 'pack-brute',
+            name: 'Bin Packing: Brute Force',
+            category: 'pack',
+            complexity: 'O(n!)',
+            fn: n => {
+                // Stirling's approximation for factorial
+                return Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n);
+            },
+            note: 'Approximation of O(nⁿ)'
+        },
+        {
+            id: 'pack-next-fit',
+            name: 'Bin Packing: Next Fit',
+            category: 'pack',
+            complexity: 'O(n)',
+            fn: n => n,
+        },
+        {
+            id: 'pack-best-fit',
+            name: 'Bin Packing: Best Fit',
+            category: 'pack',
+            complexity: 'O(n log n)',
+            fn: n => n * Math.log2(n),
+        },
+
+        // Cryptography
+        {
+            id: 'crypt-caesar',
+            name: 'Caesar: Brute Force',
+            category: 'crypt',
+            complexity: 'O(1)',
+            fn: n => 26,
+            note: 'Only 26 possible shifts',
+        },
+        {
+            id: 'crypt-vigenere',
+            name: 'Vigenère: Brute Force',
+            category: 'crypt',
+            complexity: 'O(26ⁿ)',
+            fn: n => Math.pow(26, n),
+            note: 'N = key length in chars',
+        },
+        {
+            id: 'crypt-vigenere-freq',
+            name: 'Vigenère: Freq. Analysis',
+            category: 'crypt',
+            complexity: 'O(n)',
+            fn: n => 26 * n,
+            note: 'N = text length in chars',
+        },
+        {
+            id: 'crypt-enigma',
+            name: 'Enigma: Early WWII',
+            category: 'crypt',
+            complexity: 'O(2<sup>64</sup>)',
+            fn: n => Math.pow(2, 64),
+            note: 'Early WWII - Key space is based on selection and position of 3 rotors, and plugboards)',
+            show: 64,
+        },
+        {
+            id: 'crypt-enigma-late',
+            name: 'Enigma: Late WWII',
+            category: 'crypt',
+            complexity: 'O(2<sup>88</sup>)',
+            fn: n => Math.pow(2, 88),
+            note: 'Late WWII - Key space is based on selection and position of 4 rotors, and plugboards)',
+            show: 88,
+        },
+        {
+            id: 'crypt-des',
+            name: 'DES: Brute Force',
+            category: 'crypt',
+            complexity: 'O(2<sup>56</sup>)',
+            fn: n => Math.pow(2, 56),
+            note: 'Fixed 56-bit key size, cracked 1998)',
+            show: 56,
+        },
+        {
+            id: 'crypt-rsa',
+            name: 'RSA: Factors via Division',
+            category: 'crypt',
+            complexity: 'O(2ⁿ)',
+            fn: n => Math.pow(2, n),
+            note: 'N = key size in bits',
+        },
+        {
+            id: 'crypt-rsa-gnfs',
+            name: 'RSA: Factors via GNFS',
+            category: 'crypt',
+            complexity: 'O(2<sup>2.5×√n</sup>)',
+            fn: n => Math.pow(2, 2.5 * Math.sqrt(n)),
+            note: 'N = key size in bits (sub-exponential)',
+        },
+        {
+            id: 'crypt-aes',
+            name: 'AES: Brute Force',
+            category: 'crypt',
+            complexity: 'O(2ⁿ)',
+            fn: n => Math.pow(2, n),
+            note: 'N = key size in bits',
+        },
+    ];
+
+    // Categories mapping (short ID to full name)
+    const CATEGORIES = [
+        { id: 'array',  name: 'Arrays / Lists' },
+        { id: 'stack',  name: 'Stacks' },
+        { id: 'search', name: 'Searching' },
+        { id: 'sort',   name: 'Sorting' },
+        { id: 'graph',  name: 'Graphs' },
+        { id: 'tsp',    name: 'Travelling Salesman' },
+        { id: 'knap',   name: 'Knapsack' },
+        { id: 'pack',   name: 'Bin Packing' },
+        { id: 'crypt',  name: 'Cryptography' },
+    ];
+
+    const TRACTABLE_LIMIT = 1e20
+    const NEAR_TRACTABLE_LIMIT = 1e15
+
+    // Helper: get category name from ID
+    function getCategoryName(categoryId) {
+        const category = CATEGORIES.find(c => c.id === categoryId);
+        return category ? category.name : categoryId;
     }
 
-    /** Pick 4-6 evenly-spaced y tick values given a nice upper bound */
-    function yTicks(yMax) {
-        const steps = [1, 2, 4, 5, 10, 20, 25, 50, 100, 200, 250, 500,
-                       1000, 2000, 2500, 5000, 10000, 20000, 25000, 50000,
-                       100000, 200000, 500000, 1000000]
-        const ideal = 5
-        const raw   = yMax / ideal
-        // find first step >= raw
-        const step  = steps.find(s => s >= raw) ?? raw
-        const ticks = []
-        for (let v = 0; v <= yMax; v += step) {
-            if (v > yMax) break
-            ticks.push(v)
+    // Group algorithms by category (preserve order)
+    function getCategoriesForAlgos(algos) {
+        const seen = new Set();
+        const categories = [];
+        for (const algo of algos) {
+            if (!seen.has(algo.category)) {
+                categories.push(algo.category);
+                seen.add(algo.category);
+            }
         }
-        return ticks
+        return categories;
     }
 
-    function fmtY(v) {
-        if (v >= 1e9) return (v / 1e9).toFixed(0) + 'B'
-        if (v >= 1e6) return (v / 1e6).toFixed(1).replace(/\.0$/, '') + 'M'
-        if (v >= 1e3) return (v / 1e3).toFixed(1).replace(/\.0$/, '') + 'k'
-        return Math.round(v).toString()
+    // -------------------------------------------------------------------------
+    // Generate N values based on step mode
+    // -------------------------------------------------------------------------
+
+    function generateNValues(maxN, stepMode) {
+        const values = [];
+
+        // Check for multiplication mode (x2, x5, x10, etc.)
+        if (stepMode.startsWith('x')) {
+            const multiplier = parseInt(stepMode.substring(1), 10);
+            if (!isNaN(multiplier) && multiplier > 1) {
+                // Multiplication: 1, multiplier, multiplier^2, ...
+                for (let n = 1; n <= maxN; n *= multiplier) {
+                    values.push(n);
+                }
+            } else {
+                // Invalid multiplier, default to 1
+                for (let n = 1; n <= maxN; n++) {
+                    values.push(n);
+                }
+            }
+        } else {
+            // Numeric step: 1, step, 2*step, 3*step, ...
+            const step = parseInt(stepMode, 10);
+            if (isNaN(step) || step < 1) {
+                // Default to 1 if invalid
+                for (let n = 1; n <= maxN; n++) {
+                    values.push(n);
+                }
+            } else if (step === 1) {
+                // Special case: step=1 means standard sequence 1, 2, 3, 4...
+                for (let n = 1; n <= maxN; n++) {
+                    values.push(n);
+                }
+            } else {
+                // step > 1: 1, step, 2*step, 3*step...
+                values.push(1);
+                for (let n = step; n <= maxN; n += step) {
+                    values.push(n);
+                }
+            }
+        }
+
+        return values;
+    }
+
+    // -------------------------------------------------------------------------
+    // Formatting helpers
+    // -------------------------------------------------------------------------
+
+    function fmtEffort(v) {
+        if (!isFinite(v)) return '∞';
+        if (v >= 1e6) return v.toExponential(1).replace('e+', '<span class="exponent">×10<sup>') + '</sup></span>';
+        // if (v >= 1e27) return (v / 1e27).toFixed(0) + 'Oc';
+        // if (v >= 1e24) return (v / 1e24).toFixed(0) + 'Sp';
+        // if (v >= 1e21) return (v / 1e21).toFixed(0) + 'Sx';
+        // if (v >= 1e18) return (v / 1e18).toFixed(0) + 'P';
+        // if (v >= 1e15) return (v / 1e15).toFixed(0) + 'Q';
+        // if (v >= 1e12) return (v / 1e12).toFixed(0) + 'T';
+        // if (v >= 1e9)  return (v / 1e9).toFixed(0)  + 'B';
+        // if (v >= 1e6)  return (v / 1e6).toFixed(0)  + 'M';
+        // if (v >= 1e3)  return (v / 1e3).toFixed(0)  + 'k';
+        return Math.round(v).toLocaleString();
     }
 
     // -------------------------------------------------------------------------
     // Build DOM
     // -------------------------------------------------------------------------
 
-    function cssColor(el, cssVar) {
-        return getComputedStyle(el).getPropertyValue(cssVar).trim()
-    }
+    function buildUI(maxN, enabledSet, visibleAlgos) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'bigo-wrapper';
 
-    function buildUI(maxN, enabledSet, initialValue) {
-        const wrapper = document.createElement('div')
-        wrapper.className = 'bigo-wrapper'
+        // Build category sections with algorithm toggles
+        const categories = getCategoriesForAlgos(visibleAlgos);
+        let categoriesHTML = '';
+        for (const category of categories) {
+            const algos = visibleAlgos.filter(a => a.category === category);
+            const algoCardsHTML = algos.map(a => `
+                <label class="bigo-algo-card${!enabledSet.has(a.id) ? ' is-disabled' : ''}" data-id="${a.id}">
+                    <input type="checkbox" class="bigo-toggle" data-id="${a.id}"${enabledSet.has(a.id) ? ' checked' : ''}>
+                    <div class="bigo-algo-name">${a.name}</div>
+                    <div class="bigo-algo-complexity" ${a.note ? `title="${a.note}"` : ``}>
+                        ${a.complexity}
+                    </div>
+                </label>
+            `).join('');
 
-        // Legend toggles (above chart on small screens, right of chart on wide)
-        const legendHTML = CLASSES.map(c => `
-            <label class="bigo-legend-item${!enabledSet.has(c.id) ? ' is-disabled' : ''}" data-id="${c.id}">
-                <input type="checkbox" class="bigo-toggle" data-id="${c.id}"${enabledSet.has(c.id) ? ' checked' : ''}>
-                <span class="bigo-legend-swatch" data-id="${c.id}"></span>
-                <span class="bigo-legend-label">${c.label}</span>
-                <span class="bigo-legend-title">${c.title}</span>
-                <span class="bigo-legend-value" data-id="${c.id}">—</span>
-            </label>
-        `).join('')
+            categoriesHTML += `
+                <div class="bigo-category">
+                    <h4 class="bigo-category-title">${getCategoryName(category)}</h3>
+                    <div class="bigo-category-algos">${algoCardsHTML}</div>
+                </div>
+            `;
+        }
 
         wrapper.innerHTML = `
-            <div class="bigo-chart-wrap">
-                <svg class="bigo-svg"
-                     viewBox="0 0 ${SVG_W} ${SVG_H}"
-                     role="img"
-                     aria-label="Big-O complexity growth curves">
-                    <g class="bigo-grid"></g>
-                    <g class="bigo-axes"></g>
-                    <g class="bigo-curves"></g>
-                    <g class="bigo-marker"></g>
-                    <g class="bigo-tick-labels"></g>
-                </svg>
-            </div>
-            <div class="bigo-legend">${legendHTML}</div>
+            <h3 class="bigo-title">Comparison of Computational Effort</h3>
             <div class="bigo-controls">
-                <span class="bigo-ctrl-label">n =</span>
-                <input type="range" class="bigo-slider" min="2" max="${maxN}" value="${initialValue}" step="1">
-                <span class="bigo-n-display">${initialValue}</span>
+                <div class="bigo-categories">${categoriesHTML}</div>
             </div>
-        `
-        return wrapper
+            <div class="bigo-table-wrap">
+                <table class="bigo-table">
+                    <thead>
+                        <tr class="bigo-table-header"></tr>
+                    </thead>
+                    <tbody class="bigo-table-body"></tbody>
+                </table>
+            </div>
+        `;
+
+        return wrapper;
     }
 
     // -------------------------------------------------------------------------
-    // Chart rendering
+    // Render table
     // -------------------------------------------------------------------------
 
-    // xMin is always 1 — the plot range is 1..xMax
-    function dataToSVG(x, y, xMin, xMax, yMax) {
-        const sx = PAD_L + ((x - xMin) / (xMax - xMin)) * PLOT_W
-        const sy = PAD_T + PLOT_H - (y / yMax) * PLOT_H
-        return [sx, sy]
-    }
+    function renderTable(wrapper, nValues, enabled, visibleAlgos, showBestWorst = false) {
+        const headerRow = wrapper.querySelector('.bigo-table-header');
+        const tbody = wrapper.querySelector('.bigo-table-body');
 
-    function renderChart(wrapper, n, enabled) {
-        const svgEl    = wrapper.querySelector('.bigo-svg')
-        const gridG    = wrapper.querySelector('.bigo-grid')
-        const axesG    = wrapper.querySelector('.bigo-axes')
-        const curvesG  = wrapper.querySelector('.bigo-curves')
-        const markerG  = wrapper.querySelector('.bigo-marker')
-        const ticksG   = wrapper.querySelector('.bigo-tick-labels')
+        // Gather enabled algorithms from visible ones
+        const enabledAlgos = visibleAlgos.filter(a => enabled.has(a.id));
 
-        // ------------------------------------------------------------------
-        // 1. Compute y-axis scale from all visible classes at x=n
-        // ------------------------------------------------------------------
-        const SAMPLES = Math.max(n, 60)  // more points for smoother lines
-        let rawYMax = 1
-
-        for (const c of CLASSES) {
-            if (!enabled.has(c.id)) continue
-            const v = c.fn(n)
-            if (isFinite(v) && v > rawYMax) rawYMax = v
+        // Build header (N in first column, then algorithm names)
+        let headerHTML = '<th class="bigo-th-n">N</th>';
+        for (const algo of enabledAlgos) {
+            if (showBestWorst && algo.fnBest && algo.fnAvg) {
+                // Show three sub-columns: Best, Avg, Worst
+                headerHTML += `<th class="bigo-th-algo bigo-th-algo-multi" colspan="3">
+                    <div class="bigo-th-algo-name">${algo.name}</div>
+                    <div class="bigo-th-algo-subcols">
+                        <div class="bigo-th-algo-subcol">
+                            <div class="bigo-th-algo-sublabel">Best</div>
+                            <div class="bigo-th-algo-complexity">${algo.complexityBest}</div>
+                        </div>
+                        <div class="bigo-th-algo-subcol">
+                            <div class="bigo-th-algo-sublabel">Avg</div>
+                            <div class="bigo-th-algo-complexity">${algo.complexityAvg}</div>
+                        </div>
+                        <div class="bigo-th-algo-subcol">
+                            <div class="bigo-th-algo-sublabel">Worst</div>
+                            <div class="bigo-th-algo-complexity">${algo.complexity}</div>
+                        </div>
+                    </div>
+                </th>`;
+            } else {
+                headerHTML += `<th class="bigo-th-algo">
+                    <div class="bigo-th-algo-complexity">${algo.complexity}</div>
+                    <div class="bigo-th-algo-name">${algo.name}</div>
+                </th>`;
+            }
         }
+        headerRow.innerHTML = headerHTML;
 
-        const yMax = Math.max(rawYMax + 1, 1)
-        const xMin = 1
-        const xMax = n
+        // Build rows (one per N value)
+        let rowsHTML = '';
+        for (const n of nValues) {
+            let cellsHTML = `<td class="bigo-td-n">${n}</td>`;
 
-        // ------------------------------------------------------------------
-        // 2. Grid lines + tick labels
-        // ------------------------------------------------------------------
-        const ticks = yTicks(yMax)
+            for (const algo of enabledAlgos) {
+                // If algorithm has a 'show' value, only display when N matches
+                if (algo.show !== undefined && n !== algo.show) {
+                    const colspan = (showBestWorst && algo.fnBest && algo.fnAvg) ? 3 : 1;
+                    cellsHTML += `<td class="bigo-td-effort" colspan="${colspan}">—</td>`;
+                    continue;
+                }
 
-        let gridHTML      = ''
-        let tickLabelHTML = ''
+                if (showBestWorst && algo.fnBest && algo.fnAvg) {
+                    // Show three columns: Best, Avg, Worst
+                    const effortBest = algo.fnBest(n);
+                    const effortAvg = algo.fnAvg(n);
+                    const effortWorst = algo.fn(n);  // fn is worst case
 
-        for (const tv of ticks) {
-            const [, sy] = dataToSVG(xMin, tv, xMin, xMax, yMax)
-            if (sy < PAD_T - 4 || sy > PAD_T + PLOT_H + 4) continue
-            gridHTML += `<line x1="${PAD_L}" y1="${sy.toFixed(1)}" x2="${PAD_L + PLOT_W}" y2="${sy.toFixed(1)}" class="bigo-gridline"/>`
-            tickLabelHTML += `<text x="${(PAD_L - 6).toFixed(1)}" y="${sy.toFixed(1)}" class="bigo-tick-y">${fmtY(tv)}</text>`
-        }
-
-
-        // X-axis: label every integer from 1 to n
-        const sy = PAD_T + PLOT_H
-        for (let xv = xMin; xv <= n; xv++) {
-            const [sx] = dataToSVG(xv, 0, xMin, xMax, yMax)
-            tickLabelHTML += `<text x="${sx.toFixed(1)}" y="${(sy + 14).toFixed(1)}" class="bigo-tick-x">${xv}</text>`
-        }
-
-        // Chart title (top-left, inside plot area)
-        const titleX = PAD_L + 16
-        const titleY = PAD_T + 16
-        tickLabelHTML += `<text x="${titleX}" y="${titleY}" class="bigo-title" text-anchor="start">Comparison of Algorithmic Complexity</text>`
-
-        // X-axis label (centered below axis)
-        const sxMid = PAD_L + PLOT_W / 2
-        const xAxisLabelY = sy + 36
-        tickLabelHTML += `<text x="${sxMid.toFixed(1)}" y="${xAxisLabelY.toFixed(1)}" class="bigo-axis-label" text-anchor="middle">Size of Input Data, N</text>`
-
-        // Y-axis label (vertical, left of ticks)
-        const yAxisLabelX = PAD_L - 38
-        const yAxisLabelY = PAD_T + PLOT_H / 2
-        tickLabelHTML += `<text x="${yAxisLabelX.toFixed(1)}" y="${yAxisLabelY.toFixed(1)}" class="bigo-axis-label" text-anchor="middle" transform="rotate(-90,${yAxisLabelX.toFixed(1)},${yAxisLabelY.toFixed(1)})">Computational Effort</text>`
-
-        gridG.innerHTML   = gridHTML
-        ticksG.innerHTML  = tickLabelHTML
-
-        // ------------------------------------------------------------------
-        // 3. Axes
-        // ------------------------------------------------------------------
-        axesG.innerHTML = `
-            <line x1="${PAD_L}" y1="${PAD_T}" x2="${PAD_L}" y2="${PAD_T + PLOT_H}" class="bigo-axis"/>
-            <line x1="${PAD_L}" y1="${PAD_T + PLOT_H}" x2="${PAD_L + PLOT_W}" y2="${PAD_T + PLOT_H}" class="bigo-axis"/>
-        `
-
-        // ------------------------------------------------------------------
-        // 4. Curves
-        // ------------------------------------------------------------------
-        let curvesHTML = ''
-        for (const c of CLASSES) {
-            if (!enabled.has(c.id)) continue
-
-            const pts = []
-            for (let i = 0; i <= SAMPLES; i++) {
-                const xv = xMin + (i / SAMPLES) * (xMax - xMin)
-                const yv = c.fn(xv)
-                const [sx, sy] = dataToSVG(xv, yv, xMin, xMax, yMax)
-                pts.push(`${sx.toFixed(2)},${sy.toFixed(2)}`)
+                    for (const effort of [effortBest, effortAvg, effortWorst]) {
+                        const formatted = fmtEffort(effort);
+                        let classes = 'bigo-td-effort';
+                        if (effort >= TRACTABLE_LIMIT) {
+                            classes += ' is-huge';
+                        } else if (effort >= NEAR_TRACTABLE_LIMIT) {
+                            classes += ' is-warning';
+                        }
+                        cellsHTML += `<td class="${classes}">${formatted}</td>`;
+                    }
+                } else {
+                    // Show single column (worst case only)
+                    const effort = algo.fn(n);
+                    const formatted = fmtEffort(effort);
+                    let classes = 'bigo-td-effort';
+                    if (effort >= TRACTABLE_LIMIT) {
+                        classes += ' is-huge';
+                    } else if (effort >= NEAR_TRACTABLE_LIMIT) {
+                        classes += ' is-warning';
+                    }
+                    cellsHTML += `<td class="${classes}">${formatted}</td>`;
+                }
             }
 
-            curvesHTML += `<polyline
-                class="bigo-curve"
-                data-id="${c.id}"
-                points="${pts.join(' ')}"
-                fill="none"
-                stroke="var(${c.cssVar})"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                clip-path="url(#bigo-clip)"
-            >
-                <title>${c.label} - ${c.title}</title>
-            </polyline>`
-        }
-        curvesG.innerHTML = curvesHTML
-
-        // Ensure clip path exists in SVG defs
-        let defs = svgEl.querySelector('defs')
-        if (!defs) {
-            defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs')
-            svgEl.insertBefore(defs, svgEl.firstChild)
-        }
-        if (!defs.querySelector('#bigo-clip')) {
-            defs.innerHTML = `<clipPath id="bigo-clip">
-                <rect x="${PAD_L}" y="${PAD_T}" width="${PLOT_W}" height="${PLOT_H}"/>
-            </clipPath>`
+            rowsHTML += `<tr class="bigo-table-row">${cellsHTML}</tr>`;
         }
 
-        // ------------------------------------------------------------------
-        // 5. Vertical marker at x = n
-        // ------------------------------------------------------------------
-        const [sxM] = dataToSVG(n, 0, xMin, xMax, yMax)
-        markerG.innerHTML = `<line
-            x1="${sxM.toFixed(1)}" y1="${PAD_T}"
-            x2="${sxM.toFixed(1)}" y2="${PAD_T + PLOT_H}"
-            class="bigo-marker-line"
-        />`
+        tbody.innerHTML = rowsHTML;
 
-        // ------------------------------------------------------------------
-        // 6. Legend values at current n
-        // ------------------------------------------------------------------
-        for (const c of CLASSES) {
-            const valEl = wrapper.querySelector(`.bigo-legend-value[data-id="${c.id}"]`)
-            if (!valEl) continue
-            if (!enabled.has(c.id)) {
-                valEl.textContent = '—'
-                continue
+        // Add table data attributes for column highlighting
+        if (window.processTableAttributes) {
+            const table = wrapper.querySelector('.bigo-table');
+            if (table) {
+                window.processTableAttributes(table);
             }
-            const v = c.fn(n)
-            valEl.textContent = isFinite(v) ? fmtY(Math.round(v)) : '∞'
         }
-    }
-
-    // -------------------------------------------------------------------------
-    // Swatch colours (must wait for DOM/styles to be resolved)
-    // -------------------------------------------------------------------------
-
-    function applySwatchColors(wrapper) {
-        wrapper.querySelectorAll('.bigo-legend-swatch').forEach(swatch => {
-            const cssVar = CLASSES.find(c => c.id === swatch.dataset.id)?.cssVar
-            if (cssVar) swatch.style.background = `var(${cssVar})`
-        })
     }
 
     // -------------------------------------------------------------------------
@@ -354,124 +576,107 @@
 
     function processBigO() {
         document.querySelectorAll('.markdown-section big-o').forEach(el => {
-            const rawMax = parseInt(el.getAttribute('max') ?? '15', 10)
-            const maxN   = Math.max(5, Math.min(20, isNaN(rawMax) ? 15 : rawMax))
+            const rawMax = parseInt(el.getAttribute('max') ?? '20', 10);
+            const maxN = Math.max(10, Math.min(1024, isNaN(rawMax) ? 20 : rawMax));
 
-            // Parse enabled attribute (case-insensitive, flexible)
-            let enabledAttr = el.getAttribute('enabled')
-            let enabledSet
-            if (enabledAttr) {
-                const tokens = enabledAttr.split(/[,\s]+/).map(s => s.trim().toLowerCase()).filter(Boolean)
-                enabledSet = new Set()
-                for (const token of tokens) {
-                    for (const c of CLASSES) {
-                        if (c.aliases && c.aliases.some(a => a.toLowerCase() === token)) {
-                            enabledSet.add(c.id)
-                        }
-                    }
-                }
-                // If nothing matched, fall back to all enabled
-                if (enabledSet.size === 0) enabledSet = new Set(CLASSES.map(c => c.id))
-            } else {
-                enabledSet = new Set(CLASSES.map(c => c.id))
-            }
+            // Parse step attribute
+            const stepAttr = el.getAttribute('step');
+            const stepMode = stepAttr || '1';
+            const nValues = generateNValues(maxN, stepMode);
 
-            // Parse value attribute for initial slider value
-            let initialValue = parseInt(el.getAttribute('value') ?? 3, 10)
-            if (isNaN(initialValue) || initialValue < 2) initialValue = 2
-            if (initialValue > maxN) initialValue = maxN
+            // Parse algos attribute (which algorithms to show)
+            // Supports both algorithm IDs and category IDs
+            const algosAttr = el.getAttribute('algos');
+            let visibleAlgos;
+            if (algosAttr) {
+                const tokens = algosAttr.trim().split(/\s+/);
+                const algoIds = new Set();
 
-            const wrapper = buildUI(maxN, enabledSet, initialValue)
-            el.innerHTML  = ''
-            el.appendChild(wrapper)
-
-            applySwatchColors(wrapper)
-
-            const slider    = wrapper.querySelector('.bigo-slider')
-            const nDisplay  = wrapper.querySelector('.bigo-n-display')
-            const toggles   = wrapper.querySelectorAll('.bigo-toggle')
-
-            // Track which complexity classes are currently visible
-            const enabled = new Set(enabledSet)
-
-
-            let animating = false;
-            let animationFrame = null;
-            let currentN = parseInt(slider.value, 10);
-
-            function animateToN(targetN) {
-                if (animating) cancelAnimationFrame(animationFrame);
-                animating = true;
-                const startN = currentN;
-                const endN = targetN;
-                const duration = 320; // ms
-                const step = 0.1;
-                const startTime = performance.now();
-
-                function animate(now) {
-                    const elapsed = now - startTime;
-                    const t = Math.min(elapsed / duration, 1);
-                    // Ease in-out
-                    const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-                    const n = startN + (endN - startN) * ease;
-                    currentN = n;
-                    nDisplay.textContent = n.toFixed(1).replace(/\.0$/, '');
-                    renderChart(wrapper, n, enabled);
-                    if (t < 1) {
-                        animationFrame = requestAnimationFrame(animate);
+                // Expand tokens: if it's a category ID, add all algos from that category
+                tokens.forEach(token => {
+                    // Check if it's a category ID
+                    const category = CATEGORIES.find(c => c.id === token);
+                    if (category) {
+                        // Add all algorithms from this category
+                        ALGORITHMS.filter(a => a.category === token)
+                            .forEach(a => algoIds.add(a.id));
                     } else {
-                        currentN = endN;
-                        nDisplay.textContent = endN;
-                        renderChart(wrapper, endN, enabled);
-                        animating = false;
+                        // Treat as algorithm ID
+                        algoIds.add(token);
                     }
-                }
-                animationFrame = requestAnimationFrame(animate);
+                });
+
+                visibleAlgos = ALGORITHMS.filter(a => algoIds.has(a.id));
+            } else {
+                visibleAlgos = ALGORITHMS;
             }
 
-            slider.addEventListener('input', () => {
-                const n = parseInt(slider.value, 10);
-                animateToN(n);
-            });
+            // Parse enabled attribute (which algorithms are initially enabled)
+            const enabledAttr = el.getAttribute('enabled');
+            let enabledIds;
+            if (enabledAttr) {
+                // Use specified enabled list (only those that are visible)
+                enabledIds = new Set(
+                    enabledAttr.trim().split(/\s+/).filter(id =>
+                        visibleAlgos.some(a => a.id === id)
+                    )
+                );
+            } else if (algosAttr) {
+                // If algos specified but enabled not specified, enable all visible algos
+                enabledIds = new Set(visibleAlgos.map(a => a.id));
+            } else {
+                // Default: enable search-linear and search-binary (if visible)
+                enabledIds = new Set(
+                    ['search-linear', 'search-binary'].filter(id =>
+                        visibleAlgos.some(a => a.id === id)
+                    )
+                );
+            }
 
-            // On initial load, set currentN and draw
-            currentN = parseInt(slider.value, 10);
-            nDisplay.textContent = currentN;
-            renderChart(wrapper, currentN, enabled);
+            // Parse best-worst attribute
+            const showBestWorst = el.hasAttribute('best-worst');
+
+            const wrapper = buildUI(maxN, enabledIds, visibleAlgos);
+            el.innerHTML = '';
+            el.appendChild(wrapper);
+
+            const toggles = wrapper.querySelectorAll('.bigo-toggle');
+            const enabled = new Set(enabledIds);
+
+            function redraw() {
+                renderTable(wrapper, nValues, enabled, visibleAlgos, showBestWorst);
+            }
 
             toggles.forEach(cb => {
                 cb.addEventListener('change', () => {
-                    const id   = cb.dataset.id
-                    const item = wrapper.querySelector(`.bigo-legend-item[data-id="${id}"]`)
+                    const id = cb.dataset.id;
+                    const card = wrapper.querySelector(`.bigo-algo-card[data-id="${id}"]`);
                     if (cb.checked) {
-                        enabled.add(id)
-                        item?.classList.remove('is-disabled')
+                        enabled.add(id);
+                        card?.classList.remove('is-disabled');
                     } else {
-                        enabled.delete(id)
-                        item?.classList.add('is-disabled')
+                        enabled.delete(id);
+                        card?.classList.add('is-disabled');
                     }
-                    redraw()
-                })
-            })
+                    redraw();
+                });
+            });
 
-            // Set initial slider value
-            slider.value = initialValue
-
-            // Initial draw
-            redraw()
-        })
+            // Initial render
+            redraw();
+        });
     }
 
     // -------------------------------------------------------------------------
     // Docsify hook
     // -------------------------------------------------------------------------
 
-    window.$docsify = window.$docsify ?? {}
+    window.$docsify = window.$docsify ?? {};
     window.$docsify.plugins = [
         ...(window.$docsify.plugins ?? []),
         hook => {
-            hook.doneEach(() => processBigO())
+            hook.doneEach(() => processBigO());
         },
-    ]
+    ];
 
-})()
+})();
