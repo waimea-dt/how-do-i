@@ -26,7 +26,7 @@
 			label: 'O(1)',
 			title: 'Constant',
 			fn:    () => 1,
-			cssVar: '--bigo-line-color-1',
+			cssVar: '--bigo-chart-line-color-1',
 			aliases: ['o1', '1', 'const'],
 		},
 		{
@@ -34,7 +34,7 @@
 			label: 'O(log n)',
 			title: 'Logarithmic',
 			fn:    n => Math.log2(n),
-			cssVar: '--bigo-line-color-2',
+			cssVar: '--bigo-chart-line-color-2',
 			aliases: ['ologn', 'logn', 'log', 'log n'],
 		},
 		{
@@ -42,7 +42,7 @@
 			label: 'O(n)',
 			title: 'Linear',
 			fn:    n => n,
-			cssVar: '--bigo-line-color-3',
+			cssVar: '--bigo-chart-line-color-3',
 			aliases: ['on', 'n', 'linear'],
 		},
 		{
@@ -50,7 +50,7 @@
 			label: 'O(n log n)',
 			title: 'Linear-Logarithmic',
 			fn:    n => n * Math.log2(n),
-			cssVar: '--bigo-line-color-4',
+			cssVar: '--bigo-chart-line-color-4',
 			aliases: ['onlogn', 'nlogn', 'n log n', 'linear-log'],
 		},
 		{
@@ -58,7 +58,7 @@
 			label: 'O(n²)',
 			title: 'Quadratic',
 			fn:    n => n * n,
-			cssVar: '--bigo-line-color-5',
+			cssVar: '--bigo-chart-line-color-5',
 			aliases: ['on2', 'n2', 'n^2', 'quadratic'],
 		},
 		{
@@ -66,7 +66,7 @@
 			label: 'O(n³)',
 			title: 'Cubic',
 			fn:    n => n * n * n,
-			cssVar: '--bigo-line-color-6',
+			cssVar: '--bigo-chart-line-color-6',
 			aliases: ['on3', 'n3', 'n^3', 'cubic'],
 		},
 		{
@@ -74,7 +74,7 @@
 			label: 'O(2ⁿ)',
 			title: 'Exponential',
 			fn:    n => Math.pow(2, n),
-			cssVar: '--bigo-line-color-7',
+			cssVar: '--bigo-chart-line-color-7',
 			aliases: ['o2n', '2n', '2^n', 'exp', 'exponential'],
 		},
 		{
@@ -83,7 +83,7 @@
 			title: 'Factorial',
 			// Stirling's approximation: n! ≈ √(2πn) · (n/e)ⁿ — smooth & accurate for n ≥ 2
 			fn:    n => Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n),
-			cssVar: '--bigo-line-color-8',
+			cssVar: '--bigo-chart-line-color-8',
 			aliases: ['ofact', 'n!', 'factorial'],
 		},
 	]
