@@ -4,19 +4,6 @@
 
 /* Scroll container */
 .table-scroll {
-    --table-back-color:             var(--color-mono-1);
-    --table-border-color:           var(--color-mono-5);
-    --table-vert-border-color:      var(--color-mono-3);
-    --table-head-back-color:        var(--theme-color-1);
-
-    --table-hover-row-color:        var(--theme-color-2);
-    --table-hover-cell-color:       var(--theme-color-3);
-
-    --table-highlight-color:        var(--highlight-color);
-    --table-highlight-cell-color:   color-mix(in srgb, var(--highlight-color), transparent 90%);
-
-    --table-cell-inline-padding:    min(1rem, 3vw);
-
     /* Scrolling behavior */
     width: 100%;
     overflow-x: auto;
@@ -47,6 +34,19 @@
 
 /* Table styling */
 :is(.markdown-section table) {
+    --table-back-color:             var(--color-mono-1);
+    --table-border-color:           var(--color-mono-5);
+    --table-vert-border-color:      var(--color-mono-3);
+    --table-head-back-color:        var(--theme-color-1);
+
+    --table-hover-row-color:        var(--theme-color-2);
+    --table-hover-cell-color:       var(--theme-color-3);
+
+    --table-highlight-color:        var(--highlight-color);
+    --table-highlight-cell-color:   color-mix(in srgb, var(--highlight-color), transparent 90%);
+
+    --table-cell-inline-padding:    min(1rem, 3vw);
+
     border-collapse: collapse;
     border-style: solid;
     width: fit-content;
