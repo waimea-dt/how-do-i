@@ -88,6 +88,8 @@
             highlightColumns.add(thNum)
             // Remove the !! prefix from the header text
             cell.textContent = text.substring(2).trim()
+            // Add highlight-col class to the TH itself
+            cell.classList.add('highlight-col')
           }
 
           physicalCol += colspan
@@ -193,6 +195,8 @@
           // Mark this TH index for highlighting
           highlightColumns.add(thNum)
           cell.textContent = text.substring(2).trim()
+          // Add highlight-col class to the TH itself
+          cell.classList.add('highlight-col')
         }
 
         physicalCol += colspan

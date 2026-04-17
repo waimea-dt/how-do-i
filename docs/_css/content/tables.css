@@ -36,7 +36,7 @@
 :is(.markdown-section table) {
     --table-back-color:             var(--color-mono-1);
     --table-border-color:           var(--color-mono-5);
-    --table-vert-border-color:      var(--color-mono-3);
+    --table-vert-border-color:      var(--color-mono-4);
     --table-head-back-color:        var(--theme-color-1);
 
     --table-hover-row-color:        var(--theme-color-2);
@@ -88,6 +88,7 @@
     /* Table headers */
     thead {
         background-color: var(--table-head-back-color);
+        border-bottom: 1px solid var(--table-border-color);
 
         tr {
             &:first-child,
