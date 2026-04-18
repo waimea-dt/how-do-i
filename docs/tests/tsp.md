@@ -149,7 +149,46 @@ For brute force, 30 cities would take longer than the age of the universe. With 
 
 ---
 
+## 2-Opt: Refining the Greedy Solution
+
+**Nearest Neighbour** gives us a quick solution, but can we make it better without brute force?
+
+**2-Opt** is a local search algorithm that starts with the NN solution and iteratively improves it:
+
+1. Start with NN route
+2. For each pair of edges in the tour:
+   - Try swapping them (reversing the segment between them)
+   - If it reduces total distance, keep the swap
+3. Repeat until a full pass finds no improvements (local optimum reached)
+
+The algorithm **stops** when it completes a full pass through all edge pairs without finding any improvement. This means it has reached a **local optimum**—no single 2-opt move can improve the solution further.
+
+Key insight: 2-Opt systematically untangles crossing edges. Each swap that improves the tour removes at least one crossing, gradually refining the route.
+
+### Watch 2-Opt in Action
+
+See how it builds an NN route, then refines it by testing edge swaps:
+
+<tsp solve="2opt" cities="15" history></tsp>
+
+Notice:
+- **Phase 1 (NN)**: Quick greedy construction
+- **Phase 2 (2-Opt)**: Edge swaps highlighted in orange (testing) or red (improving)
+- **History**: Shows both NN construction and 2-Opt refinements
+
+### Larger Problems
+
+2-Opt can handle much larger problems than brute force:
+
+<tsp solve="2opt" cities="25" history></tsp>
+
+For 25 cities, brute force would take longer than the age of the universe. 2-Opt? A few seconds.
+
+---
+
 ## Comparing Algorithms
+
+### NN vs Brute Force
 
 Let's compare NN and Brute Force head-to-head to see the speed vs. quality trade-off:
 
@@ -164,15 +203,28 @@ Try it with 11 or 12 cities—NN finishes instantly, but brute force takes minut
 
 <tsp solve="compare-nn" cities="11" history></tsp>
 
+### 2-Opt vs Brute Force
+
+Now let's see how 2-Opt (NN + refinement) compares to the optimal solution:
+
+<tsp solve="compare-2opt" cities="10" history></tsp>
+
+Notice how much closer 2-Opt gets to optimal compared to raw NN! The refinement phase typically gets within a few percent of optimal.
+
+Try larger problems:
+
+<tsp solve="compare-2opt" cities="11" history></tsp>
+
 ---
 
 ## Key Takeaways
 
 1. **Brute Force** is guaranteed optimal but becomes impossible beyond ~13 cities
-2. **Nearest Neighbour** is fast (works for any size) but not guaranteed optimal
-3. For practical problems, heuristics like NN are essential—perfection isn't worth billions of years
-4. Understanding algorithmic complexity (factorial vs. polynomial) is crucial for real-world programming
+2. **Nearest Neighbour** is fast (works for any size) but not guaranteed optimal (typically 15-25% longer)
+3. **2-Opt refinement** significantly improves NN routes, often getting within a few percent of optimal
+4. For practical problems, heuristics like NN and local search are essential—perfection isn't worth billions of years
+5. Understanding algorithmic complexity (factorial vs. polynomial) is crucial for real-world programming
 
 ---
 
-**Challenge**: Run the comparison with different city counts. At what point does NN become "good enough" given how much faster it is?
+**Challenge**: Run the comparisons with different city counts. At what point does 2-Opt become "good enough" given how much faster it is than brute force?

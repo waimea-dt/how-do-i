@@ -4,6 +4,7 @@
  * Demonstrates TSP solving algorithms with interactive visualization:
  *   - Brute Force: Tests all (N-1)! permutations to find optimal solution
  *   - Nearest Neighbour: Greedy heuristic that's fast but not guaranteed optimal
+ *   - 2-Opt: Local search optimization starting from NN solution
  *   - Algorithm comparison to demonstrate speed vs. quality trade-offs
  *
  * Usage in markdown:
@@ -11,15 +12,19 @@
  *   <tsp cities="6"></tsp>
  *   <tsp cities="8" speed="fast"></tsp>
  *   <tsp solve="nn" cities="15"></tsp>
+ *   <tsp solve="2opt" cities="15" history></tsp>
  *   <tsp solve="compare-nn" cities="10" history></tsp>
+ *   <tsp solve="compare-2opt" cities="10" history></tsp>
  *
  * Attributes:
  *   - cities: Initial number of cities (default: 8, range: 3–30)
  *   - solve: Algorithm to use (default: brute)
  *     - brute: Brute force search testing all permutations (guaranteed optimal)
  *     - nn: Nearest neighbour greedy heuristic (fast approximation)
- *     - compare-nn: Run both algorithms and show comparison
- *   - history: If present, shows a history panel tracking best route improvements (brute force only)
+ *     - 2opt: 2-Opt local search (NN followed by iterative edge swapping)
+ *     - compare-nn: Compare NN with brute force
+ *     - compare-2opt: Compare 2-Opt with brute force
+ *   - history: If present, shows a history panel tracking best route improvements
  *   - speed: Animation speed (default: normal)
  *     - slow: Updates every route/city with 50ms delay (very visual)
  *     - normal: Updates every 100 routes, no delay (default)
@@ -36,34 +41,16 @@
     const DEFAULT_CITIES = 8;
     const MIN_CITIES = 3;
     const MAX_CITIES = 30;
-
-    // Note: Timing is based on actual elapsed time and varies by machine performance.
-    // Progress updates occur every 100 routes, yielding to the browser to keep UI responsive.
-    // On average hardware, expect ~18,000 routes/second for typical city configurations.
+    const ANIMATION_DURATION_MS = 5000;
+    const INSTANT_MODE_YIELD_FREQUENCY = 10000;
+    const NN_DELAY_MS = (n) => Math.floor(ANIMATION_DURATION_MS / n);
+    const TWO_OPT_DELAY_MS = (n) => Math.floor(ANIMATION_DURATION_MS / (n * 4));
 
     // -------------------------------------------------------------------------
-    // TSP Solver - Brute Force
+    // TSP Solver Base Class
     // -------------------------------------------------------------------------
 
-    class TSPBruteForceSolver {
-        constructor(cities, onProgress, onComplete, callbackFrequency = 1) {
-            this.cities = cities;
-            this.onProgress = onProgress;
-            this.onComplete = onComplete;
-            this.callbackFrequency = callbackFrequency; // How often to call progress callback
-            this.running = false;
-            this.bestRoute = null;
-            this.bestDistance = Infinity;
-            this.routesChecked = 0;
-            this.totalRoutes = this.factorial(cities.length - 1); // Fix first city
-            this.startTime = null;
-        }
-
-        factorial(n) {
-            if (n <= 1) return 1;
-            return n * this.factorial(n - 1);
-        }
-
+    class TSPSolverBase {
         distance(city1, city2) {
             const dx = city1.x - city2.x;
             const dy = city1.y - city2.y;
@@ -75,9 +62,33 @@
             for (let i = 0; i < route.length - 1; i++) {
                 total += this.distance(route[i], route[i + 1]);
             }
-            // Return to start
             total += this.distance(route[route.length - 1], route[0]);
             return total;
+        }
+
+        stop() {
+            this.running = false;
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // TSP Solver - Brute Force
+    // -------------------------------------------------------------------------
+
+    class TSPBruteForceSolver extends TSPSolverBase {
+        constructor(cities, onProgress, onComplete, callbackFrequency = 1) {
+            super();
+            this.cities = cities;
+            this.onProgress = onProgress;
+            this.onComplete = onComplete;
+            this.callbackFrequency = callbackFrequency;
+            this.running = false;
+            this.bestRoute = null;
+            this.bestDistance = Infinity;
+            this.routesChecked = 0;
+            this.totalRoutes = factorial(cities.length - 1);
+            this.startTime = null;
+            this.actualComputeTime = 0;
         }
 
         // Generate permutations using Heap's algorithm
@@ -108,6 +119,7 @@
             this.routesChecked = 0;
             this.bestRoute = null;
             this.bestDistance = Infinity;
+            this.actualComputeTime = 0;
 
             // Fix first city, permute the rest
             const firstCity = this.cities[0];
@@ -116,6 +128,7 @@
             for (const perm of this.generatePermutations(remainingCities)) {
                 if (!this.running) break;
 
+                const computeStart = Date.now();
                 const route = [firstCity, ...perm];
                 const distance = this.routeDistance(route);
 
@@ -125,6 +138,7 @@
                 }
 
                 this.routesChecked++;
+                this.actualComputeTime += Date.now() - computeStart;
 
                 // Report progress at specified frequency
                 if (this.routesChecked % this.callbackFrequency === 0 || this.routesChecked === this.totalRoutes) {
@@ -135,7 +149,8 @@
                         bestDistance: this.bestDistance,
                         routesChecked: this.routesChecked,
                         totalRoutes: this.totalRoutes,
-                        elapsedTime: Date.now() - this.startTime
+                        elapsedTime: Date.now() - this.startTime,
+                        actualComputeTime: this.actualComputeTime
                     });
                 }
             }
@@ -146,14 +161,11 @@
                     bestDistance: this.bestDistance,
                     routesChecked: this.routesChecked,
                     totalRoutes: this.totalRoutes,
-                    elapsedTime: Date.now() - this.startTime
+                    elapsedTime: Date.now() - this.startTime,
+                    actualComputeTime: this.actualComputeTime
                 });
             }
 
-            this.running = false;
-        }
-
-        stop() {
             this.running = false;
         }
     }
@@ -162,8 +174,9 @@
     // TSP Solver - Nearest Neighbour (Greedy Heuristic)
     // -------------------------------------------------------------------------
 
-    class TSPNearestNeighbourSolver {
+    class TSPNearestNeighbourSolver extends TSPSolverBase {
         constructor(cities, onProgress, onComplete) {
+            super();
             this.cities = cities;
             this.onProgress = onProgress;
             this.onComplete = onComplete;
@@ -174,22 +187,6 @@
             this.currentCity = null;
             this.startTime = null;
             this.actualComputeTime = 0; // Track time without animation delays
-        }
-
-        distance(city1, city2) {
-            const dx = city1.x - city2.x;
-            const dy = city1.y - city2.y;
-            return Math.sqrt(dx * dx + dy * dy);
-        }
-
-        routeDistance(route) {
-            let total = 0;
-            for (let i = 0; i < route.length - 1; i++) {
-                total += this.distance(route[i], route[i + 1]);
-            }
-            // Return to start
-            total += this.distance(route[route.length - 1], route[0]);
-            return total;
         }
 
         findNearestUnvisited(fromCity) {
@@ -231,7 +228,8 @@
                 citiesVisited: this.route.length,
                 totalCities: this.cities.length,
                 partialDistance: 0,
-                elapsedTime: Date.now() - this.startTime
+                elapsedTime: Date.now() - this.startTime,
+                actualComputeTime: this.actualComputeTime
             });
 
             // Visit remaining cities
@@ -256,7 +254,8 @@
                     citiesVisited: this.route.length,
                     totalCities: this.cities.length,
                     partialDistance: this.totalDistance,
-                    elapsedTime: Date.now() - this.startTime
+                    elapsedTime: Date.now() - this.startTime,
+                    actualComputeTime: this.actualComputeTime
                 });
             }
 
@@ -265,6 +264,20 @@
                 const computeStart = Date.now();
                 this.totalDistance += this.distance(this.route[this.route.length - 1], this.route[0]);
                 this.actualComputeTime += Date.now() - computeStart;
+
+                // Show final progress with complete route including return to start
+                await this.onProgress({
+                    currentCity: this.route[0], // Back to start
+                    route: [...this.route],
+                    visited: new Set(this.visited),
+                    unvisited: [],
+                    citiesVisited: this.route.length,
+                    totalCities: this.cities.length,
+                    partialDistance: this.totalDistance,
+                    elapsedTime: Date.now() - this.startTime,
+                    actualComputeTime: this.actualComputeTime,
+                    showReturnEdge: true // Signal to show the complete loop
+                });
 
                 this.onComplete({
                     route: this.route,
@@ -278,8 +291,129 @@
 
             this.running = false;
         }
+    }
 
-        stop() {
+    // -------------------------------------------------------------------------
+    // TSP Solver - 2-Opt Local Search
+    // -------------------------------------------------------------------------
+
+    class TSP2OptSolver extends TSPSolverBase {
+        constructor(initialRoute, onProgress, onComplete) {
+            super();
+            this.route = [...initialRoute];
+            this.onProgress = onProgress;
+            this.onComplete = onComplete;
+            this.running = false;
+            this.startTime = null;
+            this.actualComputeTime = 0;
+            this.swapsPerformed = 0;
+        }
+
+        // Reverse a segment of the route (2-opt swap)
+        // Reverses the tour segment from position i+1 to k (inclusive)
+        twoOptSwap(route, i, k) {
+            const newRoute = [
+                ...route.slice(0, i + 1),
+                ...route.slice(i + 1, k + 1).reverse(),
+                ...route.slice(k + 1)
+            ];
+            return newRoute;
+        }
+
+        async start() {
+            this.running = true;
+            this.startTime = Date.now();
+            this.actualComputeTime = 0;
+            this.swapsPerformed = 0;
+
+            let improved = true;
+            let totalComparisons = 0;
+
+            // Continue until no improvements found (local optimum reached)
+            while (improved && this.running) {
+                improved = false;
+
+                // Try all possible pairs of edges
+                for (let i = 0; i < this.route.length - 1; i++) {
+                    for (let k = i + 1; k < this.route.length; k++) {
+                        if (!this.running) break;
+
+                        totalComparisons++;
+                        const computeStart = Date.now();
+
+                        // Calculate distance of current edges
+                        // Edge 1: route[i] -> route[i+1]
+                        // Edge 2: route[k] -> route[(k+1) % n]
+                        const n = this.route.length;
+                        const currentDist =
+                            this.distance(this.route[i], this.route[i + 1]) +
+                            this.distance(this.route[k], this.route[(k + 1) % n]);
+
+                        // Calculate distance of new edges after reversing segment
+                        // New Edge 1: route[i] -> route[k]
+                        // New Edge 2: route[i+1] -> route[(k+1) % n]
+                        const newDist =
+                            this.distance(this.route[i], this.route[k]) +
+                            this.distance(this.route[i + 1], this.route[(k + 1) % n]);
+
+                        this.actualComputeTime += Date.now() - computeStart;
+
+                        // Show progress for this comparison
+                        await this.onProgress({
+                            route: [...this.route],
+                            distance: this.routeDistance(this.route),
+                            swapEdges: [
+                                [this.route[i], this.route[i + 1]],
+                                [this.route[k], this.route[(k + 1) % n]]
+                            ],
+                            comparing: true,
+                            willSwap: newDist < currentDist,
+                            swapsPerformed: this.swapsPerformed,
+                            totalComparisons,
+                            elapsedTime: Date.now() - this.startTime,
+                            actualComputeTime: this.actualComputeTime
+                        });
+
+                        const computeStart2 = Date.now();
+
+                        // If swapping improves the tour, do it
+                        if (newDist < currentDist) {
+                            this.route = this.twoOptSwap(this.route, i, k);
+                            improved = true;
+                            this.swapsPerformed++;
+
+                            this.actualComputeTime += Date.now() - computeStart2;
+
+                            // Show the improved route
+                            await this.onProgress({
+                                route: [...this.route],
+                                distance: this.routeDistance(this.route),
+                                swapEdges: null,
+                                comparing: false,
+                                willSwap: false,
+                                swapsPerformed: this.swapsPerformed,
+                                totalComparisons,
+                                elapsedTime: Date.now() - this.startTime,
+                                actualComputeTime: this.actualComputeTime
+                            });
+                        } else {
+                            this.actualComputeTime += Date.now() - computeStart2;
+                        }
+                    }
+                    if (!this.running) break;
+                }
+            }
+
+            if (this.running) {
+                this.onComplete({
+                    route: this.route,
+                    distance: this.routeDistance(this.route),
+                    swapsPerformed: this.swapsPerformed,
+                    elapsedTime: Date.now() - this.startTime,
+                    actualComputeTime: this.actualComputeTime
+                });
+            }
+
             this.running = false;
         }
     }
@@ -337,6 +471,8 @@
     }
 
     function formatTime(ms) {
+        if (ms == null || isNaN(ms)) return '< 1 ms';
+
         const seconds = ms / 1000;
         const minutes = seconds / 60;
         const hours = minutes / 60;
@@ -363,6 +499,22 @@
         return formatTime(avgTimePerRoute * remainingRoutes);
     }
 
+    function setUIRunning(elements) {
+        const { startBtn, stopBtn, slider, resetBtn } = elements;
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        slider.disabled = true;
+        resetBtn.disabled = true;
+    }
+
+    function setUIComplete(elements) {
+        const { startBtn, stopBtn, slider, resetBtn } = elements;
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        slider.disabled = false;
+        resetBtn.disabled = false;
+    }
+
     function buildUI(initialCities = DEFAULT_CITIES, showHistory = false, solverMode = 'brute') {
         const wrapper = document.createElement('div');
         wrapper.className = 'tsp-wrapper';
@@ -379,28 +531,37 @@
                 subtitle: 'Greedy heuristic: always visit the nearest unvisited city'
             },
             'compare-nn': {
-                title: 'Travelling Salesman Problem: Comparing Algorithms',
+                title: 'Travelling Salesman Problem: Comparing NN to Brute Force',
                 subtitle: 'Nearest Neighbour (fast heuristic) vs. Brute Force (guaranteed optimal)'
+            },
+            '2opt': {
+                title: 'Travelling Salesman Problem: 2-Opt Local Search',
+                subtitle: 'Iteratively swap edge pairs to find local optimum (may not be globally optimal)'
+            },
+            'compare-2opt': {
+                title: 'Travelling Salesman Problem: Comparing NN/2-Opt to Brute Force',
+                subtitle: '2-Opt (fast, finds local optimum) vs. Brute Force (slow, guaranteed global optimum)'
             }
         };
 
         const { title, subtitle } = titles[solverMode] || titles['brute'];
 
         // Customize progress label based on solver mode
-        const progressLabel = solverMode === 'nn' ? 'Cities Visited' : 'Progress';
+        const progressLabel = (solverMode === 'nn' || solverMode === '2opt') ? 'Progress' : 'Progress';
         const metricLabel = solverMode === 'brute' ? 'Routes to check:' : 'Total cities:';
+        const timeLabel = (solverMode === 'brute' || solverMode === 'nn' || solverMode === '2opt' || solverMode === 'compare-nn' || solverMode === 'compare-2opt') ? 'Compute Time' : 'Elapsed';
 
         const historyHTML = showHistory ? `
                 <div class="tsp-history">
                     <pre class="tsp-history-list"></pre>
                 </div>` : '';
 
-        const comparisonHTML = solverMode === 'compare-nn' ? `
+        const comparisonHTML = (solverMode === 'compare-nn' || solverMode === 'compare-2opt') ? `
                 <div class="tsp-comparison">
                     <div class="tsp-comparison-title">Algorithm Comparison</div>
                     <div class="tsp-comparison-grid">
                         <div class="tsp-comparison-item">
-                            <div class="tsp-comparison-label">Nearest Neighbour</div>
+                            <div class="tsp-comparison-label">${solverMode === 'compare-2opt' ? '2-Opt (NN + refinement)' : 'Nearest Neighbour'}</div>
                             <div class="tsp-comparison-distance tsp-nn-distance">—</div>
                             <div class="tsp-comparison-time tsp-nn-time">—</div>
                         </div>
@@ -448,7 +609,7 @@
                         <div class="tsp-stat-value tsp-best-value">—</div>
                     </div>
                     <div class="tsp-stat">
-                        <div class="tsp-stat-label">Elapsed</div>
+                        <div class="tsp-stat-label">${timeLabel}</div>
                         <div class="tsp-stat-value tsp-elapsed-value">0s</div>
                     </div>
                     <div class="tsp-stat">
@@ -481,7 +642,10 @@
             // Comparison mode options
             comparisonNNRoute = null,
             comparisonComplete = false,
-            highlightRoute = null // 'nn' or 'brute' for hover states
+            highlightRoute = null, // 'nn' or 'brute' for hover states
+            // 2-opt specific options
+            swapEdges = null, // Array of two edges being considered for swapping
+            willSwap = false // Whether this swap will improve the route
         } = options;
 
         const ctx = canvas.getContext('2d');
@@ -495,6 +659,8 @@
         const routeSearchingColor = styles.getPropertyValue('--tsp-canvas-route-searching').trim();
         const routeBuildingColor = styles.getPropertyValue('--tsp-canvas-route-building').trim();
         const routeComparisonNNColor = styles.getPropertyValue('--tsp-canvas-route-comparison-nn').trim();
+        const twoOptTestingColor = styles.getPropertyValue('--tsp-canvas-2opt-testing').trim();
+        const twoOptSwappingColor = styles.getPropertyValue('--tsp-canvas-2opt-swapping').trim();
         const cityColor = styles.getPropertyValue('--tsp-canvas-city').trim();
         const cityLabelColor = styles.getPropertyValue('--tsp-canvas-city-label').trim();
         const cityVisitedColor = styles.getPropertyValue('--tsp-canvas-city-visited').trim();
@@ -513,7 +679,7 @@
         if (comparisonNNRoute && !nnHighlighted) {
             // Draw NN first (behind) unless highlighted
             ctx.globalAlpha = bruteHighlighted ? 0.3 : 1;
-            ctx.strokeStyle = routeComparisonNNColor || '#ff6b9d';
+            ctx.strokeStyle = routeComparisonNNColor;
             ctx.lineWidth = 2.5;
             // Solid line when comparison is complete, dashed during brute force
             if (comparisonComplete) {
@@ -535,7 +701,7 @@
 
         // Draw route being explored (faint) - brute force mode
         if (currentRoute && !isComplete && !partialRoute) {
-            ctx.strokeStyle = routeExploringColor || '#666';
+            ctx.strokeStyle = routeExploringColor;
             ctx.lineWidth = 1;
             ctx.setLineDash([5, 5]);
             ctx.beginPath();
@@ -551,7 +717,7 @@
 
         // Draw partial route being built (NN mode)
         if (partialRoute && partialRoute.length > 1) {
-            ctx.strokeStyle = routeBuildingColor || routeSearchingColor || '#d8dd47';
+            ctx.strokeStyle = routeBuildingColor;
             ctx.lineWidth = 2;
             ctx.beginPath();
             for (let i = 0; i < partialRoute.length; i++) {
@@ -562,11 +728,19 @@
             ctx.stroke();
         }
 
-        // Draw best route found so far (brute force mode)
+        // Draw best route found so far (brute force mode or 2-opt mode)
         if (bestRoute) {
             ctx.globalAlpha = nnHighlighted ? 0.3 : 1;
-            ctx.strokeStyle = isComplete ? (routeBestColor || '#68bef8') : (routeSearchingColor || '#d8dd47');
-            ctx.lineWidth = isComplete ? 3.5 : 2;
+            // Use pink (NN color) for 2-opt routes, otherwise use standard colors
+            if (swapEdges) {
+                // 2-opt mode: use same color as NN routes
+                ctx.strokeStyle = routeComparisonNNColor;
+                ctx.lineWidth = 2.5;
+            } else {
+                // Brute force mode: use standard colors
+                ctx.strokeStyle = isComplete ? routeBestColor : routeSearchingColor;
+                ctx.lineWidth = isComplete ? 3.5 : 2;
+            }
             ctx.beginPath();
             for (let i = 0; i < bestRoute.length; i++) {
                 const city = bestRoute[i];
@@ -580,7 +754,7 @@
 
         // Draw NN route on top if highlighted
         if (comparisonNNRoute && nnHighlighted) {
-            ctx.strokeStyle = routeComparisonNNColor || '#ff6b9d';
+            ctx.strokeStyle = routeComparisonNNColor;
             ctx.lineWidth = 2.5;
             ctx.setLineDash([]);
             ctx.beginPath();
@@ -593,6 +767,36 @@
             ctx.stroke();
         }
 
+        // Draw 2-opt swap edges being considered
+        if (swapEdges && swapEdges.length === 2) {
+            // Highlight the two edges being compared (thicker for visibility)
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = willSwap ? twoOptSwappingColor : twoOptTestingColor;
+            ctx.globalAlpha = 0.8;
+
+            // Draw first edge
+            ctx.beginPath();
+            ctx.moveTo(swapEdges[0][0].x, swapEdges[0][0].y);
+            ctx.lineTo(swapEdges[0][1].x, swapEdges[0][1].y);
+            ctx.stroke();
+
+            // Draw second edge
+            ctx.beginPath();
+            ctx.moveTo(swapEdges[1][0].x, swapEdges[1][0].y);
+            ctx.lineTo(swapEdges[1][1].x, swapEdges[1][1].y);
+            ctx.stroke();
+
+            ctx.globalAlpha = 1;
+
+            // Draw circles at the swap points
+            [swapEdges[0][0], swapEdges[0][1], swapEdges[1][0], swapEdges[1][1]].forEach(city => {
+                ctx.fillStyle = willSwap ? twoOptSwappingColor : twoOptTestingColor;
+                ctx.beginPath();
+                ctx.arc(city.x, city.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
         // Draw cities with state-based colouring
         cities.forEach((city, i) => {
             let fillColor = cityColor;
@@ -602,14 +806,14 @@
             // NN mode: color based on visited/unvisited/current state
             if (visited !== null) {
                 if (currentCity && city.id === currentCity.id) {
-                    fillColor = cityCurrentColor || '#68bef8';
-                    labelColor = cityCurrentLabelColor || '#000';
+                    fillColor = cityCurrentColor;
+                    labelColor = cityCurrentLabelColor;
                     radius = 12; // Slightly larger
                 } else if (visited.has(city.id)) {
-                    fillColor = cityVisitedColor || cityColor;
+                    fillColor = cityVisitedColor;
                 } else {
-                    fillColor = cityUnvisitedColor || '#666';
-                    labelColor = '#999';
+                    fillColor = cityUnvisitedColor;
+                    labelColor = cityLabelColor;
                 }
             }
 
@@ -629,582 +833,765 @@
     }
 
     // -------------------------------------------------------------------------
+    // Utility functions
+    // -------------------------------------------------------------------------
+
+    function getOptimalUpdateFrequency(totalRoutes) {
+        if (totalRoutes > 1e7) return 100000;
+        if (totalRoutes > 1e6) return 10000;
+        if (totalRoutes > 1e5) return 1000;
+        if (totalRoutes > 1e4) return 100;
+        if (totalRoutes > 1e3) return 10;
+        return 1;
+    }
+
+    function formatRoute(route, isComplete = false) {
+        const cityClass = isComplete ? 'tsp-history-city-final' : 'tsp-history-city';
+        return route.map(city => `<span class="${cityClass}">${city.id}</span>`).join('→');
+    }
+
+    // -------------------------------------------------------------------------
+    // TSPWidget class
+    // -------------------------------------------------------------------------
+
+    class TSPWidget {
+        constructor(el) {
+            // Parse configuration
+            this.initialCities = parseInt(el.getAttribute('cities') ?? `${DEFAULT_CITIES}`, 10);
+            this.showHistory = el.hasAttribute('history');
+            const speedAttr = el.getAttribute('speed') || 'normal';
+            const solveAttr = el.getAttribute('solve') || 'brute';
+
+            // Normalize solve attribute
+            this.solverMode = ['brute', 'nn', 'compare-nn', '2opt', 'compare-2opt'].includes(solveAttr) ? solveAttr : 'brute';
+
+            // Map speed attribute to delay and update frequency
+            const speedConfig = {
+                'instant': { delay: 0,  updateEvery: 0 },
+                'slow':    { delay: 50, updateEvery: 1 }
+            };
+            this.speed = speedConfig[speedAttr] || { delay: 0, updateEvery: 'auto' };
+
+            // Build UI
+            this.wrapper = buildUI(Math.max(MIN_CITIES, Math.min(MAX_CITIES, this.initialCities)), this.showHistory, this.solverMode);
+            el.innerHTML = '';
+            el.appendChild(this.wrapper);
+
+            // Get DOM references
+            this.canvas = this.wrapper.querySelector('.tsp-canvas');
+            this.slider = this.wrapper.querySelector('.tsp-slider');
+            this.citiesValue = this.wrapper.querySelector('.tsp-cities-value');
+            this.factorialValue = this.wrapper.querySelector('.tsp-factorial-value');
+            this.startBtn = this.wrapper.querySelector('.tsp-btn-start');
+            this.stopBtn = this.wrapper.querySelector('.tsp-btn-stop');
+            this.resetBtn = this.wrapper.querySelector('.tsp-btn-reset');
+            this.statusEl = this.wrapper.querySelector('.tsp-status');
+            this.progressValue = this.wrapper.querySelector('.tsp-progress-value');
+            this.bestValue = this.wrapper.querySelector('.tsp-best-value');
+            this.elapsedValue = this.wrapper.querySelector('.tsp-elapsed-value');
+            this.remainingValue = this.wrapper.querySelector('.tsp-remaining-value');
+            this.historyList = this.showHistory ? this.wrapper.querySelector('.tsp-history-list') : null;
+
+            // State
+            this.cities = [];
+            this.solver = null;
+            this.routeHistory = [];
+            this.isInitializing = true;
+            this.uiElements = {
+                startBtn: this.startBtn,
+                stopBtn: this.stopBtn,
+                slider: this.slider,
+                resetBtn: this.resetBtn
+            };
+
+            //Initialize
+            this.initialize();
+        }
+
+        initialize() {
+            // Set canvas size
+            setTimeout(() => {
+                const rect = this.canvas.parentElement.getBoundingClientRect();
+                const width = rect.width > 0 ? rect.width : 800;
+                this.canvas.width = width;
+                this.canvas.height = 400;
+
+                // Initialize UI
+                this.slider.value = this.initialCities;
+                this.citiesValue.textContent = this.initialCities;
+                this.updateMetric(this.initialCities);
+                this.resetCities();
+                this.isInitializing = false;
+            }, 100);
+
+            this.setupEventListeners();
+            this.setupResizeObserver();
+        }
+
+        // History management methods
+        addToHistory(distance, route) {
+            if (!this.showHistory) return;
+            this.routeHistory.unshift({ distance, route: [...route] });
+            if (this.routeHistory.length > 100) {
+                this.routeHistory.length = 100;
+            }
+            this.updateHistoryDisplay();
+        }
+
+        addHistoryMessage(message) {
+            if (!this.showHistory) return;
+            this.routeHistory.unshift({ message });
+            if (this.routeHistory.length > 100) {
+                this.routeHistory.length = 100;
+            }
+            this.updateHistoryDisplay();
+        }
+
+        updateHistoryDisplay(isComplete = false) {
+            if (!this.showHistory || !this.historyList) return;
+
+            const displayCount = Math.min(10, this.routeHistory.length);
+            const lines = [];
+
+            for (let i = 0; i < displayCount; i++) {
+                const entry = this.routeHistory[i];
+
+                if (entry.message) {
+                    lines.push(`<div class="tsp-history-row tsp-history-message">${entry.message}</div>`);
+                    continue;
+                }
+
+                const nextEntry = i < displayCount - 1 ? this.routeHistory[i + 1] : null;
+                const isFirst = i === 0;
+                const preamble = `${isComplete && isFirst ? 'Best route: ' : 'Best so far:'}`;
+                const distance = `<span class="tsp-history-distance">${entry.distance.toFixed(1)}</span>`;
+                const route = formatRoute(entry.route, isComplete && isFirst);
+                const diff = !isComplete && nextEntry && !nextEntry.message && entry.distance < nextEntry.distance ?
+                    `  <span class="tsp-history-diff">(${(nextEntry.distance - entry.distance).toFixed(1)} shorter)</span>` : '';
+
+                lines.push(`<div class="tsp-history-row ${isFirst ? 'tsp-current-best' : ''}">${preamble}  ${route}  ${distance}${diff}</div>`);
+            }
+
+            this.historyList.innerHTML = lines.join('');
+        }
+
+        clearHistory() {
+            if (!this.showHistory) return;
+            this.routeHistory = [];
+            if (this.historyList) {
+                this.historyList.innerHTML = '';
+            }
+        }
+
+        // Callback creator methods
+        createNNProgressCallback(prefix = '', showIn2OptColor = false) {
+            return async (progress) => {
+                const label = prefix ? `${prefix}: ` : '';
+                this.progressValue.textContent = `${label}${progress.citiesVisited} / ${progress.totalCities}`;
+                this.bestValue.textContent = progress.partialDistance > 0 ? progress.partialDistance.toFixed(1) : '—';
+                this.elapsedValue.textContent = formatTime(progress.actualComputeTime);
+                this.remainingValue.textContent = '—';
+
+                if (progress.partialDistance > 0) {
+                    this.addToHistory(progress.partialDistance, progress.route);
+                }
+
+                if (progress.showReturnEdge) {
+                    drawCanvas(this.canvas, this.cities, {
+                        bestRoute: progress.route,
+                        swapEdges: showIn2OptColor,
+                        isComplete: false
+                    });
+                } else {
+                    drawCanvas(this.canvas, this.cities, {
+                        partialRoute: progress.route,
+                        visited: progress.visited,
+                        unvisited: progress.unvisited,
+                        currentCity: progress.currentCity,
+                        isComplete: false
+                    });
+                }
+
+                await new Promise(resolve => setTimeout(resolve, NN_DELAY_MS(this.cities.length)));
+            };
+        }
+
+        createNNCompleteCallback(message) {
+            return (result) => {
+                this.progressValue.textContent = message || `${result.citiesVisited} / ${result.totalCities}`;
+                this.bestValue.textContent = result.distance.toFixed(1);
+                this.elapsedValue.textContent = formatTime(result.actualComputeTime);
+                this.remainingValue.textContent = '0 s';
+                this.statusEl.textContent = `Complete! Route distance: ${result.distance.toFixed(1)}`;
+                drawCanvas(this.canvas, this.cities, { bestRoute: result.route, isComplete: true });
+                this.updateHistoryDisplay(true);
+                setUIComplete(this.uiElements);
+            };
+        }
+
+        createBruteForceProgressCallback(options = {}) {
+            const {
+                comparisonNNRoute = null,
+                highlightedRouteGetter = () => null,
+                isInstant = false
+            } = options;
+
+            let lastBestDistance = Infinity;
+
+            return async (progress) => {
+                if (isInstant) {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    return;
+                }
+
+                this.progressValue.innerHTML = `${formatNumber(progress.routesChecked)} / ${formatNumber(progress.totalRoutes)}`;
+                this.bestValue.textContent = progress.bestDistance.toFixed(1);
+                this.elapsedValue.textContent = formatTime(progress.actualComputeTime);
+                this.remainingValue.textContent = estimateRemainingTime(progress.routesChecked, progress.totalRoutes, progress.elapsedTime);
+
+                if (progress.bestDistance < lastBestDistance) {
+                    lastBestDistance = progress.bestDistance;
+                    this.addToHistory(progress.bestDistance, progress.bestRoute);
+                }
+
+                drawCanvas(this.canvas, this.cities, {
+                    currentRoute: progress.route,
+                    bestRoute: progress.bestRoute,
+                    comparisonNNRoute,
+                    isComplete: false,
+                    highlightRoute: highlightedRouteGetter()
+                });
+
+                if (this.speed.delay > 0) {
+                    await new Promise(resolve => setTimeout(resolve, this.speed.delay));
+                } else {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+            };
+        }
+
+        setupComparisonHover(redrawFn) {
+            let highlightedRoute = null;
+            const nnItem = this.wrapper.querySelector('.tsp-comparison-item:has(.tsp-nn-distance)');
+            const bruteItem = this.wrapper.querySelector('.tsp-comparison-item:has(.tsp-brute-distance)');
+
+            const attachHover = (item, route) => {
+                if (!item) return;
+                item.addEventListener('mouseenter', () => {
+                    highlightedRoute = route;
+                    if (redrawFn) redrawFn(highlightedRoute);
+                });
+                item.addEventListener('mouseleave', () => {
+                    highlightedRoute = null;
+                    if (redrawFn) redrawFn(null);
+                });
+                item.style.cursor = 'pointer';
+            };
+
+            attachHover(nnItem, 'nn');
+            attachHover(bruteItem, 'brute');
+
+            return {
+                nnItem,
+                bruteItem,
+                getHighlightedRoute: () => highlightedRoute,
+                setHighlightedRoute: (route) => { highlightedRoute = route; }
+            };
+        }
+
+        // UI helper methods
+        updateMetric(n) {
+            if (this.solverMode === 'brute' || this.solverMode === 'compare-nn' || this.solverMode === 'compare-2opt') {
+                const f = factorial(n - 1);
+                this.factorialValue.innerHTML = formatNumber(f, false);
+            } else {
+                this.factorialValue.textContent = n.toString();
+            }
+        }
+
+        resetCities() {
+            const n = parseInt(this.slider.value, 10);
+            this.cities = generateCities(n, this.canvas.width, this.canvas.height);
+            drawCanvas(this.canvas, this.cities, {});
+            this.bestValue.textContent = '—';
+            this.progressValue.textContent = '0 / 0';
+            this.elapsedValue.textContent = '0 s';
+            this.remainingValue.textContent = '...';
+            this.statusEl.textContent = 'Ready';
+            this.clearHistory();
+
+            if (this.solverMode === 'compare-nn' || this.solverMode === 'compare-2opt') {
+                const nnDistance = this.wrapper.querySelector('.tsp-nn-distance');
+                const nnTime = this.wrapper.querySelector('.tsp-nn-time');
+                const bruteDistance = this.wrapper.querySelector('.tsp-brute-distance');
+                const bruteTime = this.wrapper.querySelector('.tsp-brute-time');
+                const diff = this.wrapper.querySelector('.tsp-comparison-diff');
+                if (nnDistance) nnDistance.textContent = '—';
+                if (nnTime) nnTime.textContent = '—';
+                if (bruteDistance) bruteDistance.textContent = '—';
+                if (bruteTime) bruteTime.textContent = '—';
+                if (diff) diff.textContent = '—';
+            }
+        }
+
+        setupResizeObserver() {
+            let resizeTimeout;
+            const resizeObserver = new ResizeObserver(() => {
+                if (this.isInitializing) return;
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    const rect = this.canvas.parentElement.getBoundingClientRect();
+                    const oldWidth = this.canvas.width;
+                    const oldHeight = this.canvas.height;
+
+                    this.canvas.width = rect.width;
+                    this.canvas.height = 400;
+
+                    if (this.cities.length > 0 && (oldWidth !== this.canvas.width || oldHeight !== this.canvas.height)) {
+                        const scaleX = this.canvas.width / oldWidth;
+                        const scaleY = this.canvas.height / oldHeight;
+
+                        this.cities.forEach(city => {
+                            city.x *= scaleX;
+                            city.y *= scaleY;
+                        });
+
+                        if (this.solver && this.solver.bestRoute) {
+                            const isComplete = this.solver && !this.solver.running;
+                            drawCanvas(this.canvas, this.cities, { bestRoute: this.solver.bestRoute, isComplete });
+                        } else {
+                            drawCanvas(this.canvas, this.cities, {});
+                        }
+                    }
+                }, 100);
+            });
+
+            resizeObserver.observe(this.canvas.parentElement);
+        }
+
+        setupEventListeners() {
+            this.slider.addEventListener('input', () => {
+                const n = parseInt(this.slider.value, 10);
+                this.citiesValue.textContent = n;
+                this.updateMetric(n);
+            });
+
+            this.slider.addEventListener('change', () => this.resetCities());
+            this.resetBtn.addEventListener('click', () => this.resetCities());
+
+            this.startBtn.addEventListener('click', async () => {
+                if (this.solver && this.solver.running) return;
+
+                setUIRunning(this.uiElements);
+                this.clearHistory();
+                drawCanvas(this.canvas, this.cities, {});
+
+                if (this.solverMode === 'nn') {
+                    await this.runNearestNeighbour();
+                } else if (this.solverMode === 'compare-nn') {
+                    await this.runComparison();
+                } else if (this.solverMode === '2opt') {
+                    await this.run2Opt();
+                } else if (this.solverMode === 'compare-2opt') {
+                    await this.runComparison2Opt();
+                } else {
+                    await this.runBruteForce();
+                }
+            });
+
+            this.stopBtn.addEventListener('click', () => {
+                if (this.solver) {
+                    this.solver.stop();
+                    this.statusEl.textContent = 'Stopped';
+                    setUIComplete(this.uiElements);
+                }
+            });
+        }
+
+        // Solver runner methods
+        async runNearestNeighbour() {
+            this.statusEl.textContent = 'Building route...';
+            this.addHistoryMessage('Starting Nearest Neighbour search...');
+
+            this.solver = new TSPNearestNeighbourSolver(
+                this.cities,
+                this.createNNProgressCallback(),
+                this.createNNCompleteCallback()
+            );
+
+            this.progressValue.textContent = '0 / ' + this.cities.length;
+            this.bestValue.textContent = '—';
+            this.elapsedValue.textContent = '0 s';
+            this.remainingValue.textContent = '—';
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+            await this.solver.start();
+        }
+
+        async runBruteForce() {
+            this.statusEl.textContent = 'Searching...';
+            this.addHistoryMessage('Starting Brute Force search...');
+
+            const tempSolver = new TSPBruteForceSolver(this.cities, null, null);
+            const updateEvery = this.speed.updateEvery === 'auto' ? getOptimalUpdateFrequency(tempSolver.totalRoutes) : this.speed.updateEvery;
+            const callbackFrequency = updateEvery === 0 ? INSTANT_MODE_YIELD_FREQUENCY : updateEvery;
+            const isInstant = updateEvery === 0;
+
+            this.solver = new TSPBruteForceSolver(
+                this.cities,
+                this.createBruteForceProgressCallback({ isInstant }),
+                (result) => {
+                    this.progressValue.innerHTML = `${formatNumber(result.totalRoutes)} / ${formatNumber(result.totalRoutes)}`;
+                    this.bestValue.textContent = result.bestDistance.toFixed(1);
+                    this.elapsedValue.textContent = formatTime(result.actualComputeTime);
+                    this.remainingValue.textContent = '0 s';
+                    this.statusEl.textContent = `Complete! Best route: ${result.bestDistance.toFixed(1)}`;
+                    drawCanvas(this.canvas, this.cities, { bestRoute: result.bestRoute, isComplete: true });
+                    this.updateHistoryDisplay(true);
+                    setUIComplete(this.uiElements);
+                },
+                callbackFrequency
+            );
+
+            this.progressValue.innerHTML = `0 / ${formatNumber(this.solver.totalRoutes)}`;
+            this.bestValue.textContent = '—';
+            this.elapsedValue.textContent = '0 s';
+            this.remainingValue.textContent = '...';
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+            await this.solver.start();
+        }
+
+        async runComparison() {
+            this.statusEl.textContent = 'Running Nearest Neighbour...';
+            this.addHistoryMessage('Starting Nearest Neighbour search...');
+
+            const nnDistance = this.wrapper.querySelector('.tsp-nn-distance');
+            const nnTime = this.wrapper.querySelector('.tsp-nn-time');
+            const bruteDistance = this.wrapper.querySelector('.tsp-brute-distance');
+            const bruteTime = this.wrapper.querySelector('.tsp-brute-time');
+            const diff = this.wrapper.querySelector('.tsp-comparison-diff');
+
+            this.solver = new TSPNearestNeighbourSolver(
+                this.cities,
+                this.createNNProgressCallback('NN'),
+                (result) => {
+                    if (nnDistance) nnDistance.textContent = result.distance.toFixed(1);
+                    if (nnTime) nnTime.textContent = `${formatTime(result.actualComputeTime)} (${result.citiesVisited} cities)`;
+                    drawCanvas(this.canvas, this.cities, { bestRoute: result.route, comparisonNNRoute: result.route, isComplete: false });
+                }
+            );
+
+            await this.solver.start();
+            const nnResult = this.solver;
+
+            this.statusEl.textContent = 'NN complete!';
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            this.statusEl.textContent = 'Starting Brute Force search...';
+            this.addHistoryMessage('Starting Brute Force search...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            this.statusEl.textContent = 'Running Brute Force...';
+
+            const tempSolver2 = new TSPBruteForceSolver(this.cities, null, null);
+            const updateEvery = this.speed.updateEvery === 'auto' ? getOptimalUpdateFrequency(tempSolver2.totalRoutes) : this.speed.updateEvery;
+            const callbackFrequency = updateEvery === 0 ? INSTANT_MODE_YIELD_FREQUENCY : updateEvery;
+            const isInstant = updateEvery === 0;
+
+            const hoverState = this.setupComparisonHover((highlightRoute) => {
+                if (this.solver && this.solver.route) {
+                    drawCanvas(this.canvas, this.cities, {
+                        currentRoute: this.solver.route,
+                        bestRoute: this.solver.bestRoute,
+                        comparisonNNRoute: nnResult.route,
+                        isComplete: false,
+                        highlightRoute
+                    });
+                }
+            });
+
+            this.solver = new TSPBruteForceSolver(
+                this.cities,
+                this.createBruteForceProgressCallback({
+                    comparisonNNRoute: nnResult.route,
+                    highlightedRouteGetter: hoverState.getHighlightedRoute,
+                    isInstant
+                }),
+                (result) => {
+                    if (bruteDistance) bruteDistance.textContent = result.bestDistance.toFixed(1);
+                    if (bruteTime) bruteTime.textContent = `${formatTime(result.actualComputeTime)} (${formatNumber(result.totalRoutes, false)} routes)`;
+
+                    if (nnResult && diff) {
+                        const absDiff = Math.abs(nnResult.totalDistance - result.bestDistance);
+                        const pct = ((nnResult.totalDistance / result.bestDistance - 1) * 100).toFixed(1);
+                        let diffHtml = `NN was <span style="color: var(--highlight-color)">${absDiff.toFixed(1)}</span> longer (+${pct}%)`;
+                        
+                        if (absDiff < 0.01) {
+                            // Perfect match - show both messages!
+                            diffHtml += `<div class="tsp-comparison-optimal">Heuristic = Optimal!</div>`;
+                        }
+                        
+                        diff.innerHTML = diffHtml;
+                    }
+
+                    this.progressValue.innerHTML = `${formatNumber(result.totalRoutes)} / ${formatNumber(result.totalRoutes)}`;
+                    this.bestValue.textContent = result.bestDistance.toFixed(1);
+                    this.elapsedValue.textContent = formatTime(result.actualComputeTime);
+                    this.remainingValue.textContent = '0 s';
+                    this.statusEl.textContent = `Complete! Optimal: ${result.bestDistance.toFixed(1)}, NN: ${nnResult.totalDistance.toFixed(1)}`;
+
+                    const redrawComparison = (highlightRoute = null) => {
+                        drawCanvas(this.canvas, this.cities, {
+                            bestRoute: result.bestRoute,
+                            comparisonNNRoute: nnResult.route,
+                            isComplete: true,
+                            comparisonComplete: true,
+                            highlightRoute
+                        });
+                    };
+
+                    if (hoverState.nnItem) {
+                        hoverState.nnItem.replaceWith(hoverState.nnItem.cloneNode(true));
+                        const newNnItem = this.wrapper.querySelector('.tsp-comparison-item:has(.tsp-nn-distance)');
+                        newNnItem.addEventListener('mouseenter', () => redrawComparison('nn'));
+                        newNnItem.addEventListener('mouseleave', () => redrawComparison());
+                        newNnItem.style.cursor = 'pointer';
+                    }
+
+                    if (hoverState.bruteItem) {
+                        hoverState.bruteItem.replaceWith(hoverState.bruteItem.cloneNode(true));
+                        const newBruteItem = this.wrapper.querySelector('.tsp-comparison-item:has(.tsp-brute-distance)');
+                        newBruteItem.addEventListener('mouseenter', () => redrawComparison('brute'));
+                        newBruteItem.addEventListener('mouseleave', () => redrawComparison());
+                        newBruteItem.style.cursor = 'pointer';
+                    }
+
+                    redrawComparison();
+                    this.updateHistoryDisplay(true);
+                    setUIComplete(this.uiElements);
+                },
+                callbackFrequency
+            );
+
+            this.progressValue.innerHTML = `0 / ${formatNumber(this.solver.totalRoutes)}`;
+            this.bestValue.textContent = '—';
+            this.elapsedValue.textContent = '0 s';
+            this.remainingValue.textContent = '...';
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+            await this.solver.start();
+        }
+
+        async run2Opt() {
+            this.statusEl.textContent = 'Building initial route...';
+            this.addHistoryMessage('Starting Nearest Neighbour search...');
+
+            let nnSolver = new TSPNearestNeighbourSolver(this.cities, this.createNNProgressCallback(), () => {});
+            await nnSolver.start();
+            const nnResult = nnSolver.route;
+            const nnDistance = nnSolver.totalDistance;
+
+            this.addHistoryMessage('Starting 2-Opt refinement...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            this.statusEl.textContent = 'Refining with 2-Opt...';
+            let lastDistance = nnDistance;
+
+            this.solver = new TSP2OptSolver(
+                nnResult,
+                async (progress) => {
+                    this.progressValue.textContent = `2-Opt: ${progress.swapsPerformed} swaps, ${progress.totalComparisons} comparisons`;
+                    this.bestValue.textContent = progress.distance.toFixed(1);
+                    this.elapsedValue.textContent = formatTime(progress.actualComputeTime);
+                    this.remainingValue.textContent = '—';
+
+                    if (progress.distance < lastDistance && !progress.comparing) {
+                        lastDistance = progress.distance;
+                        this.addToHistory(progress.distance, progress.route);
+                    }
+
+                    drawCanvas(this.canvas, this.cities, {
+                        bestRoute: progress.route,
+                        swapEdges: progress.swapEdges,
+                        willSwap: progress.willSwap,
+                        isComplete: false
+                    });
+
+                    await new Promise(resolve => setTimeout(resolve, TWO_OPT_DELAY_MS(this.cities.length)));
+                },
+                (result) => {
+                    this.progressValue.textContent = `Complete: ${result.swapsPerformed} swaps`;
+                    this.bestValue.textContent = result.distance.toFixed(1);
+                    this.elapsedValue.textContent = formatTime(result.actualComputeTime);
+                    this.remainingValue.textContent = '0 s';
+                    const improvement = ((nnDistance - result.distance) / nnDistance * 100).toFixed(1);
+                    this.statusEl.textContent = `Complete! Distance: ${result.distance.toFixed(1)} (${improvement}% better than NN)`;
+                    drawCanvas(this.canvas, this.cities, { bestRoute: result.route, isComplete: true });
+                    this.updateHistoryDisplay(true);
+                    setUIComplete(this.uiElements);
+                }
+            );
+
+            await this.solver.start();
+        }
+
+        async runComparison2Opt() {
+            this.statusEl.textContent = 'Running 2-Opt algorithm...';
+            this.addHistoryMessage('Starting Nearest Neighbour search...');
+
+            const nnDistance = this.wrapper.querySelector('.tsp-nn-distance');
+            const nnTime = this.wrapper.querySelector('.tsp-nn-time');
+            const bruteDistance = this.wrapper.querySelector('.tsp-brute-distance');
+            const bruteTime = this.wrapper.querySelector('.tsp-brute-time');
+            const diff = this.wrapper.querySelector('.tsp-comparison-diff');
+
+            let nnSolver = new TSPNearestNeighbourSolver(this.cities, this.createNNProgressCallback('NN', true), () => {});
+            await nnSolver.start();
+            const nnResult = nnSolver.route;
+            const nnDistanceValue = nnSolver.totalDistance;
+
+            this.addHistoryMessage('Starting 2-Opt refinement...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            let twoOptResult = null;
+            let lastDistance = nnDistanceValue;
+            const hoverState = this.setupComparisonHover((highlightRoute) => {
+                if (this.solver && this.solver.route) {
+                    drawCanvas(this.canvas, this.cities, {
+                        bestRoute: this.solver.route,
+                        swapEdges: true,
+                        isComplete: false,
+                        highlightRoute
+                    });
+                }
+            });
+
+            this.solver = new TSP2OptSolver(
+                nnResult,
+                async (progress) => {
+                    this.progressValue.textContent = `2-Opt: ${progress.swapsPerformed} swaps`;
+                    this.bestValue.textContent = progress.distance.toFixed(1);
+                    this.elapsedValue.textContent = formatTime(progress.actualComputeTime);
+
+                    if (progress.distance < lastDistance && !progress.comparing) {
+                        lastDistance = progress.distance;
+                        this.addToHistory(progress.distance, progress.route);
+                    }
+
+                    drawCanvas(this.canvas, this.cities, {
+                        bestRoute: progress.route,
+                        swapEdges: progress.swapEdges,
+                        willSwap: progress.willSwap,
+                        highlightRoute: hoverState.getHighlightedRoute()
+                    });
+
+                    await new Promise(resolve => setTimeout(resolve, TWO_OPT_DELAY_MS(this.cities.length)));
+                },
+                (result) => {
+                    twoOptResult = result;
+                    if (nnDistance) nnDistance.textContent = result.distance.toFixed(1);
+                    if (nnTime) nnTime.textContent = `${formatTime(result.actualComputeTime)} (${result.swapsPerformed} swaps)`;
+                    drawCanvas(this.canvas, this.cities, { bestRoute: result.route, comparisonNNRoute: result.route, isComplete: false });
+                }
+            );
+
+            await this.solver.start();
+
+            this.statusEl.textContent = '2-Opt complete!';
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            this.statusEl.textContent = 'Starting Brute Force search...';
+            this.addHistoryMessage('Starting Brute Force search...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            this.statusEl.textContent = 'Running Brute Force...';
+
+            const tempSolver2 = new TSPBruteForceSolver(this.cities, null, null);
+            const updateEvery = this.speed.updateEvery === 'auto' ? getOptimalUpdateFrequency(tempSolver2.totalRoutes) : this.speed.updateEvery;
+            const callbackFrequency = updateEvery === 0 ? INSTANT_MODE_YIELD_FREQUENCY : updateEvery;
+            const isInstant = updateEvery === 0;
+
+            this.solver = new TSPBruteForceSolver(
+                this.cities,
+                this.createBruteForceProgressCallback({
+                    comparisonNNRoute: twoOptResult.route,
+                    highlightedRouteGetter: hoverState.getHighlightedRoute,
+                    isInstant
+                }),
+                (result) => {
+                    if (bruteDistance) bruteDistance.textContent = result.bestDistance.toFixed(1);
+                    if (bruteTime) bruteTime.textContent = `${formatTime(result.actualComputeTime)} (${formatNumber(result.totalRoutes, false)} routes)`;
+
+                    if (twoOptResult && diff) {
+                        const absDiff = Math.abs(twoOptResult.distance - result.bestDistance);
+                        const pct = ((twoOptResult.distance / result.bestDistance - 1) * 100).toFixed(1);
+                        let diffHtml = `2-Opt was <span style="color: var(--highlight-color)">${absDiff.toFixed(1)}</span> longer (+${pct}%)`;
+                        
+                        if (absDiff < 0.01) {
+                            // Perfect match - show both messages!
+                            diffHtml += `<div class="tsp-comparison-optimal">Heuristic = Optimal!</div>`;
+                        }
+                        
+                        diff.innerHTML = diffHtml;
+                    }
+
+                    this.progressValue.innerHTML = `${formatNumber(result.totalRoutes)} / ${formatNumber(result.totalRoutes)}`;
+                    this.bestValue.textContent = result.bestDistance.toFixed(1);
+                    this.elapsedValue.textContent = formatTime(result.actualComputeTime);
+                    this.remainingValue.textContent = '0 s';
+                    this.statusEl.textContent = `Complete! Optimal: ${result.bestDistance.toFixed(1)}, 2-Opt: ${twoOptResult.distance.toFixed(1)}`;
+
+                    const redrawComparison = (highlightRoute = null) => {
+                        drawCanvas(this.canvas, this.cities, {
+                            bestRoute: result.bestRoute,
+                            comparisonNNRoute: twoOptResult.route,
+                            isComplete: true,
+                            comparisonComplete: true,
+                            highlightRoute
+                        });
+                    };
+
+                    if (hoverState.nnItem) {
+                        hoverState.nnItem.replaceWith(hoverState.nnItem.cloneNode(true));
+                        const newNnItem = this.wrapper.querySelector('.tsp-comparison-item:has(.tsp-nn-distance)');
+                        newNnItem.addEventListener('mouseenter', () => redrawComparison('nn'));
+                        newNnItem.addEventListener('mouseleave', () => redrawComparison());
+                        newNnItem.style.cursor = 'pointer';
+                    }
+
+                    if (hoverState.bruteItem) {
+                        hoverState.bruteItem.replaceWith(hoverState.bruteItem.cloneNode(true));
+                        const newBruteItem = this.wrapper.querySelector('.tsp-comparison-item:has(.tsp-brute-distance)');
+                        newBruteItem.addEventListener('mouseenter', () => redrawComparison('brute'));
+                        newBruteItem.addEventListener('mouseleave', () => redrawComparison());
+                        newBruteItem.style.cursor = 'pointer';
+                    }
+
+                    redrawComparison();
+                    this.updateHistoryDisplay(true);
+                    setUIComplete(this.uiElements);
+                },
+                callbackFrequency
+            );
+
+            this.progressValue.innerHTML = `0 / ${formatNumber(this.solver.totalRoutes)}`;
+            this.bestValue.textContent = '—';
+            this.elapsedValue.textContent = '0 s';
+            this.remainingValue.textContent = '...';
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+            await this.solver.start();
+        }
+    }
+
+    // -------------------------------------------------------------------------
     // Plugin entry point
     // -------------------------------------------------------------------------
 
     function processTSP() {
         document.querySelectorAll('.markdown-section tsp').forEach(el => {
-            const initialCities = parseInt(el.getAttribute('cities') ?? `${DEFAULT_CITIES}`, 10);
-            const showHistory = el.hasAttribute('history');
-            const speedAttr = el.getAttribute('speed') || 'normal';
-            const solveAttr = el.getAttribute('solve') || 'brute';
-
-            // Normalize solve attribute
-            const solverMode = ['brute', 'nn', 'compare-nn'].includes(solveAttr) ? solveAttr : 'brute';
-
-            // Map speed attribute to delay and update frequency
-            const speedConfig = {
-                'instant': { delay: 0,  updateEvery: 0 },      // No UI updates, yields every 10k routes
-                'fast':    { delay: 0,  updateEvery: 1000 },   // Update every 1000 routes
-                'normal':  { delay: 0,  updateEvery: 100 },    // Update every 100 routes (default)
-                'slow':    { delay: 50, updateEvery: 1 }       // Update every route with 50ms delay
-            };
-            const speed = speedConfig[speedAttr] || speedConfig['normal'];
-
-            const wrapper = buildUI(Math.max(MIN_CITIES, Math.min(MAX_CITIES, initialCities)), showHistory, solverMode);
-
-            el.innerHTML = '';
-            el.appendChild(wrapper);
-
-            // Get DOM references
-            const canvas = wrapper.querySelector('.tsp-canvas');
-            const slider = wrapper.querySelector('.tsp-slider');
-            const citiesValue = wrapper.querySelector('.tsp-cities-value');
-            const factorialValue = wrapper.querySelector('.tsp-factorial-value');
-            const startBtn = wrapper.querySelector('.tsp-btn-start');
-            const stopBtn = wrapper.querySelector('.tsp-btn-stop');
-            const resetBtn = wrapper.querySelector('.tsp-btn-reset');
-            const statusEl = wrapper.querySelector('.tsp-status');
-            const progressValue = wrapper.querySelector('.tsp-progress-value');
-            const bestValue = wrapper.querySelector('.tsp-best-value');
-            const elapsedValue = wrapper.querySelector('.tsp-elapsed-value');
-            const remainingValue = wrapper.querySelector('.tsp-remaining-value');
-            const historyList = showHistory ? wrapper.querySelector('.tsp-history-list') : null;
-
-            // State
-            let cities = [];
-            let solver = null;
-            let routeHistory = []; // Store last 100 best routes
-            let isInitializing = true; // Prevent resize observer during initialization
-
-            // Format a route for display with highlighting
-            function formatRoute(route, isComplete = false) {
-                const cityClass = isComplete ? 'tsp-history-city-final' : 'tsp-history-city';
-                return route.map(city => `<span class="${cityClass}">${city.id}</span>`).join('→');
-            }
-
-            function addToHistory(distance, route) {
-                if (!showHistory) return;
-
-                // Add to beginning of array
-                routeHistory.unshift({ distance, route: [...route] });
-
-                // Keep only last 100
-                if (routeHistory.length > 100) {
-                    routeHistory.length = 100;
-                }
-
-                // Update display (show only first 10)
-                updateHistoryDisplay();
-            }
-
-            function addHistoryMessage(message) {
-                if (!showHistory) return;
-
-                // Add message entry to beginning of array
-                routeHistory.unshift({ message });
-
-                // Keep only last 100
-                if (routeHistory.length > 100) {
-                    routeHistory.length = 100;
-                }
-
-                // Update display
-                updateHistoryDisplay();
-            }
-
-            function updateHistoryDisplay(isComplete = false) {
-                if (!showHistory || !historyList) return;
-
-                const displayCount = Math.min(10, routeHistory.length);
-                const lines = [];
-
-                for (let i = 0; i < displayCount; i++) {
-                    const entry = routeHistory[i];
-
-                    // Handle message entries
-                    if (entry.message) {
-                        lines.push(`<div class="tsp-history-row tsp-history-message">${entry.message}</div>`);
-                        continue;
-                    }
-
-                    // Handle route entries
-                    const nextEntry = i < displayCount - 1 ? routeHistory[i + 1] : null
-
-                    const isFirst = i === 0
-                    const preamble = `${isComplete && isFirst ? 'Best route: ' : 'Best so far:'}`;
-                    const distance = `<span class="tsp-history-distance">${entry.distance.toFixed(1)}</span>`;
-                    const route = formatRoute(entry.route, isComplete && isFirst);
-                    // Only show diff if distance decreased (brute force), not if it increased (NN building route)
-                    const diff = !isComplete && nextEntry && !nextEntry.message && entry.distance < nextEntry.distance ? `  <span class="tsp-history-diff">(${(nextEntry.distance - entry.distance).toFixed(1)} shorter)</span>` : ''
-
-                    lines.push(`<div class="tsp-history-row ${isFirst ? 'tsp-current-best' : ''}">${preamble}  ${route}  ${distance}${diff}</div>`);
-                }
-
-                historyList.innerHTML = lines.join('');
-            }
-
-            function clearHistory() {
-                if (!showHistory) return;
-                routeHistory = [];
-                if (historyList) {
-                    historyList.innerHTML = '';
-                }
-            }
-
-            function updateMetric(n) {
-                if (solverMode === 'brute' || solverMode === 'compare-nn') {
-                    const f = factorial(n - 1);
-                    factorialValue.innerHTML = formatNumber(f, false);
-                } else {
-                    factorialValue.textContent = n.toString();
-                }
-            }
-
-            function resetCities() {
-                const n = parseInt(slider.value, 10);
-                cities = generateCities(n, canvas.width, canvas.height);
-                drawCanvas(canvas, cities, {});
-                bestValue.textContent = '—';
-                progressValue.textContent = '0 / 0';
-                elapsedValue.textContent = '0 s';
-                remainingValue.textContent = '...';
-                statusEl.textContent = 'Ready';
-                clearHistory();
-
-                // Reset comparison if in compare mode
-                if (solverMode === 'compare-nn') {
-                    const nnDistance = wrapper.querySelector('.tsp-nn-distance');
-                    const nnTime = wrapper.querySelector('.tsp-nn-time');
-                    const bruteDistance = wrapper.querySelector('.tsp-brute-distance');
-                    const bruteTime = wrapper.querySelector('.tsp-brute-time');
-                    const diff = wrapper.querySelector('.tsp-comparison-diff');
-                    if (nnDistance) nnDistance.textContent = '—';
-                    if (nnTime) nnTime.textContent = '—';
-                    if (bruteDistance) bruteDistance.textContent = '—';
-                    if (bruteTime) bruteTime.textContent = '—';
-                    if (diff) diff.textContent = '—';
-                }
-            }
-
-            // Initialize after DOM layout (using setTimeout to ensure layout is complete)
-            setTimeout(() => {
-                // Set canvas size
-                const rect = canvas.parentElement.getBoundingClientRect();
-                const width = rect.width > 0 ? rect.width : 800; // Ensure minimum width
-                canvas.width = width;
-                canvas.height = 400;
-
-                // Initialize UI
-                slider.value = initialCities;
-                citiesValue.textContent = initialCities;
-                updateMetric(initialCities);
-                resetCities();
-                isInitializing = false;
-            }, 100); // Small delay to ensure layout is complete
-
-            // Handle canvas resize
-            let resizeTimeout;
-            const resizeObserver = new ResizeObserver(() => {
-                if (isInitializing) return;
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    const rect = canvas.parentElement.getBoundingClientRect();
-                    const oldWidth = canvas.width;
-                    const oldHeight = canvas.height;
-
-                    canvas.width = rect.width;
-                    canvas.height = 400;
-
-                    // If dimensions changed and we have cities, scale their positions
-                    if (cities.length > 0 && (oldWidth !== canvas.width || oldHeight !== canvas.height)) {
-                        const scaleX = canvas.width / oldWidth;
-                        const scaleY = canvas.height / oldHeight;
-
-                        cities.forEach(city => {
-                            city.x *= scaleX;
-                            city.y *= scaleY;
-                        });
-
-                        // Redraw with current best route if solver has found one
-                        if (solver && solver.bestRoute) {
-                            const isComplete = solver && !solver.running;
-                            drawCanvas(canvas, cities, { bestRoute: solver.bestRoute, isComplete });
-                        } else {
-                            drawCanvas(canvas, cities, {});
-                        }
-                    }
-                }, 100); // Debounce resize events
-            });
-
-            resizeObserver.observe(canvas.parentElement);
-
-            // Event: Slider change
-            slider.addEventListener('input', () => {
-                const n = parseInt(slider.value, 10);
-                citiesValue.textContent = n;
-                updateMetric(n);
-            });
-
-            slider.addEventListener('change', resetCities);
-
-            // Event: Reset
-            resetBtn.addEventListener('click', resetCities);
-
-            // Event: Start
-            startBtn.addEventListener('click', async () => {
-                if (solver && solver.running) return;
-
-                // Update UI state immediately
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
-                slider.disabled = true;
-                resetBtn.disabled = true;
-                clearHistory();
-
-                // Clear previous route visualization
-                drawCanvas(canvas, cities, {});
-
-                // Execute based on solver mode
-                if (solverMode === 'nn') {
-                    await runNearestNeighbour();
-                } else if (solverMode === 'compare-nn') {
-                    await runComparison();
-                } else {
-                    await runBruteForce();
-                }
-            });
-
-            // Run Nearest Neighbour solver
-            async function runNearestNeighbour() {
-                statusEl.textContent = 'Building route...';
-                addHistoryMessage('Starting Nearest Neighbour search...');
-
-                solver = new TSPNearestNeighbourSolver(
-                    cities,
-                    async (progress) => {
-                        // Update stats
-                        progressValue.textContent = `${progress.citiesVisited} / ${progress.totalCities}`;
-                        bestValue.textContent = progress.partialDistance > 0 ? progress.partialDistance.toFixed(1) : '—';
-                        elapsedValue.textContent = formatTime(progress.elapsedTime);
-                        remainingValue.textContent = '—';
-
-                        // Add to history
-                        if (progress.partialDistance > 0) {
-                            addToHistory(progress.partialDistance, progress.route);
-                        }
-
-                        // Draw NN visualization
-                        drawCanvas(canvas, cities, {
-                            partialRoute: progress.route,
-                            visited: progress.visited,
-                            unvisited: progress.unvisited,
-                            currentCity: progress.currentCity,
-                            isComplete: false
-                        });
-
-                        // Dynamic delay based on N cities (total ~5s animation)
-                        const nnDelay = Math.floor(5000 / cities.length);
-                        await new Promise(resolve => setTimeout(resolve, nnDelay));
-                    },
-                    (result) => {
-                        // Complete
-                        progressValue.textContent = `${result.citiesVisited} / ${result.totalCities}`;
-                        bestValue.textContent = result.distance.toFixed(1);
-                        elapsedValue.textContent = formatTime(result.elapsedTime);
-                        remainingValue.textContent = '0 s';
-                        statusEl.textContent = `Complete! Route distance: ${result.distance.toFixed(1)}`;
-
-                        // Draw final route
-                        drawCanvas(canvas, cities, { bestRoute: result.route, isComplete: true });
-
-                        updateHistoryDisplay(true);
-                        startBtn.disabled = false;
-                        stopBtn.disabled = true;
-                        slider.disabled = false;
-                        resetBtn.disabled = false;
-                    }
-                );
-
-                // Initialize stats
-                progressValue.textContent = '0 / ' + cities.length;
-                bestValue.textContent = '—';
-                elapsedValue.textContent = '0 s';
-                remainingValue.textContent = '—';
-
-                await new Promise(resolve => setTimeout(resolve, 0));
-                await solver.start();
-            }
-
-            // Run Brute Force solver
-            async function runBruteForce() {
-                statusEl.textContent = 'Searching...';
-                addHistoryMessage('Starting Brute Force search...');
-
-                const callbackFrequency = speed.updateEvery === 0 ? 10000 : speed.updateEvery;
-                let lastBestDistance = Infinity;
-
-                solver = new TSPBruteForceSolver(
-                    cities,
-                    async (progress) => {
-                        // For instant mode, just yield to browser without UI updates
-                        const isInstant = speed.updateEvery === 0;
-                        if (isInstant) {
-                            await new Promise(resolve => setTimeout(resolve, 0));
-                            return;
-                        }
-
-                        // Update stats
-                        progressValue.innerHTML = `${formatNumber(progress.routesChecked)} / ${formatNumber(progress.totalRoutes)}`;
-                        bestValue.textContent = progress.bestDistance.toFixed(1);
-                        elapsedValue.textContent = formatTime(progress.elapsedTime);
-                        remainingValue.textContent = estimateRemainingTime(progress.routesChecked, progress.totalRoutes, progress.elapsedTime);
-
-                        // Add to history if new best found
-                        if (progress.bestDistance < lastBestDistance) {
-                            lastBestDistance = progress.bestDistance;
-                            addToHistory(progress.bestDistance, progress.bestRoute);
-                        }
-
-                        // Draw current state
-                        drawCanvas(canvas, cities, { currentRoute: progress.route, bestRoute: progress.bestRoute, isComplete: false });
-
-                        // Yield to browser
-                        if (speed.delay > 0) {
-                            await new Promise(resolve => setTimeout(resolve, speed.delay));
-                        } else {
-                            await new Promise(resolve => setTimeout(resolve, 0));
-                        }
-                    },
-                    (result) => {
-                        // Complete - update final stats
-                        progressValue.innerHTML = `${formatNumber(result.totalRoutes)} / ${formatNumber(result.totalRoutes)}`;
-                        bestValue.textContent = result.bestDistance.toFixed(1);
-                        elapsedValue.textContent = formatTime(result.elapsedTime);
-                        remainingValue.textContent = '0 s';
-                        statusEl.textContent = `Complete! Best route: ${result.bestDistance.toFixed(1)}`;
-                        drawCanvas(canvas, cities, { bestRoute: result.bestRoute, isComplete: true });
-                        updateHistoryDisplay(true);
-                        startBtn.disabled = false;
-                        stopBtn.disabled = true;
-                        slider.disabled = false;
-                        resetBtn.disabled = false;
-                    },
-                    callbackFrequency
-                );
-
-                // Reset stats display with correct total
-                progressValue.innerHTML = `0 / ${formatNumber(solver.totalRoutes)}`;
-                bestValue.textContent = '—';
-                elapsedValue.textContent = '0 s';
-                remainingValue.textContent = '...';
-
-                await new Promise(resolve => setTimeout(resolve, 0));
-                await solver.start();
-            }
-
-            // Run comparison: NN first, then Brute Force
-            async function runComparison() {
-                statusEl.textContent = 'Running Nearest Neighbour...';
-                addHistoryMessage('Starting Nearest Neighbour search...');
-
-                // Get DOM references for comparison
-                const nnDistance = wrapper.querySelector('.tsp-nn-distance');
-                const nnTime = wrapper.querySelector('.tsp-nn-time');
-                const bruteDistance = wrapper.querySelector('.tsp-brute-distance');
-                const bruteTime = wrapper.querySelector('.tsp-brute-time');
-                const diff = wrapper.querySelector('.tsp-comparison-diff');
-
-                let nnResult = null;
-
-                // Run NN first with visible animation
-                solver = new TSPNearestNeighbourSolver(
-                    cities,
-                    async (progress) => {
-                        // Update stats during NN phase
-                        progressValue.textContent = `${progress.citiesVisited} / ${progress.totalCities}`;
-                        bestValue.textContent = progress.partialDistance > 0 ? progress.partialDistance.toFixed(1) : '—';
-                        elapsedValue.textContent = formatTime(progress.elapsedTime);
-                        remainingValue.textContent = '—';
-
-                        // Add to history
-                        if (progress.partialDistance > 0) {
-                            addToHistory(progress.partialDistance, progress.route);
-                        }
-
-                        // Draw NN visualization
-                        drawCanvas(canvas, cities, {
-                            partialRoute: progress.route,
-                            visited: progress.visited,
-                            unvisited: progress.unvisited,
-                            currentCity: progress.currentCity,
-                            isComplete: false
-                        });
-
-                        // Dynamic delay based on N cities (total ~5s animation)
-                        const nnDelay = Math.floor(5000 / cities.length);
-                        await new Promise(resolve => setTimeout(resolve, nnDelay));
-                    },
-                    (result) => {
-                        nnResult = result;
-                        // Update comparison stats with actual compute time
-                        if (nnDistance) nnDistance.textContent = result.distance.toFixed(1);
-                        if (nnTime) nnTime.textContent = `${formatTime(result.actualComputeTime)} (${result.citiesVisited} steps)`;
-
-                        // Draw NN result
-                        drawCanvas(canvas, cities, { bestRoute: result.route, isComplete: false });
-                    }
-                );
-
-                await solver.start();
-
-                // Pause and show NN completion status
-                statusEl.textContent = 'Nearest Neighbour complete!';
-                await new Promise(resolve => setTimeout(resolve, 1500));
-
-                // Set up hover interactions for comparison stats
-                let highlightedRoute = null;
-                const nnItem = wrapper.querySelector('.tsp-comparison-item:has(.tsp-nn-distance)');
-                const bruteItem = wrapper.querySelector('.tsp-comparison-item:has(.tsp-brute-distance)');
-
-                if (nnItem) {
-                    nnItem.addEventListener('mouseenter', () => { highlightedRoute = 'nn'; });
-                    nnItem.addEventListener('mouseleave', () => { highlightedRoute = null; });
-                    nnItem.style.cursor = 'pointer';
-                }
-
-                if (bruteItem) {
-                    bruteItem.addEventListener('mouseenter', () => { highlightedRoute = 'brute'; });
-                    bruteItem.addEventListener('mouseleave', () => { highlightedRoute = null; });
-                    bruteItem.style.cursor = 'pointer';
-                }
-
-                // Announce brute force starting
-                statusEl.textContent = 'Starting Brute Force search...';
-                addHistoryMessage('Starting Brute Force search...');
-                await new Promise(resolve => setTimeout(resolve, 1000));
-
-                statusEl.textContent = 'Running Brute Force...';
-
-                const callbackFrequency = speed.updateEvery === 0 ? 10000 : speed.updateEvery;
-                let lastBestDistance = Infinity;
-
-                solver = new TSPBruteForceSolver(
-                    cities,
-                    async (progress) => {
-                        // For instant mode, just yield to browser without UI updates
-                        const isInstant = speed.updateEvery === 0;
-                        if (isInstant) {
-                            await new Promise(resolve => setTimeout(resolve, 0));
-                            return;
-                        }
-
-                        // Update stats
-                        progressValue.innerHTML = `${formatNumber(progress.routesChecked)} / ${formatNumber(progress.totalRoutes)}`;
-                        bestValue.textContent = progress.bestDistance.toFixed(1);
-                        elapsedValue.textContent = formatTime(progress.elapsedTime);
-                        remainingValue.textContent = estimateRemainingTime(progress.routesChecked, progress.totalRoutes, progress.elapsedTime);
-
-                        // Add to history if new best found
-                        if (progress.bestDistance < lastBestDistance) {
-                            lastBestDistance = progress.bestDistance;
-                            addToHistory(progress.bestDistance, progress.bestRoute);
-                        }
-
-                        // Draw current state (keep NN route visible, with hover highlight)
-                        drawCanvas(canvas, cities, {
-                            currentRoute: progress.route,
-                            bestRoute: progress.bestRoute,
-                            comparisonNNRoute: nnResult.route,
-                            isComplete: false,
-                            highlightRoute: highlightedRoute
-                        });
-
-                        // Yield to browser
-                        if (speed.delay > 0) {
-                            await new Promise(resolve => setTimeout(resolve, speed.delay));
-                        } else {
-                            await new Promise(resolve => setTimeout(resolve, 0));
-                        }
-                    },
-                    (result) => {
-                        // Complete - update comparison
-                        if (bruteDistance) bruteDistance.textContent = result.bestDistance.toFixed(1);
-                        if (bruteTime) bruteTime.textContent = `${formatTime(result.elapsedTime)} (${formatNumber(result.totalRoutes, false)} routes)`;
-
-                        // Calculate difference
-                        if (nnResult && diff) {
-                            const pct = ((nnResult.distance / result.bestDistance - 1) * 100).toFixed(1);
-                            const absDiff = (nnResult.distance - result.bestDistance).toFixed(1);
-                            diff.innerHTML = `NN was <span style="color: var(--highlight-color)">${absDiff}</span> longer (+${pct}%)`;
-                        }
-
-                        progressValue.innerHTML = `${formatNumber(result.totalRoutes)} / ${formatNumber(result.totalRoutes)}`;
-                        bestValue.textContent = result.bestDistance.toFixed(1);
-                        elapsedValue.textContent = formatTime(result.elapsedTime);
-                        remainingValue.textContent = '0 s';
-                        statusEl.textContent = `Complete! Optimal: ${result.bestDistance.toFixed(1)}, NN: ${nnResult.distance.toFixed(1)}`;
-
-                        // Draw final comparison with both routes
-                        const redrawComparison = (highlightRoute = null) => {
-                            drawCanvas(canvas, cities, {
-                                bestRoute: result.bestRoute,
-                                comparisonNNRoute: nnResult.route,
-                                isComplete: true,
-                                comparisonComplete: true,
-                                highlightRoute
-                            });
-                        };
-
-                        // Update hover handlers for final view (redraw on hover)
-                        if (nnItem) {
-                            nnItem.replaceWith(nnItem.cloneNode(true));
-                            const newNnItem = wrapper.querySelector('.tsp-comparison-item:has(.tsp-nn-distance)');
-                            newNnItem.addEventListener('mouseenter', () => redrawComparison('nn'));
-                            newNnItem.addEventListener('mouseleave', () => redrawComparison());
-                            newNnItem.style.cursor = 'pointer';
-                        }
-
-                        if (bruteItem) {
-                            bruteItem.replaceWith(bruteItem.cloneNode(true));
-                            const newBruteItem = wrapper.querySelector('.tsp-comparison-item:has(.tsp-brute-distance)');
-                            newBruteItem.addEventListener('mouseenter', () => redrawComparison('brute'));
-                            newBruteItem.addEventListener('mouseleave', () => redrawComparison());
-                            newBruteItem.style.cursor = 'pointer';
-                        }
-
-                        redrawComparison();
-
-                        updateHistoryDisplay(true);
-                        startBtn.disabled = false;
-                        stopBtn.disabled = true;
-                        slider.disabled = false;
-                        resetBtn.disabled = false;
-                    },
-                    callbackFrequency
-                );
-
-                // Reset stats display
-                progressValue.innerHTML = `0 / ${formatNumber(solver.totalRoutes)}`;
-                bestValue.textContent = '—';
-                elapsedValue.textContent = '0 s';
-                remainingValue.textContent = '...';
-
-                await new Promise(resolve => setTimeout(resolve, 0));
-                await solver.start();
-            }
-
-            // Event: Stop
-            stopBtn.addEventListener('click', () => {
-                if (solver) {
-                    solver.stop();
-                    statusEl.textContent = 'Stopped';
-                    startBtn.disabled = false;
-                    stopBtn.disabled = true;
-                    slider.disabled = false;
-                    resetBtn.disabled = false;
-                }
-            });
+            new TSPWidget(el);
         });
     }
 

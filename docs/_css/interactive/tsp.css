@@ -28,7 +28,9 @@
     --tsp-canvas-route-best: var(--theme-color);
     --tsp-canvas-route-searching: var(--highlight-color);
     --tsp-canvas-route-building: var(--highlight-color);
-    --tsp-canvas-route-comparison-nn: var(--color-secondary);
+    --tsp-canvas-route-comparison-nn: var(--palette-color-4);
+    --tsp-canvas-2opt-testing: var(--highlight-color);
+    --tsp-canvas-2opt-swapping: var(--color-attention);
     --tsp-canvas-city: var(--color-text);
     --tsp-canvas-city-label: var(--color-bg);
     --tsp-canvas-city-visited: var(--color-text);
@@ -90,8 +92,16 @@
             "comparison"
             "history";
 
-        & > *:not(:last-child) {
-            margin-bottom: var(--tsp-padding);
+        .tsp-visualization,
+        .tsp-control-group,
+        .tsp-button-group   { margin-bottom: var(--tsp-padding); }
+
+        &:has(.tsp-comparison) {
+            .tsp-comparison { margin-top: var(--tsp-padding); }
+        }
+
+        &:has(.tsp-history) {
+            .tsp-history    { margin-top: var(--tsp-padding); }
         }
 
         @container (min-width: 700px) {
@@ -110,6 +120,10 @@
                 "controls   buttons"
                 "comparison comparison"
                 "history    history";
+
+            .tsp-stats         { margin-bottom: var(--tsp-padding); }
+            .tsp-control-group,
+            .tsp-button-group  { margin-bottom: 0; }
         }
     }
 
@@ -447,6 +461,13 @@
             font-size: 0.95rem;
             font-weight: 500;
             color: var(--tsp-label-color);
+        }
+
+        .tsp-comparison-optimal {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--highlight-color);
+            margin-top: 0.25rem;
         }
     }
 }
