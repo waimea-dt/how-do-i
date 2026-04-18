@@ -55,6 +55,7 @@
     - [Rainbow Table Attack](tests/rainbow.md)
     - [Big-O Algorithm Explorer](tests/big-o.md)
     - [Big-O Growth Curves](tests/big-o-chart.md)
+    - [TSP Visualizer](tests/tsp.md)
     - [Flash Cards](tests/flash-cards.md)
     - [Reveal.js Slides](tests/slides.md)
     - [Quizzes](tests/quiz.md)

@@ -24,13 +24,6 @@
 - Live operation counter for each
 - Input-size slider to scale the problem
 
-### Growth Curve Plotter
-**Purpose**: Build intuition for Big-O growth rates
-**Features**:
-- Overlaid curves for O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ)
-- Draggable input-size slider watching lines diverge
-- Highlight which class a given algorithm falls into
-
 ### Tractability Explorer
 **Purpose**: Demonstrate the combinatorial explosion of intractable problems
 **Features**:
@@ -46,14 +39,6 @@
 - Stack/queue/heap operations with animations
 - Linked list operations with pointer movements
 - Tree traversals (in-order, pre-order, post-order)
-
-### Performance Profiler
-**Purpose**: Teach algorithm complexity and performance analysis
-**Features**:
-- Big-O notation visualizations
-- Time/space complexity comparisons
-- Growth rate graphs (O(1) vs O(n) vs O(n²))
-- Performance metrics display
 
 ### Color Scheme Designer
 **Purpose**: Teach color theory for UI/UX design (extends existing color work)
@@ -90,6 +75,7 @@
 - ✅ **python-test.js** - Code coverage heat map for TDD education with AST-based instrumentation
 - ✅ **Binary Calculator** - Binary arithmetic, bit operations, two's complement
 - ✅ **Hashing Demo** - Live SHA-256, copy, salt (tri-state), history, binary view; rainbow table attack demo
+- ✅ **big-o.js** - Algorithm complexity comparison table with best/avg/worst case analysis, category filtering, and growth rate visualization
 
 ---
 
