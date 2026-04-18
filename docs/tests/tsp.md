@@ -107,11 +107,72 @@ Want to try 20 or 30 cities? Go ahead and use the slider—but the "Estimated Re
    - For 10 cities, you'll check 362,880 routes (9!)—taking ~30 seconds
    - For 12 cities, you'll check ~40 million routes (11!)—taking ~55 minutes
    - For 13 cities, you'll check ~479 million routes (12!)—taking ~11 hours
-- **Nearest Neighbor**: Always go to the closest unvisited city
-- **2-opt**: Iteratively improve a route by swapping edges
-
-These algorithms won't always find the _optimal_ solution, but they find _good_ solutions much faster than brute force—often in polynomial time rather than factorial time.
 
 ---
 
-**Challenge**: Try to predict how long 10 cities will take based on 9 cities. Then test your prediction! Notice that each additional city multiplies the time by N.
+## Nearest Neighbour: A Faster Alternative
+
+Brute force guarantees the optimal solution, but becomes impossible for large problems. **Nearest Neighbour** is a greedy heuristic that's much faster:
+
+1. Start at a city
+2. Always visit the nearest unvisited city
+3. Return to start when all cities visited
+
+This runs in **O(n²)** time instead of **O(n!)** — meaning 30 cities takes milliseconds instead of billions of years!
+
+The trade-off? The route might not be optimal, but it's usually pretty good (typically 15-25% longer than optimal).
+
+### Try Nearest Neighbour
+
+See how it builds a route by always choosing the nearest city:
+
+<tsp solve="nn" cities="12"></tsp>
+
+Notice:
+- **Green highlighted city**: Current position
+- **Gray faded cities**: Not yet visited
+- **Normal cities**: Already visited
+- **Route building in real-time**: Watch the greedy choice at each step
+
+### Larger Problems Are No Problem
+
+With NN, even 30 cities is instant:
+
+<tsp solve="nn" cities="30"></tsp>
+
+For brute force, 30 cities would take longer than the age of the universe. With NN? Less than a second.
+
+### See the progress...
+
+<tsp solve="nn" cities="30" history></tsp>
+
+
+---
+
+## Comparing Algorithms
+
+Let's compare NN and Brute Force head-to-head to see the speed vs. quality trade-off:
+
+<tsp solve="compare-nn" cities="10"></tsp>
+
+The comparison shows:
+- **NN distance & time**: How good was the greedy solution? How fast was it?
+- **Brute Force distance & time**: The guaranteed optimal solution (but slower)
+- **Difference**: How much longer is the NN route compared to optimal?
+
+Try it with 11 or 12 cities—NN finishes instantly, but brute force takes minutes!
+
+<tsp solve="compare-nn" cities="11" history></tsp>
+
+---
+
+## Key Takeaways
+
+1. **Brute Force** is guaranteed optimal but becomes impossible beyond ~13 cities
+2. **Nearest Neighbour** is fast (works for any size) but not guaranteed optimal
+3. For practical problems, heuristics like NN are essential—perfection isn't worth billions of years
+4. Understanding algorithmic complexity (factorial vs. polynomial) is crucial for real-world programming
+
+---
+
+**Challenge**: Run the comparison with different city counts. At what point does NN become "good enough" given how much faster it is?

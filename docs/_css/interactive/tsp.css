@@ -27,8 +27,14 @@
     --tsp-canvas-route-exploring: var(--color-mono-4);
     --tsp-canvas-route-best: var(--theme-color);
     --tsp-canvas-route-searching: var(--highlight-color);
+    --tsp-canvas-route-building: var(--highlight-color);
+    --tsp-canvas-route-comparison-nn: var(--color-secondary);
     --tsp-canvas-city: var(--color-text);
     --tsp-canvas-city-label: var(--color-bg);
+    --tsp-canvas-city-visited: var(--color-text);
+    --tsp-canvas-city-unvisited: var(--color-mono-4);
+    --tsp-canvas-city-current: var(--theme-color);
+    --tsp-canvas-city-current-label: var(--color-bg);
 
     --tsp-padding: 1rem;
     --tsp-padding-small: 0.5rem;
@@ -75,49 +81,35 @@
         padding: var(--tsp-padding);
         display: grid;
         grid-template-columns: 1fr;
-        gap: var(--tsp-padding);
+        gap: 0 var(--tsp-padding);
         grid-template-areas:
             "visual"
             "controls"
             "buttons"
-            "stats";
+            "stats"
+            "comparison"
+            "history";
 
-        &:has(.tsp-history) {
-            grid-template-areas:
-                "visual"
-                "controls"
-                "buttons"
-                "stats"
-                "history";
+        & > *:not(:last-child) {
+            margin-bottom: var(--tsp-padding);
         }
 
         @container (min-width: 700px) {
             grid-template-columns: 2fr 1fr;
             grid-template-areas:
-                "visual   visual"
-                "controls buttons"
-                "stats    stats";
-
-            &:has(.tsp-history) {
-                grid-template-areas:
-                    "visual   visual"
-                    "controls buttons"
-                    "stats    stats"
-                    "history  history";
-            }
+                "visual     visual"
+                "controls   buttons"
+                "stats      stats"
+                "comparison comparison"
+                "history    history";
         }
 
         @container (min-width: 900px) {
             grid-template-areas:
-                "visual   stats"
-                "controls buttons";
-
-            &:has(.tsp-history) {
-                grid-template-areas:
-                    "visual   stats"
-                    "controls buttons"
-                    "history  history";
-            }
+                "visual     stats"
+                "controls   buttons"
+                "comparison comparison"
+                "history    history";
         }
     }
 
@@ -306,7 +298,7 @@
             font-family: var(--code-font-family);
             font-size: 0.9rem;
             line-height: 1.5;
-            color: var(--tsp-label-color);
+            color: var(--tsp-muted);
             height: 200px;
             overflow-y: auto;
             overflow-x: auto;
@@ -369,12 +361,92 @@
 
             .tsp-history-city {
                 color: color-mix(in srgb, var(--highlight-color), var(--color-text) 30%);
+                font-weight: 500;
             }
 
             .tsp-history-city-final {
                 color: var(--theme-color);
                 font-weight: 600;
             }
+
+            .tsp-history-message {
+                font-style: italic;
+                color: var(--tsp-muted);
+                opacity: 0.7 !important;
+            }
+        }
+    }
+
+    /* ---- Comparison ---- */
+
+    .tsp-comparison {
+        grid-area: comparison;
+        margin-top: var(--tsp-padding);
+
+        .tsp-comparison-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--tsp-label-color);
+            margin-bottom: var(--tsp-padding-small);
+        }
+
+        .tsp-comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--tsp-padding-small);
+        }
+
+        .tsp-comparison-item {
+            padding: var(--tsp-padding-small);
+            background: var(--tsp-bg-stat);
+            border: 1px solid var(--tsp-border);
+            border-radius: var(--border-radius-small);
+            text-align: center;
+            transition: all 200ms ease;
+
+            &:hover:not(.tsp-comparison-summary) {
+                background: color-mix(in srgb, var(--theme-color), transparent 92%);
+                border-color: var(--theme-color);
+                transform: translateY(-2px);
+                box-shadow: 0 2px 8px color-mix(in srgb, var(--theme-color), transparent 80%);
+            }
+
+            &.tsp-comparison-summary {
+                grid-column: 1 / -1;
+                background: color-mix(in srgb, var(--theme-color), transparent 95%);
+                border-color: color-mix(in srgb, var(--theme-color), transparent 70%);
+
+                @container (min-width: 800px) {
+                    grid-column: unset;
+                }
+            }
+        }
+
+        .tsp-comparison-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--tsp-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .tsp-comparison-distance {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--tsp-value-color);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .tsp-comparison-time {
+            font-size: 0.85rem;
+            color: var(--tsp-muted);
+            margin-top: 0.25rem;
+        }
+
+        .tsp-comparison-diff {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--tsp-label-color);
         }
     }
 }
