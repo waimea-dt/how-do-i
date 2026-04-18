@@ -24,13 +24,6 @@
 - Live operation counter for each
 - Input-size slider to scale the problem
 
-### Tractability Explorer
-**Purpose**: Demonstrate the combinatorial explosion of intractable problems
-**Features**:
-- TSP brute-force for small n (≤8 cities), counting routes tried
-- Show n! growth alongside the live search
-- Contrast with a greedy heuristic running in O(n²)
-
 ### Algorithm Visualizer
 **Purpose**: Step-through visualization of common algorithms
 **Features**:
@@ -76,6 +69,7 @@
 - ✅ **Binary Calculator** - Binary arithmetic, bit operations, two's complement
 - ✅ **Hashing Demo** - Live SHA-256, copy, salt (tri-state), history, binary view; rainbow table attack demo
 - ✅ **big-o.js** - Algorithm complexity comparison table with best/avg/worst case analysis, category filtering, and growth rate visualization
+- ✅ **tsp.js** - TSP tractability explorer with brute-force, nearest neighbour, and 2-opt algorithms; factorial growth visualization; heuristic vs optimal comparison modes
 
 ---
 
