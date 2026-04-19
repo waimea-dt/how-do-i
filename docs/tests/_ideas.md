@@ -1,6 +1,13 @@
-# Plugin Ideas
+# Ideas and Things To Do
 
-## Ideas
+## Things to Do
+
+- [ ] Tidy up the data views - borders, etc.
+- [ ] Python code indent highlighting added to Python snippets
+- [ ] Code runner fake input... should this be shown?
+
+
+## Plugin Ideas
 
 ### Cipher Stepper
 **Purpose**: Step through classical encryption to build intuition before modern crypto
@@ -62,14 +69,31 @@
 
 ## Completed
 
-- ✅ **memory-sim.js** - Kotlin/Python OOP memory visualization with stack/heap
-- ✅ **oop-sim.js** - Class definitions, instantiation, field updates and method calls
-- ✅ **cpu-sim.js** - TINY-8 CPU simulator with fetch-decode-execute cycle visualization
-- ✅ **python-test.js** - Code coverage heat map for TDD education with AST-based instrumentation
-- ✅ **Binary Calculator** - Binary arithmetic, bit operations, two's complement
-- ✅ **Hashing Demo** - Live SHA-256, copy, salt (tri-state), history, binary view; rainbow table attack demo
-- ✅ **big-o.js** - Algorithm complexity comparison table with best/avg/worst case analysis, category filtering, and growth rate visualization
-- ✅ **tsp.js** - TSP tractability explorer with brute-force, nearest neighbour, and 2-opt algorithms; factorial growth visualization; heuristic vs optimal comparison modes
+### Completed Plugins
+
+- [x] **memory-sim.js** - Kotlin/Python OOP memory visualization with stack/heap
+- [x] **oop-sim.js** - Class definitions, instantiation, field updates and method calls
+- [x] **cpu-sim.js** - TINY-8 CPU simulator with fetch-decode-execute cycle visualization
+- [x] **python-test.js** - Code coverage heat map for TDD education with AST-based instrumentation
+- [x] **Binary Calculator** - Binary arithmetic, bit operations, two's complement
+- [x] **Hashing Demo** - Live SHA-256, copy, salt (tri-state), history, binary view; rainbow table attack demo
+- [x] **big-o.js** - Algorithm complexity comparison table with best/avg/worst case analysis, category filtering, and growth rate visualization
+- [x] **tsp.js** - TSP tractability explorer with brute-force, nearest neighbour, and 2-opt algorithms; factorial growth visualization; heuristic vs optimal comparison modes
+
+### Completed Maintenance
+
+- [x] Fix the Mac screen view... Worth it?
+- [x] Computer screens - font size too big on mobile
+- [x] Request sequence on mobile... Better to use scrolling?
+- [x] Swipe on flash cards?
+- [x] Video embedding
+- [x] Scrolling on codeapi editor and output
+- [x] Kotlin runner code font is not monospace (mobile only?) and also for codeapi
+- [x] Mobile sidebar tab is small
+- [x] Codeapi output box chars is broken
+- [x] Images on captions and speech tests missing
+- [x] Video grid thumbs too big on mobile (stick to 2 cols min)
+- [x] Borders of sequence steps bolder
 
 ---
 
