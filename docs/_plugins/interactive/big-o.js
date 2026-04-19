@@ -77,7 +77,7 @@
             fnAvg: n => n,  // always same
         },
         {
-            id: 'stack-pushpop',
+            id: 'stack-op',
             name: 'Stack: Push/Pop',
             category: 'stack',
             complexity: 'O(1)',
@@ -113,11 +113,11 @@
             id: 'sort-bubble',
             name: 'Bubble Sort',
             category: 'sort',
-            complexity: 'O(n²)',
+            complexity: 'O(n<sup>2</sup>)',
             fn: n => n * n,  // worst case: fully reversed
             complexityBest: 'O(n)',
             fnBest: n => n,  // already sorted: one pass
-            complexityAvg: 'O(n²<em>/2</em>)',
+            complexityAvg: 'O(n<sup>2</sup><em>/2</em>)',
             fnAvg: n => (n * n) / 2,  // average: ~half of worst
         },
         {
@@ -135,11 +135,11 @@
             id: 'sort-insert',
             name: 'Insertion Sort',
             category: 'sort',
-            complexity: 'O(n²)',
+            complexity: 'O(n<sup>2</sup>)',
             fn: n => n * n,  // worst case: fully reversed
             complexityBest: 'O(n)',
             fnBest: n => n,  // already sorted: just comparisons
-            complexityAvg: 'O(n²<em>/2</em>)',
+            complexityAvg: 'O(n<sup>2</sup><em>/2</em>)',
             fnAvg: n => (n * n) / 2,  // average: ~half of worst
         },
 
@@ -162,7 +162,7 @@
             id: 'graph-dijkstra',
             name: 'Dijkstra\'s Shortest Path',
             category: 'graph',
-            complexity: 'O(n²)',
+            complexity: 'O(n<sup>2</sup>)',
             fn: n => n * n,
             note: 'Simplification of O((V+E) log V)',
         },
@@ -182,14 +182,14 @@
             id: 'tsp-nearest',
             name: 'TSP: Nearest Neighbour',
             category: 'tsp',
-            complexity: 'O(n²)',
+            complexity: 'O(n<sup>2</sup>)',
             fn: n => n * n,
         },
         {
             id: 'tsp-2opt',
             name: 'TSP: NN with 2-Opt',
             category: 'tsp',
-            complexity: 'O(n³)',
+            complexity: 'O(n<sup>3</sup>)',
             fn: n => n * n * n,
         },
 
@@ -198,14 +198,14 @@
             id: 'knap-brute',
             name: 'Knapsack: Brute Force',
             category: 'knap',
-            complexity: 'O(2ⁿ)',
+            complexity: 'O(2<sup>n</sup>)',
             fn: n => Math.pow(2, n),
         },
         {
             id: 'knap-dynamic',
             name: 'Knapsack: Dynamic Prog.',
             category: 'knap',
-            complexity: 'O(n²)',
+            complexity: 'O(n<sup>2</sup>)',
             fn: n => n * n,
             note: 'Simplification of O(n × W)',
         },
@@ -227,7 +227,7 @@
                 // Stirling's approximation for factorial
                 return Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n);
             },
-            note: 'Approximation of O(nⁿ)'
+            note: 'Approximation of O(n<sup>n</sup>)'
         },
         {
             id: 'pack-next-fit',
@@ -246,7 +246,7 @@
 
         // Cryptography
         {
-            id: 'crypt-caesar',
+            id: 'caesar-brute',
             name: 'Caesar: Brute Force',
             category: 'crypt',
             complexity: 'O(1)',
@@ -254,24 +254,24 @@
             note: 'Only 26 possible shifts',
         },
         {
-            id: 'crypt-vigenere',
+            id: 'vigenere-brute',
             name: 'Vigenère: Brute Force',
             category: 'crypt',
-            complexity: 'O(26ⁿ)',
+            complexity: 'O(26<sup>n</sup>)',
             fn: n => Math.pow(26, n),
             note: 'N = key length in chars',
         },
         {
-            id: 'crypt-vigenere-freq',
-            name: 'Vigenère: Freq. Analysis',
+            id: 'vigenere-freq',
+            name: 'Vigenère: via Freq. Analysis',
             category: 'crypt',
             complexity: 'O(n)',
             fn: n => 26 * n,
             note: 'N = text length in chars',
         },
         {
-            id: 'crypt-enigma',
-            name: 'Enigma: Early WWII',
+            id: 'enigma-brute',
+            name: 'Enigma 1939: Brute Force',
             category: 'crypt',
             complexity: 'O(2<sup>64</sup>)',
             fn: n => Math.pow(2, 64),
@@ -279,8 +279,8 @@
             show: 64,
         },
         {
-            id: 'crypt-enigma-late',
-            name: 'Enigma: Late WWII',
+            id: 'enigma-late-brute',
+            name: 'Enigma 1945: Brute Force',
             category: 'crypt',
             complexity: 'O(2<sup>88</sup>)',
             fn: n => Math.pow(2, 88),
@@ -288,7 +288,15 @@
             show: 88,
         },
         {
-            id: 'crypt-des',
+            id: 'des-encrypt',
+            name: 'DES: Encrypt/Decrypt',
+            category: 'crypt',
+            complexity: 'O(n)',
+            fn: n => n,
+            note: 'N = message length in blocks (legitimate use)',
+        },
+        {
+            id: 'des-brute',
             name: 'DES: Brute Force',
             category: 'crypt',
             complexity: 'O(2<sup>56</sup>)',
@@ -297,26 +305,58 @@
             show: 56,
         },
         {
-            id: 'crypt-rsa',
-            name: 'RSA: Factors via Division',
+            id: 'rsa-encrypt',
+            name: 'RSA: Encrypt/Decrypt',
             category: 'crypt',
-            complexity: 'O(2ⁿ)',
+            complexity: 'O(n<sup>2</sup>)',
+            fn: n => n * n,
+            note: 'N = key size in bits (legitimate use)',
+        },
+        {
+            id: 'rsa-brute',
+            name: 'RSA: Brute Force (via Division)',
+            category: 'crypt',
+            complexity: 'O(2<sup>n</sup>)',
             fn: n => Math.pow(2, n),
             note: 'N = key size in bits',
         },
         {
-            id: 'crypt-rsa-gnfs',
-            name: 'RSA: Factors via GNFS',
+            id: 'rsa-gnfs',
+            name: 'RSA: Brute Force (via GNFS)',
             category: 'crypt',
             complexity: 'O(2<sup>2.5×√n</sup>)',
             fn: n => Math.pow(2, 2.5 * Math.sqrt(n)),
             note: 'N = key size in bits (sub-exponential)',
         },
         {
-            id: 'crypt-aes',
+            id: 'dh-compute',
+            name: 'DH: Compute (g<sup>a</sup> mod p)',
+            category: 'crypt',
+            complexity: 'O(n)',
+            fn: n => n,
+            note: 'N = exponent size in bits (legitimate use)',
+        },
+        {
+            id: 'dh-brute',
+            name: 'DH: Brute Force (Discrete Log)',
+            category: 'crypt',
+            complexity: 'O(2<sup>n</sup>)',
+            fn: n => Math.pow(2, n),
+            note: 'N = exponent size in bits',
+        },
+        {
+            id: 'aes-encrypt',
+            name: 'AES: Encrypt/Decrypt',
+            category: 'crypt',
+            complexity: 'O(n)',
+            fn: n => n,
+            note: 'N = message length in blocks (legitimate use)',
+        },
+        {
+            id: 'aes-brute',
             name: 'AES: Brute Force',
             category: 'crypt',
-            complexity: 'O(2ⁿ)',
+            complexity: 'O(2<sup>n</sup>)',
             fn: n => Math.pow(2, n),
             note: 'N = key size in bits',
         },

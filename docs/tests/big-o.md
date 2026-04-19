@@ -60,31 +60,35 @@ Using `step="x5"` for rapid growth (1, 5, 25, 125, ...):
 
 Prime factorisation, AES brute force, and TSP brute force - notice how quickly they become intractable:
 
-<big-o algos="crypt-rsa-gnfs crypt-aes tsp-brute" step="5" max="100"></big-o>
+<big-o algos="rsa-gnfs aes-brute tsp-brute" step="5" max="100"></big-o>
+
+## All Crypto
+
+<big-o algos="crypt" max="256" step="8"></big-o>
 
 ## Cryptography Evolution
 
 Compare classical ciphers (trivial to break) with modern encryption (intractable):
 
-<big-o algos="crypt-cae crypt-vigenere crypt-vigenere-freq crypt-enigma crypt-enigma-late crypt-des crypt-rsa crypt-rsa-gnfs crypt-aes" max="128" step="8"></big-o>
+<big-o algos="caesar-brute vigenere-brute vigenere-freq enigma-brute enigma-late-brute des-brute rsa-brute rsa-gnfs aes-brute" max="128" step="8"></big-o>
 
 ## DES to AES: Why Key Length Matters
 
 DES (56-bit) was cracked in 1998. AES (128/256-bit) remains secure. Same algorithm complexity, vastly different security:
 
-<big-o algos="crypt-des crypt-aes" max="128" step="8"></big-o>
+<big-o algos="des-brute aes-brute" max="128" step="8"></big-o>
 
 ## RSA vs AES Security
 
 Cracking RSA uses sub-exponential factorization (easier than AES brute force), which is why RSA needs larger keys:
 
-<big-o algos="crypt-rsa-gnfs crypt-aes" max="2048" step="x2"></big-o>
+<big-o algos="rsa-gnfs aes-brute" max="2048" step="x2"></big-o>
 
 ## Cryptography at Scale
 
 Comparing cryptographic brute force attacks with doubling steps:
 
-<big-o algos="crypt-rsa crypt-aes" max="128" step="x2"></big-o>
+<big-o algos="rsa-brute aes-brute" max="128" step="x2"></big-o>
 
 ## Best, Average, and Worst Case Complexity
 

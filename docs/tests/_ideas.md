@@ -3,7 +3,6 @@
 ## Things to Do
 
 - [ ] Mobile table char alignment still off
-- [ ] Big-O alignment of keys / values
 - [ ] Calc animate="on/off" attrib
 - [ ] Tidy up the data views - borders, etc.
 - [ ] Python code indent highlighting added to Python snippets
@@ -13,10 +12,14 @@
 ## Plugin Ideas
 
 ### Diffie-Hellman Visualizer
-**Purpose**: Explain public-key exchange using the colour-mixing metaphor
+**Purpose**: Explain public-key exchange using clock arithmetic visualization
 **Features**:
-- Stepped Alice/Bob protocol with colour swatches for public/private values
-- Actual modular arithmetic shown at each stage (gᵃ mod p, gᵇ mod p, etc.)
+- Clock face showing modular arithmetic (p hours on clock)
+- Animated "jumps" around clock for exponentiation (g^a mod p)
+- Stepped Alice/Bob protocol showing public exchange and private calculations
+- Both paths converge to same shared secret position
+- Eve's perspective showing the discrete log problem
+- Complexity comparison: computing g^a is O(log a) but finding 'a' from g^a is exponential
 - "Eavesdropper can see" vs "kept secret" visual separation
 
 ### Algorithm Race
@@ -78,6 +81,7 @@
 
 ### Completed Maintenance
 
+- [x] Big-O alignment of keys / values
 - [x] Fix the Mac screen view... Worth it?
 - [x] Computer screens - font size too big on mobile
 - [x] Request sequence on mobile... Better to use scrolling?
