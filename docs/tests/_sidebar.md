@@ -53,6 +53,7 @@
     - [Binary Calculator](tests/calc.md)
     - [Hash Function Demo](tests/hasher.md)
     - [Rainbow Table Attack](tests/rainbow.md)
+    - [Substitution Cypher](tests/sub-cypher.md)
     - [Big-O Algorithm Explorer](tests/big-o.md)
     - [Big-O Growth Curves](tests/big-o-chart.md)
     - [TSP Visualizer](tests/tsp.md)

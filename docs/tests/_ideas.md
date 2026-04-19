@@ -2,20 +2,15 @@
 
 ## Things to Do
 
+- [ ] Mobile table char alignment still off
+- [ ] Big-O alignment of keys / values
+- [ ] Calc animate="on/off" attrib
 - [ ] Tidy up the data views - borders, etc.
 - [ ] Python code indent highlighting added to Python snippets
 - [ ] Code runner fake input... should this be shown?
 
 
 ## Plugin Ideas
-
-### Cipher Stepper
-**Purpose**: Step through classical encryption to build intuition before modern crypto
-**Features**:
-- Caesar cipher: character-by-character shifting with key highlighted
-- Vigenère cipher: repeating key shown aligned above plaintext
-- Frequency analysis panel showing letter distribution
-- Encrypt and decrypt modes
 
 ### Diffie-Hellman Visualizer
 **Purpose**: Explain public-key exchange using the colour-mixing metaphor
@@ -79,6 +74,7 @@
 - [x] **Hashing Demo** - Live SHA-256, copy, salt (tri-state), history, binary view; rainbow table attack demo
 - [x] **big-o.js** - Algorithm complexity comparison table with best/avg/worst case analysis, category filtering, and growth rate visualization
 - [x] **tsp.js** - TSP tractability explorer with brute-force, nearest neighbour, and 2-opt algorithms; factorial growth visualization; heuristic vs optimal comparison modes
+- [x] **sub-cypher.js** - Substitution cipher visualization with Caesar and Vigenère ciphers; instant cursor-based highlighting; frequency analysis integration; keystream display with shift values
 
 ### Completed Maintenance
 

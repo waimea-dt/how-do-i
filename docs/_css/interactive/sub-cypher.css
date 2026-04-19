@@ -1,0 +1,427 @@
+/* =============================================================================
+   Substitution Cypher — Interactive Caesar & Vigenère cypher visualizer
+   ============================================================================= */
+
+/* ---- Design tokens ---- */
+.markdown-section sub-cypher {
+    --sub-cypher-accent: var(--theme-color);
+    --sub-cypher-secondary: var(--palette-color-1);
+
+    --sub-cypher-bg: var(--color-mono-1);
+    --sub-cypher-bg-header: var(--color-mono-2);
+    --sub-cypher-bg-textarea: var(--color-mono-0);
+    --sub-cypher-bg-control: var(--color-mono-2);
+    --sub-cypher-border: var(--color-mono-3);
+    --sub-cypher-border-dark: var(--color-mono-4);
+
+    --sub-cypher-title-color: var(--theme-color);
+    --sub-cypher-subtitle-color: var(--color-mono-6);
+    --sub-cypher-label-color: var(--color-text);
+    --sub-cypher-muted: var(--color-mono-6);
+
+    --sub-cypher-input-border: var(--color-mono-4);
+    --sub-cypher-input-border-hover: var(--color-mono-5);
+    --sub-cypher-input-border-focus: var(--theme-color);
+
+    --sub-cypher-highlight-color: var(--highlight-color);
+    --sub-cypher-highlight-bg: color-mix(in srgb, var(--highlight-color), var(--color-mono-min) 90%);
+
+    --sub-cypher-grid-a-color: var(--color-warning);
+    --sub-cypher-grid-plain-color: var(--sub-cypher-accent);
+    --sub-cypher-grid-cypher-color: var(--sub-cypher-secondary);
+    --sub-cypher-grid-bg: var(--color-mono-2);
+    --sub-cypher-grid-cell-bg: var(--color-mono-0);
+    --sub-cypher-grid-cell-hover: var(--theme-color-2);
+
+    --sub-cypher-chart-bg: var(--color-mono-0);
+
+    --sub-cypher-padding: 1rem;
+    --sub-cypher-padding-small: 0.5rem;
+    --sub-cypher-padding-tiny: 0.25rem;
+    --sub-cypher-gap: 1rem;
+    --sub-cypher-gap-small: 0.5rem;
+
+    display: block;
+    margin: var(--margin-block) 0;
+    container-type: inline-size;
+}
+
+/* ---- Wrapper ---- */
+.sub-cypher-wrapper {
+    background: var(--sub-cypher-bg);
+    border: 1px solid var(--sub-cypher-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+
+    /* ---- Header ---- */
+    .sub-cypher-header {
+        padding: var(--sub-cypher-padding);
+        background: var(--sub-cypher-bg-header);
+        border-bottom: 1px solid var(--sub-cypher-border);
+        display: flex;
+        flex-direction: column;
+        gap: var(--sub-cypher-gap);
+
+        @container (min-width: 768px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sub-cypher-header-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+
+            .sub-cypher-title {
+                margin: 0;
+                font-size: 1.25rem;
+                font-weight: 600;
+                color: var(--sub-cypher-title-color);
+            }
+
+            .sub-cypher-subtitle {
+                margin: 0 !important;
+                font-size: 0.9rem;
+                color: var(--sub-cypher-subtitle-color);
+            }
+        }
+
+        .sub-cypher-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--sub-cypher-gap);
+            align-items: center;
+
+            @container (min-width: 768px) {
+                justify-content: flex-end;
+            }
+
+            .sub-cypher-control-group {
+                display: flex;
+                align-items: center;
+                gap: var(--sub-cypher-gap-small);
+
+                .sub-cypher-label {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: var(--sub-cypher-label-color);
+                }
+
+                .sub-cypher-key-input {
+                    padding: var(--sub-cypher-padding-tiny);
+                    font-family: var(--font-family-mono);
+                    font-size: 0.95rem;
+                    background: var(--sub-cypher-bg-textarea);
+                    border: 1px solid var(--sub-cypher-input-border);
+                    border-radius: var(--border-radius-small);
+                    color: var(--color-text);
+                    transition: border-color 0.2s;
+
+                    &:hover {
+                        border-color: var(--sub-cypher-input-border-hover);
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-color: var(--sub-cypher-input-border-focus);
+                    }
+
+                    &.sub-cypher-key-number {
+                        width: 5rem;
+                        text-align: center;
+                    }
+
+                    &.sub-cypher-key-text {
+                        min-width: 10rem;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+    }
+
+    /* ---- Content ---- */
+    .sub-cypher-content {
+        padding: var(--sub-cypher-padding);
+        display: flex;
+        flex-direction: column;
+        gap: var(--sub-cypher-gap);
+
+        .sub-cypher-section-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--sub-cypher-label-color);
+        }
+
+
+        /* ---- Input/Output Section ---- */
+        .sub-cypher-io {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--sub-cypher-gap);
+
+            @container (min-width: 768px) {
+                &:has(.frequency-chart) {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            .sub-cypher-input-section {
+                display: flex;
+                flex-direction: column;
+                gap: var(--sub-cypher-gap-small);
+
+                .sub-cypher-io-label {
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    color: var(--sub-cypher-muted);
+                }
+
+                .sub-cypher-textarea {
+                    width: 100%;
+                    padding: var(--sub-cypher-padding-small) var(--sub-cypher-padding);
+                    font-family: var(--font-family-mono);
+                    font-size: 1rem;
+                    line-height: 1.3;
+                    background: var(--sub-cypher-bg-textarea);
+                    border: 1px solid var(--sub-cypher-border);
+                    border-radius: var(--border-radius-small);
+                    color: var(--color-text);
+                    resize: vertical;
+                    min-height: 3rem;
+                    height: 100%;
+                    transition: border-color 0.2s, background-color 0.3s;
+                    text-transform: uppercase;
+
+                    &:focus {
+                        outline: none;
+                        border-color: var(--sub-cypher-input-border-focus);
+                    }
+
+                    &::placeholder {
+                        color: var(--sub-cypher-muted);
+                        text-transform: none;
+                    }
+
+                    &.sub-cypher-plaintext {
+                        border-color: var(--sub-cypher-grid-plain-color);
+                        border-width: 2px;
+
+                        &:focus {
+                            outline: 3px solid color-mix(in srgb, var(--sub-cypher-grid-plain-color), transparent 70%);
+                            outline-offset: 1px;
+                        }
+                    }
+
+                    &.sub-cypher-cyphertext {
+                        border-color: var(--sub-cypher-grid-cypher-color);
+                        border-width: 2px;
+
+                        &:focus {
+                            outline: 3px solid color-mix(in srgb, var(--sub-cypher-grid-cypher-color), transparent 70%);
+                            outline-offset: 1px;
+                        }
+                    }
+                }
+            }
+
+            /* ---- Frequency Section ---- */
+            .sub-cypher-frequency-chart {
+                display: flex;
+                flex-direction: column;
+                gap: var(--sub-cypher-gap-small);
+                padding: var(--sub-cypher-gap-small) var(--sub-cypher-gap);
+                border: 1px solid var(--sub-cypher-border);
+                border-radius: var(--border-radius-small);
+                background-color: var(--sub-cypher-chart-bg);
+
+                @container (min-width: 768px) {
+                    margin-top: 1.6rem;
+                }
+
+                .sub-cypher-frequency-title {
+                    margin: 0;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: var(--sub-cypher-label-color);
+                }
+
+                .sub-cypher-frequency-plaintext {
+                    --frequency-accent: var(--sub-cypher-accent);
+                }
+
+                .sub-cypher-frequency-cyphertext {
+                    --frequency-accent: var(--sub-cypher-secondary);
+                }
+            }
+        }
+
+        /* ---- Substitution Grid ---- */
+        .sub-cypher-grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sub-cypher-gap-small);
+
+            .sub-cypher-grid-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+
+                &::-webkit-scrollbar {
+                    height: 6px;
+                }
+
+                &::-webkit-scrollbar-track {
+                    background: var(--color-mono-4);
+                    border-radius: 3px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: var(--color-mono-2);
+                    border-radius: 3px;
+
+                    &:hover {
+                        background: var(--color-mono-1);
+                    }
+                }
+
+                .sub-cypher-grid {
+                    display: inline-flex;
+                    flex-direction: column;
+                    background: var(--sub-cypher-grid-bg);
+                    border-radius: var(--border-radius);
+                    padding: var(--sub-cypher-padding-small);
+                    gap: 0.25rem;
+                    min-width: fit-content;
+                    width: 100%;
+
+                    .sub-cypher-grid-header {
+                        padding: var(--sub-cypher-padding-small);
+                        /* text-align: center; */
+
+                        .sub-cypher-grid-keystream {
+                            display: flex;
+                            align-items: center;
+                            /* justify-content: center; */
+                            gap: 0.25rem;
+                            flex-wrap: wrap;
+
+                            .sub-cypher-grid-keystream-label {
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                color: var(--sub-cypher-label-color);
+                                margin-right: 0.25rem;
+                            }
+
+                            .sub-cypher-grid-keystream-char {
+                                display: inline-block;
+                                padding: 0.2rem 0.5rem;
+                                background: var(--color-mono-0);
+                                border-radius: var(--border-radius-small);
+                                font-family: var(--font-family-mono);
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                color: var(--sub-cypher-label-color);
+                                transition: all 0.2s;
+
+                                &.sub-cypher-grid-keystream-char-active {
+                                    background: var(--sub-cypher-highlight-bg);
+                                    color: var(--sub-cypher-highlight-color);
+                                    font-weight: 700;
+                                    /* transform: scale(1.15); */
+                                    box-shadow: 0 0 0 2px var(--sub-cypher-highlight-color);
+                                }
+                            }
+
+                            .sub-cypher-grid-keystream-shift {
+                                font-size: 0.95rem;
+                                /* color: var(--sub-cypher-muted); */
+                                margin-left: 0.75rem;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+
+                    .sub-cypher-grid-row {
+                        display: flex;
+                        gap: min(1%, 0.15rem);
+                        align-items: center;
+
+                        &.sub-cypher-grid-row-header {
+                            font-weight: 600;
+
+                            .sub-cypher-grid-cell {
+                                color: var(--sub-cypher-grid-plain-color);
+                                font-weight: 600;
+                            }
+                        }
+
+                        &.sub-cypher-grid-row-cypher {
+                            .sub-cypher-grid-cell {
+                                color: var(--sub-cypher-grid-cypher-color);
+                            }
+                        }
+
+                        .sub-cypher-grid-label {
+                            font-size: 0.85rem;
+                            font-weight: 600;
+                            color: var(--sub-cypher-muted);
+                            min-width: 4rem;
+                            text-align: right;
+                            padding-right: 0.5rem;
+
+                            @container (max-width: 600px) {
+                                min-width: 3rem;
+                                font-size: 0.65rem;
+                            }
+                        }
+
+                        .sub-cypher-grid-cell {
+                            flex: 1;
+                            height: 2rem;
+                            padding: 0.1em;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background: var(--sub-cypher-grid-cell-bg);
+                            border-radius: var(--border-radius-small);
+                            font-family: var(--font-family-mono);
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                            transition: background-color 0.2s, transform 0.2s;
+                            cursor: default;
+
+                            &:hover {
+                                background: var(--sub-cypher-grid-cell-hover);
+                                transform: scale(1.1);
+                            }
+
+                            &.sub-cypher-grid-cell-highlight {
+                                background: var(--sub-cypher-highlight-bg);
+                                /* transform: scale(1.15); */
+                                box-shadow: 0 0 0 2px var(--sub-cypher-highlight-color);
+                                z-index: 1;
+                            }
+
+                            &[data-plain="A"]:not([data-cypher]),
+                            &[data-cypher="A"] {
+                                color: var(--sub-cypher-grid-a-color);
+                                font-weight: 700;
+                                font-size: 1.05em;
+                            }
+
+                            @container (max-width: 600px) {
+                                width: 1.5rem;
+                                height: 1.5rem;
+                                font-size: 0.75rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
