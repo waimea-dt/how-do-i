@@ -186,7 +186,7 @@
         display: flex;
         flex-direction: row;
         align-items: flex-end;
-        gap: 0.35rem;
+        gap: min(1%, 0.35rem);
         height: 100%;
         width: 100%;
         overflow-y: visible;
@@ -292,15 +292,15 @@
             cursor: pointer;
 
             .frequency-toggle-label {
-                font-size: 0.9rem;
+                font-size: 0.7rem;
                 font-weight: 600;
                 color: var(--frequency-label-color);
                 margin-right: var(--frequency-padding-small);
             }
 
             .frequency-toggle-btn {
-                padding: 0.2rem 0.5rem;
-                font-size: 0.85rem;
+                padding: 0.2em 0.5em;
+                font-size: 0.75rem;
                 font-weight: 500;
                 background: var(--frequency-btn-bg);
                 border: 1px solid var(--frequency-btn-border);
