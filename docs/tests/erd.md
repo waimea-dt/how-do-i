@@ -49,10 +49,10 @@ CREATE TABLE products (
 );
 
 CREATE TABLE order_items (
-    item_id INTEGER PRIMARY KEY,
-    order_id INTEGER,
-    product_id INTEGER,
+    order_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
+    PRIMARY KEY (order_id, product_id),
     FOREIGN KEY (order_id) REFERENCES orders (order_id),
     FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
@@ -69,11 +69,6 @@ CREATE TABLE students (
     name TEXT NOT NULL
 );
 
-CREATE TABLE courses (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
-);
-
 CREATE TABLE enrolments (
     student_id INTEGER,
     course_id INTEGER,
@@ -81,6 +76,11 @@ CREATE TABLE enrolments (
     PRIMARY KEY (student_id, course_id),
     FOREIGN KEY (student_id) REFERENCES students (id),
     FOREIGN KEY (course_id) REFERENCES courses (id)
+);
+
+CREATE TABLE courses (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
 );
 ```
 </erd>
@@ -90,13 +90,6 @@ CREATE TABLE enrolments (
 <erd>
 
 ```sql
-CREATE TABLE users (
-    user_id INTEGER PRIMARY KEY,
-    username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL,
-    created_at TEXT NOT NULL
-);
-
 CREATE TABLE messages (
     message_id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -104,6 +97,13 @@ CREATE TABLE messages (
     posted_at TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
         ON DELETE CASCADE
+);
+
+CREATE TABLE users (
+    user_id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL,
+    created_at TEXT NOT NULL
 );
 
 CREATE TABLE replies (
@@ -120,7 +120,7 @@ CREATE TABLE replies (
 ```
 </erd>
 
-## E-commerce System
+## E-Commerce System
 
 <erd>
 
@@ -130,22 +130,6 @@ CREATE TABLE users (
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL,
     created_at TEXT NOT NULL
-);
-
-CREATE TABLE categories (
-    category_id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    description TEXT
-);
-
-CREATE TABLE products (
-    product_id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    description TEXT,
-    price REAL NOT NULL,
-    category_id INTEGER NOT NULL,
-    stock INTEGER DEFAULT 0,
-    FOREIGN KEY (category_id) REFERENCES categories (category_id)
 );
 
 CREATE TABLE orders (
@@ -158,14 +142,24 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE order_items (
-    item_id INTEGER PRIMARY KEY,
     order_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     price REAL NOT NULL,
+    PRIMARY KEY (order_id, product_id),
     FOREIGN KEY (order_id) REFERENCES orders (order_id)
         ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products (product_id)
+);
+
+CREATE TABLE products (
+    product_id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    price REAL NOT NULL,
+    category_id INTEGER NOT NULL,
+    stock INTEGER DEFAULT 0,
+    FOREIGN KEY (category_id) REFERENCES categories (category_id)
 );
 
 CREATE TABLE reviews (
@@ -178,6 +172,12 @@ CREATE TABLE reviews (
     FOREIGN KEY (product_id) REFERENCES products (product_id)
         ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+CREATE TABLE categories (
+    category_id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT
 );
 ```
 </erd>
