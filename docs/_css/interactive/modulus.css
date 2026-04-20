@@ -4,12 +4,12 @@
  */
 
 @keyframes mod-pop {
-    0%   { margin-inline: 0;    max-height: 0;   max-width: 0;     opacity: 0; transform: scale(1); overflow: hidden; }
-    50%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 0; transform: scale(1); overflow: hidden; }
-    51%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 0; transform: scale(0.5); overflow: visible; }
-    75%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(1.15); overflow: visible; }
-    90%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(0.95); overflow: visible; }
-    100% { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(1); overflow: visible; }
+    0%   { margin-left: 0;                  max-height: 0;   max-width: 0;     opacity: 0; transform: scale(1); overflow: hidden; }
+    50%  { margin-left: var(--message-gap); max-height: 2em; max-width: 30rem; opacity: 0; transform: scale(1); overflow: hidden; }
+    51%  { margin-left: var(--message-gap); max-height: 2em; max-width: 30rem; opacity: 0; transform: scale(0.5); overflow: visible; }
+    75%  { margin-left: var(--message-gap); max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(1.15); overflow: visible; }
+    90%  { margin-left: var(--message-gap); max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(0.95); overflow: visible; }
+    100% { margin-left: var(--message-gap); max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(1); overflow: visible; }
 }
 
 .markdown-section modulus {
@@ -33,6 +33,10 @@
     --mod-clock-border:     var(--theme-color-4);
     --mod-clock-marker:     var(--theme-color-5);
     --mod-clock-high:       var(--highlight-color);
+
+    --mod-padding:          1rem;
+    --mod-padding-small:    0.5rem;
+
 
     /* ---- Base element ---- */
 
@@ -71,9 +75,9 @@
 
     .mod-header {
         grid-area: header;
-        padding: 1.5em 2em 1.2em;
+        padding: var(--mod-padding);
         text-align: center;
-        border-bottom: 2px solid var(--mod-border);
+        border-bottom: 1px solid var(--mod-border);
         background: color-mix(in srgb, var(--mod-accent), transparent 92%);
 
         .mod-title {
@@ -96,7 +100,7 @@
         grid-area: controls;
         display: flex;
         gap: 2em;
-        padding: 1.5em 2em;
+        padding: var(--mod-padding);
         background: var(--mod-card-bg);
         border-bottom: 1px solid var(--mod-border-light);
 
@@ -187,7 +191,7 @@
 
     .mod-equation {
         grid-area: equation;
-        padding: 1.2em 2em;
+        padding: var(--mod-padding);
         background: var(--mod-card-bg);
         border-bottom: 1px solid var(--mod-border);
         text-align: center;
@@ -218,10 +222,6 @@
         }
     }
 
-    .mod-equation-message {
-        /* line-height: 1.2; */
-    }
-
     .mod-equation-final {
         display: inline-block;
         max-height: 0;
@@ -231,6 +231,12 @@
         overflow: hidden;
         white-space: nowrap;
         font-size: 1.8rem;
+
+        --message-gap: 0;
+
+        @container (min-width: 700px) {
+            --message-gap: 2rem;
+        }
     }
 
     .mod-equation-final.animate {
@@ -244,7 +250,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 2em;
+        padding: var(--mod-padding);
         background: var(--mod-bg);
         min-height: 320px;
 
@@ -301,13 +307,18 @@
     .mod-animation-controls {
         grid-area: info;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        gap: 2em;
-        padding: 1.2em 2em;
+        gap: var(--mod-padding);
+        padding: var(--mod-padding);
         background: color-mix(in srgb, var(--mod-accent), transparent 90%);
         border-top: 1px solid var(--mod-border-light);
         border-bottom: 1px solid var(--mod-border-light);
+
+        @container (min-width: 600px) {
+            flex-direction: row;
+        }
     }
 
     .mod-description {
