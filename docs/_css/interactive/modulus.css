@@ -1,0 +1,357 @@
+/**
+ * Modulo Arithmetic Visualizer
+ * Interactive clock face visualization
+ */
+
+@keyframes mod-pop {
+    0%   { margin-inline: 0;    max-height: 0;   max-width: 0;     opacity: 0; transform: scale(1); overflow: hidden; }
+    50%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 0; transform: scale(1); overflow: hidden; }
+    51%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 0; transform: scale(0.5); overflow: visible; }
+    75%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(1.15); overflow: visible; }
+    90%  { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(0.95); overflow: visible; }
+    100% { margin-inline: 2rem; max-height: 2em; max-width: 30rem; opacity: 1; transform: scale(1); overflow: visible; }
+}
+
+.markdown-section modulus {
+
+    /* ---- Design tokens ---- */
+    --mod-accent:           var(--theme-color);
+    --mod-accent-light:     var(--theme-color-3);
+    --mod-accent-dark:      var(--theme-color-6);
+
+    --mod-bg:               var(--color-mono-0);
+    --mod-card-bg:          var(--color-mono-1);
+    --mod-border:           var(--color-mono-3);
+    --mod-border-light:     var(--color-mono-2);
+
+    --mod-text-primary:     var(--color-text);
+    --mod-text-secondary:   var(--color-mono-6);
+
+    --mod-font-mono:        var(--font-family-mono);
+
+    --mod-clock-bg:         var(--theme-color-0);
+    --mod-clock-border:     var(--theme-color-4);
+    --mod-clock-marker:     var(--theme-color-5);
+    --mod-clock-high:       var(--highlight-color);
+
+    /* ---- Base element ---- */
+
+    display: block;
+    margin: var(--margin-block) 0;
+
+    /* ---- Main wrapper ---- */
+
+    .mod-wrapper {
+        background: var(--mod-bg);
+        border: 2px solid var(--mod-border);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "controls"
+            "equation"
+            "clock"
+            "info";
+
+        @container (min-width: 900px) {
+            grid-template-columns: auto 1fr;
+            grid-template-areas:
+                "clock    header"
+                "clock    controls"
+                "clock    equation"
+                "clock    info";
+        }
+    }
+
+    /* ---- Header ---- */
+
+    .mod-header {
+        grid-area: header;
+        padding: 1.5em 2em 1.2em;
+        text-align: center;
+        border-bottom: 2px solid var(--mod-border);
+        background: color-mix(in srgb, var(--mod-accent), transparent 92%);
+
+        .mod-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--mod-accent-dark);
+            margin-bottom: 0.3em;
+        }
+
+        .mod-subtitle {
+            font-size: 0.85em;
+            color: var(--mod-text-secondary);
+            line-height: 1.4;
+        }
+    }
+
+    /* ---- Controls ---- */
+
+    .mod-controls {
+        grid-area: controls;
+        display: flex;
+        gap: 2em;
+        padding: 1.5em 2em;
+        background: var(--mod-card-bg);
+        border-bottom: 1px solid var(--mod-border-light);
+
+        @media (max-width: 600px) {
+            flex-direction: column;
+            gap: 1.2em;
+        }
+    }
+
+    .mod-control-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em;
+    }
+
+    .mod-control-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.95em;
+        font-weight: 600;
+        color: var(--mod-text-primary);
+    }
+
+    .mod-control-name {
+        color: var(--mod-text-secondary);
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .mod-control-value {
+        font-family: var(--mod-font-mono);
+        font-size: 1.8em;
+        color: var(--mod-accent-dark);
+        font-weight: 600;
+    }
+
+    .mod-slider {
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--mod-border-light);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--mod-accent);
+            cursor: pointer;
+            transition: transform 150ms;
+
+            &:hover {
+                transform: scale(1.15);
+            }
+
+            &:active {
+                transform: scale(1.25);
+            }
+        }
+
+        &::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--mod-accent);
+            cursor: pointer;
+            border: none;
+            transition: transform 150ms;
+
+            &:hover {
+                transform: scale(1.15);
+            }
+
+            &:active {
+                transform: scale(1.25);
+            }
+        }
+    }
+
+    /* ---- Equation display ---- */
+
+    .mod-equation {
+        grid-area: equation;
+        padding: 1.2em 2em;
+        background: var(--mod-card-bg);
+        border-bottom: 1px solid var(--mod-border);
+        text-align: center;
+        font-size: 1.05em;
+        line-height: 1.2;
+        color: var(--mod-text-primary);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+        min-height: 6rem;
+
+        @container (min-width: 700px) {
+            flex-direction: row;
+            gap: 0;
+            justify-content: center;
+        }
+
+        strong {
+            color: var(--mod-accent);
+            font-weight: 600;
+            font-family: var(--mod-font-mono);
+            font-size: 1.2em;
+
+            &.high {
+                color: var(--highlight-color);
+            }
+        }
+    }
+
+    .mod-equation-message {
+        /* line-height: 1.2; */
+    }
+
+    .mod-equation-final {
+        display: inline-block;
+        max-height: 0;
+        max-width: 0;
+        margin-inline: 0;
+        opacity: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 1.8rem;
+    }
+
+    .mod-equation-final.animate {
+        animation: mod-pop 600ms ease-out forwards !important;
+    }
+
+    /* ---- Clock visualization ---- */
+
+    .mod-clock-container {
+        grid-area: clock;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2em;
+        background: var(--mod-bg);
+        min-height: 320px;
+
+        @container (min-width: 720px) {
+            border-right: 1px solid var(--mod-border);
+        }
+    }
+
+    .mod-clock {
+        max-width: 100%;
+        height: auto;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+
+        .mod-clock-circle {
+            fill: var(--mod-clock-bg);
+            stroke: var(--mod-clock-border);
+            stroke-width: 2;
+        }
+
+        .mod-clock-marker {
+            fill: var(--mod-clock-marker);
+            transition: fill 200ms, r 200ms;
+
+            &.mod-clock-marker-active {
+                fill: var(--mod-clock-high);
+            }
+        }
+
+        .mod-clock-label {
+            fill: var(--mod-text-primary);
+            font-family: var(--mod-font-mono);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .mod-clock-pointer {
+            stroke: var(--mod-clock-marker);
+            stroke-width: 3;
+            stroke-linecap: round;
+
+            &.mod-clock-pointer-active {
+                stroke: var(--mod-clock-high);
+                stroke-width: 4;
+            }
+        }
+
+        .mod-clock-center {
+            fill: var(--mod-accent);
+        }
+    }
+
+    /* ---- Animation controls ---- */
+
+    .mod-animation-controls {
+        grid-area: info;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2em;
+        padding: 1.2em 2em;
+        background: color-mix(in srgb, var(--mod-accent), transparent 90%);
+        border-top: 1px solid var(--mod-border-light);
+        border-bottom: 1px solid var(--mod-border-light);
+    }
+
+    .mod-description {
+        flex: 1;
+        font-size: 0.9em;
+        color: var(--mod-text-secondary);
+        line-height: 1.6;
+    }
+
+    .mod-restart-btn {
+        flex-shrink: 0;
+        padding: 0.6em 1.4em;
+        font-family: var(--font-family);
+        font-size: 0.9em;
+        font-weight: 600;
+        color: var(--mod-accent-dark);
+        background: var(--mod-bg);
+        border: 2px solid var(--mod-accent-light);
+        border-radius: calc(var(--border-radius) / 2);
+        cursor: pointer;
+        transition: all 150ms ease;
+        white-space: nowrap;
+
+        &:hover {
+            background: var(--mod-accent-light);
+            border-color: var(--mod-accent);
+            color: var(--mod-bg);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    /* ---- Error display ---- */
+
+    .mod-error {
+        padding: 1em;
+        background: color-mix(in srgb, var(--color-bad), transparent 85%);
+        border: 2px solid var(--color-bad);
+        border-radius: var(--border-radius);
+        color: var(--color-bad-6);
+        text-align: center;
+        font-weight: 600;
+    }
+}
