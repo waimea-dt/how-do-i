@@ -553,8 +553,19 @@
             requestAnimationFrame(() => {
                 step3.classList.add('dh-calc-animate')
             })
+            await this.sleep(600)
 
-            // Show final result after animation
+            // Step 4: Show final result
+            const step4 = document.createElement('div')
+            step4.className = 'dh-calc-step'
+            step4.innerHTML = `<span class="dh-var">${resultVar}</span> = <strong>${finalResult}</strong>`
+            display.appendChild(step4)
+            // Trigger animation after DOM insertion
+            requestAnimationFrame(() => {
+                step4.classList.add('dh-calc-animate')
+            })
+
+            // Show final result badge after animation
             await this.sleep(400)
             resultContainer.classList.add('dh-result-show')
         }
@@ -575,6 +586,10 @@
             // Reset UI
             this.el.querySelectorAll('.dh-step, .dh-exchange-step-3, .dh-eve-note').forEach(el => {
                 el.classList.remove('dh-active', 'dh-highlight')
+            })
+
+            this.el.querySelectorAll('.dh-shared-secret').forEach(el => {
+                el.classList.remove('dh-highlight')
             })
 
             this.el.querySelectorAll('.dh-arrow').forEach(el => {

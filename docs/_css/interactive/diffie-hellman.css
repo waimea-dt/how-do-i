@@ -46,6 +46,7 @@
     --dh-font-mono:           var(--font-family-mono);
 
     --dh-padding:             1rem;
+    --dh-padding-med:         0.7rem;
     --dh-padding-small:       0.5rem;
     --dh-padding-tiny:        0.25rem;
     --dh-gap:                 1rem;
@@ -215,15 +216,24 @@
         display: grid;
         grid-template-columns: 1fr;
         gap: var(--dh-gap);
-        padding: 1em;
+        padding: var(--dh-padding);
         background: var(--dh-bg);
+        grid-template-areas:
+            "alice"
+            "exchange"
+            "bob";
 
         @container (min-width: 769px) {
-            padding: var(--dh-padding);
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "alice    bob"
+                "exchange exchange";
         }
 
         @container (min-width: 1025px) {
-            grid-template-columns: 1fr 300px 1fr;
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-areas:
+                "alice exchange bob";
         }
     }
 
@@ -245,12 +255,20 @@
             font-weight: 700;
         }
 
-        &.dh-alice .dh-party-name {
-            color: var(--dh-accent-alice);
+        &.dh-alice {
+            grid-area: alice;
+
+            .dh-party-name {
+                color: var(--dh-accent-alice);
+            }
         }
 
-        &.dh-bob .dh-party-name {
-            color: var(--dh-accent-bob);
+        &.dh-bob {
+            grid-area: bob;
+
+            .dh-party-name {
+                color: var(--dh-accent-bob);
+            }
         }
     }
 
@@ -265,7 +283,7 @@
         opacity: 1;
 
         @container (min-width: 769px) {
-            padding: var(--dh-padding);
+            padding: var(--dh-padding-med);
         }
 
         &.dh-active {
@@ -319,7 +337,6 @@
 
     .dh-calculation {
         padding: var(--dh-padding-small);
-        margin: var(--dh-gap-small) 0;
         background: var(--dh-formula-bg);
         border-radius: var(--border-radius-small);
         border: 1px solid var(--dh-border);
@@ -328,17 +345,13 @@
     .dh-calc-display {
         display: flex;
         flex-direction: column;
-        gap: var(--dh-gap);
         font-family: var(--dh-font-mono);
         font-size: 0.9em;
-        text-align: center;
+        width: fit-content;
+        margin-inline: auto;
     }
 
     .dh-calc-step {
-        padding: var(--dh-padding-small);
-        background: var(--dh-step-bg);
-        border-radius: var(--border-radius-small);
-        border: 1px solid var(--dh-border-light);
         color: var(--dh-text-primary);
 
         &.dh-calc-animate {
@@ -368,7 +381,6 @@
         background: var(--dh-formula-bg);
         border-radius: var(--border-radius-small);
         border: 2px solid var(--dh-border);
-        margin-top: var(--dh-gap-small);
 
         &.dh-result-show {
             display: flex;
@@ -427,6 +439,7 @@
     /* ---- Exchange (middle column) ---- */
 
     .dh-exchange {
+        grid-area: exchange;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -445,7 +458,6 @@
             display: flex;
             flex-direction: column;
             gap: var(--dh-gap);
-            width: 100%;
             opacity: 0.5;
             transition: opacity 300ms;
 
@@ -471,7 +483,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: var(--dh-padding);
+        padding: var(--dh-padding-small);
         background: var(--dh-card-bg);
         border: 2px solid var(--dh-border);
         border-radius: var(--border-radius-small);
