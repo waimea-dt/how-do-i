@@ -16,6 +16,7 @@
 - <i data-lucide="binary"></i>Databases
     - [Database Schema](tests/dbs.md)
     - [SQL Runner Demo](tests/sql.md)
+    - [ERD Creator](tests/erd.md)
 
 - <i data-lucide="binary"></i>Graphics
     - [Mermaid](tests/mermaid.md)

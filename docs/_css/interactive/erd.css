@@ -1,0 +1,314 @@
+/* =============================================================================
+   ERD — Interactive SQLite Entity-Relationship Diagram Generator
+   ============================================================================= */
+
+/* ---- Design tokens ---- */
+.markdown-section erd {
+    --erd-button: var(--color-mono-4);
+    --erd-button-hover: var(--theme-color);
+    --erd-secondary: var(--palette-color-1);
+    --erd-tertiary: var(--palette-color-2);
+
+    --erd-bg: var(--color-mono-1);
+    --erd-bg-header: var(--color-mono-2);
+    --erd-bg-sub-header: var(--color-mono-1);
+    --erd-bg-section: var(--color-mono-0);
+    --erd-border: var(--color-mono-3);
+    --erd-border-dark: var(--color-mono-4);
+
+    --erd-title-color: var(--theme-color);
+    --erd-subtitle-color: var(--color-mono-6);
+    --erd-label-color: var(--color-text);
+    --erd-muted: var(--color-mono-6);
+
+    --erd-padding: 1rem;
+    --erd-padding-small: 0.5rem;
+    --erd-gap: 1rem;
+    --erd-gap-small: 0.5rem;
+
+    display: block;
+    margin: var(--margin-block) 0;
+    container-type: inline-size;
+
+    /* ---- Wrapper ---- */
+    .erd-wrapper {
+        background: var(--erd-bg);
+        border: 1px solid var(--erd-border);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+
+        /* ---- Header ---- */
+        .erd-header {
+            padding: var(--erd-padding);
+            background: var(--erd-bg-header);
+            border-bottom: 1px solid var(--erd-border);
+            display: flex;
+            flex-direction: column;
+            gap: var(--erd-gap);
+
+            @container (min-width: 768px) {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .erd-header-text {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+
+                .erd-title {
+                    margin: 0;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--erd-title-color);
+                }
+
+                .erd-subtitle {
+                    margin: 0 !important;
+                    font-size: 0.9rem;
+                    color: var(--erd-subtitle-color);
+                }
+            }
+
+            .erd-controls {
+                display: flex;
+                gap: var(--erd-gap-small);
+                align-items: center;
+
+                .erd-btn {
+                    padding: var(--erd-padding-small);
+                    background: var(--erd-button);
+                    color: var(--color-bg);
+                    border: none;
+                    border-radius: var(--border-radius-small);
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background: var(--erd-button-hover);
+                    }
+                }
+            }
+        }
+
+        /* ---- Content ---- */
+        .erd-content {
+            display: grid;
+            grid-template-columns: 1fr;
+
+            @container (min-width: 1024px) {
+                grid-template-columns: 2fr 3fr;
+            }
+
+            .erd-editor-section,
+            .erd-diagram-section {
+                display: flex;
+                flex-direction: column;
+                min-height: 400px;
+            }
+
+            .erd-editor-section {
+                background: var(--erd-bg-section);
+                border-right: 1px solid var(--erd-border);
+
+                @container (max-width: 1023px) {
+                    border-right: none;
+                    border-bottom: 1px solid var(--erd-border);
+                }
+
+                .erd-editor-label {
+                    padding: var(--erd-padding-small) var(--erd-padding);
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: var(--erd-label-color);
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    background: var(--erd-bg-sub-header);
+                    border-bottom: 1px solid var(--erd-border);
+                }
+
+                .CodeMirror {
+                    height: 100%;
+                    font-size: calc(var(--code-font-size) * 0.8) !important;
+                    border: none;
+                }
+            }
+
+            .erd-diagram-section {
+                background: var(--erd-bg-section);
+
+                .erd-diagram-label {
+                    padding: var(--erd-padding-small) var(--erd-padding);
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: var(--erd-label-color);
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    background: var(--erd-bg-sub-header);
+                    border-bottom: 1px solid var(--erd-border);
+                }
+
+                .erd-diagram-container {
+                    flex: 1;
+                    padding: var(--erd-padding);
+                    overflow: auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    .erd-empty {
+                        color: var(--erd-muted);
+                        font-size: 0.9rem;
+                        text-align: center;
+                        padding: 2rem;
+                    }
+                }
+            }
+        }
+
+        /* ---- Responsive adjustments ---- */
+        @container (max-width: 768px) {
+            .erd-header {
+                padding: var(--erd-padding-small);
+
+                .erd-title {
+                    font-size: 1.1rem;
+                }
+
+                .erd-subtitle {
+                    font-size: 0.85rem;
+                }
+            }
+
+            .erd-content {
+                .erd-diagram-section {
+                    .erd-diagram-container {
+                        padding: var(--erd-padding-small);
+                    }
+                }
+
+                .erd-editor-section,
+                .erd-diagram-section {
+                    min-height: 300px;
+                }
+            }
+        }
+    }
+}
+
+.erd-diagram {
+    --erd-pk-color: var(--theme-color);
+    --erd-fk-color: var(--secondary-color);
+    --erd-field-color: var(--color-text);
+    --erd-type-color: var(--color-mono-6);
+
+    --erd-table-bg: var(--color-mono-0);
+    --erd-table-header-text: var(--color-bg);
+    --erd-field-bg: transparent;
+    --erd-field-bg-hover: var(--color-mono-2);
+
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+
+    /* ========== SVG Export Styles - Start ========== */
+    /* Everything between these markers will be embedded in exported SVG/PNG files */
+
+    /* ---- SVG Table Styles ---- */
+    .erd-table {
+        /* Individual table colors */
+        &[data-color="1"]  { --erd-table-color: var(--palette-color-1); }
+        &[data-color="2"]  { --erd-table-color: var(--palette-color-2); }
+        &[data-color="3"]  { --erd-table-color: var(--palette-color-3); }
+        &[data-color="4"]  { --erd-table-color: var(--palette-color-4); }
+        &[data-color="5"]  { --erd-table-color: var(--palette-color-5); }
+        &[data-color="6"]  { --erd-table-color: var(--palette-color-6); }
+        &[data-color="7"]  { --erd-table-color: var(--palette-color-7); }
+        &[data-color="8"]  { --erd-table-color: var(--palette-color-8); }
+        &[data-color="9"]  { --erd-table-color: var(--palette-color-9); }
+        &[data-color="10"] { --erd-table-color: var(--palette-color-10); }
+    }
+
+    .erd-table-bg {
+        fill: var(--erd-table-bg);
+        stroke: var(--erd-table-color, var(--theme-color));
+        stroke-width: 3;
+    }
+
+    .erd-table-header {
+        fill: var(--erd-table-color, var(--theme-color));
+        stroke: none;
+    }
+
+    .erd-table-header-fill {
+        fill: var(--erd-table-color, var(--theme-color));
+        stroke: none;
+    }
+
+    .erd-table-name {
+        fill: var(--erd-table-header-text);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+    }
+
+    /* ---- SVG Field Styles ---- */
+    .erd-field-bg {
+        fill: var(--erd-field-bg);
+        stroke: none;
+        transition: fill 0.2s ease;
+    }
+
+    .erd-field:hover .erd-field-bg {
+        fill: var(--erd-field-bg-hover);
+    }
+
+    .erd-field-icon {
+        font-size: 16px;
+    }
+
+    .erd-field-name {
+        fill: var(--erd-field-color);
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .erd-field-type {
+        fill: var(--erd-type-color);
+        font-size: 16px;
+        font-weight: 400;
+        font-style: italic;
+    }
+
+    /* Foreign Key highlighting */
+    .erd-field.is-fk .erd-field-name {
+        fill: var(--erd-fk-color);
+    }
+
+    /* Primary Key highlighting - must come after FK to take precedence */
+    .erd-field.is-pk .erd-field-name {
+        fill: var(--erd-pk-color);
+        font-weight: 700;
+    }
+
+    /* ---- Relationship Lines ---- */
+    .erd-relationship {
+        stroke: var(--erd-fk-color);
+        stroke-width: 3;
+        stroke-linejoin: round;
+        fill: none;
+        opacity: 0.7;
+        transition: stroke-width 0.2s ease;
+    }
+
+    .erd-relationship:hover {
+        stroke-width: 4;
+    }
+
+    /* ========== SVG Export Styles - End ========== */
+
+}
+

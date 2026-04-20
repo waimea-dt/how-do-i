@@ -11,6 +11,12 @@
 
 ## Plugin Ideas
 
+### DB ERD creator
+**Purpose**: Create SVG ERD for pasted SQLite CREATE TABLE code
+**Features**:
+- Editable code
+- Create tables / links / etc.
+
 ### Diffie-Hellman Visualizer
 **Purpose**: Explain public-key exchange using clock arithmetic visualization
 **Features**:
