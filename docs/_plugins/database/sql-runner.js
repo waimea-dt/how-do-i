@@ -213,7 +213,7 @@
                     wrapper.insertBefore(editorEl, pre)
                 }, {
                     value:             visibleCode,
-                    mode:              'text/x-sql',
+                    mode:              'text/x-sqlite',
                     theme:             'material-darker',
                     lineNumbers:       false,
                     autoCloseBrackets: true,
