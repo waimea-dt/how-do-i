@@ -460,12 +460,10 @@
             this.equationDisplay.innerHTML = `<span class="mod-equation-message"><strong>${this.value}</strong> is <strong>?</strong> lots of <strong>${this.mod}</strong>, remainder <strong>?</strong></span>`
 
             const rotations = Math.floor(this.value / this.mod)
-            if (this.value === 0) {
-                this.description.textContent = `Starting at position 0.`
-            } else if (rotations === 0) {
-                this.description.textContent = `The clock has ${this.mod} positions (0 to ${this.mod - 1}). Count forward ${this.value} step${this.value !== 1 ? 's' : ''}.`
+            if (rotations === 0) {
+                this.description.innerHTML = `The clock has ${this.mod} positions (0 to ${this.mod - 1}).<br> Count forward ${this.value} step${this.value !== 1 ? 's' : ''}.`
             } else {
-                this.description.textContent = `The clock has ${this.mod} positions. Count ${this.value} steps = ${rotations} complete rotation${rotations !== 1 ? 's' : ''} + ${result} extra step${result !== 1 ? 's' : ''}.`
+                this.description.innerHTML = `The clock has ${this.mod} positions.<br> Count ${this.value} steps = ${rotations} complete rotation${rotations !== 1 ? 's' : ''} + ${result} extra step${result !== 1 ? 's' : ''}.`
             }
         }
 
