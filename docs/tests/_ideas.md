@@ -11,22 +11,12 @@
 
 ## Plugin Ideas
 
-### DB ERD creator
-**Purpose**: Create SVG ERD for pasted SQLite CREATE TABLE code
+### Garage Door Rolling Codes Visualiser
+**Purpose**: Explain how rolling codes prevent replay attacks
 **Features**:
-- Editable code
-- Create tables / links / etc.
-
-### Diffie-Hellman Visualizer
-**Purpose**: Explain public-key exchange using clock arithmetic visualization
-**Features**:
-- Clock face showing modular arithmetic (p hours on clock)
-- Animated "jumps" around clock for exponentiation (g^a mod p)
-- Stepped Alice/Bob protocol showing public exchange and private calculations
-- Both paths converge to same shared secret position
-- Eve's perspective showing the discrete log problem
-- Complexity comparison: computing g^a is O(log a) but finding 'a' from g^a is exponential
-- "Eavesdropper can see" vs "kept secret" visual separation
+- Simulate code TX / RX
+- Simulate code replay and failure
+- Simulate missed RXs (codes out of step)
 
 ### Algorithm Race
 **Purpose**: Show algorithmic complexity through direct comparison
@@ -44,30 +34,6 @@
 - Linked list operations with pointer movements
 - Tree traversals (in-order, pre-order, post-order)
 
-### Color Scheme Designer
-**Purpose**: Teach color theory for UI/UX design (extends existing color work)
-**Features**:
-- Accessibility checker (WCAG contrast ratios)
-- HSL/RGB/HEX live converters
-- Complementary/analogous color suggestions
-- Color palette generation
-
-### Syntax Error Detective
-**Purpose**: Help beginners understand and fix common errors
-**Features**:
-- Common error pattern highlighter
-- Beginner-friendly fix suggestions
-- "Learn from mistakes" teaching moments
-- Links to glossary terms for concepts
-
-### Code Snippets Collection
-**Purpose**: Searchable library of common programming patterns
-**Features**:
-- Searchable common patterns library
-- One-click copy button
-- Tags/categories by topic
-- Student-submitted examples
-- Language filters
 
 ---
 
@@ -75,6 +41,7 @@
 
 ### Completed Plugins
 
+- [x] **erd.js** - Interactive SQLite ERD generator with live editing, auto-layout, and relationship visualization
 - [x] **memory-sim.js** - Kotlin/Python OOP memory visualization with stack/heap
 - [x] **oop-sim.js** - Class definitions, instantiation, field updates and method calls
 - [x] **cpu-sim.js** - TINY-8 CPU simulator with fetch-decode-execute cycle visualization
@@ -84,6 +51,7 @@
 - [x] **big-o.js** - Algorithm complexity comparison table with best/avg/worst case analysis, category filtering, and growth rate visualization
 - [x] **tsp.js** - TSP tractability explorer with brute-force, nearest neighbour, and 2-opt algorithms; factorial growth visualization; heuristic vs optimal comparison modes
 - [x] **sub-cypher.js** - Substitution cipher visualization with Caesar and Vigenère ciphers; instant cursor-based highlighting; frequency analysis integration; keystream display with shift values
+- [x] **diffie-hellman.js** - Diffie-Hellman key exchange visualizer with step-by-step animation; Alice/Bob parallel calculations; public exchange visualization; eavesdropper perspective; shared secret highlighting; configurable p and g parameters
 
 ### Completed Maintenance
 
