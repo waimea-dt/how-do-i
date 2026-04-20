@@ -23,6 +23,7 @@
 
     --erd-padding: 1rem;
     --erd-padding-small: 0.5rem;
+    --erd-padding-tiny: 0.25rem;
     --erd-gap: 1rem;
     --erd-gap-small: 0.5rem;
 
@@ -34,7 +35,7 @@
     .erd-wrapper {
         background: var(--erd-bg);
         border: 1px solid var(--erd-border);
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
         overflow: hidden;
 
         /* ---- Header ---- */
@@ -46,7 +47,7 @@
             flex-direction: column;
             gap: var(--erd-gap);
 
-            @container (min-width: 768px) {
+            @container (min-width: 600px) {
                 flex-direction: row;
                 align-items: center;
                 justify-content: space-between;
@@ -77,7 +78,7 @@
                 align-items: center;
 
                 .erd-btn {
-                    padding: var(--erd-padding-small);
+                    padding: var(--erd-padding-tiny) var(--erd-padding-small);
                     background: var(--erd-button);
                     color: var(--color-bg);
                     border: none;
@@ -113,6 +114,8 @@
             .erd-editor-section {
                 background: var(--erd-bg-section);
                 border-right: 1px solid var(--erd-border);
+                overflow-x: auto;
+                overflow-y: auto;
 
                 @container (max-width: 1023px) {
                     border-right: none;
@@ -134,6 +137,7 @@
                     height: 100%;
                     font-size: calc(var(--code-font-size) * 0.8) !important;
                     border: none;
+                    padding-inline: var(--erd-padding-small);
                 }
             }
 
@@ -230,6 +234,8 @@
         &[data-color="8"]  { --erd-table-color: var(--palette-color-8); }
         &[data-color="9"]  { --erd-table-color: var(--palette-color-9); }
         &[data-color="10"] { --erd-table-color: var(--palette-color-10); }
+
+        transition: all 0.2s ease;
     }
 
     .erd-table-bg {
@@ -256,14 +262,14 @@
     }
 
     /* ---- SVG Field Styles ---- */
+    .erd-field {
+        transition: all 0.2s ease;
+    }
+
     .erd-field-bg {
         fill: var(--erd-field-bg);
         stroke: none;
-        transition: fill 0.2s ease;
-    }
-
-    .erd-field:hover .erd-field-bg {
-        fill: var(--erd-field-bg-hover);
+        transition: all 0.2s ease;
     }
 
     .erd-field-icon {
@@ -278,9 +284,9 @@
 
     .erd-field-type {
         fill: var(--erd-type-color);
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 400;
-        font-style: italic;
+        /* font-style: italic; */
     }
 
     /* Foreign Key highlighting */
@@ -300,15 +306,33 @@
         stroke-width: 3;
         stroke-linejoin: round;
         fill: none;
-        opacity: 0.7;
-        transition: stroke-width 0.2s ease;
-    }
-
-    .erd-relationship:hover {
-        stroke-width: 4;
+        opacity: 0.9;
+        transition: all 0.2s ease;
     }
 
     /* ========== SVG Export Styles - End ========== */
 
+
+    /* Hover highlights for non-exported SVGs */
+
+    .erd-field:hover .erd-field-bg {
+        fill: var(--erd-field-bg-hover);
+    }
+
+    .erd-relationship:hover {
+        stroke-width: 4;
+        opacity: 1;
+    }
+
+    &:hover:has(.erd-relationship:hover) .erd-relationship,
+    &:hover:has(.erd-table-name:hover) .erd-table,
+    .erd-table:hover:has(.erd-field:hover) .erd-field {
+        opacity: 0.3;
+
+        &:hover {
+            opacity: 1;
+            cursor: default;
+        }
+    }
 }
 

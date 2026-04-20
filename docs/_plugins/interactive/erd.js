@@ -40,8 +40,8 @@
     const TABLE_PADDING = 10
     const ROW_HEIGHT = 28
     const HEADER_HEIGHT = 36
-    const TABLE_SPACING_X = 100
-    const TABLE_SPACING_Y = 80
+    const TABLE_SPACING_X = 120
+    const TABLE_SPACING_Y = 40
 
     // -------------------------------------------------------------------------
     // SQL Parser
@@ -53,8 +53,8 @@
     function parseSQLTables(sql) {
         const tables = []
 
-        // Match CREATE TABLE statements (handle multi-line)
-        const tableRegex = /CREATE\s+TABLE\s+(\w+)\s*\(([\s\S]*?)\);/gi
+        // Match CREATE TABLE statements (semicolon optional, handles nested parentheses)
+        const tableRegex = /CREATE\s+TABLE\s+(\w+)\s*\(((?:[^()]|\([^)]*\))*)\)\s*;?/gi
         let match
 
         while ((match = tableRegex.exec(sql)) !== null) {
@@ -102,11 +102,13 @@
                     const constraints = fieldMatch[3]
 
                     const isPrimaryKey = /PRIMARY\s+KEY/i.test(constraints)
+                    const isNotNull = /NOT\s+NULL/i.test(constraints)
 
                     table.fields.push({
                         name: fieldName,
                         type: fieldType,
-                        isPrimaryKey: isPrimaryKey
+                        isPrimaryKey: isPrimaryKey,
+                        isNotNull: isNotNull
                     })
 
                     if (isPrimaryKey && !table.primaryKeys.includes(fieldName)) {
@@ -116,9 +118,11 @@
             }
 
             // Second pass: mark fields as primary keys based on table-level PRIMARY KEY constraints
+            // Also mark primary keys and NOT NULL fields
             table.fields.forEach(field => {
                 if (table.primaryKeys.includes(field.name)) {
                     field.isPrimaryKey = true
+                    field.isNotNull = true // PKs are always NOT NULL
                 }
             })
 
@@ -425,7 +429,8 @@
                     </text>
 
                     <text class="erd-field-type" x="${width - 12}" y="${ROW_HEIGHT / 2 + 1}"
-                        text-anchor="end" dominant-baseline="middle">
+                        text-anchor="end" dominant-baseline="middle"
+                        ${field.isNotNull ? 'text-decoration="underline"' : ''}>
                         ${escapeHtml(field.type)}
                     </text>
                 </g>
@@ -514,8 +519,8 @@
             this.editor = CodeMirror.fromTextArea(textarea, {
                 mode: 'text/x-sqlite',
                 theme: 'material-darker',
-                lineNumbers: true,
-                lineWrapping: true,
+                lineNumbers: false,
+                lineWrapping: false,
                 tabSize: 4,
                 indentUnit: 4,
                 indentWithTabs: false,
