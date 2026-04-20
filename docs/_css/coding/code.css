@@ -30,7 +30,7 @@
     --code-color-pink:          #e79cce;
 
     /* Editor UI */
-    --code-active-line-back:    color-mix(in srgb, var(--code-color-normal) 20%, transparent);
+    --code-active-line-back:    color-mix(in srgb, var(--code-color-normal) 10%, transparent);
     --code-selection-back:      color-mix(in srgb, var(--theme-color) 40%, transparent);
     --code-matching-color:      var(--color-important);
     --code-matching-back:       color-mix(in srgb, var(--code-matching-color) 10%, transparent);
