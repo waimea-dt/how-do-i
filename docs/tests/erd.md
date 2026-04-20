@@ -43,7 +43,7 @@ CREATE TABLE customers (
 
 CREATE TABLE orders (
     id INTEGER PRIMARY KEY,
-    date TEXT NOT NULL,
+    date_placed TEXT NOT NULL,
     customer_id INTEGER,
     FOREIGN KEY (customer_id) REFERENCES customers (id)
 );
@@ -141,7 +141,7 @@ CREATE TABLE users (
 CREATE TABLE orders (
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
-    date TEXT NOT NULL,
+    date_placed TEXT NOT NULL,
     status TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
