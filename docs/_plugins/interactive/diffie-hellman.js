@@ -220,7 +220,7 @@
                                 <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">A</span> = <span class="dh-value" data-alice-public>?</span>
                                 </div>
-                                <span class="dh-public-badge">Public</span>
+                                <span class="dh-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
                             </div>
                         </div>
                     </div>
@@ -317,7 +317,7 @@
                                 </div>
                             </div>
                             <div class="dh-result" data-bob-result>
-                                <span class="dh-public-badge">Public</span>
+                                <span class="dh-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
                                 <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">B</span> = <span class="dh-value" data-bob-public>?</span>
                                 </div>

@@ -338,6 +338,9 @@
         border-radius: var(--border-radius);
         border: 2px solid var(--dh-value-border);
         white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: var(--dh-gap-tiny);
 
         &.dh-value-alice {
             --dh-value-border: color-mix(in srgb, var(--dh-accent-alice), var(--color-mono-min) 30%);
@@ -377,7 +380,7 @@
 
         color: var(--dh-swatch-color-text);
         background-color: var(--dh-swatch-color);
-        padding: var(--dh-padding-tiny) var(--dh-padding-small);
+        padding: var(--dh-padding-tiny);
         font-size: 0.7em;
         font-family: var(--font-family-mono);
         font-weight: 500;
