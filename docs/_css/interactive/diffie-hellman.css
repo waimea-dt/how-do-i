@@ -6,16 +6,19 @@
 .markdown-section diffie-hellman {
 
     /* ---- Design tokens ---- */
-    --dh-accent-alice:        var(--palette-color-3);   /* blue */
-    --dh-accent-bob:          var(--palette-color-1);   /* green */
-    --dh-accent-eve:          var(--color-attention);   /* red */
-    --dh-accent-secret:       var(--palette-color-8);   /* orange */
-    --dh-accent-public:       var(--palette-color-2);   /* purple */
+    --dh-accent-alice:        var(--theme-color);
+    --dh-accent-bob:          var(--secondary-color);
+    --dh-accent-eve:          var(--color-attention);
+    --dh-accent-shared:       var(--color-good);
+    --dh-accent-secret:       var(--palette-color-9);
+    --dh-accent-public:       var(--palette-color-6);
+
+    --dh-accent:              var(--theme-color);
 
     --dh-bg:                  var(--color-mono-0);
-    --dh-header-bg:           var(--theme-color-1);
+    --dh-header-bg:           var(--color-mono-1);
     --dh-card-bg:             var(--color-mono-1);
-    --dh-border:              var(--color-mono-3);
+    --dh-border:              var(--color-mono-4);
     --dh-border-light:        var(--color-mono-2);
 
     --dh-text-primary:        var(--color-text);
@@ -23,23 +26,28 @@
     --dh-text-muted:          var(--color-mono-5);
 
     --dh-step-bg:             var(--color-mono-1);
-    --dh-step-active-bg:      var(--theme-color-2);
+    --dh-step-border:         var(--color-mono-3);
     --dh-step-active-border:  var(--theme-color);
-    --dh-step-complete-bg:    var(--theme-color-1);
+    --dh-step-active-bg:      color-mix(in srgb, var(--theme-color), var(--color-mono-min) 75%);
+    --dh-step-complete-bg:    color-mix(in srgb, var(--theme-color), var(--color-mono-min) 90%);
 
     --dh-value-bg:            var(--color-mono-0);
     --dh-value-border:        var(--theme-color-4);
+    --dh-value-var:           var(--theme-color-6);
+    --dh-value-value:         var(--text-color);
 
     --dh-formula-bg:          var(--color-mono-0);
     --dh-calc-line-bg:        var(--color-mono-0);
 
+    --dh-shared-bg:           color-mix(in srgb, var(--dh-accent-shared), var(--dh-bg) 90%);
+    --dh-shared-border:       var(--dh-accent-shared);
     --dh-secret-bg:           color-mix(in srgb, var(--dh-accent-secret), var(--dh-bg) 90%);
     --dh-secret-border:       var(--dh-accent-secret);
     --dh-public-bg:           color-mix(in srgb, var(--dh-accent-public), var(--dh-bg) 90%);
     --dh-public-border:       var(--dh-accent-public);
 
-    --dh-highlight-bg:        color-mix(in srgb, var(--color-good), var(--dh-bg) 90%);
-    --dh-highlight-border:    var(--color-good);
+    --dh-highlight-bg:        color-mix(in srgb, var(--dh-accent-shared), var(--dh-bg) 95%);
+    --dh-highlight-border:    var(--dh-accent-shared);
 
     --dh-eve-bg:              color-mix(in srgb, var(--dh-accent-eve), transparent 95%);
     --dh-eve-border:          color-mix(in srgb, var(--dh-accent-eve), transparent 10%);
@@ -247,6 +255,13 @@
         &.dh-alice {
             grid-area: alice;
 
+            --dh-accent: var(--dh-accent-alice);
+
+            --dh-step-border: color-mix(in srgb, var(--dh-accent-alice), var(--color-mono-min) 80%);
+            --dh-step-active-border: var(--dh-accent-alice);
+            --dh-step-active-bg: color-mix(in srgb, var(--dh-accent-alice), var(--color-mono-min) 75%);
+            --dh-step-complete-bg: color-mix(in srgb, var(--dh-accent-alice), var(--color-mono-min) 90%);
+
             .dh-party-name {
                 color: var(--dh-accent-alice);
             }
@@ -254,6 +269,13 @@
 
         &.dh-bob {
             grid-area: bob;
+
+            --dh-accent: var(--dh-accent-bob);
+
+            --dh-step-border: color-mix(in srgb, var(--dh-accent-bob), var(--color-mono-min) 80%);
+            --dh-step-active-border: var(--dh-accent-bob);
+            --dh-step-active-bg: color-mix(in srgb, var(--dh-accent-bob), var(--color-mono-min) 75%);
+            --dh-step-complete-bg: color-mix(in srgb, var(--dh-accent-bob), var(--color-mono-min) 90%);
 
             .dh-party-name {
                 color: var(--dh-accent-bob);
@@ -265,7 +287,7 @@
 
     .dh-step {
         background: var(--dh-step-bg);
-        border: 2px solid var(--dh-border-light);
+        border: 2px solid var(--dh-step-border);
         border-radius: var(--border-radius-med);
         padding: var(--dh-padding-small);
         transition: all 300ms;
@@ -305,26 +327,43 @@
     /* ---- Var / Values display ---- */
 
     .dh-value-group {
-        font-size: 1.05em;
+        font-size: 1.2rem;
+        line-height: 1.2;
         font-family: var(--dh-font-mono);
         padding: var(--dh-padding-tiny) var(--dh-padding-small);
         background-color: var(--dh-value-bg);
         border-radius: var(--border-radius);
         border: 2px solid var(--dh-value-border);
-        font-family: var(--dh-font-mono);
         white-space: nowrap;
+
+        &.dh-value-alice {
+            --dh-value-border: color-mix(in srgb, var(--dh-accent-alice), var(--color-mono-min) 30%);
+            --dh-value-var: color-mix(in srgb, var(--dh-accent-alice), var(--color-mono-max) 20%);
+            --dh-value-value: color-mix(in srgb, var(--dh-accent-alice), var(--color-mono-max) 55%);
+        }
+
+        &.dh-value-bob {
+            --dh-value-border: color-mix(in srgb, var(--dh-accent-bob), var(--color-mono-min) 30%);
+            --dh-value-var: color-mix(in srgb, var(--dh-accent-bob), var(--color-mono-max) 20%);
+            --dh-value-value: color-mix(in srgb, var(--dh-accent-bob), var(--color-mono-max) 55%);
+        }
+
+        &.dh-value-shared {
+            --dh-value-border: color-mix(in srgb, var(--dh-accent-shared), var(--color-mono-min) 30%);
+            --dh-value-var: color-mix(in srgb, var(--dh-accent-shared), var(--color-mono-max) 20%);
+            --dh-value-value: color-mix(in srgb, var(--dh-accent-shared), var(--color-mono-max) 55%);
+        }
 
         .dh-var {
             font-family: var(--dh-font-mono);
             font-weight: 600;
-            font-style: italic;
-            color: var(--theme-color-6);
+            color: var(--dh-value-var);
         }
 
         .dh-value {
             font-family: var(--dh-font-mono);
             font-weight: 700;
-            color: var(--secondary-color-6);
+            color: var(--dh-value-value);
         }
     }
 
@@ -355,20 +394,25 @@
         display: flex;
         flex-direction: column;
         font-family: var(--dh-font-mono);
-        font-size: 0.9em;
+        font-size: 0.9rem;
         width: fit-content;
         margin-inline: auto;
     }
 
     .dh-calc-step {
         color: var(--dh-text-primary);
+        transition: font-size 250ms;
+
+        &:last-child {
+            font-size: 1.1rem;
+        }
 
         &.dh-calc-animate {
             animation: dhFadeIn 400ms ease-out forwards;
         }
 
         strong {
-            color: var(--theme-color);
+            color: var(--dh-accent);
             font-weight: 700;
         }
 
@@ -409,9 +453,10 @@
 
     /* ---- Badges ---- */
 
+    .dh-shared-badge,
     .dh-secret-badge,
     .dh-public-badge {
-        font-size: 0.7em;
+        font-size: 0.7rem;
         font-weight: 600;
         padding: var(--dh-padding-tiny) var(--dh-padding-small);
         border-radius: 100vh;
@@ -419,6 +464,12 @@
         letter-spacing: 0.05em;
         white-space: nowrap;
         font-family: var(--font-family);
+    }
+
+    .dh-shared-badge {
+        background: var(--dh-shared-bg);
+        border: 1px solid var(--dh-shared-border);
+        color: var(--dh-shared-border);
     }
 
     .dh-secret-badge {
@@ -439,12 +490,6 @@
         transition: all 400ms;
 
         &.dh-highlight {
-            padding: var(--dh-padding-tiny);
-            border-radius: var(--border-radius-small);
-            background: var(--dh-highlight-bg);
-            border-color: var(--dh-highlight-border);
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-good), transparent 85%),
-                        0 0 20px color-mix(in srgb, var(--color-good), transparent 70%);
             animation: dhPulse 1.5s ease-in-out infinite;
         }
     }
@@ -493,7 +538,7 @@
         padding: var(--dh-padding-small);
         background: var(--dh-card-bg);
         border: 2px solid var(--dh-border);
-        border-radius: var(--border-radius-small);
+        border-radius: var(--border-radius);
         opacity: 0.7;
         transition: all 400ms;
 
@@ -505,9 +550,14 @@
         }
 
         .dh-arrow-label {
-            font-size: 0.9em;
+            font-size: 1.1rem;
             font-weight: 600;
             font-family: var(--dh-font-mono);
+        }
+
+        .dh-arrow-arrow {
+            font-size: 2em;
+            line-height: 1;
         }
 
         &.dh-arrow-right {
@@ -673,7 +723,7 @@
         }
 
         &.dh-status-info {
-            color: var(--theme-color);
+            color: var(--text-color);
         }
 
         &.dh-status-success {
@@ -682,7 +732,7 @@
         }
 
         &.dh-status-warning {
-            color: var(--color-warning);
+            color: var(--highlight-color);
         }
     }
 
@@ -708,17 +758,17 @@
 }
 
 @keyframes dhPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
+    0%, 100% { filter: brightness(0.8); }
+    50%      { filter: brightness(1.3); }
 }
 
 @keyframes dhResultPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
+    0%, 100% { transform: scale(1.00); filter: brightness(1.0); }
+    50%      { transform: scale(1.08); filter: brightness(1.3); }
 }
 
 @keyframes dhArrowPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
+    0%, 100% { transform: scale(1.00); }
+    50%      { transform: scale(1.05); }
 }
 

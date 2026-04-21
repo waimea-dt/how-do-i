@@ -120,7 +120,7 @@
                         <div class="dh-step-label">Step 1: Choose private key</div>
                         <div class="dh-step-content">
                             <div class="dh-private-key">
-                                <div class="dh-value-group">
+                                <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">a</span> = <span class="dh-value" data-alice-a>?</span>
                                 </div>
                                 <span class="dh-secret-badge">🔒 Private Key</span>
@@ -140,9 +140,10 @@
                                 </div>
                             </div>
                             <div class="dh-result" data-alice-result>
-                                <div class="dh-value-group">
+                                <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">A</span> = <span class="dh-value" data-alice-public>?</span>
                                 </div>
+                                <span class="dh-public-badge">📢 Public</span>
                             </div>
                         </div>
                     </div>
@@ -152,7 +153,7 @@
                         <div class="dh-step-content">
                             <div class="dh-received">
                                 <span class="dh-received-label">Received</span>
-                                <div class="dh-value-group">
+                                <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">B</span> = <span class="dh-value" data-alice-received>?</span>
                                 </div>
                             </div>
@@ -171,10 +172,10 @@
                                 </div>
                             </div>
                             <div class="dh-result dh-shared-secret" data-alice-secret-result>
-                                <div class="dh-value-group">
+                                <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">s</span> = <span class="dh-value" data-alice-secret>?</span>
                                 </div>
-                                <span class="dh-secret-badge">🔐 Shared Secret</span>
+                                <span class="dh-shared-badge">🔐 Shared Secret</span>
                             </div>
                         </div>
                     </div>
@@ -185,16 +186,16 @@
                     <div class="dh-exchange-step dh-exchange-step-3">
                         <div class="dh-exchange-label">Step 3: Public Exchange</div>
                         <div class="dh-arrow dh-arrow-right">
-                            <div class="dh-value-group">
+                            <div class="dh-value-group dh-value-alice">
                                 <span class="dh-var">A</span> = <span class="dh-value" data-arrow-a>?</span>
                             </div>
-                            <div class="dh-arrow-label">Send →</div>
-                            <span class="dh-public-badge">📢 Public</span>
+                            <div class="dh-arrow-label">Send</div>
+                            <span class="dh-arrow-arrow">→</span>
                         </div>
                         <div class="dh-arrow dh-arrow-left">
-                            <span class="dh-public-badge">📢 Public</span>
-                            <div class="dh-arrow-label">← Send</div>
-                            <div class="dh-value-group">
+                            <span class="dh-arrow-arrow">←</span>
+                            <div class="dh-arrow-label">Send</div>
+                            <div class="dh-value-group dh-value-bob">
                                 <span class="dh-var">B</span> = <span class="dh-value" data-arrow-b>?</span>
                             </div>
                         </div>
@@ -217,7 +218,7 @@
                         <div class="dh-step-label">Step 1: Choose private key</div>
                         <div class="dh-step-content">
                             <div class="dh-private-key">
-                                <div class="dh-value-group">
+                                <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">b</span> = <span class="dh-value" data-bob-b>?</span>
                                 </div>
                                 <span class="dh-secret-badge">🔒 Private Key</span>
@@ -237,7 +238,8 @@
                                 </div>
                             </div>
                             <div class="dh-result" data-bob-result>
-                                <div class="dh-value-group">
+                                <span class="dh-public-badge">📢 Public</span>
+                                <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">B</span> = <span class="dh-value" data-bob-public>?</span>
                                 </div>
                             </div>
@@ -249,7 +251,7 @@
                         <div class="dh-step-content">
                             <div class="dh-received">
                                 <span class="dh-received-label">Received</span>
-                                <div class="dh-value-group">
+                                <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">A</span> = <span class="dh-value" data-bob-received>?</span>
                                 </div>
                             </div>
@@ -268,10 +270,10 @@
                                 </div>
                             </div>
                             <div class="dh-result dh-shared-secret" data-bob-secret-result>
-                                <div class="dh-value-group">
+                                <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">s</span> = <span class="dh-value" data-bob-secret>?</span>
                                 </div>
-                                <span class="dh-secret-badge">🔐 Shared Secret</span>
+                                <span class="dh-shared-badge">🔐 Shared Secret</span>
                             </div>
                         </div>
                     </div>
@@ -304,6 +306,28 @@
     // Animation Controller
     // -------------------------------------------------------------------------
 
+    // CSS class name constants
+    const CSS_CLASSES = {
+        ACTIVE: 'dh-active',
+        COMPLETED: 'dh-completed',
+        HIGHLIGHT: 'dh-highlight',
+        ANIMATING: 'dh-animating',
+        RESULT_SHOW: 'dh-result-show',
+        CALC_ANIMATE: 'dh-calc-animate'
+    }
+
+    // Helper: Create formula HTML template
+    function createFormulaHTML(resultVar, baseVar, expVar, modVar) {
+        return `
+            <div class="dh-calc-display">
+                <div class="dh-calc-step">
+                    <span class="dh-var">${resultVar}</span> =
+                    <span class="dh-var">${baseVar}</span><sup class="dh-var">${expVar}</sup> mod <span class="dh-var">${modVar}</span>
+                </div>
+            </div>
+        `
+    }
+
     class DiffieHellmanAnimation {
         constructor(el, p, g) {
             this.el = el
@@ -326,19 +350,54 @@
                 get BETWEEN_STEPS() { return this.ANIMATE + 400 } // Pause between major steps (800ms)
             }
 
-            // Generate keys
+            // Generate keys (ensure they're different)
             this.a = generatePrivateKey(p)
             this.b = generatePrivateKey(p)
+            while (this.a === this.b) {
+                this.b = generatePrivateKey(p)
+            }
             this.A = modPow(g, this.a, p)
             this.B = modPow(g, this.b, p)
             this.secretAlice = modPow(this.B, this.a, p)
             this.secretBob = modPow(this.A, this.b, p)
 
-            // Get DOM elements
+            // Get DOM elements (cached for performance)
             this.statusEl = el.querySelector('.dh-status')
             this.startBtn = el.querySelector('.dh-btn-start')
             this.resetBtn = el.querySelector('.dh-btn-reset')
             this.stepBtn = el.querySelector('.dh-btn-step')
+
+            // Cache frequently accessed DOM elements
+            this.dom = {
+                alice: {
+                    privateKey: el.querySelector('[data-alice-a]'),
+                    publicKey: el.querySelector('[data-alice-public]'),
+                    calc: el.querySelector('[data-alice-calc]'),
+                    result: el.querySelector('[data-alice-result]'),
+                    received: el.querySelector('[data-alice-received]'),
+                    secretCalc: el.querySelector('[data-alice-secret-calc]'),
+                    secretResult: el.querySelector('[data-alice-secret-result]'),
+                    secret: el.querySelector('[data-alice-secret]')
+                },
+                bob: {
+                    privateKey: el.querySelector('[data-bob-b]'),
+                    publicKey: el.querySelector('[data-bob-public]'),
+                    calc: el.querySelector('[data-bob-calc]'),
+                    result: el.querySelector('[data-bob-result]'),
+                    received: el.querySelector('[data-bob-received]'),
+                    secretCalc: el.querySelector('[data-bob-secret-calc]'),
+                    secretResult: el.querySelector('[data-bob-secret-result]'),
+                    secret: el.querySelector('[data-bob-secret]')
+                },
+                arrows: {
+                    a: el.querySelector('[data-arrow-a]'),
+                    b: el.querySelector('[data-arrow-b]'),
+                    right: el.querySelector('.dh-arrow-right'),
+                    left: el.querySelector('.dh-arrow-left')
+                },
+                exchange: el.querySelector('.dh-exchange-step-3'),
+                eveNote: el.querySelector('.dh-eve-note')
+            }
 
             // Bind events
             this.startBtn.addEventListener('click', () => this.start())
@@ -357,6 +416,87 @@
         setStatus(msg, type = '') {
             this.statusEl.textContent = msg
             this.statusEl.className = `dh-status ${type ? 'dh-status-' + type : ''}`
+        }
+
+        // Helper: Activate a step (add active class)
+        activateStep(stepEl) {
+            stepEl.classList.add(CSS_CLASSES.ACTIVE)
+        }
+
+        // Helper: Complete a step (remove active, add completed)
+        completeStep(stepEl) {
+            stepEl.classList.remove(CSS_CLASSES.ACTIVE)
+            stepEl.classList.add(CSS_CLASSES.COMPLETED)
+        }
+
+        // Helper: Reset multiple elements to a default value
+        resetElementsToDefault(selector, defaultValue = '?') {
+            this.el.querySelectorAll(selector).forEach(el => {
+                el.textContent = defaultValue
+            })
+        }
+
+        // Helper: Generic calculation method for public or secret values
+        async calculateValue(party, valueType) {
+            const isAlice = party === 'alice'
+            const isPublic = valueType === 'public'
+            const name = isAlice ? 'Alice' : 'Bob'
+            const pronoun = isAlice ? 'her' : 'his'
+
+            let resultVar, baseVar, expVar, baseVal, expVal, finalResult
+            let calcContainer, resultContainer, stepEl, displayEl
+
+            if (isPublic) {
+                // Calculate public value: A = g^a mod p or B = g^b mod p
+                resultVar = isAlice ? 'A' : 'B'
+                baseVar = 'g'
+                expVar = isAlice ? 'a' : 'b'
+                baseVal = this.g
+                expVal = isAlice ? this.a : this.b
+                finalResult = isAlice ? this.A : this.B
+
+                calcContainer = this.dom[party].calc
+                resultContainer = this.dom[party].result
+                displayEl = this.dom[party].publicKey
+
+                this.setStatus(`${name} calculates ${pronoun} public value: ${resultVar} = ${baseVal}^${expVal} mod ${this.p}`, 'info')
+            } else {
+                // Calculate shared secret: s = B^a mod p or s = A^b mod p
+                resultVar = 's'
+                baseVar = isAlice ? 'B' : 'A'
+                expVar = isAlice ? 'a' : 'b'
+                baseVal = isAlice ? this.B : this.A
+                expVal = isAlice ? this.a : this.b
+                finalResult = isAlice ? this.secretAlice : this.secretBob
+
+                calcContainer = this.dom[party].secretCalc
+                resultContainer = this.dom[party].secretResult
+                displayEl = this.dom[party].secret
+
+                this.setStatus(`${name} calculates shared secret: ${resultVar} = ${baseVal}^${expVal} mod ${this.p}`, 'info')
+            }
+
+            stepEl = calcContainer.closest('.dh-step')
+            this.activateStep(stepEl)
+
+            await this.showCalculation(
+                calcContainer,
+                resultContainer,
+                resultVar,
+                baseVar,
+                expVar,
+                'p',
+                baseVal,
+                expVal,
+                this.p,
+                finalResult
+            )
+
+            displayEl.textContent = finalResult
+
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            this.completeStep(stepEl)
         }
 
         async start() {
@@ -421,189 +561,85 @@
         async step1_ChoosePrivateKeys() {
             this.setStatus('Alice and Bob each choose a private key (kept secret)', 'info')
 
-            const alicePrivate = this.el.querySelector('[data-alice-a]')
-            const bobPrivate = this.el.querySelector('[data-bob-b]')
-
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
-            alicePrivate.textContent = this.a
-            alicePrivate.closest('.dh-step').classList.add('dh-active')
+            this.dom.alice.privateKey.textContent = this.a
+            this.activateStep(this.dom.alice.privateKey.closest('.dh-step'))
 
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            bobPrivate.textContent = this.b
-            bobPrivate.closest('.dh-step').classList.add('dh-active')
+            this.dom.bob.privateKey.textContent = this.b
+            this.activateStep(this.dom.bob.privateKey.closest('.dh-step'))
 
             // Remove highlighting after reveal completes
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            alicePrivate.closest('.dh-step').classList.remove('dh-active')
-            alicePrivate.closest('.dh-step').classList.add('dh-completed')
-            bobPrivate.closest('.dh-step').classList.remove('dh-active')
-            bobPrivate.closest('.dh-step').classList.add('dh-completed')
+            this.completeStep(this.dom.alice.privateKey.closest('.dh-step'))
+            this.completeStep(this.dom.bob.privateKey.closest('.dh-step'))
         }
 
         async step2_AliceCalculatesPublic() {
-            this.setStatus(`Alice calculates her public value: A = ${this.g}^${this.a} mod ${this.p}`, 'info')
-
-            const stepEl = this.el.querySelector('[data-alice-calc]').closest('.dh-step')
-            stepEl.classList.add('dh-active')
-
-            await this.showCalculation(
-                this.el.querySelector('[data-alice-calc]'),
-                this.el.querySelector('[data-alice-result]'),
-                'A',
-                'g',
-                'a',
-                'p',
-                this.g,
-                this.a,
-                this.p,
-                this.A
-            )
-
-            this.el.querySelector('[data-alice-public]').textContent = this.A
-
-            // Remove highlighting after calculation completes
-            await this.sleep(this.TIMING.STEP)
-            if (!this.isRunning) return
-            stepEl.classList.remove('dh-active')
-            stepEl.classList.add('dh-completed')
+            await this.calculateValue('alice', 'public')
         }
 
         async step3_BobCalculatesPublic() {
-            this.setStatus(`Bob calculates his public value: B = ${this.g}^${this.b} mod ${this.p}`, 'info')
-
-            const stepEl = this.el.querySelector('[data-bob-calc]').closest('.dh-step')
-            stepEl.classList.add('dh-active')
-
-            await this.showCalculation(
-                this.el.querySelector('[data-bob-calc]'),
-                this.el.querySelector('[data-bob-result]'),
-                'B',
-                'g',
-                'b',
-                'p',
-                this.g,
-                this.b,
-                this.p,
-                this.B
-            )
-
-            this.el.querySelector('[data-bob-public]').textContent = this.B
-
-            // Remove highlighting after calculation completes
-            await this.sleep(this.TIMING.STEP)
-            if (!this.isRunning) return
-            stepEl.classList.remove('dh-active')
-            stepEl.classList.add('dh-completed')
+            await this.calculateValue('bob', 'public')
         }
 
         async step4_Exchange() {
             this.setStatus('Alice and Bob exchange their public values over the public channel', 'info')
 
-            this.el.querySelector('.dh-exchange-step-3').classList.add('dh-active')
+            this.activateStep(this.dom.exchange)
 
             // Show values in arrows
-            this.el.querySelector('[data-arrow-a]').textContent = this.A
-            this.el.querySelector('[data-arrow-b]').textContent = this.B
+            this.dom.arrows.a.textContent = this.A
+            this.dom.arrows.b.textContent = this.B
 
             // Alice sends A to Bob
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
-            this.el.querySelector('.dh-arrow-right').classList.add('dh-animating')
+            this.dom.arrows.right.classList.add(CSS_CLASSES.ANIMATING)
 
             await this.sleep(this.TIMING.ANIMATE)
             if (!this.isRunning) return
-            this.el.querySelector('.dh-arrow-right').classList.remove('dh-animating')
-            this.el.querySelector('[data-bob-received]').textContent = this.A
-            this.el.querySelector('[data-bob-received]').closest('.dh-received').classList.add('dh-result-show')
-            this.el.querySelector('[data-bob-received]').closest('.dh-step').classList.add('dh-active')
+            this.dom.arrows.right.classList.remove(CSS_CLASSES.ANIMATING)
+            this.dom.bob.received.textContent = this.A
+            this.dom.bob.received.closest('.dh-received').classList.add(CSS_CLASSES.RESULT_SHOW)
+            this.activateStep(this.dom.bob.received.closest('.dh-step'))
 
             // Bob sends B to Alice
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            this.el.querySelector('.dh-arrow-left').classList.add('dh-animating')
+            this.dom.arrows.left.classList.add(CSS_CLASSES.ANIMATING)
 
             await this.sleep(this.TIMING.ANIMATE)
             if (!this.isRunning) return
-            this.el.querySelector('.dh-arrow-left').classList.remove('dh-animating')
-            this.el.querySelector('[data-alice-received]').textContent = this.B
-            this.el.querySelector('[data-alice-received]').closest('.dh-received').classList.add('dh-result-show')
-            this.el.querySelector('[data-alice-received]').closest('.dh-step').classList.add('dh-active')
+            this.dom.arrows.left.classList.remove(CSS_CLASSES.ANIMATING)
+            this.dom.alice.received.textContent = this.B
+            this.dom.alice.received.closest('.dh-received').classList.add(CSS_CLASSES.RESULT_SHOW)
+            this.activateStep(this.dom.alice.received.closest('.dh-step'))
 
             // Remove highlighting after exchange completes
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            this.el.querySelector('.dh-exchange-step-3').classList.remove('dh-active')
-            this.el.querySelector('.dh-exchange-step-3').classList.add('dh-completed')
-            this.el.querySelector('[data-bob-received]').closest('.dh-step').classList.remove('dh-active')
-            this.el.querySelector('[data-bob-received]').closest('.dh-step').classList.add('dh-completed')
-            this.el.querySelector('[data-alice-received]').closest('.dh-step').classList.remove('dh-active')
-            this.el.querySelector('[data-alice-received]').closest('.dh-step').classList.add('dh-completed')
+            this.completeStep(this.dom.exchange)
+            this.completeStep(this.dom.bob.received.closest('.dh-step'))
+            this.completeStep(this.dom.alice.received.closest('.dh-step'))
         }
 
         async step5_AliceCalculatesSecret() {
-            this.setStatus(`Alice calculates shared secret: s = ${this.B}^${this.a} mod ${this.p}`, 'info')
-
-            const stepEl = this.el.querySelector('[data-alice-secret-calc]').closest('.dh-step')
-            stepEl.classList.add('dh-active')
-
-            await this.showCalculation(
-                this.el.querySelector('[data-alice-secret-calc]'),
-                this.el.querySelector('[data-alice-secret-result]'),
-                's',
-                'B',
-                'a',
-                'p',
-                this.B,
-                this.a,
-                this.p,
-                this.secretAlice
-            )
-
-            this.el.querySelector('[data-alice-secret]').textContent = this.secretAlice
-
-            // Remove highlighting after calculation completes
-            await this.sleep(this.TIMING.STEP)
-            if (!this.isRunning) return
-            stepEl.classList.remove('dh-active')
-            stepEl.classList.add('dh-completed')
+            await this.calculateValue('alice', 'secret')
         }
 
         async step6_BobCalculatesSecret() {
-            this.setStatus(`Bob calculates shared secret: s = ${this.A}^${this.b} mod ${this.p}`, 'info')
-
-            const stepEl = this.el.querySelector('[data-bob-secret-calc]').closest('.dh-step')
-            stepEl.classList.add('dh-active')
-
-            await this.showCalculation(
-                this.el.querySelector('[data-bob-secret-calc]'),
-                this.el.querySelector('[data-bob-secret-result]'),
-                's',
-                'A',
-                'b',
-                'p',
-                this.A,
-                this.b,
-                this.p,
-                this.secretBob
-            )
-
-            this.el.querySelector('[data-bob-secret]').textContent = this.secretBob
-
-            // Remove highlighting after calculation completes
-            await this.sleep(this.TIMING.STEP)
-            if (!this.isRunning) return
-            stepEl.classList.remove('dh-active')
-            stepEl.classList.add('dh-completed')
+            await this.calculateValue('bob', 'secret')
         }
 
         async step7_HighlightSharedSecret() {
             this.setStatus('✨ Success! Alice and Bob have the same shared secret!', 'success')
 
             this.el.querySelectorAll('.dh-shared-secret').forEach(el => {
-                el.classList.add('dh-highlight')
+                el.classList.add(CSS_CLASSES.HIGHLIGHT)
             })
 
             await this.sleep(this.TIMING.REVEAL)
@@ -611,13 +647,17 @@
         }
 
         async step8_ShowEvesProblem() {
-            this.setStatus('Eve can see all public values, but cannot calculate the shared secret', 'warning')
+            this.setStatus('Eve can see all public values, but cannot calculate the shared secret 😡', 'warning')
 
-            this.el.querySelector('.dh-eve-note').classList.add('dh-active')
+            this.activateStep(this.dom.eveNote)
+
+            // Give extra time to read the Eve explanation
+            await this.sleep(this.TIMING.BETWEEN_STEPS)
+            if (!this.isRunning) return
         }
 
         async step9_Complete() {
-            this.setStatus('🎉 Key exchange complete! Alice and Bob can now use their shared secret for encryption.', 'success')
+            this.setStatus('Key exchange complete! Alice and Bob can now use their shared secret for encryption 🔐', 'success')
         }
 
         async showCalculation(calcContainer, resultContainer, resultVar, baseVar, expVar, modVar, baseVal, expVal, modVal, finalResult) {
@@ -642,7 +682,7 @@
             display.appendChild(step2)
             // Trigger animation after DOM insertion
             requestAnimationFrame(() => {
-                step2.classList.add('dh-calc-animate')
+                step2.classList.add(CSS_CLASSES.CALC_ANIMATE)
             })
             await this.sleep(this.TIMING.CALC_WAIT)
             if (!this.isRunning) return
@@ -654,7 +694,7 @@
             display.appendChild(step3)
             // Trigger animation after DOM insertion
             requestAnimationFrame(() => {
-                step3.classList.add('dh-calc-animate')
+                step3.classList.add(CSS_CLASSES.CALC_ANIMATE)
             })
             await this.sleep(this.TIMING.CALC_WAIT)
             if (!this.isRunning) return
@@ -666,13 +706,13 @@
             display.appendChild(step4)
             // Trigger animation after DOM insertion
             requestAnimationFrame(() => {
-                step4.classList.add('dh-calc-animate')
+                step4.classList.add(CSS_CLASSES.CALC_ANIMATE)
             })
 
             // Show final result badge after animation
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            resultContainer.classList.add('dh-result-show')
+            resultContainer.classList.add(CSS_CLASSES.RESULT_SHOW)
         }
 
         reset() {
@@ -680,78 +720,47 @@
             this.isRunning = false
             this.currentStep = 0
 
-            // Generate new keys
+            // Generate new keys (ensure they're different)
             this.a = generatePrivateKey(this.p)
             this.b = generatePrivateKey(this.p)
+            while (this.a === this.b) {
+                this.b = generatePrivateKey(this.p)
+            }
             this.A = modPow(this.g, this.a, this.p)
             this.B = modPow(this.g, this.b, this.p)
             this.secretAlice = modPow(this.B, this.a, this.p)
             this.secretBob = modPow(this.A, this.b, this.p)
 
-            // Reset UI
+            // Reset UI classes
             this.el.querySelectorAll('.dh-step, .dh-exchange-step-3, .dh-eve-note').forEach(el => {
-                el.classList.remove('dh-active', 'dh-highlight', 'dh-completed')
+                el.classList.remove(CSS_CLASSES.ACTIVE, CSS_CLASSES.HIGHLIGHT, CSS_CLASSES.COMPLETED)
             })
 
             this.el.querySelectorAll('.dh-shared-secret').forEach(el => {
-                el.classList.remove('dh-highlight')
+                el.classList.remove(CSS_CLASSES.HIGHLIGHT)
             })
 
             this.el.querySelectorAll('.dh-arrow').forEach(el => {
-                el.classList.remove('dh-animating')
+                el.classList.remove(CSS_CLASSES.ANIMATING)
             })
 
-            this.el.querySelectorAll('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]').forEach(el => {
-                el.textContent = '?'
-            })
+            // Reset all displayed values to '?'
+            this.resetElementsToDefault('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]')
+            this.resetElementsToDefault('[data-bob-b], [data-bob-public], [data-bob-received], [data-bob-secret], [data-arrow-b]')
 
-            this.el.querySelectorAll('[data-bob-b], [data-bob-public], [data-bob-received], [data-bob-secret], [data-arrow-b]').forEach(el => {
-                el.textContent = '?'
-            })
+            // Reset calculations to initial formulas using helper
+            this.dom.alice.calc.innerHTML = createFormulaHTML('A', 'g', 'a', 'p')
+            this.dom.bob.calc.innerHTML = createFormulaHTML('B', 'g', 'b', 'p')
+            this.dom.alice.secretCalc.innerHTML = createFormulaHTML('s', 'B', 'a', 'p')
+            this.dom.bob.secretCalc.innerHTML = createFormulaHTML('s', 'A', 'b', 'p')
 
-            // Reset calculations to initial formula
-            this.el.querySelector('[data-alice-calc]').innerHTML = `
-                <div class="dh-calc-display">
-                    <div class="dh-calc-step">
-                        <span class="dh-var">A</span> =
-                        <span class="dh-var">g</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>
-                    </div>
-                </div>
-            `
-
-            this.el.querySelector('[data-bob-calc]').innerHTML = `
-                <div class="dh-calc-display">
-                    <div class="dh-calc-step">
-                        <span class="dh-var">B</span> =
-                        <span class="dh-var">g</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>
-                    </div>
-                </div>
-            `
-
-            this.el.querySelector('[data-alice-secret-calc]').innerHTML = `
-                <div class="dh-calc-display">
-                    <div class="dh-calc-step">
-                        <span class="dh-var">s</span> =
-                        <span class="dh-var">B</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>
-                    </div>
-                </div>
-            `
-
-            this.el.querySelector('[data-bob-secret-calc]').innerHTML = `
-                <div class="dh-calc-display">
-                    <div class="dh-calc-step">
-                        <span class="dh-var">s</span> =
-                        <span class="dh-var">A</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>
-                    </div>
-                </div>
-            `
-
+            // Reset result displays
             this.el.querySelectorAll('[data-alice-result], [data-bob-result], [data-alice-secret-result], [data-bob-secret-result]').forEach(el => {
-                el.classList.remove('dh-result-show')
+                el.classList.remove(CSS_CLASSES.RESULT_SHOW)
             })
 
             this.el.querySelectorAll('.dh-received').forEach(el => {
-                el.classList.remove('dh-result-show')
+                el.classList.remove(CSS_CLASSES.RESULT_SHOW)
             })
 
             this.setStatus('')
