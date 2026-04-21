@@ -653,6 +653,13 @@
         async nextStep() {
             if (this.currentStep >= 9) return
 
+            // For manual stepping (button click), manage isRunning temporarily
+            const isManualStep = !this.isRunning
+            if (isManualStep) {
+                this.isRunning = true
+                this.updateControls()
+            }
+
             this.currentStep++
 
             switch (this.currentStep) {
@@ -685,6 +692,10 @@
                     break
             }
 
+            // Restore state after manual step
+            if (isManualStep) {
+                this.isRunning = false
+            }
             this.updateControls()
         }
 
