@@ -27,6 +27,18 @@ Using smaller values makes the calculations easier to follow, but the principle 
 
 <diffie-hellman p="29" g="3"></diffie-hellman>
 
+## Color Mixing Analogy
+
+The same protocol can be visualized using color mixing! Instead of modular arithmetic, we use color mixing to show how the protocol works:
+
+- **Base color** (public) → like **g** and **p**
+- **Secret colors** → like private keys **a** and **b**
+- **Mixing colors** → like calculating **g^a mod p**
+- **Shared secret color** → both arrive at the same color!
+
+<diffie-hellman colour></diffie-hellman>
+
+
 ## Why Is This Secure?
 
 Eve can see:

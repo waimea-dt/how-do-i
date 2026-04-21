@@ -39,7 +39,7 @@
 
 ## In Progress
 
-- [ ] **diffie-hellman.js** - Diffie-Hellman key exchange visualizer with step-by-step animation; Alice/Bob parallel calculations; public exchange visualization; eavesdropper perspective; shared secret highlighting; configurable p and g parameters
+
 
 ---
 
@@ -58,6 +58,7 @@
 - [x] **tsp.js** - TSP tractability explorer with brute-force, nearest neighbour, and 2-opt algorithms; factorial growth visualization; heuristic vs optimal comparison modes
 - [x] **sub-cypher.js** - Substitution cipher visualization with Caesar and Vigenère ciphers; instant cursor-based highlighting; frequency analysis integration; keystream display with shift values
 - [x] **modulus.js** - Modular arithmetic clock visualization with animated pointer rotation; interactive sliders for value and modulus; dynamic equation display with animated reveal; smooth sweep animations with configurable timing
+- [x] **diffie-hellman.js** - Diffie-Hellman key exchange visualizer with step-by-step animation; dual mode (numeric/colour mixing); Alice/Bob parallel calculations; public exchange visualization; eavesdropper perspective; shared secret highlighting; multiplicative colour blending for paint-like analogy; configurable p, g, and base colour parameters
 
 ### Completed Maintenance
 

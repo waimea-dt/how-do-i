@@ -10,10 +10,13 @@
  * Usage in markdown:
  *   <diffie-hellman></diffie-hellman>
  *   <diffie-hellman p="17" g="7"></diffie-hellman>
+ *   <diffie-hellman colour></diffie-hellman>
+ *   <diffie-hellman colour="#FF5733"></diffie-hellman>
  *
  * Attributes:
  *   - p: Prime modulus (default: 23, recommended range: 11-31 for visualization)
  *   - g: Generator base (default: 3, must be coprime to p)
+ *   - colour: Enable color mixing mode (optional hex color for base, default auto-generated)
  *
  * Animation sequence:
  *   1. Show public parameters (p and g)
@@ -64,15 +67,65 @@
         return Math.floor(Math.random() * 8) + 2  // Returns 2-9
     }
 
+    // -------------------------------------------------------------------------
+    // Color Mode Helpers
+    // -------------------------------------------------------------------------
+
     /**
-     * Escape HTML
+     * Convert hex color to RGB object
      */
-    function escapeHtml(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null
+    }
+
+    /**
+     * Convert RGB object to hex color
+     */
+    function rgbToHex(r, g, b) {
+        return '#' + [r, g, b].map(x => {
+            const hex = Math.round(x).toString(16)
+            return hex.length === 1 ? '0' + hex : hex
+        }).join('')
+    }
+
+    /**
+     * Mix two colors using multiplicative blending (subtractive like paint)
+     * Perfectly commutative: mix(mix(base, a), b) = mix(mix(base, b), a)
+     * Simulates paint mixing - colors get darker/richer
+     */
+    function mixColors(color1, color2) {
+        const rgb1 = hexToRgb(color1)
+        const rgb2 = hexToRgb(color2)
+        // Multiply blend - like layering paint, colors darken
+        return rgbToHex(
+            Math.round((rgb1.r * rgb2.r) / 255),
+            Math.round((rgb1.g * rgb2.g) / 255),
+            Math.round((rgb1.b * rgb2.b) / 255)
+        )
+    }
+
+    /**
+     * Generate a bright color with constrained channels for paint-like mixing
+     * @param {string} dominantChannel - 'r', 'g', or 'b' - which channel is brightest
+     */
+    function generateConstrainedColor(dominantChannel) {
+        // For subtractive mixing, start with BRIGHT colors
+        const bright = 255  // Full brightness
+        const medium = 100 + Math.floor(Math.random() * 100)  // 100-200 range
+        const low = 100 + Math.floor(Math.random() * 80)     // 100-180 range
+
+        if (dominantChannel === 'r') {
+            return rgbToHex(bright, medium, low)  // Warm colors (red-orange-pink)
+        } else if (dominantChannel === 'g') {
+            return rgbToHex(low, bright, medium)  // Cool colors (green-cyan)
+        } else { // 'b'
+            return rgbToHex(medium, low, bright)  // Cool colors (blue-purple)
+        }
     }
 
 
@@ -81,32 +134,58 @@
     // HTML UI Builder
     // -------------------------------------------------------------------------
 
-    function buildUI(p, g) {
+    function buildUI(p, g, mode = 'numeric', baseColor = '#9370DB') {
         const wrapper = document.createElement('div')
         wrapper.className = 'dh-wrapper'
+
+        // Build public params section based on mode
+        const publicParamsHTML = mode === 'color' ? `
+            <div class="dh-public-params">
+                <div class="dh-param-label">Public Parameter (known to everyone)</div>
+                <div class="dh-params-row">
+                    <div class="dh-param">
+                        <span class="dh-param-name">base</span>
+                        <span class="dh-param-equals">=</span>
+                        <div class="dh-color-swatch" style="background: ${baseColor}; display: inline-block; width: 1.5em; height: 1.5em; border-radius: 1em; border: 2px solid var(--dh-border); vertical-align: middle;"></div>
+                        <span class="dh-param-value" style="font-family: var(--font-family-mono);">${baseColor}</span>
+                    </div>
+                </div>
+            </div>
+        ` : `
+            <div class="dh-public-params">
+                <div class="dh-param-label">Public Parameters (known to everyone)</div>
+                <div class="dh-params-row">
+                    <div class="dh-param">
+                        <span class="dh-param-name">p</span>
+                        <span class="dh-param-equals">=</span>
+                        <span class="dh-param-value">${p}</span>
+                        <span class="dh-param-desc">(prime modulus)</span>
+                    </div>
+                    <div class="dh-param">
+                        <span class="dh-param-name">g</span>
+                        <span class="dh-param-equals">=</span>
+                        <span class="dh-param-value">${g}</span>
+                        <span class="dh-param-desc">(generator)</span>
+                    </div>
+                </div>
+            </div>
+        `
+
+        const titleText = mode === 'color'
+            ? 'Diffie-Hellman Key Exchange (Color Mixing)'
+            : 'Diffie-Hellman Key Exchange'
+
+        const subtitleText = mode === 'color'
+            ? 'Watch Alice and Bob mix colors to create a shared secret'
+            : 'Watch Alice and Bob establish a shared secret over a public channel'
+
         wrapper.innerHTML = `
             <div class="dh-header">
                 <div class="dh-header-content">
-                    <div class="dh-title">Diffie-Hellman Key Exchange</div>
-                    <div class="dh-subtitle">Watch Alice and Bob establish a shared secret over a public channel</div>
+                    <div class="dh-title">${titleText}</div>
+                    <div class="dh-subtitle">${subtitleText}</div>
                 </div>
-                <div class="dh-public-params">
-                    <div class="dh-param-label">Public Parameters (known to everyone)</div>
-                    <div class="dh-params-row">
-                        <div class="dh-param">
-                            <span class="dh-param-name">p</span>
-                            <span class="dh-param-equals">=</span>
-                            <span class="dh-param-value">${p}</span>
-                            <span class="dh-param-desc">(prime modulus)</span>
-                        </div>
-                        <div class="dh-param">
-                            <span class="dh-param-name">g</span>
-                            <span class="dh-param-equals">=</span>
-                            <span class="dh-param-value">${g}</span>
-                            <span class="dh-param-desc">(generator)</span>
-                        </div>
-                    </div>
-                </div>
+                ${publicParamsHTML}
             </div>
 
             <div class="dh-main-grid">
@@ -117,25 +196,24 @@
                     </div>
 
                     <div class="dh-step dh-step-private-key">
-                        <div class="dh-step-label">Step 1: Choose private key</div>
+                        <div class="dh-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
                         <div class="dh-step-content">
                             <div class="dh-private-key">
                                 <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">a</span> = <span class="dh-value" data-alice-a>?</span>
                                 </div>
-                                <span class="dh-secret-badge">🔒 Private Key</span>
+                                <span class="dh-secret-badge">🔒 Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="dh-step dh-step-calc-public">
-                        <div class="dh-step-label">Step 2: Calculate public value</div>
+                        <div class="dh-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="dh-step-content">
                             <div class="dh-calculation" data-alice-calc>
                                 <div class="dh-calc-display">
                                     <div class="dh-calc-step">
-                                        <span class="dh-var">A</span> =
-                                        <span class="dh-var">g</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>
+                                        <span class="dh-var">A</span> = ${mode === 'color' ? 'mix(<span class="dh-var">base</span>, <span class="dh-var">a</span>)' : '<span class="dh-var">g</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +227,7 @@
                     </div>
 
                     <div class="dh-step dh-step-receive">
-                        <div class="dh-step-label">Step 4: Receive Bob's public value</div>
+                        <div class="dh-step-label">Step 4: Receive Bob's public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="dh-step-content">
                             <div class="dh-received">
                                 <span class="dh-received-label">Received</span>
@@ -166,8 +244,7 @@
                             <div class="dh-calculation" data-alice-secret-calc>
                                 <div class="dh-calc-display">
                                     <div class="dh-calc-step">
-                                        <span class="dh-var">s</span> =
-                                        <span class="dh-var">B</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>
+                                        <span class="dh-var">s</span> = ${mode === 'color' ? 'mix(<span class="dh-var">B</span>, <span class="dh-var">a</span>)' : '<span class="dh-var">B</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
@@ -204,9 +281,9 @@
                             </div>
                             <div class="dh-eve-note">
                                 <div class="dh-eve-icon">👁️ Eve (eavesdropper)</div>
-                                <div class="dh-eve-text">Can see: <span class="dh-var">p</span>, <span class="dh-var">g</span>, <span class="dh-var">A</span>, <span class="dh-var">B</span></div>
+                                <div class="dh-eve-text">Can see: ${mode === 'color' ? '<span class="dh-var">base</span>, <span class="dh-var">A</span>, <span class="dh-var">B</span>' : '<span class="dh-var">p</span>, <span class="dh-var">g</span>, <span class="dh-var">A</span>, <span class="dh-var">B</span>'}</div>
                                 <div class="dh-eve-text">Cannot see: <span class="dh-var">a</span>, <span class="dh-var">b</span>, <span class="dh-var">s</span></div>
-                                <div class="dh-eve-problem">Computing <span class="dh-var">a</span> or <span class="dh-var">b</span> from public values is the <strong>discrete logarithm problem</strong> — extremely hard!</div>
+                                <div class="dh-eve-problem">${mode === 'color' ? 'Separating mixed colours to find <span class="dh-var">a</span> or <span class="dh-var">b</span> is extremely hard!' : 'Computing <span class="dh-var">a</span> or <span class="dh-var">b</span> from public values is the <strong>discrete logarithm problem</strong> — extremely hard!'}</div>
                             </div>
                         </div>
                     </div>
@@ -219,25 +296,24 @@
                     </div>
 
                     <div class="dh-step dh-step-private-key">
-                        <div class="dh-step-label">Step 1: Choose private key</div>
+                        <div class="dh-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
                         <div class="dh-step-content">
                             <div class="dh-private-key">
                                 <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">b</span> = <span class="dh-value" data-bob-b>?</span>
                                 </div>
-                                <span class="dh-secret-badge">🔒 Private Key</span>
+                                <span class="dh-secret-badge">🔒 Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="dh-step dh-step-calc-public">
-                        <div class="dh-step-label">Step 2: Calculate public value</div>
+                        <div class="dh-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="dh-step-content">
                             <div class="dh-calculation" data-bob-calc>
                                 <div class="dh-calc-display">
                                     <div class="dh-calc-step">
-                                        <span class="dh-var">B</span> =
-                                        <span class="dh-var">g</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>
+                                        <span class="dh-var">B</span> = ${mode === 'color' ? 'mix(<span class="dh-var">base</span>, <span class="dh-var">b</span>)' : '<span class="dh-var">g</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +327,7 @@
                     </div>
 
                     <div class="dh-step dh-step-receive">
-                        <div class="dh-step-label">Step 4: Receive Alice's public value</div>
+                        <div class="dh-step-label">Step 4: Receive Alice's public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="dh-step-content">
                             <div class="dh-received">
                                 <span class="dh-received-label">Received</span>
@@ -268,8 +344,7 @@
                             <div class="dh-calculation" data-bob-secret-calc>
                                 <div class="dh-calc-display">
                                     <div class="dh-calc-step">
-                                        <span class="dh-var">s</span> =
-                                        <span class="dh-var">A</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>
+                                        <span class="dh-var">s</span> = ${mode === 'color' ? 'mix(<span class="dh-var">A</span>, <span class="dh-var">b</span>)' : '<span class="dh-var">A</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
@@ -333,10 +408,9 @@
     }
 
     class DiffieHellmanAnimation {
-        constructor(el, p, g) {
+        constructor(el, p, g, mode = 'numeric', baseColor = '#9370DB') {
             this.el = el
-            this.p = p
-            this.g = g
+            this.mode = mode
             this.currentStep = 0
             this.isRunning = false
             this.isPaused = false
@@ -354,16 +428,32 @@
                 get BETWEEN_STEPS() { return this.ANIMATE + 400 } // Pause between major steps (800ms)
             }
 
-            // Generate keys (ensure they're different)
-            this.a = generatePrivateKey(p)
-            this.b = generatePrivateKey(p)
-            while (this.a === this.b) {
+            if (mode === 'color') {
+                // Color mode - generate constrained colors for predictable mixing
+                // Base owns R channel, Alice owns B channel, Bob owns G channel
+                this.baseColor = baseColor // Use provided color (already constrained if auto-generated)
+                this.a = generateConstrainedColor('b') // Alice's secret color (blue-heavy)
+                this.b = generateConstrainedColor('g') // Bob's secret color (green-heavy)
+                this.A = mixColors(baseColor, this.a) // Alice's public color
+                this.B = mixColors(baseColor, this.b) // Bob's public color
+                // Shared secret: each party mixes received value with their private color
+                // mix(mix(base,b), a) = mix(mix(base,a), b) with multiplicative mixing!
+                this.secretAlice = mixColors(this.B, this.a) // Alice: mix(B, a)
+                this.secretBob = mixColors(this.A, this.b)   // Bob: mix(A, b)
+            } else {
+                // Numeric mode - generate keys
+                this.p = p
+                this.g = g
+                this.a = generatePrivateKey(p)
                 this.b = generatePrivateKey(p)
+                while (this.a === this.b) {
+                    this.b = generatePrivateKey(p)
+                }
+                this.A = modPow(g, this.a, p)
+                this.B = modPow(g, this.b, p)
+                this.secretAlice = modPow(this.B, this.a, p)
+                this.secretBob = modPow(this.A, this.b, p)
             }
-            this.A = modPow(g, this.a, p)
-            this.B = modPow(g, this.b, p)
-            this.secretAlice = modPow(this.B, this.a, p)
-            this.secretBob = modPow(this.A, this.b, p)
 
             // Get DOM elements (cached for performance)
             this.statusEl = el.querySelector('.dh-status')
@@ -440,6 +530,11 @@
             })
         }
 
+        // Helper: Format color display (hex code with coloured background)
+        formatColorDisplay(color) {
+            return `<span class="dh-color-lozenge" style="background: ${color};">${color}</span>`
+        }
+
         // Helper: Generic calculation method for public or secret values
         async calculateValue(party, valueType) {
             const isAlice = party === 'alice'
@@ -447,56 +542,88 @@
             const name = isAlice ? 'Alice' : 'Bob'
             const pronoun = isAlice ? 'her' : 'his'
 
-            let resultVar, baseVar, expVar, baseVal, expVal, finalResult
-            let calcContainer, resultContainer, stepEl, displayEl
+            const calcContainer = isPublic ? this.dom[party].calc : this.dom[party].secretCalc
+            const resultContainer = isPublic ? this.dom[party].result : this.dom[party].secretResult
+            const displayEl = isPublic ? this.dom[party].publicKey : this.dom[party].secret
+            const stepEl = calcContainer.closest('.dh-step')
 
-            if (isPublic) {
-                // Calculate public value: A = g^a mod p or B = g^b mod p
-                resultVar = isAlice ? 'A' : 'B'
-                baseVar = 'g'
-                expVar = isAlice ? 'a' : 'b'
-                baseVal = this.g
-                expVal = isAlice ? this.a : this.b
-                finalResult = isAlice ? this.A : this.B
-
-                calcContainer = this.dom[party].calc
-                resultContainer = this.dom[party].result
-                displayEl = this.dom[party].publicKey
-
-                this.setStatus(`${name} calculates ${pronoun} public value: ${resultVar} = ${baseVal}^${expVal} mod ${this.p}`, 'info')
-            } else {
-                // Calculate shared secret: s = B^a mod p or s = A^b mod p
-                resultVar = 's'
-                baseVar = isAlice ? 'B' : 'A'
-                expVar = isAlice ? 'a' : 'b'
-                baseVal = isAlice ? this.B : this.A
-                expVal = isAlice ? this.a : this.b
-                finalResult = isAlice ? this.secretAlice : this.secretBob
-
-                calcContainer = this.dom[party].secretCalc
-                resultContainer = this.dom[party].secretResult
-                displayEl = this.dom[party].secret
-
-                this.setStatus(`${name} calculates shared secret: ${resultVar} = ${baseVal}^${expVal} mod ${this.p}`, 'info')
-            }
-
-            stepEl = calcContainer.closest('.dh-step')
             this.activateStep(stepEl)
 
-            await this.showCalculation(
-                calcContainer,
-                resultContainer,
-                resultVar,
-                baseVar,
-                expVar,
-                'p',
-                baseVal,
-                expVal,
-                this.p,
-                finalResult
-            )
+            if (this.mode === 'color') {
+                // Color mode
+                let baseColor, secretColor, resultColor, resultVar, baseVar, secretVar, statusText
 
-            displayEl.textContent = finalResult
+                if (isPublic) {
+                    // Public value calculation: mix base with private color
+                    baseColor = this.baseColor
+                    secretColor = isAlice ? this.a : this.b
+                    resultColor = isAlice ? this.A : this.B
+                    resultVar = isAlice ? 'A' : 'B'
+                    baseVar = 'base'
+                    secretVar = isAlice ? 'a' : 'b'
+                    statusText = `${name} mixes ${pronoun} secret color with base color`
+                } else {
+                    // Shared secret: mix received public value with own private color
+                    baseColor = isAlice ? this.B : this.A
+                    secretColor = isAlice ? this.a : this.b
+                    resultColor = isAlice ? this.secretAlice : this.secretBob
+                    resultVar = 's'
+                    baseVar = isAlice ? 'B' : 'A'
+                    secretVar = isAlice ? 'a' : 'b'
+                    statusText = `${name} mixes received color with ${pronoun} secret color`
+                }
+
+                this.setStatus(statusText, 'info')
+
+                await this.showColorMixing(
+                    calcContainer,
+                    resultContainer,
+                    resultVar,
+                    baseVar,
+                    secretVar,
+                    baseColor,
+                    secretColor,
+                    resultColor
+                )
+
+                displayEl.innerHTML = this.formatColorDisplay(resultColor)
+            } else {
+                // Numeric mode
+                let resultVar, baseVar, expVar, baseVal, expVal, finalResult
+
+                if (isPublic) {
+                    resultVar = isAlice ? 'A' : 'B'
+                    baseVar = 'g'
+                    expVar = isAlice ? 'a' : 'b'
+                    baseVal = this.g
+                    expVal = isAlice ? this.a : this.b
+                    finalResult = isAlice ? this.A : this.B
+                    this.setStatus(`${name} calculates ${pronoun} public value: ${resultVar} = ${baseVal}^${expVal} mod ${this.p}`, 'info')
+                } else {
+                    resultVar = 's'
+                    baseVar = isAlice ? 'B' : 'A'
+                    expVar = isAlice ? 'a' : 'b'
+                    baseVal = isAlice ? this.B : this.A
+                    expVal = isAlice ? this.a : this.b
+                    finalResult = isAlice ? this.secretAlice : this.secretBob
+                    this.setStatus(`${name} calculates shared secret: ${resultVar} = ${baseVal}^${expVal} mod ${this.p}`, 'info')
+                }
+
+                await this.showCalculation(
+                    calcContainer,
+                    resultContainer,
+                    resultVar,
+                    baseVar,
+                    expVar,
+                    'p',
+                    baseVal,
+                    expVal,
+                    this.p,
+                    finalResult
+                )
+
+                displayEl.textContent = finalResult
+            }
 
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
@@ -563,16 +690,25 @@
         }
 
         async step1_ChoosePrivateKeys() {
-            this.setStatus('Alice and Bob each choose a private key (kept secret)', 'info')
+            const keyOrColor = this.mode === 'color' ? 'color' : 'key'
+            this.setStatus(`Alice and Bob each choose a private ${keyOrColor} (kept secret)`, 'info')
 
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
-            this.dom.alice.privateKey.textContent = this.a
+            if (this.mode === 'color') {
+                this.dom.alice.privateKey.innerHTML = this.formatColorDisplay(this.a)
+            } else {
+                this.dom.alice.privateKey.textContent = this.a
+            }
             this.activateStep(this.dom.alice.privateKey.closest('.dh-step'))
 
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            this.dom.bob.privateKey.textContent = this.b
+            if (this.mode === 'color') {
+                this.dom.bob.privateKey.innerHTML = this.formatColorDisplay(this.b)
+            } else {
+                this.dom.bob.privateKey.textContent = this.b
+            }
             this.activateStep(this.dom.bob.privateKey.closest('.dh-step'))
 
             // Remove highlighting after reveal completes
@@ -591,13 +727,19 @@
         }
 
         async step4_Exchange() {
-            this.setStatus('Alice and Bob exchange their public values over the public channel', 'info')
+            const valueOrColor = this.mode === 'color' ? 'colors' : 'values'
+            this.setStatus(`Alice and Bob exchange their public ${valueOrColor} over the public channel`, 'info')
 
             this.activateStep(this.dom.exchange)
 
-            // Show values in arrows
-            this.dom.arrows.a.textContent = this.A
-            this.dom.arrows.b.textContent = this.B
+            // Show values/colors in arrows
+            if (this.mode === 'color') {
+                this.dom.arrows.a.innerHTML = this.formatColorDisplay(this.A)
+                this.dom.arrows.b.innerHTML = this.formatColorDisplay(this.B)
+            } else {
+                this.dom.arrows.a.textContent = this.A
+                this.dom.arrows.b.textContent = this.B
+            }
 
             // Alice sends A to Bob
             await this.sleep(this.TIMING.REVEAL)
@@ -607,7 +749,11 @@
             await this.sleep(this.TIMING.ANIMATE)
             if (!this.isRunning) return
             this.dom.arrows.right.classList.remove(CSS_CLASSES.ANIMATING)
-            this.dom.bob.received.textContent = this.A
+            if (this.mode === 'color') {
+                this.dom.bob.received.innerHTML = this.formatColorDisplay(this.A)
+            } else {
+                this.dom.bob.received.textContent = this.A
+            }
             this.dom.bob.received.closest('.dh-received').classList.add(CSS_CLASSES.RESULT_SHOW)
             this.activateStep(this.dom.bob.received.closest('.dh-step'))
 
@@ -619,7 +765,11 @@
             await this.sleep(this.TIMING.ANIMATE)
             if (!this.isRunning) return
             this.dom.arrows.left.classList.remove(CSS_CLASSES.ANIMATING)
-            this.dom.alice.received.textContent = this.B
+            if (this.mode === 'color') {
+                this.dom.alice.received.innerHTML = this.formatColorDisplay(this.B)
+            } else {
+                this.dom.alice.received.textContent = this.B
+            }
             this.dom.alice.received.closest('.dh-received').classList.add(CSS_CLASSES.RESULT_SHOW)
             this.activateStep(this.dom.alice.received.closest('.dh-step'))
 
@@ -719,21 +869,66 @@
             resultContainer.classList.add(CSS_CLASSES.RESULT_SHOW)
         }
 
+        async showColorMixing(calcContainer, resultContainer, resultVar, baseVar, secretVar, baseColor, secretColor, resultColor) {
+            const display = calcContainer.querySelector('.dh-calc-display')
+
+            // The initial formula is already in the HTML, just wait a bit
+            await this.sleep(this.TIMING.CALC_WAIT)
+            if (!this.isRunning) return
+
+            // Step 2: Show mixing operation with actual colors
+            const step2 = document.createElement('div')
+            step2.className = 'dh-calc-step'
+            step2.innerHTML = `<span class="dh-var">${resultVar}</span> = mix(${this.formatColorDisplay(baseColor)}, ${this.formatColorDisplay(secretColor)})`
+            display.appendChild(step2)
+            requestAnimationFrame(() => {
+                step2.classList.add(CSS_CLASSES.CALC_ANIMATE)
+            })
+            await this.sleep(this.TIMING.CALC_WAIT)
+            if (!this.isRunning) return
+
+            // Step 3: Show final result
+            const step3 = document.createElement('div')
+            step3.className = 'dh-calc-step'
+            step3.innerHTML = `<span class="dh-var">${resultVar}</span> = <strong>${this.formatColorDisplay(resultColor)}</strong>`
+            display.appendChild(step3)
+            requestAnimationFrame(() => {
+                step3.classList.add(CSS_CLASSES.CALC_ANIMATE)
+            })
+
+            // Show final result badge after animation
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            resultContainer.classList.add(CSS_CLASSES.RESULT_SHOW)
+        }
+
         reset() {
             // Stop any running animation
             this.isRunning = false
             this.currentStep = 0
 
-            // Generate new keys (ensure they're different)
-            this.a = generatePrivateKey(this.p)
-            this.b = generatePrivateKey(this.p)
-            while (this.a === this.b) {
+            if (this.mode === 'color') {
+                // Color mode - regenerate constrained colors
+                this.baseColor = generateConstrainedColor('r')
+                this.a = generateConstrainedColor('b')
+                this.b = generateConstrainedColor('g')
+                this.A = mixColors(this.baseColor, this.a)
+                this.B = mixColors(this.baseColor, this.b)
+                // Shared secret: mix received value with private color
+                this.secretAlice = mixColors(this.B, this.a)
+                this.secretBob = mixColors(this.A, this.b)
+            } else {
+                // Numeric mode - regenerate keys
+                this.a = generatePrivateKey(this.p)
                 this.b = generatePrivateKey(this.p)
+                while (this.a === this.b) {
+                    this.b = generatePrivateKey(this.p)
+                }
+                this.A = modPow(this.g, this.a, this.p)
+                this.B = modPow(this.g, this.b, this.p)
+                this.secretAlice = modPow(this.B, this.a, this.p)
+                this.secretBob = modPow(this.A, this.b, this.p)
             }
-            this.A = modPow(this.g, this.a, this.p)
-            this.B = modPow(this.g, this.b, this.p)
-            this.secretAlice = modPow(this.B, this.a, this.p)
-            this.secretBob = modPow(this.A, this.b, this.p)
 
             // Reset UI classes
             this.el.querySelectorAll('.dh-step, .dh-exchange-step-3, .dh-eve-note').forEach(el => {
@@ -752,11 +947,26 @@
             this.resetElementsToDefault('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]')
             this.resetElementsToDefault('[data-bob-b], [data-bob-public], [data-bob-received], [data-bob-secret], [data-arrow-b]')
 
-            // Reset calculations to initial formulas using helper
-            this.dom.alice.calc.innerHTML = createFormulaHTML('A', 'g', 'a', 'p')
-            this.dom.bob.calc.innerHTML = createFormulaHTML('B', 'g', 'b', 'p')
-            this.dom.alice.secretCalc.innerHTML = createFormulaHTML('s', 'B', 'a', 'p')
-            this.dom.bob.secretCalc.innerHTML = createFormulaHTML('s', 'A', 'b', 'p')
+            // Reset calculations to initial formulas
+            if (this.mode === 'color') {
+                const createColorFormulaHTML = (resultVar, baseVar, secretVar) => `
+                    <div class="dh-calc-display">
+                        <div class="dh-calc-step">
+                            <span class="dh-var">${resultVar}</span> = mix(<span class="dh-var">${baseVar}</span>, <span class="dh-var">${secretVar}</span>)
+                        </div>
+                    </div>
+                `
+                this.dom.alice.calc.innerHTML = createColorFormulaHTML('A', 'base', 'a')
+                this.dom.bob.calc.innerHTML = createColorFormulaHTML('B', 'base', 'b')
+                // Each mixes received value with their private color
+                this.dom.alice.secretCalc.innerHTML = createColorFormulaHTML('s', 'B', 'a')
+                this.dom.bob.secretCalc.innerHTML = createColorFormulaHTML('s', 'A', 'b')
+            } else {
+                this.dom.alice.calc.innerHTML = createFormulaHTML('A', 'g', 'a', 'p')
+                this.dom.bob.calc.innerHTML = createFormulaHTML('B', 'g', 'b', 'p')
+                this.dom.alice.secretCalc.innerHTML = createFormulaHTML('s', 'B', 'a', 'p')
+                this.dom.bob.secretCalc.innerHTML = createFormulaHTML('s', 'A', 'b', 'p')
+            }
 
             // Reset result displays
             this.el.querySelectorAll('[data-alice-result], [data-bob-result], [data-alice-secret-result], [data-bob-secret-result]').forEach(el => {
@@ -782,25 +992,51 @@
 
     function processDiffieHellman() {
         document.querySelectorAll('.markdown-section diffie-hellman').forEach(el => {
-            const p = parseInt(el.getAttribute('p')) || 23
-            const g = parseInt(el.getAttribute('g')) || 3
+            // Check if color mode is enabled
+            const isColorMode = el.hasAttribute('colour') || el.hasAttribute('color')
 
-            // Validate parameters
-            if (p < 11 || p > 100) {
-                el.innerHTML = '<div class="dh-error">Error: p must be between 11 and 100</div>'
-                return
+            if (isColorMode) {
+                // Color mode - use base color
+                let baseColor = el.getAttribute('colour') || el.getAttribute('color') || el.getAttribute('base')
+
+                // If no color specified, generate a constrained red-heavy color
+                if (!baseColor) {
+                    baseColor = generateConstrainedColor('r')
+                } else {
+                    // Validate hex color format
+                    if (!/^#[0-9A-F]{6}$/i.test(baseColor)) {
+                        el.innerHTML = '<div class="dh-error">Error: base color must be in hex format (e.g., #9370DB)</div>'
+                        return
+                    }
+                }
+
+                el.innerHTML = ''
+                el.appendChild(buildUI(null, null, 'color', baseColor))
+
+                // Initialize animation controller in color mode
+                new DiffieHellmanAnimation(el, null, null, 'color', baseColor)
+            } else {
+                // Numeric mode
+                const p = parseInt(el.getAttribute('p')) || 23
+                const g = parseInt(el.getAttribute('g')) || 3
+
+                // Validate parameters
+                if (p < 11 || p > 100) {
+                    el.innerHTML = '<div class="dh-error">Error: p must be between 11 and 100</div>'
+                    return
+                }
+
+                if (g < 2 || g >= p) {
+                    el.innerHTML = `<div class="dh-error">Error: g must be between 2 and ${p - 1}</div>`
+                    return
+                }
+
+                el.innerHTML = ''
+                el.appendChild(buildUI(p, g, 'numeric'))
+
+                // Initialize animation controller
+                new DiffieHellmanAnimation(el, p, g, 'numeric')
             }
-
-            if (g < 2 || g >= p) {
-                el.innerHTML = `<div class="dh-error">Error: g must be between 2 and ${p - 1}</div>`
-                return
-            }
-
-            el.innerHTML = ''
-            el.appendChild(buildUI(p, g))
-
-            // Initialize animation controller
-            new DiffieHellmanAnimation(el, p, g)
         })
     }
 
