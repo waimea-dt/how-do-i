@@ -527,6 +527,28 @@
             text-align: center;
             margin-bottom: var(--dh-gap-small);
         }
+
+        .dh-exchange-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: calc(var(--dh-gap) * 2);
+
+            &:has(.dh-eve-note.dh-active) {
+                @container (min-width: 600px) {
+                    grid-template-columns: 1fr 1fr;
+                }
+
+                @container (min-width: 900px) {
+                    grid-template-columns: 1fr;
+                }
+            }
+        }
+
+        .dh-arrow-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--dh-gap);
+        }
     }
 
     /* ---- Arrows ---- */
@@ -573,7 +595,6 @@
 
     .dh-eve-note {
         max-height: 0;
-        margin-top: 0;
         padding: 0;
         background-color: var(--dh-eve-bg);
         border: 0 solid var(--dh-eve-border);
@@ -585,7 +606,6 @@
 
         &.dh-active {
             max-height: 500px;
-            margin-top: var(--dh-gap);
             padding: var(--dh-padding);
             border-width: 2px;
             opacity: 1;

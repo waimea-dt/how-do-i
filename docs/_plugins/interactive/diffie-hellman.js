@@ -185,25 +185,29 @@
                 <div class="dh-exchange">
                     <div class="dh-exchange-step dh-exchange-step-3">
                         <div class="dh-exchange-label">Step 3: Public Exchange</div>
-                        <div class="dh-arrow dh-arrow-right">
-                            <div class="dh-value-group dh-value-alice">
-                                <span class="dh-var">A</span> = <span class="dh-value" data-arrow-a>?</span>
+                        <div class="dh-exchange-grid">
+                            <div class="dh-arrow-group">
+                                <div class="dh-arrow dh-arrow-right">
+                                    <div class="dh-value-group dh-value-alice">
+                                        <span class="dh-var">A</span> = <span class="dh-value" data-arrow-a>?</span>
+                                    </div>
+                                    <div class="dh-arrow-label">Send</div>
+                                    <span class="dh-arrow-arrow">→</span>
+                                </div>
+                                <div class="dh-arrow dh-arrow-left">
+                                    <span class="dh-arrow-arrow">←</span>
+                                    <div class="dh-arrow-label">Send</div>
+                                    <div class="dh-value-group dh-value-bob">
+                                        <span class="dh-var">B</span> = <span class="dh-value" data-arrow-b>?</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="dh-arrow-label">Send</div>
-                            <span class="dh-arrow-arrow">→</span>
-                        </div>
-                        <div class="dh-arrow dh-arrow-left">
-                            <span class="dh-arrow-arrow">←</span>
-                            <div class="dh-arrow-label">Send</div>
-                            <div class="dh-value-group dh-value-bob">
-                                <span class="dh-var">B</span> = <span class="dh-value" data-arrow-b>?</span>
+                            <div class="dh-eve-note">
+                                <div class="dh-eve-icon">👁️ Eve (eavesdropper)</div>
+                                <div class="dh-eve-text">Can see: <span class="dh-var">p</span>, <span class="dh-var">g</span>, <span class="dh-var">A</span>, <span class="dh-var">B</span></div>
+                                <div class="dh-eve-text">Cannot see: <span class="dh-var">a</span>, <span class="dh-var">b</span>, <span class="dh-var">s</span></div>
+                                <div class="dh-eve-problem">Computing <span class="dh-var">a</span> or <span class="dh-var">b</span> from public values is the <strong>discrete logarithm problem</strong> — extremely hard!</div>
                             </div>
-                        </div>
-                        <div class="dh-eve-note">
-                            <div class="dh-eve-icon">👁️ Eve (eavesdropper)</div>
-                            <div class="dh-eve-text">Can see: <span class="dh-var">p</span>, <span class="dh-var">g</span>, <span class="dh-var">A</span>, <span class="dh-var">B</span></div>
-                            <div class="dh-eve-text">Cannot see: <span class="dh-var">a</span>, <span class="dh-var">b</span>, <span class="dh-var">s</span></div>
-                            <div class="dh-eve-problem">Computing <span class="dh-var">a</span> or <span class="dh-var">b</span> from public values is the <strong>discrete logarithm problem</strong> — extremely hard!</div>
                         </div>
                     </div>
                 </div>
