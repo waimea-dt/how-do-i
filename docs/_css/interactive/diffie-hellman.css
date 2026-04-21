@@ -45,7 +45,7 @@
     --dh-eve-border:          color-mix(in srgb, var(--dh-accent-eve), transparent 10%);
 
     --dh-btn-bg:              var(--color-mono-min);
-    --dh-btn-border:          var(--border-color);
+    --dh-btn-border:          var(--color-mono-3);
     --dh-btn-text:            var(--color-text);
     --dh-btn-hover:           var(--theme-color);
     --dh-btn-reset-color:     var(--color-attention);
