@@ -362,40 +362,16 @@
     /* Active digit during animation */
     .calc-stack-active {
         box-shadow: inset 0 0 1px 2px var(--highlight-color);
-        animation: pulse-active 0.8s ease-in-out infinite;
+        animation: calcPulseActive 0.8s ease-in-out infinite;
         transform: scale(1.1);
-    }
-
-    @keyframes pulse-active {
-
-        0%,
-        100% {
-            box-shadow: inset 0 0 1px 2px var(--highlight-color);
-        }
-
-        50% {
-            box-shadow: inset 0 0 2px 3px var(--highlight-color);
-        }
     }
 
     /* Error state during animation */
     .calc-stack-error {
         box-shadow: inset 0 0 1px 2px var(--error-color);
-        animation: pulse-error 0.8s ease-in-out infinite;
+        animation: calcPulseError 0.8s ease-in-out infinite;
         transform: scale(1.1);
         /* background-color: rgba(220, 38, 38, 0.08) !important; */
-    }
-
-    @keyframes pulse-error {
-
-        0%,
-        100% {
-            box-shadow: inset 0 0 1px 2px var(--error-color);
-        }
-
-        50% {
-            box-shadow: inset 0 0 2px 3px var(--error-color);
-        }
     }
 
     /* Make 1-bits pop with highlight color when active - needs higher specificity */
@@ -464,22 +440,8 @@
         padding: var(--padding-digit);
         border-radius: 4px;
         font-weight: 600;
-        animation: pulse-overflow 1.5s ease-in-out infinite;
+        animation: calcPulseOverflow 1.5s ease-in-out infinite;
         text-align: center;
-    }
-
-    @keyframes pulse-overflow {
-
-        0%,
-        100% {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        50% {
-            opacity: 0.7;
-            transform: scale(1.05);
-        }
     }
 
     .calc-stack-divider {
@@ -657,5 +619,42 @@
                 background: var(--color-mono-2);
             }
         }
+    }
+}
+
+/* Keyframes (global scope — not nested) */
+
+@keyframes calcPulseActive {
+    0%,
+    100% {
+        box-shadow: inset 0 0 1px 2px var(--highlight-color);
+    }
+
+    50% {
+        box-shadow: inset 0 0 2px 3px var(--highlight-color);
+    }
+}
+
+@keyframes calcPulseError {
+    0%,
+    100% {
+        box-shadow: inset 0 0 1px 2px var(--error-color);
+    }
+
+    50% {
+        box-shadow: inset 0 0 2px 3px var(--error-color);
+    }
+}
+
+@keyframes calcPulseOverflow {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
     }
 }

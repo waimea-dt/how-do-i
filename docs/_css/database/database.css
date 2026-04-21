@@ -327,7 +327,7 @@ table.db-schema .icon.foreign svg {
 .db-schema-link {
     .link-middle {
         --schema-dash-angle: 180deg;
-        animation-name: shift-up;
+        animation-name: dbShiftUp;
     }
 
     &.fk-right {
@@ -335,7 +335,7 @@ table.db-schema .icon.foreign svg {
         .link-right,
         .link-right::before,
         .link-right::after {
-            animation-name: shift-left;
+            animation-name: dbShiftLeft;
         }
     }
 
@@ -344,7 +344,7 @@ table.db-schema .icon.foreign svg {
         .link-left,
         .link-left::before,
         .link-left::after {
-            animation-name: shift-right;
+            animation-name: dbShiftRight;
         }
     }
 
@@ -370,17 +370,17 @@ table.db-schema .icon.foreign svg {
     }
 }
 
-@keyframes shift-right {
+@keyframes dbShiftRight {
    from { background-position: calc(-1.5 * var(--schema-link-width)); }
    to   { background-position: calc(1.5 * var(--schema-link-width)); }
 }
 
-@keyframes shift-left {
+@keyframes dbShiftLeft {
    from { background-position: calc(1.5 * var(--schema-link-width)); }
    to   { background-position: calc(-1.5 * var(--schema-link-width)); }
 }
 
-@keyframes shift-up {
+@keyframes dbShiftUp {
    from { background-position: 0 calc(1.5 * var(--schema-link-width)); }
    to   { background-position: 0 calc(-1.5 * var(--schema-link-width)); }
 }

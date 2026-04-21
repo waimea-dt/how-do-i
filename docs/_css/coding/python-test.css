@@ -509,7 +509,7 @@
         color: var(--color-text-dim);
         font-style: italic;
         opacity: 0.7;
-        animation: pulse 1.5s ease-in-out infinite;
+        animation: pyTestPulse 1.5s ease-in-out infinite;
         background: var(--section-bg);
         border: 1px solid var(--stats-border);
         border-radius: var(--border-radius-sm);
@@ -556,7 +556,7 @@
 }
 
 /* Loading animation */
-@keyframes pulse {
+@keyframes pyTestPulse {
     0%, 100% {
         opacity: 0.7;
     }

@@ -306,13 +306,15 @@
                 margin-left: 0.1em;
                 border-radius: 0;
                 border-right: 3px solid var(--stage-ques-border-color);
-                animation: blink-caret 0.75s step-end infinite;
+                animation: scratchBlinkCaret 0.75s step-end infinite;
             }
         }
     }
+}
 
-    @keyframes blink-caret {
-        from, to { border-color: transparent }
-        50%      { border-color: var(--stage-ques-border-color); }
-    }
+/* Keyframes (global scope — not nested) */
+
+@keyframes scratchBlinkCaret {
+    from, to { border-color: transparent }
+    50%      { border-color: var(--stage-ques-border-color); }
 }

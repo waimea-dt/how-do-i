@@ -234,7 +234,7 @@
         width: 100%;
 
         &.is-updated {
-            animation: hasher-flash 350ms ease-out;
+            animation: hasherFlash 350ms ease-out;
         }
     }
 
@@ -246,13 +246,6 @@
         color: var(--hasher-empty-color);
         font-family: var(--hasher-font-mono);
         font-size: 0.85rem;
-    }
-
-    /* ---- Flash animation ---- */
-
-    @keyframes hasher-flash {
-        0%   { opacity: 0.2; }
-        100% { opacity: 1; }
     }
 
     /* ---- History block ---- */
@@ -345,4 +338,11 @@
             width: 100%;
         }
     }
+}
+
+/* Keyframes (global scope — not nested) */
+
+@keyframes hasherFlash {
+    0%   { opacity: 0.2; }
+    100% { opacity: 1; }
 }
