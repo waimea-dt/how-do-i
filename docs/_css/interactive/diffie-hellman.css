@@ -10,8 +10,8 @@
     --dh-accent-bob:          var(--secondary-color);
     --dh-accent-eve:          var(--color-attention);
     --dh-accent-shared:       var(--color-good);
-    --dh-accent-secret:       var(--palette-color-9);
-    --dh-accent-public:       var(--palette-color-6);
+    --dh-accent-secret:       var(--color-mono-7);
+    --dh-accent-public:       var(--color-mono-7);
 
     --dh-accent:              var(--theme-color);
 
@@ -36,7 +36,7 @@
     --dh-value-var:           var(--theme-color-6);
     --dh-value-value:         var(--text-color);
 
-    --dh-color-swatch-border: var(--color-mono-max);
+    --dh-swatch-color:        var(--theme-color-5);
 
     --dh-formula-bg:          var(--color-mono-0);
     --dh-calc-line-bg:        var(--color-mono-0);
@@ -68,6 +68,7 @@
     --dh-padding-tiny:        0.25rem;
     --dh-gap:                 1rem;
     --dh-gap-small:           0.5rem;
+    --dh-gap-tiny:            0.25rem;
 
     /* ---- Base element ---- */
 
@@ -369,14 +370,19 @@
         }
     }
 
-    .dh-color-lozenge {
-        color: var(--dh-bg);
+    .dh-color-swatch {
+        --dh-swatch-color-text: #000;
+        --dh-swatch-color-text: oklch(from var(--dh-swatch-color) round(calc(1 - l)) c h);
+        --dh-swatch-color-border: oklch(from var(--dh-swatch-color) calc(l * 1.5) c h);
+
+        color: var(--dh-swatch-color-text);
+        background-color: var(--dh-swatch-color);
         padding: var(--dh-padding-tiny) var(--dh-padding-small);
         font-size: 0.7em;
         font-family: var(--font-family-mono);
-        font-weight: 600;
-        border-radius: 1em;
-        border: 1px solid var(--dh-color-swatch-border);
+        font-weight: 500;
+        border-radius: var(--border-radius-small);
+        border: 1px solid var(--dh-swatch-color-border);
         display: inline-block;
         vertical-align: middle;
     }
@@ -410,6 +416,10 @@
         font-size: 0.9rem;
         width: fit-content;
         margin-inline: auto;
+
+        &:has(.dh-color-swatch) {
+            gap: var(--dh-gap-tiny);
+        }
     }
 
     .dh-calc-step {
@@ -477,24 +487,41 @@
         letter-spacing: 0.05em;
         white-space: nowrap;
         font-family: var(--font-family);
+
+        &::before {
+            font-size: 1.3em;
+            line-height: 1;
+        }
     }
 
     .dh-shared-badge {
         background: var(--dh-shared-bg);
         border: 1px solid var(--dh-shared-border);
         color: var(--dh-shared-border);
+
+        &::before {
+            content: "🔐 ";
+        }
     }
 
     .dh-secret-badge {
         background: var(--dh-secret-bg);
         border: 1px solid var(--dh-secret-border);
         color: var(--dh-secret-border);
+
+        &::before {
+            content: "🔒 ";
+        }
     }
 
     .dh-public-badge {
         background: var(--dh-public-bg);
         border: 1px solid var(--dh-public-border);
         color: var(--dh-public-border);
+
+        &::before {
+            content: "📢 ";
+        }
     }
 
     /* ---- Shared secret highlighting ---- */
@@ -593,6 +620,7 @@
         .dh-arrow-arrow {
             font-size: 2em;
             line-height: 1;
+            height: 1.2em;
         }
 
         &.dh-arrow-right {

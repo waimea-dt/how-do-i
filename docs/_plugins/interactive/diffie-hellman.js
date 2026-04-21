@@ -146,7 +146,7 @@
                     <div class="dh-param">
                         <span class="dh-param-name">base</span>
                         <span class="dh-param-equals">=</span>
-                        <span class="dh-color-lozenge" style="background: ${baseColor};">${baseColor}</span>
+                        <span class="dh-color-swatch" style="--dh-swatch-color: ${baseColor};">${baseColor}</span>
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                                 <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">a</span> = <span class="dh-value" data-alice-a>?</span>
                                 </div>
-                                <span class="dh-secret-badge">🔒 Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
+                                <span class="dh-secret-badge">Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                                 <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">A</span> = <span class="dh-value" data-alice-public>?</span>
                                 </div>
-                                <span class="dh-public-badge">📢 Public</span>
+                                <span class="dh-public-badge">Public</span>
                             </div>
                         </div>
                     </div>
@@ -251,7 +251,7 @@
                                 <div class="dh-value-group dh-value-alice">
                                     <span class="dh-var">s</span> = <span class="dh-value" data-alice-secret>?</span>
                                 </div>
-                                <span class="dh-shared-badge">🔐 Shared Secret</span>
+                                <span class="dh-shared-badge">Shared Secret</span>
                             </div>
                         </div>
                     </div>
@@ -260,7 +260,7 @@
                 <!-- Exchange Arrow -->
                 <div class="dh-exchange">
                     <div class="dh-exchange-step dh-exchange-step-3">
-                        <div class="dh-exchange-label">Step 3: Public Exchange</div>
+                        <div class="dh-exchange-label">Step 3: <span class="dh-public-badge">Public</span> Exchange</div>
                         <div class="dh-exchange-grid">
                             <div class="dh-arrow-group">
                                 <div class="dh-arrow dh-arrow-right">
@@ -301,7 +301,7 @@
                                 <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">b</span> = <span class="dh-value" data-bob-b>?</span>
                                 </div>
-                                <span class="dh-secret-badge">🔒 Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
+                                <span class="dh-secret-badge">Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
                             </div>
                         </div>
                     </div>
@@ -317,7 +317,7 @@
                                 </div>
                             </div>
                             <div class="dh-result" data-bob-result>
-                                <span class="dh-public-badge">📢 Public</span>
+                                <span class="dh-public-badge">Public</span>
                                 <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">B</span> = <span class="dh-value" data-bob-public>?</span>
                                 </div>
@@ -351,7 +351,7 @@
                                 <div class="dh-value-group dh-value-bob">
                                     <span class="dh-var">s</span> = <span class="dh-value" data-bob-secret>?</span>
                                 </div>
-                                <span class="dh-shared-badge">🔐 Shared Secret</span>
+                                <span class="dh-shared-badge">Shared Secret</span>
                             </div>
                         </div>
                     </div>
@@ -531,7 +531,7 @@
 
         // Helper: Format color display (hex code with coloured background)
         formatColorDisplay(color) {
-            return `<span class="dh-color-lozenge" style="background: ${color};">${color}</span>`
+            return `<span class="dh-color-swatch" style="--dh-swatch-color: ${color};">${color}</span>`
         }
 
         // Helper: Generic calculation method for public or secret values
