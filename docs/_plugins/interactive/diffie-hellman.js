@@ -120,8 +120,10 @@
                         <div class="dh-step-label">Step 1: Choose private key</div>
                         <div class="dh-step-content">
                             <div class="dh-private-key">
-                                <span class="dh-var">a</span> = <span class="dh-value" data-alice-a>?</span>
-                                <span class="dh-secret-badge">🔒 Secret</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">a</span> = <span class="dh-value" data-alice-a>?</span>
+                                </div>
+                                <span class="dh-secret-badge">🔒 Private Key</span>
                             </div>
                         </div>
                     </div>
@@ -138,8 +140,9 @@
                                 </div>
                             </div>
                             <div class="dh-result" data-alice-result>
-                                <span class="dh-var">A</span> = <span class="dh-value" data-alice-public>?</span>
-                                <span class="dh-public-badge">📢 Public</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">A</span> = <span class="dh-value" data-alice-public>?</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -148,7 +151,10 @@
                         <div class="dh-step-label">Step 4: Receive Bob's public value</div>
                         <div class="dh-step-content">
                             <div class="dh-received">
-                                Received: <span class="dh-var">B</span> = <span class="dh-value" data-alice-received>?</span>
+                                <span class="dh-received-label">Received</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">B</span> = <span class="dh-value" data-alice-received>?</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,7 +171,9 @@
                                 </div>
                             </div>
                             <div class="dh-result dh-shared-secret" data-alice-secret-result>
-                                <span class="dh-var">s</span> = <span class="dh-value" data-alice-secret>?</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">s</span> = <span class="dh-value" data-alice-secret>?</span>
+                                </div>
                                 <span class="dh-secret-badge">🔐 Shared Secret</span>
                             </div>
                         </div>
@@ -177,13 +185,17 @@
                     <div class="dh-exchange-step dh-exchange-step-3">
                         <div class="dh-exchange-label">Step 3: Public Exchange</div>
                         <div class="dh-arrow dh-arrow-right">
-                            <div class="dh-arrow-label">
-                                Send <span class="dh-var">A</span> →
+                            <div class="dh-value-group">
+                                <span class="dh-var">A</span> = <span class="dh-value" data-arrow-a>?</span>
                             </div>
+                            <div class="dh-arrow-label">Send →</div>
+                            <span class="dh-public-badge">📢 Public</span>
                         </div>
                         <div class="dh-arrow dh-arrow-left">
-                            <div class="dh-arrow-label">
-                                ← Send <span class="dh-var">B</span>
+                            <span class="dh-public-badge">📢 Public</span>
+                            <div class="dh-arrow-label">← Send</div>
+                            <div class="dh-value-group">
+                                <span class="dh-var">B</span> = <span class="dh-value" data-arrow-b>?</span>
                             </div>
                         </div>
                         <div class="dh-eve-note">
@@ -205,8 +217,10 @@
                         <div class="dh-step-label">Step 1: Choose private key</div>
                         <div class="dh-step-content">
                             <div class="dh-private-key">
-                                <span class="dh-var">b</span> = <span class="dh-value" data-bob-b>?</span>
-                                <span class="dh-secret-badge">🔒 Secret</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">b</span> = <span class="dh-value" data-bob-b>?</span>
+                                </div>
+                                <span class="dh-secret-badge">🔒 Private Key</span>
                             </div>
                         </div>
                     </div>
@@ -223,8 +237,9 @@
                                 </div>
                             </div>
                             <div class="dh-result" data-bob-result>
-                                <span class="dh-var">B</span> = <span class="dh-value" data-bob-public>?</span>
-                                <span class="dh-public-badge">📢 Public</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">B</span> = <span class="dh-value" data-bob-public>?</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -233,7 +248,10 @@
                         <div class="dh-step-label">Step 4: Receive Alice's public value</div>
                         <div class="dh-step-content">
                             <div class="dh-received">
-                                Received: <span class="dh-var">A</span> = <span class="dh-value" data-bob-received>?</span>
+                                <span class="dh-received-label">Received</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">A</span> = <span class="dh-value" data-bob-received>?</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -250,7 +268,9 @@
                                 </div>
                             </div>
                             <div class="dh-result dh-shared-secret" data-bob-secret-result>
-                                <span class="dh-var">s</span> = <span class="dh-value" data-bob-secret>?</span>
+                                <div class="dh-value-group">
+                                    <span class="dh-var">s</span> = <span class="dh-value" data-bob-secret>?</span>
+                                </div>
                                 <span class="dh-secret-badge">🔐 Shared Secret</span>
                             </div>
                         </div>
@@ -258,22 +278,24 @@
                 </div>
             </div>
 
-            <div class="dh-controls">
-                <button class="dh-btn dh-btn-start">
-                    <span class="btn-icon">▶</span>
-                    <span class="btn-text">Start</span>
-                </button>
-                <button class="dh-btn dh-btn-reset">
-                    <span class="btn-icon">↺</span>
-                    <span class="btn-text">Reset</span>
-                </button>
-                <button class="dh-btn dh-btn-step">
-                    <span class="btn-icon">→</span>
-                    <span class="btn-text">Next</span>
-                </button>
-            </div>
+            <div class="dh-footer">
+                <div class="dh-status" aria-live="polite"></div>
 
-            <div class="dh-status" aria-live="polite"></div>
+                <div class="dh-controls">
+                    <button class="dh-btn dh-btn-start">
+                        <span class="btn-icon">▶</span>
+                        <span class="btn-text">Start</span>
+                    </button>
+                    <button class="dh-btn dh-btn-reset">
+                        <span class="btn-icon">↺</span>
+                        <span class="btn-text">Reset</span>
+                    </button>
+                    <button class="dh-btn dh-btn-step">
+                        <span class="btn-icon">→</span>
+                        <span class="btn-text">Next</span>
+                    </button>
+                </div>
+            </div>
         `
         return wrapper
     }
@@ -290,6 +312,19 @@
             this.currentStep = 0
             this.isRunning = false
             this.isPaused = false
+
+            // Animation timing constants (in milliseconds)
+            // Base delays that cascade through the animation
+            // To adjust overall speed: change BASE value (default 300ms)
+            // Each subsequent timing builds on previous ones
+            this.TIMING = {
+                BASE: 500,                           // Base unit for smallest delays
+                get REVEAL() { return this.BASE },   // Time for values to appear (300ms)
+                get STEP() { return this.BASE + 200 }, // Time between sub-steps (400ms)
+                get ANIMATE() { return this.STEP + 400 }, // Arrow/animation duration (600ms)
+                get CALC_WAIT() { return this.ANIMATE }, // Wait before showing calc step (600ms)
+                get BETWEEN_STEPS() { return this.ANIMATE + 400 } // Pause between major steps (800ms)
+            }
 
             // Generate keys
             this.a = generatePrivateKey(p)
@@ -326,12 +361,19 @@
 
         async start() {
             if (this.isRunning) return
+
+            // If animation completed, reset before restarting
+            if (this.currentStep >= 9) {
+                this.reset()
+            }
+
             this.isRunning = true
             this.updateControls()
 
-            while (this.currentStep < 9) {
+            while (this.currentStep < 9 && this.isRunning) {
                 await this.nextStep()
-                await this.sleep(800)
+                if (!this.isRunning) break
+                await this.sleep(this.TIMING.BETWEEN_STEPS)
             }
 
             this.isRunning = false
@@ -382,13 +424,23 @@
             const alicePrivate = this.el.querySelector('[data-alice-a]')
             const bobPrivate = this.el.querySelector('[data-bob-b]')
 
-            await this.sleep(300)
+            await this.sleep(this.TIMING.REVEAL)
+            if (!this.isRunning) return
             alicePrivate.textContent = this.a
             alicePrivate.closest('.dh-step').classList.add('dh-active')
 
-            await this.sleep(400)
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
             bobPrivate.textContent = this.b
             bobPrivate.closest('.dh-step').classList.add('dh-active')
+
+            // Remove highlighting after reveal completes
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            alicePrivate.closest('.dh-step').classList.remove('dh-active')
+            alicePrivate.closest('.dh-step').classList.add('dh-completed')
+            bobPrivate.closest('.dh-step').classList.remove('dh-active')
+            bobPrivate.closest('.dh-step').classList.add('dh-completed')
         }
 
         async step2_AliceCalculatesPublic() {
@@ -411,6 +463,12 @@
             )
 
             this.el.querySelector('[data-alice-public]').textContent = this.A
+
+            // Remove highlighting after calculation completes
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            stepEl.classList.remove('dh-active')
+            stepEl.classList.add('dh-completed')
         }
 
         async step3_BobCalculatesPublic() {
@@ -433,6 +491,12 @@
             )
 
             this.el.querySelector('[data-bob-public]').textContent = this.B
+
+            // Remove highlighting after calculation completes
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            stepEl.classList.remove('dh-active')
+            stepEl.classList.add('dh-completed')
         }
 
         async step4_Exchange() {
@@ -440,19 +504,43 @@
 
             this.el.querySelector('.dh-exchange-step-3').classList.add('dh-active')
 
-            await this.sleep(400)
+            // Show values in arrows
+            this.el.querySelector('[data-arrow-a]').textContent = this.A
+            this.el.querySelector('[data-arrow-b]').textContent = this.B
+
+            // Alice sends A to Bob
+            await this.sleep(this.TIMING.REVEAL)
+            if (!this.isRunning) return
             this.el.querySelector('.dh-arrow-right').classList.add('dh-animating')
 
-            await this.sleep(600)
+            await this.sleep(this.TIMING.ANIMATE)
+            if (!this.isRunning) return
+            this.el.querySelector('.dh-arrow-right').classList.remove('dh-animating')
             this.el.querySelector('[data-bob-received]').textContent = this.A
+            this.el.querySelector('[data-bob-received]').closest('.dh-received').classList.add('dh-result-show')
             this.el.querySelector('[data-bob-received]').closest('.dh-step').classList.add('dh-active')
 
-            await this.sleep(400)
+            // Bob sends B to Alice
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
             this.el.querySelector('.dh-arrow-left').classList.add('dh-animating')
 
-            await this.sleep(600)
+            await this.sleep(this.TIMING.ANIMATE)
+            if (!this.isRunning) return
+            this.el.querySelector('.dh-arrow-left').classList.remove('dh-animating')
             this.el.querySelector('[data-alice-received]').textContent = this.B
+            this.el.querySelector('[data-alice-received]').closest('.dh-received').classList.add('dh-result-show')
             this.el.querySelector('[data-alice-received]').closest('.dh-step').classList.add('dh-active')
+
+            // Remove highlighting after exchange completes
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            this.el.querySelector('.dh-exchange-step-3').classList.remove('dh-active')
+            this.el.querySelector('.dh-exchange-step-3').classList.add('dh-completed')
+            this.el.querySelector('[data-bob-received]').closest('.dh-step').classList.remove('dh-active')
+            this.el.querySelector('[data-bob-received]').closest('.dh-step').classList.add('dh-completed')
+            this.el.querySelector('[data-alice-received]').closest('.dh-step').classList.remove('dh-active')
+            this.el.querySelector('[data-alice-received]').closest('.dh-step').classList.add('dh-completed')
         }
 
         async step5_AliceCalculatesSecret() {
@@ -475,6 +563,12 @@
             )
 
             this.el.querySelector('[data-alice-secret]').textContent = this.secretAlice
+
+            // Remove highlighting after calculation completes
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            stepEl.classList.remove('dh-active')
+            stepEl.classList.add('dh-completed')
         }
 
         async step6_BobCalculatesSecret() {
@@ -497,6 +591,12 @@
             )
 
             this.el.querySelector('[data-bob-secret]').textContent = this.secretBob
+
+            // Remove highlighting after calculation completes
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            stepEl.classList.remove('dh-active')
+            stepEl.classList.add('dh-completed')
         }
 
         async step7_HighlightSharedSecret() {
@@ -506,7 +606,8 @@
                 el.classList.add('dh-highlight')
             })
 
-            await this.sleep(300)
+            await this.sleep(this.TIMING.REVEAL)
+            if (!this.isRunning) return
         }
 
         async step8_ShowEvesProblem() {
@@ -531,7 +632,8 @@
             const display = calcContainer.querySelector('.dh-calc-display')
 
             // The initial formula is already in the HTML, just wait a bit
-            await this.sleep(600)
+            await this.sleep(this.TIMING.CALC_WAIT)
+            if (!this.isRunning) return
 
             // Step 2: Show substituted values
             const step2 = document.createElement('div')
@@ -542,7 +644,8 @@
             requestAnimationFrame(() => {
                 step2.classList.add('dh-calc-animate')
             })
-            await this.sleep(600)
+            await this.sleep(this.TIMING.CALC_WAIT)
+            if (!this.isRunning) return
 
             // Step 3: Show intermediate calculation
             const step3 = document.createElement('div')
@@ -553,7 +656,8 @@
             requestAnimationFrame(() => {
                 step3.classList.add('dh-calc-animate')
             })
-            await this.sleep(600)
+            await this.sleep(this.TIMING.CALC_WAIT)
+            if (!this.isRunning) return
 
             // Step 4: Show final result
             const step4 = document.createElement('div')
@@ -566,7 +670,8 @@
             })
 
             // Show final result badge after animation
-            await this.sleep(400)
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
             resultContainer.classList.add('dh-result-show')
         }
 
@@ -585,7 +690,7 @@
 
             // Reset UI
             this.el.querySelectorAll('.dh-step, .dh-exchange-step-3, .dh-eve-note').forEach(el => {
-                el.classList.remove('dh-active', 'dh-highlight')
+                el.classList.remove('dh-active', 'dh-highlight', 'dh-completed')
             })
 
             this.el.querySelectorAll('.dh-shared-secret').forEach(el => {
@@ -596,11 +701,11 @@
                 el.classList.remove('dh-animating')
             })
 
-            this.el.querySelectorAll('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret]').forEach(el => {
+            this.el.querySelectorAll('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]').forEach(el => {
                 el.textContent = '?'
             })
 
-            this.el.querySelectorAll('[data-bob-b], [data-bob-public], [data-bob-received], [data-bob-secret]').forEach(el => {
+            this.el.querySelectorAll('[data-bob-b], [data-bob-public], [data-bob-received], [data-bob-secret], [data-arrow-b]').forEach(el => {
                 el.textContent = '?'
             })
 
@@ -642,6 +747,10 @@
             `
 
             this.el.querySelectorAll('[data-alice-result], [data-bob-result], [data-alice-secret-result], [data-bob-secret-result]').forEach(el => {
+                el.classList.remove('dh-result-show')
+            })
+
+            this.el.querySelectorAll('.dh-received').forEach(el => {
                 el.classList.remove('dh-result-show')
             })
 
