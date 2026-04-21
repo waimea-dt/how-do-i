@@ -146,8 +146,7 @@
                     <div class="dh-param">
                         <span class="dh-param-name">base</span>
                         <span class="dh-param-equals">=</span>
-                        <div class="dh-color-swatch" style="background: ${baseColor}; display: inline-block; width: 1.5em; height: 1.5em; border-radius: 1em; border: 2px solid var(--dh-border); vertical-align: middle;"></div>
-                        <span class="dh-param-value" style="font-family: var(--font-family-mono);">${baseColor}</span>
+                        <span class="dh-color-lozenge" style="background: ${baseColor};">${baseColor}</span>
                     </div>
                 </div>
             </div>

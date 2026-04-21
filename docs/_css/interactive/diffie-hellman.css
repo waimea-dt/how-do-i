@@ -36,6 +36,8 @@
     --dh-value-var:           var(--theme-color-6);
     --dh-value-value:         var(--text-color);
 
+    --dh-color-swatch-border: var(--color-mono-max);
+
     --dh-formula-bg:          var(--color-mono-0);
     --dh-calc-line-bg:        var(--color-mono-0);
 
@@ -239,7 +241,7 @@
     .dh-party {
         display: flex;
         flex-direction: column;
-        gap: var(--dh-gap);
+        gap: var(--dh-gap-small);
 
         .dh-party-header {
             text-align: center;
@@ -374,6 +376,7 @@
         font-family: var(--font-family-mono);
         font-weight: 600;
         border-radius: 1em;
+        border: 1px solid var(--dh-color-swatch-border);
         display: inline-block;
         vertical-align: middle;
     }
@@ -557,7 +560,7 @@
         .dh-arrow-group {
             display: flex;
             flex-direction: column;
-            gap: var(--dh-gap);
+            gap: var(--dh-gap-small);
         }
     }
 
@@ -612,6 +615,7 @@
         opacity: 0;
         overflow: hidden;
         width: 280px;
+        margin-inline: auto;
         transition: max-height 200ms ease-out, margin 200ms ease-out, padding 200ms ease-out, border-width 200ms ease-out, opacity 400ms 200ms;
 
         &.dh-active {
