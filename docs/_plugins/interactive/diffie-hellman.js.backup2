@@ -138,7 +138,7 @@
 
     function buildUI(p, g, mode = 'numeric', baseColor = '#9370DB', showIntercept = true) {
         const wrapper = document.createElement('div')
-        wrapper.className = 'exchange-wrapper'
+        wrapper.className = 'dh-wrapper'
 
         // Build public params section based on mode
         const publicParamsHTML = mode === 'color' ? `
@@ -181,111 +181,111 @@
             : 'Watch Alice and Bob establish a shared secret over a public channel'
 
         wrapper.innerHTML = `
-            <div class="exchange-header">
-                <div class="exchange-header-content">
-                    <div class="exchange-title">${titleText}</div>
-                    <div class="exchange-subtitle">${subtitleText}</div>
+            <div class="dh-header">
+                <div class="dh-header-content">
+                    <div class="dh-title">${titleText}</div>
+                    <div class="dh-subtitle">${subtitleText}</div>
                 </div>
                 ${publicParamsHTML}
             </div>
 
-            <div class="exchange-grid">
+            <div class="dh-main-grid">
                 <!-- Alice's Side -->
-                <div class="exchange-party exchange-party1">
-                    <div class="exchange-party-header">
-                        <div class="exchange-party-name">👩 Alice</div>
+                <div class="dh-party dh-alice">
+                    <div class="dh-party-header">
+                        <div class="dh-party-name">👩 Alice</div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
-                        <div class="exchange-step-content">
-                            <div class="exchange-result exchange-show">
-                                <div class="exchange-value-group exchange-value-party1">
-                                    <span class="exchange-var">a</span> = <span class="exchange-value" data-alice-a>?</span>
+                    <div class="dh-step dh-step-private-key">
+                        <div class="dh-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
+                        <div class="dh-step-content">
+                            <div class="dh-private-key">
+                                <div class="dh-value-group dh-value-alice">
+                                    <span class="dh-var">a</span> = <span class="dh-value" data-alice-a>?</span>
                                 </div>
-                                <span class="exchange-badge exchange-secret-badge">Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
+                                <span class="dh-secret-badge">Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
-                        <div class="exchange-step-content">
+                    <div class="dh-step dh-step-calc-public">
+                        <div class="dh-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="dh-step-content">
                             <div class="dh-calculation" data-alice-calc>
                                 <div class="dh-calc-display">
-                                    <div class="dh-calc-step dh-calc-animate">
-                                        <span class="exchange-var">A</span> = ${mode === 'color' ? 'mix(<span class="exchange-var">base</span>, <span class="exchange-var">a</span>)' : '<span class="exchange-var">g</span><sup class="exchange-var">a</sup> mod <span class="exchange-var">p</span>'}
+                                    <div class="dh-calc-step">
+                                        <span class="dh-var">A</span> = ${mode === 'color' ? 'mix(<span class="dh-var">base</span>, <span class="dh-var">a</span>)' : '<span class="dh-var">g</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
-                            <div class="exchange-result exchange-show" data-alice-result>
-                                <div class="exchange-value-group exchange-value-party1">
-                                    <span class="exchange-var">A</span> = <span class="exchange-value" data-alice-public>?</span>
+                            <div class="dh-result" data-alice-result>
+                                <div class="dh-value-group dh-value-alice">
+                                    <span class="dh-var">A</span> = <span class="dh-value" data-alice-public>?</span>
                                 </div>
-                                <span class="exchange-badge exchange-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
+                                <span class="dh-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 4: Receive Bob's public ${mode === 'color' ? 'colour' : 'value'}</div>
-                        <div class="exchange-step-content">
-                            <div class="exchange-received">
-                                <span>Received</span>
-                                <div class="exchange-value-group exchange-value-party2">
-                                    <span class="exchange-var">B</span> = <span class="exchange-value" data-alice-received>?</span>
+                    <div class="dh-step dh-step-receive">
+                        <div class="dh-step-label">Step 4: Receive Bob's public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="dh-step-content">
+                            <div class="dh-received">
+                                <span class="dh-received-label">Received</span>
+                                <div class="dh-value-group dh-value-bob">
+                                    <span class="dh-var">B</span> = <span class="dh-value" data-alice-received>?</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 5: Calculate shared secret</div>
-                        <div class="exchange-step-content">
+                    <div class="dh-step dh-step-calc-secret">
+                        <div class="dh-step-label">Step 5: Calculate shared secret</div>
+                        <div class="dh-step-content">
                             <div class="dh-calculation" data-alice-secret-calc>
                                 <div class="dh-calc-display">
-                                    <div class="dh-calc-step dh-calc-animate">
-                                        <span class="exchange-var">s</span> = ${mode === 'color' ? 'mix(<span class="exchange-var">B</span>, <span class="exchange-var">a</span>)' : '<span class="exchange-var">B</span><sup class="exchange-var">a</sup> mod <span class="exchange-var">p</span>'}
+                                    <div class="dh-calc-step">
+                                        <span class="dh-var">s</span> = ${mode === 'color' ? 'mix(<span class="dh-var">B</span>, <span class="dh-var">a</span>)' : '<span class="dh-var">B</span><sup class="dh-var">a</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
-                            <div class="exchange-result dh-shared-secret exchange-show" data-alice-secret-result>
-                                <div class="exchange-value-group exchange-value-party1">
-                                    <span class="exchange-var">s</span> = <span class="exchange-value" data-alice-secret>?</span>
+                            <div class="dh-result dh-shared-secret" data-alice-secret-result>
+                                <div class="dh-value-group dh-value-alice">
+                                    <span class="dh-var">s</span> = <span class="dh-value" data-alice-secret>?</span>
                                 </div>
-                                <span class="exchange-badge exchange-shared-badge">Shared Secret</span>
+                                <span class="dh-shared-badge">Shared Secret</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Exchange Arrow -->
-                <div class="exchange-column">
-                    <div class="exchange-column-step">
-                        <div class="exchange-column-label">Step 3: <span class="exchange-badge exchange-public-badge">Public</span> Exchange</div>
-                        <div class="exchange-arrow-grid">
-                            <div class="exchange-arrow-group">
-                                <div class="exchange-arrow exchange-arrow-right">
-                                    <div class="exchange-value-group exchange-value-party1">
-                                        <span class="exchange-var">A</span> = <span class="exchange-value" data-arrow-a>?</span>
+                <div class="dh-exchange">
+                    <div class="dh-exchange-step dh-exchange-step-3">
+                        <div class="dh-exchange-label">Step 3: <span class="dh-public-badge">Public</span> Exchange</div>
+                        <div class="dh-exchange-grid">
+                            <div class="dh-arrow-group">
+                                <div class="dh-arrow dh-arrow-right">
+                                    <div class="dh-value-group dh-value-alice">
+                                        <span class="dh-var">A</span> = <span class="dh-value" data-arrow-a>?</span>
                                     </div>
-                                    <div class="exchange-arrow-label">Send</div>
-                                    <span class="exchange-arrow-icon">→</span>
+                                    <div class="dh-arrow-label">Send</div>
+                                    <span class="dh-arrow-arrow">→</span>
                                 </div>
-                                <div class="exchange-arrow exchange-arrow-left">
-                                    <div class="exchange-value-group exchange-value-party2">
-                                        <span class="exchange-var">B</span> = <span class="exchange-value" data-arrow-b>?</span>
+                                <div class="dh-arrow dh-arrow-left">
+                                    <span class="dh-arrow-arrow">←</span>
+                                    <div class="dh-arrow-label">Send</div>
+                                    <div class="dh-value-group dh-value-bob">
+                                        <span class="dh-var">B</span> = <span class="dh-value" data-arrow-b>?</span>
                                     </div>
-                                    <div class="exchange-arrow-label">Send</div>
-                                    <span class="exchange-arrow-icon">←</span>
                                 </div>
                             </div>
                             ${showIntercept ? `
-                            <div class="exchange-eve">
-                                <div class="exchange-eve-icon">👁️ Eve (eavesdropper)</div>
-                                <div class="exchange-eve-text">Can see: ${mode === 'color' ? '<span class="exchange-var">base</span>, <span class="exchange-var">A</span>, <span class="exchange-var">B</span>' : '<span class="exchange-var">p</span>, <span class="exchange-var">g</span>, <span class="exchange-var">A</span>, <span class="exchange-var">B</span>'}</div>
-                                <div class="exchange-eve-text">Cannot see: <span class="exchange-var">a</span>, <span class="exchange-var">b</span>, <span class="exchange-var">s</span></div>
-                                <div class="exchange-eve-problem">${mode === 'color' ? 'Separating mixed colours to find <span class="exchange-var">a</span> or <span class="exchange-var">b</span> is extremely hard!' : 'Computing <span class="exchange-var">a</span> or <span class="exchange-var">b</span> from public values is the <strong>discrete logarithm problem</strong> - extremely hard!'}</div>
+                            <div class="dh-eve-note">
+                                <div class="dh-eve-icon">👁️ Eve (eavesdropper)</div>
+                                <div class="dh-eve-text">Can see: ${mode === 'color' ? '<span class="dh-var">base</span>, <span class="dh-var">A</span>, <span class="dh-var">B</span>' : '<span class="dh-var">p</span>, <span class="dh-var">g</span>, <span class="dh-var">A</span>, <span class="dh-var">B</span>'}</div>
+                                <div class="dh-eve-text">Cannot see: <span class="dh-var">a</span>, <span class="dh-var">b</span>, <span class="dh-var">s</span></div>
+                                <div class="dh-eve-problem">${mode === 'color' ? 'Separating mixed colours to find <span class="dh-var">a</span> or <span class="dh-var">b</span> is extremely hard!' : 'Computing <span class="dh-var">a</span> or <span class="dh-var">b</span> from public values is the <strong>discrete logarithm problem</strong> - extremely hard!'}</div>
                             </div>
                             ` : ''}
                         </div>
@@ -293,92 +293,92 @@
                 </div>
 
                 <!-- Bob's Side -->
-                <div class="exchange-party exchange-party2">
-                    <div class="exchange-party-header">
-                        <div class="exchange-party-name">👨 Bob</div>
+                <div class="dh-party dh-bob">
+                    <div class="dh-party-header">
+                        <div class="dh-party-name">👨 Bob</div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
-                        <div class="exchange-step-content">
-                            <div class="exchange-result exchange-show">
-                                <div class="exchange-value-group exchange-value-party2">
-                                    <span class="exchange-var">b</span> = <span class="exchange-value" data-bob-b>?</span>
+                    <div class="dh-step dh-step-private-key">
+                        <div class="dh-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
+                        <div class="dh-step-content">
+                            <div class="dh-private-key">
+                                <div class="dh-value-group dh-value-bob">
+                                    <span class="dh-var">b</span> = <span class="dh-value" data-bob-b>?</span>
                                 </div>
-                                <span class="exchange-badge exchange-secret-badge">Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
+                                <span class="dh-secret-badge">Private ${mode === 'color' ? 'Colour' : 'Key'}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
-                        <div class="exchange-step-content">
+                    <div class="dh-step dh-step-calc-public">
+                        <div class="dh-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="dh-step-content">
                             <div class="dh-calculation" data-bob-calc>
                                 <div class="dh-calc-display">
-                                    <div class="dh-calc-step dh-calc-animate">
-                                        <span class="exchange-var">B</span> = ${mode === 'color' ? 'mix(<span class="exchange-var">base</span>, <span class="exchange-var">b</span>)' : '<span class="exchange-var">g</span><sup class="exchange-var">b</sup> mod <span class="exchange-var">p</span>'}
+                                    <div class="dh-calc-step">
+                                        <span class="dh-var">B</span> = ${mode === 'color' ? 'mix(<span class="dh-var">base</span>, <span class="dh-var">b</span>)' : '<span class="dh-var">g</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
-                            <div class="exchange-result exchange-show" data-bob-result>
-                                <span class="exchange-badge exchange-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
-                                <div class="exchange-value-group exchange-value-party2">
-                                    <span class="exchange-var">B</span> = <span class="exchange-value" data-bob-public>?</span>
+                            <div class="dh-result" data-bob-result>
+                                <span class="dh-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
+                                <div class="dh-value-group dh-value-bob">
+                                    <span class="dh-var">B</span> = <span class="dh-value" data-bob-public>?</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 4: Receive Alice's public ${mode === 'color' ? 'colour' : 'value'}</div>
-                        <div class="exchange-step-content">
-                            <div class="exchange-received">
-                                <span>Received</span>
-                                <div class="exchange-value-group exchange-value-party1">
-                                    <span class="exchange-var">A</span> = <span class="exchange-value" data-bob-received>?</span>
+                    <div class="dh-step dh-step-receive">
+                        <div class="dh-step-label">Step 4: Receive Alice's public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="dh-step-content">
+                            <div class="dh-received">
+                                <span class="dh-received-label">Received</span>
+                                <div class="dh-value-group dh-value-alice">
+                                    <span class="dh-var">A</span> = <span class="dh-value" data-bob-received>?</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="exchange-step">
-                        <div class="exchange-step-label">Step 5: Calculate shared secret</div>
-                        <div class="exchange-step-content">
+                    <div class="dh-step dh-step-calc-secret">
+                        <div class="dh-step-label">Step 5: Calculate shared secret</div>
+                        <div class="dh-step-content">
                             <div class="dh-calculation" data-bob-secret-calc>
                                 <div class="dh-calc-display">
-                                    <div class="dh-calc-step dh-calc-animate">
-                                        <span class="exchange-var">s</span> = ${mode === 'color' ? 'mix(<span class="exchange-var">A</span>, <span class="exchange-var">b</span>)' : '<span class="exchange-var">A</span><sup class="exchange-var">b</sup> mod <span class="exchange-var">p</span>'}
+                                    <div class="dh-calc-step">
+                                        <span class="dh-var">s</span> = ${mode === 'color' ? 'mix(<span class="dh-var">A</span>, <span class="dh-var">b</span>)' : '<span class="dh-var">A</span><sup class="dh-var">b</sup> mod <span class="dh-var">p</span>'}
                                     </div>
                                 </div>
                             </div>
-                            <div class="exchange-result dh-shared-secret exchange-show" data-bob-secret-result>
-                                <div class="exchange-value-group exchange-value-party2">
-                                    <span class="exchange-var">s</span> = <span class="exchange-value" data-bob-secret>?</span>
+                            <div class="dh-result dh-shared-secret" data-bob-secret-result>
+                                <div class="dh-value-group dh-value-bob">
+                                    <span class="dh-var">s</span> = <span class="dh-value" data-bob-secret>?</span>
                                 </div>
-                                <span class="exchange-badge exchange-shared-badge">Shared Secret</span>
+                                <span class="dh-shared-badge">Shared Secret</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="exchange-footer">
-                <div class="exchange-controls">
-                    <button class="exchange-btn dh-btn-start">
+            <div class="dh-footer">
+                <div class="dh-status" aria-live="polite"></div>
+
+                <div class="dh-controls">
+                    <button class="dh-btn dh-btn-start">
                         <span class="btn-icon">▶</span>
                         <span class="btn-text">Start</span>
                     </button>
-                    <button class="exchange-btn exchange-btn-reset dh-btn-reset">
+                    <button class="dh-btn dh-btn-reset">
                         <span class="btn-icon">↺</span>
                         <span class="btn-text">Reset</span>
                     </button>
-                    <button class="exchange-btn dh-btn-step">
+                    <button class="dh-btn dh-btn-step">
                         <span class="btn-icon">→</span>
                         <span class="btn-text">Next</span>
                     </button>
                 </div>
-
-                <div class="exchange-status" aria-live="polite"></div>
             </div>
         `
         return wrapper
@@ -390,12 +390,11 @@
 
     // CSS class name constants
     const CSS_CLASSES = {
-        ACTIVE: 'exchange-active',
-        COMPLETED: 'exchange-completed',
-        HIGHLIGHT: 'exchange-highlight',
-        ANIMATING: 'exchange-animating',
-        SHOW: 'exchange-show',
-        PULSE: 'exchange-pulse',
+        ACTIVE: 'dh-active',
+        COMPLETED: 'dh-completed',
+        HIGHLIGHT: 'dh-highlight',
+        ANIMATING: 'dh-animating',
+        RESULT_SHOW: 'dh-result-show',
         CALC_ANIMATE: 'dh-calc-animate'
     }
 
@@ -403,9 +402,9 @@
     function createFormulaHTML(resultVar, baseVar, expVar, modVar) {
         return `
             <div class="dh-calc-display">
-                <div class="dh-calc-step dh-calc-animate">
-                    <span class="exchange-var">${resultVar}</span> =
-                    <span class="exchange-var">${baseVar}</span><sup class="exchange-var">${expVar}</sup> mod <span class="exchange-var">${modVar}</span>
+                <div class="dh-calc-step">
+                    <span class="dh-var">${resultVar}</span> =
+                    <span class="dh-var">${baseVar}</span><sup class="dh-var">${expVar}</sup> mod <span class="dh-var">${modVar}</span>
                 </div>
             </div>
         `
@@ -461,7 +460,7 @@
             }
 
             // Get DOM elements (cached for performance)
-            this.statusEl = el.querySelector('.exchange-status')
+            this.statusEl = el.querySelector('.dh-status')
             this.startBtn = el.querySelector('.dh-btn-start')
             this.resetBtn = el.querySelector('.dh-btn-reset')
             this.stepBtn = el.querySelector('.dh-btn-step')
@@ -491,11 +490,11 @@
                 arrows: {
                     a: el.querySelector('[data-arrow-a]'),
                     b: el.querySelector('[data-arrow-b]'),
-                    right: el.querySelector('.exchange-arrow-right'),
-                    left: el.querySelector('.exchange-arrow-left')
+                    right: el.querySelector('.dh-arrow-right'),
+                    left: el.querySelector('.dh-arrow-left')
                 },
-                exchange: el.querySelector('.exchange-column-step'),
-                eveNote: el.querySelector('.exchange-eve')
+                exchange: el.querySelector('.dh-exchange-step-3'),
+                eveNote: el.querySelector('.dh-eve-note')
             }
 
             // Bind events
@@ -514,7 +513,7 @@
 
         setStatus(msg, type = '') {
             this.statusEl.textContent = msg
-            this.statusEl.className = `exchange-status ${type ? 'exchange-status-' + type : ''}`
+            this.statusEl.className = `dh-status ${type ? 'dh-status-' + type : ''}`
         }
 
         // Helper: Activate a step (add active class)
@@ -550,7 +549,7 @@
             const calcContainer = isPublic ? this.dom[party].calc : this.dom[party].secretCalc
             const resultContainer = isPublic ? this.dom[party].result : this.dom[party].secretResult
             const displayEl = isPublic ? this.dom[party].publicKey : this.dom[party].secret
-            const stepEl = calcContainer.closest('.exchange-step')
+            const stepEl = calcContainer.closest('.dh-step')
 
             this.activateStep(stepEl)
 
@@ -592,8 +591,6 @@
                 )
 
                 displayEl.innerHTML = this.formatColorDisplay(resultColor)
-                resultContainer.classList.add(CSS_CLASSES.PULSE)
-                setTimeout(() => resultContainer.classList.remove(CSS_CLASSES.PULSE), 350)
             } else {
                 // Numeric mode
                 let resultVar, baseVar, expVar, baseVal, expVal, finalResult
@@ -630,8 +627,6 @@
                 )
 
                 displayEl.textContent = finalResult
-                resultContainer.classList.add(CSS_CLASSES.PULSE)
-                setTimeout(() => resultContainer.classList.remove(CSS_CLASSES.PULSE), 350)
             }
 
             await this.sleep(this.TIMING.STEP)
@@ -724,10 +719,7 @@
             } else {
                 this.dom.alice.privateKey.textContent = this.a
             }
-            const alicePrivateResult = this.dom.alice.privateKey.closest('.exchange-result')
-            alicePrivateResult.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => alicePrivateResult.classList.remove(CSS_CLASSES.PULSE), 350)
-            this.activateStep(this.dom.alice.privateKey.closest('.exchange-step'))
+            this.activateStep(this.dom.alice.privateKey.closest('.dh-step'))
 
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
@@ -736,16 +728,13 @@
             } else {
                 this.dom.bob.privateKey.textContent = this.b
             }
-            const bobPrivateResult = this.dom.bob.privateKey.closest('.exchange-result')
-            bobPrivateResult.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => bobPrivateResult.classList.remove(CSS_CLASSES.PULSE), 350)
-            this.activateStep(this.dom.bob.privateKey.closest('.exchange-step'))
+            this.activateStep(this.dom.bob.privateKey.closest('.dh-step'))
 
             // Remove highlighting after reveal completes
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            this.completeStep(this.dom.alice.privateKey.closest('.exchange-step'))
-            this.completeStep(this.dom.bob.privateKey.closest('.exchange-step'))
+            this.completeStep(this.dom.alice.privateKey.closest('.dh-step'))
+            this.completeStep(this.dom.bob.privateKey.closest('.dh-step'))
         }
 
         async step2_AliceCalculatesPublic() {
@@ -770,12 +759,6 @@
                 this.dom.arrows.a.textContent = this.A
                 this.dom.arrows.b.textContent = this.B
             }
-            this.dom.arrows.a.classList.add(CSS_CLASSES.PULSE)
-            this.dom.arrows.b.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => {
-                this.dom.arrows.a.classList.remove(CSS_CLASSES.PULSE)
-                this.dom.arrows.b.classList.remove(CSS_CLASSES.PULSE)
-            }, 350)
 
             // Alice sends A to Bob
             await this.sleep(this.TIMING.REVEAL)
@@ -790,11 +773,8 @@
             } else {
                 this.dom.bob.received.textContent = this.A
             }
-            const bobReceivedContainer = this.dom.bob.received.closest('.exchange-received')
-            bobReceivedContainer.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => bobReceivedContainer.classList.remove(CSS_CLASSES.PULSE), 350)
-            bobReceivedContainer.classList.add(CSS_CLASSES.SHOW)
-            this.activateStep(this.dom.bob.received.closest('.exchange-step'))
+            this.dom.bob.received.closest('.dh-received').classList.add(CSS_CLASSES.RESULT_SHOW)
+            this.activateStep(this.dom.bob.received.closest('.dh-step'))
 
             // Bob sends B to Alice
             await this.sleep(this.TIMING.STEP)
@@ -809,18 +789,15 @@
             } else {
                 this.dom.alice.received.textContent = this.B
             }
-            const aliceReceivedContainer = this.dom.alice.received.closest('.exchange-received')
-            aliceReceivedContainer.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => aliceReceivedContainer.classList.remove(CSS_CLASSES.PULSE), 350)
-            aliceReceivedContainer.classList.add(CSS_CLASSES.SHOW)
-            this.activateStep(this.dom.alice.received.closest('.exchange-step'))
+            this.dom.alice.received.closest('.dh-received').classList.add(CSS_CLASSES.RESULT_SHOW)
+            this.activateStep(this.dom.alice.received.closest('.dh-step'))
 
             // Remove highlighting after exchange completes
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
             this.completeStep(this.dom.exchange)
-            this.completeStep(this.dom.bob.received.closest('.exchange-step'))
-            this.completeStep(this.dom.alice.received.closest('.exchange-step'))
+            this.completeStep(this.dom.bob.received.closest('.dh-step'))
+            this.completeStep(this.dom.alice.received.closest('.dh-step'))
         }
 
         async step5_AliceCalculatesSecret() {
@@ -847,7 +824,6 @@
 
             this.setStatus('Eve can see all public values, but cannot calculate the shared secret 😡', 'warning')
 
-            this.dom.eveNote.classList.add(CSS_CLASSES.SHOW)
             this.activateStep(this.dom.eveNote)
 
             // Give extra time to read the Eve explanation
@@ -877,7 +853,7 @@
             // Step 2: Show substituted values
             const step2 = document.createElement('div')
             step2.className = 'dh-calc-step'
-            step2.innerHTML = `<span class="exchange-var">${resultVar}</span> = ${baseVal}<sup>${expVal}</sup> mod ${modVal}`
+            step2.innerHTML = `<span class="dh-var">${resultVar}</span> = ${baseVal}<sup>${expVal}</sup> mod ${modVal}`
             display.appendChild(step2)
             // Trigger animation after DOM insertion
             requestAnimationFrame(() => {
@@ -889,7 +865,7 @@
             // Step 3: Show intermediate calculation
             const step3 = document.createElement('div')
             step3.className = 'dh-calc-step'
-            step3.innerHTML = `<span class="exchange-var">${resultVar}</span> = ${fullValue.toLocaleString()} mod ${modVal}`
+            step3.innerHTML = `<span class="dh-var">${resultVar}</span> = ${fullValue.toLocaleString()} mod ${modVal}`
             display.appendChild(step3)
             // Trigger animation after DOM insertion
             requestAnimationFrame(() => {
@@ -901,7 +877,7 @@
             // Step 4: Show final result
             const step4 = document.createElement('div')
             step4.className = 'dh-calc-step'
-            step4.innerHTML = `<span class="exchange-var">${resultVar}</span> = <strong>${finalResult}</strong>`
+            step4.innerHTML = `<span class="dh-var">${resultVar}</span> = <strong>${finalResult}</strong>`
             display.appendChild(step4)
             // Trigger animation after DOM insertion
             requestAnimationFrame(() => {
@@ -911,7 +887,7 @@
             // Show final result badge after animation
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            resultContainer.classList.add(CSS_CLASSES.SHOW)
+            resultContainer.classList.add(CSS_CLASSES.RESULT_SHOW)
         }
 
         async showColorMixing(calcContainer, resultContainer, resultVar, baseVar, secretVar, baseColor, secretColor, resultColor) {
@@ -924,7 +900,7 @@
             // Step 2: Show mixing operation with actual colors
             const step2 = document.createElement('div')
             step2.className = 'dh-calc-step'
-            step2.innerHTML = `<span class="exchange-var">${resultVar}</span> = mix(${this.formatColorDisplay(baseColor)}, ${this.formatColorDisplay(secretColor)})`
+            step2.innerHTML = `<span class="dh-var">${resultVar}</span> = mix(${this.formatColorDisplay(baseColor)}, ${this.formatColorDisplay(secretColor)})`
             display.appendChild(step2)
             requestAnimationFrame(() => {
                 step2.classList.add(CSS_CLASSES.CALC_ANIMATE)
@@ -935,7 +911,7 @@
             // Step 3: Show final result
             const step3 = document.createElement('div')
             step3.className = 'dh-calc-step'
-            step3.innerHTML = `<span class="exchange-var">${resultVar}</span> = <strong>${this.formatColorDisplay(resultColor)}</strong>`
+            step3.innerHTML = `<span class="dh-var">${resultVar}</span> = <strong>${this.formatColorDisplay(resultColor)}</strong>`
             display.appendChild(step3)
             requestAnimationFrame(() => {
                 step3.classList.add(CSS_CLASSES.CALC_ANIMATE)
@@ -944,7 +920,7 @@
             // Show final result badge after animation
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            resultContainer.classList.add(CSS_CLASSES.SHOW)
+            resultContainer.classList.add(CSS_CLASSES.RESULT_SHOW)
         }
 
         reset() {
@@ -976,21 +952,17 @@
             }
 
             // Reset UI classes
-            this.el.querySelectorAll('.exchange-step, .exchange-column-step, .exchange-eve').forEach(el => {
+            this.el.querySelectorAll('.dh-step, .dh-exchange-step-3, .dh-eve-note').forEach(el => {
                 el.classList.remove(CSS_CLASSES.ACTIVE, CSS_CLASSES.HIGHLIGHT, CSS_CLASSES.COMPLETED)
             })
 
-            this.el.querySelectorAll('[data-alice-result], [data-bob-result], [data-alice-secret-result], [data-bob-secret-result]').forEach(el => {
+            this.el.querySelectorAll('.dh-shared-secret').forEach(el => {
                 el.classList.remove(CSS_CLASSES.HIGHLIGHT)
             })
 
-            this.el.querySelectorAll('.exchange-arrow').forEach(el => {
+            this.el.querySelectorAll('.dh-arrow').forEach(el => {
                 el.classList.remove(CSS_CLASSES.ANIMATING)
             })
-
-            if (this.dom.eveNote) {
-                this.dom.eveNote.classList.remove(CSS_CLASSES.SHOW)
-            }
 
             // Reset all displayed values to '?'
             this.resetElementsToDefault('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]')
@@ -1000,8 +972,8 @@
             if (this.mode === 'color') {
                 const createColorFormulaHTML = (resultVar, baseVar, secretVar) => `
                     <div class="dh-calc-display">
-                        <div class="dh-calc-step dh-calc-animate">
-                            <span class="exchange-var">${resultVar}</span> = mix(<span class="exchange-var">${baseVar}</span>, <span class="exchange-var">${secretVar}</span>)
+                        <div class="dh-calc-step">
+                            <span class="dh-var">${resultVar}</span> = mix(<span class="dh-var">${baseVar}</span>, <span class="dh-var">${secretVar}</span>)
                         </div>
                     </div>
                 `
@@ -1016,6 +988,15 @@
                 this.dom.alice.secretCalc.innerHTML = createFormulaHTML('s', 'B', 'a', 'p')
                 this.dom.bob.secretCalc.innerHTML = createFormulaHTML('s', 'A', 'b', 'p')
             }
+
+            // Reset result displays
+            this.el.querySelectorAll('[data-alice-result], [data-bob-result], [data-alice-secret-result], [data-bob-secret-result]').forEach(el => {
+                el.classList.remove(CSS_CLASSES.RESULT_SHOW)
+            })
+
+            this.el.querySelectorAll('.dh-received').forEach(el => {
+                el.classList.remove(CSS_CLASSES.RESULT_SHOW)
+            })
 
             this.setStatus('')
             this.updateControls()

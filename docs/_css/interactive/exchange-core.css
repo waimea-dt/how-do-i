@@ -1,0 +1,640 @@
+/**
+ * exchange-core.css — Shared styles for two-party exchange visualizers
+ *
+ * Used by: diffie-hellman, sym-asym, and future exchange-based plugins
+ * (e.g., wifi-handshake, digital-signature)
+ *
+ * All plugins use common .exchange-* classes defined here.
+ * Plugin-specific styling goes in separate CSS files.
+ *
+ * Pattern: Party1 | Exchange/Arrows | Party2 grid layout
+ */
+
+/* ==================== Base Container ==================== */
+
+.markdown-section sym-asym,
+.markdown-section diffie-hellman {
+    display: block;
+    margin: var(--margin-block) 0;
+    container-type: inline-size;
+
+    /* Design tokens */
+    --exchange-bg:                  var(--color-mono-0);
+    --exchange-header-bg:           var(--color-mono-1);
+    --exchange-card-bg:             var(--color-mono-1);
+    --exchange-border:              var(--color-mono-4);
+    --exchange-border-light:        var(--color-mono-2);
+
+    --exchange-text-primary:        var(--color-text);
+    --exchange-text-secondary:      var(--color-mono-6);
+    --exchange-text-muted:          var(--color-mono-5);
+
+    /* Party-specific accent colors (can be overridden by plugins) */
+    --exchange-accent-party1:       var(--theme-color);
+    --exchange-accent-party2:       var(--secondary-color);
+    --exchange-accent-shared:       var(--color-good);
+    --exchange-accent-public:       var(--color-mono-7);
+
+    --exchange-step-bg:             var(--color-mono-1);
+    --exchange-step-border:         var(--color-mono-3);
+    --exchange-step-active-border:  var(--theme-color);
+    --exchange-step-active-bg:      color-mix(in srgb, var(--theme-color), var(--color-mono-min) 75%);
+    --exchange-step-complete-bg:    color-mix(in srgb, var(--theme-color), var(--color-mono-min) 90%);
+
+    --exchange-value-bg:            var(--color-mono-0);
+    --exchange-value-border:        var(--theme-color-4);
+    --exchange-value-var:           var(--theme-color-6);
+    --exchange-value-value:         var(--color-text);
+
+    --exchange-eve-bg:              color-mix(in srgb, var(--color-attention), transparent 95%);
+    --exchange-eve-border:          color-mix(in srgb, var(--color-attention), transparent 10%);
+
+    --exchange-btn-bg:              var(--color-mono-min);
+    --exchange-btn-border:          var(--color-mono-3);
+    --exchange-btn-text:            var(--color-text);
+    --exchange-btn-hover:           var(--theme-color);
+    --exchange-btn-reset-color:     var(--color-attention);
+
+    --exchange-font-mono:           var(--font-family-mono);
+    --exchange-gap-big:             2rem;
+    --exchange-gap:                 1rem;
+    --exchange-gap-small:           0.5rem;
+    --exchange-padding:             1rem;
+    --exchange-padding-med:         0.7rem;
+    --exchange-padding-small:       0.5rem;
+    --exchange-padding-tiny:        0.25rem;
+
+
+    /* ==================== Main Wrapper ==================== */
+
+    .exchange-wrapper {
+        background: var(--exchange-bg);
+        border: 2px solid var(--exchange-border);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+    }
+
+    /* ==================== Header ==================== */
+
+    .exchange-header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--exchange-gap);
+        padding: var(--exchange-padding);
+        border-bottom: 2px solid var(--exchange-border);
+        background-color: var(--exchange-header-bg);
+
+        @container (min-width: 1024px) {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .exchange-header-content {
+            flex: 1;
+        }
+
+        .exchange-title {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: var(--exchange-text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .exchange-subtitle {
+            font-size: 0.9em;
+            color: var(--exchange-text-secondary);
+            line-height: 1.5;
+        }
+    }
+
+    /* ==================== Main Grid (Party1 | Exchange | Party2) ==================== */
+
+    .exchange-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--exchange-gap-big) var(--exchange-gap);
+        padding: var(--exchange-padding);
+        background: var(--exchange-bg);
+        grid-template-areas:
+            "party1"
+            "exchange"
+            "party2";
+
+        @container (min-width: 600px) {
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "party1 party2"
+                "exchange exchange";
+        }
+
+        @container (min-width: 1024px) {
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-areas: "party1 exchange party2";
+        }
+    }
+
+    /* ==================== Party Sections ==================== */
+
+    .exchange-party {
+        display: flex;
+        flex-direction: column;
+        gap: var(--exchange-gap-small);
+
+        .exchange-party-header {
+            text-align: center;
+            padding-bottom: var(--exchange-padding-small);
+            border-bottom: 2px solid var(--exchange-border-light);
+            margin-bottom: var(--exchange-gap-small);
+        }
+
+        .exchange-party-name {
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        &.exchange-party1 {
+            grid-area: party1;
+
+            /* Party 1 accent colors */
+            --exchange-step-border: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 80%);
+            --exchange-step-active-border: var(--exchange-accent-party1);
+            --exchange-step-active-bg: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 75%);
+            --exchange-step-complete-bg: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 90%);
+
+            .exchange-party-name {
+                color: var(--exchange-accent-party1);
+            }
+        }
+
+        &.exchange-party2 {
+            grid-area: party2;
+
+            /* Party 2 accent colors */
+            --exchange-step-border: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 80%);
+            --exchange-step-active-border: var(--exchange-accent-party2);
+            --exchange-step-active-bg: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 75%);
+            --exchange-step-complete-bg: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 90%);
+
+            .exchange-party-name {
+                color: var(--exchange-accent-party2);
+            }
+        }
+    }
+
+    /* ==================== Steps ==================== */
+
+    .exchange-step {
+        background: var(--exchange-step-bg);
+        border: 2px solid var(--exchange-step-border);
+        border-radius: var(--border-radius-med);
+        padding: var(--exchange-padding-small);
+        transition: all 300ms;
+        opacity: 1;
+
+        @container (min-width: 769px) {
+            padding: var(--exchange-padding-med);
+        }
+
+        &.exchange-active {
+            opacity: 1;
+            background: var(--exchange-step-active-bg);
+            border-color: var(--exchange-step-active-border);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color), transparent 85%);
+        }
+
+        &.exchange-completed {
+            background: var(--exchange-step-complete-bg);
+        }
+
+        .exchange-step-label {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: var(--exchange-text-secondary);
+            margin-bottom: var(--exchange-gap-small);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .exchange-step-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--exchange-gap-small);
+        }
+    }
+
+    /* ==================== Exchange Column ==================== */
+
+    .exchange-column {
+        grid-area: exchange;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--exchange-gap);
+        margin-inline: auto;
+
+        @container (min-width: 1024px) {
+            min-width: 300px;
+            max-width: 350px;
+        }
+
+        .exchange-column-step {
+            display: flex;
+            flex-direction: column;
+            gap: var(--exchange-gap-small);
+        }
+
+        .exchange-column-label {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: var(--exchange-text-secondary);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--exchange-gap-small);
+        }
+    }
+
+    /* ==================== Arrows ==================== */
+
+    .exchange-arrow-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: calc(var(--exchange-gap) * 2);
+
+        &:has(.exchange-eve.exchange-show) {
+            @container (min-width: 600px) {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            @container (min-width: 1024px) {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    .exchange-arrow-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--exchange-gap-small);
+    }
+
+    .exchange-arrow {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: var(--exchange-card-bg);
+        border: 2px solid var(--exchange-border);
+        border-radius: var(--border-radius-med);
+        transition: all 300ms;
+
+        &.exchange-animating {
+            animation: exchangeHighlight 600ms ease-in-out;
+            border-color: var(--theme-color);
+            background: color-mix(in srgb, var(--theme-color), var(--color-mono-min) 85%);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-color), transparent 80%);
+        }
+
+        .exchange-arrow-icon {
+            font-size: 1.5em;
+            color: var(--theme-color);
+            flex-shrink: 0;
+        }
+
+        .exchange-arrow-label {
+            font-size: 0.7em;
+            color: var(--exchange-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        &.exchange-arrow-right {
+            flex-direction: row;
+        }
+
+        &.exchange-arrow-left {
+            flex-direction: row-reverse;
+        }
+    }
+
+    /* ==================== Eve Sections ==================== */
+
+    .exchange-eve {
+        background: var(--exchange-eve-bg);
+        border: 2px solid var(--exchange-eve-border);
+        border-radius: var(--border-radius-med);
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 400ms ease;
+
+        &.exchange-show {
+            opacity: 1;
+            max-height: 500px;
+            padding: var(--exchange-padding-med);
+        }
+
+        &.exchange-highlight {
+            animation: exchangeEveHighlight 1.5s ease-in-out;
+        }
+
+        .exchange-eve-icon {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: var(--exchange-gap-small);
+            color: var(--color-attention);
+        }
+
+        .exchange-eve-text {
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-bottom: var(--exchange-gap-small);
+            color: var(--exchange-text-primary);
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .exchange-eve-warning,
+        .exchange-eve-problem {
+            font-size: 0.85em;
+            font-weight: 600;
+            padding: var(--exchange-padding-small);
+            margin-top: var(--exchange-gap-small);
+            background: color-mix(in srgb, var(--color-attention), transparent 85%);
+            border-radius: calc(var(--border-radius) / 2);
+            color: var(--color-attention);
+        }
+    }
+
+    /* ==================== Value Displays ==================== */
+
+    .exchange-value-group {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.25rem;
+        padding: var(--exchange-padding-small) var(--exchange-padding-med);
+        background: var(--exchange-value-bg);
+        border: 1px solid var(--exchange-value-border);
+        border-radius: calc(var(--border-radius) / 2);
+        font-family: var(--exchange-font-mono);
+        font-size: 0.95em;
+
+        .exchange-var {
+            font-weight: 700;
+            color: var(--exchange-value-var);
+            font-style: italic;
+        }
+
+        .exchange-value {
+            font-weight: 600;
+            color: var(--exchange-value-value);
+
+            /* Value color variants */
+            &.exchange-value-party1 {
+                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 30%);
+                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-max) 20%);
+                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-max) 55%);
+            }
+
+            &.exchange-value-party2 {
+                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 30%);
+                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-max) 20%);
+                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-max) 55%);
+            }
+
+            &.exchange-value-shared {
+                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-min) 30%);
+                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 20%);
+                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 55%);
+            }
+
+            &.exchange-value-success {
+                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-min) 30%);
+                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 20%);
+                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 55%);
+            }
+        }
+    }
+
+    /* ==================== Badges (Public/Secret/Shared Keys) ==================== */
+
+    .exchange-badge {
+        display: inline-block;
+        padding: 0.25em 0.6em;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: var(--border-radius);
+        white-space: nowrap;
+
+        &::before {
+            font-size: 1.3em;
+            line-height: 1;
+        }
+
+        &.exchange-public-badge {
+            background: color-mix(in srgb, var(--exchange-accent-public), var(--exchange-bg) 90%);
+            color: var(--exchange-accent-public);
+            border: 1px solid var(--exchange-accent-public);
+
+            &::before {
+                content: "📢 ";
+            }
+        }
+
+        &.exchange-secret-badge {
+            background: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 90%);
+            color: var(--exchange-accent-shared);
+            border: 1px solid var(--exchange-accent-shared);
+
+            &::before {
+                content: "🔒 ";
+            }
+        }
+
+        &.exchange-shared-badge {
+            background: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 90%);
+            color: var(--exchange-accent-shared);
+            border: 1px solid var(--exchange-accent-shared);
+
+            &::before {
+                content: "🔐 ";
+            }
+        }
+    }
+
+    /* ==================== Show/Hide Utilities ==================== */
+
+    .exchange-received,
+    .exchange-result {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 400ms ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--exchange-gap);
+
+        &.exchange-show {
+            opacity: 1;
+            max-height: 500px;
+        }
+
+        &.exchange-pulse {
+            animation: exchangeHighlight 800ms ease-in-out;
+        }
+
+        &.exchange-highlight {
+            animation: exchangeHighlight 1.5s ease-in-out infinite;
+        }
+    }
+
+
+    /* ==================== Footer & Controls ==================== */
+
+    .exchange-footer {
+        display: flex;
+        flex-direction: column;
+        border-top: 2px solid var(--exchange-border);
+        background: var(--exchange-card-bg);
+
+        @container (min-width: 1024px) {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .exchange-status {
+            min-height: 2.5em;
+            padding: var(--exchange-padding);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            color: var(--exchange-text-secondary);
+            line-height: 1.5;
+
+            @container (min-width: 1024px) {
+                flex: 1;
+                border-left: 2px solid var(--exchange-border);
+            }
+
+            &:empty {
+                display: none;
+            }
+
+            &.exchange-status-info {
+                color: var(--color-text);
+            }
+
+            &.exchange-status-success {
+                color: var(--color-good);
+                font-weight: 600;
+            }
+
+            &.exchange-status-warning {
+                color: var(--highlight-color, var(--color-attention));
+            }
+        }
+
+        .exchange-controls {
+            display: flex;
+            gap: var(--exchange-gap-small);
+            padding: var(--exchange-padding);
+            flex-wrap: wrap;
+
+            @container (max-width: 480px) {
+                flex-direction: column;
+            }
+        }
+    }
+
+    /* ==================== Buttons ==================== */
+
+    .exchange-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--exchange-gap-small);
+        padding: var(--exchange-padding-small) var(--exchange-padding);
+        background: var(--exchange-btn-bg);
+        border: 1px solid var(--exchange-btn-border);
+        border-radius: calc(var(--border-radius) / 2);
+        color: var(--exchange-btn-text);
+        font-family: inherit;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+
+        @container (min-width: 481px) {
+            width: auto;
+        }
+
+        &:hover:not(:disabled) {
+            background: var(--color-mono-1);
+            border-color: var(--exchange-btn-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow-small);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &.exchange-btn-reset:hover:not(:disabled) {
+            border-color: var(--exchange-btn-reset-color);
+            color: var(--exchange-btn-reset-color);
+        }
+    }
+
+    /* ==================== Error States ==================== */
+
+    .exchange-error {
+        padding: 2em;
+        text-align: center;
+        color: var(--error-color);
+        font-weight: 600;
+        background: color-mix(in srgb, var(--error-color), transparent 90%);
+        border: 2px solid var(--error-color);
+        border-radius: var(--border-radius);
+    }
+}
+
+/* ==================== Animations ==================== */
+
+
+@keyframes exchangeHighlight {
+    0%, 100% {
+        transform: scale(1.00);
+        filter: brightness(1.0);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes exchangeEveHighlight {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 transparent;
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 4px var(--exchange-eve-border);
+    }
+}

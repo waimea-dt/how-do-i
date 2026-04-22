@@ -1,0 +1,783 @@
+/**
+ * sym-asym.css — Styling for Symmetric vs Asymmetric Encryption Plugin
+ *
+ * Layout pattern (matching diffie-hellman plugin):
+ *   - Alice | Exchange | Bob grid layout
+ *   - Arrows showing key and ciphertext transmission
+ *   - Eve's intercept/eavesdrop sections
+ *   - Responsive breakpoints at 600px, 1024px
+ *
+ * Color scheme from theme.css:
+ *   - Alice: Magenta/purple (palette-color-6)
+ *   - Bob: Blue (secondary-color)
+ *   - Eve (eavesdropper): Red (color-attention)
+ *   - Shared secrets: Green (color-good)
+ */
+
+.markdown-section sym-asym {
+
+    /* ---- Design tokens ---- */
+    --sa-accent-alice:        var(--theme-color);
+    --sa-accent-bob:          var(--secondary-color);
+    --sa-accent-eve:          var(--color-attention);
+    --sa-accent-shared:       var(--color-good);
+    --sa-accent-public:       var(--color-mono-7);
+
+    --sa-accent:              var(--theme-color);
+
+    --sa-bg:                  var(--color-mono-0);
+    --sa-header-bg:           var(--color-mono-1);
+    --sa-card-bg:             var(--color-mono-1);
+    --sa-border:              var(--color-mono-4);
+    --sa-border-light:        var(--color-mono-2);
+
+    --sa-text-primary:        var(--color-text);
+    --sa-text-secondary:      var(--color-mono-6);
+    --sa-text-muted:          var(--color-mono-5);
+
+    --sa-step-bg:             var(--color-mono-1);
+    --sa-step-border:         var(--color-mono-3);
+    --sa-step-active-border:  var(--theme-color);
+    --sa-step-active-bg:      color-mix(in srgb, var(--theme-color), var(--color-mono-min) 75%);
+    --sa-step-complete-bg:    color-mix(in srgb, var(--theme-color), var(--color-mono-min) 90%);
+
+    --sa-value-bg:            var(--color-mono-0);
+    --sa-value-border:        var(--theme-color-4);
+    --sa-value-var:           var(--theme-color-6);
+    --sa-value-value:         var(--color-text);
+
+    --sa-shared-bg:           color-mix(in srgb, var(--sa-accent-shared), var(--sa-bg) 90%);
+    --sa-shared-border:       var(--sa-accent-shared);
+    --sa-public-bg:           color-mix(in srgb, var(--sa-accent-public), var(--sa-bg) 90%);
+    --sa-public-border:       var(--sa-accent-public);
+
+    --sa-eve-bg:              color-mix(in srgb, var(--sa-accent-eve), transparent 95%);
+    --sa-eve-border:          color-mix(in srgb, var(--sa-accent-eve), transparent 10%);
+
+    --sa-btn-bg:              var(--color-mono-min);
+    --sa-btn-border:          var(--color-mono-3);
+    --sa-btn-text:            var(--color-text);
+    --sa-btn-hover:           var(--theme-color);
+    --sa-btn-reset-color:     var(--color-attention);
+
+    --sa-font-mono:           var(--font-family-mono);
+
+    --sa-padding:             1rem;
+    --sa-padding-med:         0.7rem;
+    --sa-padding-small:       0.5rem;
+    --sa-padding-tiny:        0.25rem;
+    --sa-gap:                 1rem;
+    --sa-gap-small:           0.5rem;
+    --sa-gap-tiny:            0.25rem;
+
+    /* ---- Base element ---- */
+
+    display: block;
+    margin: var(--margin-block) 0;
+
+    /* ---- Main wrapper ---- */
+
+    .sa-wrapper {
+        background: var(--sa-bg);
+        border: 2px solid var(--sa-border);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+    }
+
+    /* ---- Header ---- */
+
+    .sa-header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sa-gap);
+        padding: var(--sa-padding);
+        border-bottom: 2px solid var(--sa-border);
+        background-color: var(--sa-header-bg);
+
+        @container (min-width: 1024px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    .sa-header-content {
+        flex: 1;
+    }
+
+    .sa-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.3em;
+        color: var(--sa-text-primary);
+    }
+
+    .sa-subtitle {
+        font-size: 0.95rem;
+        color: var(--sa-text-secondary);
+        line-height: 1.5;
+    }
+
+    .sa-mode-info {
+        display: flex;
+        align-items: center;
+        gap: var(--sa-gap-small);
+        padding: var(--sa-padding-small);
+        background: var(--sa-shared-bg);
+        border: 2px solid var(--sa-accent-shared);
+        border-radius: var(--border-radius-small);
+    }
+
+    .sa-mode-label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--sa-accent-shared);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .sa-mode-message {
+        font-family: var(--sa-font-mono);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--sa-text-primary);
+    }
+
+    /* ---- Main grid (Alice | Exchange | Bob) ---- */
+
+    .sa-main-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--sa-gap);
+        padding: var(--sa-padding);
+        background: var(--sa-bg);
+        grid-template-areas:
+            "bob"
+            "exchange"
+            "alice";
+
+        @container (min-width: 600px) {
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "bob alice"
+                "exchange exchange";
+        }
+
+        @container (min-width: 1024px) {
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-areas: "alice exchange bob";
+        }
+    }
+
+    /* ---- Party (Alice/Bob) sections ---- */
+
+    .sa-party {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sa-gap-small);
+
+        .sa-party-header {
+            text-align: center;
+            padding-bottom: var(--sa-padding-small);
+            border-bottom: 2px solid var(--sa-border-light);
+        }
+
+        .sa-party-name {
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        &.sa-alice {
+            grid-area: alice;
+
+            --sa-accent: var(--sa-accent-alice);
+
+            --sa-step-border: color-mix(in srgb, var(--sa-accent-alice), var(--color-mono-min) 80%);
+            --sa-step-active-border: var(--sa-accent-alice);
+            --sa-step-active-bg: color-mix(in srgb, var(--sa-accent-alice), var(--color-mono-min) 75%);
+            --sa-step-complete-bg: color-mix(in srgb, var(--sa-accent-alice), var(--color-mono-min) 90%);
+
+            .sa-party-name {
+                color: var(--sa-accent-alice);
+            }
+        }
+
+        &.sa-bob {
+            grid-area: bob;
+
+            --sa-accent: var(--sa-accent-bob);
+
+            --sa-step-border: color-mix(in srgb, var(--sa-accent-bob), var(--color-mono-min) 80%);
+            --sa-step-active-border: var(--sa-accent-bob);
+            --sa-step-active-bg: color-mix(in srgb, var(--sa-accent-bob), var(--color-mono-min) 75%);
+            --sa-step-complete-bg: color-mix(in srgb, var(--sa-accent-bob), var(--color-mono-min) 90%);
+
+            .sa-party-name {
+                color: var(--sa-accent-bob);
+            }
+        }
+    }
+
+    /* ---- Steps ---- */
+
+    .sa-step {
+        background: var(--sa-step-bg);
+        border: 2px solid var(--sa-step-border);
+        border-radius: var(--border-radius-med);
+        padding: var(--sa-padding-small);
+        transition: all 300ms;
+        opacity: 1;
+
+        @container (min-width: 769px) {
+            padding: var(--sa-padding-med);
+        }
+
+        &.sa-active {
+            opacity: 1;
+            background: var(--sa-step-active-bg);
+            border-color: var(--sa-step-active-border);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color), transparent 85%);
+        }
+
+        &.sa-completed {
+            background: var(--sa-step-complete-bg);
+        }
+    }
+
+    .sa-step-label {
+        font-size: 0.75em;
+        font-weight: 600;
+        color: var(--sa-text-secondary);
+        margin-bottom: var(--sa-gap-small);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .sa-step-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sa-gap-small);
+    }
+
+    /* ---- Key generation/display ---- */
+
+    .sa-key-display {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+    .sa-keypair {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sa-gap);
+    }
+
+    /* ---- Received data ---- */
+
+    .sa-received {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 300ms, opacity 300ms 100ms;
+
+        &.sa-show {
+            max-height: 200px;
+            opacity: 1;
+        }
+    }
+
+    .sa-received-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--sa-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.4em;
+    }
+
+    /* ---- Operations (encrypt/decrypt formulas) ---- */
+
+    .sa-operation {
+        padding: var(--sa-padding-small);
+        background: var(--sa-bg);
+        border-left: 3px solid var(--sa-border);
+        border-radius: var(--border-radius-small);
+    }
+
+    .sa-operation-formula {
+        font-family: var(--sa-font-mono);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* ---- Results ---- */
+
+    .sa-result {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 300ms, opacity 300ms 100ms;
+
+        &.sa-show {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        &.sa-result-final {
+            &.sa-highlight {
+                animation: saResultPulse 600ms ease-out;
+            }
+        }
+    }
+
+    @keyframes saResultPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    /* ---- Value displays (keys, ciphertext, messages) ---- */
+
+    .sa-value-group {
+        font-size: 1.2rem;
+        line-height: 1.2;
+        font-family: var(--sa-font-mono);
+        padding: var(--sa-padding-tiny) var(--sa-padding-small);
+        background-color: var(--sa-value-bg);
+        border-radius: var(--border-radius);
+        border: 2px solid var(--sa-value-border);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: var(--sa-gap-tiny);
+
+        &.sa-value-alice {
+            --sa-value-border: color-mix(in srgb, var(--sa-accent-alice), var(--color-mono-min) 30%);
+            --sa-value-var: color-mix(in srgb, var(--sa-accent-alice), var(--color-mono-max) 20%);
+            --sa-value-value: color-mix(in srgb, var(--sa-accent-alice), var(--color-mono-max) 55%);
+        }
+
+        &.sa-value-bob {
+            --sa-value-border: color-mix(in srgb, var(--sa-accent-bob), var(--color-mono-min) 30%);
+            --sa-value-var: color-mix(in srgb, var(--sa-accent-bob), var(--color-mono-max) 20%);
+            --sa-value-value: color-mix(in srgb, var(--sa-accent-bob), var(--color-mono-max) 55%);
+        }
+
+        &.sa-value-shared {
+            --sa-value-border: color-mix(in srgb, var(--sa-accent-shared), var(--color-mono-min) 30%);
+            --sa-value-var: color-mix(in srgb, var(--sa-accent-shared), var(--color-mono-max) 20%);
+            --sa-value-value: color-mix(in srgb, var(--sa-accent-shared), var(--color-mono-max) 55%);
+        }
+
+        &.sa-value-success {
+            --sa-value-border: color-mix(in srgb, var(--sa-accent-shared), var(--color-mono-min) 30%);
+            --sa-value-var: color-mix(in srgb, var(--sa-accent-shared), var(--color-mono-max) 20%);
+            --sa-value-value: color-mix(in srgb, var(--sa-accent-shared), var(--color-mono-max) 55%);
+        }
+    }
+
+    .sa-var {
+        font-family: var(--sa-font-mono);
+        font-weight: 600;
+        color: var(--sa-value-var);
+    }
+
+    .sa-value {
+        font-family: var(--sa-font-mono);
+        font-weight: 700;
+        color: var(--sa-value-value);
+        word-break: break-all;
+
+        &.sa-ciphertext {
+            font-size: 0.8em;
+            letter-spacing: 0.05em;
+        }
+    }
+
+    .sa-func {
+        color: var(--sa-accent-bob);
+        font-weight: 600;
+    }
+
+    .sa-str {
+        color: var(--sa-accent-shared);
+    }
+
+    /* ---- Badges ---- */
+
+    .sa-public-badge,
+    .sa-secret-badge {
+        display: inline-block;
+        padding: 0.25em 0.6em;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: var(--border-radius-small);
+    }
+
+    .sa-public-badge {
+        background: var(--sa-public-bg);
+        color: var(--sa-accent-public);
+        border: 1px solid var(--sa-accent-public);
+    }
+
+    .sa-secret-badge {
+        background: var(--sa-shared-bg);
+        color: var(--sa-accent-shared);
+        border: 1px solid var(--sa-accent-shared);
+    }
+
+    /* ---- Exchange section (middle column with arrows) ---- */
+
+    .sa-exchange {
+        grid-area: exchange;
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--sa-gap) * 2);
+        padding: var(--sa-padding);
+
+        @container (min-width: 1024px) {
+            justify-content: center;
+        }
+    }
+
+    .sa-exchange-step {
+        opacity: 0.6;
+        transition: opacity 400ms;
+
+        &.sa-active,
+        &.sa-completed {
+            opacity: 1;
+        }
+    }
+
+    .sa-exchange-label {
+        font-weight: 600;
+        font-size: 0.75em;
+        color: var(--sa-text-secondary);
+        margin-bottom: var(--sa-gap);
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .sa-exchange-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: calc(var(--sa-gap) * 2);
+
+        &:has(.sa-eve-note.sa-show) {
+            @container (min-width: 600px) {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            @container (min-width: 1024px) {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    .sa-arrow-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sa-gap-small);
+    }
+
+    /* ---- Arrows ---- */
+
+    .sa-arrow {
+        display: flex;
+        align-items: center;
+        gap: var(--sa-gap);
+        padding: var(--sa-padding-small);
+        background: var(--sa-card-bg);
+        border: 2px solid var(--sa-border);
+        border-radius: var(--border-radius-small);
+        opacity: 0.7;
+        transition: all 400ms;
+
+        &.sa-animating {
+            opacity: 1;
+            border-color: var(--sa-accent-alice);
+            background: color-mix(in srgb, var(--sa-accent-alice), var(--color-mono-min) 90%);
+            animation: saArrowPulse 600ms ease-out;
+        }
+
+        .sa-arrow-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--sa-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sa-arrow-arrow {
+            font-size: 2em;
+            line-height: 1;
+            height: 1.2em;
+        }
+
+        &.sa-arrow-right {
+            justify-content: flex-start;
+        }
+
+        &.sa-arrow-left {
+            justify-content: flex-end;
+        }
+    }
+
+    @keyframes saArrowPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    /* ---- Eve (Eavesdropper) sections ---- */
+
+    .sa-eve-intercept {
+        max-height: 0;
+        padding: 0;
+        background-color: var(--sa-eve-bg);
+        border: 0 solid var(--sa-eve-border);
+        border-radius: var(--border-radius);
+        opacity: 0;
+        overflow: hidden;
+        width: 100%;
+        max-width: 320px;
+        margin-inline: auto;
+        transition: max-height 200ms ease-out, padding 200ms ease-out, border-width 200ms ease-out, opacity 400ms 200ms;
+
+        &.sa-show {
+            max-height: 300px;
+            padding: var(--sa-padding);
+            border-width: 2px;
+            opacity: 1;
+        }
+
+        &.sa-highlight {
+            animation: saEveHighlight 600ms ease-out;
+        }
+
+        .sa-eve-icon {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 0.5em;
+        }
+
+        .sa-eve-text {
+            font-size: 0.9em;
+            color: var(--sa-text-primary);
+            text-align: center;
+            margin-bottom: 0.5em;
+            line-height: 1.4;
+        }
+
+        .sa-eve-warning {
+            margin-top: var(--sa-gap-small);
+            padding: var(--sa-padding-small);
+            background: color-mix(in srgb, var(--sa-accent-eve), transparent 90%);
+            border: 1px solid var(--sa-accent-eve);
+            border-radius: var(--border-radius-small);
+            font-weight: 700;
+            font-size: 0.85em;
+            text-align: center;
+            color: var(--sa-accent-eve);
+        }
+    }
+
+    .sa-eve-note {
+        max-height: 0;
+        padding: 0;
+        background-color: var(--sa-eve-bg);
+        border: 0 solid var(--sa-eve-border);
+        border-radius: var(--border-radius);
+        opacity: 0;
+        overflow: hidden;
+        width: 100%;
+        max-width: 320px;
+        margin-inline: auto;
+        transition: max-height 200ms ease-out, padding 200ms ease-out, border-width 200ms ease-out, opacity 400ms 200ms;
+
+        &.sa-show {
+            max-height: 400px;
+            padding: var(--sa-padding);
+            border-width: 2px;
+            opacity: 1;
+        }
+
+        .sa-eve-icon {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--sa-accent-eve);
+            margin-bottom: 0.6em;
+            text-align: center;
+        }
+
+        .sa-eve-text {
+            font-size: 0.85em;
+            color: var(--sa-text-primary);
+            margin-bottom: 0.4em;
+            font-family: var(--sa-font-mono);
+            line-height: 1.5;
+        }
+
+        .sa-eve-problem {
+            margin-top: var(--sa-gap);
+            padding-top: var(--sa-padding-small);
+            border-top: 1px solid var(--sa-border);
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: var(--sa-text-primary);
+            text-align: center;
+        }
+    }
+
+    @keyframes saEveHighlight {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 var(--sa-eve-border);
+        }
+        50% {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 4px var(--sa-eve-border);
+        }
+    }
+
+    /* ---- Footer ---- */
+
+    .sa-footer {
+        display: flex;
+        flex-direction: column;
+        border-top: 2px solid var(--sa-border);
+        background: var(--sa-card-bg);
+
+        @container (min-width: 1024px) {
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+
+    /* ---- Status ---- */
+
+    .sa-status {
+        min-height: 2.5em;
+        padding: var(--sa-padding);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9em;
+        color: var(--sa-text-secondary);
+        line-height: 1.5;
+
+        @container (min-width: 1024px) {
+            flex: 1;
+            border-right: 2px solid var(--sa-border);
+        }
+
+        &:empty {
+            display: none;
+        }
+
+        &.sa-status-info {
+            color: var(--color-text);
+        }
+
+        &.sa-status-success {
+            color: var(--color-good);
+            font-weight: 600;
+        }
+
+        &.sa-status-warning {
+            color: var(--highlight-color);
+        }
+    }
+
+    /* ---- Controls ---- */
+
+    .sa-controls {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--sa-gap);
+        padding: var(--sa-padding);
+        flex-wrap: wrap;
+
+        @container (min-width: 481px) {
+            flex-direction: row;
+        }
+
+        @container (min-width: 1024px) {
+            flex: 1;
+        }
+    }
+
+    .sa-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--sa-gap);
+        padding: var(--sa-padding-tiny) var(--sa-padding-small);
+        background: var(--sa-btn-bg);
+        border: 1px solid var(--sa-btn-border);
+        border-radius: calc(var(--border-radius) / 2);
+        color: var(--sa-btn-text);
+        font-family: inherit;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+
+        @container (min-width: 481px) {
+            width: auto;
+        }
+
+        &:hover:not(:disabled) {
+            background: var(--color-mono-1);
+            border-color: var(--sa-btn-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow-small);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &.sa-btn-reset:hover:not(:disabled) {
+            border-color: var(--sa-btn-reset-color);
+            color: var(--sa-btn-reset-color);
+        }
+
+        .btn-icon {
+            font-size: 1.18em;
+            line-height: 1;
+        }
+    }
+
+    /* ---- Error state ---- */
+
+    .sa-error {
+        padding: 2em;
+        text-align: center;
+        color: var(--error-color);
+        font-weight: 600;
+        background: color-mix(in srgb, var(--error-color), transparent 90%);
+        border: 2px solid var(--error-color);
+        border-radius: var(--border-radius);
+    }
+
+}

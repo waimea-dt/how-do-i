@@ -1,0 +1,101 @@
+/**
+ * sym-asym.css — Symmetric vs Asymmetric Encryption Plugin Specific Styles
+ *
+ * Common exchange patterns (grid, arrows, eve, footer, buttons) are in exchange-core.css
+ * This file contains only sym-asym specific styling:
+ *   - Mode info display
+ *   - Encryption/decryption specific elements
+ *   - Ciphertext styling
+ *   - Key display variants
+ */
+
+.markdown-section sym-asym {
+    container-type: inline-size;
+
+    /* ---- Plugin-specific design token overrides ---- */
+    /* Uncomment to override default exchange-core.css tokens */
+    /* --exchange-accent-party1: var(--theme-color); */
+    /* --exchange-accent-party2: var(--secondary-color); */
+    /* --exchange-accent-shared: var(--color-good); */
+
+    /* ---- Mode info (sym-asym specific) ---- */
+
+    .sa-mode-info {
+        display: flex;
+        align-items: center;
+        gap: var(--exchange-gap-small);
+        padding: var(--exchange-padding-small);
+        background: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 90%);
+        border: 2px solid var(--exchange-accent-shared);
+        border-radius: var(--border-radius-small);
+
+        .sa-mode-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--exchange-accent-shared);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sa-mode-message {
+            font-family: var(--exchange-font-mono);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--exchange-text-primary);
+        }
+    }
+
+    /* ---- Key/keypair displays (encryption specific) ---- */
+
+    .sa-keypair {
+        display: flex;
+        flex-direction: column;
+        gap: var(--exchange-gap);
+    }
+
+    /* ---- Encryption operation display ---- */
+
+    .sa-operation {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+    .sa-operation-formula {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    /* ---- Ciphertext specific ---- */
+
+    .sa-ciphertext {
+        font-size: 0.8em;
+        letter-spacing: 0.05em;
+    }
+
+    .sa-func {
+        color: var(--exchange-accent-party2);
+        font-weight: 600;
+    }
+
+    .sa-str {
+        color: var(--exchange-accent-shared);
+    }
+
+
+    /* ---- Operations/formulas (encryption/decryption) ---- */
+
+    .sa-operation {
+        padding: var(--exchange-padding-small);
+        background: var(--exchange-bg);
+        border-left: 3px solid var(--exchange-border);
+        border-radius: var(--border-radius-small);
+    }
+
+    .sa-operation-formula {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+}
