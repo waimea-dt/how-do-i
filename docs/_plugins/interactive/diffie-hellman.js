@@ -231,7 +231,7 @@
                         <div class="exchange-step-label">Step 4: Receive Bob's public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="exchange-step-content">
                             <div class="exchange-received">
-                                <span>Received</span>
+                                <span class="exchange-label">Received</span>
                                 <div class="exchange-value-group exchange-value-party2">
                                     <span class="exchange-var">B</span> = <span class="exchange-value" data-alice-received>?</span>
                                 </div>
@@ -285,7 +285,7 @@
                                 <div class="exchange-eve-icon">👁️ Eve (eavesdropper)</div>
                                 <div class="exchange-eve-text">Can see: ${mode === 'color' ? '<span class="exchange-var">base</span>, <span class="exchange-var">A</span>, <span class="exchange-var">B</span>' : '<span class="exchange-var">p</span>, <span class="exchange-var">g</span>, <span class="exchange-var">A</span>, <span class="exchange-var">B</span>'}</div>
                                 <div class="exchange-eve-text">Cannot see: <span class="exchange-var">a</span>, <span class="exchange-var">b</span>, <span class="exchange-var">s</span></div>
-                                <div class="exchange-eve-problem">${mode === 'color' ? 'Separating mixed colours to find <span class="exchange-var">a</span> or <span class="exchange-var">b</span> is extremely hard!' : 'Computing <span class="exchange-var">a</span> or <span class="exchange-var">b</span> from public values is the <strong>discrete logarithm problem</strong> - extremely hard!'}</div>
+                                <div class="exchange-eve-problem">${mode === 'color' ? 'Separating mixed colours to find <span class="exchange-var">a</span> or <span class="exchange-var">b</span> is extremely hard!' : 'Computing <span class="exchange-var">a</span> or <span class="exchange-var">b</span> from public values is the <strong>discrete logarithm problem</strong> and is extremely hard!'}</div>
                             </div>
                             ` : ''}
                         </div>
@@ -321,10 +321,10 @@
                                 </div>
                             </div>
                             <div class="exchange-result exchange-show" data-bob-result>
-                                <span class="exchange-badge exchange-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
                                 <div class="exchange-value-group exchange-value-party2">
                                     <span class="exchange-var">B</span> = <span class="exchange-value" data-bob-public>?</span>
                                 </div>
+                                <span class="exchange-badge exchange-public-badge">Public ${mode === 'color' ? 'Colour' : 'Value'}</span>
                             </div>
                         </div>
                     </div>
@@ -333,7 +333,7 @@
                         <div class="exchange-step-label">Step 4: Receive Alice's public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="exchange-step-content">
                             <div class="exchange-received">
-                                <span>Received</span>
+                                <span class="exchange-label">Received</span>
                                 <div class="exchange-value-group exchange-value-party1">
                                     <span class="exchange-var">A</span> = <span class="exchange-value" data-bob-received>?</span>
                                 </div>
@@ -991,6 +991,11 @@
             if (this.dom.eveNote) {
                 this.dom.eveNote.classList.remove(CSS_CLASSES.SHOW)
             }
+
+            // Reset received value containers
+            this.el.querySelectorAll('.exchange-received').forEach(el => {
+                el.classList.remove(CSS_CLASSES.SHOW)
+            })
 
             // Reset all displayed values to '?'
             this.resetElementsToDefault('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]')

@@ -30,10 +30,12 @@
     --exchange-text-muted:          var(--color-mono-5);
 
     /* Party-specific accent colors (can be overridden by plugins) */
+    --exchange-accent:              var(--theme-color);
     --exchange-accent-party1:       var(--theme-color);
     --exchange-accent-party2:       var(--secondary-color);
     --exchange-accent-shared:       var(--color-good);
-    --exchange-accent-public:       var(--color-mono-7);
+    --exchange-accent-secret:       var(--highlight-color);
+    --exchange-accent-public:       var(--palette-color-6);
 
     --exchange-step-bg:             var(--color-mono-1);
     --exchange-step-border:         var(--color-mono-3);
@@ -95,14 +97,14 @@
         }
 
         .exchange-title {
-            font-size: 1.25em;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: var(--exchange-text-primary);
-            margin-bottom: 0.25rem;
+            color: var(--exchange-accent);
+            margin-bottom: var(--exchange-gap-small);
         }
 
         .exchange-subtitle {
-            font-size: 0.9em;
+            font-size: 0.9rem;
             color: var(--exchange-text-secondary);
             line-height: 1.5;
         }
@@ -134,6 +136,18 @@
         }
     }
 
+
+    /* ==================== General Labels ==================== */
+
+    .exchange-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--exchange-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+
     /* ==================== Party Sections ==================== */
 
     .exchange-party {
@@ -149,14 +163,15 @@
         }
 
         .exchange-party-name {
-            font-size: 1.2em;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 600;
         }
 
         &.exchange-party1 {
             grid-area: party1;
 
             /* Party 1 accent colors */
+            --exchange-accent: var(--exchange-accent-party1);
             --exchange-step-border: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 80%);
             --exchange-step-active-border: var(--exchange-accent-party1);
             --exchange-step-active-bg: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 75%);
@@ -171,6 +186,7 @@
             grid-area: party2;
 
             /* Party 2 accent colors */
+            --exchange-accent: var(--exchange-accent-party2);
             --exchange-step-border: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 80%);
             --exchange-step-active-border: var(--exchange-accent-party2);
             --exchange-step-active-bg: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 75%);
@@ -208,7 +224,7 @@
         }
 
         .exchange-step-label {
-            font-size: 0.75em;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--exchange-text-secondary);
             margin-bottom: var(--exchange-gap-small);
@@ -246,7 +262,7 @@
         }
 
         .exchange-column-label {
-            font-size: 0.75em;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--exchange-text-secondary);
             text-align: center;
@@ -284,8 +300,8 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
+        gap: var(--exchange-gap);
+        padding: var(--exchange-gap-small);
         background: var(--exchange-card-bg);
         border: 2px solid var(--exchange-border);
         border-radius: var(--border-radius-med);
@@ -293,23 +309,20 @@
 
         &.exchange-animating {
             animation: exchangeHighlight 600ms ease-in-out;
-            border-color: var(--theme-color);
-            background: color-mix(in srgb, var(--theme-color), var(--color-mono-min) 85%);
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-color), transparent 80%);
+            border-color: var(--exchange-accent-public);
+            background: color-mix(in srgb, var(--exchange-accent-public), var(--color-mono-min) 85%);
         }
 
         .exchange-arrow-icon {
-            font-size: 1.5em;
-            color: var(--theme-color);
-            flex-shrink: 0;
+            font-size: 1.5rem;
         }
 
         .exchange-arrow-label {
-            font-size: 0.7em;
-            color: var(--exchange-text-muted);
+            font-size: 0.8rem;
+            color: var(--exchange-text);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-top: 0.25rem;
+            margin-top: var(--exchange-padding-tiny);
         }
 
         &.exchange-arrow-right {
@@ -331,6 +344,8 @@
         max-height: 0;
         overflow: hidden;
         transition: all 400ms ease;
+        max-width: 280px;
+        margin-inline: auto;
 
         &.exchange-show {
             opacity: 1;
@@ -343,14 +358,14 @@
         }
 
         .exchange-eve-icon {
-            font-size: 1.1em;
+            font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: var(--exchange-gap-small);
             color: var(--color-attention);
         }
 
         .exchange-eve-text {
-            font-size: 0.9em;
+            font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: var(--exchange-gap-small);
             color: var(--exchange-text-primary);
@@ -362,11 +377,13 @@
 
         .exchange-eve-warning,
         .exchange-eve-problem {
-            font-size: 0.85em;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 500;
             padding: var(--exchange-padding-small);
             margin-top: var(--exchange-gap-small);
-            background: color-mix(in srgb, var(--color-attention), transparent 85%);
+            /* background: color-mix(in srgb, var(--color-attention), transparent 85%); */
+            background-color: var(--color-mono-0);
+            border: 1px solid var(--color-attention);
             border-radius: calc(var(--border-radius) / 2);
             color: var(--color-attention);
         }
@@ -378,12 +395,37 @@
         display: inline-flex;
         align-items: baseline;
         gap: 0.25rem;
-        padding: var(--exchange-padding-small) var(--exchange-padding-med);
+        padding: var(--exchange-padding-tiny) var(--exchange-padding-med);
         background: var(--exchange-value-bg);
-        border: 1px solid var(--exchange-value-border);
-        border-radius: calc(var(--border-radius) / 2);
+        border: 2px solid var(--exchange-value-border);
+        border-radius: var(--border-radius-small);
         font-family: var(--exchange-font-mono);
-        font-size: 0.95em;
+        font-size: 1.2rem;
+
+        /* Value color variants */
+        &.exchange-value-party1 {
+            --exchange-value-border: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 30%);
+            --exchange-value-var: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-max) 20%);
+            --exchange-value-value: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-max) 55%);
+        }
+
+        &.exchange-value-party2 {
+            --exchange-value-border: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 30%);
+            --exchange-value-var: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-max) 20%);
+            --exchange-value-value: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-max) 55%);
+        }
+
+        &.exchange-value-shared {
+            --exchange-value-border: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-min) 30%);
+            --exchange-value-var: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 20%);
+            --exchange-value-value: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 55%);
+        }
+
+        &.exchange-value-success {
+            --exchange-value-border: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-min) 30%);
+            --exchange-value-var: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 20%);
+            --exchange-value-value: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 55%);
+        }
 
         .exchange-var {
             font-weight: 700;
@@ -394,31 +436,6 @@
         .exchange-value {
             font-weight: 600;
             color: var(--exchange-value-value);
-
-            /* Value color variants */
-            &.exchange-value-party1 {
-                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-min) 30%);
-                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-max) 20%);
-                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-party1), var(--color-mono-max) 55%);
-            }
-
-            &.exchange-value-party2 {
-                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-min) 30%);
-                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-max) 20%);
-                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-party2), var(--color-mono-max) 55%);
-            }
-
-            &.exchange-value-shared {
-                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-min) 30%);
-                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 20%);
-                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 55%);
-            }
-
-            &.exchange-value-success {
-                --exchange-value-border: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-min) 30%);
-                --exchange-value-var: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 20%);
-                --exchange-value-value: color-mix(in srgb, var(--exchange-accent-shared), var(--color-mono-max) 55%);
-            }
         }
     }
 
@@ -426,7 +443,7 @@
 
     .exchange-badge {
         display: inline-block;
-        padding: 0.25em 0.6em;
+        padding: var(--exchange-padding-tiny) var(--exchange-padding-small);
         font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
@@ -450,9 +467,9 @@
         }
 
         &.exchange-secret-badge {
-            background: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 90%);
-            color: var(--exchange-accent-shared);
-            border: 1px solid var(--exchange-accent-shared);
+            background: color-mix(in srgb, var(--exchange-accent-secret), var(--exchange-bg) 90%);
+            color: var(--exchange-accent-secret);
+            border: 1px solid var(--exchange-accent-secret);
 
             &::before {
                 content: "🔒 ";
@@ -479,6 +496,7 @@
         overflow: hidden;
         transition: all 400ms ease;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         justify-content: center;
         gap: var(--exchange-gap);
@@ -512,12 +530,12 @@
         }
 
         .exchange-status {
-            min-height: 2.5em;
+            min-height: 2.5rem;
             padding: var(--exchange-padding);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9em;
+            font-size: 0.9rem;
             color: var(--exchange-text-secondary);
             line-height: 1.5;
 
@@ -569,7 +587,7 @@
         border-radius: calc(var(--border-radius) / 2);
         color: var(--exchange-btn-text);
         font-family: inherit;
-        font-size: 1em;
+        font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -604,7 +622,7 @@
     /* ==================== Error States ==================== */
 
     .exchange-error {
-        padding: 2em;
+        padding: 2rem;
         text-align: center;
         color: var(--error-color);
         font-weight: 600;

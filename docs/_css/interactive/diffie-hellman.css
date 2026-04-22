@@ -22,6 +22,64 @@
     --dh-formula-bg:          var(--color-mono-0);
     --dh-calc-line-bg:        var(--color-mono-0);
 
+    /* ---- Public parameters display ---- */
+
+    .dh-public-params {
+        display: flex;
+        flex-direction: column;
+        gap: var(--exchange-gap-small);
+        padding: var(--exchange-padding-small) var(--exchange-padding);
+        background: color-mix(in srgb, var(--exchange-accent-public), var(--exchange-bg) 95%);
+        border: 2px solid var(--exchange-border);
+        border-radius: var(--border-radius-med);
+        text-align: center;
+
+        .dh-param-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--exchange-accent-public);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .dh-params-row {
+            display: flex;
+            justify-content: center;
+            gap: var(--exchange-gap);
+            flex-wrap: wrap;
+        }
+
+        .dh-param {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--exchange-gap-small);
+            font-family: var(--exchange-font-mono);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .dh-param-name {
+            color: var(--exchange-accent-public);
+            font-size: 1.2rem;
+        }
+
+        .dh-param-equals {
+            color: var(--exchange-text-secondary);
+        }
+
+        .dh-param-value {
+            color: var(--exchange-text-primary);
+            font-size: 1.2rem;
+        }
+
+        .dh-param-desc {
+            font-size: 0.8em;
+            font-weight: 400;
+            color: var(--exchange-text-secondary);
+            font-family: var(--font-family);
+        }
+    }
+
     /* ---- Color swatch (color mixing mode) ---- */
 
     .dh-color-swatch {
@@ -41,14 +99,6 @@
         vertical-align: middle;
     }
 
-    .dh-color-mix {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.25em;
-        font-family: var(--exchange-font-mono);
-        font-size: 0.9em;
-    }
-
     /* ---- Calculation displays (formulas and steps) ---- */
 
     .dh-calculation {
@@ -65,20 +115,32 @@
         font-size: 0.9rem;
         width: fit-content;
         margin: 0 auto;
-        gap: var(--exchange-gap-small);
+        gap: var(--exchange-gap-tiny);
+
+        &:has(.dh-color-swatch) {
+            gap: var(--exchange-gap-small);
+        }
     }
 
     .dh-calc-step {
-        padding: var(--exchange-padding-tiny) var(--exchange-padding-small);
-        background: var(--dh-calc-line-bg);
-        border-radius: var(--border-radius-small);
         opacity: 0;
-        transform: translateX(-10px);
         transition: all 300ms ease;
 
-        &.dh-calc-animate {
+        &:first-child {
             opacity: 1;
-            transform: translateX(0);
+        }
+
+        &:last-child {
+            font-size: 1.1rem;
+        }
+
+        strong {
+            color: var(--exchange-accent);
+            font-weight: 600;
+        }
+
+        &.dh-calc-animate {
+            animation: dhCalcHighlight 300ms ease-in forwards;
         }
     }
 
@@ -89,66 +151,26 @@
     }
 
 
-    /* ---- Public parameters display ---- */
-
-    .dh-public-params {
-        display: flex;
-        flex-direction: column;
-        gap: var(--exchange-gap-small);
-        padding: var(--exchange-padding);
-        background: color-mix(in srgb, var(--exchange-accent-public), var(--exchange-bg) 95%);
-        border: 2px solid var(--exchange-accent-public);
-        border-radius: var(--border-radius-med);
-        text-align: center;
-
-        .dh-param-label {
-            font-size: 0.75em;
-            font-weight: 600;
-            color: var(--exchange-accent-public);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .dh-params-row {
-            display: flex;
-            justify-content: center;
-            gap: var(--exchange-gap);
-            flex-wrap: wrap;
-        }
-
-        .dh-param {
-            display: inline-flex;
-            align-items: baseline;
-            gap: 0.35em;
-            font-family: var(--exchange-font-mono);
-            font-size: 1.05em;
-            font-weight: 700;
-        }
-
-        .dh-param-name {
-            color: var(--exchange-accent-public);
-        }
-
-        .dh-param-equals {
-            color: var(--exchange-text-secondary);
-        }
-
-        .dh-param-value {
-            color: var(--exchange-text-primary);
-        }
-
-        .dh-param-desc {
-            font-size: 0.8em;
-            font-weight: 400;
-            color: var(--exchange-text-muted);
-            font-family: var(--font-family);
-            margin-left: 0.25em;
-        }
-    }
-
     /* ---- Exchange column DH-specific ---- */
 
     .exchange-column {
         max-width: 350px;
+
+        @container (min-width: 600px) {
+            max-width: 90%;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @container (min-width: 1024px) {
+            max-width: 350px;
+            grid-template-columns: 1fr;
+        }
     }
 }
+
+
+@keyframes dhCalcHighlight {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
