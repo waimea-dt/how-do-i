@@ -1,13 +1,13 @@
 /**
- * docsify-web-playground.js — Live HTML/CSS/JS editor widget, implemented as a Docsify plugin.
- * 
+ * docsify-web-playground.js - Live HTML/CSS/JS editor widget, implemented as a Docsify plugin.
+ *
  * On each page load, every <div class="web-playground"> is automatically turned into
  * a side-by-side (or stacked on small screens) editor + live preview.
  * All editors are visible at once so students can see the effect of their edits immediately.
- * 
+ *
  * Requires codemirror.js and the xml, css, javascript, htmlmixed modes and
  * closetag addon to be loaded in index.html before this script runs.
- * 
+ *
  * Usage in markdown:
  *   <div
  *       class="web-playground"
@@ -16,7 +16,7 @@
  *       data-js="_demos/file.js"
  *       data-height="40em"
  *   ></div>
- * 
+ *
  * Paths are relative to the current page's directory.
  * Prefix a path with / to make it relative to the docs root instead.
  */
@@ -81,7 +81,7 @@
     }
 
     // Build the widget: editors column on the left, live preview on the right.
-    // All editors are always visible — no tabs.
+    // All editors are always visible - no tabs.
     function buildWidget(container, contents) {
         const editorsCol = document.createElement('div')
         editorsCol.className = 'wp-editors'
@@ -138,7 +138,7 @@
 
         const refreshAll = () => Object.values(editors).forEach(ed => ed.refresh())
 
-        // Vertical split between editor panes — always active.
+        // Vertical split between editor panes - always active.
         let vSplit = null
         let savedSizes = null
         let maximisedPane = null
@@ -191,7 +191,7 @@
             })
         }
 
-        // Horizontal split between editors and preview — created/destroyed as the
+        // Horizontal split between editors and preview - created/destroyed as the
         // viewport crosses the wide-screen breakpoint so that Split.js inline styles
         // don't override the CSS layout on mobile.
         let hSplit = null

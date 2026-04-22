@@ -1,5 +1,5 @@
 /**
- * docsify-python-test.js — Interactive code coverage visualization for Python testing
+ * docsify-python-test.js - Interactive code coverage visualization for Python testing
  *
  * Provides comprehensive test coverage analysis for Python code blocks with:
  * - Direct line instrumentation to track execution
@@ -947,8 +947,8 @@
                 </div>
                 <div class="python-test-stat">
                     <span class="python-test-stat-label">Boundaries</span>
-                    <span class="python-test-stat-percentage ${boundaryStats.total > 0 ? `python-test-stat-${boundaryStats.percentage === 100 ? 'excellent' : 'poor'}` : ''}">${boundaryStats.total > 0 ? `${boundaryStats.percentage}%` : '—'}</span>
-                    <span class="python-test-stat-fraction ${boundaryStats.total > 0 ? `python-test-stat-${boundaryStats.tested === boundaryStats.total ? 'excellent' : 'poor'}` : ''}">${boundaryStats.total > 0 ? `${boundaryStats.tested}/${boundaryStats.total}` : '—'}</span>
+                    <span class="python-test-stat-percentage ${boundaryStats.total > 0 ? `python-test-stat-${boundaryStats.percentage === 100 ? 'excellent' : 'poor'}` : ''}">${boundaryStats.total > 0 ? `${boundaryStats.percentage}%` : '-'}</span>
+                    <span class="python-test-stat-fraction ${boundaryStats.total > 0 ? `python-test-stat-${boundaryStats.tested === boundaryStats.total ? 'excellent' : 'poor'}` : ''}">${boundaryStats.total > 0 ? `${boundaryStats.tested}/${boundaryStats.total}` : '-'}</span>
                 </div>
             </div>
         `

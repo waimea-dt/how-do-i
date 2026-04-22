@@ -1,5 +1,5 @@
 /**
- * docsify-definitions.js — Auto-links glossary terms in page content using <abbr> tags.
+ * docsify-definitions.js - Auto-links glossary terms in page content using <abbr> tags.
  *
  * The plugin loads glossary entries, then post-processes rendered markdown so matching
  * terms get a definition tooltip in the title attribute.

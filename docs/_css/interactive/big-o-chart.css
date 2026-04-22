@@ -75,7 +75,7 @@
 				}
 
 				input[type="checkbox"] {
-					display: none;  /* hidden — the swatch acts as visual indicator */
+					display: none;  /* hidden - the swatch acts as visual indicator */
 				}
 
 				.bigo-legend-swatch {

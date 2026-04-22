@@ -1,5 +1,5 @@
 /**
- * docsify-oop-sim.js — Interactive OOP visualization showing class definitions,
+ * docsify-oop-sim.js - Interactive OOP visualization showing class definitions,
  * object instantiation, field updates, and method calls.
  *
  * Thin plugin built on sim-core. Handles only the oop-sim grid layout and
@@ -25,13 +25,13 @@
  *   ```
  *
  * Syntax:
- *   - "// ClassDefs" / "# ClassDefs" — pre-declare classes (hidden from code view)
- *   - "// Step:" / "# Step:" — step markers (hidden from code view)
+ *   - "// ClassDefs" / "# ClassDefs" - pre-declare classes (hidden from code view)
+ *   - "// Step:" / "# Step:" - step markers (hidden from code view)
  *   - Regular comments are shown in the code view
  *   - Supports Kotlin and Python syntax
  *   - Inline class blocks (with methods) are parsed as a step and registered on execution
  *   - Field update: name.field = value  (nested paths supported)
- *   - Method call:  name.method()  — highlights the method in the Classes panel
+ *   - Method call:  name.method()  - highlights the method in the Classes panel
  *   - Constructor highlighted as "init" (Kotlin) / "__init__" (Python) on instantiation
  */
 

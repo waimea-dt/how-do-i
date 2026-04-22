@@ -1,5 +1,5 @@
 /**
- * docsify-svg-zoom.js — Adds click-to-zoom behaviour to all SVG diagrams,
+ * docsify-svg-zoom.js - Adds click-to-zoom behaviour to all SVG diagrams,
  * including Mermaid, ERD, and other dynamically rendered SVGs.
  * Uses a MutationObserver on the markdown section to catch SVGs rendered
  * asynchronously after Docsify's doneEach hook has already fired.

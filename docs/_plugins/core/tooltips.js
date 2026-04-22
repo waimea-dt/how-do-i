@@ -1,5 +1,5 @@
 /**
- * docsify-tooltips.js — Smart positioning for any element with data-tooltip
+ * docsify-tooltips.js - Smart positioning for any element with data-tooltip
  *
  * This plugin provides intelligent tooltip positioning that prevents tooltips
  * from overflowing off the screen edges. It works with any element that has

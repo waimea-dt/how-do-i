@@ -1,5 +1,5 @@
 /**
- * docsify-hasher.js — Interactive SHA-256 hashing demo for teaching cryptographic hash functions
+ * docsify-hasher.js - Interactive SHA-256 hashing demo for teaching cryptographic hash functions
  *
  * Helps students understand:
  *   - What a hash function produces (fixed-length output from any input)
@@ -132,7 +132,7 @@
 
         if (text === '') {
             hashEl.classList.remove('is-updated')
-            hashEl.innerHTML = '<span class="hasher-empty">——</span>'
+            hashEl.innerHTML = '<span class="hasher-empty">--</span>'
             return null
         }
 
@@ -221,7 +221,7 @@
                 if (!binaryEl) return
                 if (!hash) {
                     binaryEl.classList.remove('is-updated')
-                    binaryEl.innerHTML = '<span class="hasher-empty">——</span>'
+                    binaryEl.innerHTML = '<span class="hasher-empty">--</span>'
                     return
                 }
                 binaryEl.classList.remove('is-updated')

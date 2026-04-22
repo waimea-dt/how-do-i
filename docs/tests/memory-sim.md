@@ -251,7 +251,7 @@ val tower = Location("Tower")
 // Step: Link them
 ```
 
-## Example 12: Python — Primitives and Objects
+## Example 12: Python - Primitives and Objects
 
 ```memory-sim
 # ClassDefs
@@ -271,7 +271,7 @@ person.age = 26
 nobody = None
 ```
 
-## Example 13: Python — Reference Sharing
+## Example 13: Python - Reference Sharing
 
 ```memory-sim
 # Multiple objects fro a class

@@ -1,5 +1,5 @@
 /**
- * docsify-quizzes.js — Builds interactive multiple-choice quizzes from markdown lists.
+ * docsify-quizzes.js - Builds interactive multiple-choice quizzes from markdown lists.
  *
  * Inside each <quiz> block, checked checkboxes mark correct answers and checked
  * feedback items. The plugin removes authoring checkboxes and wires click behavior.

@@ -1,5 +1,5 @@
 /**
- * docsify-memory-sim.js — Interactive memory visualization for teaching OOP concepts
+ * docsify-memory-sim.js - Interactive memory visualization for teaching OOP concepts
  *
  * Thin plugin built on sim-core. Handles only the memory-sim grid layout and
  * wiring; all parsing, execution, state, and rendering are delegated to SimCore.
@@ -22,8 +22,8 @@
  *   ```
  *
  * Syntax:
- *   - "// ClassDefs" / "# ClassDefs" — class definitions (hidden from code view)
- *   - "// Step:" / "# Step:" — step markers (hidden from code view)
+ *   - "// ClassDefs" / "# ClassDefs" - class definitions (hidden from code view)
+ *   - "// Step:" / "# Step:" - step markers (hidden from code view)
  *   - Regular comments are shown in the code view
  *   - Supports Kotlin (val x = ...) and Python (x = ...)
  *   - Field updates: obj.field = value  (nested paths supported)

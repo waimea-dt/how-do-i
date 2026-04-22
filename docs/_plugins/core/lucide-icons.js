@@ -1,5 +1,5 @@
 /**
- * docsify-lucide-icons.js — Renders Lucide SVG icons from data-lucide placeholders.
+ * docsify-lucide-icons.js - Renders Lucide SVG icons from data-lucide placeholders.
  *
  * After each Docsify route render, this plugin runs lucide.createIcons() so icon
  * placeholders added by markdown and other plugins become SVG icons.

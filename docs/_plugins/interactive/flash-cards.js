@@ -1,5 +1,5 @@
 /**
- * docsify-flash-cards.js — Converts markdown lists into interactive flash cards.
+ * docsify-flash-cards.js - Converts markdown lists into interactive flash cards.
  *
  * Each list item becomes one card, and an <hr> inside the item splits front/back
  * faces. The plugin also adds navigation controls and optional fullscreen mode.

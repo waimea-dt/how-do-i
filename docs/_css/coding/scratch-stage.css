@@ -312,7 +312,7 @@
     }
 }
 
-/* Keyframes (global scope — not nested) */
+/* Keyframes (global scope - not nested) */
 
 @keyframes scratchBlinkCaret {
     from, to { border-color: transparent }

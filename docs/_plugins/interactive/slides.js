@@ -1,7 +1,7 @@
 /**
- * docsify-slides.js — Renders <slides>...</slides> blocks as embedded reveal.js presentations.
+ * docsify-slides.js - Renders <slides>...</slides> blocks as embedded reveal.js presentations.
  * Requires reveal.js and RevealMarkdown to be loaded in index.html
- * 
+ *
  * Usage in markdown:
  *   <slides>
  *   # Slide One

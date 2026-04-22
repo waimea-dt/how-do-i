@@ -1,5 +1,5 @@
 /**
- * docsify-inline-highlight.js — Highlights inline code hints with Prism language rules.
+ * docsify-inline-highlight.js - Highlights inline code hints with Prism language rules.
  *
  * This plugin post-processes rendered markdown and converts patterns like
  * <code>code</code>(language) into Prism-highlighted inline code elements.
@@ -36,7 +36,7 @@
                     return `<code class="language-${lang}">${highlighted}</code>`
                 }
 
-                // Language not loaded — keep the language class so other plugins can process it
+                // Language not loaded - keep the language class so other plugins can process it
                 return `<code class="language-${lang}">${rawCode}</code>`
             })
         })

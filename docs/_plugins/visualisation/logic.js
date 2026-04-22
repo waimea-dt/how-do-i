@@ -1,12 +1,12 @@
 /**
- * docsify-logic.js — Renders interactive logic gates and truth tables from markdown code blocks.
- * 
+ * docsify-logic.js - Renders interactive logic gates and truth tables from markdown code blocks.
+ *
  * Usage in markdown:
  *   ```logic
  *   gate 10 AND A B Out
  *   table 10 AND A B Out
  *   ```
- * 
+ *
  * Supported operations: AND, OR, NOT, XOR, NAND, NOR (plus 3-input variants AND3, OR3, XOR3)
  * Supported styles: 10, TF, ON, YN, HL, 5V, CROSS, TICK, DOT, RAW, NONE, HIDE
  */

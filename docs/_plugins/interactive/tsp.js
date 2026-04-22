@@ -1,5 +1,5 @@
 /**
- * docsify-tsp.js — Travelling Salesman Problem visualizer
+ * docsify-tsp.js - Travelling Salesman Problem visualizer
  *
  * Demonstrates TSP solving algorithms with interactive visualization:
  *   - Brute Force: Tests all (N-1)! permutations to find optimal solution
@@ -562,17 +562,17 @@
                     <div class="tsp-comparison-grid">
                         <div class="tsp-comparison-item">
                             <div class="tsp-comparison-label">${solverMode === 'compare-2opt' ? '2-Opt (NN + refinement)' : 'Nearest Neighbour'}</div>
-                            <div class="tsp-comparison-distance tsp-nn-distance">—</div>
-                            <div class="tsp-comparison-time tsp-nn-time">—</div>
+                            <div class="tsp-comparison-distance tsp-nn-distance">-</div>
+                            <div class="tsp-comparison-time tsp-nn-time">-</div>
                         </div>
                         <div class="tsp-comparison-item">
                             <div class="tsp-comparison-label">Brute Force</div>
-                            <div class="tsp-comparison-distance tsp-brute-distance">—</div>
-                            <div class="tsp-comparison-time tsp-brute-time">—</div>
+                            <div class="tsp-comparison-distance tsp-brute-distance">-</div>
+                            <div class="tsp-comparison-time tsp-brute-time">-</div>
                         </div>
                         <div class="tsp-comparison-item tsp-comparison-summary">
                             <div class="tsp-comparison-label">Difference</div>
-                            <div class="tsp-comparison-diff">—</div>
+                            <div class="tsp-comparison-diff">-</div>
                         </div>
                     </div>
                 </div>` : '';
@@ -606,7 +606,7 @@
                     </div>
                     <div class="tsp-stat">
                         <div class="tsp-stat-label">Current Best</div>
-                        <div class="tsp-stat-value tsp-best-value">—</div>
+                        <div class="tsp-stat-value tsp-best-value">-</div>
                     </div>
                     <div class="tsp-stat">
                         <div class="tsp-stat-label">${timeLabel}</div>
@@ -988,9 +988,9 @@
             return async (progress) => {
                 const label = prefix ? `${prefix}: ` : '';
                 this.progressValue.textContent = `${label}${progress.citiesVisited} / ${progress.totalCities}`;
-                this.bestValue.textContent = progress.partialDistance > 0 ? progress.partialDistance.toFixed(1) : '—';
+                this.bestValue.textContent = progress.partialDistance > 0 ? progress.partialDistance.toFixed(1) : '-';
                 this.elapsedValue.textContent = formatTime(progress.actualComputeTime);
-                this.remainingValue.textContent = '—';
+                this.remainingValue.textContent = '-';
 
                 if (progress.partialDistance > 0) {
                     this.addToHistory(progress.partialDistance, progress.route);
@@ -1113,7 +1113,7 @@
             const n = parseInt(this.slider.value, 10);
             this.cities = generateCities(n, this.canvas.width, this.canvas.height);
             drawCanvas(this.canvas, this.cities, {});
-            this.bestValue.textContent = '—';
+            this.bestValue.textContent = '-';
             this.progressValue.textContent = '0 / 0';
             this.elapsedValue.textContent = '0 s';
             this.remainingValue.textContent = '...';
@@ -1126,11 +1126,11 @@
                 const bruteDistance = this.wrapper.querySelector('.tsp-brute-distance');
                 const bruteTime = this.wrapper.querySelector('.tsp-brute-time');
                 const diff = this.wrapper.querySelector('.tsp-comparison-diff');
-                if (nnDistance) nnDistance.textContent = '—';
-                if (nnTime) nnTime.textContent = '—';
-                if (bruteDistance) bruteDistance.textContent = '—';
-                if (bruteTime) bruteTime.textContent = '—';
-                if (diff) diff.textContent = '—';
+                if (nnDistance) nnDistance.textContent = '-';
+                if (nnTime) nnTime.textContent = '-';
+                if (bruteDistance) bruteDistance.textContent = '-';
+                if (bruteTime) bruteTime.textContent = '-';
+                if (diff) diff.textContent = '-';
             }
         }
 
@@ -1220,9 +1220,9 @@
             );
 
             this.progressValue.textContent = '0 / ' + this.cities.length;
-            this.bestValue.textContent = '—';
+            this.bestValue.textContent = '-';
             this.elapsedValue.textContent = '0 s';
-            this.remainingValue.textContent = '—';
+            this.remainingValue.textContent = '-';
 
             await new Promise(resolve => setTimeout(resolve, 0));
             await this.solver.start();
@@ -1254,7 +1254,7 @@
             );
 
             this.progressValue.innerHTML = `0 / ${formatNumber(this.solver.totalRoutes)}`;
-            this.bestValue.textContent = '—';
+            this.bestValue.textContent = '-';
             this.elapsedValue.textContent = '0 s';
             this.remainingValue.textContent = '...';
 
@@ -1326,12 +1326,12 @@
                         const absDiff = Math.abs(nnResult.totalDistance - result.bestDistance);
                         const pct = ((nnResult.totalDistance / result.bestDistance - 1) * 100).toFixed(1);
                         let diffHtml = `NN was <span style="color: var(--highlight-color)">${absDiff.toFixed(1)}</span> longer (+${pct}%)`;
-                        
+
                         if (absDiff < 0.01) {
                             // Perfect match - show both messages!
                             diffHtml += `<div class="tsp-comparison-optimal">Heuristic = Optimal!</div>`;
                         }
-                        
+
                         diff.innerHTML = diffHtml;
                     }
 
@@ -1375,7 +1375,7 @@
             );
 
             this.progressValue.innerHTML = `0 / ${formatNumber(this.solver.totalRoutes)}`;
-            this.bestValue.textContent = '—';
+            this.bestValue.textContent = '-';
             this.elapsedValue.textContent = '0 s';
             this.remainingValue.textContent = '...';
 
@@ -1404,7 +1404,7 @@
                     this.progressValue.textContent = `2-Opt: ${progress.swapsPerformed} swaps, ${progress.totalComparisons} comparisons`;
                     this.bestValue.textContent = progress.distance.toFixed(1);
                     this.elapsedValue.textContent = formatTime(progress.actualComputeTime);
-                    this.remainingValue.textContent = '—';
+                    this.remainingValue.textContent = '-';
 
                     if (progress.distance < lastDistance && !progress.comparing) {
                         lastDistance = progress.distance;
@@ -1527,12 +1527,12 @@
                         const absDiff = Math.abs(twoOptResult.distance - result.bestDistance);
                         const pct = ((twoOptResult.distance / result.bestDistance - 1) * 100).toFixed(1);
                         let diffHtml = `2-Opt was <span style="color: var(--highlight-color)">${absDiff.toFixed(1)}</span> longer (+${pct}%)`;
-                        
+
                         if (absDiff < 0.01) {
                             // Perfect match - show both messages!
                             diffHtml += `<div class="tsp-comparison-optimal">Heuristic = Optimal!</div>`;
                         }
-                        
+
                         diff.innerHTML = diffHtml;
                     }
 
@@ -1576,7 +1576,7 @@
             );
 
             this.progressValue.innerHTML = `0 / ${formatNumber(this.solver.totalRoutes)}`;
-            this.bestValue.textContent = '—';
+            this.bestValue.textContent = '-';
             this.elapsedValue.textContent = '0 s';
             this.remainingValue.textContent = '...';
 

@@ -1,20 +1,20 @@
 /**
- * docsify-scratch-blocks.js — Renders Scratch code blocks using the scratchblocks library.
- * 
+ * docsify-scratch-blocks.js - Renders Scratch code blocks using the scratchblocks library.
+ *
  * Usage in markdown:
  *   ```scratch
  *   when green flag clicked
  *   move (10) steps
  *   say [Hello!] for (2) seconds
  *   ```
- * 
+ *
  *   ```scratch-inline
  *   when green flag clicked
  *   ```
- * 
+ *
  * Inline (within text):
  *   Use `when flag clicked`{.language-scratch} for inline blocks.
- * 
+ *
  * Requires: scratchblocks library (loaded via CDN in index.html)
  */
 

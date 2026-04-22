@@ -1,5 +1,5 @@
 /* =============================================================================
-   Frequency Analyzer — Text letter frequency visualizer
+   Frequency Analyzer - Text letter frequency visualizer
    ============================================================================= */
 :root {
     /* Default accent colour - can be overridden */
@@ -165,7 +165,7 @@
 }
 
 /* =============================================================================
-   Frequency Chart — Reusable chart component
+   Frequency Chart - Reusable chart component
    Can be used standalone or within <frequency> element
    ============================================================================= */
 

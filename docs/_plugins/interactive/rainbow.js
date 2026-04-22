@@ -1,5 +1,5 @@
 /**
- * docsify-rainbow.js — Rainbow table attack demo for teaching password security
+ * docsify-rainbow.js - Rainbow table attack demo for teaching password security
  *
  * Helps students understand:
  *   - Why storing plain password hashes is dangerous
@@ -10,13 +10,13 @@
  *   <rainbow></rainbow>
  *
  * Attributes:
- *   - speed: Animation speed — "slow" (450ms), "normal" (200ms, default), "fast" (60ms)
+ *   - speed: Animation speed - "slow" (450ms), "normal" (200ms, default), "fast" (60ms)
  */
 
 ;(function () {
 
     // -------------------------------------------------------------------------
-    // Data — hashes pre-computed so the plugin renders synchronously
+    // Data - hashes pre-computed so the plugin renders synchronously
     // -------------------------------------------------------------------------
 
     const TABLE = [
@@ -152,7 +152,7 @@
         resultEl.innerHTML = `
             <span class="rt-result-icon">🔒</span>
             <span class="rt-result-label">Not in table.</span>
-            <span class="rt-result-note">This hash does not match any entry — the password may be strong, or salted.</span>
+            <span class="rt-result-note">This hash does not match any entry - the password may be strong, or salted.</span>
         `
         startBtn.disabled = false
     }

@@ -1,5 +1,5 @@
 /**
- * docsify-sidebar-scrollspy.js — Highlights active sidebar links while scrolling content.
+ * docsify-sidebar-scrollspy.js - Highlights active sidebar links while scrolling content.
  *
  * This plugin tracks heading positions in the markdown section and toggles the
  * active state in the app-sub-sidebar to match the current viewport position.

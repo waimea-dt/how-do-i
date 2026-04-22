@@ -1,9 +1,9 @@
 /**
- * docsify-structure.js — Renders <structure>...</structure> blocks as hierarchical organizational structures.
- * 
+ * docsify-structure.js - Renders <structure>...</structure> blocks as hierarchical organizational structures.
+ *
  * Attributes:
  *   - colouring: "depth" (colors by level) or "branch" (default, colors by branch)
- * 
+ *
  * Usage in markdown:
  *   <structure colouring="depth">
  *   - Main Item
@@ -11,7 +11,7 @@
  *     - Child 2
  *       - Grandchild
  *   </structure>
- * 
+ *
  * Focus Marker:
  *   Prefix any item with "!! " to highlight it
  */

@@ -1,5 +1,5 @@
 /**
- * tables.js — Post-processes all tables to add data attributes for interactive row/column hover effects.
+ * tables.js - Post-processes all tables to add data attributes for interactive row/column hover effects.
  * Adds data-row-num to all rows and data-col-num to all cells.
  *
  * Column numbering is based on TH index (not physical column position):

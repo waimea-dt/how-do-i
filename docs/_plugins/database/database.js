@@ -1,5 +1,5 @@
 /**
- * docsify-database.js — Renders schema, data, and relationship visualizations for database notes.
+ * docsify-database.js - Renders schema, data, and relationship visualizations for database notes.
  *
  * This plugin transforms custom database markdown/HTML wrapper blocks into richer
  * interactive markup used by the database CSS components.

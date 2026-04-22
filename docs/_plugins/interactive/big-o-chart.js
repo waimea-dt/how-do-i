@@ -1,5 +1,5 @@
 /**
- * docsify-big-o-chart.js — Interactive Big-O complexity growth visualiser
+ * docsify-big-o-chart.js - Interactive Big-O complexity growth visualiser
  *
  * Helps students understand:
  *   - How different complexity classes grow as input size (n) increases
@@ -81,7 +81,7 @@
 			id:    'ofact',
 			label: 'O(n!)',
 			title: 'Factorial',
-			// Stirling's approximation: n! ≈ √(2πn) · (n/e)ⁿ — smooth & accurate for n ≥ 2
+			// Stirling's approximation: n! ≈ √(2πn) · (n/e)ⁿ - smooth & accurate for n ≥ 2
 			fn:    n => Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n),
 			cssVar: '--bigo-chart-line-color-8',
 			aliases: ['ofact', 'n!', 'factorial'],
@@ -158,7 +158,7 @@
 				<span class="bigo-legend-swatch" data-id="${c.id}"></span>
 				<span class="bigo-legend-label">${c.label}</span>
 				<span class="bigo-legend-title">${c.title}</span>
-				<span class="bigo-legend-value" data-id="${c.id}">—</span>
+				<span class="bigo-legend-value" data-id="${c.id}">-</span>
 			</label>
 		`).join('')
 
@@ -189,7 +189,7 @@
 	// Chart rendering
 	// -------------------------------------------------------------------------
 
-	// xMin is always 1 — the plot range is 1..xMax
+	// xMin is always 1 - the plot range is 1..xMax
 	function dataToSVG(x, y, xMin, xMax, yMax) {
 		const sx = PAD_L + ((x - xMin) / (xMax - xMin)) * PLOT_W
 		const sy = PAD_T + PLOT_H - (y / yMax) * PLOT_H
@@ -328,7 +328,7 @@
 			const valEl = wrapper.querySelector(`.bigo-legend-value[data-id="${c.id}"]`)
 			if (!valEl) continue
 			if (!enabled.has(c.id)) {
-				valEl.textContent = '—'
+				valEl.textContent = '-'
 				continue
 			}
 			const v = c.fn(n)

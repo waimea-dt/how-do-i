@@ -27,7 +27,7 @@
         }
     }
 
-    /* Grid areas — sim-panel styles from the sim-panel class added by JS */
+    /* Grid areas - sim-panel styles from the sim-panel class added by JS */
     .memory-sim-code     { grid-area: code; }
     .memory-sim-memory   { grid-area: memory; }
     .memory-sim-status   { grid-area: status; }

@@ -1,5 +1,5 @@
 /**
- * docsify-frequency.js — Text frequency analysis visualizer
+ * docsify-frequency.js - Text frequency analysis visualizer
  *
  * analyses letter frequency in text with interactive bar chart visualization
  * displaying case-insensitive letter counts with alphabetical or frequency-based sorting.

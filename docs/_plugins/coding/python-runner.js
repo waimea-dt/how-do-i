@@ -1,6 +1,6 @@
 /**
- * docsify-python-runner.js — Makes ```python run blocks interactive using Codapi's in-browser WASI engine.
- * Python runs entirely in the browser — no server required.
+ * docsify-python-runner.js - Makes ```python run blocks interactive using Codapi's in-browser WASI engine.
+ * Python runs entirely in the browser - no server required.
  *
  * Usage in markdown:
  *   ```python run
@@ -54,7 +54,7 @@
                     continue
                 }
 
-                // Not inside a string — check for string openers, comments, brackets
+                // Not inside a string - check for string openers, comments, brackets
 
                 const triple = line.slice(i, i + 3)
                 if (triple === '"""' || triple === "'''") {

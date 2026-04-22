@@ -1,5 +1,5 @@
 /**
- * docsify-kotlin-runner.js — Handles runnable Kotlin code blocks using Kotlin Playground API.
+ * docsify-kotlin-runner.js - Handles runnable Kotlin code blocks using Kotlin Playground API.
  *
  * Usage in markdown:
  *   ```kotlin run   →  editable, runnable Kotlin block

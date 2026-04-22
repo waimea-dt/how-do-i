@@ -3,7 +3,7 @@
 Tests for the `SimCore` shared library (`sim-core.js`). Each section verifies a specific utility.
 Results are shown in the browser console (open DevTools > Console).
 
-Run these tests by navigating to this page — they execute automatically.
+Run these tests by navigating to this page - they execute automatically.
 
 ---
 
@@ -130,7 +130,7 @@ generateCodeView
 
     function runTests() {
         if (!window.SimCore) {
-            console.error('SimCore not found — is sim-core.js loaded?')
+            console.error('SimCore not found - is sim-core.js loaded?')
             return
         }
 
@@ -299,7 +299,7 @@ val p = Person("Alice", 25)
             summaryEl.innerHTML = `
                 <p class="${failed === 0 ? 'test-all-pass' : 'test-has-fail'}">
                     <strong>${passed} passed</strong>, <strong>${failed} failed</strong>
-                    — open the browser console for detailed output.
+                    - open the browser console for detailed output.
                 </p>
                 <table class="test-results-table">
                     <thead><tr><th></th><th>Test</th><th>Result</th></tr></thead>
@@ -309,7 +309,7 @@ val p = Person("Alice", 25)
         }
     }
 
-    // Script runs during Docsify's executeScript pass — defer one tick so the
+    // Script runs during Docsify's executeScript pass - defer one tick so the
     // DOM is fully injected before we try to find #sim-core-test-summary.
     setTimeout(runTests, 0)
 })()

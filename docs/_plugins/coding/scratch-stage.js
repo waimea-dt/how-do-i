@@ -1,6 +1,6 @@
 /**
- * docsify-scratch-stage.js — Renders Scratch stage visualizations from markdown code blocks.
- * 
+ * docsify-scratch-stage.js - Renders Scratch stage visualizations from markdown code blocks.
+ *
  * Usage in markdown:
  *   ```scratch-stage
  *   stage space #123
@@ -8,7 +8,7 @@
  *       arrow 50 50 100 90 #fff 1.0
  *   endstage
  *   ```
- * 
+ *
  * Commands:
  *   stage [back-img] [back-col] - Start a stage container
  *   endstage - End the stage container

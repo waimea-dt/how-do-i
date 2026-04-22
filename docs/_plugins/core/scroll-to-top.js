@@ -1,5 +1,5 @@
 /**
- * docsify-scroll-to-top.js — Resets the page scroll position on Docsify navigation.
+ * docsify-scroll-to-top.js - Resets the page scroll position on Docsify navigation.
  *
  * Docsify is client-side routed, so normal browser page-load scroll reset does not
  * happen automatically. This plugin restores that behavior after each route render.

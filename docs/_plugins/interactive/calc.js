@@ -1,5 +1,5 @@
 /**
- * docsify-calc.js — Interactive binary calculator for teaching bitwise and arithmetic operations
+ * docsify-calc.js - Interactive binary calculator for teaching bitwise and arithmetic operations
  *
  * Visualizes operations on binary numbers with carry/overflow flags, signed/unsigned values,
  * and step-by-step explanations.

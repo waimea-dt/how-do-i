@@ -1,5 +1,5 @@
 /**
- * docsify-sql-runner.js — Makes ```sql run blocks interactive using Codapi's SQLite sandbox.
+ * docsify-sql-runner.js - Makes ```sql run blocks interactive using Codapi's SQLite sandbox.
  *
  * Usage in markdown:
  *   ```sql run setup=create

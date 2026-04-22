@@ -1,29 +1,29 @@
 /**
- * sim-core.css — Shared styles for educational simulator plugins
+ * sim-core.css - Shared styles for educational simulator plugins
  *
  * Provides base styling for any .sim-block component.
  * Individual sims extend this with their own scoped styles.
  *
  * Class conventions:
- *   .sim-block            — outer wrapper (any sim)
- *   .sim-panel            — content panel
- *   .sim-grid             — responsive grid layout
- *   .sim-empty            — empty-state placeholder
- *   .sim-btn              — control button
- *   .sim-btn-reset        — reset button variant
- *   .sim-btn-next         — next button variant
- *   .sim-ref              — clickable reference link
- *   .variable-item        — stack variable row
- *   .object-field         — heap field row
- *   .value-primitive      — primitive value span
- *   .value-reference      — reference value span
- *   .value-null           — null value span
- *   .field-name           — field name span
- *   .field-value          — field value span
- *   .field-ref            — reference field value
- *   .code-line            — single line in code listing
- *   .flash                — triggers value-flash animation
- *   .flash-object         — triggers object-flash animation
+ *   .sim-block            - outer wrapper (any sim)
+ *   .sim-panel            - content panel
+ *   .sim-grid             - responsive grid layout
+ *   .sim-empty            - empty-state placeholder
+ *   .sim-btn              - control button
+ *   .sim-btn-reset        - reset button variant
+ *   .sim-btn-next         - next button variant
+ *   .sim-ref              - clickable reference link
+ *   .variable-item        - stack variable row
+ *   .object-field         - heap field row
+ *   .value-primitive      - primitive value span
+ *   .value-reference      - reference value span
+ *   .value-null           - null value span
+ *   .field-name           - field name span
+ *   .field-value          - field value span
+ *   .field-ref            - reference field value
+ *   .code-line            - single line in code listing
+ *   .flash                - triggers value-flash animation
+ *   .flash-object         - triggers object-flash animation
  */
 
 /* ============================================================
@@ -41,7 +41,7 @@
     /* Update animations */
     --sim-flash-duration:   1000ms;
 
-    /* Panel accent colours — override per sim */
+    /* Panel accent colours - override per sim */
     --sim-variable-color:  var(--palette-color-3);
     --sim-variable-back:   color-mix(in srgb, var(--sim-variable-color) 10%, var(--code-bg-color));
     --sim-heap-color:      var(--palette-color-1);
@@ -509,7 +509,7 @@
 }
 
 /* ============================================================
-   Keyframes (global scope — not nested)
+   Keyframes (global scope - not nested)
    ============================================================ */
 
 @keyframes sim-value-flash {

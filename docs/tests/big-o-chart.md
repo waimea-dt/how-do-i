@@ -2,7 +2,7 @@
 
 Visualise how different algorithm complexity classes grow as input size increases.
 
-## Default — n up to 15
+## Default - n up to 15
 
 Drag the slider right to watch the curves diverge. The exponential curve dominates and the others are compressed towards the x-axis.
 

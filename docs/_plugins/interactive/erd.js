@@ -1,5 +1,5 @@
 /**
- * docsify-erd.js — Interactive SQLite ERD Generator
+ * docsify-erd.js - Interactive SQLite ERD Generator
  *
  * Generates Entity-Relationship Diagrams from SQLite CREATE TABLE statements.
  * Supports live editing with CodeMirror and SVG diagram output.

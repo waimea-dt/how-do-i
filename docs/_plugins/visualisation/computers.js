@@ -1,5 +1,5 @@
 /**
- * docsify-computers.js — Automatically wraps content inside <computer> tags with SVG-based computer displays.
+ * docsify-computers.js - Automatically wraps content inside <computer> tags with SVG-based computer displays.
  * Supports multiple computer types: desktop, window, laptop, tablet, mobile, vintage, 1980s, macintosh, mac, simple.
  *
  * Usage in markdown:

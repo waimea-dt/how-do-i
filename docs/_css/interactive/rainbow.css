@@ -225,7 +225,7 @@
                 white-space: nowrap;
             }
 
-            /* Scanning — current row being checked */
+            /* Scanning - current row being checked */
             &.is-checking {
                 background: var(--rt-checking-bg) !important;
                 outline: 2px solid var(--rt-checking-border);
@@ -272,7 +272,7 @@
 
     /* Copy button in SHA-256 column header */
 
-    /* Password column — hidden until a row matches */
+    /* Password column - hidden until a row matches */
 
     .rt-cell-password {
         font-family: var(--rt-font-mono);

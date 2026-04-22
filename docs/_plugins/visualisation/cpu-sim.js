@@ -1,5 +1,5 @@
 /**
- * docsify-cpu-sim.js — Interactive CPU execution simulator for teaching computer architecture
+ * docsify-cpu-sim.js - Interactive CPU execution simulator for teaching computer architecture
  *
  * Implements the TINY-8 specification: an 8-bit educational CPU architecture.
  * Visualizes the fetch-decode-execute cycle with registers, memory, and assembly code.
@@ -779,7 +779,7 @@
                             </div>
                             <div class="control-register ir-register">
                                 <span class="reg-label">IR</span>
-                                <span class="reg-value" data-reg="ir">—</span>
+                                <span class="reg-value" data-reg="ir">-</span>
                             </div>
                         </div>
                     </div>
@@ -877,7 +877,7 @@
                 })
                 irValue.textContent = `${cpu.ir.op} ${formattedOps.join(', ')}`
             } else {
-                irValue.textContent = '—'
+                irValue.textContent = '-'
             }
             irValue.parentElement.classList.toggle('highlight', !!highlight.ir)
         }

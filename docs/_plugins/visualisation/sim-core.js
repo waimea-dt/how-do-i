@@ -1,5 +1,5 @@
 /**
- * sim-core.js — Shared core library for educational simulator plugins
+ * sim-core.js - Shared core library for educational simulator plugins
  *
  * Provides reusable utilities for memory/OOP/algorithm simulators:
  *   - Value parsing and formatting
@@ -860,7 +860,7 @@
             const endLine = stepDisplayStart + stepCodeLines.length - 1
             const lines   = stepCodeLines.slice()
             const dl      = lang
-            // Class definition step — parse the whole block and define on state
+            // Class definition step - parse the whole block and define on state
             const isClassDef = lines[0].startsWith('class ')
             steps.push({
                 description: description || 'Execute',
@@ -917,7 +917,7 @@
                     if (classDefBlock.length) classDefBlock.push(trimmed)
                     continue
                 } else {
-                    // Regular comment or code — ClassDefs section ends here; fall through
+                    // Regular comment or code - ClassDefs section ends here; fall through
                     if (classDefBlock.length) {
                         const def = parseClassDef(classDefBlock.join('\n'), lang)
                         if (def) classes.push(def)
@@ -933,7 +933,7 @@
                 flushStep()
                 description          = trimmed.substring(trimmed.indexOf(':') + 1).trim()
                 stepDisplayComment   = displayLines.length   // next display line index
-                // Don't push to displayLines — step markers are hidden
+                // Don't push to displayLines - step markers are hidden
                 continue
             }
 
@@ -941,10 +941,10 @@
             displayLines.push(raw)
             const displayIdx = displayLines.length - 1
 
-            // Regular comment — shown in display but not executed
+            // Regular comment - shown in display but not executed
             if (!trimmed || trimmed.startsWith(lineComment)) continue
 
-            // Code line — track for current step
+            // Code line - track for current step
             if (stepDisplayStart === -1) stepDisplayStart = displayIdx
             stepCodeLines.push(trimmed)
         }
@@ -970,7 +970,7 @@
     function executeSimLine(line, state, lang, fieldResolver) {
         const nullLiteral = lang === 'python' ? 'None' : 'null'
 
-        // Method call: name.method()  — before field/assignment checks
+        // Method call: name.method()  - before field/assignment checks
         const methodCallMatch = line.match(/^(\w+)\.(\w+)\s*\(/)
         if (methodCallMatch && !line.includes('=')) {
             if (typeof state.callMethod === 'function') state.callMethod(methodCallMatch[1], methodCallMatch[2])
@@ -1023,7 +1023,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // Field Resolver — class-definition based (used by oop-sim + memory-sim)
+    // Field Resolver - class-definition based (used by oop-sim + memory-sim)
     // -------------------------------------------------------------------------
 
     /**

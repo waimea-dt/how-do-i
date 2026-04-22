@@ -1,6 +1,6 @@
 /**
- * docsify-data.js — Renders binary/hex/decimal/ascii/colour visualizations from markdown code blocks.
- * 
+ * docsify-data.js - Renders binary/hex/decimal/ascii/colour visualizations from markdown code blocks.
+ *
  * Usage in markdown:
  *   ```data
  *   show dec 123
@@ -10,7 +10,7 @@
  *   show hex ff00aa as colour
  *   show dec 65 as ascii
  *   ```
- * 
+ *
  * Supported commands: show, show-aligned, show-raw, show-raw-aligned
  * Supported types: bin, dec, hex
  * Supported conversions: bin, bin-bytes, dec, dec-val, hex, hex-bytes, colour, pixels, ascii, unicode

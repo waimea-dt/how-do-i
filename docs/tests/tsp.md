@@ -31,7 +31,7 @@ This is a classic **NP-hard** problem in computer science. The brute-force appro
 
 <small>*Times based on actual JavaScript performance on average hardware. Your machine may be faster or slower. Note: For N cities, we fix the first city and check (N-1)! routes.</small>
 
-Notice the **factorial growth**—each additional city multiplies the time by N. Beyond ~13 cities, brute force becomes completely impractical.
+Notice the **factorial growth**-each additional city multiplies the time by N. Beyond ~13 cities, brute force becomes completely impractical.
 
 ## Try it yourself
 
@@ -83,7 +83,7 @@ Try 12 cities to see impractical computation times (warning: takes ~55 minutes o
 
 ## The Impossibility
 
-Want to try 20 or 30 cities? Go ahead and use the slider—but the "Estimated Remaining" time will show why brute force is fundamentally broken for this problem.
+Want to try 20 or 30 cities? Go ahead and use the slider-but the "Estimated Remaining" time will show why brute force is fundamentally broken for this problem.
 
 <tsp cities="20"></tsp>
 
@@ -104,9 +104,9 @@ Want to try 20 or 30 cities? Go ahead and use the slider—but the "Estimated Re
    - Notice how much slower the algorithm gets with each additional city
    - The "Estimated Remaining" time is calculated from actual runtime and varies by machine
    - For 8 cities, you'll check 5,040 routes (7!)
-   - For 10 cities, you'll check 362,880 routes (9!)—taking ~30 seconds
-   - For 12 cities, you'll check ~40 million routes (11!)—taking ~55 minutes
-   - For 13 cities, you'll check ~479 million routes (12!)—taking ~11 hours
+   - For 10 cities, you'll check 362,880 routes (9!)-taking ~30 seconds
+   - For 12 cities, you'll check ~40 million routes (11!)-taking ~55 minutes
+   - For 13 cities, you'll check ~479 million routes (12!)-taking ~11 hours
 
 ---
 
@@ -118,7 +118,7 @@ Brute force guarantees the optimal solution, but becomes impossible for large pr
 2. Always visit the nearest unvisited city
 3. Return to start when all cities visited
 
-This runs in **O(n²)** time instead of **O(n!)** — meaning 30 cities takes milliseconds instead of billions of years!
+This runs in **O(n²)** time instead of **O(n!)** - meaning 30 cities takes milliseconds instead of billions of years!
 
 The trade-off? The route might not be optimal, but it's usually pretty good (typically 15-25% longer than optimal).
 
@@ -161,7 +161,7 @@ For brute force, 30 cities would take longer than the age of the universe. With 
    - If it reduces total distance, keep the swap
 3. Repeat until a full pass finds no improvements (local optimum reached)
 
-The algorithm **stops** when it completes a full pass through all edge pairs without finding any improvement. This means it has reached a **local optimum**—no single 2-opt move can improve the solution further.
+The algorithm **stops** when it completes a full pass through all edge pairs without finding any improvement. This means it has reached a **local optimum**-no single 2-opt move can improve the solution further.
 
 Key insight: 2-Opt systematically untangles crossing edges. Each swap that improves the tour removes at least one crossing, gradually refining the route.
 
@@ -199,7 +199,7 @@ The comparison shows:
 - **Brute Force distance & time**: The guaranteed optimal solution (but slower)
 - **Difference**: How much longer is the NN route compared to optimal?
 
-Try it with 11 or 12 cities—NN finishes instantly, but brute force takes minutes!
+Try it with 11 or 12 cities-NN finishes instantly, but brute force takes minutes!
 
 <tsp solve="compare-nn" cities="11" history></tsp>
 
@@ -222,7 +222,7 @@ Try larger problems:
 1. **Brute Force** is guaranteed optimal but becomes impossible beyond ~13 cities
 2. **Nearest Neighbour** is fast (works for any size) but not guaranteed optimal (typically 15-25% longer)
 3. **2-Opt refinement** significantly improves NN routes, often getting within a few percent of optimal
-4. For practical problems, heuristics like NN and local search are essential—perfection isn't worth billions of years
+4. For practical problems, heuristics like NN and local search are essential-perfection isn't worth billions of years
 5. Understanding algorithmic complexity (factorial vs. polynomial) is crucial for real-world programming
 
 ---

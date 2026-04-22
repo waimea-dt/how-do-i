@@ -1,5 +1,5 @@
 /**
- * docsify-convertor.js — Interactive number base converter with educational visualization
+ * docsify-convertor.js - Interactive number base converter with educational visualization
  *
  * Helps students understand:
  *   - Binary, Decimal, and Hexadecimal number systems

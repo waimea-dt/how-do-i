@@ -30,7 +30,7 @@
         }
     }
 
-    /* Grid areas — sim-panel styles from the sim-panel class added by JS */
+    /* Grid areas - sim-panel styles from the sim-panel class added by JS */
     .oop-sim-code     { grid-area: code; }
     .oop-sim-classes  { grid-area: classes; }
     .oop-sim-memory   { grid-area: memory; }

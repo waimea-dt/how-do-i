@@ -1,5 +1,5 @@
 /**
- * video-embed.js — Converts <videoembed> tags into responsive YouTube iframe embeds.
+ * video-embed.js - Converts <videoembed> tags into responsive YouTube iframe embeds.
  *
  * Usage in markdown:
  *   <videoembed id="62xlzGs8LXA">

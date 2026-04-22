@@ -1,6 +1,6 @@
 /**
- * docsify-file-trees.js — Renders <filetree>...</filetree> blocks as file/folder tree structures.
- * 
+ * docsify-file-trees.js - Renders <filetree>...</filetree> blocks as file/folder tree structures.
+ *
  * Usage in markdown:
  *   <filetree>
  *   - root/
@@ -9,7 +9,7 @@
  *       - utils.js
  *     - README.md
  *   </filetree>
- * 
+ *
  * Focus Marker:
  *   Prefix any item with "!! " to highlight it
  */

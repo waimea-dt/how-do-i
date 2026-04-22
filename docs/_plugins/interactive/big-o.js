@@ -1,5 +1,5 @@
 /**
- * docsify-big-o.js — Interactive Big-O algorithm complexity explorer
+ * docsify-big-o.js - Interactive Big-O algorithm complexity explorer
  *
  * Helps students understand:
  *   - Comparative complexity of real-world algorithms
@@ -562,7 +562,7 @@
                 // If algorithm has a 'show' value, only display when N matches
                 if (algo.show !== undefined && n !== algo.show) {
                     const colspan = (showBestWorst && algo.fnBest && algo.fnAvg) ? 3 : 1;
-                    cellsHTML += `<td class="bigo-td-effort" colspan="${colspan}">—</td>`;
+                    cellsHTML += `<td class="bigo-td-effort" colspan="${colspan}">-</td>`;
                     continue;
                 }
 

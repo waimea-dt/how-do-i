@@ -1,5 +1,5 @@
 /**
- * docsify-callouts.js — Enhances Docsify native callout blocks with icon + title rows.
+ * docsify-callouts.js - Enhances Docsify native callout blocks with icon + title rows.
  *
  * After each Docsify render, this plugin finds .callout blocks and prepends a
  * standardized title row using Lucide icons (Note, Tip, Warning, etc.).

@@ -38,13 +38,13 @@ Think of the modulus as a clock face with that many positions (0 to n-1). When y
 
 Modulo arithmetic appears everywhere in computing:
 
-- **Clock arithmetic** — What time is it 25 hours from now? (25 mod 12 = 1)
-- **Hash tables** — Map keys to array indices: `hash(key) mod table_size`
-- **Cryptography** — RSA, Diffie-Hellman, and other algorithms rely on modular arithmetic
-- **Circular buffers** — Wrap around when reaching the end: `(index + 1) mod size`
-- **Even/odd checking** — `n mod 2 = 0` means even, `= 1` means odd
-- **Day of week calculations** — Days cycle every 7
-- **Musical notes** — Notes repeat every octave (12 semitones)
+- **Clock arithmetic** - What time is it 25 hours from now? (25 mod 12 = 1)
+- **Hash tables** - Map keys to array indices: `hash(key) mod table_size`
+- **Cryptography** - RSA, Diffie-Hellman, and other algorithms rely on modular arithmetic
+- **Circular buffers** - Wrap around when reaching the end: `(index + 1) mod size`
+- **Even/odd checking** - `n mod 2 = 0` means even, `= 1` means odd
+- **Day of week calculations** - Days cycle every 7
+- **Musical notes** - Notes repeat every octave (12 semitones)
 
 ## Properties
 

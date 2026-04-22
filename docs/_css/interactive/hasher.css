@@ -340,7 +340,7 @@
     }
 }
 
-/* Keyframes (global scope — not nested) */
+/* Keyframes (global scope - not nested) */
 
 @keyframes hasherFlash {
     0%   { opacity: 0.2; }

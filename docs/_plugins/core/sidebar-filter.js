@@ -1,5 +1,5 @@
 /**
- * docsify-sidebar-filter.js — Removes sub-sidebar entries for headings inside custom/plugin elements.
+ * docsify-sidebar-filter.js - Removes sub-sidebar entries for headings inside custom/plugin elements.
  *
  * Many custom plugins (flashcards, sequences, timelines, etc.) include headings inside their blocks.
  * These internal headings should not appear in the page's table-of-contents sidebar.

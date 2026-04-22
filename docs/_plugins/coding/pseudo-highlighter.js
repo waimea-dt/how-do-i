@@ -1,5 +1,5 @@
 /**
- * docsify-pseudo-highlighter.js — Highlights ```pseudo code blocks using a line-based keyword classifier.
+ * docsify-pseudo-highlighter.js - Highlights ```pseudo code blocks using a line-based keyword classifier.
  * Each line is wrapped in a <span> whose class reflects the type of statement.
  *
  * Usage in markdown:
@@ -10,17 +10,17 @@
  *   ```
  *
  * Supported statement types (determined by the first word on the line):
- *   comment   — // or #
- *   block     — start, begin, end, function, procedure, return
- *   output    — say, show, print, display
- *   input     — get, ask, read
- *   decision  — if, else, elseif, elif, otherwise, endif
- *   loop      — repeat, until, while, endwhile, endrepeat, do, forever
- *   action    — everything else (assignments, expressions, etc.)
+ *   comment   - // or #
+ *   block     - start, begin, end, function, procedure, return
+ *   output    - say, show, print, display
+ *   input     - get, ask, read
+ *   decision  - if, else, elseif, elif, otherwise, endif
+ *   loop      - repeat, until, while, endwhile, endrepeat, do, forever
+ *   action    - everything else (assignments, expressions, etc.)
  *
  * Inline block highlighting within action lines:
- *   call funcName(params)          — 'call funcName(' and ')' highlighted as block
- *   result = call funcName(params) — rendered with ← instead of =
+ *   call funcName(params)          - 'call funcName(' and ')' highlighted as block
+ *   result = call funcName(params) - rendered with ← instead of =
  */
 
 (function () {

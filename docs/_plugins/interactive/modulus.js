@@ -1,5 +1,5 @@
 /**
- * docsify-modulus.js — Interactive Modulo Arithmetic Visualizer
+ * docsify-modulus.js - Interactive Modulo Arithmetic Visualizer
  *
  * Visualizes modulo arithmetic using a clock face animation.
  * Shows how a number wraps around a clock to find the remainder.

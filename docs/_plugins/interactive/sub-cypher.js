@@ -1,5 +1,5 @@
 /**
- * docsify-sub-cypher.js — Interactive substitution cypher visualizer
+ * docsify-sub-cypher.js - Interactive substitution cypher visualizer
  *
  * Visualizes Caesar and Vigenere cyphers with instant cursor-based highlighting.
  * Supports bidirectional encryption/decryption with live updates and frequency analysis.

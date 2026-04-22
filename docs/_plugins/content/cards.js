@@ -1,10 +1,10 @@
 /**
- * cards.js — Renders <cards>...</cards> blocks as a responsive grid of cards.
+ * cards.js - Renders <cards>...</cards> blocks as a responsive grid of cards.
  * Content is split by <hr> tags - each section becomes a card.
- * 
+ *
  * Attributes:
  *   - size: "narrow" (12rem cards), "full" (100% width), or default (20rem cards)
- * 
+ *
  * Usage in markdown:
  *   <cards size="narrow">
  *   # Card 1

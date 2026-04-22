@@ -1,6 +1,6 @@
 # Hash Function Demo
 
-Explore SHA-256 — one of the most widely used cryptographic hash functions.
+Explore SHA-256 - one of the most widely used cryptographic hash functions.
 
 ## Basic Demo
 
@@ -8,9 +8,9 @@ Type anything and watch the hash update instantly. Notice how even a single char
 
 <hasher value="hello"></hasher>
 
-## Avalanche Effect — with History
+## Avalanche Effect - with History
 
-The history block records each hash as you type. Watch how every single keystroke produces a completely unrelated hash — there is no pattern, no gradual change.
+The history block records each hash as you type. Watch how every single keystroke produces a completely unrelated hash - there is no pattern, no gradual change.
 
 <hasher value="password" history></hasher>
 
@@ -32,14 +32,14 @@ No matter how short or long the input is, SHA-256 always produces exactly 64 hex
 
 ## Key Properties
 
-- **Deterministic** — same input always produces the same hash
-- **Fixed length** — always 256 bits (64 hex chars), regardless of input size
-- **Avalanche effect** — a tiny change in input completely changes the hash
-- **One-way** — it is practically impossible to reverse a hash back to the original input
+- **Deterministic** - same input always produces the same hash
+- **Fixed length** - always 256 bits (64 hex chars), regardless of input size
+- **Avalanche effect** - a tiny change in input completely changes the hash
+- **One-way** - it is practically impossible to reverse a hash back to the original input
 
 ## Salted Hash
 
-A **salt** is a random value added to the input before hashing. This means two users with the same password get different hashes — defeating rainbow table attacks.
+A **salt** is a random value added to the input before hashing. This means two users with the same password get different hashes - defeating rainbow table attacks.
 
 <hasher value="password" salted></hasher>
 
@@ -53,7 +53,7 @@ Use `salted="false"` to show the salt toggle without pre-enabling it. Students c
 
 ## Same Password, Different Salt
 
-Both widgets use `password` but each has a different random salt — so both hashes are completely different.
+Both widgets use `password` but each has a different random salt - so both hashes are completely different.
 
 <hasher value="password" salted></hasher>
 
