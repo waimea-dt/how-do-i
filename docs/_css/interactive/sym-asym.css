@@ -70,8 +70,10 @@
     /* ---- Ciphertext specific ---- */
 
     .sa-ciphertext {
-        font-size: 0.8em;
+        font-size: 0.7em;
         letter-spacing: 0.05em;
+        max-width: 21ch;
+        line-height: 1.1;
     }
 
     .sa-func {

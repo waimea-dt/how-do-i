@@ -393,7 +393,7 @@
 
     .exchange-value-group {
         display: inline-flex;
-        align-items: baseline;
+        align-items: center;
         gap: 0.25rem;
         padding: var(--exchange-padding-tiny) var(--exchange-padding-med);
         background: var(--exchange-value-bg);

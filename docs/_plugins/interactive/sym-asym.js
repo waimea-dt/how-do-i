@@ -18,7 +18,7 @@
  *
  * Attributes:
  *   - mode: 'symmetric' or 'asymmetric' (default: 'symmetric')
- *   - message: The message to encrypt (default: "Hello Bob!")
+ *   - message: The message to encrypt (default: "Hello, Bob!")
  *   - intercept: Show Eve intercepting the message (optional)
  *   - intercept-key: Show Eve intercepting the key as well (requires intercept, optional)
  *
@@ -40,6 +40,12 @@
 ;(function () {
 
     // -------------------------------------------------------------------------
+    // Configuration
+    // -------------------------------------------------------------------------
+
+    const KEY_LEN = 8
+
+    // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
 
@@ -49,19 +55,26 @@
      */
     function visualEncrypt(message, key) {
         const combined = message + key
-        let hash = 0
-        for (let i = 0; i < combined.length; i++) {
-            hash = ((hash << 5) - hash) + combined.charCodeAt(i)
-            hash = hash & hash
+
+        // Generate multiple hash values to create a longer ciphertext
+        let result = ''
+        for (let offset = 0; offset < 4; offset++) {
+            let hash = offset * 0x9e3779b9 // Add offset to seed
+            for (let i = 0; i < combined.length; i++) {
+                const char = combined.charCodeAt(i)
+                hash = ((hash << 5) - hash) + char + offset * i
+                hash = hash | 0 // Convert to 32-bit integer
+            }
+            // Convert to hex and take last 4 characters
+            result += Math.abs(hash).toString(16).toUpperCase().padStart(8, '0').slice(-8)
         }
-        const encrypted = Math.abs(hash).toString(16).toUpperCase().padStart(16, '0')
-        return encrypted.match(/.{1,4}/g).join(' ')
+        return result.match(/.{1,4}/g).join(' ')
     }
 
     /**
      * Generate a random key string
      */
-    function generateKey(length = 8) {
+    function generateKey(length = KEY_LEN) {
         const chars = 'ABCDEF0123456789'
         let result = ''
         for (let i = 0; i < length; i++) {
@@ -103,26 +116,36 @@
                         <div class="exchange-party-name">👩 Alice</div>
                     </div>
 
+                    <div class="exchange-step">
+                        <div class="exchange-step-label">Step 1: Alice has a message</div>
+                        <div class="exchange-step-content">
+                            <div class="exchange-result exchange-show">
+                                <div class="exchange-value-group">
+                                    <span class="exchange-var">p</span> = <span class="exchange-value sa-message" data-alice-message>?</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     ${isSymmetric ? `
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 2: Receive shared key</div>
+                        <div class="exchange-step-label">Step 3: Receive shared key</div>
                         <div class="exchange-step-content">
                             <div class="exchange-received">
-                                <span>Received</span>
-                                <div class="exchange-value-group exchange-value-shared">
+                                <div class="exchange-value-group exchange-value-party2">
                                     <span class="exchange-var">key</span> = <span class="exchange-value" data-alice-key>?</span>
                                 </div>
+                                <span class="exchange-badge exchange-shared-badge">Shared</span>
                             </div>
                         </div>
                     </div>
                     ` : `
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 2: Receive Bob's public key</div>
+                        <div class="exchange-step-label">Step 3: Receive Bob's public key</div>
                         <div class="exchange-step-content">
                             <div class="exchange-received">
-                                <span>Received</span>
                                 <div class="exchange-value-group exchange-value-party2">
-                                    <span class="exchange-var">pub_key</span> = <span class="exchange-value" data-alice-key>?</span>
+                                    <span class="exchange-var">pub</span> = <span class="exchange-value" data-alice-key>?</span>
                                 </div>
                             </div>
                         </div>
@@ -130,13 +153,13 @@
                     `}
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 3: Encrypt message</div>
+                        <div class="exchange-step-label">Step 4: Encrypt message</div>
                         <div class="exchange-step-content">
                             <div class="sa-operation">
                                 <div class="sa-operation-formula">
                                     ${isSymmetric
-                                        ? '<span class="exchange-var">ciphertext</span> = <span class="sa-func">AES_encrypt</span>(<span class="sa-str">"'+message+'"</span>, <span class="exchange-var">key</span>)'
-                                        : '<span class="exchange-var">ciphertext</span> = <span class="sa-func">RSA_encrypt</span>(<span class="sa-str">"'+message+'"</span>, <span class="exchange-var">pub_key</span>)'}
+                                        ? '<span class="exchange-var">C</span> = <span class="sa-func">AES_encrypt</span>(<span class="exchange-var">p</span>, <span class="exchange-var">key</span>)'
+                                        : '<span class="exchange-var">C</span> = <span class="sa-func">RSA_encrypt</span>(<span class="exchange-var">p</span>, <span class="exchange-var">pub_key</span>)'}
                                 </div>
                             </div>
                             <div class="exchange-result" data-alice-result>
@@ -151,15 +174,14 @@
                 <!-- Exchange (middle column) -->
                 <div class="exchange-column">
                     <div class="exchange-column-step">
-                        <div class="exchange-column-label">${isSymmetric ? 'Step 1: Send Key' : 'Step 1: Send Public Key'}</div>
+                        <div class="exchange-column-label">Step 2: Send key in <span class="exchange-badge exchange-public-badge">Public</span></div>
                         <div class="exchange-arrow-grid">
                             <div class="exchange-arrow-group">
                                 <div class="exchange-arrow exchange-arrow-left">
-                                    <span class="exchange-arrow-icon">←</span>
-                                    <div class="exchange-arrow-label">${isSymmetric ? 'Secret Key' : 'Public Key'}</div>
-                                    <div class="exchange-value-group ${isSymmetric ? 'exchange-value-shared' : 'exchange-value-party2'}>
+                                    <div class="exchange-value-group ${isSymmetric ? 'exchange-value-party2' : 'exchange-value-party2'}">
                                         <span class="exchange-var">${isSymmetric ? 'key' : 'pub'}</span> = <span class="exchange-value" data-arrow-key>?</span>
                                     </div>
+                                    <span class="exchange-arrow-icon">←</span>
                                 </div>
                             </div>
                             ${isSymmetric && showIntercept && showInterceptKey ? `
@@ -173,14 +195,13 @@
                     </div>
 
                     <div class="exchange-column-step">
-                        <div class="exchange-column-label">Step 4: Send Ciphertext</div>
+                        <div class="exchange-column-label">Step 5: Send cypher in <span class="exchange-badge exchange-public-badge">Public</span></div>
                         <div class="exchange-arrow-grid">
                             <div class="exchange-arrow-group">
                                 <div class="exchange-arrow exchange-arrow-right">
                                     <div class="exchange-value-group exchange-value-party1">
                                         <span class="exchange-var">C</span> = <span class="exchange-value sa-ciphertext" data-arrow-cipher>?</span>
                                     </div>
-                                    <div class="exchange-arrow-label">Encrypted</div>
                                     <span class="exchange-arrow-icon">→</span>
                                 </div>
                             </div>
@@ -206,19 +227,19 @@
 
                     ${isSymmetric ? `
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 1: Decide secret key</div>
+                        <div class="exchange-step-label">Step 2: Decide secret key</div>
                         <div class="exchange-step-content">
                             <div class="exchange-result exchange-show">
-                                <div class="exchange-value-group exchange-value-shared">
+                                <div class="exchange-value-group exchange-value-party2">
                                     <span class="exchange-var">key</span> = <span class="exchange-value" data-bob-key>?</span>
                                 </div>
-                                <span class="exchange-badge exchange-secret-badge">Shared Secret</span>
+                                <span class="exchange-badge exchange-shared-badge">Shared</span>
                             </div>
                         </div>
                     </div>
                     ` : `
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 1: Generate key pair</div>
+                        <div class="exchange-step-label">Step 2: Generate key pair</div>
                         <div class="exchange-step-content">
                             <div class="sa-keypair">
                                 <div class="exchange-result exchange-show">
@@ -239,10 +260,9 @@
                     `}
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 4: Receive ciphertext</div>
+                        <div class="exchange-step-label">Step 5: Receive ciphertext</div>
                         <div class="exchange-step-content">
                             <div class="exchange-received">
-                                <span>Received</span>
                                 <div class="exchange-value-group exchange-value-party1">
                                     <span class="exchange-var">C</span> = <span class="exchange-value sa-ciphertext" data-bob-received>?</span>
                                 </div>
@@ -251,18 +271,18 @@
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 5: Decrypt message</div>
+                        <div class="exchange-step-label">Step 6: Decrypt message</div>
                         <div class="exchange-step-content">
                             <div class="sa-operation">
                                 <div class="sa-operation-formula">
                                     ${isSymmetric
-                                        ? '<span class="exchange-var">message</span> = <span class="sa-func">AES_decrypt</span>(<span class="exchange-var">C</span>, <span class="exchange-var">key</span>)'
-                                        : '<span class="exchange-var">message</span> = <span class="sa-func">RSA_decrypt</span>(<span class="exchange-var">C</span>, <span class="exchange-var">priv</span>)'}
+                                        ? '<span class="exchange-var">p</span> = <span class="sa-func">AES_decrypt</span>(<span class="exchange-var">C</span>, <span class="exchange-var">key</span>)'
+                                        : '<span class="exchange-var">p</span> = <span class="sa-func">RSA_decrypt</span>(<span class="exchange-var">C</span>, <span class="exchange-var">priv</span>)'}
                                 </div>
                             </div>
                             <div class="exchange-result sa-result-final" data-bob-result>
                                 <div class="exchange-value-group exchange-value-success">
-                                    <span class="exchange-var">msg</span> = <span class="exchange-value" data-bob-message>?</span>
+                                    <span class="exchange-var">p</span> = <span class="exchange-value" data-bob-message>?</span>
                                 </div>
                             </div>
                         </div>
@@ -328,11 +348,11 @@
 
             // Generate keys
             if (isSymmetric) {
-                this.sharedKey = generateKey(12)
+                this.sharedKey = generateKey(KEY_LEN)
                 this.encrypted = visualEncrypt(message, this.sharedKey)
             } else {
-                this.publicKey = generateKey(12) + '-PUB'
-                this.privateKey = generateKey(12) + '-PRV'
+                this.publicKey = generateKey(KEY_LEN) + '-PUB'
+                this.privateKey = generateKey(KEY_LEN) + '-PRV'
                 this.encrypted = visualEncrypt(message, this.publicKey)
             }
 
@@ -345,6 +365,7 @@
             // Cache frequently accessed DOM elements
             this.dom = {
                 alice: {
+                    plaintext: el.querySelector('[data-alice-message]'),
                     key: el.querySelector('[data-alice-key]'),
                     ciphertext: el.querySelector('[data-alice-ciphertext]'),
                     result: el.querySelector('[data-alice-result]')
@@ -380,7 +401,7 @@
         updateControls() {
             this.startBtn.disabled = this.isRunning
             this.resetBtn.disabled = !this.isRunning && this.currentStep === 0
-            this.stepBtn.disabled = this.isRunning || this.currentStep >= 5
+            this.stepBtn.disabled = this.isRunning || this.currentStep >= 6
         }
 
         setStatus(msg, type = '') {
@@ -411,14 +432,14 @@
         async start() {
             if (this.isRunning) return
 
-            if (this.currentStep >= 5) {
+            if (this.currentStep >= 6) {
                 this.reset()
             }
 
             this.isRunning = true
             this.updateControls()
 
-            while (this.currentStep < 5 && this.isRunning) {
+            while (this.currentStep < 6 && this.isRunning) {
                 await this.nextStep()
                 if (!this.isRunning) break
                 await this.sleep(this.TIMING.BETWEEN_STEPS)
@@ -429,7 +450,7 @@
         }
 
         async nextStep() {
-            if (this.currentStep >= 5) return
+            if (this.currentStep >= 6) return
 
             const isManualStep = !this.isRunning
             if (isManualStep) {
@@ -440,11 +461,12 @@
             this.currentStep++
 
             switch (this.currentStep) {
-                case 1: await this.step1_GenerateKeys(); break
-                case 2: await this.step2_AliceSendsKey(); break
-                case 3: await this.step3_AliceEncrypts(); break
-                case 4: await this.step4_SendCiphertext(); break
-                case 5: await this.step5_BobDecrypts(); break
+                case 1: await this.step1_ShowMessage(); break
+                case 2: await this.step2_GenerateKeys(); break
+                case 3: await this.step3_SendKey(); break
+                case 4: await this.step4_AliceEncrypts(); break
+                case 5: await this.step5_SendCiphertext(); break
+                case 6: await this.step6_BobDecrypts(); break
             }
 
             if (isManualStep) {
@@ -453,8 +475,28 @@
             this.updateControls()
         }
 
-        // Step 1: Bob generates key(s)
-        async step1_GenerateKeys() {
+        // Step 1: Show Alice's plaintext message
+        async step1_ShowMessage() {
+            this.setStatus(`Alice has a message for Bob: "${this.message}"`, 'info')
+
+            const stepEl = this.dom.alice.plaintext.closest('.exchange-step')
+            this.activateStep(stepEl)
+
+            await this.sleep(this.TIMING.REVEAL)
+            if (!this.isRunning) return
+
+            this.dom.alice.plaintext.textContent = `"${this.message}"`
+            const aliceMsgResult = this.dom.alice.plaintext.closest('.exchange-result')
+            aliceMsgResult.classList.add(CSS_CLASSES.PULSE)
+            setTimeout(() => aliceMsgResult.classList.remove(CSS_CLASSES.PULSE), 350)
+
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+            this.completeStep(stepEl)
+        }
+
+        // Step 2: Bob generates key(s)
+        async step2_GenerateKeys() {
             const isSymmetric = this.mode === 'symmetric'
             this.setStatus(isSymmetric ? 'Bob decides on a secret key' : 'Bob generates a public/private key pair', 'info')
 
@@ -487,8 +529,8 @@
             this.completeStep(stepEl)
         }
 
-        // Step 2: Bob sends key to Alice
-        async step2_AliceSendsKey() {
+        // Step 3: Bob sends key to Alice
+        async step3_SendKey() {
             const isSymmetric = this.mode === 'symmetric'
             this.setStatus(isSymmetric ? (this.showIntercept && this.showInterceptKey ? 'Bob sends secret key to Alice (Eve is watching!)' : 'Bob sends secret key to Alice') : 'Bob sends public key to Alice', isSymmetric && this.showIntercept && this.showInterceptKey ? 'warning' : 'info')
 
@@ -533,8 +575,8 @@
             this.completeStep(aliceStepEl)
         }
 
-        // Step 3: Alice encrypts
-        async step3_AliceEncrypts() {
+        // Step 4: Alice encrypts
+        async step4_AliceEncrypts() {
             const isSymmetric = this.mode === 'symmetric'
             this.setStatus(`Alice encrypts "${this.message}" with ${isSymmetric ? 'shared key' : "Bob's public key"}`, 'info')
 
@@ -555,8 +597,8 @@
             this.completeStep(stepEl)
         }
 
-        // Step 4: Send ciphertext
-        async step4_SendCiphertext() {
+        // Step 5: Send ciphertext
+        async step5_SendCiphertext() {
             this.setStatus('Alice sends encrypted message to Bob', 'info')
 
             const exchangeStepEl = this.dom.arrows.right.closest('.exchange-column-step')
@@ -599,8 +641,8 @@
             this.completeStep(bobStepEl)
         }
 
-        // Step 5: Bob decrypts
-        async step5_BobDecrypts() {
+        // Step 6: Bob decrypts
+        async step6_BobDecrypts() {
             const isSymmetric = this.mode === 'symmetric'
             this.setStatus(`Bob decrypts with ${isSymmetric ? 'shared key' : 'private key'}`, 'info')
 
@@ -641,11 +683,11 @@
 
             // Regenerate keys
             if (this.mode === 'symmetric') {
-                this.sharedKey = generateKey(12)
+                this.sharedKey = generateKey(KEY_LEN)
                 this.encrypted = visualEncrypt(this.message, this.sharedKey)
             } else {
-                this.publicKey = generateKey(12) + '-PUB'
-                this.privateKey = generateKey(12) + '-PRV'
+                this.publicKey = generateKey(KEY_LEN) + '-PUB'
+                this.privateKey = generateKey(KEY_LEN) + '-PRV'
                 this.encrypted = visualEncrypt(this.message, this.publicKey)
             }
 
@@ -659,7 +701,20 @@
             })
 
             // Reset all displayed values to '?'
-            this.resetElementsToDefault('[data-alice-key], [data-alice-ciphertext], [data-bob-key], [data-bob-public], [data-bob-private], [data-bob-received], [data-bob-message], [data-arrow-key], [data-arrow-cipher]')
+            this.resetElementsToDefault('[data-alice-message], [data-alice-key], [data-alice-ciphertext], [data-bob-key], [data-bob-public], [data-bob-private], [data-bob-received], [data-bob-message], [data-arrow-key], [data-arrow-cipher]')
+
+            // Restore initial "show" state for step 1 (Alice's message) and step 2 (Bob's keys)
+            const aliceMsgResult = this.dom.alice.plaintext.closest('.exchange-result')
+            if (aliceMsgResult) {
+                aliceMsgResult.classList.add(CSS_CLASSES.SHOW)
+            }
+
+            const bobKeyResults = this.mode === 'symmetric'
+                ? [this.dom.bob.key.closest('.exchange-result')]
+                : [this.dom.bob.publicKey.closest('.exchange-result'), this.dom.bob.privateKey.closest('.exchange-result')]
+            bobKeyResults.forEach(result => {
+                if (result) result.classList.add(CSS_CLASSES.SHOW)
+            })
 
             this.setStatus('')
             this.updateControls()
@@ -677,7 +732,7 @@
     function processSymAsym() {
         document.querySelectorAll('.markdown-section sym-asym').forEach(el => {
             const mode = el.getAttribute('mode') || 'symmetric'
-            const message = el.getAttribute('message') || 'Hello Bob!'
+            const message = el.getAttribute('message') || 'Hello, Bob!'
             const showIntercept = el.hasAttribute('intercept')
             const showInterceptKey = el.hasAttribute('intercept-key')
 
