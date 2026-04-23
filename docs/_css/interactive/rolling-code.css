@@ -1,0 +1,46 @@
+/**
+ * rolling-code.css — Rolling Code Plugin Specific Styles
+ *
+ * Shared exchange layout and animations are in exchange-core.css.
+ * This file contains only rolling-code specific styling.
+ */
+
+.markdown-section rolling-code {
+    --rc-chip-bg: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 88%);
+    --rc-chip-border: var(--exchange-accent-shared);
+    --rc-code-bg: color-mix(in srgb, var(--exchange-accent-public), transparent 88%);
+
+    container-type: inline-size;
+
+    .rc-config {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        justify-content: flex-end;
+    }
+
+    .rc-chip {
+        display: inline-flex;
+        gap: 0.35rem;
+        align-items: center;
+        padding: 0.2rem 0.55rem;
+        font-size: 0.82rem;
+        border-radius: 999px;
+        border: 1px solid var(--rc-chip-border);
+        background: var(--rc-chip-bg);
+        color: var(--exchange-text-primary);
+
+        strong {
+            font-weight: 700;
+        }
+    }
+
+    .rc-code {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.78em;
+        letter-spacing: 0.05em;
+        background: var(--rc-code-bg);
+        padding: 0.1em 0.3em;
+        border-radius: var(--border-radius-small);
+    }
+}
