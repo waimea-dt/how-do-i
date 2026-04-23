@@ -50,12 +50,12 @@
 - Input scenarios: Random, sorted, reverse, nearly-sorted
 - Best/Avg/Worst annotations: Highlight when each case occurs
 - Speed control: Slow-mo to see bubble sort's inefficiency
-- Color coding: Active comparison (yellow), swap (red), sorted (green)
+- Colour coding: Active comparison (yellow), swap (red), sorted (green)
 
 #### approximation-demo.js - Heuristic Quality Evaluator
 **Purpose**: Show trade-off between speed and solution quality
 **Features**:
-- Problem selector: TSP, Knapsack, Bin Packing, Graph Coloring
+- Problem selector: TSP, Knapsack, Bin Packing, Graph Colouring
 - Algorithm slider: Optimal → Good Heuristic → Fast Greedy
 - Quality meter: % of optimal solution (e.g., "92% optimal in 0.01s vs 100% in 45s")
 - Real-world context: "Delivery routes don't need perfection"
@@ -134,7 +134,7 @@
 **Purpose**: Show how accessibility principles affect real users
 **Features**:
 - Simulation modes:
-  - Color blindness filters (protanopia, deuteranopia, tritanopia)
+  - Colour blindness filters (protanopia, deuteranopia, tritanopia)
   - Screen reader mode (show tab order + alt text)
   - Low vision (blur/zoom)
   - Motor impairment (large click targets)
@@ -293,4 +293,628 @@ When building new plugins:
 - Include comprehensive error validation
 - Auto-clear highlights after completion (with 1s delay)
 - Keep executed code dimmed for visual history
+
+---
+
+## Exchange Plugin Design Patterns
+
+**Established with:** `diffie-hellman.js`, `sym-asym.js`
+**Shared base:** `exchange-core.css` (common styles), plugin-specific CSS files for unique features
+
+### File Structure
+
+```
+docs/
+├── _plugins/interactive/
+│   ├── diffie-hellman.js       # Plugin-specific logic
+│   ├── sym-asym.js              # Plugin-specific logic
+│   └── exchange-core.js         # [Future] Shared animation base class
+├── _css/interactive/
+│   ├── exchange-core.css        # Shared styles for all exchange plugins
+│   ├── diffie-hellman.css       # Plugin-specific styles only
+│   └── sym-asym.css             # Plugin-specific styles only
+```
+
+**Key Principle:** Common patterns go in `exchange-core.css`, plugin-specific features stay in their own CSS
+
+### HTML Structure Pattern
+
+All exchange plugins use this standardized structure:
+
+```html
+<custom-element>  <!-- e.g., <diffie-hellman>, <sym-asym> -->
+  <div class="exchange-wrapper">
+    <div class="exchange-header">
+      <div class="exchange-header-content">
+        <div class="exchange-title">...</div>
+        <div class="exchange-subtitle">...</div>
+      </div>
+    </div>
+
+    <div class="exchange-grid">  <!-- 3-column responsive grid -->
+      <!-- Party 1 (Alice) -->
+      <div class="exchange-party exchange-party1">
+        <div class="exchange-party-header">
+          <div class="exchange-party-name">👩 Alice</div>
+        </div>
+        <div class="exchange-step">
+          <div class="exchange-step-label">Step X: Action</div>
+          <div class="exchange-step-content">
+            <div class="exchange-result exchange-show">
+              <div class="exchange-value-group exchange-value-party1">
+                <span class="exchange-var">var</span> =
+                <span class="exchange-value" data-alice-value>?</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange Column (Middle - Arrows) -->
+      <div class="exchange-column">
+        <div class="exchange-column-step">
+          <div class="exchange-column-label">Step Y: Send</div>
+          <div class="exchange-arrow-grid">
+            <div class="exchange-arrow exchange-arrow-right">
+              <div class="exchange-value-group">...</div>
+              <span class="exchange-arrow-icon">→</span>
+            </div>
+          </div>
+          <!-- Optional Eve intercept -->
+          <div class="exchange-eve">
+            <div class="exchange-eve-icon">👁️ Eve</div>
+            <div class="exchange-eve-text">Can see: ...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Party 2 (Bob) -->
+      <div class="exchange-party exchange-party2">
+        <!-- Similar to Party 1 -->
+      </div>
+    </div>
+
+    <div class="exchange-footer">
+      <div class="exchange-controls">
+        <button class="exchange-btn exchange-btn-start">▶ Start</button>
+        <button class="exchange-btn exchange-btn-reset">↺ Reset</button>
+        <button class="exchange-btn exchange-btn-step">→ Next</button>
+      </div>
+      <div class="exchange-status" aria-live="polite"></div>
+    </div>
+  </div>
+</custom-element>
+```
+
+### CSS Design Token System
+
+**Always use locally scoped CSS variables** in the plugin's root container:
+
+```css
+.markdown-section diffie-hellman {
+    container-type: inline-size;  /* REQUIRED for responsive @container queries */
+
+    /* Override core tokens if needed */
+    --exchange-accent-party1: var(--theme-color);
+    --exchange-accent-party2: var(--secondary-color);
+    --exchange-accent-shared: var(--color-good);
+
+    /* Plugin-specific tokens */
+    --dh-swatch-color: var(--theme-color-5);
+    --dh-formula-bg: var(--color-mono-0);
+}
+```
+
+**Core design tokens** (defined in `exchange-core.css`, can be overridden):
+
+```css
+/* Color system */
+--exchange-bg:                  var(--color-mono-0);
+--exchange-border:              var(--color-mono-4);
+--exchange-text-primary:        var(--color-text);
+--exchange-text-secondary:      var(--color-mono-6);
+
+/* Party-specific accents */
+--exchange-accent-party1:       var(--theme-color);
+--exchange-accent-party2:       var(--secondary-color);
+--exchange-accent-shared:       var(--color-good);
+--exchange-accent-secret:       var(--highlight-color);
+--exchange-accent-public:       var(--palette-color-6);
+
+/* Step states */
+--exchange-step-active-border:  var(--theme-color);
+--exchange-step-active-bg:      color-mix(...);
+--exchange-step-complete-bg:    color-mix(...);
+
+/* Spacing */
+--exchange-gap-big:             2rem;
+--exchange-gap:                 1rem;
+--exchange-gap-small:           0.5rem;
+--exchange-padding:             1rem;
+```
+
+**Always reference theme colors**, never hardcode:
+- ✅ `var(--theme-color)`, `var(--color-mono-4)`
+- ❌ `#3498db`, `#cccccc`
+
+### Responsive Design with Container Queries
+
+**Use `@container` queries** for plugin-internal responsiveness:
+
+```css
+.markdown-section diffie-hellman {
+    container-type: inline-size;  /* Makes @container work */
+}
+
+.exchange-grid {
+    /* Mobile: stacked */
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "party1"
+        "exchange"
+        "party2";
+
+    /* Tablet: 2-column */
+    @container (min-width: 600px) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "party1 party2"
+            "exchange exchange";
+    }
+
+    /* Desktop: 3-column */
+    @container (min-width: 1024px) {
+        grid-template-columns: 1fr 320px 1fr;
+        grid-template-areas: "party1 exchange party2";
+    }
+}
+```
+
+**Why container queries?** Plugins work correctly regardless of page width (sidebar open/closed, embedded contexts)
+
+### JavaScript Architecture
+
+#### Plugin Structure (IIFE Pattern)
+
+```javascript
+;(function () {
+    // -------------------------------------------------------------------------
+    // Configuration
+    // -------------------------------------------------------------------------
+
+    const KEY_LEN = 8
+    const CONFIG = { /* ... */ }
+
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
+    function helperFunction() { /* ... */ }
+
+    // -------------------------------------------------------------------------
+    // HTML UI Builder
+    // -------------------------------------------------------------------------
+
+    function buildUI(param1, param2) {
+        const wrapper = document.createElement('div')
+        wrapper.className = 'exchange-wrapper'
+        wrapper.innerHTML = `...`
+        return wrapper
+    }
+
+    // -------------------------------------------------------------------------
+    // Animation Controller
+    // -------------------------------------------------------------------------
+
+    const CSS_CLASSES = {
+        ACTIVE: 'exchange-active',
+        COMPLETED: 'exchange-completed',
+        HIGHLIGHT: 'exchange-highlight',
+        ANIMATING: 'exchange-animating',
+        SHOW: 'exchange-show',
+        PULSE: 'exchange-pulse'
+    }
+
+    class PluginAnimation {
+        constructor(el, ...params) {
+            this.el = el
+            this.currentStep = 0
+            this.isRunning = false
+
+            // Animation timing
+            this.TIMING = {
+                BASE: 500,
+                get REVEAL() { return this.BASE },
+                get STEP() { return this.BASE + 200 },
+                get ANIMATE() { return this.STEP + 400 },
+                get BETWEEN_STEPS() { return this.ANIMATE + 400 }
+            }
+
+            // Cache DOM elements
+            this.dom = { /* ... */ }
+
+            // Bind events
+            this.startBtn.addEventListener('click', () => this.start())
+            this.resetBtn.addEventListener('click', () => this.reset())
+            this.stepBtn.addEventListener('click', () => this.nextStep())
+        }
+
+        async nextStep() {
+            this.currentStep++
+            switch (this.currentStep) {
+                case 1: await this.step1_Name(); break
+                case 2: await this.step2_Name(); break
+                // ...
+            }
+        }
+
+        async step1_Name() {
+            this.setStatus('Status message', 'info')
+
+            const stepEl = this.dom.element.closest('.exchange-step')
+            this.activateStep(stepEl)
+
+            await this.sleep(this.TIMING.REVEAL)
+            if (!this.isRunning) return
+
+            // Update DOM with animation
+            this.dom.element.textContent = value
+            this.dom.element.classList.add(CSS_CLASSES.PULSE)
+
+            await this.sleep(this.TIMING.STEP)
+            if (!this.isRunning) return
+
+            this.completeStep(stepEl)
+        }
+
+        reset() {
+            this.currentStep = 0
+            this.isRunning = false
+
+            // Remove all state classes
+            this.el.querySelectorAll('.exchange-step').forEach(el => {
+                el.classList.remove(CSS_CLASSES.ACTIVE, CSS_CLASSES.COMPLETED)
+            })
+
+            // Reset values
+            this.resetElementsToDefault('[data-selector]')
+
+            // Restore initial show states
+            const initialResults = this.el.querySelectorAll('.exchange-result.exchange-show')
+            initialResults.forEach(el => el.classList.add(CSS_CLASSES.SHOW))
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Plugin entry point
+    // -------------------------------------------------------------------------
+
+    function processPlugin() {
+        document.querySelectorAll('.markdown-section custom-element').forEach(el => {
+            const param1 = el.getAttribute('param1') || 'default'
+            const param2 = el.hasAttribute('param2')
+
+            el.innerHTML = ''
+            el.appendChild(buildUI(param1, param2))
+            new PluginAnimation(el, param1, param2)
+        })
+    }
+
+    const docsifyPlugin = function (hook) {
+        hook.doneEach(processPlugin)
+    }
+
+    window.$docsify = window.$docsify || {}
+    window.$docsify.plugins = [].concat(docsifyPlugin, window.$docsify.plugins || [])
+})()
+```
+
+#### State Management Pattern
+
+```javascript
+// Step activation states
+this.activateStep(stepEl)       // Adds 'exchange-active' class
+this.completeStep(stepEl)       // Removes 'active', adds 'exchange-completed'
+
+// Show/hide elements
+element.classList.add(CSS_CLASSES.SHOW)     // Animate in (opacity + max-height)
+element.classList.remove(CSS_CLASSES.SHOW)  // Animate out
+
+// Pulse highlights (temporary)
+element.classList.add(CSS_CLASSES.PULSE)
+setTimeout(() => element.classList.remove(CSS_CLASSES.PULSE), 350)
+
+// Persistent highlight
+element.classList.add(CSS_CLASSES.HIGHLIGHT)  // Infinite pulse animation
+```
+
+#### Animation Timing Pattern
+
+```javascript
+this.TIMING = {
+    BASE: 500,
+    get REVEAL() { return this.BASE },              // Initial reveal delay
+    get STEP() { return this.BASE + 200 },          // Between sub-steps
+    get ANIMATE() { return this.STEP + 400 },       // Animation duration
+    get BETWEEN_STEPS() { return this.ANIMATE + 400 } // Between major steps
+}
+
+// Usage in step methods
+await this.sleep(this.TIMING.REVEAL)
+if (!this.isRunning) return  // ALWAYS check after sleep
+
+await this.sleep(this.TIMING.ANIMATE)
+if (!this.isRunning) return
+```
+
+**Critical:** Always check `!this.isRunning` after every `sleep()` to allow reset/stop mid-animation
+
+#### DOM Caching Pattern
+
+```javascript
+// Cache all frequently accessed elements in constructor
+this.dom = {
+    alice: {
+        key: el.querySelector('[data-alice-key]'),
+        value: el.querySelector('[data-alice-value]'),
+        result: el.querySelector('[data-alice-result]')
+    },
+    bob: {
+        key: el.querySelector('[data-bob-key]'),
+        // ...
+    },
+    arrows: {
+        left: el.querySelector('.exchange-arrow-left'),
+        right: el.querySelector('.exchange-arrow-right')
+    },
+    exchange: {
+        eveNote: el.querySelector('.exchange-eve')
+    }
+}
+
+// Never query selectors in animation loops
+```
+
+### Animation Patterns
+
+#### Standard Animation Sequence
+
+```javascript
+async stepN_ActionName() {
+    // 1. Set status message
+    this.setStatus('Describing what happens', 'info')
+
+    // 2. Activate the step container
+    const stepEl = this.dom.element.closest('.exchange-step')
+    this.activateStep(stepEl)
+
+    // 3. Initial delay
+    await this.sleep(this.TIMING.REVEAL)
+    if (!this.isRunning) return
+
+    // 4. Update values with pulse animation
+    this.dom.element.textContent = newValue
+    const resultEl = this.dom.element.closest('.exchange-result')
+    resultEl.classList.add(CSS_CLASSES.PULSE)
+    setTimeout(() => resultEl.classList.remove(CSS_CLASSES.PULSE), 350)
+
+    // 5. Show the result container
+    resultEl.classList.add(CSS_CLASSES.SHOW)
+
+    // 6. Wait before completing
+    await this.sleep(this.TIMING.STEP)
+    if (!this.isRunning) return
+
+    // 7. Mark step as completed
+    this.completeStep(stepEl)
+}
+```
+
+#### Arrow/Exchange Animation
+
+```javascript
+// Show value on arrow
+this.dom.arrows.value.textContent = data
+this.dom.arrows.left.classList.add(CSS_CLASSES.ANIMATING)
+
+await this.sleep(this.TIMING.ANIMATE)
+if (!this.isRunning) return
+
+this.dom.arrows.left.classList.remove(CSS_CLASSES.ANIMATING)
+
+// Receiver gets value
+this.dom.receiver.value.textContent = data
+const receivedContainer = this.dom.receiver.value.closest('.exchange-received')
+receivedContainer.classList.add(CSS_CLASSES.PULSE)
+setTimeout(() => receivedContainer.classList.remove(CSS_CLASSES.PULSE), 350)
+receivedContainer.classList.add(CSS_CLASSES.SHOW)
+```
+
+#### Eve Intercept Pattern
+
+```javascript
+// Show Eve's observation (optional intercept mode)
+if (this.showIntercept && this.dom.exchange.eveNote) {
+    await this.sleep(this.TIMING.STEP)
+    if (!this.isRunning) return
+    this.dom.exchange.eveNote.classList.add(CSS_CLASSES.SHOW)
+    this.dom.exchange.eveNote.classList.add(CSS_CLASSES.HIGHLIGHT)  // Continuous pulse
+}
+```
+
+### Reset Pattern
+
+```javascript
+reset() {
+    this.isRunning = false
+    this.currentStep = 0
+
+    // Regenerate random values
+    this.key = generateKey()
+    this.encrypted = encrypt(this.message, this.key)
+
+    // Remove all animation state classes
+    this.el.querySelectorAll('.exchange-step, .exchange-column-step, .exchange-eve').forEach(el => {
+        el.classList.remove(CSS_CLASSES.ACTIVE, CSS_CLASSES.HIGHLIGHT, CSS_CLASSES.COMPLETED)
+    })
+
+    this.el.querySelectorAll('.exchange-received, .exchange-result').forEach(el => {
+        el.classList.remove(CSS_CLASSES.SHOW, CSS_CLASSES.HIGHLIGHT)
+    })
+
+    this.el.querySelectorAll('.exchange-arrow').forEach(el => {
+        el.classList.remove(CSS_CLASSES.ANIMATING)
+    })
+
+    // Reset displayed values to '?'
+    this.resetElementsToDefault('[data-alice-key], [data-bob-key], [data-alice-value]')
+
+    // Restore initial "show" states (Step 1 values visible from start)
+    const initialShownResults = [
+        this.dom.alice.initial.closest('.exchange-result'),
+        this.dom.bob.initial.closest('.exchange-result')
+    ]
+    initialShownResults.forEach(result => {
+        if (result) result.classList.add(CSS_CLASSES.SHOW)
+    })
+
+    this.setStatus('')
+    this.updateControls()
+}
+```
+
+### Naming Conventions
+
+#### CSS Classes
+- **Base element:** `exchange-{noun}` (e.g., `exchange-wrapper`, `exchange-grid`)
+- **State modifiers:** `exchange-{state}` (e.g., `exchange-active`, `exchange-show`)
+- **Party variants:** `exchange-{noun}-party1`, `exchange-{noun}-party2`
+- **Plugin-specific:** `{plugin}-{noun}` (e.g., `dh-calc-display`, `sa-operation`)
+
+#### Data Attributes
+- Format: `data-{party}-{item}` (e.g., `data-alice-key`, `data-bob-public`)
+- Never duplicate selectors: each element has one unique data attribute
+
+#### JavaScript Properties
+- Public properties: `this.propertyName`
+- Constants: `UPPER_SNAKE_CASE`
+- Methods: `camelCase`, step methods use `stepN_ActionName` pattern
+
+### Value Display Patterns
+
+#### Standard Value Group
+
+```html
+<div class="exchange-value-group exchange-value-party1">
+    <span class="exchange-var">varName</span> =
+    <span class="exchange-value" data-selector>?</span>
+</div>
+```
+
+**Color variants:**
+- `exchange-value-party1` - Alice's values (theme color)
+- `exchange-value-party2` - Bob's values (secondary color)
+- `exchange-value-shared` - Shared secrets (green)
+- `exchange-value-success` - Final results (green)
+
+#### Badges
+
+```html
+<span class="exchange-badge exchange-public-badge">Public Key</span>
+<span class="exchange-badge exchange-secret-badge">Private Key</span>
+<span class="exchange-badge exchange-shared-badge">Shared Secret</span>
+```
+
+### Received Values Pattern
+
+```html
+<div class="exchange-received">
+    <span>Received</span>  <!-- Optional label -->
+    <div class="exchange-value-group exchange-value-party2">
+        <span class="exchange-var">key</span> =
+        <span class="exchange-value" data-alice-key>?</span>
+    </div>
+</div>
+```
+
+**Animation:** Starts hidden (opacity: 0, max-height: 0), revealed with `exchange-show` class
+
+### Status Messages
+
+```javascript
+this.setStatus('Message text', 'info')     // Blue/neutral
+this.setStatus('Success!', 'success')      // Green
+this.setStatus('Warning!', 'warning')      // Orange/yellow
+this.setStatus('', '')                      // Clear status
+```
+
+### Control Button States
+
+```javascript
+updateControls() {
+    this.startBtn.disabled = this.isRunning
+    this.resetBtn.disabled = !this.isRunning && this.currentStep === 0
+    this.stepBtn.disabled = this.isRunning || this.currentStep >= this.maxSteps
+}
+```
+
+### Plugin-Specific Extensions
+
+When a plugin needs unique features:
+
+1. **Add to plugin-specific CSS** (not exchange-core.css)
+2. **Use plugin-prefixed classes:** `dh-color-swatch`, `sa-operation`
+3. **Define plugin-specific tokens:** `--dh-swatch-color`, `--sa-func-color`
+4. **Document in CSS file header** what's plugin-specific
+
+### Accessibility Requirements
+
+- **Semantic HTML:** Use `<button>`, not `<div role="button">`
+- **ARIA live region:** `<div class="exchange-status" aria-live="polite">`
+- **Keyboard navigation:** All controls must be keyboard-accessible
+- **Color contrast:** Meet WCAG AA standards (checked via CSS variables)
+- **Focus indicators:** Never remove `:focus` styles
+
+### Performance Guidelines
+
+- **Cache DOM queries** in constructor
+- **Use CSS transitions/animations** instead of JS animation loops
+- **Debounce rapid interactions** (already handled by `isRunning` flag)
+- **Remove event listeners** on destroy (if needed)
+- **Avoid layout thrashing:** batch DOM reads, then writes
+
+### Testing Checklist
+
+When building exchange plugins, verify:
+
+- ✅ Works with sidebar open/closed (container queries)
+- ✅ Mobile responsive (test at 375px, 768px, 1024px)
+- ✅ Reset works mid-animation (check `isRunning` guards)
+- ✅ Step button disabled at end
+- ✅ All animations smooth (no flashing)
+- ✅ Status messages clear and accurate
+- ✅ Theme colors applied (no hardcoded colors)
+- ✅ Eve intercept shows/hides correctly
+- ✅ Values reset to '?' on reset
+- ✅ Initial states restore after reset
+
+### Common Pitfalls to Avoid
+
+❌ **Don't:**
+- Hardcode colors (`#3498db`) instead of theme variables
+- Use `@media` queries (use `@container` instead)
+- Query selectors in loops (cache in constructor)
+- Forget `if (!this.isRunning) return` after `await sleep()`
+- Put common styles in plugin-specific CSS
+- Use `var` for variables (use `const`/`let`)
+- Forget to remove `exchange-show` class on reset for received values
+
+✅ **Do:**
+- Use CSS variables from theme
+- Cache all DOM elements
+- Check `isRunning` after every async operation
+- Keep shared styles in `exchange-core.css`
+- Document plugin-specific features in CSS header
+- Test responsive behavior with container queries
+- Use consistent naming conventions
 

@@ -1,0 +1,152 @@
+/**
+ * wifi.css — Wi-Fi Authentication Handshake Plugin Styles
+ *
+ * Common exchange patterns (grid, arrows, eve, footer, buttons) are in exchange-core.css.
+ * This file contains only wifi-specific styling:
+ *   - Network info / SSID header badge
+ *   - Security badge variants (WPA2 / WPA3)
+ *   - Nonce / key display styles
+ *   - Formula rendering
+ *   - Session-established banner
+ */
+
+.markdown-section wifi {
+    --wifi-func-color:      var(--palette-color-10);
+    --wifi-banner-bg:       color-mix(in srgb, var(--color-good), var(--exchange-bg) 85%);
+    --wifi-banner-border:   var(--color-good);
+    --wifi-wpa2-color:      var(--palette-color-8, #e07b00);
+    --wifi-wpa3-color:      var(--color-good);
+
+    container-type: inline-size;
+
+    /* ==================== Network Info (Header) ==================== */
+
+    .exchange-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--exchange-gap);
+    }
+
+    .wifi-network-info {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        padding: 0.35em 0.75em;
+        background: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 88%);
+        border: 1px solid var(--exchange-accent-shared);
+        border-radius: var(--border-radius);
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    .wifi-ssid-icon {
+        font-size: 1.1em;
+    }
+
+    .wifi-ssid-name {
+        font-weight: 700;
+        font-family: var(--exchange-font-mono);
+        color: var(--exchange-text-primary);
+    }
+
+    .wifi-security-badge {
+        font-size: 0.75em;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 0.15em 0.5em;
+        border-radius: 99px;
+        border: 1px solid;
+    }
+
+    .wifi-badge-wpa2 {
+        background: color-mix(in srgb, var(--wifi-wpa2-color), transparent 85%);
+        border-color: var(--wifi-wpa2-color);
+        color: var(--wifi-wpa2-color);
+    }
+
+    .wifi-badge-wpa3 {
+        background: color-mix(in srgb, var(--wifi-wpa3-color), transparent 85%);
+        border-color: var(--wifi-wpa3-color);
+        color: var(--wifi-wpa3-color);
+    }
+
+    /* ==================== Formula Lines ==================== */
+
+    .wifi-formula {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.85em;
+        color: var(--exchange-text-secondary);
+        padding: 0.25em 0.4em;
+        background: color-mix(in srgb, var(--wifi-func-color), transparent 92%);
+        border-left: 2px solid var(--wifi-func-color);
+        border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
+        margin-bottom: 0.35em;
+        line-height: 1.6;
+    }
+
+    .wifi-func {
+        color: var(--wifi-func-color);
+        font-weight: 600;
+    }
+
+    /* ==================== Key Display ==================== */
+
+    .wifi-key {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.75em;
+        letter-spacing: 0.06em;
+        word-break: break-all;
+    }
+
+    /* ==================== Session Banner ==================== */
+
+    .wifi-session-banner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6em;
+        padding: 0.75em 1.2em;
+        margin-top: var(--exchange-gap);
+        background: var(--wifi-banner-bg);
+        border: 2px solid var(--wifi-banner-border);
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        color: var(--wifi-banner-border);
+        font-size: 0.95rem;
+
+        /* Hidden until session completes */
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        border-width: 0;
+        transition:
+            max-height 0.6s ease,
+            opacity    0.5s ease,
+            padding    0.4s ease,
+            margin     0.4s ease,
+            border-width 0.3s ease;
+
+        &.exchange-show {
+            max-height: 6em;
+            opacity: 1;
+            padding-top: 0.75em;
+            padding-bottom: 0.75em;
+            margin-top: var(--exchange-gap);
+            border-width: 2px;
+        }
+    }
+
+    .wifi-session-icon {
+        font-size: 1.3em;
+    }
+
+    .wifi-session-text {
+        text-align: center;
+    }
+}
