@@ -190,14 +190,16 @@
             </div>
 
             <div class="exchange-grid">
+
                 <!-- Alice's Side -->
+
                 <div class="exchange-party exchange-party1">
                     <div class="exchange-party-header">
                         <div class="exchange-party-name">👩 Alice</div>
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 1</span>: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
                         <div class="exchange-step-content">
                             <div class="exchange-result exchange-show">
                                 <div class="exchange-value-group exchange-value-party1">
@@ -209,7 +211,7 @@
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 2</span>: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="exchange-step-content">
                             <div class="dh-calculation" data-alice-calc>
                                 <div class="dh-calc-display">
@@ -228,7 +230,7 @@
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 4: Receive Bob's public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 4</span>: Receive Bob's public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="exchange-step-content">
                             <div class="exchange-received">
                                 <span class="exchange-label">Received</span>
@@ -240,7 +242,7 @@
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 5: Calculate shared secret</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 5</span>: Calculate shared secret</div>
                         <div class="exchange-step-content">
                             <div class="dh-calculation" data-alice-secret-calc>
                                 <div class="dh-calc-display">
@@ -260,32 +262,40 @@
                 </div>
 
                 <!-- Exchange Arrow -->
+
                 <div class="exchange-column">
-                    <div class="exchange-column-step">
-                        <div class="exchange-column-label">Step 3: <span class="exchange-badge exchange-public-badge">Public</span> Exchange</div>
+                    <div class="exchange-step">
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 3</span>: Exchange <span class="exchange-badge exchange-public-badge">Public</span></div>
                         <div class="exchange-arrow-grid">
                             <div class="exchange-arrow-group">
                                 <div class="exchange-arrow exchange-arrow-right">
                                     <div class="exchange-value-group exchange-value-party1">
                                         <span class="exchange-var">A</span> = <span class="exchange-value" data-arrow-a>?</span>
                                     </div>
-                                    <div class="exchange-arrow-label">Send</div>
                                     <span class="exchange-arrow-icon">→</span>
                                 </div>
                                 <div class="exchange-arrow exchange-arrow-left">
                                     <div class="exchange-value-group exchange-value-party2">
                                         <span class="exchange-var">B</span> = <span class="exchange-value" data-arrow-b>?</span>
                                     </div>
-                                    <div class="exchange-arrow-label">Send</div>
                                     <span class="exchange-arrow-icon">←</span>
                                 </div>
                             </div>
                             ${showIntercept ? `
                             <div class="exchange-eve">
                                 <div class="exchange-eve-icon">👁️ Eve (eavesdropper)</div>
-                                <div class="exchange-eve-text">Can see: ${mode === 'color' ? '<span class="exchange-var">base</span>, <span class="exchange-var">A</span>, <span class="exchange-var">B</span>' : '<span class="exchange-var">p</span>, <span class="exchange-var">g</span>, <span class="exchange-var">A</span>, <span class="exchange-var">B</span>'}</div>
-                                <div class="exchange-eve-text">Cannot see: <span class="exchange-var">a</span>, <span class="exchange-var">b</span>, <span class="exchange-var">s</span></div>
-                                <div class="exchange-eve-problem">${mode === 'color' ? 'Separating mixed colours to find <span class="exchange-var">a</span> or <span class="exchange-var">b</span> is extremely hard!' : 'Computing <span class="exchange-var">a</span> or <span class="exchange-var">b</span> from public values is the <strong>discrete logarithm problem</strong> and is extremely hard!'}</div>
+                                <div class="exchange-eve-text">
+                                    Can see: ${mode === 'color' ? 'base, A, B' : 'p, g, A, B' }
+                                </div>
+                                <div class="exchange-eve-text">
+                                    Cannot see: a, b, s
+                                </div>
+                                <div class="exchange-eve-problem">
+                                    ${mode === 'color' ?
+                                        'Separating mixed colours to find a or b is extremely hard!'
+                                        : 'Computing a or b from public values is the discrete logarithm problem and is extremely hard!'
+                                    }
+                                </div>
                             </div>
                             ` : ''}
                         </div>
@@ -293,13 +303,14 @@
                 </div>
 
                 <!-- Bob's Side -->
+
                 <div class="exchange-party exchange-party2">
                     <div class="exchange-party-header">
                         <div class="exchange-party-name">👨 Bob</div>
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 1: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 1</span>: Choose private ${mode === 'color' ? 'colour' : 'key'}</div>
                         <div class="exchange-step-content">
                             <div class="exchange-result exchange-show">
                                 <div class="exchange-value-group exchange-value-party2">
@@ -311,7 +322,7 @@
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 2: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 2</span>: Calculate public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="exchange-step-content">
                             <div class="dh-calculation" data-bob-calc>
                                 <div class="dh-calc-display">
@@ -330,7 +341,7 @@
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 4: Receive Alice's public ${mode === 'color' ? 'colour' : 'value'}</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 4</span>: Receive Alice's public ${mode === 'color' ? 'colour' : 'value'}</div>
                         <div class="exchange-step-content">
                             <div class="exchange-received">
                                 <span class="exchange-label">Received</span>
@@ -342,7 +353,7 @@
                     </div>
 
                     <div class="exchange-step">
-                        <div class="exchange-step-label">Step 5: Calculate shared secret</div>
+                        <div class="exchange-step-label"><span class="exchange-step-label-num">Step 5</span>: Calculate shared secret</div>
                         <div class="exchange-step-content">
                             <div class="dh-calculation" data-bob-secret-calc>
                                 <div class="dh-calc-display">
@@ -364,7 +375,7 @@
 
             <div class="exchange-footer">
                 <div class="exchange-controls">
-                    <button class="exchange-btn dh-btn-start">
+                    <button class="exchange-btn exchange-btn-start dh-btn-start">
                         <span class="btn-icon">▶</span>
                         <span class="btn-text">Start</span>
                     </button>
@@ -372,7 +383,7 @@
                         <span class="btn-icon">↺</span>
                         <span class="btn-text">Reset</span>
                     </button>
-                    <button class="exchange-btn dh-btn-step">
+                    <button class="exchange-btn exchange-btn-step dh-btn-step">
                         <span class="btn-icon">→</span>
                         <span class="btn-text">Next</span>
                     </button>
@@ -388,14 +399,9 @@
     // Animation Controller
     // -------------------------------------------------------------------------
 
-    // CSS class name constants
+    // CSS class name constants (extend base with plugin-specific)
     const CSS_CLASSES = {
-        ACTIVE: 'exchange-active',
-        COMPLETED: 'exchange-completed',
-        HIGHLIGHT: 'exchange-highlight',
-        ANIMATING: 'exchange-animating',
-        SHOW: 'exchange-show',
-        PULSE: 'exchange-pulse',
+        ...window.ExchangeCore.CSS_CLASSES,
         CALC_ANIMATE: 'dh-calc-animate'
     }
 
@@ -411,128 +417,173 @@
         `
     }
 
-    class DiffieHellmanAnimation {
+    class DiffieHellmanAnimation extends window.ExchangeAnimation {
         constructor(el, p, g, mode = 'numeric', baseColor = '#9370DB', showIntercept = true) {
-            this.el = el
+            // Animation timing configuration
+            const timing = {
+                BASE: 500,
+                get REVEAL() { return this.BASE },
+                get STEP() { return this.BASE + 200 },
+                get ANIMATE() { return this.STEP + 400 },
+                get CALC_WAIT() { return this.ANIMATE },
+                get BETWEEN_STEPS() { return this.ANIMATE + 400 }
+            }
+
+            super(el, { timing })
+
             this.mode = mode
             this.showIntercept = showIntercept
-            this.currentStep = 0
-            this.isRunning = false
-            this.isPaused = false
+            this.p = p
+            this.g = g
+            this.baseColor = baseColor
 
-            // Animation timing constants (in milliseconds)
-            // Base delays that cascade through the animation
-            // To adjust overall speed: change BASE value (default 300ms)
-            // Each subsequent timing builds on previous ones
-            this.TIMING = {
-                BASE: 500,                           // Base unit for smallest delays
-                get REVEAL() { return this.BASE },   // Time for values to appear (300ms)
-                get STEP() { return this.BASE + 200 }, // Time between sub-steps (400ms)
-                get ANIMATE() { return this.STEP + 400 }, // Arrow/animation duration (600ms)
-                get CALC_WAIT() { return this.ANIMATE }, // Wait before showing calc step (600ms)
-                get BETWEEN_STEPS() { return this.ANIMATE + 400 } // Pause between major steps (800ms)
+            // Generate initial values
+            this.regenerateKeys()
+            // Generate initial values
+            this.regenerateKeys()
+        }
+
+        // -------------------------------------------------------------------------
+        // Base Class Implementation
+        // -------------------------------------------------------------------------
+
+        getMaxSteps() {
+            return this.showIntercept ? 9 : 7
+        }
+
+        async executeStep(stepNumber) {
+            switch (stepNumber) {
+                case 1: await this.step1_ChoosePrivateKeys(); break
+                case 2: await this.step2_AliceCalculatesPublic(); break
+                case 3: await this.step3_BobCalculatesPublic(); break
+                case 4: await this.step4_Exchange(); break
+                case 5: await this.step5_AliceCalculatesSecret(); break
+                case 6: await this.step6_BobCalculatesSecret(); break
+                case 7: await this.step7_HighlightSharedSecret(); break
+                case 8:
+                    if (this.showIntercept) {
+                        await this.step8_ShowEvesProblem()
+                    }
+                    break
+                case 9:
+                    if (this.showIntercept) {
+                        await this.step9_Complete()
+                    }
+                    break
             }
+        }
 
-            if (mode === 'color') {
-                // Color mode - generate constrained colors for predictable mixing
-                // Base owns R channel, Alice owns B channel, Bob owns G channel
-                this.baseColor = baseColor // Use provided color (already constrained if auto-generated)
-                this.a = generateConstrainedColor('b') // Alice's secret color (blue-heavy)
-                this.b = generateConstrainedColor('g') // Bob's secret color (green-heavy)
-                this.A = mixColors(baseColor, this.a) // Alice's public color
-                this.B = mixColors(baseColor, this.b) // Bob's public color
-                // Shared secret: each party mixes received value with their private color
-                // mix(mix(base,b), a) = mix(mix(base,a), b) with multiplicative mixing!
-                this.secretAlice = mixColors(this.B, this.a) // Alice: mix(B, a)
-                this.secretBob = mixColors(this.A, this.b)   // Bob: mix(A, b)
-            } else {
-                // Numeric mode - generate keys
-                this.p = p
-                this.g = g
-                this.a = generatePrivateKey(p)
-                this.b = generatePrivateKey(p)
-                while (this.a === this.b) {
-                    this.b = generatePrivateKey(p)
-                }
-                this.A = modPow(g, this.a, p)
-                this.B = modPow(g, this.b, p)
-                this.secretAlice = modPow(this.B, this.a, p)
-                this.secretBob = modPow(this.A, this.b, p)
-            }
+        resetState() {
+            this.regenerateKeys()
+        }
 
-            // Get DOM elements (cached for performance)
-            this.statusEl = el.querySelector('.exchange-status')
-            this.startBtn = el.querySelector('.dh-btn-start')
-            this.resetBtn = el.querySelector('.dh-btn-reset')
-            this.stepBtn = el.querySelector('.dh-btn-step')
-
+        setupDOM() {
             // Cache frequently accessed DOM elements
             this.dom = {
                 alice: {
-                    privateKey: el.querySelector('[data-alice-a]'),
-                    publicKey: el.querySelector('[data-alice-public]'),
-                    calc: el.querySelector('[data-alice-calc]'),
-                    result: el.querySelector('[data-alice-result]'),
-                    received: el.querySelector('[data-alice-received]'),
-                    secretCalc: el.querySelector('[data-alice-secret-calc]'),
-                    secretResult: el.querySelector('[data-alice-secret-result]'),
-                    secret: el.querySelector('[data-alice-secret]')
+                    privateKey: this.el.querySelector('[data-alice-a]'),
+                    publicKey: this.el.querySelector('[data-alice-public]'),
+                    calc: this.el.querySelector('[data-alice-calc]'),
+                    result: this.el.querySelector('[data-alice-result]'),
+                    received: this.el.querySelector('[data-alice-received]'),
+                    secretCalc: this.el.querySelector('[data-alice-secret-calc]'),
+                    secretResult: this.el.querySelector('[data-alice-secret-result]'),
+                    secret: this.el.querySelector('[data-alice-secret]')
                 },
                 bob: {
-                    privateKey: el.querySelector('[data-bob-b]'),
-                    publicKey: el.querySelector('[data-bob-public]'),
-                    calc: el.querySelector('[data-bob-calc]'),
-                    result: el.querySelector('[data-bob-result]'),
-                    received: el.querySelector('[data-bob-received]'),
-                    secretCalc: el.querySelector('[data-bob-secret-calc]'),
-                    secretResult: el.querySelector('[data-bob-secret-result]'),
-                    secret: el.querySelector('[data-bob-secret]')
+                    privateKey: this.el.querySelector('[data-bob-b]'),
+                    publicKey: this.el.querySelector('[data-bob-public]'),
+                    calc: this.el.querySelector('[data-bob-calc]'),
+                    result: this.el.querySelector('[data-bob-result]'),
+                    received: this.el.querySelector('[data-bob-received]'),
+                    secretCalc: this.el.querySelector('[data-bob-secret-calc]'),
+                    secretResult: this.el.querySelector('[data-bob-secret-result]'),
+                    secret: this.el.querySelector('[data-bob-secret]')
                 },
                 arrows: {
-                    a: el.querySelector('[data-arrow-a]'),
-                    b: el.querySelector('[data-arrow-b]'),
-                    right: el.querySelector('.exchange-arrow-right'),
-                    left: el.querySelector('.exchange-arrow-left')
+                    a: this.el.querySelector('[data-arrow-a]'),
+                    b: this.el.querySelector('[data-arrow-b]'),
+                    right: this.el.querySelector('.exchange-arrow-right'),
+                    left: this.el.querySelector('.exchange-arrow-left')
                 },
-                exchange: el.querySelector('.exchange-column-step'),
-                eveNote: el.querySelector('.exchange-eve')
+                exchange: this.el.querySelector('.exchange-column .exchange-step'),
+                eveNote: this.el.querySelector('.exchange-eve')
+            }
+        }
+
+        resetUI() {
+            // Reset result containers
+            this.el.querySelectorAll('[data-alice-result], [data-bob-result], [data-alice-secret-result], [data-bob-secret-result]').forEach(el => {
+                el.classList.remove(CSS_CLASSES.HIGHLIGHT, CSS_CLASSES.PULSE)
+            })
+
+            if (this.dom.eveNote) {
+                this.dom.eveNote.classList.remove(CSS_CLASSES.SHOW)
             }
 
-            // Bind events
-            this.startBtn.addEventListener('click', () => this.start())
-            this.resetBtn.addEventListener('click', () => this.reset())
-            this.stepBtn.addEventListener('click', () => this.nextStep())
-
-            this.updateControls()
-        }
-
-        updateControls() {
-            this.startBtn.disabled = this.isRunning
-            this.resetBtn.disabled = !this.isRunning && this.currentStep === 0
-            this.stepBtn.disabled = this.isRunning || this.currentStep >= (this.showIntercept ? 9 : 7)
-        }
-
-        setStatus(msg, type = '') {
-            this.statusEl.textContent = msg
-            this.statusEl.className = `exchange-status ${type ? 'exchange-status-' + type : ''}`
-        }
-
-        // Helper: Activate a step (add active class)
-        activateStep(stepEl) {
-            stepEl.classList.add(CSS_CLASSES.ACTIVE)
-        }
-
-        // Helper: Complete a step (remove active, add completed)
-        completeStep(stepEl) {
-            stepEl.classList.remove(CSS_CLASSES.ACTIVE)
-            stepEl.classList.add(CSS_CLASSES.COMPLETED)
-        }
-
-        // Helper: Reset multiple elements to a default value
-        resetElementsToDefault(selector, defaultValue = '?') {
-            this.el.querySelectorAll(selector).forEach(el => {
-                el.textContent = defaultValue
+            // Reset received value containers
+            this.el.querySelectorAll('.exchange-received').forEach(el => {
+                el.classList.remove(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE)
             })
+
+            // Reset all displayed values to '?'
+            this.resetElementsToDefault('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]')
+            this.resetElementsToDefault('[data-bob-b], [data-bob-public], [data-bob-received], [data-bob-secret], [data-arrow-b]')
+
+            // Reset calculations to initial formulas
+            if (this.isColorMode) {
+                const createColorFormulaHTML = (resultVar, baseVar, secretVar) => `
+                    <div class="dh-calc-display">
+                        <div class="dh-calc-step dh-calc-animate">
+                            <span class="exchange-var">${resultVar}</span> = mix(<span class="exchange-var">${baseVar}</span>, <span class="exchange-var">${secretVar}</span>)
+                        </div>
+                    </div>
+                `
+                this.dom.alice.calc.innerHTML = createColorFormulaHTML('A', 'base', 'a')
+                this.dom.bob.calc.innerHTML = createColorFormulaHTML('B', 'base', 'b')
+                this.dom.alice.secretCalc.innerHTML = createColorFormulaHTML('s', 'B', 'a')
+                this.dom.bob.secretCalc.innerHTML = createColorFormulaHTML('s', 'A', 'b')
+            } else {
+                this.dom.alice.calc.innerHTML = createFormulaHTML('A', 'g', 'a', 'p')
+                this.dom.bob.calc.innerHTML = createFormulaHTML('B', 'g', 'b', 'p')
+                this.dom.alice.secretCalc.innerHTML = createFormulaHTML('s', 'B', 'a', 'p')
+                this.dom.bob.secretCalc.innerHTML = createFormulaHTML('s', 'A', 'b', 'p')
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // Helper Methods
+        // -------------------------------------------------------------------------
+
+        /**
+         * Convenience property to check if in color mode
+         * @returns {boolean}
+         */
+        get isColorMode() {
+            return this.mode === 'color'
+        }
+
+        regenerateKeys() {
+            if (this.isColorMode) {
+                // Color mode - regenerate constrained colors
+                this.a = generateConstrainedColor('b')
+                this.b = generateConstrainedColor('g')
+                this.A = mixColors(this.baseColor, this.a)
+                this.B = mixColors(this.baseColor, this.b)
+                this.secretAlice = mixColors(this.B, this.a)
+                this.secretBob = mixColors(this.A, this.b)
+            } else {
+                // Numeric mode - regenerate keys
+                this.a = generatePrivateKey(this.p)
+                this.b = generatePrivateKey(this.p)
+                while (this.a === this.b) {
+                    this.b = generatePrivateKey(this.p)
+                }
+                this.A = modPow(this.g, this.a, this.p)
+                this.B = modPow(this.g, this.b, this.p)
+                this.secretAlice = modPow(this.B, this.a, this.p)
+                this.secretBob = modPow(this.A, this.b, this.p)
+            }
         }
 
         // Helper: Format color display (hex code with coloured background)
@@ -554,7 +605,7 @@
 
             this.activateStep(stepEl)
 
-            if (this.mode === 'color') {
+            if (this.isColorMode) {
                 // Color mode
                 let baseColor, secretColor, resultColor, resultVar, baseVar, secretVar, statusText
 
@@ -593,7 +644,6 @@
 
                 displayEl.innerHTML = this.formatColorDisplay(resultColor)
                 resultContainer.classList.add(CSS_CLASSES.PULSE)
-                setTimeout(() => resultContainer.classList.remove(CSS_CLASSES.PULSE), 350)
             } else {
                 // Numeric mode
                 let resultVar, baseVar, expVar, baseVal, expVal, finalResult
@@ -631,7 +681,6 @@
 
                 displayEl.textContent = finalResult
                 resultContainer.classList.add(CSS_CLASSES.PULSE)
-                setTimeout(() => resultContainer.classList.remove(CSS_CLASSES.PULSE), 350)
             }
 
             await this.sleep(this.TIMING.STEP)
@@ -639,106 +688,34 @@
             this.completeStep(stepEl)
         }
 
-        async start() {
-            if (this.isRunning) return
-
-            // If animation completed, reset before restarting
-            if (this.currentStep >= 9) {
-                this.reset()
-            }
-
-            this.isRunning = true
-            this.updateControls()
-
-            while (this.currentStep < (this.showIntercept ? 9 : 7) && this.isRunning) {
-                await this.nextStep()
-                if (!this.isRunning) break
-                await this.sleep(this.TIMING.BETWEEN_STEPS)
-            }
-
-            this.isRunning = false
-            this.updateControls()
-        }
-
-        async nextStep() {
-            if (this.currentStep >= (this.showIntercept ? 9 : 7)) return
-
-            // For manual stepping (button click), manage isRunning temporarily
-            const isManualStep = !this.isRunning
-            if (isManualStep) {
-                this.isRunning = true
-                this.updateControls()
-            }
-
-            this.currentStep++
-
-            switch (this.currentStep) {
-                case 1:
-                    await this.step1_ChoosePrivateKeys()
-                    break
-                case 2:
-                    await this.step2_AliceCalculatesPublic()
-                    break
-                case 3:
-                    await this.step3_BobCalculatesPublic()
-                    break
-                case 4:
-                    await this.step4_Exchange()
-                    break
-                case 5:
-                    await this.step5_AliceCalculatesSecret()
-                    break
-                case 6:
-                    await this.step6_BobCalculatesSecret()
-                    break
-                case 7:
-                    await this.step7_HighlightSharedSecret()
-                    break
-                case 8:
-                    if (this.showIntercept) {
-                        await this.step8_ShowEvesProblem()
-                    }
-                    break
-                case 9:
-                    if (this.showIntercept) {
-                        await this.step9_Complete()
-                    }
-                    break
-            }
-
-            // Restore state after manual step
-            if (isManualStep) {
-                this.isRunning = false
-            }
-            this.updateControls()
-        }
+        // -------------------------------------------------------------------------
+        // Step Implementations
+        // -------------------------------------------------------------------------
 
         async step1_ChoosePrivateKeys() {
-            const keyOrColor = this.mode === 'color' ? 'color' : 'key'
+            const keyOrColor = this.isColorMode ? 'color' : 'key'
             this.setStatus(`Alice and Bob each choose a private ${keyOrColor} (kept secret)`, 'info')
 
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
-            if (this.mode === 'color') {
+            if (this.isColorMode) {
                 this.dom.alice.privateKey.innerHTML = this.formatColorDisplay(this.a)
             } else {
                 this.dom.alice.privateKey.textContent = this.a
             }
             const alicePrivateResult = this.dom.alice.privateKey.closest('.exchange-result')
             alicePrivateResult.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => alicePrivateResult.classList.remove(CSS_CLASSES.PULSE), 350)
             this.activateStep(this.dom.alice.privateKey.closest('.exchange-step'))
 
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            if (this.mode === 'color') {
+            if (this.isColorMode) {
                 this.dom.bob.privateKey.innerHTML = this.formatColorDisplay(this.b)
             } else {
                 this.dom.bob.privateKey.textContent = this.b
             }
             const bobPrivateResult = this.dom.bob.privateKey.closest('.exchange-result')
             bobPrivateResult.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => bobPrivateResult.classList.remove(CSS_CLASSES.PULSE), 350)
             this.activateStep(this.dom.bob.privateKey.closest('.exchange-step'))
 
             // Remove highlighting after reveal completes
@@ -757,61 +734,54 @@
         }
 
         async step4_Exchange() {
-            const valueOrColor = this.mode === 'color' ? 'colors' : 'values'
+            const valueOrColor = this.isColorMode ? 'colors' : 'values'
             this.setStatus(`Alice and Bob exchange their public ${valueOrColor} over the public channel`, 'info')
 
             this.activateStep(this.dom.exchange)
 
             // Show values/colors in arrows
-            if (this.mode === 'color') {
+            if (this.isColorMode) {
                 this.dom.arrows.a.innerHTML = this.formatColorDisplay(this.A)
                 this.dom.arrows.b.innerHTML = this.formatColorDisplay(this.B)
             } else {
                 this.dom.arrows.a.textContent = this.A
                 this.dom.arrows.b.textContent = this.B
             }
-            this.dom.arrows.a.classList.add(CSS_CLASSES.PULSE)
-            this.dom.arrows.b.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => {
-                this.dom.arrows.a.classList.remove(CSS_CLASSES.PULSE)
-                this.dom.arrows.b.classList.remove(CSS_CLASSES.PULSE)
-            }, 350)
+            // Show and pulse arrows
+            this.dom.arrows.right.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE)
+            this.dom.arrows.left.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE)
 
             // Alice sends A to Bob
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
-            this.dom.arrows.right.classList.add(CSS_CLASSES.ANIMATING)
+            this.dom.arrows.right.classList.add(CSS_CLASSES.ANIMATE)
 
             await this.sleep(this.TIMING.ANIMATE)
             if (!this.isRunning) return
-            this.dom.arrows.right.classList.remove(CSS_CLASSES.ANIMATING)
-            if (this.mode === 'color') {
+            if (this.isColorMode) {
                 this.dom.bob.received.innerHTML = this.formatColorDisplay(this.A)
             } else {
                 this.dom.bob.received.textContent = this.A
             }
             const bobReceivedContainer = this.dom.bob.received.closest('.exchange-received')
             bobReceivedContainer.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => bobReceivedContainer.classList.remove(CSS_CLASSES.PULSE), 350)
             bobReceivedContainer.classList.add(CSS_CLASSES.SHOW)
             this.activateStep(this.dom.bob.received.closest('.exchange-step'))
 
             // Bob sends B to Alice
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            this.dom.arrows.left.classList.add(CSS_CLASSES.ANIMATING)
+            this.dom.arrows.left.classList.add(CSS_CLASSES.ANIMATE)
 
             await this.sleep(this.TIMING.ANIMATE)
             if (!this.isRunning) return
-            this.dom.arrows.left.classList.remove(CSS_CLASSES.ANIMATING)
-            if (this.mode === 'color') {
+            if (this.isColorMode) {
                 this.dom.alice.received.innerHTML = this.formatColorDisplay(this.B)
             } else {
                 this.dom.alice.received.textContent = this.B
             }
             const aliceReceivedContainer = this.dom.alice.received.closest('.exchange-received')
             aliceReceivedContainer.classList.add(CSS_CLASSES.PULSE)
-            setTimeout(() => aliceReceivedContainer.classList.remove(CSS_CLASSES.PULSE), 350)
             aliceReceivedContainer.classList.add(CSS_CLASSES.SHOW)
             this.activateStep(this.dom.alice.received.closest('.exchange-step'))
 
@@ -945,89 +915,6 @@
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
             resultContainer.classList.add(CSS_CLASSES.SHOW)
-        }
-
-        reset() {
-            // Stop any running animation
-            this.isRunning = false
-            this.currentStep = 0
-
-            if (this.mode === 'color') {
-                // Color mode - regenerate constrained colors
-                this.baseColor = generateConstrainedColor('r')
-                this.a = generateConstrainedColor('b')
-                this.b = generateConstrainedColor('g')
-                this.A = mixColors(this.baseColor, this.a)
-                this.B = mixColors(this.baseColor, this.b)
-                // Shared secret: mix received value with private color
-                this.secretAlice = mixColors(this.B, this.a)
-                this.secretBob = mixColors(this.A, this.b)
-            } else {
-                // Numeric mode - regenerate keys
-                this.a = generatePrivateKey(this.p)
-                this.b = generatePrivateKey(this.p)
-                while (this.a === this.b) {
-                    this.b = generatePrivateKey(this.p)
-                }
-                this.A = modPow(this.g, this.a, this.p)
-                this.B = modPow(this.g, this.b, this.p)
-                this.secretAlice = modPow(this.B, this.a, this.p)
-                this.secretBob = modPow(this.A, this.b, this.p)
-            }
-
-            // Reset UI classes
-            this.el.querySelectorAll('.exchange-step, .exchange-column-step, .exchange-eve').forEach(el => {
-                el.classList.remove(CSS_CLASSES.ACTIVE, CSS_CLASSES.HIGHLIGHT, CSS_CLASSES.COMPLETED)
-            })
-
-            this.el.querySelectorAll('[data-alice-result], [data-bob-result], [data-alice-secret-result], [data-bob-secret-result]').forEach(el => {
-                el.classList.remove(CSS_CLASSES.HIGHLIGHT)
-            })
-
-            this.el.querySelectorAll('.exchange-arrow').forEach(el => {
-                el.classList.remove(CSS_CLASSES.ANIMATING)
-            })
-
-            if (this.dom.eveNote) {
-                this.dom.eveNote.classList.remove(CSS_CLASSES.SHOW)
-            }
-
-            // Reset received value containers
-            this.el.querySelectorAll('.exchange-received').forEach(el => {
-                el.classList.remove(CSS_CLASSES.SHOW)
-            })
-
-            // Reset all displayed values to '?'
-            this.resetElementsToDefault('[data-alice-a], [data-alice-public], [data-alice-received], [data-alice-secret], [data-arrow-a]')
-            this.resetElementsToDefault('[data-bob-b], [data-bob-public], [data-bob-received], [data-bob-secret], [data-arrow-b]')
-
-            // Reset calculations to initial formulas
-            if (this.mode === 'color') {
-                const createColorFormulaHTML = (resultVar, baseVar, secretVar) => `
-                    <div class="dh-calc-display">
-                        <div class="dh-calc-step dh-calc-animate">
-                            <span class="exchange-var">${resultVar}</span> = mix(<span class="exchange-var">${baseVar}</span>, <span class="exchange-var">${secretVar}</span>)
-                        </div>
-                    </div>
-                `
-                this.dom.alice.calc.innerHTML = createColorFormulaHTML('A', 'base', 'a')
-                this.dom.bob.calc.innerHTML = createColorFormulaHTML('B', 'base', 'b')
-                // Each mixes received value with their private color
-                this.dom.alice.secretCalc.innerHTML = createColorFormulaHTML('s', 'B', 'a')
-                this.dom.bob.secretCalc.innerHTML = createColorFormulaHTML('s', 'A', 'b')
-            } else {
-                this.dom.alice.calc.innerHTML = createFormulaHTML('A', 'g', 'a', 'p')
-                this.dom.bob.calc.innerHTML = createFormulaHTML('B', 'g', 'b', 'p')
-                this.dom.alice.secretCalc.innerHTML = createFormulaHTML('s', 'B', 'a', 'p')
-                this.dom.bob.secretCalc.innerHTML = createFormulaHTML('s', 'A', 'b', 'p')
-            }
-
-            this.setStatus('')
-            this.updateControls()
-        }
-
-        sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms))
         }
     }
 

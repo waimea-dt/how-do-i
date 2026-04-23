@@ -10,6 +10,8 @@
  */
 
 .markdown-section sym-asym {
+    --sa-func-color: var(--palette-color-10);
+
     container-type: inline-size;
 
     /* ---- Plugin-specific design token overrides ---- */
@@ -72,13 +74,26 @@
     .sa-ciphertext {
         font-size: 0.7em;
         letter-spacing: 0.05em;
-        max-width: 21ch;
+        max-width: 19ch;
         line-height: 1.1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.1em 0.25em;
     }
 
     .sa-func {
-        color: var(--exchange-accent-party2);
+        color: var(--sa-func-color);
         font-weight: 600;
+    }
+
+    .sa-var-party1 {
+        color: var(--exchange-accent-party1);
+        font-weight: 700;
+    }
+
+    .sa-var-party2 {
+        color: var(--exchange-accent-party2);
+        font-weight: 700;
     }
 
     .sa-str {
@@ -91,8 +106,9 @@
     .sa-operation {
         padding: var(--exchange-padding-small);
         background: var(--exchange-bg);
-        border-left: 3px solid var(--exchange-border);
+        border: 1px solid var(--exchange-border);
         border-radius: var(--border-radius-small);
+        align-self: center;
     }
 
     .sa-operation-formula {

@@ -37,6 +37,12 @@ Eve intercepts both the key AND the message - disaster!
 - VPN tunnels (after key exchange)
 - Wi-Fi (WPA2/WPA3)
 
+## Asymmetric Encryption Demo
+
+In asymmetric encryption, Bob generates a **public/private key pair**. He can share the public key openly — anyone can use it to encrypt messages, but only Bob's private key can decrypt them!
+
+<sym-asym mode="asymmetric" message="I like cheese!"></sym-asym>
+
 ### With Message Interception Only
 
 Eve can see the encrypted message and the public key, but still can't decrypt:
@@ -47,15 +53,7 @@ Eve can see the encrypted message and the public key, but still can't decrypt:
 
 Even when Eve intercepts the public key, she still can't decrypt the message!
 
-<sym-asym mode="asymmetric" intercept intercept-key
-
-In asymmetric encryption, Bob generates a **public/private key pair**. He can share the public key openly — anyone can use it to encrypt messages, but only Bob's private key can decrypt them!
-
-<sym-asym mode="asymmetric"></sym-asym>
-
-Showing interception of key...
-
-<sym-asym mode="asymmetric" intercept></sym-asym>
+<sym-asym mode="asymmetric" intercept intercept-key></sym-asym>
 
 ### Key Points
 - ✅ **No pre-shared secrets**: Public keys can be shared openly

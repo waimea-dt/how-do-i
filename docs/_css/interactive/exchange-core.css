@@ -131,7 +131,7 @@
         }
 
         @container (min-width: 1024px) {
-            grid-template-columns: 1fr auto 1fr;
+            grid-template-columns: 1fr 320px 1fr;
             grid-template-areas: "party1 exchange party2";
         }
     }
@@ -200,7 +200,14 @@
 
     /* ==================== Steps ==================== */
 
+    .exchange-spacer {
+        @container (min-width: 1024px) {
+            height: var(--exchange-gap-big);
+        }
+    }
+
     .exchange-step {
+        width: 100%;
         background: var(--exchange-step-bg);
         border: 2px solid var(--exchange-step-border);
         border-radius: var(--border-radius-med);
@@ -216,7 +223,6 @@
             opacity: 1;
             background: var(--exchange-step-active-bg);
             border-color: var(--exchange-step-active-border);
-            box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color), transparent 85%);
         }
 
         &.exchange-completed {
@@ -230,6 +236,11 @@
             margin-bottom: var(--exchange-gap-small);
             text-transform: uppercase;
             letter-spacing: 0.05em;
+
+            .exchange-step-label-num {
+                font-weight: 700;
+                color: var(--exchange-text-primary);
+            }
         }
 
         .exchange-step-content {
@@ -247,70 +258,62 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: var(--exchange-gap);
+        gap: var(--exchange-gap-big);
+        width: 100%;
         margin-inline: auto;
 
-        @container (min-width: 1024px) {
-            min-width: 300px;
-            max-width: 350px;
-        }
+        .exchange-step {
+            background: none;
+            border: none;
+            padding: 0;
 
-        .exchange-column-step {
-            display: flex;
-            flex-direction: column;
-            gap: var(--exchange-gap-small);
-        }
-
-        .exchange-column-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--exchange-text-secondary);
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: var(--exchange-gap-small);
+            .exchange-step-label {
+                text-align: center;
+            }
         }
     }
 
     /* ==================== Arrows ==================== */
 
     .exchange-arrow-grid {
+        margin-top: var(--exchange-gap);
         display: grid;
         grid-template-columns: 1fr;
         gap: calc(var(--exchange-gap) * 2);
-
-        &:has(.exchange-eve.exchange-show) {
-            @container (min-width: 600px) {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            @container (min-width: 1024px) {
-                grid-template-columns: 1fr;
-            }
-        }
     }
 
     .exchange-arrow-group {
+        width: 100%;
         display: flex;
         flex-direction: column;
-        gap: var(--exchange-gap-small);
+        gap: var(--exchange-gap);
     }
 
     .exchange-arrow {
+        width: 100%;
         display: flex;
         align-items: center;
-        flex-wrap: wrap;
-        gap: var(--exchange-gap);
-        padding: var(--exchange-gap-small);
-        background: var(--exchange-card-bg);
-        border: 2px solid var(--exchange-border);
-        border-radius: var(--border-radius-med);
+        gap: var(--exchange-gap-small);
+        opacity: 0;
+        visibility: hidden;
         transition: all 300ms;
 
-        &.exchange-animating {
+        &::before {
+            content: "";
+            flex-grow: 0;
+        }
+
+        &.exchange-show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        &.exchange-animate {
             animation: exchangeHighlight 600ms ease-in-out;
-            border-color: var(--exchange-accent-public);
-            background: color-mix(in srgb, var(--exchange-accent-public), var(--color-mono-min) 85%);
+
+            &::before {
+                animation: exchangeSlide 1000ms ease forwards;
+            }
         }
 
         .exchange-arrow-icon {
@@ -344,7 +347,7 @@
         max-height: 0;
         overflow: hidden;
         transition: all 400ms ease;
-        max-width: 280px;
+        max-width: 350px;
         margin-inline: auto;
 
         &.exchange-show {
@@ -358,7 +361,7 @@
         }
 
         .exchange-eve-icon {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: var(--exchange-gap-small);
             color: var(--color-attention);
@@ -366,9 +369,13 @@
 
         .exchange-eve-text {
             font-size: 0.9rem;
-            line-height: 1.6;
+            line-height: 1.4;
             margin-bottom: var(--exchange-gap-small);
             color: var(--exchange-text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--exchange-gap-small);
 
             &:last-child {
                 margin-bottom: 0;
@@ -379,13 +386,15 @@
         .exchange-eve-problem {
             font-size: 0.85rem;
             font-weight: 500;
-            padding: var(--exchange-padding-small);
-            margin-top: var(--exchange-gap-small);
-            /* background: color-mix(in srgb, var(--color-attention), transparent 85%); */
-            background-color: var(--color-mono-0);
+            padding: var(--exchange-padding-tiny) var(--exchange-padding-small);
+            background-color: var(--exchange-eve-bg);
             border: 1px solid var(--color-attention);
-            border-radius: calc(var(--border-radius) / 2);
-            color: var(--color-attention);
+            border-radius: var(--border-radius-small);
+            color: var(--exchange-text-primary);
+        }
+
+        .exchange-value-group {
+            align-self: center;
         }
     }
 
@@ -507,7 +516,7 @@
         }
 
         &.exchange-pulse {
-            animation: exchangeHighlight 800ms ease-in-out;
+            animation: exchangeHighlight 600ms ease-in-out;
         }
 
         &.exchange-highlight {
@@ -644,6 +653,11 @@
         transform: scale(1.05);
         filter: brightness(1.2);
     }
+}
+
+@keyframes exchangeSlide {
+    0%   { flex-grow: 0; }
+    100% { flex-grow: 1; }
 }
 
 @keyframes exchangeEveHighlight {
