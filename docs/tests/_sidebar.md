@@ -65,6 +65,7 @@
     - [Big-O Algorithm Explorer](tests/big-o.md)
     - [Big-O Growth Curves](tests/big-o-chart.md)
     - [TSP Visualizer](tests/tsp.md)
+    - [Knapsack Solver](tests/knapsack.md)
     - [Letter Frequency Analysis](tests/frequency.md)
     - [Flash Cards](tests/flash-cards.md)
     - [Reveal.js Slides](tests/slides.md)
