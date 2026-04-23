@@ -1,0 +1,162 @@
+/**
+ * digital-sig.css — Digital Signature Plugin Styles
+ *
+ * Common exchange patterns (grid, arrows, eve, footer, buttons) are in exchange-core.css.
+ * This file contains only digital-sig specific styling:
+ *   - Header filename badge + tamper badge
+ *   - Formula display lines
+ *   - Hash / key monospace value display
+ *   - File content display
+ *   - Compare label (match / mismatch)
+ *   - Invalid verdict colour
+ */
+
+.markdown-section digital-sig {
+    --ds-func-color:        var(--palette-color-10);
+    --ds-hash-bg:           color-mix(in srgb, var(--exchange-accent-public), transparent 88%);
+    --ds-key-bg:            color-mix(in srgb, var(--exchange-accent-secret), transparent 88%);
+    --ds-content-bg:        color-mix(in srgb, var(--exchange-accent-party1), transparent 90%);
+    --ds-tamper-color:      var(--color-attention);
+    --ds-tamper-bg:         color-mix(in srgb, var(--color-attention), transparent 88%);
+    --ds-match-color:       var(--color-good);
+    --ds-mismatch-color:    var(--color-attention);
+
+    container-type: inline-size;
+
+    /* ==================== Header Badge ==================== */
+
+    .exchange-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--exchange-gap);
+    }
+
+    .ds-header-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        flex-wrap: wrap;
+    }
+
+    .ds-file-icon {
+        font-size: 1.3em;
+        line-height: 1;
+    }
+
+    .ds-header-filename {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--exchange-text-primary);
+    }
+
+    .ds-tamper-badge {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.2em 0.55em;
+        border-radius: 99px;
+        background: var(--ds-tamper-bg);
+        border: 1px solid var(--ds-tamper-color);
+        color: var(--ds-tamper-color);
+    }
+
+    /* ==================== Formula Lines ==================== */
+
+    .ds-formula {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.82em;
+        color: var(--exchange-text-secondary);
+        padding: 0.2em 0.4em;
+        background: color-mix(in srgb, var(--ds-func-color), transparent 93%);
+        border-left: 2px solid var(--ds-func-color);
+        border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
+        margin: 0.3em 0 0.15em;
+        line-height: 1.5;
+    }
+
+    .ds-func {
+        color: var(--ds-func-color);
+        font-weight: 600;
+    }
+
+    /* ==================== Value Display ==================== */
+
+    .ds-hash {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.78em;
+        letter-spacing: 0.06em;
+        background: var(--ds-hash-bg);
+        padding: 0.1em 0.35em;
+        border-radius: var(--border-radius-small);
+    }
+
+    .ds-key {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.78em;
+        letter-spacing: 0.06em;
+        background: var(--ds-key-bg);
+        padding: 0.1em 0.35em;
+        border-radius: var(--border-radius-small);
+    }
+
+    .ds-content {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.85em;
+        background: var(--ds-content-bg);
+        padding: 0.1em 0.35em;
+        border-radius: var(--border-radius-small);
+    }
+
+    .ds-tampered {
+        background: var(--ds-tamper-bg);
+        color: var(--ds-tamper-color);
+        font-weight: 700;
+    }
+
+    /* ==================== Public key second row ==================== */
+
+    .ds-pubkey-row {
+        margin-top: 0.4em;
+    }
+
+    /* ==================== Compare label ==================== */
+
+    .ds-compare-label {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.82em;
+        padding: 0.25em 0.5em;
+        border-radius: var(--border-radius-small);
+        margin-bottom: 0.4em;
+        line-height: 1.5;
+
+        &.ds-compare-match {
+            background: color-mix(in srgb, var(--ds-match-color), transparent 88%);
+            border: 1px solid var(--ds-match-color);
+            color: var(--ds-match-color);
+        }
+
+        &.ds-compare-mismatch {
+            background: var(--ds-tamper-bg);
+            border: 1px solid var(--ds-mismatch-color);
+            color: var(--ds-mismatch-color);
+        }
+    }
+
+    /* ==================== Invalid verdict group ==================== */
+
+    .ds-value-invalid {
+        color: var(--ds-mismatch-color);
+
+        .exchange-var {
+            color: var(--ds-mismatch-color);
+        }
+
+        .exchange-value {
+            color: var(--ds-mismatch-color);
+        }
+    }
+}

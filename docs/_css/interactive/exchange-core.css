@@ -15,7 +15,8 @@
 .markdown-section sym-asym,
 .markdown-section diffie-hellman,
 .markdown-section wifi,
-.markdown-section rolling-code {
+.markdown-section rolling-code,
+.markdown-section digital-sig {
     display: block;
     margin: var(--margin-block) 0;
     container-type: inline-size;
