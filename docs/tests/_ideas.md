@@ -61,6 +61,23 @@
 - Real-world context: "Delivery routes don't need perfection"
 - Scaling demo: Show where brute-force becomes impractical (crossover point)
 
+#### Algorithm Race
+**Purpose**: Show algorithmic complexity through direct comparison
+**Features**:
+- Run two algorithms side-by-side (e.g. linear vs binary search, bubble vs merge sort)
+- Live operation counter for each
+- Input-size slider to scale the problem
+
+#### Algorithm Visualizer
+**Purpose**: Step-through visualization of common algorithms
+**Features**:
+- Sorting algorithms (bubble, merge, quick, insertion)
+- Binary search visualization
+- Stack/queue/heap operations with animations
+- Linked list operations with pointer movements
+- Tree traversals (in-order, pre-order, post-order)
+
+
 ### NCEA Level 2: Encryption
 
 #### sym-asym.js - Side-by-Side Encryption Comparison
@@ -213,36 +230,15 @@
 - Export report: PDF with screenshots, issues, and suggested fixes
 - Peer review mode: Share proposals for class feedback
 
-### General / Other
-
-#### Garage Door Rolling Codes Visualiser
-**Purpose**: Explain how rolling codes prevent replay attacks
-**Features**:
-- Simulate code TX / RX
-- Simulate code replay and failure
-- Simulate missed RXs (codes out of step)
-
-#### Algorithm Race
-**Purpose**: Show algorithmic complexity through direct comparison
-**Features**:
-- Run two algorithms side-by-side (e.g. linear vs binary search, bubble vs merge sort)
-- Live operation counter for each
-- Input-size slider to scale the problem
-
-#### Algorithm Visualizer
-**Purpose**: Step-through visualization of common algorithms
-**Features**:
-- Sorting algorithms (bubble, merge, quick, insertion)
-- Binary search visualization
-- Stack/queue/heap operations with animations
-- Linked list operations with pointer movements
-- Tree traversals (in-order, pre-order, post-order)
-
 
 ---
 
 ## In Progress
 
+- [ ] **wifi.js** - WPA2/WPA3 handshake visualiser
+- [ ] **rolling-code.js** - Garage door rolling code visualiser
+- [ ] **digital-sig.js** - Digital signature visualiser
+- [ ] **tls.js** - Simplified TLS handshake visualiser (TLS 1.2/1.3 toggle)
 
 
 ---

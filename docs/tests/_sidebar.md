@@ -60,6 +60,7 @@
     - [WiFi Handshake](tests/wifi.md)
     - [Rolling Code Garage](tests/rolling-code.md)
     - [Digital Signature](tests/digital-sig.md)
+    - [Simplified TLS](tests/tls.md)
     - [Substitution Cypher](tests/sub-cypher.md)
     - [Big-O Algorithm Explorer](tests/big-o.md)
     - [Big-O Growth Curves](tests/big-o-chart.md)

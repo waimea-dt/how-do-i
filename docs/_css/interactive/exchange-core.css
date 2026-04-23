@@ -16,7 +16,8 @@
 .markdown-section diffie-hellman,
 .markdown-section wifi,
 .markdown-section rolling-code,
-.markdown-section digital-sig {
+.markdown-section digital-sig,
+.markdown-section tls {
     display: block;
     margin: var(--margin-block) 0;
     container-type: inline-size;

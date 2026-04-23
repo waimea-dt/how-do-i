@@ -1,0 +1,85 @@
+/**
+ * tls.css — Simplified TLS Plugin Specific Styles
+ *
+ * Shared exchange layout/animations are in exchange-core.css.
+ * This file only contains TLS-specific elements.
+ */
+
+.markdown-section tls {
+    --tls-code-bg: color-mix(in srgb, var(--exchange-accent-public), transparent 88%);
+    --tls-chip-bg: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 90%);
+    --tls-chip-border: var(--exchange-accent-shared);
+
+    container-type: inline-size;
+
+    .tls-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        justify-content: flex-end;
+    }
+
+    .tls-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.15rem;
+        border-radius: 999px;
+        border: 1px solid var(--exchange-border);
+        background: var(--exchange-bg);
+    }
+
+    .tls-toggle-btn {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 0.18rem 0.55rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--exchange-text-secondary);
+        background: transparent;
+        cursor: pointer;
+        transition: background 160ms ease, color 160ms ease;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--exchange-text-primary);
+            background: color-mix(in srgb, var(--exchange-accent-public), transparent 88%);
+            outline: none;
+        }
+
+        &.is-active {
+            color: var(--exchange-text-primary);
+            background: color-mix(in srgb, var(--exchange-accent-shared), transparent 82%);
+            box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--exchange-accent-shared), transparent 30%);
+        }
+    }
+
+    .tls-chip {
+        display: inline-flex;
+        gap: 0.35rem;
+        align-items: center;
+        padding: 0.2rem 0.55rem;
+        font-size: 0.82rem;
+        border-radius: 999px;
+        border: 1px solid var(--tls-chip-border);
+        background: var(--tls-chip-bg);
+        color: var(--exchange-text-primary);
+
+        strong {
+            font-weight: 700;
+            font-family: var(--exchange-font-mono);
+        }
+    }
+
+    .tls-code {
+        font-family: var(--exchange-font-mono);
+        font-size: 0.76em;
+        letter-spacing: 0.05em;
+        background: var(--tls-code-bg);
+        padding: 0.1em 0.32em;
+        border-radius: var(--border-radius-small);
+        line-height: 1.3;
+    }
+}
