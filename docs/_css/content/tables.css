@@ -50,6 +50,7 @@
     border-collapse: collapse;
     border-style: solid;
     width: fit-content;
+    overflow: hidden;
     margin: 0 auto;
     background-color: var(--table-back-color);
     border: 1px solid var(--table-border-color);
