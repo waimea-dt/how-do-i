@@ -15,11 +15,14 @@
     --pnp-label-color:      var(--color-text);
     --pnp-muted:            var(--color-mono-6);
 
-    --pnp-color-p:          var(--color-good);
-    --pnp-color-np:         var(--theme-color);
-    --pnp-color-npc:        var(--color-attention);
+    --pnp-color-p:          var(--palette-color-5);
+    --pnp-color-np:         var(--palette-color-3);
+    --pnp-color-npc:        var(--palette-color-10);
     --pnp-color-nph:        var(--color-mono-5);
-    --pnp-color-intermediate: #FF9800;
+    --pnp-color-npi:        var(--color-warning);
+
+    --pnp-color-tract:      var(--color-good);
+    --pnp-color-intract:    var(--color-attention);
 
     --pnp-btn-bg:           var(--theme-color-3);
     --pnp-btn-bg-hover:     var(--theme-color-4);
@@ -168,26 +171,25 @@
 
     .pnp-legend-np {
         background: var(--pnp-color-np);
-        opacity: 0.2;
+        opacity: 0.4;
         border-color: var(--pnp-color-np);
     }
 
     .pnp-legend-npc {
-        background: transparent;
-        border: 3px dashed var(--pnp-color-npc);
+        background: var(--pnp-color-npc);
+        opacity: 0.8;
         border-color: var(--pnp-color-npc);
     }
 
     .pnp-legend-nph {
         background: transparent;
-        border: 3px dashed var(--pnp-color-nph);
         border-color: var(--pnp-color-nph);
     }
 
-    .pnp-legend-intermediate {
+    .pnp-legend-npi {
         background: transparent;
-        border: 3px dashed var(--pnp-color-intermediate);
-        border-color: var(--pnp-color-intermediate);
+        border: 3px dashed var(--pnp-color-npi);
+        border-color: var(--pnp-color-npi);
     }
 
     .pnp-explanation {
@@ -308,22 +310,18 @@
     }
 
     .pnp-solving-poly {
-        border-color: var(--pnp-color-p);
-        background: color-mix(in srgb, var(--pnp-color-p) 8%, var(--pnp-card-bg));
+        border-color: var(--pnp-color-tract);
+        /* background: color-mix(in srgb, var(--pnp-color-tract) 5%, var(--pnp-card-bg)); */
     }
 
-    .pnp-solving-exp {
-        border-color: var(--pnp-color-npc);
-        background: color-mix(in srgb, var(--pnp-color-npc) 8%, var(--pnp-card-bg));
-    }
-
+    .pnp-solving-exp,
     .pnp-solving-unknown {
-        border-color: var(--pnp-color-intermediate);
-        background: color-mix(in srgb, var(--pnp-color-intermediate) 8%, var(--pnp-card-bg));
+        border-color: var(--pnp-color-intract);
+        background: color-mix(in srgb, var(--pnp-color-intract) 5%, var(--pnp-card-bg));
     }
 
     .pnp-verifying {
-        border-color: var(--pnp-color-p);
+        border-color: var(--pnp-color-tract);
     }
 
     .pnp-time-badge {
@@ -413,14 +411,19 @@
         color: var(--pnp-color-p);
     }
 
+    .pnp-tab-np.active {
+        border-color: var(--pnp-color-np);
+        color: var(--pnp-color-np);
+    }
+
     .pnp-tab-npc.active {
         border-color: var(--pnp-color-npc);
         color: var(--pnp-color-npc);
     }
 
-    .pnp-tab-intermediate.active {
-        border-color: var(--pnp-color-intermediate);
-        color: var(--pnp-color-intermediate);
+    .pnp-tab-npi.active {
+        border-color: var(--pnp-color-npi);
+        color: var(--pnp-color-npi);
     }
 
     .pnp-tab-content {
@@ -459,12 +462,16 @@
         border-top: 4px solid var(--pnp-color-p);
     }
 
+    .pnp-problem-np {
+        border-top: 4px solid var(--pnp-color-np);
+    }
+
     .pnp-problem-npc {
         border-top: 4px solid var(--pnp-color-npc);
     }
 
-    .pnp-problem-intermediate {
-        border-top: 4px solid var(--pnp-color-intermediate);
+    .pnp-problem-npi {
+        border-top: 4px solid var(--pnp-color-npi);
     }
 
     .pnp-problem-icon {
