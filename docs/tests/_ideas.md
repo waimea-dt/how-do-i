@@ -8,6 +8,18 @@
 - [ ] Python code indent highlighting added to Python snippets
 - [ ] Code runner fake input... should this be shown?
 
+---
+
+## In Progress
+
+- [ ] **wifi.js** - WPA2/WPA3 handshake visualiser
+- [ ] **rolling-code.js** - Garage door rolling code visualiser
+- [ ] **digital-sig.js** - Digital signature visualiser
+- [ ] **tls.js** - Simplified TLS handshake visualiser (TLS 1.2/1.3 toggle)
+- [ ] **knapsack** - Needs redoing with better UI / visuals
+
+---
+
 
 ## Plugin Ideas
 
@@ -21,26 +33,6 @@
 - Time equivalents: "1ms → 1 hour → 13 years" for n=20
 - Crossing point finder: When does O(n²) beat O(n log n)?
 - Interactive legend: Click complexity → highlight corresponding curve
-
-#### knapsack-solver.js - 0/1 Knapsack with Algorithms
-**Purpose**: Compare brute-force vs dynamic programming vs greedy heuristic
-**Features**:
-- Item builder: Add items (weight, value) with visual icons
-- Three solvers:
-  - Brute-force: Show all 2ⁿ combinations (tree visualization)
-  - Dynamic programming: DP table fill animation
-  - Greedy heuristic: Value/weight ratio (fast but approximate)
-- Comparison table: Solution quality + time taken + operations counted
-- Highlight NP-complete: Brute-force explodes beyond ~20 items
-
-#### p-np-demo.js - Complexity Class Visualizer
-**Purpose**: Illustrate P, NP, NP-complete relationships
-**Features**:
-- Venn diagram animation: P ⊆ NP, NP-complete boundary
-- Problem cards: Drag problems into correct class (sorting → P, TSP → NP-complete)
-- Reduction demo: Show how solving one NP-complete problem solves all
-- Verification vs solving: "Check solution in O(n²) but find it in O(2ⁿ)"
-- P=NP toggle: "What if P=NP?" (show diagram collapse)
 
 #### sorting-race.js - Algorithm Head-to-Head Visualizer
 **Purpose**: Watch multiple sorting algorithms compete on same data
@@ -233,16 +225,6 @@
 
 ---
 
-## In Progress
-
-- [ ] **wifi.js** - WPA2/WPA3 handshake visualiser
-- [ ] **rolling-code.js** - Garage door rolling code visualiser
-- [ ] **digital-sig.js** - Digital signature visualiser
-- [ ] **tls.js** - Simplified TLS handshake visualiser (TLS 1.2/1.3 toggle)
-
-
----
-
 ## Completed
 
 ### Completed Plugins
@@ -260,6 +242,8 @@
 - [x] **modulus.js** - Modular arithmetic clock visualization with animated pointer rotation; interactive sliders for value and modulus; dynamic equation display with animated reveal; smooth sweep animations with configurable timing
 - [x] **diffie-hellman.js** - Diffie-Hellman key exchange visualizer with step-by-step animation; dual mode (numeric/colour mixing); Alice/Bob parallel calculations; public exchange visualization; eavesdropper perspective; shared secret highlighting; multiplicative colour blending for paint-like analogy; configurable p, g, and base colour parameters
 - [x] **sym-asym.js** - Side-by-side encryption comparison with dual mode (symmetric/asymmetric); message flow animation from Alice to Bob; key visualization (shared key vs public/private pair); Eve's eavesdropper perspective showing what can/cannot be decrypted; step-by-step encryption/decryption process; performance comparison display; customizable message attribute
+- [x] **p-np-demo.js** - Complexity Class Visualizer with venn diagram animation: P ⊆ NP, NP-complete boundary, P=NP toggle: "What if P=NP?" (show diagram collapse)
+
 
 ### Completed Maintenance
 
