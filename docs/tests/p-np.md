@@ -6,7 +6,7 @@
 
 In computer science, we classify problems based on how difficult they are to solve:
 
-- **P (Polynomial Time)**: Problems that can be **solved efficiently** (in polynomial time like O(N²), O(N log N), etc.)
+- **P (Polynomial Time)**: Problems that can be **solved efficiently** (in polynomial time like O(n²), O(n log n), etc.)
 - **NP (Nondeterministic Polynomial)**: Problems where solutions can be **verified efficiently**, even if we don't know how to find them efficiently
 - **NP-Complete**: The **hardest problems in NP**—if you can solve one efficiently, you can solve them all efficiently
 
@@ -77,12 +77,12 @@ These problems have polynomial-time algorithms that work efficiently even for la
 
 | Problem | Time Complexity | Example |
 |---------|----------------|---------|
-| 📊 Sorting | O(N log N) | Merge Sort, Quick Sort |
-| 🔍 Binary Search | O(log N) | Finding in sorted list |
-| 🔎 Linear Search | O(N) | Finding in unsorted list |
-| 🗺️ Shortest Path | O(N²) | Dijkstra's Algorithm |
-| ⊗ Matrix Multiplication | O(N³) | Graphics transformations |
-| ↔️ Palindrome Check | O(N) | "racecar" detection |
+| 📊 Sorting | O(n log n) | Merge Sort, Quick Sort |
+| 🔍 Binary Search | O(log n) | Finding in sorted list |
+| 🔎 Linear Search | O(n) | Finding in unsorted list |
+| 🗺️ Shortest Path | O(n²) | Dijkstra's Algorithm |
+| ⊗ Matrix Multiplication | O(n³) | Graphics transformations |
+| ↔️ Palindrome Check | O(n) | "racecar" detection |
 
 ## NP Problems (Easy to Verify)
 
@@ -90,7 +90,7 @@ These are in NP, but are not being treated here as NP-complete in this course.
 
 | Problem | Solving Time | Verification Time | Example |
 |---------|-------------|------------------|---------|
-| 🔢 Factorisation by Division (naive) | O(√N) by value | O(log N) | Try 2, 3, 4... until a divisor is found |
+| 🔢 Factorisation by Division (naive) | O(√n) by value | O(log n) | Try 2, 3, 4... until a divisor is found |
 
 ## NP-Complete Problems (Hard to Solve, Easy to Verify)
 
@@ -98,10 +98,10 @@ These problems require exponential time to solve optimally, but solutions can be
 
 | Problem | Solving Time | Verification Time | Why It's Hard |
 |---------|-------------|------------------|---------------|
-| 🚚 Travelling Salesman | O((N-1)!) | O(N) | Must check factorial routes |
-| 🎒 0/1 Knapsack | O(2ⁿ) | O(N) | Exponential combinations |
-| 🎨 Graph Coloring | O(Kⁿ) | O(N²) | Many possible colorings |
-| 📦 Bin Packing | O(2ⁿ) | O(N) | Combinatorial item placement |
+| 🚚 Travelling Salesman | O((n-1)!) | O(n) | Must check factorial routes |
+| 🎒 0/1 Knapsack | O(2ⁿ) | O(n) | Exponential combinations |
+| 🎨 Graph Coloring | O(kⁿ) | O(n²) | Many possible colorings |
+| 📦 Bin Packing | O(2ⁿ) | O(n) | Combinatorial item placement |
 
 ## How NP-Complete Problems Are Connected
 

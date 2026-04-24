@@ -13,20 +13,18 @@
     --pnp-title-color:      var(--theme-color);
     --pnp-subtitle-color:   var(--color-mono-6);
     --pnp-label-color:      var(--color-text);
-    --pnp-muted:            var(--color-mono-6);
+    --pnp-muted:            var(--color-mono-7);
 
     --pnp-color-p:          var(--palette-color-5);
     --pnp-color-np:         var(--palette-color-3);
     --pnp-color-npc:        var(--palette-color-10);
-    --pnp-color-nph:        var(--color-mono-5);
-    --pnp-color-npi:        var(--color-warning);
+    --pnp-color-nph:        var(--color-attention);
 
     --pnp-color-tract:      var(--color-good);
     --pnp-color-intract:    var(--color-attention);
 
-    --pnp-btn-bg:           var(--theme-color-3);
-    --pnp-btn-bg-hover:     var(--theme-color-4);
-    --pnp-btn-toggle-bg:    var(--color-mono-2);
+    --pnp-btn-bg:           var(--color-mono-1);
+    --pnp-btn-bg-hover:     var(--theme-color-3);
 
     --pnp-card-bg:          var(--color-mono-0);
     --pnp-card-border:      var(--color-mono-3);
@@ -55,6 +53,60 @@
         padding: var(--pnp-padding);
         background: var(--pnp-bg-header);
         border-bottom: 1px solid var(--pnp-border);
+        display: flex;
+        flex-direction: column;
+        gap: var(--pnp-padding);
+
+        @container (min-width: 800px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    .pnp-header-text {
+        flex: 1;
+    }
+
+    .pnp-header-selector {
+        flex-shrink: 0;
+    }
+
+    .pnp-header-toggle {
+        flex-shrink: 0;
+
+        .pnp-btn-toggle {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--pnp-border);
+            border-radius: var(--border-radius-small);
+            background-color: var(--pnp-btn-bg);
+            color: var(--pnp-label-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: var(--pnp-btn-bg-hover);
+            }
+        }
+    }
+
+    .pnp-header-tabs {
+        flex-shrink: 0;
+        width: 100%;
+
+        @container (min-width: 800px) {
+            width: auto;
+            max-width: 60%;
+        }
+
+        .pnp-tabs {
+            justify-content: flex-start;
+
+            @container (min-width: 800px) {
+                justify-content: flex-end;
+            }
+        }
     }
 
     .pnp-title {
@@ -93,12 +145,13 @@
         width: 100%;
         background: var(--pnp-bg-canvas);
         border: 1px solid var(--pnp-border);
-        border-radius: var(--border-radius-small);
+        border-radius: var(--border-radius);
         padding: var(--pnp-padding);
     }
 
     .pnp-venn-canvas {
         max-height: 600px;
+        max-width: 100%;
         display: block;
         margin-inline: auto;
     }
@@ -147,126 +200,83 @@
         font-size: 0.8rem;
         font-weight: 600;
         letter-spacing: 0.02em;
+        color: var(--theme-color);
         text-transform: uppercase;
-    }
-
-    .pnp-controls {
-        display: flex;
-        flex-direction: column;
-        gap: var(--pnp-padding);
-
-        @container (min-width: 900px) {
-            flex-direction: column-reverse;
-        }
-    }
-
-    .pnp-btn {
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--pnp-btn-bg);
-        border-radius: var(--border-radius-small);
-        background: var(--pnp-btn-bg);
-        color: white;
-        font-size: 0.9rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-
-        &:hover {
-            background: var(--pnp-btn-bg-hover);
-            border-color: var(--pnp-btn-bg-hover);
-            transform: translateY(-1px);
-        }
-
-        &:active {
-            transform: translateY(0);
-        }
-
-        @container (min-width: 900px) {
-            margin-top: auto;
-        }
-    }
-
-    .pnp-btn-toggle {
-        background: var(--pnp-btn-toggle-bg);
-        border-color: var(--pnp-border);
-        color: var(--pnp-label-color);
-        align-self: flex-start;
-
-        &:hover {
-            background: var(--color-mono-3);
-            border-color: var(--color-mono-4);
-        }
     }
 
     .pnp-legend {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        padding: var(--pnp-padding);
-        background: var(--pnp-card-bg);
-        border: 1px solid var(--pnp-card-border);
-        border-radius: var(--border-radius-small);
-    }
+        gap: var(--pnp-padding);
 
-    .pnp-legend-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-size: 0.9rem;
-    }
-
-    .pnp-legend-color {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        border: 2px solid currentColor;
-        flex-shrink: 0;
-    }
-
-    .pnp-legend-p {
-        background: var(--pnp-color-p);
-        opacity: 0.4;
-        border-color: var(--pnp-color-p);
-    }
-
-    .pnp-legend-np {
-        background: var(--pnp-color-np);
-        opacity: 0.4;
-        border-color: var(--pnp-color-np);
-    }
-
-    .pnp-legend-npc {
-        background: var(--pnp-color-npc);
-        opacity: 0.8;
-        border-color: var(--pnp-color-npc);
-    }
-
-    .pnp-legend-nph {
-        background: transparent;
-        border-color: var(--pnp-color-nph);
-    }
-
-    .pnp-legend-npi {
-        background: transparent;
-        border: 3px dashed var(--pnp-color-npi);
-        border-color: var(--pnp-color-npi);
-    }
-
-    .pnp-explanation {
-        padding: var(--pnp-padding);
-        background: var(--color-info-bg);
-        border-left: 4px solid var(--theme-color);
-        font-size: 0.95rem;
-        line-height: 1.6;
-
-        p {
-            margin: 0;
+        @container (min-width: 900px) {
+            order: 1;
         }
 
-        strong {
-            color: var(--theme-color);
+        .pnp-legend-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: var(--pnp-padding);
+            background: var(--pnp-card-bg);
+            border: 1px solid var(--pnp-card-border);
+            border-radius: var(--border-radius);
+
+            p {
+                margin: 0;
+            }
+
+            .pnp-legend-color {
+                width: 24px;
+                height: 24px;
+                margin-top: 0.2em;
+                border-radius: 50%;
+                border: 2px solid currentColor;
+                flex-shrink: 0;
+
+                &.pnp-legend-p {
+                    background-color: color-mix(in srgb, var(--pnp-color-p), transparent 40%);
+                    border-color: var(--pnp-color-p);
+                }
+
+                &.pnp-legend-np {
+                    background-color: color-mix(in srgb, var(--pnp-color-np), transparent 40%);
+                    border-color: var(--pnp-color-np);
+                }
+
+                &.pnp-legend-npc {
+                    background-color: color-mix(in srgb, var(--pnp-color-npc), transparent 40%);
+                    border-color: var(--pnp-color-npc);
+                }
+
+                &.pnp-legend-nph {
+                    background-color: color-mix(in srgb, var(--pnp-color-nph), transparent 40%);
+                    border-color: var(--pnp-color-nph);
+                }
+            }
+
+            .pnp-legend-title {
+                font-weight: 600;
+
+                &.pnp-legend-p {
+                    color: var(--pnp-color-p);
+                }
+
+                &.pnp-legend-np {
+                    color: var(--pnp-color-np);
+                }
+
+                &.pnp-legend-npc {
+                    color: var(--pnp-color-npc);
+                }
+
+                &.pnp-legend-nph {
+                    color: var(--pnp-color-nph);
+                }
+            }
         }
     }
+
 
     /* ---- Verification Comparison Mode ---- */
 
@@ -278,109 +288,33 @@
 
     .pnp-problem-selector {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;
 
-        @container (min-width: 500px) {
-            flex-direction: row;
-            align-items: center;
+        @container (min-width: 600px) {
+            flex-wrap: nowrap;
         }
     }
 
     .pnp-label {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         font-weight: 500;
         color: var(--pnp-label-color);
+        white-space: nowrap;
     }
 
     .pnp-select {
-        padding: 0.5rem;
+        padding: 0.5em 1em;
         border: 1px solid var(--pnp-border);
         border-radius: var(--border-radius-small);
-        background: var(--pnp-card-bg);
-        color: var(--pnp-label-color);
-        font-size: 0.95rem;
+        background: var(--pnp-btn-bg);
+        font-size: 1rem;
         cursor: pointer;
         flex: 1;
-
-        &:focus {
-            outline: 2px solid var(--theme-color);
-            outline-offset: 2px;
-        }
-    }
-
-    .pnp-comparison {
-        display: flex;
-        flex-direction: column;
-        gap: var(--pnp-padding);
-    }
-
-    .pnp-problem-details {
-        padding: var(--pnp-padding);
-        background: var(--pnp-card-bg);
-        border: 1px solid var(--pnp-card-border);
-        border-radius: var(--border-radius-small);
-
-        h4 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.2rem;
-            color: var(--theme-color);
-        }
-
-        .pnp-description {
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--pnp-label-color);
-        }
-    }
-
-    .pnp-comparison-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: var(--pnp-padding);
-
-        @container (min-width: 600px) {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    .pnp-comparison-card {
-        padding: var(--pnp-padding);
-        background: var(--pnp-card-bg);
-        border: 2px solid var(--pnp-card-border);
-        border-radius: var(--border-radius-small);
-        box-shadow: var(--pnp-card-shadow);
-
-        h5 {
-            margin: 0 0 0.75rem 0;
-            font-size: 1.1rem;
-            color: var(--pnp-label-color);
-        }
-
-        p {
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
-            color: var(--pnp-muted);
-        }
-    }
-
-    .pnp-solving {
-        border-color: var(--pnp-color-npc);
-    }
-
-    .pnp-solving-poly {
-        border-color: var(--pnp-color-tract);
-        /* background: color-mix(in srgb, var(--pnp-color-tract) 5%, var(--pnp-card-bg)); */
-    }
-
-    .pnp-solving-exp,
-    .pnp-solving-unknown {
-        border-color: var(--pnp-color-intract);
-        background: color-mix(in srgb, var(--pnp-color-intract) 5%, var(--pnp-card-bg));
-    }
-
-    .pnp-verifying {
-        border-color: var(--pnp-color-tract);
+        min-width: 180px;
+        accent-color: var(--theme-color);
     }
 
     .pnp-time-badge {
@@ -388,45 +322,149 @@
         padding: 0.5rem 1rem;
         background: var(--color-mono-2);
         border-radius: var(--border-radius-small);
-        font-family: 'Courier New', monospace;
-        font-size: 1.1rem;
+        font-size: 1.4em;
         font-weight: 600;
+        width: fit-content;
         color: var(--theme-color);
-        margin: 0.5rem 0;
+        white-space: nowrap;
     }
 
-    .pnp-note {
-        margin-top: 0.75rem !important;
-        padding: 0.5rem;
-        background: var(--color-mono-1);
-        border-radius: var(--border-radius-small);
-        font-size: 0.85rem !important;
-        font-style: italic;
-    }
-
-    .pnp-example {
+    .pnp-comparison {
         padding: var(--pnp-padding);
-        background: var(--color-mono-1);
-        border-radius: var(--border-radius-small);
-        font-size: 0.9rem;
-    }
+        background: var(--pnp-card-bg);
+        border: 1px solid var(--pnp-card-border);
+        border-radius: var(--border-radius);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--pnp-padding);
 
-    .pnp-insight {
-        padding: var(--pnp-padding);
-        background: var(--color-success-bg);
-        border-left: 4px solid var(--pnp-color-p);
-        border-radius: var(--border-radius-small);
-
-        h4 {
-            margin: 0 0 0.75rem 0;
-            font-size: 1.1rem;
-            color: var(--pnp-color-p);
+        @container (min-width: 900px) {
+            grid-template-columns: 1fr 2fr;
         }
 
-        p {
-            margin: 0.5rem 0;
-            font-size: 0.95rem;
-            line-height: 1.6;
+        .pnp-problem-details {
+            h4 {
+                margin: 0 0 0.85rem 0;
+                font-size: 1.4rem;
+                color: var(--pnp-label-color);
+                display: flex;
+                gap: 0.5em;
+                align-items: flex-start;
+            }
+
+            .pnp-description {
+                margin-block: 0.75em;
+                font-size: 0.95rem;
+                color: var(--pnp-label-color);
+            }
+
+            .pnp-example {
+                margin-block: 0.75em;
+                font-size: 0.95rem;
+            }
+        }
+
+        .pnp-comparison-grid {
+            background-color: var(--pnp-bg);
+            padding: var(--pnp-padding);
+            border: 1px solid var(--pnp-border);
+            border-radius: var(--border-radius);
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-areas:
+                "header"
+                "solve"
+                "verify";
+            gap: var(--pnp-padding);
+
+            @container (min-width: 600px) {
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas:
+                    "header header"
+                    "solve  verify";
+            }
+
+            .pnp-comparison-header {
+                grid-area: header;
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+
+                .pnp-category-title {
+                    margin: 0;
+                }
+
+                .pnp-category-description {
+                    margin: 0;
+                }
+            }
+
+            .pnp-comparison-card {
+                padding: var(--pnp-padding);
+                background: var(--pnp-card-bg);
+                border: 2px solid var(--pnp-card-border);
+                border-radius: var(--border-radius-small);
+                box-shadow: var(--pnp-card-shadow);
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+
+                h5 {
+                    margin: 0;
+                    font-size: 1.1rem;
+                    color: var(--pnp-label-color);
+                }
+
+                p {
+                    font-size: 0.9rem;
+                    color: var(--pnp-muted);
+                    margin: 0;
+                }
+
+                &.pnp-solving {
+                    grid-area: solve;
+
+                    border-color: var(--pnp-color-npc);
+
+                    &.pnp-solving-poly {
+                        border-color: var(--pnp-color-tract);
+                    }
+
+                    &.pnp-solving-exp,
+                    &.pnp-solving-unknown {
+                        border-color: var(--pnp-color-intract);
+                        background: color-mix(in srgb, var(--pnp-color-intract) 5%, var(--pnp-card-bg));
+                    }
+                }
+
+                &.pnp-verifying {
+                    grid-area: verify;
+
+                    border-color: var(--pnp-color-tract);
+
+                    &.pnp-verify-poly {
+                        border-color: var(--pnp-color-tract);
+                    }
+
+                    &.pnp-verify-exp,
+                    &.pnp-verify-unknown {
+                        border-color: var(--pnp-color-intract);
+                        background: color-mix(in srgb, var(--pnp-color-intract) 5%, var(--pnp-card-bg));
+                    }
+                }
+
+                .pnp-time-badge {
+                    margin: auto;
+
+                }
+
+                .pnp-note {
+                    color: var(--color-text);
+                    font-size: 0.95rem;
+                    margin: 0;
+                }
+            }
         }
     }
 
@@ -448,7 +486,7 @@
         padding: 0.5rem 1rem;
         border: 2px solid transparent;
         border-radius: var(--border-radius-small);
-        background: var(--color-mono-2);
+        background: var(--color-mono-1);
         color: var(--pnp-label-color);
         font-size: 0.9rem;
         font-weight: 500;
@@ -480,13 +518,50 @@
         color: var(--pnp-color-npc);
     }
 
-    .pnp-tab-npi.active {
-        border-color: var(--pnp-color-npi);
-        color: var(--pnp-color-npi);
+    .pnp-tab-nph.active {
+        border-color: var(--pnp-color-nph);
+        color: var(--pnp-color-nph);
     }
 
     .pnp-tab-content {
         min-height: 300px;
+    }
+
+    .pnp-category-header {
+        margin-bottom: var(--pnp-padding);
+        padding: var(--pnp-padding);
+        background: var(--pnp-card-bg);
+        border: 1px solid var(--pnp-card-border);
+        border-radius: var(--border-radius-small);
+    }
+
+    .pnp-category-title {
+        margin: 0 0 0.35rem 0;
+        font-size: 1.2rem;
+        color: var(--secondary-color);
+    }
+
+    .pnp-category-p .pnp-category-title {
+        color: var(--pnp-color-p);
+    }
+
+    .pnp-category-np .pnp-category-title {
+        color: var(--pnp-color-np);
+    }
+
+    .pnp-category-npc .pnp-category-title {
+        color: var(--pnp-color-npc);
+    }
+
+    .pnp-category-nph .pnp-category-title {
+        color: var(--pnp-color-nph);
+    }
+
+    .pnp-category-description {
+        margin: 0;
+        color: var(--pnp-label-color);
+        font-size: 0.92rem;
+        line-height: 1.5;
     }
 
     .pnp-problems-grid {
@@ -506,10 +581,13 @@
     .pnp-problem-card {
         padding: var(--pnp-padding);
         background: var(--pnp-card-bg);
-        border: 2px solid var(--pnp-card-border);
+        border: 1px solid var(--pnp-card-border);
         border-radius: var(--border-radius-small);
         box-shadow: var(--pnp-card-shadow);
         transition: all 0.2s;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
 
         &:hover {
             transform: translateY(-2px);
@@ -529,72 +607,55 @@
         border-top: 4px solid var(--pnp-color-npc);
     }
 
-    .pnp-problem-npi {
-        border-top: 4px solid var(--pnp-color-npi);
+    .pnp-problem-nph {
+        border-top: 4px solid var(--pnp-color-nph);
     }
 
     .pnp-problem-icon {
         font-size: 2.5rem;
-        margin-bottom: 0.5rem;
         text-align: center;
     }
 
     .pnp-problem-name {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.1rem;
+        margin: 0;
+        font-size: 1.3rem;
         font-weight: 600;
         color: var(--pnp-label-color);
         text-align: center;
     }
 
     .pnp-problem-description {
-        margin: 0 0 0.75rem 0;
-        font-size: 0.85rem;
-        color: var(--pnp-muted);
-        line-height: 1.5;
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--pnp-label);
+        line-height: 1.4;
         text-align: center;
+    }
+
+    .pnp-problem-example {
+        color: var(--pnp-muted);
+        font-style: italic;
     }
 
     .pnp-problem-complexity {
         display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        margin-bottom: 0.75rem;
-        padding: 0.75rem;
-        background: var(--color-mono-1);
-        border-radius: var(--border-radius-small);
-    }
-
-    .pnp-complexity-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.85rem;
-    }
-
-    .pnp-complexity-label {
-        font-weight: 500;
-        color: var(--pnp-muted);
-    }
-
-    .pnp-complexity-item code {
-        padding: 0.25rem 0.5rem;
-        background: var(--pnp-card-bg);
-        border: 1px solid var(--pnp-border);
-        border-radius: var(--border-radius-small);
-        font-size: 0.8rem;
-        font-family: 'Courier New', monospace;
-        color: var(--theme-color);
-    }
-
-    .pnp-problem-example {
+        gap: 1rem;
         padding-top: 0.75rem;
+        margin-top: auto;
         border-top: 1px solid var(--pnp-border);
-        font-size: 0.8rem;
-        color: var(--pnp-muted);
 
-        strong {
-            color: var(--pnp-label-color);
+        .pnp-complexity-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: 0.9rem;
+
+            .pnp-complexity-label {
+                font-weight: 500;
+                color: var(--pnp-muted);
+            }
         }
     }
 }

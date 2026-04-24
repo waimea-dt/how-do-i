@@ -1,10 +1,11 @@
 /**
- * docsify-p-np.js - P, NP, and NP-Complete Complexity Class Visualizer
+ * docsify-p-np.js - P, NP, NP-Complete, and NP-Hard Complexity Class Visualizer
  *
  * Interactive visualization demonstrating:
  *   - P (Polynomial Time): Problems solvable efficiently
  *   - NP (Nondeterministic Polynomial): Solutions verifiable efficiently
  *   - NP-Complete: Hardest problems in NP
+ *   - NP-Hard: At least as hard as NP-Complete (may be outside NP)
  *   - Verification vs Solving time comparison
  *   - Real-world problem examples in each category
  *
@@ -65,156 +66,235 @@
         return `rgba(${r}, ${g}, ${b}, ${combinedAlpha})`
     }
 
+    const UI_TEXT = {
+        title: 'P, NP, NP-Complete, and NP-Hard',
+        subtitleByMode: {
+            venn: 'Complexity classes visualization',
+            verify: 'Verification vs Solving times',
+            problems: 'Problem examples by complexity class'
+        },
+        toggle: {
+            standard: 'Show P = NP (collapsed view)',
+            collapsed: 'Show P ≠ NP (standard view)'
+        },
+        verify: {
+            selectLabel: 'Select problem:'
+        }
+    }
+
     const PROBLEMS = {
-        p: [
-            {
-                id: 'linear-search',
-                name: 'Linear Search',
-                description: 'Scan list from start until target is found',
-                solveTime: 'O(N)',
-                verifyTime: 'O(1)',
-                example: 'Finding a name in an unsorted list',
-                icon: '🔎',
-                marker: {
-                    standard: { x: 190, y: 460 },
-                    collapse: { x: 170, y: 415 }
-                }
+        p: {
+            shortName: "P",
+            fullName: "P - Polynomial Time",
+            class: "p",
+            description: "<strong>Easy to solve</strong>, and part of NP, so <strong>easy to verify</strong>",
+            tabLabel: 'P Problems',
+            tabOrder: 1,
+            legendOrder: 2,
+            defaultProblemId: 'linear-search',
+            verify: {
+                solvingClass: 'pnp-solving-poly',
+                solvingNote: '✓ <strong>Polynomial time</strong> solution - easy for large n',
+                verifyClass: 'pnp-verify-poly',
+                verifyNote: '✓ <strong>Polynomial time</strong> verification - always fast'
             },
-            {
-                id: 'binary-search',
-                name: 'Binary Search',
-                description: 'Find an item in a sorted list',
-                solveTime: 'O(log N)',
-                verifyTime: 'O(1)',
-                example: 'Searching in phone book',
-                icon: '🔍',
-                marker: {
-                    standard: { x: 250, y: 460 },
-                    collapse: { x: 245, y: 415 }
-                }
+            problems: [
+                {
+                    id: 'linear-search',
+                    name: 'Linear Search',
+                    description: 'Scan list of n items from start until target is found',
+                    solveTime: 'O(n)',
+                    verifyTime: 'O(1)',
+                    example: 'Finding a name in an unsorted list',
+                    icon: '🔎',
+                    marker: {
+                        standard: { x: 185, y: 465 },
+                        collapse: { x: 95, y: 410 }
+                    }
+                },
+                {
+                    id: 'binary-search',
+                    name: 'Binary Search',
+                    description: 'Find an item in a sorted list of n items',
+                    solveTime: 'O(log n)',
+                    verifyTime: 'O(1)',
+                    example: 'Searching in phone book',
+                    icon: '🔍',
+                    marker: {
+                        standard: { x: 250, y: 430 },
+                        collapse: { x: 115, y: 485 }
+                    }
+                },
+                {
+                    id: 'sorting',
+                    name: 'Sorting',
+                    description: 'Sort a list of n items',
+                    solveTime: 'O(n log n)',
+                    verifyTime: 'O(n)',
+                    example: 'Merge Sort, Quick Sort',
+                    icon: '↕️',
+                    marker: {
+                        standard: { x: 315, y: 465 },
+                        collapse: { x: 385, y: 485 }
+                    }
+                },
+                {
+                    id: 'palindrome',
+                    name: 'Palindrome Check',
+                    description: 'Check if string of length n reads same forwards and backwards',
+                    solveTime: 'O(n)',
+                    verifyTime: 'O(n)',
+                    example: 'racecar, level',
+                    icon: '↔️',
+                    marker: {
+                        standard: { x: 185, y: 535 },
+                        collapse: { x: 175, y: 535 }
+                    }
+                },
+                {
+                    id: 'shortest-path',
+                    name: 'Shortest Path',
+                    description: 'Find shortest route between two nodes in a graph of n nodes',
+                    solveTime: 'O(n²)',
+                    verifyTime: 'O(n)',
+                    example: 'Dijkstra\'s Algorithm',
+                    icon: '🗺️',
+                    marker: {
+                        standard: { x: 250, y: 570 },
+                        collapse: { x: 250, y: 555 }
+                    }
+                },
+                {
+                    id: 'matrix-mult',
+                    name: 'Matrix Multiplication',
+                    description: 'Multiply two n×n matrices',
+                    solveTime: 'O(n³)',
+                    verifyTime: 'O(n²)',
+                    example: 'Graphics transformations',
+                    icon: '⊗',
+                    marker: {
+                        standard: { x: 315, y: 535 },
+                        collapse: { x: 325, y: 535 }
+                    }
+                },
+            ],
+        },
+        np: {
+            shortName: "NP",
+            fullName: "NP - Non-deterministic Polynomial Time",
+            class: "np",
+            description: "<strong>Easy to verify</strong>",
+            tabLabel: 'NP Problems',
+            tabOrder: 2,
+            legendOrder: 1,
+            verify: {
+                solvingClass: 'pnp-solving-unknown',
+                solvingNote: '⚠ <strong>No known polynomial time</strong> solution',
+                verifyClass: 'pnp-verify-poly',
+                verifyNote: '✓ <strong>Polynomial time</strong> verification - always fast'
             },
-            {
-                id: 'sorting',
-                name: 'Sorting',
-                description: 'Sort a list of N numbers',
-                solveTime: 'O(N log N)',
-                verifyTime: 'O(N)',
-                example: 'Merge Sort, Quick Sort',
-                icon: '↕️',
-                marker: {
-                    standard: { x: 310, y: 460 },
-                    collapse: { x: 320, y: 415 }
+            problems: [
+                {
+                    id: 'factoring',
+                    name: 'Factorisation by Division',
+                    description: 'Use division to find a non-trivial factor of number value n',
+                    solveTime: 'O(√n)',
+                    verifyTime: 'O(log n)',
+                    example: 'Try 2, 3, 4... until a divisor is found',
+                    icon: '🔢',
+                    marker: {
+                        standard: { x: 415, y: 380 },
+                        collapse: { x: 405, y: 410 }
+                    }
                 }
+            ],
+        },
+        npc: {
+            shortName: "NP-Complete",
+            fullName: "NP-Complete - Hardest problems in NP",
+            class: "npc",
+            description: "<strong>Hard to solve</strong>, but part of NP, so <strong>easy to verify</strong>",
+            tabLabel: 'NP-Complete',
+            tabOrder: 3,
+            legendOrder: 3,
+            verify: {
+                solvingClass: 'pnp-solving-exp',
+                solvingNote: '⏰ <strong>Exponential time</strong> solution - intractable for large n',
+                verifyClass: 'pnp-verify-poly',
+                verifyNote: '✓ <strong>Polynomial time</strong> verification - always fast'
             },
-            {
-                id: 'palindrome',
-                name: 'Palindrome Check',
-                description: 'Check if string reads same forwards/backwards',
-                solveTime: 'O(N)',
-                verifyTime: 'O(N)',
-                example: 'racecar, level',
-                icon: '↔️',
-                marker: {
-                    standard: { x: 205, y: 515 },
-                    collapse: { x: 170, y: 470 }
-                }
+            problems: [
+                {
+                    id: 'knapsack',
+                    name: '0/1 Knapsack',
+                    description: 'Select out of n items to maximize value within a limit',
+                    solveTime: 'O(2ⁿ)',
+                    verifyTime: 'O(n)',
+                    example: 'Cargo loading',
+                    icon: '🎒',
+                    marker: {
+                        standard: { x: 210, y: 205 },
+                        collapse: { x: 210, y: 205 }
+                    }
+                },
+                {
+                    id: 'bin-packing',
+                    name: 'Bin Packing',
+                    description: 'Pack n items into minimum number of bins',
+                    solveTime: 'O(2ⁿ)',
+                    verifyTime: 'O(n)',
+                    example: 'Shipping container allocation',
+                    icon: '📦',
+                    marker: {
+                        standard: { x: 290, y: 205 },
+                        collapse: { x: 290, y: 205 }
+                    }
+                },
+                {
+                    id: 'graph-colouring',
+                    name: 'Graph Colouring',
+                    description: 'Colour graph of n nodes so adjacent nodes differ',
+                    solveTime: 'O(kⁿ)',
+                    verifyTime: 'O(n²)',
+                    example: 'Timetable scheduling',
+                    icon: '🎨',
+                    marker: {
+                        standard: { x: 250, y: 315 },
+                        collapse: { x: 250, y: 315 }
+                    }
+                },
+            ],
+        },
+        nph: {
+            shortName: "NP-Hard",
+            fullName: "NP-Hard - Hard problems",
+            class: "nph",
+            description: "<strong>Hard to solve</strong> and <strong>if outside of NP, hard to verify</strong>",
+            tabLabel: 'NP-Hard',
+            tabOrder: 4,
+            legendOrder: 4,
+            verify: {
+                solvingClass: 'pnp-solving-exp',
+                solvingNote: '⏰ <strong>Exponential time</strong> solution - intractable for large n',
+                verifyClass: 'pnp-verify-exp',
+                verifyNote: '⚠ <strong>No known polynomial time</strong> verification'
             },
-            {
-                id: 'shortest-path',
-                name: 'Shortest Path',
-                description: 'Find shortest route between two nodes',
-                solveTime: 'O(N²)',
-                verifyTime: 'O(N)',
-                example: 'Dijkstra\'s Algorithm',
-                icon: '🗺️',
-                marker: {
-                    standard: { x: 250, y: 525 },
-                    collapse: { x: 245, y: 470 }
-                }
-            },
-            {
-                id: 'matrix-mult',
-                name: 'Matrix Multiplication',
-                description: 'Multiply two N×N matrices',
-                solveTime: 'O(N³)',
-                verifyTime: 'O(N²)',
-                example: 'Graphics transformations',
-                icon: '⊗',
-                marker: {
-                    standard: { x: 295, y: 515 },
-                    collapse: { x: 320, y: 470 }
-                }
-            },
-        ],
-        np: [
-            {
-                id: 'factoring',
-                name: 'Factorisation by Division',
-                description: 'Naive trial division to find a non-trivial factor',
-                solveTime: 'O(√N) by value',
-                verifyTime: 'O(log N)',
-                example: 'Try 2, 3, 4... until a divisor is found',
-                icon: '🔢',
-                marker: {
-                    standard: { x: 85, y: 400 },
-                    collapse: { x: 90, y: 395 }
-                }
-            }
-        ],
-        npComplete: [
-            {
-                id: 'tsp',
-                name: 'Travelling Salesman',
-                description: 'Find shortest route visiting all cities',
-                solveTime: 'O((N-1)!)',
-                verifyTime: 'O(N)',
-                example: 'Delivery route optimization',
-                icon: '🚚',
-                marker: {
-                    standard: { x: 200, y: 265 },
-                    collapse: { x: 215, y: 260 }
-                }
-            },
-            {
-                id: 'knapsack',
-                name: '0/1 Knapsack',
-                description: 'Select items to maximize value within weight limit',
-                solveTime: 'O(2ⁿ)',
-                verifyTime: 'O(N)',
-                example: 'Cargo loading',
-                icon: '🎒',
-                marker: {
-                    standard: { x: 265, y: 255 },
-                    collapse: { x: 275, y: 260 }
-                }
-            },
-            {
-                id: 'bin-packing',
-                name: 'Bin Packing',
-                description: 'Pack items into minimum number of bins',
-                solveTime: 'O(2ⁿ)',
-                verifyTime: 'O(N)',
-                example: 'Shipping container allocation',
-                icon: '📦',
-                marker: {
-                    standard: { x: 195, y: 320 },
-                    collapse: { x: 215, y: 310 }
-                }
-            },
-            {
-                id: 'graph-colouring',
-                name: 'Graph Colouring',
-                description: 'Colour graph nodes so adjacent nodes differ',
-                solveTime: 'O(Kⁿ)',
-                verifyTime: 'O(N²)',
-                example: 'Timetable scheduling',
-                icon: '🎨',
-                marker: {
-                    standard: { x: 275, y: 310 },
-                    collapse: { x: 275, y: 310 }
-                }
-            },
-        ]
+            problems: [
+                {
+                    id: 'tsp-opt',
+                    name: 'Travelling Salesman - Optimal Route',
+                    description: 'Find shortest route that visits every one of n cities',
+                    solveTime: 'O(n!)',
+                    verifyTime: 'O(n!)',
+                    example: 'Delivery route optimization',
+                    icon: '🚚',
+                    marker: {
+                        standard: { x: 410, y: 110 },
+                        collapse: { x: 410, y: 110 }
+                    }
+                },
+            ],
+        },
     }
 
     class PNPVisualizer {
@@ -244,10 +324,35 @@
 
             if (this.mode === 'venn') {
                 content.appendChild(this.renderVennDiagram())
+                // Add toggle to header for venn mode
+                const toggleBtn = this.createToggleButton()
+                const headerToggle = document.createElement('div')
+                headerToggle.className = 'pnp-header-toggle'
+                headerToggle.appendChild(toggleBtn)
+                header.appendChild(headerToggle)
             } else if (this.mode === 'verify') {
-                content.appendChild(this.renderVerificationComparison())
+                const verifyContent = this.renderVerificationComparison()
+                content.appendChild(verifyContent)
+                // Add selector to header for verify mode
+                const selectorEl = this.createProblemSelector()
+                const headerSelector = document.createElement('div')
+                headerSelector.className = 'pnp-header-selector'
+                headerSelector.appendChild(selectorEl)
+                header.appendChild(headerSelector)
+                // Store reference to selector for comparison updates
+                this.verifySelect = selectorEl.querySelector('.pnp-select')
+                this.verifySelect.addEventListener('change', () => verifyContent.updateComparisonFn.call(this))
+                verifyContent.updateComparisonFn.call(this)
             } else if (this.mode === 'problems') {
-                content.appendChild(this.renderProblemsExplorer())
+                const problemsExplorer = this.renderProblemsExplorer()
+                content.appendChild(problemsExplorer.container)
+
+                const headerTabs = document.createElement('div')
+                headerTabs.className = 'pnp-header-tabs'
+                headerTabs.appendChild(problemsExplorer.tabs)
+                header.appendChild(headerTabs)
+
+                problemsExplorer.showTab(problemsExplorer.defaultTabId)
             }
 
             wrapper.appendChild(content)
@@ -258,25 +363,73 @@
             const header = document.createElement('div')
             header.className = 'pnp-header'
 
+            const headerText = document.createElement('div')
+            headerText.className = 'pnp-header-text'
+
             const title = document.createElement('h3')
             title.className = 'pnp-title'
-            title.textContent = 'P, NP, and NP-Complete'
+            title.textContent = UI_TEXT.title
 
             const subtitle = document.createElement('p')
             subtitle.className = 'pnp-subtitle'
+            subtitle.textContent = UI_TEXT.subtitleByMode[this.mode] || UI_TEXT.subtitleByMode.venn
 
-            if (this.mode === 'venn') {
-                subtitle.textContent = 'Exploring computational complexity classes'
-            } else if (this.mode === 'verify') {
-                subtitle.textContent = 'Verification vs Solving: The key distinction'
-            } else if (this.mode === 'problems') {
-                subtitle.textContent = 'Real-world problems in each complexity class'
-            }
-
-            header.appendChild(title)
-            header.appendChild(subtitle)
+            headerText.appendChild(title)
+            headerText.appendChild(subtitle)
+            header.appendChild(headerText)
 
             return header
+        }
+
+        createProblemSelector() {
+            const selector = document.createElement('div')
+            selector.className = 'pnp-problem-selector'
+
+            const label = document.createElement('label')
+            label.textContent = UI_TEXT.verify.selectLabel
+            label.className = 'pnp-label'
+
+            const select = document.createElement('select')
+            select.className = 'pnp-select'
+
+            const orderedSets = Object.values(PROBLEMS)
+                .sort((a, b) => a.tabOrder - b.tabOrder)
+
+            orderedSets.forEach(problemSet => {
+                const pGroup = document.createElement('optgroup')
+                pGroup.label = problemSet.fullName
+                problemSet.problems.forEach(p => {
+                    const option = document.createElement('option')
+                    option.value = `${problemSet.class}-${p.id}`
+                    option.textContent = `${p.icon} ${p.name}`
+                    pGroup.appendChild(option)
+                })
+                select.appendChild(pGroup)
+            })
+
+            const defaultSet = orderedSets.find(problemSet => problemSet.defaultProblemId)
+            const defaultValue = defaultSet
+                ? `${defaultSet.class}-${defaultSet.defaultProblemId}`
+                : (select.querySelector('option') ? select.querySelector('option').value : '')
+            select.value = defaultValue
+
+            selector.appendChild(label)
+            selector.appendChild(select)
+
+            return selector
+        }
+
+        createToggleButton() {
+            const toggleBtn = document.createElement('button')
+            toggleBtn.className = 'pnp-btn pnp-btn-toggle'
+            toggleBtn.textContent = this.collapse ? UI_TEXT.toggle.collapsed : UI_TEXT.toggle.standard
+            toggleBtn.addEventListener('click', () => {
+                this.collapse = !this.collapse
+                this.element.innerHTML = ''
+                this.render()
+                this.attachEventListeners()
+            })
+            return toggleBtn
         }
 
         renderVennDiagram() {
@@ -305,51 +458,25 @@
 
             requestAnimationFrame(() => this.drawVennDiagram(canvas, markerCard))
 
-            const controls = document.createElement('div')
-            controls.className = 'pnp-controls'
-
-            const toggleBtn = document.createElement('button')
-            toggleBtn.className = 'pnp-btn pnp-btn-toggle'
-            toggleBtn.textContent = this.collapse ? 'Show P ≠ NP (standard view)' : 'Show P = NP (collapsed view)'
-            toggleBtn.addEventListener('click', () => {
-                this.collapse = !this.collapse
-                this.element.innerHTML = ''
-                this.render()
-                this.attachEventListeners()
-            })
-            controls.appendChild(toggleBtn)
-
             const legend = document.createElement('div')
             legend.className = 'pnp-legend'
-            legend.innerHTML = `
-                <div class="pnp-legend-item">
-                    <span class="pnp-legend-color pnp-legend-p"></span>
-                    <span><strong>P</strong> - Polynomial Time (efficient to solve)</span>
-                </div>
-                <div class="pnp-legend-item">
-                    <span class="pnp-legend-color pnp-legend-np"></span>
-                    <span><strong>NP</strong> - Nondeterministic Polynomial (efficient to verify)</span>
-                </div>
-                <div class="pnp-legend-item">
-                    <span class="pnp-legend-color pnp-legend-npc"></span>
-                    <span><strong>NP-Complete</strong> - Hardest problems in NP</span>
-                </div>
-                <div class="pnp-legend-item">
-                    <span class="pnp-legend-color pnp-legend-nph"></span>
-                    <span><strong>NP-Hard</strong> - At least as hard as NP-Complete (may be outside NP)</span>
-                </div>
-            `
-            controls.appendChild(legend)
+            const legendSets = Object.values(PROBLEMS)
+                .sort((a, b) => a.legendOrder - b.legendOrder)
+            legend.innerHTML = legendSets
+                .map(problemSet => {
+                    return `
+                        <div class="pnp-legend-item">
+                            <span class="pnp-legend-color pnp-legend-${problemSet.class}"></span>
+                            <div>
+                                <p class="pnp-legend-title pnp-legend-${problemSet.class}">${problemSet.fullName}</p>
+                                <p>${problemSet.description}</p>
+                            </div>
+                        </div>
+                    `
+                })
+                .join('')
 
-            const explanation = document.createElement('div')
-            explanation.className = 'pnp-explanation'
-            explanation.innerHTML = this.collapse
-                ? `<p><strong>P = NP collapsed view:</strong> If P = NP, all problems that can be verified quickly can also be solved quickly. This would revolutionize cryptography, optimization, and many other fields-but it's probably not true!</p>`
-                : `<p><strong>The million-dollar question:</strong> Does P = NP? We know P ⊆ NP (every problem we can solve quickly, we can verify quickly). Also, <strong>NP-Complete = NP ∩ NP-Hard</strong>, shown as the overlap region. Most computer scientists believe P ≠ NP.</p>`
-
-            controls.appendChild(explanation)
-
-            container.appendChild(controls)
+            container.appendChild(legend)
 
             return container
         }
@@ -362,65 +489,18 @@
             const styles = getComputedStyle(this.element)
             const colorP = resolveCssVarColor(this.element, styles, '--pnp-color-p', '#4CAF50')
             const colorNP = resolveCssVarColor(this.element, styles, '--pnp-color-np', '#2196F3')
-            const colorNPC = resolveCssVarColor(this.element, styles, '--pnp-color-npc', '#F44336')
-            const colorNPH = resolveCssVarColor(this.element, styles, '--pnp-color-nph', '#607D8B')
+            const colorNPC = resolveCssVarColor(this.element, styles, '--pnp-color-npc', '#f436f4')
+            const colorNPH = resolveCssVarColor(this.element, styles, '--pnp-color-nph', '#F44336')
             const colorBg = resolveCssVarColor(this.element, styles, '--pnp-bg-canvas', '#000000')
             const colorText = resolveCssVarColor(this.element, styles, '--color-text', '#eeeeee')
 
             ctx.fillStyle = colorBg
             ctx.fillRect(0, 0, w, h)
 
-            if (this.collapse) {
+            if (!this.collapse) {
                 const hardCx = 250
-                const hardCy = 200
-                const hardR = 240
-                const npCx = 250
-                const npCy = 400
-                const npR = 240
-
-                // NPH
-                ctx.fillStyle = withAlpha(colorNPH, 0.15)
-                ctx.strokeStyle = colorNPH
-                ctx.lineWidth = 3
-                ctx.beginPath()
-                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
-                ctx.fill()
-                ctx.stroke()
-
-                // P
-                ctx.fillStyle = withAlpha(colorP, 0.4)
-                ctx.strokeStyle = colorP
-                ctx.lineWidth = 3
-                ctx.beginPath()
-                ctx.arc(npCx, npCy, npR, 0, Math.PI * 2)
-                ctx.fill()
-                ctx.stroke()
-
-                // NPC
-                ctx.save()
-                ctx.beginPath()
-                ctx.arc(npCx, npCy, npR, 0, Math.PI * 2)
-                ctx.clip()
-                ctx.beginPath()
-                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
-                ctx.fillStyle = withAlpha(colorNPC, 0.6)
-                ctx.fill()
-                ctx.restore()
-
-                ctx.textAlign = 'center'
-                ctx.textBaseline = 'middle'
-
-                ctx.fillStyle = colorText
-                ctx.font = 'bold 30px system-ui, sans-serif'
-
-                ctx.fillText('P = NP', npCx, npCy + 80)
-                ctx.fillText('NP-Hard', hardCx, hardCy - 80)
-                ctx.fillText('NP-Complete', npCx, npCy - 160)
-            }
-            else {
-                const hardCx = 250
-                const hardCy = 200
-                const hardR = 240
+                const hardCy = 240
+                const hardR = 250
                 const npCx = 250
                 const npCy = 400
                 const npR = 240
@@ -429,7 +509,7 @@
                 const pR = 120
 
                 // NPH
-                ctx.fillStyle = withAlpha(colorNPH, 0.15)
+                ctx.fillStyle = withAlpha(colorNPH, 0.5)
                 ctx.strokeStyle = colorNPH
                 ctx.lineWidth = 3
                 ctx.beginPath()
@@ -438,7 +518,7 @@
                 ctx.stroke()
 
                 // NP
-                ctx.fillStyle = withAlpha(colorNP, 0.4)
+                ctx.fillStyle = withAlpha(colorNP, 0.7)
                 ctx.strokeStyle = colorNP
                 ctx.lineWidth = 3
                 ctx.beginPath()
@@ -449,16 +529,19 @@
                 // NPC
                 ctx.save()
                 ctx.beginPath()
-                ctx.arc(npCx, npCy, npR, 0, Math.PI * 2)
+                ctx.arc(npCx, npCy + 1, npR, 0, Math.PI * 2)
                 ctx.clip()
                 ctx.beginPath()
                 ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
-                ctx.fillStyle = withAlpha(colorNPC, 0.6)
+                ctx.fillStyle = withAlpha(colorNPC, 0.8)
+                ctx.strokeStyle = colorNPH
+                ctx.lineWidth = 3
                 ctx.fill()
+                ctx.stroke()
                 ctx.restore()
 
                 // P
-                ctx.fillStyle = withAlpha(colorP, 0.4)
+                ctx.fillStyle = withAlpha(colorP, 0.7)
                 ctx.strokeStyle = colorP
                 ctx.lineWidth = 3
                 ctx.beginPath()
@@ -471,10 +554,60 @@
 
                 ctx.fillStyle = colorText
                 ctx.font = 'bold 30px system-ui, sans-serif'
-                ctx.fillText('NP', npCx - 160, npCy)
-                ctx.fillText('P', pCx, pCy)
-                ctx.fillText('NP-Hard', hardCx, hardCy - 80)
-                ctx.fillText('NP-Complete', npCx, npCy - 160)
+                ctx.fillText(PROBLEMS.np.shortName, npCx - 160, npCy)
+                ctx.fillText(PROBLEMS.p.shortName, pCx, pCy)
+                ctx.fillText(PROBLEMS.nph.shortName, hardCx, hardCy - 150)
+                ctx.fillText(PROBLEMS.npc.shortName, npCx, npCy - 140)
+            }
+            else {
+                const hardCx = 250
+                const hardCy = 240
+                const hardR = 250
+                const npCx = 250
+                const npCy = 400
+                const npR = 240
+
+                // NPH
+                ctx.fillStyle = withAlpha(colorNPH, 0.5)
+                ctx.strokeStyle = colorNPH
+                ctx.lineWidth = 3
+                ctx.beginPath()
+                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
+                ctx.fill()
+                ctx.stroke()
+
+                // P
+                ctx.fillStyle = withAlpha(colorP, 0.7)
+                ctx.strokeStyle = colorP
+                ctx.lineWidth = 3
+                ctx.beginPath()
+                ctx.arc(npCx, npCy, npR, 0, Math.PI * 2)
+                ctx.fill()
+                ctx.stroke()
+
+                // NPC
+                ctx.save()
+                ctx.beginPath()
+                ctx.arc(npCx, npCy + 1, npR, 0, Math.PI * 2)
+                ctx.clip()
+                ctx.beginPath()
+                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
+                ctx.fillStyle = withAlpha(colorNPC, 0.8)
+                ctx.strokeStyle = colorNPH
+                ctx.lineWidth = 3
+                ctx.fill()
+                ctx.stroke()
+                ctx.restore()
+
+                ctx.textAlign = 'center'
+                ctx.textBaseline = 'middle'
+
+                ctx.fillStyle = colorText
+                ctx.font = 'bold 30px system-ui, sans-serif'
+
+                ctx.fillText('P = NP', npCx, npCy + 60)
+                ctx.fillText(PROBLEMS.nph.shortName, hardCx, hardCy - 150)
+                ctx.fillText(PROBLEMS.npc.shortName, npCx, npCy - 140)
             }
 
             if (this.markers && markerCard) {
@@ -490,14 +623,15 @@
                 ...(collapseView ? problem.marker.collapse : problem.marker.standard),
                 category,
                 className,
-                radius: 25
+                radius: 26
             })
 
-            const pMarkers = PROBLEMS.p.map(problem => decorate(problem, 'P', 'p'))
-            const npMarkers = PROBLEMS.np.map(problem => decorate(problem, 'NP', 'np'))
-            const npcMarkers = PROBLEMS.npComplete.map(problem => decorate(problem, 'NP-Complete', 'npc'))
+            const pMarkers   = PROBLEMS.p.problems.map(problem => decorate(problem, PROBLEMS.p.shortName, PROBLEMS.p.class))
+            const npMarkers  = PROBLEMS.np.problems.map(problem => decorate(problem, PROBLEMS.np.shortName, PROBLEMS.np.class))
+            const npcMarkers = PROBLEMS.npc.problems.map(problem => decorate(problem, PROBLEMS.npc.shortName, PROBLEMS.npc.class))
+            const nphMarkers = PROBLEMS.nph.problems.map(problem => decorate(problem, PROBLEMS.nph.shortName, PROBLEMS.nph.class))
 
-            return [...pMarkers, ...npMarkers, ...npcMarkers]
+            return [...pMarkers, ...npMarkers, ...npcMarkers, ...nphMarkers]
         }
 
         drawVennMarkers(ctx, markers, canvasBgColor) {
@@ -505,7 +639,8 @@
             const markerColors = {
                 p: resolveCssVarColor(this.element, styles, '--pnp-color-p', '#4CAF50'),
                 np: resolveCssVarColor(this.element, styles, '--pnp-color-np', '#2196F3'),
-                npc: resolveCssVarColor(this.element, styles, '--pnp-color-npc', '#F44336')
+                npc: resolveCssVarColor(this.element, styles, '--pnp-color-npc', '#F44336'),
+                nph: resolveCssVarColor(this.element, styles, '--pnp-color-nph', '#607D8B')
             }
             const markerIconColor = resolveCssVarColor(this.element, styles, '--color-text', '#ffffff')
 
@@ -513,15 +648,10 @@
                 const color = markerColors[marker.className] || markerColors.np
 
                 ctx.beginPath()
-                ctx.arc(marker.x, marker.y, marker.radius + 3, 0, Math.PI * 2)
-                ctx.fillStyle = withAlpha(canvasBgColor, 0.65)
-                ctx.fill()
-
-                ctx.beginPath()
                 ctx.arc(marker.x, marker.y, marker.radius, 0, Math.PI * 2)
-                ctx.fillStyle = withAlpha(color, 0.95)
+                ctx.fillStyle = color
                 ctx.fill()
-                ctx.strokeStyle = color
+                ctx.strokeStyle = canvasBgColor
                 ctx.lineWidth = 2
                 ctx.stroke()
 
@@ -578,7 +708,7 @@
                     <div class="pnp-marker-title">${marker.icon} ${marker.name}</div>
                     <div class="pnp-marker-class">${marker.category}</div>
                     <p>${marker.description}</p>
-                    <p><strong>Solve:</strong> ${marker.solveTime} | <strong>Verify:</strong> ${marker.verifyTime}</p>
+                    <p>Solve: <strong>${marker.solveTime}</strong> | Verify: <strong>${marker.verifyTime}</strong></p>
                 `
                 markerCard.classList.add('is-visible')
                 markerCard.setAttribute('aria-hidden', 'false')
@@ -612,112 +742,56 @@
             const container = document.createElement('div')
             container.className = 'pnp-verify-container'
 
-            const selector = document.createElement('div')
-            selector.className = 'pnp-problem-selector'
-
-            const label = document.createElement('label')
-            label.textContent = 'Select problem:'
-            label.className = 'pnp-label'
-
-            const select = document.createElement('select')
-            select.className = 'pnp-select'
-
-            const pGroup = document.createElement('optgroup')
-            pGroup.label = 'P (Polynomial Time)'
-            PROBLEMS.p.forEach(p => {
-                const option = document.createElement('option')
-                option.value = `p-${p.id}`
-                option.textContent = `${p.icon} ${p.name}`
-                pGroup.appendChild(option)
-            })
-            select.appendChild(pGroup)
-
-            const npGroup = document.createElement('optgroup')
-            npGroup.label = 'NP'
-            PROBLEMS.np.forEach(p => {
-                const option = document.createElement('option')
-                option.value = `np-${p.id}`
-                option.textContent = `${p.icon} ${p.name}`
-                npGroup.appendChild(option)
-            })
-            select.appendChild(npGroup)
-
-            const npcGroup = document.createElement('optgroup')
-            npcGroup.label = 'NP-Complete'
-            PROBLEMS.npComplete.forEach(p => {
-                const option = document.createElement('option')
-                option.value = `npc-${p.id}`
-                option.textContent = `${p.icon} ${p.name}`
-                npcGroup.appendChild(option)
-            })
-            select.appendChild(npcGroup)
-
-            select.value = 'npc-tsp'
-            selector.appendChild(label)
-            selector.appendChild(select)
-            container.appendChild(selector)
-
             const comparison = document.createElement('div')
             comparison.className = 'pnp-comparison'
             container.appendChild(comparison)
 
             const updateComparison = () => {
+                const select = this.verifySelect
+                if (!select) return
+
                 const separatorIndex = select.value.indexOf('-')
                 const type = separatorIndex === -1 ? select.value : select.value.slice(0, separatorIndex)
                 const id = separatorIndex === -1 ? '' : select.value.slice(separatorIndex + 1)
-                const problemList = type === 'p'
-                    ? PROBLEMS.p
-                    : (type === 'np' ? PROBLEMS.np : PROBLEMS.npComplete)
-                const problem = problemList.find(p => p.id === id)
-                const solvingClass = type === 'p'
-                    ? 'pnp-solving-poly'
-                    : (type === 'np' ? 'pnp-solving-unknown' : 'pnp-solving-exp')
-                const solvingNote = type === 'p'
-                    ? '✓ <strong>Polynomial time</strong> - efficient for large inputs'
-                    : (type === 'np'
-                        ? '⚠ <strong>No known polynomial-time</strong> - may still be hard in practice'
-                        : '⏰ <strong>Exponential time</strong> - impractical for large inputs')
+                const problemSet = PROBLEMS[type]
+                const problem = problemSet ? problemSet.problems.find(p => p.id === id) : null
 
                 if (problem) {
+                    const solvingClass = problemSet.verify.solvingClass
+                    const solvingNote = problemSet.verify.solvingNote
+                    const verifyClass = problemSet.verify.verifyClass
+                    const verifyNote = problemSet.verify.verifyNote
+
                     comparison.innerHTML = `
                         <div class="pnp-problem-details">
-                            <h4>${problem.icon} ${problem.name}</h4>
+                            <h4><span>${problem.icon}</span> <span>${problem.name}</span></h4>
                             <p class="pnp-description">${problem.description}</p>
+                            <p class="pnp-example"><strong>Example:</strong> ${problem.example}</p>
                         </div>
-                        <div class="pnp-comparison-grid">
+                        <div class="pnp-comparison-grid pnp-category-${problemSet.class}">
+                            <div class="pnp-comparison-header">
+                                <h4 class="pnp-category-title">${problemSet.fullName}</h4>
+                                <p class="pnp-category-description">${problemSet.description}</p>
+                            </div>
                             <div class="pnp-comparison-card pnp-solving ${solvingClass}">
                                 <h5>⚙️ Solving</h5>
-                                <div class="pnp-time-badge">${problem.solveTime}</div>
                                 <p>Finding solution from scratch</p>
+                                <div class="pnp-time-badge">${problem.solveTime}</div>
                                 <p class="pnp-note">${solvingNote}</p>
                             </div>
-                            <div class="pnp-comparison-card pnp-verifying">
+                            <div class="pnp-comparison-card pnp-verifying ${verifyClass}">
                                 <h5>✓ Verifying</h5>
-                                <div class="pnp-time-badge">${problem.verifyTime}</div>
                                 <p>Checking given solution is correct</p>
-                                <p class="pnp-note">✓ <strong>Polynomial time</strong> - always fast</p>
+                                <div class="pnp-time-badge">${problem.verifyTime}</div>
+                                <p class="pnp-note">${verifyNote}</p>
                             </div>
-                        </div>
-                        <div class="pnp-example">
-                            <strong>Example:</strong> ${problem.example}
                         </div>
                     `
                 }
             }
 
-            select.addEventListener('change', updateComparison)
-            updateComparison()
-
-            const insight = document.createElement('div')
-            insight.className = 'pnp-insight'
-            insight.innerHTML = `
-                <h4>🔑 Key Insight</h4>
-                <p>For <strong>NP-Complete</strong> problems: verifying solution is <em>much faster</em> than finding it.</p>
-                <p>For <strong>P</strong> problems: solving already fast (verification often faster).</p>
-                <p>For some <strong>NP</strong> problems like factorisation: verification fast, but polynomial-time classical solving algorithm unknown.</p>
-                <p>This is why NP problems matter: we can check answers quickly but cannot always find them quickly (unless P = NP).</p>
-            `
-            container.appendChild(insight)
+            // Store update function to be called after selector is created
+            container.updateComparisonFn = updateComparison
 
             return container
         }
@@ -729,11 +803,13 @@
             const tabs = document.createElement('div')
             tabs.className = 'pnp-tabs'
 
-            const tabButtons = [
-                { id: 'p', label: 'P Problems', color: 'p' },
-                { id: 'np', label: 'NP Problems', color: 'np' },
-                { id: 'npc', label: 'NP-Complete', color: 'npc' }
-            ]
+            const tabButtons = Object.values(PROBLEMS)
+                .sort((a, b) => a.tabOrder - b.tabOrder)
+                .map(problemSet => ({
+                    id: problemSet.class,
+                    label: problemSet.tabLabel,
+                    color: problemSet.class
+                }))
 
             const tabContent = document.createElement('div')
             tabContent.className = 'pnp-tab-content'
@@ -744,13 +820,17 @@
                 })
 
                 tabContent.innerHTML = ''
-                let problemList
-                if (tabId === 'p') {
-                    problemList = PROBLEMS.p
-                } else if (tabId === 'np') {
-                    problemList = PROBLEMS.np
-                } else {
-                    problemList = PROBLEMS.npComplete
+                const problemSet = PROBLEMS[tabId]
+                const problemList = problemSet ? problemSet.problems : []
+
+                if (problemSet) {
+                    const categoryHeader = document.createElement('div')
+                    categoryHeader.className = `pnp-category-header pnp-category-${problemSet.class}`
+                    categoryHeader.innerHTML = `
+                        <h4 class="pnp-category-title">${problemSet.fullName}</h4>
+                        <p class="pnp-category-description">${problemSet.description}</p>
+                    `
+                    tabContent.appendChild(categoryHeader)
                 }
 
                 const grid = document.createElement('div')
@@ -773,12 +853,14 @@
                 tabs.appendChild(btn)
             })
 
-            container.appendChild(tabs)
             container.appendChild(tabContent)
 
-            showTab('p')
-
-            return container
+            return {
+                container,
+                tabs,
+                showTab,
+                defaultTabId: tabButtons[0] ? tabButtons[0].id : 'p'
+            }
         }
 
         createProblemCard(problem, type) {
@@ -788,19 +870,19 @@
             card.innerHTML = `
                 <div class="pnp-problem-icon">${problem.icon}</div>
                 <h5 class="pnp-problem-name">${problem.name}</h5>
-                <p class="pnp-problem-description">${problem.description}</p>
+                <p class="pnp-problem-description">
+                    ${problem.description}
+                    <span class="pnp-problem-example">(example: ${problem.example})</span>
+                </p>
                 <div class="pnp-problem-complexity">
                     <div class="pnp-complexity-item">
-                        <span class="pnp-complexity-label">Solve:</span>
-                        <code>${problem.solveTime}</code>
+                        <div class="pnp-complexity-label">Solve:</div>
+                        <div class="pnp-time-badge">${problem.solveTime}</div>
                     </div>
                     <div class="pnp-complexity-item">
-                        <span class="pnp-complexity-label">Verify:</span>
-                        <code>${problem.verifyTime}</code>
+                        <div class="pnp-complexity-label">Verify:</div>
+                        <div class="pnp-time-badge">${problem.verifyTime}</div>
                     </div>
-                </div>
-                <div class="pnp-problem-example">
-                    <strong>Example:</strong> ${problem.example}
                 </div>
             `
 
