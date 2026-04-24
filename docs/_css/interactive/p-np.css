@@ -38,6 +38,24 @@
     margin: var(--margin-block) 0;
     container-type: inline-size;
 
+    /* ---- Reusable class colours ---- */
+
+    .pnp-class-p {
+        --pnp-class-color: var(--pnp-color-p);
+    }
+
+    .pnp-class-np {
+        --pnp-class-color: var(--pnp-color-np);
+    }
+
+    .pnp-class-npc {
+        --pnp-class-color: var(--pnp-color-npc);
+    }
+
+    .pnp-class-nph {
+        --pnp-class-color: var(--pnp-color-nph);
+    }
+
     /* ---- Wrapper ---- */
 
     .pnp-wrapper {
@@ -196,7 +214,6 @@
 
     .pnp-marker-class {
         margin-top: 0.15rem;
-        color: var(--pnp-subtitle-color);
         font-size: 0.8rem;
         font-weight: 600;
         letter-spacing: 0.02em;
@@ -233,46 +250,13 @@
                 border-radius: 50%;
                 border: 2px solid currentColor;
                 flex-shrink: 0;
-
-                &.pnp-legend-p {
-                    background-color: color-mix(in srgb, var(--pnp-color-p), transparent 40%);
-                    border-color: var(--pnp-color-p);
-                }
-
-                &.pnp-legend-np {
-                    background-color: color-mix(in srgb, var(--pnp-color-np), transparent 40%);
-                    border-color: var(--pnp-color-np);
-                }
-
-                &.pnp-legend-npc {
-                    background-color: color-mix(in srgb, var(--pnp-color-npc), transparent 40%);
-                    border-color: var(--pnp-color-npc);
-                }
-
-                &.pnp-legend-nph {
-                    background-color: color-mix(in srgb, var(--pnp-color-nph), transparent 40%);
-                    border-color: var(--pnp-color-nph);
-                }
+                background-color: color-mix(in srgb, var(--pnp-class-color, var(--pnp-border)), transparent 40%);
+                border-color: var(--pnp-class-color, var(--pnp-border));
             }
 
             .pnp-legend-title {
                 font-weight: 600;
-
-                &.pnp-legend-p {
-                    color: var(--pnp-color-p);
-                }
-
-                &.pnp-legend-np {
-                    color: var(--pnp-color-np);
-                }
-
-                &.pnp-legend-npc {
-                    color: var(--pnp-color-npc);
-                }
-
-                &.pnp-legend-nph {
-                    color: var(--pnp-color-nph);
-                }
+                color: var(--pnp-class-color, var(--pnp-label-color));
             }
         }
     }
@@ -332,7 +316,8 @@
     .pnp-comparison {
         padding: var(--pnp-padding);
         background: var(--pnp-card-bg);
-        border: 1px solid var(--pnp-card-border);
+        border: 1px solid color-mix(in srgb, var(--pnp-class-color, var(--pnp-card-border)) 100%, var(--pnp-card-border));
+        /* border: 1px solid var(--pnp-card-border); */
         border-radius: var(--border-radius);
         display: grid;
         grid-template-columns: 1fr;
@@ -343,9 +328,15 @@
         }
 
         .pnp-problem-details {
+            padding: var(--pnp-padding);
+            border: 1px solid var(--pnp-card-border);
+            border-radius: var(--border-radius-small);
+            background: var(--pnp-bg);
+
             h4 {
                 margin: 0 0 0.85rem 0;
                 font-size: 1.4rem;
+                color: var(--pnp-class-color, var(--pnp-label-color));
                 color: var(--pnp-label-color);
                 display: flex;
                 gap: 0.5em;
@@ -402,7 +393,7 @@
             .pnp-comparison-card {
                 padding: var(--pnp-padding);
                 background: var(--pnp-card-bg);
-                border: 2px solid var(--pnp-card-border);
+                border: 1px solid var(--pnp-card-border);
                 border-radius: var(--border-radius-small);
                 box-shadow: var(--pnp-card-shadow);
                 display: flex;
@@ -434,7 +425,7 @@
                     &.pnp-solving-exp,
                     &.pnp-solving-unknown {
                         border-color: var(--pnp-color-intract);
-                        background: color-mix(in srgb, var(--pnp-color-intract) 5%, var(--pnp-card-bg));
+                        background: color-mix(in srgb, var(--pnp-color-intract) 0%, var(--pnp-card-bg));
                     }
                 }
 
@@ -450,7 +441,7 @@
                     &.pnp-verify-exp,
                     &.pnp-verify-unknown {
                         border-color: var(--pnp-color-intract);
-                        background: color-mix(in srgb, var(--pnp-color-intract) 5%, var(--pnp-card-bg));
+                        background: color-mix(in srgb, var(--pnp-color-intract) 0%, var(--pnp-card-bg));
                     }
                 }
 
@@ -500,27 +491,9 @@
         &.active {
             background: var(--pnp-card-bg);
             font-weight: 600;
+            border-color: var(--pnp-class-color, transparent);
+            color: var(--pnp-class-color, var(--pnp-label-color));
         }
-    }
-
-    .pnp-tab-p.active {
-        border-color: var(--pnp-color-p);
-        color: var(--pnp-color-p);
-    }
-
-    .pnp-tab-np.active {
-        border-color: var(--pnp-color-np);
-        color: var(--pnp-color-np);
-    }
-
-    .pnp-tab-npc.active {
-        border-color: var(--pnp-color-npc);
-        color: var(--pnp-color-npc);
-    }
-
-    .pnp-tab-nph.active {
-        border-color: var(--pnp-color-nph);
-        color: var(--pnp-color-nph);
     }
 
     .pnp-tab-content {
@@ -538,23 +511,7 @@
     .pnp-category-title {
         margin: 0 0 0.35rem 0;
         font-size: 1.2rem;
-        color: var(--secondary-color);
-    }
-
-    .pnp-category-p .pnp-category-title {
-        color: var(--pnp-color-p);
-    }
-
-    .pnp-category-np .pnp-category-title {
-        color: var(--pnp-color-np);
-    }
-
-    .pnp-category-npc .pnp-category-title {
-        color: var(--pnp-color-npc);
-    }
-
-    .pnp-category-nph .pnp-category-title {
-        color: var(--pnp-color-nph);
+        color: var(--pnp-class-color, var(--secondary-color));
     }
 
     .pnp-category-description {
@@ -582,6 +539,7 @@
         padding: var(--pnp-padding);
         background: var(--pnp-card-bg);
         border: 1px solid var(--pnp-card-border);
+        border-top: 4px solid var(--pnp-class-color, var(--pnp-card-border));
         border-radius: var(--border-radius-small);
         box-shadow: var(--pnp-card-shadow);
         transition: all 0.2s;
@@ -593,22 +551,6 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-    }
-
-    .pnp-problem-p {
-        border-top: 4px solid var(--pnp-color-p);
-    }
-
-    .pnp-problem-np {
-        border-top: 4px solid var(--pnp-color-np);
-    }
-
-    .pnp-problem-npc {
-        border-top: 4px solid var(--pnp-color-npc);
-    }
-
-    .pnp-problem-nph {
-        border-top: 4px solid var(--pnp-color-nph);
     }
 
     .pnp-problem-icon {
@@ -627,7 +569,7 @@
     .pnp-problem-description {
         margin: 0;
         font-size: 0.9rem;
-        color: var(--pnp-label);
+        color: var(--pnp-label-color);
         line-height: 1.4;
         text-align: center;
     }

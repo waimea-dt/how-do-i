@@ -303,13 +303,43 @@
             this.mode = mode || 'venn'
             this.collapse = Boolean(collapse)
             this.markers = Boolean(markers)
-            this.selectedProblem = null
             this.init()
         }
 
         init() {
             this.render()
             this.attachEventListeners()
+        }
+
+        rerender() {
+            this.element.innerHTML = ''
+            this.render()
+            this.attachEventListeners()
+        }
+
+        getProblemSetsBy(orderKey) {
+            return Object.values(PROBLEMS)
+                .sort((a, b) => (a[orderKey] || 0) - (b[orderKey] || 0))
+        }
+
+        getDefaultProblemValue(problemSets, selectElement) {
+            const defaultSet = problemSets.find(problemSet => problemSet.defaultProblemId)
+            if (defaultSet) {
+                return `${defaultSet.class}-${defaultSet.defaultProblemId}`
+            }
+
+            const firstOption = selectElement.querySelector('option')
+            return firstOption ? firstOption.value : ''
+        }
+
+        createCategoryHeader(problemSet) {
+            const categoryHeader = document.createElement('div')
+            categoryHeader.className = `pnp-category-header pnp-class-${problemSet.class}`
+            categoryHeader.innerHTML = `
+                <h4 class="pnp-category-title">${problemSet.fullName}</h4>
+                <p class="pnp-category-description">${problemSet.description}</p>
+            `
+            return categoryHeader
         }
 
         render() {
@@ -392,8 +422,7 @@
             const select = document.createElement('select')
             select.className = 'pnp-select'
 
-            const orderedSets = Object.values(PROBLEMS)
-                .sort((a, b) => a.tabOrder - b.tabOrder)
+            const orderedSets = this.getProblemSetsBy('tabOrder')
 
             orderedSets.forEach(problemSet => {
                 const pGroup = document.createElement('optgroup')
@@ -407,11 +436,7 @@
                 select.appendChild(pGroup)
             })
 
-            const defaultSet = orderedSets.find(problemSet => problemSet.defaultProblemId)
-            const defaultValue = defaultSet
-                ? `${defaultSet.class}-${defaultSet.defaultProblemId}`
-                : (select.querySelector('option') ? select.querySelector('option').value : '')
-            select.value = defaultValue
+            select.value = this.getDefaultProblemValue(orderedSets, select)
 
             selector.appendChild(label)
             selector.appendChild(select)
@@ -425,9 +450,7 @@
             toggleBtn.textContent = this.collapse ? UI_TEXT.toggle.collapsed : UI_TEXT.toggle.standard
             toggleBtn.addEventListener('click', () => {
                 this.collapse = !this.collapse
-                this.element.innerHTML = ''
-                this.render()
-                this.attachEventListeners()
+                this.rerender()
             })
             return toggleBtn
         }
@@ -460,15 +483,14 @@
 
             const legend = document.createElement('div')
             legend.className = 'pnp-legend'
-            const legendSets = Object.values(PROBLEMS)
-                .sort((a, b) => a.legendOrder - b.legendOrder)
+            const legendSets = this.getProblemSetsBy('legendOrder')
             legend.innerHTML = legendSets
                 .map(problemSet => {
                     return `
-                        <div class="pnp-legend-item">
-                            <span class="pnp-legend-color pnp-legend-${problemSet.class}"></span>
+                        <div class="pnp-legend-item pnp-class-${problemSet.class}">
+                            <span class="pnp-legend-color"></span>
                             <div>
-                                <p class="pnp-legend-title pnp-legend-${problemSet.class}">${problemSet.fullName}</p>
+                                <p class="pnp-legend-title">${problemSet.fullName}</p>
                                 <p>${problemSet.description}</p>
                             </div>
                         </div>
@@ -762,13 +784,15 @@
                     const verifyClass = problemSet.verify.verifyClass
                     const verifyNote = problemSet.verify.verifyNote
 
+                    comparison.className = `pnp-comparison pnp-class-${problemSet.class}`
+
                     comparison.innerHTML = `
-                        <div class="pnp-problem-details">
+                        <div class="pnp-problem-details pnp-class-${problemSet.class}">
                             <h4><span>${problem.icon}</span> <span>${problem.name}</span></h4>
                             <p class="pnp-description">${problem.description}</p>
                             <p class="pnp-example"><strong>Example:</strong> ${problem.example}</p>
                         </div>
-                        <div class="pnp-comparison-grid pnp-category-${problemSet.class}">
+                        <div class="pnp-comparison-grid pnp-class-${problemSet.class}">
                             <div class="pnp-comparison-header">
                                 <h4 class="pnp-category-title">${problemSet.fullName}</h4>
                                 <p class="pnp-category-description">${problemSet.description}</p>
@@ -803,8 +827,7 @@
             const tabs = document.createElement('div')
             tabs.className = 'pnp-tabs'
 
-            const tabButtons = Object.values(PROBLEMS)
-                .sort((a, b) => a.tabOrder - b.tabOrder)
+            const tabButtons = this.getProblemSetsBy('tabOrder')
                 .map(problemSet => ({
                     id: problemSet.class,
                     label: problemSet.tabLabel,
@@ -824,13 +847,7 @@
                 const problemList = problemSet ? problemSet.problems : []
 
                 if (problemSet) {
-                    const categoryHeader = document.createElement('div')
-                    categoryHeader.className = `pnp-category-header pnp-category-${problemSet.class}`
-                    categoryHeader.innerHTML = `
-                        <h4 class="pnp-category-title">${problemSet.fullName}</h4>
-                        <p class="pnp-category-description">${problemSet.description}</p>
-                    `
-                    tabContent.appendChild(categoryHeader)
+                    tabContent.appendChild(this.createCategoryHeader(problemSet))
                 }
 
                 const grid = document.createElement('div')
@@ -846,7 +863,7 @@
 
             tabButtons.forEach(tab => {
                 const btn = document.createElement('button')
-                btn.className = `pnp-tab-btn pnp-tab-${tab.color}`
+                btn.className = `pnp-tab-btn pnp-class-${tab.color}`
                 btn.textContent = tab.label
                 btn.dataset.tab = tab.id
                 btn.addEventListener('click', () => showTab(tab.id))
@@ -865,7 +882,7 @@
 
         createProblemCard(problem, type) {
             const card = document.createElement('div')
-            card.className = `pnp-problem-card pnp-problem-${type}`
+            card.className = `pnp-problem-card pnp-class-${type}`
 
             card.innerHTML = `
                 <div class="pnp-problem-icon">${problem.icon}</div>
