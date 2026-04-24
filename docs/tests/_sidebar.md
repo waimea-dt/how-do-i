@@ -64,6 +64,7 @@
     - [Substitution Cypher](tests/sub-cypher.md)
     - [Big-O Algorithm Explorer](tests/big-o.md)
     - [Big-O Growth Curves](tests/big-o-chart.md)
+    - [P vs NP Visualizer](tests/p-np.md)
     - [TSP Visualizer](tests/tsp.md)
     - [Knapsack Solver](tests/knapsack.md)
     - [Letter Frequency Analysis](tests/frequency.md)
