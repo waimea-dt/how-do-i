@@ -79,12 +79,17 @@
     /* ---- Venn Diagram Mode ---- */
 
     .pnp-venn-container {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr;
         gap: var(--pnp-padding);
+
+        @container (min-width: 900px) {
+            grid-template-columns: 1fr 1fr;
+        }
     }
 
     .pnp-venn-wrapper {
+        position: relative;
         width: 100%;
         background: var(--pnp-bg-canvas);
         border: 1px solid var(--pnp-border);
@@ -98,10 +103,61 @@
         margin-inline: auto;
     }
 
+    .pnp-marker-card {
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: min(260px, calc(100% - 1.5rem));
+        padding: 0.75rem;
+        border: 1px solid var(--pnp-card-border);
+        border-radius: var(--border-radius-small);
+        background: color-mix(in srgb, var(--pnp-card-bg) 92%, black);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        color: var(--pnp-label-color);
+        font-size: 0.85rem;
+        line-height: 1.4;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(4px);
+        transition: opacity 0.15s ease, transform 0.15s ease;
+
+        p {
+            margin: 0.35rem 0 0 0;
+        }
+
+        strong {
+            color: var(--pnp-title-color);
+        }
+    }
+
+    .pnp-marker-card.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .pnp-marker-title {
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .pnp-marker-class {
+        margin-top: 0.15rem;
+        color: var(--pnp-subtitle-color);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+
     .pnp-controls {
         display: flex;
         flex-direction: column;
         gap: var(--pnp-padding);
+
+        @container (min-width: 900px) {
+            flex-direction: column-reverse;
+        }
     }
 
     .pnp-btn {
@@ -123,6 +179,10 @@
 
         &:active {
             transform: translateY(0);
+        }
+
+        @container (min-width: 900px) {
+            margin-top: auto;
         }
     }
 
@@ -196,7 +256,6 @@
         padding: var(--pnp-padding);
         background: var(--color-info-bg);
         border-left: 4px solid var(--theme-color);
-        border-radius: var(--border-radius-small);
         font-size: 0.95rem;
         line-height: 1.6;
 

@@ -10,17 +10,20 @@
  *
  * Usage in markdown:
  *   <p-np></p-np>
+ *   <p-np markers></p-np>
+ *   <p-np collapse></p-np>
+ *   <p-np collapse markers></p-np>
  *   <p-np mode="venn"></p-np>
  *   <p-np mode="verify"></p-np>
  *   <p-np mode="problems"></p-np>
- *   <p-np collapse="true"></p-np>
  *
  * Attributes:
  *   - mode: Visualization mode (default: venn)
  *     - venn: Venn diagram showing P ⊆ NP with NP-Complete boundary
  *     - verify: Verification vs solving comparison for specific problems
  *     - problems: Interactive problem cards to explore examples
- *   - collapse: Show P=NP collapsed view (default: false)
+ *   - collapse: Show P=NP collapsed view when attribute is present
+ *   - markers: Show hoverable problem markers when attribute is present
  */
 
 (function () {
@@ -71,7 +74,11 @@
                 solveTime: 'O(N)',
                 verifyTime: 'O(1)',
                 example: 'Finding a name in an unsorted list',
-                icon: '🔎'
+                icon: '🔎',
+                marker: {
+                    standard: { x: 190, y: 460 },
+                    collapse: { x: 170, y: 415 }
+                }
             },
             {
                 id: 'binary-search',
@@ -80,7 +87,11 @@
                 solveTime: 'O(log N)',
                 verifyTime: 'O(1)',
                 example: 'Searching in phone book',
-                icon: '🔍'
+                icon: '🔍',
+                marker: {
+                    standard: { x: 250, y: 460 },
+                    collapse: { x: 245, y: 415 }
+                }
             },
             {
                 id: 'sorting',
@@ -89,7 +100,11 @@
                 solveTime: 'O(N log N)',
                 verifyTime: 'O(N)',
                 example: 'Merge Sort, Quick Sort',
-                icon: '↕️'
+                icon: '↕️',
+                marker: {
+                    standard: { x: 310, y: 460 },
+                    collapse: { x: 320, y: 415 }
+                }
             },
             {
                 id: 'palindrome',
@@ -98,7 +113,11 @@
                 solveTime: 'O(N)',
                 verifyTime: 'O(N)',
                 example: 'racecar, level',
-                icon: '↔️'
+                icon: '↔️',
+                marker: {
+                    standard: { x: 205, y: 515 },
+                    collapse: { x: 170, y: 470 }
+                }
             },
             {
                 id: 'shortest-path',
@@ -107,7 +126,11 @@
                 solveTime: 'O(N²)',
                 verifyTime: 'O(N)',
                 example: 'Dijkstra\'s Algorithm',
-                icon: '🗺️'
+                icon: '🗺️',
+                marker: {
+                    standard: { x: 250, y: 525 },
+                    collapse: { x: 245, y: 470 }
+                }
             },
             {
                 id: 'matrix-mult',
@@ -116,7 +139,11 @@
                 solveTime: 'O(N³)',
                 verifyTime: 'O(N²)',
                 example: 'Graphics transformations',
-                icon: '⊗'
+                icon: '⊗',
+                marker: {
+                    standard: { x: 295, y: 515 },
+                    collapse: { x: 320, y: 470 }
+                }
             },
         ],
         np: [
@@ -127,7 +154,11 @@
                 solveTime: 'O(√N) by value',
                 verifyTime: 'O(log N)',
                 example: 'Try 2, 3, 4... until a divisor is found',
-                icon: '🔢'
+                icon: '🔢',
+                marker: {
+                    standard: { x: 85, y: 400 },
+                    collapse: { x: 90, y: 395 }
+                }
             }
         ],
         npComplete: [
@@ -138,7 +169,11 @@
                 solveTime: 'O((N-1)!)',
                 verifyTime: 'O(N)',
                 example: 'Delivery route optimization',
-                icon: '🚚'
+                icon: '🚚',
+                marker: {
+                    standard: { x: 200, y: 265 },
+                    collapse: { x: 215, y: 260 }
+                }
             },
             {
                 id: 'knapsack',
@@ -147,7 +182,11 @@
                 solveTime: 'O(2ⁿ)',
                 verifyTime: 'O(N)',
                 example: 'Cargo loading',
-                icon: '🎒'
+                icon: '🎒',
+                marker: {
+                    standard: { x: 265, y: 255 },
+                    collapse: { x: 275, y: 260 }
+                }
             },
             {
                 id: 'bin-packing',
@@ -156,7 +195,11 @@
                 solveTime: 'O(2ⁿ)',
                 verifyTime: 'O(N)',
                 example: 'Shipping container allocation',
-                icon: '📦'
+                icon: '📦',
+                marker: {
+                    standard: { x: 195, y: 320 },
+                    collapse: { x: 215, y: 310 }
+                }
             },
             {
                 id: 'graph-colouring',
@@ -165,16 +208,21 @@
                 solveTime: 'O(Kⁿ)',
                 verifyTime: 'O(N²)',
                 example: 'Timetable scheduling',
-                icon: '🎨'
+                icon: '🎨',
+                marker: {
+                    standard: { x: 275, y: 310 },
+                    collapse: { x: 275, y: 310 }
+                }
             },
         ]
     }
 
     class PNPVisualizer {
-        constructor(element, mode, collapse) {
+        constructor(element, mode, collapse, markers) {
             this.element = element
             this.mode = mode || 'venn'
-            this.collapse = collapse === 'true' || collapse === true
+            this.collapse = Boolean(collapse)
+            this.markers = Boolean(markers)
             this.selectedProblem = null
             this.init()
         }
@@ -241,12 +289,21 @@
             const canvas = document.createElement('canvas')
             canvas.className = 'pnp-venn-canvas'
             canvas.width = 500
-            canvas.height = 800
+            canvas.height = 650
+
+            const markerCard = this.markers ? document.createElement('div') : null
+            if (markerCard) {
+                markerCard.className = 'pnp-marker-card'
+                markerCard.setAttribute('aria-hidden', 'true')
+            }
 
             wrapper.appendChild(canvas)
+            if (markerCard) {
+                wrapper.appendChild(markerCard)
+            }
             container.appendChild(wrapper)
 
-            requestAnimationFrame(() => this.drawVennDiagram(canvas))
+            requestAnimationFrame(() => this.drawVennDiagram(canvas, markerCard))
 
             const controls = document.createElement('div')
             controls.className = 'pnp-controls'
@@ -284,19 +341,20 @@
             `
             controls.appendChild(legend)
 
-            container.appendChild(controls)
-
             const explanation = document.createElement('div')
             explanation.className = 'pnp-explanation'
             explanation.innerHTML = this.collapse
                 ? `<p><strong>P = NP collapsed view:</strong> If P = NP, all problems that can be verified quickly can also be solved quickly. This would revolutionize cryptography, optimization, and many other fields-but it's probably not true!</p>`
                 : `<p><strong>The million-dollar question:</strong> Does P = NP? We know P ⊆ NP (every problem we can solve quickly, we can verify quickly). Also, <strong>NP-Complete = NP ∩ NP-Hard</strong>, shown as the overlap region. Most computer scientists believe P ≠ NP.</p>`
-            container.appendChild(explanation)
+
+            controls.appendChild(explanation)
+
+            container.appendChild(controls)
 
             return container
         }
 
-        drawVennDiagram(canvas) {
+        drawVennDiagram(canvas, markerCard) {
             const ctx = canvas.getContext('2d')
             const w = canvas.width
             const h = canvas.height
@@ -314,20 +372,22 @@
 
             if (this.collapse) {
                 const hardCx = 250
-                const hardCy = 250
+                const hardCy = 200
                 const hardR = 240
                 const npCx = 250
-                const npCy = 550
+                const npCy = 400
                 const npR = 240
 
+                // NPH
                 ctx.fillStyle = withAlpha(colorNPH, 0.15)
                 ctx.strokeStyle = colorNPH
                 ctx.lineWidth = 3
                 ctx.beginPath()
-                ctx.arc(hardCx, hardCy, hardR, 0, Math.PI * 2)
+                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
                 ctx.fill()
                 ctx.stroke()
 
+                // P
                 ctx.fillStyle = withAlpha(colorP, 0.4)
                 ctx.strokeStyle = colorP
                 ctx.lineWidth = 3
@@ -336,13 +396,14 @@
                 ctx.fill()
                 ctx.stroke()
 
+                // NPC
                 ctx.save()
                 ctx.beginPath()
                 ctx.arc(npCx, npCy, npR, 0, Math.PI * 2)
                 ctx.clip()
                 ctx.beginPath()
-                ctx.arc(hardCx, hardCy, hardR, 0, Math.PI * 2)
-                ctx.fillStyle = withAlpha(colorNPC, 0.8)
+                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
+                ctx.fillStyle = withAlpha(colorNPC, 0.6)
                 ctx.fill()
                 ctx.restore()
 
@@ -354,18 +415,27 @@
 
                 ctx.fillText('P = NP', npCx, npCy + 80)
                 ctx.fillText('NP-Hard', hardCx, hardCy - 80)
-                ctx.fillText('NP-Complete', npCx, npCy - 140)
+                ctx.fillText('NP-Complete', npCx, npCy - 160)
             }
             else {
                 const hardCx = 250
-                const hardCy = 250
+                const hardCy = 200
                 const hardR = 240
                 const npCx = 250
-                const npCy = 550
+                const npCy = 400
                 const npR = 240
                 const pCx = 250
-                const pCy = 650
+                const pCy = 500
                 const pR = 120
+
+                // NPH
+                ctx.fillStyle = withAlpha(colorNPH, 0.15)
+                ctx.strokeStyle = colorNPH
+                ctx.lineWidth = 3
+                ctx.beginPath()
+                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
+                ctx.fill()
+                ctx.stroke()
 
                 // NP
                 ctx.fillStyle = withAlpha(colorNP, 0.4)
@@ -376,23 +446,14 @@
                 ctx.fill()
                 ctx.stroke()
 
-                // NPH
-                ctx.fillStyle = withAlpha(colorNPH, 0.15)
-                ctx.strokeStyle = colorNPH
-                ctx.lineWidth = 3
-                ctx.beginPath()
-                ctx.arc(hardCx, hardCy, hardR, 0, Math.PI * 2)
-                ctx.fill()
-                ctx.stroke()
-
                 // NPC
                 ctx.save()
                 ctx.beginPath()
                 ctx.arc(npCx, npCy, npR, 0, Math.PI * 2)
                 ctx.clip()
                 ctx.beginPath()
-                ctx.arc(hardCx, hardCy, hardR, 0, Math.PI * 2)
-                ctx.fillStyle = withAlpha(colorNPC, 0.8)
+                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
+                ctx.fillStyle = withAlpha(colorNPC, 0.6)
                 ctx.fill()
                 ctx.restore()
 
@@ -413,8 +474,138 @@
                 ctx.fillText('NP', npCx - 160, npCy)
                 ctx.fillText('P', pCx, pCy)
                 ctx.fillText('NP-Hard', hardCx, hardCy - 80)
-                ctx.fillText('NP-Complete', npCx, npCy - 140)
+                ctx.fillText('NP-Complete', npCx, npCy - 160)
             }
+
+            if (this.markers && markerCard) {
+                const markers = this.getVennMarkers(this.collapse)
+                this.drawVennMarkers(ctx, markers, colorBg)
+                this.attachVennMarkerInteractions(canvas, markerCard, markers)
+            }
+        }
+
+        getVennMarkers(collapseView) {
+            const decorate = (problem, category, className) => ({
+                ...problem,
+                ...(collapseView ? problem.marker.collapse : problem.marker.standard),
+                category,
+                className,
+                radius: 25
+            })
+
+            const pMarkers = PROBLEMS.p.map(problem => decorate(problem, 'P', 'p'))
+            const npMarkers = PROBLEMS.np.map(problem => decorate(problem, 'NP', 'np'))
+            const npcMarkers = PROBLEMS.npComplete.map(problem => decorate(problem, 'NP-Complete', 'npc'))
+
+            return [...pMarkers, ...npMarkers, ...npcMarkers]
+        }
+
+        drawVennMarkers(ctx, markers, canvasBgColor) {
+            const styles = getComputedStyle(this.element)
+            const markerColors = {
+                p: resolveCssVarColor(this.element, styles, '--pnp-color-p', '#4CAF50'),
+                np: resolveCssVarColor(this.element, styles, '--pnp-color-np', '#2196F3'),
+                npc: resolveCssVarColor(this.element, styles, '--pnp-color-npc', '#F44336')
+            }
+            const markerIconColor = resolveCssVarColor(this.element, styles, '--color-text', '#ffffff')
+
+            markers.forEach(marker => {
+                const color = markerColors[marker.className] || markerColors.np
+
+                ctx.beginPath()
+                ctx.arc(marker.x, marker.y, marker.radius + 3, 0, Math.PI * 2)
+                ctx.fillStyle = withAlpha(canvasBgColor, 0.65)
+                ctx.fill()
+
+                ctx.beginPath()
+                ctx.arc(marker.x, marker.y, marker.radius, 0, Math.PI * 2)
+                ctx.fillStyle = withAlpha(color, 0.95)
+                ctx.fill()
+                ctx.strokeStyle = color
+                ctx.lineWidth = 2
+                ctx.stroke()
+
+                ctx.textAlign = 'center'
+                ctx.textBaseline = 'middle'
+                ctx.fillStyle = markerIconColor
+                ctx.font = '30px system-ui, sans-serif'
+                ctx.fillText(marker.icon, marker.x, marker.y + 1)
+            })
+        }
+
+        attachVennMarkerInteractions(canvas, markerCard, markers) {
+            const wrapper = canvas.parentElement
+            if (!wrapper) {
+                return
+            }
+
+            const placeCard = (event) => {
+                const wrapperRect = wrapper.getBoundingClientRect()
+                const cardRect = markerCard.getBoundingClientRect()
+                const padding = 12
+                const pointerGap = 14
+
+                let left = event.clientX - wrapperRect.left - (cardRect.width / 2)
+                let top = event.clientY - wrapperRect.top - cardRect.height - pointerGap
+
+                if (left + cardRect.width > wrapperRect.width - padding) {
+                    left = wrapperRect.width - cardRect.width - padding
+                }
+
+                markerCard.style.left = `${Math.max(padding, left)}px`
+                markerCard.style.top = `${Math.max(padding, top)}px`
+            }
+
+            const toCanvasPoint = (event) => {
+                const rect = canvas.getBoundingClientRect()
+                const scaleX = canvas.width / rect.width
+                const scaleY = canvas.height / rect.height
+
+                return {
+                    x: (event.clientX - rect.left) * scaleX,
+                    y: (event.clientY - rect.top) * scaleY
+                }
+            }
+
+            const findMarker = (point) => markers.find(marker => {
+                const dx = point.x - marker.x
+                const dy = point.y - marker.y
+                return Math.hypot(dx, dy) <= marker.radius + 3
+            })
+
+            const showCard = (marker, event) => {
+                markerCard.innerHTML = `
+                    <div class="pnp-marker-title">${marker.icon} ${marker.name}</div>
+                    <div class="pnp-marker-class">${marker.category}</div>
+                    <p>${marker.description}</p>
+                    <p><strong>Solve:</strong> ${marker.solveTime} | <strong>Verify:</strong> ${marker.verifyTime}</p>
+                `
+                markerCard.classList.add('is-visible')
+                markerCard.setAttribute('aria-hidden', 'false')
+                placeCard(event)
+            }
+
+            const hideCard = () => {
+                markerCard.classList.remove('is-visible')
+                markerCard.setAttribute('aria-hidden', 'true')
+            }
+
+            canvas.addEventListener('mousemove', (event) => {
+                const marker = findMarker(toCanvasPoint(event))
+                canvas.style.cursor = marker ? 'pointer' : 'default'
+
+                if (!marker) {
+                    hideCard()
+                    return
+                }
+
+                showCard(marker, event)
+            })
+
+            canvas.addEventListener('mouseleave', () => {
+                canvas.style.cursor = 'default'
+                hideCard()
+            })
         }
 
         renderVerificationComparison() {
@@ -630,8 +821,9 @@
             pnpElements.forEach(element => {
                 if (!element.dataset.initialized) {
                     const mode = element.getAttribute('mode') || 'venn'
-                    const collapse = element.getAttribute('collapse') || 'false'
-                    new PNPVisualizer(element, mode, collapse)
+                    const collapse = element.hasAttribute('collapse')
+                    const markers = element.hasAttribute('markers')
+                    new PNPVisualizer(element, mode, collapse, markers)
                     element.dataset.initialized = 'true'
                 }
             })

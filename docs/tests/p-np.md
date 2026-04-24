@@ -29,6 +29,10 @@ This shows the relationship between P, NP, NP-hard, and NP-complete (as the over
 
 <p-np></p-np>
 
+Show markers on the same diagram:
+
+<p-np markers></p-np>
+
 ## The Key Distinction: Verification vs Solving
 
 The fundamental difference between P and NP-Complete problems is the gap between **verifying** a solution and **finding** it:
@@ -47,7 +51,11 @@ This is why problems like the Travelling Salesman Problem are so difficult—we 
 
 Toggle between the standard view and a collapsed "P = NP" view:
 
-<p-np collapse="true"></p-np>
+<p-np collapse></p-np>
+
+Collapsed view with markers:
+
+<p-np collapse markers></p-np>
 
 If P = NP were true:
 - 🔓 **Cryptography would break** (factoring large numbers would become easy)
