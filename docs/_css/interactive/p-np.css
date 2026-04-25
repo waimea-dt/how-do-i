@@ -22,6 +22,8 @@
 
     --pnp-color-tract:      var(--color-good);
     --pnp-color-intract:    var(--color-attention);
+    --pnp-color-tract-high:    color-mix(in srgb, var(--pnp-color-tract), var(--color-mono-max) 10%);
+    --pnp-color-intract-high:  color-mix(in srgb, var(--pnp-color-intract), var(--color-mono-max) 10%);
 
     --pnp-btn-bg:           var(--color-mono-1);
     --pnp-btn-bg-hover:     var(--theme-color-3);
@@ -210,15 +212,21 @@
     .pnp-marker-title {
         font-weight: 700;
         font-size: 0.95rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
     }
 
     .pnp-marker-class {
-        margin-top: 0.15rem;
+        margin-top: 0.3rem;
         font-size: 0.8rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        color: var(--theme-color);
-        text-transform: uppercase;
+
+        strong {
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--theme-color);
+            text-transform: uppercase;
+        }
     }
 
     .pnp-legend {
@@ -304,7 +312,8 @@
     .pnp-time-badge {
         display: inline-block;
         padding: 0.5rem 1rem;
-        background: var(--color-mono-2);
+        background: var(--color-mono-1);
+        border: 1px solid var(--pnp-border);
         border-radius: var(--border-radius-small);
         font-size: 1.4em;
         font-weight: 600;
@@ -316,9 +325,8 @@
     .pnp-comparison {
         padding: var(--pnp-padding);
         background: var(--pnp-card-bg);
-        border: 1px solid color-mix(in srgb, var(--pnp-class-color, var(--pnp-card-border)) 100%, var(--pnp-card-border));
-        /* border: 1px solid var(--pnp-card-border); */
-        border-radius: var(--border-radius);
+        border-top: 5px solid var(--pnp-class-color);
+        border-radius: var(--border-radius-small);
         display: grid;
         grid-template-columns: 1fr;
         gap: var(--pnp-padding);
@@ -340,7 +348,12 @@
                 color: var(--pnp-label-color);
                 display: flex;
                 gap: 0.5em;
-                align-items: flex-start;
+                align-items: center;
+
+                svg {
+                    width: 1.5em;
+                    height: 1.5em;
+                }
             }
 
             .pnp-description {
@@ -405,6 +418,10 @@
                     margin: 0;
                     font-size: 1.1rem;
                     color: var(--pnp-label-color);
+                    display: flex;
+                    gap: 0.5rem;
+                    text-align: center;
+                    justify-content: center;
                 }
 
                 p {
@@ -415,33 +432,38 @@
 
                 &.pnp-solving {
                     grid-area: solve;
-
                     border-color: var(--pnp-color-npc);
-
-                    &.pnp-solving-poly {
-                        border-color: var(--pnp-color-tract);
-                    }
-
-                    &.pnp-solving-exp,
-                    &.pnp-solving-unknown {
-                        border-color: var(--pnp-color-intract);
-                        background: color-mix(in srgb, var(--pnp-color-intract) 0%, var(--pnp-card-bg));
-                    }
                 }
 
                 &.pnp-verifying {
                     grid-area: verify;
-
                     border-color: var(--pnp-color-tract);
+                }
 
+                &.pnp-solving,
+                &.pnp-verifying {
+                    &.pnp-solving-poly,
                     &.pnp-verify-poly {
                         border-color: var(--pnp-color-tract);
+
+                        .pnp-time-badge {
+                            border-color: var(--pnp-color-tract);
+                            color: var(--pnp-color-tract-high);
+                        }
                     }
 
+                    &.pnp-solving-exp,
+                    &.pnp-solving-unknown,
                     &.pnp-verify-exp,
                     &.pnp-verify-unknown {
                         border-color: var(--pnp-color-intract);
-                        background: color-mix(in srgb, var(--pnp-color-intract) 0%, var(--pnp-card-bg));
+                        border-width: 2px;
+                        background: color-mix(in srgb, var(--pnp-color-intract) 5%, var(--pnp-card-bg));
+
+                        .pnp-time-badge {
+                            border-color: var(--pnp-color-intract);
+                            color: var(--pnp-color-intract-high);
+                        }
                     }
                 }
 
@@ -454,6 +476,11 @@
                     color: var(--color-text);
                     font-size: 0.95rem;
                     margin: 0;
+
+                    svg {
+                        pointer-events: none;
+                        vertical-align: center;
+                    }
                 }
             }
         }
@@ -554,8 +581,12 @@
     }
 
     .pnp-problem-icon {
-        font-size: 2.5rem;
         text-align: center;
+
+        svg {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
     }
 
     .pnp-problem-name {
@@ -598,6 +629,25 @@
                 font-weight: 500;
                 color: var(--pnp-muted);
             }
+
+            &.pnp-solving-poly,
+            &.pnp-verify-poly {
+                .pnp-time-badge {
+                    border-color: var(--pnp-color-tract);
+                    color: var(--pnp-color-tract-high);
+                }
+            }
+
+            &.pnp-solving-exp,
+            &.pnp-solving-unknown,
+            &.pnp-verify-exp,
+            &.pnp-verify-unknown {
+                .pnp-time-badge {
+                    border-color: var(--pnp-color-intract);
+                    color: var(--pnp-color-intract-high);
+                }
+            }
+
         }
     }
 }

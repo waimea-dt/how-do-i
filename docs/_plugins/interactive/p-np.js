@@ -82,6 +82,30 @@
         }
     }
 
+    const SVG_ICONS = {
+        status: {
+            check: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>',
+            warning: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert-icon lucide-triangle-alert"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>'
+        },
+        problem: {
+            linearSearch: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-slash-icon lucide-search-slash"><path d="m13.5 8.5-5 5"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+            binarySearch: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-code-icon lucide-search-code"><path d="m13 13.5 2-2.5-2-2.5"/><path d="m21 21-4.3-4.3"/><path d="M9 8.5 7 11l2 2.5"/><circle cx="11" cy="11" r="8"/></svg>',
+            sorting: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-az-icon lucide-arrow-down-a-z"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="M20 8h-5"/><path d="M15 10V6.5a2.5 2.5 0 0 1 5 0V10"/><path d="M15 14h5l-5 6h5"/></svg>',
+            palindrome: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-left-icon lucide-arrow-right-left"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>',
+            shortestPath: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-route-icon lucide-route"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>',
+            matrixMultiplication: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-x-icon lucide-square-x"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>',
+            factorisation: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-divide-icon lucide-square-divide"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="8" x2="16" y1="12" y2="12"/><line x1="12" x2="12" y1="16" y2="16"/><line x1="12" x2="12" y1="8" y2="8"/></svg>',
+            knapsack: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-backpack-icon lucide-backpack"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>',
+            binPacking: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-icon lucide-package"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg>',
+            graphColouring: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette-icon lucide-palette"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
+            travellingSalesman: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-van-icon lucide-van"><path d="M13 6v5a1 1 0 0 0 1 1h6.102a1 1 0 0 1 .712.298l.898.91a1 1 0 0 1 .288.702V17a1 1 0 0 1-1 1h-3"/><path d="M5 18H3a1 1 0 0 1-1-1V8a2 2 0 0 1 2-2h12c1.1 0 2.1.8 2.4 1.8l1.176 4.2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>'
+        },
+        ui: {
+            solving: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calculator-icon lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>',
+            verifying: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-check-big-icon lucide-square-check-big"><path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344"/><path d="m9 11 3 3L22 4"/></svg>'
+        }
+    }
+
     const PROBLEMS = {
         p: {
             shortName: "P",
@@ -94,9 +118,9 @@
             defaultProblemId: 'linear-search',
             verify: {
                 solvingClass: 'pnp-solving-poly',
-                solvingNote: '✓ <strong>Polynomial time</strong> solution - easy for large n',
+                solvingNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> solution - easy for large n`,
                 verifyClass: 'pnp-verify-poly',
-                verifyNote: '✓ <strong>Polynomial time</strong> verification - always fast'
+                verifyNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> verification - always fast`
             },
             problems: [
                 {
@@ -106,7 +130,7 @@
                     solveTime: 'O(n)',
                     verifyTime: 'O(1)',
                     example: 'Finding a name in an unsorted list',
-                    icon: '🔎',
+                    icon: SVG_ICONS.problem.linearSearch,
                     marker: {
                         standard: { x: 185, y: 465 },
                         collapse: { x: 95, y: 410 }
@@ -119,7 +143,7 @@
                     solveTime: 'O(log n)',
                     verifyTime: 'O(1)',
                     example: 'Searching in phone book',
-                    icon: '🔍',
+                    icon: SVG_ICONS.problem.binarySearch,
                     marker: {
                         standard: { x: 250, y: 430 },
                         collapse: { x: 115, y: 485 }
@@ -132,7 +156,7 @@
                     solveTime: 'O(n log n)',
                     verifyTime: 'O(n)',
                     example: 'Merge Sort, Quick Sort',
-                    icon: '↕️',
+                    icon: SVG_ICONS.problem.sorting,
                     marker: {
                         standard: { x: 315, y: 465 },
                         collapse: { x: 385, y: 485 }
@@ -145,7 +169,7 @@
                     solveTime: 'O(n)',
                     verifyTime: 'O(n)',
                     example: 'racecar, level',
-                    icon: '↔️',
+                    icon: SVG_ICONS.problem.palindrome,
                     marker: {
                         standard: { x: 185, y: 535 },
                         collapse: { x: 175, y: 535 }
@@ -158,7 +182,7 @@
                     solveTime: 'O(n²)',
                     verifyTime: 'O(n)',
                     example: 'Dijkstra\'s Algorithm',
-                    icon: '🗺️',
+                    icon: SVG_ICONS.problem.shortestPath,
                     marker: {
                         standard: { x: 250, y: 570 },
                         collapse: { x: 250, y: 555 }
@@ -171,7 +195,7 @@
                     solveTime: 'O(n³)',
                     verifyTime: 'O(n²)',
                     example: 'Graphics transformations',
-                    icon: '⊗',
+                    icon: SVG_ICONS.problem.matrixMultiplication,
                     marker: {
                         standard: { x: 315, y: 535 },
                         collapse: { x: 325, y: 535 }
@@ -189,9 +213,9 @@
             legendOrder: 1,
             verify: {
                 solvingClass: 'pnp-solving-unknown',
-                solvingNote: '⚠ <strong>No known polynomial time</strong> solution',
+                solvingNote: `${SVG_ICONS.status.warning} <strong>No known polynomial time</strong> solution`,
                 verifyClass: 'pnp-verify-poly',
-                verifyNote: '✓ <strong>Polynomial time</strong> verification - always fast'
+                verifyNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> verification - always fast`
             },
             problems: [
                 {
@@ -201,7 +225,7 @@
                     solveTime: 'O(√n)',
                     verifyTime: 'O(log n)',
                     example: 'Try 2, 3, 4... until a divisor is found',
-                    icon: '🔢',
+                    icon: SVG_ICONS.problem.factorisation,
                     marker: {
                         standard: { x: 415, y: 380 },
                         collapse: { x: 405, y: 410 }
@@ -219,9 +243,9 @@
             legendOrder: 3,
             verify: {
                 solvingClass: 'pnp-solving-exp',
-                solvingNote: '⏰ <strong>Exponential time</strong> solution - intractable for large n',
+                solvingNote: `${SVG_ICONS.status.warning} <strong>Exponential time</strong> solution - intractable for large n`,
                 verifyClass: 'pnp-verify-poly',
-                verifyNote: '✓ <strong>Polynomial time</strong> verification - always fast'
+                verifyNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> verification - always fast`
             },
             problems: [
                 {
@@ -231,7 +255,7 @@
                     solveTime: 'O(2ⁿ)',
                     verifyTime: 'O(n)',
                     example: 'Cargo loading',
-                    icon: '🎒',
+                    icon: SVG_ICONS.problem.knapsack,
                     marker: {
                         standard: { x: 210, y: 205 },
                         collapse: { x: 210, y: 205 }
@@ -244,7 +268,7 @@
                     solveTime: 'O(2ⁿ)',
                     verifyTime: 'O(n)',
                     example: 'Shipping container allocation',
-                    icon: '📦',
+                    icon: SVG_ICONS.problem.binPacking,
                     marker: {
                         standard: { x: 290, y: 205 },
                         collapse: { x: 290, y: 205 }
@@ -257,7 +281,7 @@
                     solveTime: 'O(kⁿ)',
                     verifyTime: 'O(n²)',
                     example: 'Timetable scheduling',
-                    icon: '🎨',
+                    icon: SVG_ICONS.problem.graphColouring,
                     marker: {
                         standard: { x: 250, y: 315 },
                         collapse: { x: 250, y: 315 }
@@ -275,9 +299,9 @@
             legendOrder: 4,
             verify: {
                 solvingClass: 'pnp-solving-exp',
-                solvingNote: '⏰ <strong>Exponential time</strong> solution - intractable for large n',
+                solvingNote: `${SVG_ICONS.status.warning} <strong>Exponential time</strong> solution - intractable for large n`,
                 verifyClass: 'pnp-verify-exp',
-                verifyNote: '⚠ <strong>No known polynomial time</strong> verification'
+                verifyNote: `${SVG_ICONS.status.warning} <strong>No known polynomial time</strong> verification`
             },
             problems: [
                 {
@@ -287,7 +311,7 @@
                     solveTime: 'O(n!)',
                     verifyTime: 'O(n!)',
                     example: 'Delivery route optimization',
-                    icon: '🚚',
+                    icon: SVG_ICONS.problem.travellingSalesman,
                     marker: {
                         standard: { x: 410, y: 110 },
                         collapse: { x: 410, y: 110 }
@@ -430,7 +454,7 @@
                 problemSet.problems.forEach(p => {
                     const option = document.createElement('option')
                     option.value = `${problemSet.class}-${p.id}`
-                    option.textContent = `${p.icon} ${p.name}`
+                    option.textContent = p.name
                     pGroup.appendChild(option)
                 })
                 select.appendChild(pGroup)
@@ -627,7 +651,7 @@
                 ctx.fillStyle = colorText
                 ctx.font = 'bold 30px system-ui, sans-serif'
 
-                ctx.fillText('P = NP', npCx, npCy + 60)
+                ctx.fillText('P = NP', npCx, npCy + 50)
                 ctx.fillText(PROBLEMS.nph.shortName, hardCx, hardCy - 150)
                 ctx.fillText(PROBLEMS.npc.shortName, npCx, npCy - 140)
             }
@@ -671,17 +695,28 @@
 
                 ctx.beginPath()
                 ctx.arc(marker.x, marker.y, marker.radius, 0, Math.PI * 2)
+
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.35)'
+                ctx.shadowBlur = 6
+                ctx.shadowOffsetX = 0
+                ctx.shadowOffsetY = 3
+
                 ctx.fillStyle = color
                 ctx.fill()
                 ctx.strokeStyle = canvasBgColor
-                ctx.lineWidth = 2
+                ctx.lineWidth = 3
                 ctx.stroke()
 
-                ctx.textAlign = 'center'
-                ctx.textBaseline = 'middle'
-                ctx.fillStyle = markerIconColor
-                ctx.font = '30px system-ui, sans-serif'
-                ctx.fillText(marker.icon, marker.x, marker.y + 1)
+                const svgString = marker.icon
+                const img = new Image()
+                const svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
+                const url = URL.createObjectURL(svgBlob)
+
+                img.onload = () => {
+                    ctx.drawImage(img, marker.x - 18, marker.y - 18, 36, 36)
+                    URL.revokeObjectURL(url)
+                }
+                img.src = url
             })
         }
 
@@ -727,8 +762,8 @@
 
             const showCard = (marker, event) => {
                 markerCard.innerHTML = `
-                    <div class="pnp-marker-title">${marker.icon} ${marker.name}</div>
-                    <div class="pnp-marker-class">${marker.category}</div>
+                    <div class="pnp-marker-title">${marker.icon} <span>${marker.name}</span></div>
+                    <div class="pnp-marker-class">Category: <strong>${marker.category}</strong></div>
                     <p>${marker.description}</p>
                     <p>Solve: <strong>${marker.solveTime}</strong> | Verify: <strong>${marker.verifyTime}</strong></p>
                 `
@@ -788,7 +823,7 @@
 
                     comparison.innerHTML = `
                         <div class="pnp-problem-details pnp-class-${problemSet.class}">
-                            <h4><span>${problem.icon}</span> <span>${problem.name}</span></h4>
+                            <h4>${problem.icon} <span>${problem.name}</span></h4>
                             <p class="pnp-description">${problem.description}</p>
                             <p class="pnp-example"><strong>Example:</strong> ${problem.example}</p>
                         </div>
@@ -798,13 +833,19 @@
                                 <p class="pnp-category-description">${problemSet.description}</p>
                             </div>
                             <div class="pnp-comparison-card pnp-solving ${solvingClass}">
-                                <h5>⚙️ Solving</h5>
+                                <h5>
+                                    ${SVG_ICONS.ui.solving}
+                                    Solving
+                                </h5>
                                 <p>Finding solution from scratch</p>
                                 <div class="pnp-time-badge">${problem.solveTime}</div>
                                 <p class="pnp-note">${solvingNote}</p>
                             </div>
                             <div class="pnp-comparison-card pnp-verifying ${verifyClass}">
-                                <h5>✓ Verifying</h5>
+                                <h5>
+                                    ${SVG_ICONS.ui.verifying}
+                                    Verifying
+                                </h5>
                                 <p>Checking given solution is correct</p>
                                 <div class="pnp-time-badge">${problem.verifyTime}</div>
                                 <p class="pnp-note">${verifyNote}</p>
@@ -884,6 +925,10 @@
             const card = document.createElement('div')
             card.className = `pnp-problem-card pnp-class-${type}`
 
+            const problemSet = PROBLEMS[type]
+            const solvingClass = problemSet.verify.solvingClass
+            const verifyClass = problemSet.verify.verifyClass
+
             card.innerHTML = `
                 <div class="pnp-problem-icon">${problem.icon}</div>
                 <h5 class="pnp-problem-name">${problem.name}</h5>
@@ -892,11 +937,11 @@
                     <span class="pnp-problem-example">(example: ${problem.example})</span>
                 </p>
                 <div class="pnp-problem-complexity">
-                    <div class="pnp-complexity-item">
+                    <div class="pnp-complexity-item ${solvingClass}">
                         <div class="pnp-complexity-label">Solve:</div>
                         <div class="pnp-time-badge">${problem.solveTime}</div>
                     </div>
-                    <div class="pnp-complexity-item">
+                    <div class="pnp-complexity-item ${verifyClass}">
                         <div class="pnp-complexity-label">Verify:</div>
                         <div class="pnp-time-badge">${problem.verifyTime}</div>
                     </div>
