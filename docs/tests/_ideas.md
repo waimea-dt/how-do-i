@@ -69,17 +69,9 @@
 - Linked list operations with pointer movements
 - Tree traversals (in-order, pre-order, post-order)
 
+---
 
 ### NCEA Level 2: Encryption
-
-#### sym-asym.js - Side-by-Side Encryption Comparison
-**Purpose**: Visually contrast symmetric vs asymmetric encryption flows
-**Features**:
-- Dual-mode view: Toggle between symmetric (AES) and asymmetric (RSA)
-- Message flow animation: Alice → Bob with key icons
-- Key visualization: Single shared key vs public/private key pair
-- Performance counter: Show encryption speed difference
-- Interceptor view: What Eve can/cannot decrypt
 
 #### vpn-tunnel.js - VPN Encryption Visualizer
 **Purpose**: Show how VPNs encrypt traffic through "tunnels"
@@ -116,6 +108,9 @@
 - Tampering demo: Change 1 character → signature verification fails
 - Trust chain: Show how certificates chain up to root CA
 - Real-world use: Code signing, email signatures
+
+
+---
 
 ### NCEA Level 1: Human-Computer Interfaces (HCI)
 
@@ -161,16 +156,6 @@
 - Violation highlighter: Red boxes around inconsistent elements
 - Fix suggestions: "This button uses Arial while others use Roboto"
 - Platform comparison: Show same app on different OS with native patterns
-
-#### cognitive-load.js - Short-Term Memory & Learnability Demo
-**Purpose**: Demonstrate how interface design affects memory load
-**Features**:
-- Miller's Law simulator: Show 7±2 item limit with menu examples
-- Recognition vs recall: Quiz mode comparing "select from list" vs "type from memory"
-- Progressive disclosure: Show layered vs overwhelming interfaces
-- Chunking demonstration: Phone numbers formatted vs unformatted
-- Learning curve graph: Plot time-to-task over multiple attempts
-- Memory game: Test recall after brief interface exposure
 
 #### response-time.js - System Response Time Impact Visualizer
 **Purpose**: Show how response delays affect user experience
@@ -240,9 +225,10 @@
 - [x] **tsp.js** - TSP tractability explorer with brute-force, nearest neighbour, and 2-opt algorithms; factorial growth visualization; heuristic vs optimal comparison modes
 - [x] **sub-cypher.js** - Substitution cipher visualization with Caesar and Vigenère ciphers; instant cursor-based highlighting; frequency analysis integration; keystream display with shift values
 - [x] **modulus.js** - Modular arithmetic clock visualization with animated pointer rotation; interactive sliders for value and modulus; dynamic equation display with animated reveal; smooth sweep animations with configurable timing
-- [x] **diffie-hellman.js** - Diffie-Hellman key exchange visualizer with step-by-step animation; dual mode (numeric/colour mixing); Alice/Bob parallel calculations; public exchange visualization; eavesdropper perspective; shared secret highlighting; multiplicative colour blending for paint-like analogy; configurable p, g, and base colour parameters
-- [x] **sym-asym.js** - Side-by-side encryption comparison with dual mode (symmetric/asymmetric); message flow animation from Alice to Bob; key visualization (shared key vs public/private pair); Eve's eavesdropper perspective showing what can/cannot be decrypted; step-by-step encryption/decryption process; performance comparison display; customizable message attribute
+- [x] **diffie-hellman.js** - Diffie-Hellman key exchange visualizer with step-by-step animation; dual mode (numeric/colour mixing)
 - [x] **p-np-demo.js** - Complexity Class Visualizer with venn diagram animation: P ⊆ NP, NP-complete boundary, P=NP toggle: "What if P=NP?" (show diagram collapse)
+- [x] **sym-asym.js** - Side-by-Side Encryption Comparison to contrast symmetric vs asymmetric encryption flows
+
 
 
 ### Completed Maintenance
