@@ -29,7 +29,7 @@
 	--ar-border-hover:      var(--color-mono-6);
 
 	--ar-title-color:       var(--theme-color);
-	--ar-subtitle-color:    var(--color-mono-6);
+	--ar-subtitle-color:    var(--color-mono-7);
 	--ar-label-color:       var(--color-text);
 	--ar-muted:             var(--color-mono-4);
 
@@ -103,7 +103,8 @@
 
 				.ar-subtitle {
 					margin: 0;
-					font-size: 0.95rem;
+					font-size: 1rem;
+                    font-weight: 400;
 					color: var(--ar-subtitle-color);
 				}
 			}
@@ -365,6 +366,27 @@
 						background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 70%);
 						border-color: var(--ar-found-color);
 					}
+
+					/* Sort mode legend */
+					&.is-comparing .ar-legend-swatch {
+						background: color-mix(in srgb, var(--ar-inspecting-color), var(--ar-bg-card) 70%);
+						border-color: var(--ar-inspecting-color);
+					}
+
+					&.is-swapping .ar-legend-swatch {
+						background: color-mix(in srgb, var(--palette-color-3), var(--ar-bg-card) 65%);
+						border-color: var(--palette-color-3);
+					}
+
+					&.is-merging .ar-legend-swatch {
+						background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 80%);
+						border-color: var(--palette-color-8);
+					}
+
+					&.is-sorted .ar-legend-swatch {
+						background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 75%);
+						border-color: var(--ar-found-color);
+					}
 				}
 			}
 
@@ -558,6 +580,34 @@
 								z-index: 2;
 								animation: ar-found-pulse 600ms ease-out;
 							}
+
+							/* Sort mode states */
+							&.is-comparing {
+								border-color: var(--ar-inspecting-color);
+								background: color-mix(in srgb, var(--ar-inspecting-color), var(--ar-bg-card) 70%);
+								transform: scale(1.1);
+								box-shadow: 0 0 10px color-mix(in srgb, var(--ar-inspecting-color), transparent 50%);
+								z-index: 1;
+							}
+
+							&.is-swapping {
+								border-color: var(--palette-color-3);
+								background: color-mix(in srgb, var(--palette-color-3), var(--ar-bg-card) 65%);
+								transform: scale(1.15);
+								box-shadow: 0 0 12px color-mix(in srgb, var(--palette-color-3), transparent 40%);
+								z-index: 2;
+								animation: ar-swap-pulse 400ms ease-out;
+							}
+
+							&.is-merging {
+								border-color: var(--palette-color-8);
+								background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 80%);
+							}
+
+							&.is-sorted {
+								border-color: var(--ar-found-color);
+								background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 75%);
+							}
 						}
 					}
 				}
@@ -575,6 +625,15 @@
 		}
 		50% {
 			transform: scale(1.35);
+		}
+	}
+
+	@keyframes ar-swap-pulse {
+		0%, 100% {
+			transform: scale(1.15);
+		}
+		50% {
+			transform: scale(1.25);
 		}
 	}
 
