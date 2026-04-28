@@ -22,19 +22,21 @@
 		startButton: 'Start',
 		resetButton: 'Reset',
 		randomButton: 'Random',
-		accessLabel: 'Access',
-		compareLabel: 'Compare',
+		accessLabel: 'Accessed',
+		compareLabel: 'Compared',
 		swapLabel: 'Swap',
 		totalLabel: 'Total Cost',
 		searching: 'Searching...',
 		found: 'Found!',
-		linearTitle: 'Linear Search, O(n)',
-		binaryTitle: 'Binary Search, O(log n)',
+		linearTitle: 'Linear Search',
+		linearCategory: 'O(n)',
+		binaryTitle: 'Binary Search',
+		binaryCategory: 'O(log n)',
 
-		legendCell:       'Value',
+		legendCell:       'Unchecked',
 		legendTarget:     'Target',
 		legendInspecting: 'Checking',
-		legendChecked:    'No Match',
+		legendChecked:    'Checked',
 		legendRejected:   'Rejected',
 		legendFound:      'Found',
 	}
@@ -250,10 +252,6 @@
 		// Pick a random target that usually gives enough binary search steps
 		const actualTarget = pickRandomTargetWithMinBinarySteps(array, 5)
 
-		// Calculate cell size based on N (smaller for larger N)
-		const cellSize = Math.max(0.5, 1.5 / Math.sqrt(initialSize / 16))
-		wrapper.style.setProperty('--ar-cell-size', `${cellSize}rem`)
-
 		wrapper.innerHTML = `
 			<div class="ar-header">
 				<div class="ar-header-text">
@@ -270,7 +268,7 @@
 							<label class="ar-label">${UI_TEXT.sizeLabel}</label>
 							<div class="ar-slider-group">
 								<input type="range" class="ar-slider" id="ar-size-slider-${instanceId}"
-								min="16" max="256" step="16" value="${initialSize}">
+								min="20" max="200" step="10" value="${initialSize}">
 								<span class="ar-slider-value" id="ar-size-value-${instanceId}">${initialSize}</span>
 							</div>
 						</div>
@@ -302,10 +300,6 @@
 
                 <!-- Legend -->
 				<div class="ar-legend">
-					<div class="ar-legend-item is-value">
-						<div class="ar-legend-swatch"></div>
-						<span>${UI_TEXT.legendCell}</span>
-					</div>
 					<div class="ar-legend-item is-target">
 						<div class="ar-legend-swatch"></div>
 						<span>${UI_TEXT.legendTarget}</span>
@@ -322,6 +316,10 @@
 						<div class="ar-legend-swatch"></div>
 						<span>${UI_TEXT.legendFound}</span>
 					</div>
+					<div class="ar-legend-item is-value">
+						<div class="ar-legend-swatch"></div>
+						<span>${UI_TEXT.legendCell}</span>
+					</div>
 					<div class="ar-legend-item is-rejected">
 						<div class="ar-legend-swatch"></div>
 						<span>${UI_TEXT.legendRejected}</span>
@@ -333,21 +331,24 @@
 					<!-- Linear Search Track -->
 					<div class="ar-track is-linear">
 						<div class="ar-track-header">
-							<h4 class="ar-track-title">${UI_TEXT.linearTitle}</h4>
-							<div class="ar-track-stats">
-							<div class="ar-stat-row">
-								<span class="ar-stat-label">${UI_TEXT.accessLabel}:</span>
-							<span class="ar-stat-value" id="ar-linear-${instanceId}-accesses">0</span>
-						</div>
-						<div class="ar-stat-row">
-							<span class="ar-stat-label">${UI_TEXT.compareLabel}:</span>
-							<span class="ar-stat-value" id="ar-linear-${instanceId}-compares">0</span>
-						</div>
-						<div class="ar-stat-row ar-stat-total">
-							<span class="ar-stat-label">${UI_TEXT.totalLabel}:</span>
-							<span class="ar-stat-value" id="ar-linear-${instanceId}-total">0</span>
-						</div>
-							<span class="ar-track-status" id="ar-linear-${instanceId}-status"></span>
+                            <div class="ar-track-title-group">
+                                <h4 class="ar-track-title">${UI_TEXT.linearTitle}</h4>
+                                <span class="ar-track-category">${UI_TEXT.linearCategory}</span>
+                                <span class="ar-track-status" id="ar-linear-${instanceId}-status"></span>
+                            </div>
+                            <div class="ar-track-stats">
+                                <div class="ar-stat-row">
+                                    <span class="ar-stat-label">${UI_TEXT.accessLabel}:</span>
+                                    <span class="ar-stat-value" id="ar-linear-${instanceId}-accesses">0</span>
+	        					</div>
+                                <div class="ar-stat-row">
+                                    <span class="ar-stat-label">${UI_TEXT.compareLabel}:</span>
+                                    <span class="ar-stat-value" id="ar-linear-${instanceId}-compares">0</span>
+                                </div>
+                                <div class="ar-stat-row ar-stat-total">
+                                    <span class="ar-stat-label">${UI_TEXT.totalLabel}:</span>
+                                    <span class="ar-stat-value" id="ar-linear-${instanceId}-total">0</span>
+                                </div>
 							</div>
 						</div>
 						<div class="ar-grid" id="ar-linear-grid-${instanceId}"></div>
@@ -356,22 +357,25 @@
 					<!-- Binary Search Track -->
 					<div class="ar-track is-binary">
 						<div class="ar-track-header">
-							<h4 class="ar-track-title">${UI_TEXT.binaryTitle}</h4>
+                            <div class="ar-track-title-group">
+    							<h4 class="ar-track-title">${UI_TEXT.binaryTitle}</h4>
+                                <span class="ar-track-category">${UI_TEXT.binaryCategory}</span>
+                                <span class="ar-track-status" id="ar-binary-${instanceId}-status"></span>
+                            </div>
 							<div class="ar-track-stats">
-							<div class="ar-stat-row">
-								<span class="ar-stat-label">${UI_TEXT.accessLabel}:</span>
-							<span class="ar-stat-value" id="ar-binary-${instanceId}-accesses">0</span>
-						</div>
-						<div class="ar-stat-row">
-							<span class="ar-stat-label">${UI_TEXT.compareLabel}:</span>
-							<span class="ar-stat-value" id="ar-binary-${instanceId}-compares">0</span>
-						</div>
-						<div class="ar-stat-row ar-stat-total">
-							<span class="ar-stat-label">${UI_TEXT.totalLabel}:</span>
-							<span class="ar-stat-value" id="ar-binary-${instanceId}-total">0</span>
-						</div>
-							<span class="ar-track-status" id="ar-binary-${instanceId}-status"></span>
-							</div>
+                                <div class="ar-stat-row">
+                                    <span class="ar-stat-label">${UI_TEXT.accessLabel}:</span>
+                                   <span class="ar-stat-value" id="ar-binary-${instanceId}-accesses">0</span>
+	        					</div>
+                                <div class="ar-stat-row">
+                                    <span class="ar-stat-label">${UI_TEXT.compareLabel}:</span>
+                                    <span class="ar-stat-value" id="ar-binary-${instanceId}-compares">0</span>
+                                </div>
+                                <div class="ar-stat-row ar-stat-total">
+                                    <span class="ar-stat-label">${UI_TEXT.totalLabel}:</span>
+                                    <span class="ar-stat-value" id="ar-binary-${instanceId}-total">0</span>
+                                </div>
+                            </div>
 						</div>
 						<div class="ar-grid" id="ar-binary-grid-${instanceId}"></div>
 					</div>
@@ -436,6 +440,7 @@
 		array.forEach((value, index) => {
 			const cell = document.createElement('div')
 			cell.className = 'ar-cell'
+			cell.textContent = value
 
 			// Determine cell state
 			const isTarget = value === targetValue
@@ -615,7 +620,7 @@
 		}
 
 		init() {
-			const initialSize = parseInt(this.element.getAttribute('size')) || 64
+			const initialSize = parseInt(this.element.getAttribute('size')) || 20
 
 			const { wrapper, array, target, instanceId } = buildUI(initialSize, this.instanceId)
 			this.wrapper = wrapper
@@ -718,12 +723,6 @@
 		}
 
 		this.state = new AlgoRaceState(size, this.target, this.array)
-
-		// Update cell size based on N
-		const cellSize = Math.max(0.75, 1.5 / Math.sqrt(size / 16))
-		if (this.wrapper) {
-			this.wrapper.style.setProperty('--ar-cell-size', `${cellSize}rem`)
-		}
 
 		// Update target input max
 		const targetInput = document.getElementById(`ar-target-input-${this.instanceId}`)
