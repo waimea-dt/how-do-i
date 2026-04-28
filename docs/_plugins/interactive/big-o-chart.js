@@ -360,7 +360,7 @@
 			let enabledAttr = el.getAttribute('enabled')
 			let enabledSet
 			if (enabledAttr) {
-				const tokens = enabledAttr.split(/[,]+/).map(s => s.trim().toLowerCase()).filter(Boolean)
+				const tokens = enabledAttr.split(/[\s,]+/).map(s => s.trim().toLowerCase()).filter(Boolean)
 				enabledSet = new Set()
 				for (const token of tokens) {
 					for (const c of CLASSES) {
