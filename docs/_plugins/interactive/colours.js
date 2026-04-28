@@ -861,14 +861,30 @@
             })
 
             // Color preview hover effect - highlight corresponding shades
-            const colorPreviewElements = this.queryAll('.cp-color-preview')
-            colorPreviewElements.forEach(previewEl => {
-                const colorSource = previewEl.dataset.colorSource
-                if (!colorSource) return
+            // Use mouseover/mouseout (which bubble) to handle nested elements properly
+            const previewContainer = this.query('.cp-preview-container')
+            let currentHighlightedColor = null
 
-                previewEl.addEventListener('mouseenter', () => {
-                    // Find first shade that matches this color
+            if (previewContainer) {
+                previewContainer.addEventListener('mouseover', (e) => {
+                    // Find the closest .cp-color-preview element (handles nested elements)
+                    const previewEl = e.target.closest('.cp-color-preview')
+                    if (!previewEl) return
+
+                    const colorSource = previewEl.dataset.colorSource
+                    if (!colorSource) return
+
+                    // Only update if we're hovering a different color
+                    if (colorSource === currentHighlightedColor) return
+                    currentHighlightedColor = colorSource
+
+                    // Clear all previous highlights first
                     const allShades = this.queryAll('.cp-shade')
+                    allShades.forEach(shade => {
+                        shade.classList.remove('cp-shade-highlighted')
+                    })
+
+                    // Find first shade that matches this color and highlight it
                     for (const shade of allShades) {
                         const shadeColor = shade.style.backgroundColor
                         // Normalize colors for comparison
@@ -879,14 +895,18 @@
                     }
                 })
 
-                previewEl.addEventListener('mouseleave', () => {
-                    // Remove highlight from all shades
-                    const allShades = this.queryAll('.cp-shade')
-                    allShades.forEach(shade => {
-                        shade.classList.remove('cp-shade-highlighted')
-                    })
+                previewContainer.addEventListener('mouseout', (e) => {
+                    // Only clear if we're actually leaving the preview container
+                    const relatedTarget = e.relatedTarget
+                    if (!relatedTarget || !previewContainer.contains(relatedTarget)) {
+                        currentHighlightedColor = null
+                        const allShades = this.queryAll('.cp-shade')
+                        allShades.forEach(shade => {
+                            shade.classList.remove('cp-shade-highlighted')
+                        })
+                    }
                 })
-            })
+            }
         }
 
         colorsMatch(color1, color2) {

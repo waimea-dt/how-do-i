@@ -336,6 +336,7 @@
             margin: calc(var(--cp-padding) * -1);
             margin-bottom: var(--cp-gap-small);
             border-bottom: 1px solid var(--cp-border);
+            box-shadow: 0 0.5rem 1rem var(--cp-bg);
         }
 
         .cp-shades-grid {
