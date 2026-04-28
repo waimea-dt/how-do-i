@@ -62,6 +62,7 @@
     - [Digital Signature](tests/digital-sig.md)
     - [Simplified TLS](tests/tls.md)
     - [Substitution Cypher](tests/sub-cypher.md)
+    - [Algorithm Race](tests/algo-race.md)
     - [Big-O Algorithm Explorer](tests/big-o.md)
     - [Big-O Growth Curves](tests/big-o-chart.md)
     - [P vs NP Visualizer](tests/p-np.md)
