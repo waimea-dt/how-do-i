@@ -251,7 +251,6 @@
 
         svg {
             flex-shrink: 0;
-            pointer-events: none;
         }
 
         &.cp-btn-icon {
@@ -315,7 +314,6 @@
 
         svg {
             flex-shrink: 0;
-            pointer-events: none;
             transition: opacity 0.2s ease;
         }
     }
@@ -452,16 +450,10 @@
 
                 .cp-copy-icon {
                     right: var(--cp-padding-tiny);
-                    pointer-events: none;
                 }
 
                 .cp-set-primary-icon {
                     left: var(--cp-padding-tiny);
-                    pointer-events: auto;
-
-                    svg {
-                        pointer-events: none;
-                    }
                 }
             }
         }

@@ -478,7 +478,6 @@
                     margin: 0;
 
                     svg {
-                        pointer-events: none;
                         vertical-align: center;
                     }
                 }

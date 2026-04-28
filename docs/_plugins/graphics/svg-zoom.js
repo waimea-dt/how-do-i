@@ -18,7 +18,7 @@
             if (!markdownSection) return;
 
             // Attach zoom to any existing SVGs
-            markdownSection.querySelectorAll('svg').forEach(attachZoom);
+            markdownSection.querySelectorAll('svg:not(.no-zoom)').forEach(attachZoom);
 
             // Watch for new SVGs being added (e.g., Mermaid, ERD updates)
             const observer = new MutationObserver(function (mutations) {
@@ -26,11 +26,14 @@
                     mutation.addedNodes.forEach(function (node) {
                         // Check if the node itself is an SVG
                         if (node.nodeName === 'SVG' || node.tagName === 'svg') {
-                            attachZoom(node);
+                            // Skip if it has the no-zoom class
+                            if (!node.classList.contains('no-zoom')) {
+                                attachZoom(node);
+                            }
                         }
                         // Check if the node contains SVGs
                         else if (node.querySelectorAll) {
-                            node.querySelectorAll('svg').forEach(attachZoom);
+                            node.querySelectorAll('svg:not(.no-zoom)').forEach(attachZoom);
                         }
                     });
                 });
@@ -47,8 +50,8 @@
 
 
     function attachZoom(svg) {
-        // Skip if already attached or if the SVG has a data-no-zoom attribute
-        if (svg.dataset.zoomAttached || svg.dataset.noZoom === 'true') return;
+        // Skip if already attached, has no-zoom class, or has data-no-zoom attribute
+        if (svg.dataset.zoomAttached || svg.classList.contains('no-zoom') || svg.dataset.noZoom === 'true') return;
 
         svg.dataset.zoomAttached = 'true';
         svg.style.cursor = 'zoom-in';
