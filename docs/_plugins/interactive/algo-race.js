@@ -65,6 +65,7 @@
         legendComparing:      'Comparing',
         legendSwapping:       'Swapping',
         legendMerging:        'Merging',
+        legendMerged:         'Merged',
         legendSorted:         'Sorted',
     }
 
@@ -87,13 +88,13 @@
     function getBubbleStepDelay(arraySize) {
         // Bubble sort has O(n²) operations
         // Delay must scale aggressively (inversely with n) to keep total time reasonable
-        return Math.max(1, Math.floor(10 / Math.sqrt(arraySize)))
+        return Math.max(1, Math.floor(50 / Math.sqrt(arraySize)))
     }
 
     function getMergeStepDelay(arraySize) {
         // Merge sort has O(n log n) operations
         // Less aggressive scaling needed since it's more efficient
-        return Math.max(2, Math.floor(100 / Math.log(arraySize)))
+        return Math.max(2, Math.floor(50 / Math.log(arraySize)))
     }
 
     function shuffleArray(array) {
@@ -282,6 +283,7 @@
         const arr = [...array]
         const n = arr.length
         const sortedIndices = new Set()
+        const mergedIndices = new Set()
 
         // Generator wrapper to yield from recursive function
         function* mergeSortHelper(start, end) {
@@ -308,6 +310,7 @@
                     operation: 'compare',
                     indices: [start + i, mid + 1 + j],
                     merging: Array.from({ length: end - start + 1 }, (_, idx) => start + idx),
+                    merged: Array.from(mergedIndices),
                     sorted: Array.from(sortedIndices),
                     array: [...arr]
                 }
@@ -320,10 +323,13 @@
                     j++
                 }
 
+                mergedIndices.add(k)
+
                 yield {
                     operation: 'merge',
                     indices: [k],
                     merging: Array.from({ length: end - start + 1 }, (_, idx) => start + idx),
+                    merged: Array.from(mergedIndices),
                     sorted: Array.from(sortedIndices),
                     array: [...arr]
                 }
@@ -333,10 +339,12 @@
             // Copy remaining elements
             while (i < left.length) {
                 arr[k] = left[i]
+                mergedIndices.add(k)
                 yield {
                     operation: 'merge',
                     indices: [k],
                     merging: Array.from({ length: end - start + 1 }, (_, idx) => start + idx),
+                    merged: Array.from(mergedIndices),
                     sorted: Array.from(sortedIndices),
                     array: [...arr]
                 }
@@ -346,10 +354,12 @@
 
             while (j < right.length) {
                 arr[k] = right[j]
+                mergedIndices.add(k)
                 yield {
                     operation: 'merge',
                     indices: [k],
                     merging: Array.from({ length: end - start + 1 }, (_, idx) => start + idx),
+                    merged: Array.from(mergedIndices),
                     sorted: Array.from(sortedIndices),
                     array: [...arr]
                 }
@@ -371,6 +381,7 @@
         yield {
             operation: 'complete',
             indices: [],
+            merged: Array.from(mergedIndices),
             sorted: Array.from(sortedIndices),
             array: [...arr]
         }
@@ -441,6 +452,7 @@
                     currentOperation: null,
                     sorted: new Set(),
                     merging: [],
+                    merged: new Set(),
                     complete: false,
                     array: [...array]
                 }
@@ -510,6 +522,7 @@
                     currentOperation: null,
                     sorted: new Set(),
                     merging: [],
+                    merged: new Set(),
                     complete: false,
                     array: [...this.array]
                 }
@@ -619,6 +632,7 @@
             ${createLegendItemHTML('is-comparing', UI_TEXT.legendComparing)}
             ${createLegendItemHTML('is-swapping', UI_TEXT.legendSwapping)}
             ${createLegendItemHTML('is-merging', UI_TEXT.legendMerging)}
+            ${createLegendItemHTML('is-merged', UI_TEXT.legendMerged)}
             ${createLegendItemHTML('is-sorted', UI_TEXT.legendSorted)}`
 
         // Tracks based on mode
@@ -776,10 +790,11 @@
                 const isComparing = state.currentOperation === 'compare' && state.currentIndices.includes(index)
                 const isSwapping = state.currentOperation === 'swap' && state.currentIndices.includes(index)
                 const isMerging = state.merging && state.merging.includes(index) && !isComparing && !isSwapping
+                const isMerged = state.merged && state.merged.has(index)
                 const isSorted = state.sorted && state.sorted.has(index)
 
                 // Apply classes based on state (priority order matters)
-                // Sorted takes highest priority, then active operations, then merging
+                // Sorted takes highest priority, then active operations, then active merge region, then merged history
                 if (isSorted && !isSwapping && !isComparing) {
                     cell.classList.add('is-sorted')
                 } else if (isSwapping) {
@@ -788,6 +803,8 @@
                     cell.classList.add('is-comparing')
                 } else if (isMerging) {
                     cell.classList.add('is-merging')
+                } else if (isMerged) {
+                    cell.classList.add('is-merged')
                 }
             }
 
@@ -863,6 +880,68 @@
     // Animation controller
     // -------------------------------------------------------------------------
 
+    function processSearchStep(algorithmState) {
+        const result = algorithmState.generator.next()
+
+        if (!result.done && result.value) {
+            const step = result.value
+            algorithmState.currentIndex = step.inspectIndex
+            algorithmState.currentOperation = step.operation
+
+            if (step.operation === 'access') algorithmState.accesses++
+            else if (step.operation === 'compare') algorithmState.compares++
+
+            if (step.found) {
+                algorithmState.found = true
+                algorithmState.complete = true
+            }
+
+            ;(step.checked || []).forEach(i => algorithmState.checked.add(i))
+            ;(step.eliminated || []).forEach(i => algorithmState.eliminated.add(i))
+
+            if (step.activeRange) algorithmState.activeRange = step.activeRange
+            return
+        }
+
+        algorithmState.complete = true
+    }
+
+    function processSortStep(algorithmState) {
+        const result = algorithmState.generator.next()
+
+        if (!result.done && result.value) {
+            const step = result.value
+            algorithmState.currentOperation = step.operation
+            algorithmState.currentIndices = step.indices || []
+
+            if (step.operation === 'compare') algorithmState.compares++
+            else if (step.operation === 'swap' || step.operation === 'merge') algorithmState.swaps++
+
+            if (step.sorted) algorithmState.sorted = new Set(step.sorted)
+            if (step.merging) algorithmState.merging = step.merging
+            if (step.merged) algorithmState.merged = new Set(step.merged)
+            if (step.array) algorithmState.array = step.array
+            if (step.operation === 'complete') algorithmState.complete = true
+            return
+        }
+
+        algorithmState.complete = true
+    }
+
+    function getStepsForFrame(accumulatedMs, stepDelay, maxStepsPerFrame) {
+        if (stepDelay <= 0) {
+            return { steps: 1, remainingMs: 0 }
+        }
+
+        if (accumulatedMs < stepDelay) {
+            return { steps: 0, remainingMs: accumulatedMs }
+        }
+
+        const steps = Math.min(maxStepsPerFrame, Math.floor(accumulatedMs / stepDelay))
+        const remainingMs = accumulatedMs - (steps * stepDelay)
+        return { steps, remainingMs }
+    }
+
     /**
      * Execute search phase
      */
@@ -870,34 +949,29 @@
         const track = document.querySelector(trackSelector)
         if (track) track.classList.add('is-running')
 
+        const maxStepsPerFrame = 200
+        let lastFrameTime = performance.now()
+        let accumulatedMs = 0
+
         while (shouldContinue() && !algorithmState.complete) {
-            const result = algorithmState.generator.next()
+            const frameTime = await nextAnimationFrame()
+            const deltaMs = Math.max(0, frameTime - lastFrameTime)
+            lastFrameTime = frameTime
+            accumulatedMs += deltaMs
 
-            if (!result.done && result.value) {
-                const step = result.value
-                algorithmState.currentIndex = step.inspectIndex
-                algorithmState.currentOperation = step.operation
+            const framePlan = getStepsForFrame(accumulatedMs, stepDelay, maxStepsPerFrame)
+            accumulatedMs = framePlan.remainingMs
 
-                if (step.operation === 'access') algorithmState.accesses++
-                else if (step.operation === 'compare') algorithmState.compares++
+            if (framePlan.steps === 0) {
+                continue
+            }
 
-                if (step.found) {
-                    algorithmState.found = true
-                    algorithmState.complete = true
-                }
-
-                ;(step.checked || []).forEach(i => algorithmState.checked.add(i))
-                ;(step.eliminated || []).forEach(i => algorithmState.eliminated.add(i))
-
-                if (step.activeRange) algorithmState.activeRange = step.activeRange
-            } else {
-                algorithmState.complete = true
+            for (let i = 0; i < framePlan.steps && shouldContinue() && !algorithmState.complete; i++) {
+                processSearchStep(algorithmState)
             }
 
             renderGrid(document.getElementById(gridId), 'search', array, targetValue, algorithmState)
             updateStats(statsPrefix, algorithmState, 'search', isSorted)
-
-            await sleep(stepDelay)
         }
 
         if (track) track.classList.remove('is-running')
@@ -910,29 +984,29 @@
         const track = document.querySelector(trackSelector)
         if (track) track.classList.add('is-running')
 
+        const maxStepsPerFrame = 200
+        let lastFrameTime = performance.now()
+        let accumulatedMs = 0
+
         while (shouldContinue() && !algorithmState.complete) {
-            const result = algorithmState.generator.next()
+            const frameTime = await nextAnimationFrame()
+            const deltaMs = Math.max(0, frameTime - lastFrameTime)
+            lastFrameTime = frameTime
+            accumulatedMs += deltaMs
 
-            if (!result.done && result.value) {
-                const step = result.value
-                algorithmState.currentOperation = step.operation
-                algorithmState.currentIndices = step.indices || []
+            const framePlan = getStepsForFrame(accumulatedMs, stepDelay, maxStepsPerFrame)
+            accumulatedMs = framePlan.remainingMs
 
-                if (step.operation === 'compare') algorithmState.compares++
-                else if (step.operation === 'swap' || step.operation === 'merge') algorithmState.swaps++
+            if (framePlan.steps === 0) {
+                continue
+            }
 
-                if (step.sorted) algorithmState.sorted = new Set(step.sorted)
-                if (step.merging) algorithmState.merging = step.merging
-                if (step.array) algorithmState.array = step.array
-                if (step.operation === 'complete') algorithmState.complete = true
-            } else {
-                algorithmState.complete = true
+            for (let i = 0; i < framePlan.steps && shouldContinue() && !algorithmState.complete; i++) {
+                processSortStep(algorithmState)
             }
 
             renderGrid(document.getElementById(gridId), 'sort', null, null, algorithmState)
             updateStats(statsPrefix, algorithmState, 'sort')
-
-            await sleep(stepDelay)
         }
 
         if (track) track.classList.remove('is-running')
@@ -947,7 +1021,7 @@
             linearStepDelay, `.ar-track.is-linear`, `ar-linear-${instanceId}`, () => state.isRunning, state.isSorted)
 
         if (!state.isRunning) return
-        await sleep(2000)
+        await waitForDuration(2000)
         if (!state.isRunning) return
 
         await executeSearchPhase(state.binary, `ar-binary-grid-${instanceId}`, array, targetValue,
@@ -965,7 +1039,7 @@
             bubbleStepDelay, `.ar-track.is-bubble`, `ar-bubble-${instanceId}`, () => state.isRunning)
 
         if (!state.isRunning) return
-        await sleep(2000)
+        await waitForDuration(2000)
         if (!state.isRunning) return
 
         await executeSortPhase(state.merge, `ar-merge-grid-${instanceId}`,
@@ -974,8 +1048,20 @@
         state.isComplete = true
     }
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms))
+    function nextAnimationFrame() {
+        return new Promise(resolve => requestAnimationFrame(resolve))
+    }
+
+    async function waitForDuration(ms) {
+        if (ms <= 0) {
+            await nextAnimationFrame()
+            return
+        }
+
+        const endTime = performance.now() + ms
+        while (performance.now() < endTime) {
+            await nextAnimationFrame()
+        }
     }
 
     // -------------------------------------------------------------------------

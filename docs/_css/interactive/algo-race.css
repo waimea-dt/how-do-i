@@ -383,6 +383,11 @@
 						border-color: var(--palette-color-8);
 					}
 
+					&.is-merged .ar-legend-swatch {
+						background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 92%);
+						border-color: color-mix(in srgb, var(--palette-color-8), var(--ar-border) 55%);
+					}
+
 					&.is-sorted .ar-legend-swatch {
 						background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 75%);
 						border-color: var(--ar-found-color);
@@ -602,6 +607,11 @@
 							&.is-merging {
 								border-color: var(--palette-color-8);
 								background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 80%);
+							}
+
+							&.is-merged {
+								border-color: color-mix(in srgb, var(--palette-color-8), var(--ar-border) 55%);
+								background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 92%);
 							}
 
 							&.is-sorted {
