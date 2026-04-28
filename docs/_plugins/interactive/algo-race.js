@@ -238,6 +238,46 @@
 	}
 
 	// -------------------------------------------------------------------------
+	// HTML Generation Helpers
+	// -------------------------------------------------------------------------
+
+	function createStatsRowHTML(label, id, isTotal = false) {
+		const cssClass = isTotal ? 'ar-stat-row ar-stat-total' : 'ar-stat-row'
+		return `
+			<div class="${cssClass}">
+				<span class="ar-stat-label">${label}:</span>
+				<span class="ar-stat-value" id="${id}">0</span>
+			</div>`
+	}
+
+	function createTrackHTML(title, category, cssClass, instanceId, prefix) {
+		return `
+			<div class="ar-track ${cssClass}">
+				<div class="ar-track-header">
+					<div class="ar-track-title-group">
+						<h4 class="ar-track-title">${title}</h4>
+						<span class="ar-track-category">${category}</span>
+						<span class="ar-track-status" id="ar-${prefix}-${instanceId}-status"></span>
+					</div>
+					<div class="ar-track-stats">
+						${createStatsRowHTML(UI_TEXT.accessLabel, `ar-${prefix}-${instanceId}-accesses`)}
+						${createStatsRowHTML(UI_TEXT.compareLabel, `ar-${prefix}-${instanceId}-compares`)}
+						${createStatsRowHTML(UI_TEXT.totalLabel, `ar-${prefix}-${instanceId}-total`, true)}
+					</div>
+				</div>
+				<div class="ar-grid" id="ar-${prefix}-grid-${instanceId}"></div>
+			</div>`
+	}
+
+	function createLegendItemHTML(cssClass, text) {
+		return `
+			<div class="ar-legend-item ${cssClass}">
+				<div class="ar-legend-swatch"></div>
+				<span>${text}</span>
+			</div>`
+	}
+
+	// -------------------------------------------------------------------------
 	// Rendering
 	// -------------------------------------------------------------------------
 
@@ -268,7 +308,7 @@
 							<label class="ar-label">${UI_TEXT.sizeLabel}</label>
 							<div class="ar-slider-group">
 								<input type="range" class="ar-slider" id="ar-size-slider-${instanceId}"
-								min="20" max="200" step="10" value="${initialSize}">
+									min="20" max="200" step="10" value="${initialSize}">
 								<span class="ar-slider-value" id="ar-size-value-${instanceId}">${initialSize}</span>
 							</div>
 						</div>
@@ -283,102 +323,35 @@
 								</button>
 							</div>
 						</div>
-                    </div>
+					</div>
 				</div>
 
-                <!-- Buttons -->
-                <div class="ar-button-group">
-                    <button class="ar-btn ar-btn-primary" id="ar-start-btn-${instanceId}">
-                        ${SVG_ICONS.play}
-                        <span>${UI_TEXT.startButton}</span>
-                    </button>
-                    <button class="ar-btn" id="ar-reset-btn-${instanceId}">
-                        ${SVG_ICONS.reset}
-                        <span>${UI_TEXT.resetButton}</span>
-                    </button>
-                </div>
+				<!-- Buttons -->
+				<div class="ar-button-group">
+					<button class="ar-btn ar-btn-primary" id="ar-start-btn-${instanceId}">
+						${SVG_ICONS.play}
+						<span>${UI_TEXT.startButton}</span>
+					</button>
+					<button class="ar-btn" id="ar-reset-btn-${instanceId}">
+						${SVG_ICONS.reset}
+						<span>${UI_TEXT.resetButton}</span>
+					</button>
+				</div>
 
-                <!-- Legend -->
+				<!-- Legend -->
 				<div class="ar-legend">
-					<div class="ar-legend-item is-target">
-						<div class="ar-legend-swatch"></div>
-						<span>${UI_TEXT.legendTarget}</span>
-					</div>
-					<div class="ar-legend-item is-inspecting">
-						<div class="ar-legend-swatch"></div>
-						<span>${UI_TEXT.legendInspecting}</span>
-					</div>
-                    <div class="ar-legend-item is-checked">
-					    <div class="ar-legend-swatch"></div>
-                        <span>${UI_TEXT.legendChecked}</span>
-                    </div>
-                    <div class="ar-legend-item is-found">
-						<div class="ar-legend-swatch"></div>
-						<span>${UI_TEXT.legendFound}</span>
-					</div>
-					<div class="ar-legend-item is-value">
-						<div class="ar-legend-swatch"></div>
-						<span>${UI_TEXT.legendCell}</span>
-					</div>
-					<div class="ar-legend-item is-rejected">
-						<div class="ar-legend-swatch"></div>
-						<span>${UI_TEXT.legendRejected}</span>
-					</div>
+					${createLegendItemHTML('is-target', UI_TEXT.legendTarget)}
+					${createLegendItemHTML('is-inspecting', UI_TEXT.legendInspecting)}
+					${createLegendItemHTML('is-checked', UI_TEXT.legendChecked)}
+					${createLegendItemHTML('is-found', UI_TEXT.legendFound)}
+					${createLegendItemHTML('is-value', UI_TEXT.legendCell)}
+					${createLegendItemHTML('is-rejected', UI_TEXT.legendRejected)}
 				</div>
 
 				<!-- Race tracks -->
 				<div class="ar-race-container">
-					<!-- Linear Search Track -->
-					<div class="ar-track is-linear">
-						<div class="ar-track-header">
-                            <div class="ar-track-title-group">
-                                <h4 class="ar-track-title">${UI_TEXT.linearTitle}</h4>
-                                <span class="ar-track-category">${UI_TEXT.linearCategory}</span>
-                                <span class="ar-track-status" id="ar-linear-${instanceId}-status"></span>
-                            </div>
-                            <div class="ar-track-stats">
-                                <div class="ar-stat-row">
-                                    <span class="ar-stat-label">${UI_TEXT.accessLabel}:</span>
-                                    <span class="ar-stat-value" id="ar-linear-${instanceId}-accesses">0</span>
-	        					</div>
-                                <div class="ar-stat-row">
-                                    <span class="ar-stat-label">${UI_TEXT.compareLabel}:</span>
-                                    <span class="ar-stat-value" id="ar-linear-${instanceId}-compares">0</span>
-                                </div>
-                                <div class="ar-stat-row ar-stat-total">
-                                    <span class="ar-stat-label">${UI_TEXT.totalLabel}:</span>
-                                    <span class="ar-stat-value" id="ar-linear-${instanceId}-total">0</span>
-                                </div>
-							</div>
-						</div>
-						<div class="ar-grid" id="ar-linear-grid-${instanceId}"></div>
-					</div>
-
-					<!-- Binary Search Track -->
-					<div class="ar-track is-binary">
-						<div class="ar-track-header">
-                            <div class="ar-track-title-group">
-    							<h4 class="ar-track-title">${UI_TEXT.binaryTitle}</h4>
-                                <span class="ar-track-category">${UI_TEXT.binaryCategory}</span>
-                                <span class="ar-track-status" id="ar-binary-${instanceId}-status"></span>
-                            </div>
-							<div class="ar-track-stats">
-                                <div class="ar-stat-row">
-                                    <span class="ar-stat-label">${UI_TEXT.accessLabel}:</span>
-                                   <span class="ar-stat-value" id="ar-binary-${instanceId}-accesses">0</span>
-	        					</div>
-                                <div class="ar-stat-row">
-                                    <span class="ar-stat-label">${UI_TEXT.compareLabel}:</span>
-                                    <span class="ar-stat-value" id="ar-binary-${instanceId}-compares">0</span>
-                                </div>
-                                <div class="ar-stat-row ar-stat-total">
-                                    <span class="ar-stat-label">${UI_TEXT.totalLabel}:</span>
-                                    <span class="ar-stat-value" id="ar-binary-${instanceId}-total">0</span>
-                                </div>
-                            </div>
-						</div>
-						<div class="ar-grid" id="ar-binary-grid-${instanceId}"></div>
-					</div>
+					${createTrackHTML(UI_TEXT.linearTitle, UI_TEXT.linearCategory, 'is-linear', instanceId, 'linear')}
+					${createTrackHTML(UI_TEXT.binaryTitle, UI_TEXT.binaryCategory, 'is-binary', instanceId, 'binary')}
 				</div>
 			</div>
 		`
@@ -498,104 +471,102 @@
 	// Animation controller
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Execute a single algorithm phase (linear or binary search)
+	 * @param {Object} algorithmState - The state object for this algorithm (linear or binary)
+	 * @param {string} gridId - The grid element ID
+	 * @param {Array} array - The array being searched
+	 * @param {number} targetValue - The target value
+	 * @param {number} stepDelay - Delay between animation steps in ms
+	 * @param {string} trackSelector - CSS selector for the track element
+	 * @param {string} statsPrefix - Prefix for stats element IDs
+	 * @param {Function} shouldContinue - Function that returns true if animation should continue
+	 * @returns {Promise<void>}
+	 */
+	async function executeAlgorithmPhase(algorithmState, gridId, array, targetValue, stepDelay, trackSelector, statsPrefix, shouldContinue) {
+		const track = document.querySelector(trackSelector)
+		if (track) track.classList.add('is-running')
+
+		while (shouldContinue() && !algorithmState.complete) {
+			const result = algorithmState.generator.next()
+
+			if (!result.done && result.value) {
+				const step = result.value
+				algorithmState.currentIndex = step.inspectIndex
+				algorithmState.currentOperation = step.operation
+
+				// Update operation counters
+				if (step.operation === 'access') {
+					algorithmState.accesses++
+				} else if (step.operation === 'compare') {
+					algorithmState.compares++
+				} else if (step.operation === 'swap') {
+					algorithmState.swaps++
+				}
+
+				// Check if found
+				if (step.found) {
+					algorithmState.found = true
+					algorithmState.complete = true
+				}
+
+				// Update checked/eliminated sets
+				;(step.checked || []).forEach(i => algorithmState.checked.add(i))
+				;(step.eliminated || []).forEach(i => algorithmState.eliminated.add(i))
+
+				// Update active range for binary search
+				if (step.activeRange) {
+					algorithmState.activeRange = step.activeRange
+				}
+			} else {
+				algorithmState.complete = true
+			}
+
+			// Render and update stats
+			renderGrid(document.getElementById(gridId), array, targetValue, algorithmState)
+			updateStats(statsPrefix, algorithmState)
+
+			await sleep(stepDelay)
+		}
+
+		if (track) track.classList.remove('is-running')
+	}
+
 	async function runRace(state, array, targetValue, instanceId) {
 		state.initGenerators()
 		const linearStepDelay = getLinearStepDelay(array.length)
 		const binaryStepDelay = getBinaryStepDelay(array.length)
 
-		// Phase 1: run linear search to completion
-		const linearTrack = document.getElementById(`ar-linear-grid-${instanceId}`).closest('.ar-track')
-		if (linearTrack) linearTrack.classList.add('is-running')
-
-		while (state.isRunning && !state.linear.complete) {
-			const result = state.linear.generator.next()
-			if (!result.done && result.value) {
-				const step = result.value
-				state.linear.currentIndex = step.inspectIndex
-				state.linear.currentOperation = step.operation
-
-				if (step.operation === 'access') {
-					state.linear.accesses++
-				} else if (step.operation === 'compare') {
-					state.linear.compares++
-				} else if (step.operation === 'swap') {
-					state.linear.swaps++
-				}
-
-				if (step.found) {
-					state.linear.found = true
-					state.linear.complete = true
-				}
-
-				;(step.checked || []).forEach(i => state.linear.checked.add(i))
-				;(step.eliminated || []).forEach(i => state.linear.eliminated.add(i))
-			} else {
-				state.linear.complete = true
-			}
-
-			renderGrid(
-				document.getElementById(`ar-linear-grid-${instanceId}`),
-				array,
-				targetValue,
-				state.linear
-			)
-			updateStats(`ar-linear-${instanceId}`, state.linear)
-
-			await sleep(linearStepDelay)
-		}
-
-		if (linearTrack) linearTrack.classList.remove('is-running')
+		// Phase 1: Linear search
+		await executeAlgorithmPhase(
+			state.linear,
+			`ar-linear-grid-${instanceId}`,
+			array,
+			targetValue,
+			linearStepDelay,
+			`.ar-track.is-linear`,
+			`ar-linear-${instanceId}`,
+			() => state.isRunning
+		)
 
 		if (!state.isRunning) return
 
+		// Pause between phases
 		await sleep(2000)
 
 		if (!state.isRunning) return
 
-		// Phase 2: run binary search to completion
-		const binaryTrack = document.getElementById(`ar-binary-grid-${instanceId}`).closest('.ar-track')
-		if (binaryTrack) binaryTrack.classList.add('is-running')
-		while (state.isRunning && !state.binary.complete) {
-			const result = state.binary.generator.next()
-			if (!result.done && result.value) {
-				const step = result.value
-				state.binary.currentIndex = step.inspectIndex
-				state.binary.currentOperation = step.operation
-
-				if (step.operation === 'access') {
-					state.binary.accesses++
-				} else if (step.operation === 'compare') {
-					state.binary.compares++
-				} else if (step.operation === 'swap') {
-					state.binary.swaps++
-				}
-
-				if (step.found) {
-					state.binary.found = true
-					state.binary.complete = true
-				}
-
-				;(step.checked || []).forEach(i => state.binary.checked.add(i))
-				;(step.eliminated || []).forEach(i => state.binary.eliminated.add(i))
-				if (step.activeRange) {
-					state.binary.activeRange = step.activeRange
-				}
-			} else {
-				state.binary.complete = true
-			}
-
-			renderGrid(
-				document.getElementById(`ar-binary-grid-${instanceId}`),
-				array,
-				targetValue,
-				state.binary
-			)
-			updateStats(`ar-binary-${instanceId}`, state.binary)
-
-			await sleep(binaryStepDelay)
-		}
-
-		if (binaryTrack) binaryTrack.classList.remove('is-running')
+		// Phase 2: Binary search
+		await executeAlgorithmPhase(
+			state.binary,
+			`ar-binary-grid-${instanceId}`,
+			array,
+			targetValue,
+			binaryStepDelay,
+			`.ar-track.is-binary`,
+			`ar-binary-${instanceId}`,
+			() => state.isRunning
+		)
 
 		state.isComplete = true
 	}
