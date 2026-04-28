@@ -17,17 +17,21 @@
 	const UI_TEXT = {
 		title: 'Algorithm Race',
 		subtitle: 'Linear vs Binary Search',
-		sizeLabel: 'Array Size (N)',
-		targetLabel: 'Target',
+		sizeLabel: 'Array of Values',
+		targetLabel: 'Target Value to Find',
 		startButton: 'Start',
 		resetButton: 'Reset',
 		randomButton: 'Random',
+		shuffleButton: 'Shuffle',
+		sortButton: 'Sort',
 		accessLabel: 'Accessed',
 		compareLabel: 'Compared',
 		swapLabel: 'Swap',
 		totalLabel: 'Total Cost',
 		searching: 'Searching...',
 		found: 'Found!',
+		notFound: 'Value Not Found',
+		unsortedWarning: '⚠️ Unsorted - Invalid!',
 		linearTitle: 'Linear Search',
 		linearCategory: 'O(n)',
 		binaryTitle: 'Binary Search',
@@ -45,7 +49,8 @@
 		race: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>',
 		play: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
 		reset: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
-        shuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle-icon lucide-shuffle"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>',
+		shuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle-icon lucide-shuffle"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>',
+		sort: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>',
 	}
 
 	function getLinearStepDelay(arraySize) {
@@ -54,6 +59,25 @@
 
 	function getBinaryStepDelay(arraySize) {
 		return Math.max(20, Math.floor(2000 / Math.log(arraySize)))
+	}
+
+	function shuffleArray(array) {
+		// Fisher-Yates shuffle algorithm
+		const shuffled = [...array]
+		for (let i = shuffled.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1))
+			;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+		}
+		return shuffled
+	}
+
+	function isSorted(array) {
+		for (let i = 1; i < array.length; i++) {
+			if (array[i] < array[i - 1]) {
+				return false
+			}
+		}
+		return true
 	}
 
 	// -------------------------------------------------------------------------
@@ -163,10 +187,11 @@
 	// -------------------------------------------------------------------------
 
 	class AlgoRaceState {
-		constructor(size, target, array) {
+		constructor(size, target, array, sorted = true) {
 			this.size = size
 			this.target = target
 			this.array = array
+			this.isSorted = sorted
 			this.isRunning = false
 			this.isComplete = false
 
@@ -307,9 +332,18 @@
 						<div class="ar-control-row">
 							<label class="ar-label">${UI_TEXT.sizeLabel}</label>
 							<div class="ar-slider-group">
+                                <label>N</label>
 								<input type="range" class="ar-slider" id="ar-size-slider-${instanceId}"
 									min="20" max="200" step="10" value="${initialSize}">
 								<span class="ar-slider-value" id="ar-size-value-${instanceId}">${initialSize}</span>
+                                <button class="ar-btn ar-btn-small" id="ar-sort-btn-${instanceId}" style="display: none;">
+                                    ${SVG_ICONS.sort}
+                                    <span>${UI_TEXT.sortButton}</span>
+                                </button>
+                                <button class="ar-btn ar-btn-small" id="ar-shuffle-btn-${instanceId}">
+                                    ${SVG_ICONS.shuffle}
+                                    <span>${UI_TEXT.shuffleButton}</span>
+                                </button>
 							</div>
 						</div>
 
@@ -423,6 +457,7 @@
 			const isFound = state.found && index === state.currentIndex
 
 			// Apply classes based on state (priority order matters)
+			// Note: isTarget checked before isRejected so targets remain visible even when rejected
 			if (isFound) {
 				cell.classList.add('is-found')
 			} else if (isCurrentlyInspecting) {
@@ -433,17 +468,18 @@
 				}
 			} else if (isChecked) {
 				cell.classList.add('is-checked')
+			} else if (isTarget) {
+				// Check target before rejected so it stays visible
+				cell.classList.add('is-target')
 			} else if (isRejected) {
 				cell.classList.add('is-rejected')
-			} else if (isTarget) {
-				cell.classList.add('is-target')
 			}
 
 			container.appendChild(cell)
 		})
 	}
 
-	function updateStats(prefix, state) {
+	function updateStats(prefix, state, isSorted = true) {
 		const accesses = document.getElementById(`${prefix}-accesses`)
 		const compares = document.getElementById(`${prefix}-compares`)
 		const total = document.getElementById(`${prefix}-total`)
@@ -454,15 +490,31 @@
 		if (total) total.textContent = state.accesses + state.compares + state.swaps
 
 		if (status) {
+			// Priority order: completion states first, then warnings
 			if (state.found && state.complete) {
+				// Search completed and found target
 				status.textContent = UI_TEXT.found
 				status.classList.add('is-found')
+				status.style.color = ''
+			} else if (!state.found && state.complete) {
+				// Search completed but target not found
+				status.textContent = UI_TEXT.notFound
+				status.classList.remove('is-found')
+				status.classList.add('warning')
+			} else if (prefix.includes('binary') && !isSorted) {
+				// Show unsorted warning for binary search (before running)
+				status.textContent = UI_TEXT.unsortedWarning
+				status.classList.remove('is-found')
+				status.classList.add('warning')
 			} else if ((state.accesses + state.compares) > 0 && !state.complete) {
+				// Search in progress
 				status.textContent = UI_TEXT.searching
 				status.classList.remove('is-found')
+				status.style.color = ''
 			} else {
 				status.textContent = ''
 				status.classList.remove('is-found')
+				status.style.color = ''
 			}
 		}
 	}
@@ -483,7 +535,7 @@
 	 * @param {Function} shouldContinue - Function that returns true if animation should continue
 	 * @returns {Promise<void>}
 	 */
-	async function executeAlgorithmPhase(algorithmState, gridId, array, targetValue, stepDelay, trackSelector, statsPrefix, shouldContinue) {
+async function executeAlgorithmPhase(algorithmState, gridId, array, targetValue, stepDelay, trackSelector, statsPrefix, shouldContinue, isSorted) {
 		const track = document.querySelector(trackSelector)
 		if (track) track.classList.add('is-running')
 
@@ -524,7 +576,7 @@
 
 			// Render and update stats
 			renderGrid(document.getElementById(gridId), array, targetValue, algorithmState)
-			updateStats(statsPrefix, algorithmState)
+			updateStats(statsPrefix, algorithmState, isSorted)
 
 			await sleep(stepDelay)
 		}
@@ -546,7 +598,8 @@
 			linearStepDelay,
 			`.ar-track.is-linear`,
 			`ar-linear-${instanceId}`,
-			() => state.isRunning
+			() => state.isRunning,
+			state.isSorted
 		)
 
 		if (!state.isRunning) return
@@ -565,7 +618,8 @@
 			binaryStepDelay,
 			`.ar-track.is-binary`,
 			`ar-binary-${instanceId}`,
-			() => state.isRunning
+			() => state.isRunning,
+			state.isSorted
 		)
 
 		state.isComplete = true
@@ -597,7 +651,7 @@
 			this.wrapper = wrapper
 			this.array = array
 			this.target = target
-			this.state = new AlgoRaceState(initialSize, target, array)
+			this.state = new AlgoRaceState(initialSize, target, array, true)
 
 			this.element.appendChild(wrapper)
 
@@ -683,6 +737,22 @@
 				this.reset()
 			})
 		}
+
+		// Shuffle button
+		const shuffleBtn = document.getElementById(`ar-shuffle-btn-${this.instanceId}`)
+		if (shuffleBtn) {
+			shuffleBtn.addEventListener('click', () => {
+				this.shuffleArray()
+			})
+		}
+
+		// Sort button
+		const sortBtn = document.getElementById(`ar-sort-btn-${this.instanceId}`)
+		if (sortBtn) {
+			sortBtn.addEventListener('click', () => {
+				this.sortArray()
+			})
+		}
 	}
 
 	updateSize(size) {
@@ -693,7 +763,7 @@
 			this.target = size
 		}
 
-		this.state = new AlgoRaceState(size, this.target, this.array)
+		this.state = new AlgoRaceState(size, this.target, this.array, true)
 
 		// Update target input max
 		const targetInput = document.getElementById(`ar-target-input-${this.instanceId}`)
@@ -702,12 +772,22 @@
 			targetInput.value = this.target
 		}
 
+		// Hide sort button, show shuffle button
+		this.toggleShuffleSortButtons(true)
+
 		this.renderBothGrids()
 		this.updateAllStats()
 	}
 
 	randomTarget() {
-		this.target = pickRandomTargetWithMinBinarySteps(this.array, 5)
+		// If sorted, pick a target that gives interesting binary search steps
+		// If unsorted, just pick any random value from the array
+		if (this.state.isSorted) {
+			this.target = pickRandomTargetWithMinBinarySteps(this.array, 5)
+		} else {
+			this.target = this.array[Math.floor(Math.random() * this.array.length)]
+		}
+
 		this.state.target = this.target
 
 		const targetInput = document.getElementById(`ar-target-input-${this.instanceId}`)
@@ -752,8 +832,52 @@
 	}
 
 	updateAllStats() {
-		updateStats(`ar-linear-${this.instanceId}`, this.state.linear)
-		updateStats(`ar-binary-${this.instanceId}`, this.state.binary)
+		updateStats(`ar-linear-${this.instanceId}`, this.state.linear, this.state.isSorted)
+		updateStats(`ar-binary-${this.instanceId}`, this.state.binary, this.state.isSorted)
+	}
+
+	shuffleArray() {
+		this.array = shuffleArray(this.array)
+		this.state.array = this.array
+		this.state.isSorted = false
+
+		// Reset the UI state
+		this.state.reset()
+		this.renderBothGrids()
+		this.updateAllStats()
+
+		// Show sort button, hide shuffle button
+		this.toggleShuffleSortButtons(false)
+
+		// Re-enable start button
+		const startBtn = document.getElementById(`ar-start-btn-${this.instanceId}`)
+		if (startBtn) startBtn.disabled = false
+	}
+
+	sortArray() {
+		this.array = [...this.array].sort((a, b) => a - b)
+		this.state.array = this.array
+		this.state.isSorted = true
+
+		// Reset the UI state
+		this.state.reset()
+		this.renderBothGrids()
+		this.updateAllStats()
+
+		// Hide sort button, show shuffle button
+		this.toggleShuffleSortButtons(true)
+
+		// Re-enable start button
+		const startBtn = document.getElementById(`ar-start-btn-${this.instanceId}`)
+		if (startBtn) startBtn.disabled = false
+	}
+
+	toggleShuffleSortButtons(sorted) {
+		const shuffleBtn = document.getElementById(`ar-shuffle-btn-${this.instanceId}`)
+		const sortBtn = document.getElementById(`ar-sort-btn-${this.instanceId}`)
+
+		if (shuffleBtn) shuffleBtn.style.display = sorted ? '' : 'none'
+		if (sortBtn) sortBtn.style.display = sorted ? 'none' : ''
 	}
 }
 
