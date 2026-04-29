@@ -34,16 +34,6 @@
 - Crossing point finder: When does O(n²) beat O(n log n)?
 - Interactive legend: Click complexity → highlight corresponding curve
 
-#### sorting-race.js - Algorithm Head-to-Head Visualizer
-**Purpose**: Watch multiple sorting algorithms compete on same data
-**Features**:
-- Multi-track view: 4 algorithms sort simultaneously
-- Operation counters: Comparisons + swaps per algorithm
-- Input scenarios: Random, sorted, reverse, nearly-sorted
-- Best/Avg/Worst annotations: Highlight when each case occurs
-- Speed control: Slow-mo to see bubble sort's inefficiency
-- Colour coding: Active comparison (yellow), swap (red), sorted (green)
-
 #### approximation-demo.js - Heuristic Quality Evaluator
 **Purpose**: Show trade-off between speed and solution quality
 **Features**:
@@ -52,22 +42,6 @@
 - Quality meter: % of optimal solution (e.g., "92% optimal in 0.01s vs 100% in 45s")
 - Real-world context: "Delivery routes don't need perfection"
 - Scaling demo: Show where brute-force becomes impractical (crossover point)
-
-#### Algorithm Race
-**Purpose**: Show algorithmic complexity through direct comparison
-**Features**:
-- Run two algorithms side-by-side (e.g. linear vs binary search, bubble vs merge sort)
-- Live operation counter for each
-- Input-size slider to scale the problem
-
-#### Algorithm Visualizer
-**Purpose**: Step-through visualization of common algorithms
-**Features**:
-- Sorting algorithms (bubble, merge, quick, insertion)
-- Binary search visualization
-- Stack/queue/heap operations with animations
-- Linked list operations with pointer movements
-- Tree traversals (in-order, pre-order, post-order)
 
 ---
 
@@ -228,6 +202,9 @@
 - [x] **diffie-hellman.js** - Diffie-Hellman key exchange visualizer with step-by-step animation; dual mode (numeric/colour mixing)
 - [x] **p-np-demo.js** - Complexity Class Visualizer with venn diagram animation: P ⊆ NP, NP-complete boundary, P=NP toggle: "What if P=NP?" (show diagram collapse)
 - [x] **sym-asym.js** - Side-by-Side Encryption Comparison to contrast symmetric vs asymmetric encryption flows
+- [x] **sorting-race.js** - Algorithm head-to-head visualiser
+- [x] **algo-race.js** - Algorithm race comparison visualiser
+- [x] **algorithm-visualiser.js** - Step-through algorithm visualiser
 
 
 

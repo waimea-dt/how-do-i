@@ -17,7 +17,8 @@
     const MAX_CAPACITY = 60
     const DEFAULT_ITEMS = '2|3 3|4 4|5 5|8 7|9 8|11'
     const DEFAULT_GENERATED_ITEMS = 6
-    const MAX_BRUTE_ITEMS = 18
+    const MIN_GENERATED_ITEMS = 3
+    const MAX_GENERATED_ITEMS = 30
     const SMALL_TREE_MAX_ITEMS = 8
 
     function sleep(ms = 0) {
@@ -153,11 +154,11 @@
     }
 
     function getBruteUpdateFrequency(total) {
-        if (total > 200000) return 2048
-        if (total > 40000) return 512
-        if (total > 10000) return 128
-        if (total > 2000) return 32
-        if (total > 400) return 8
+        if (total > 20000) return 2048
+        if (total > 4000) return 512
+        if (total > 1000) return 128
+        if (total > 200) return 32
+        if (total > 40) return 8
         return 1
     }
 
@@ -220,28 +221,23 @@
             </div>
             <div class="knapsack-content">
                 <div class="knapsack-control-group">
-                    <div class="knapsack-pill">
-                        <span class="knapsack-pill-label">Capacity</span>
-                        <span class="knapsack-pill-value knapsack-capacity-value">${capacity}</span>
-                    </div>
-                    <div class="knapsack-pill">
-                        <span class="knapsack-pill-label">Items</span>
-                        <span class="knapsack-pill-value knapsack-items-count">${items.length}</span>
-                    </div>
-                    <div class="knapsack-pill">
-                        <span class="knapsack-pill-label">Mode</span>
-                        <span class="knapsack-pill-value">${solverMode}</span>
-                    </div>
-                    <div class="knapsack-pill">
-                        <span class="knapsack-pill-label">Speed</span>
-                        <span class="knapsack-pill-value knapsack-speed-value">${speed}</span>
-                    </div>
                     <div class="knapsack-capacity-control">
-                        <label class="knapsack-capacity-label">Adjust capacity</label>
+                        <label class="knapsack-capacity-label">Capacity</label>
                         <div class="knapsack-capacity-inputs">
                             <input class="knapsack-capacity-range" type="range" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" value="${capacity}">
                             <input class="knapsack-capacity-number" type="number" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" step="1" value="${capacity}">
                         </div>
+                    </div>
+                    <div class="knapsack-items-control" ${usesFixedItems ? 'style="display: none;"' : ''}>
+                        <label class="knapsack-items-label">Items (N)</label>
+                        <div class="knapsack-items-inputs">
+                            <input class="knapsack-items-range" type="range" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" value="${items.length}">
+                            <input class="knapsack-items-number" type="number" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" step="1" value="${items.length}">
+                        </div>
+                    </div>
+                    <div class="knapsack-pill">
+                        <span class="knapsack-pill-label">Combinations</span>
+                        <span class="knapsack-pill-value knapsack-combinations-value">2^${items.length}</span>
                     </div>
                 </div>
 
@@ -253,15 +249,7 @@
                 </div>
 
                 <div class="knapsack-visualization">
-                    <div class="knapsack-status">Ready</div>
                     <div class="knapsack-sacks">
-                        <div class="knapsack-sack-card">
-                            <div class="knapsack-sack-header">
-                                <span>Current bag</span>
-                                <span class="knapsack-sack-summary knapsack-candidate-summary">0 / ${capacity} weight | 0 value</span>
-                            </div>
-                            <div class="knapsack-sack-track knapsack-candidate-track"></div>
-                        </div>
                         <div class="knapsack-sack-card">
                             <div class="knapsack-sack-header">
                                 <span>Best bag</span>
@@ -269,36 +257,26 @@
                             </div>
                             <div class="knapsack-sack-track knapsack-best-track"></div>
                         </div>
+                        <div class="knapsack-sack-card">
+                            <div class="knapsack-sack-header">
+                                <span>Current bag</span>
+                                <span class="knapsack-sack-summary knapsack-candidate-summary">0 / ${capacity} weight | 0 value</span>
+                            </div>
+                            <div class="knapsack-sack-track knapsack-candidate-track"></div>
+                        </div>
                     </div>
-                    <div class="knapsack-legend">Slice width = weight. Deeper slice colour = higher value.</div>
                 </div>
 
                 <div class="knapsack-inventory">
                     <div class="knapsack-panel-title">Items</div>
-                    <div class="knapsack-editor-toolbar">
-                        <button class="knapsack-btn knapsack-btn-secondary knapsack-btn-editor-add">Add item</button>
-                        <button class="knapsack-btn knapsack-btn-secondary knapsack-btn-editor-apply">Apply edits</button>
-                    </div>
-                    <div class="knapsack-editor-wrap">
-                        <table class="knapsack-editor-table">
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Weight</th>
-                                    <th>Value</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody class="knapsack-editor-body"></tbody>
-                        </table>
-                    </div>
                     <div class="knapsack-item-list"></div>
                 </div>
 
                 <div class="knapsack-stats">
-                    <div class="knapsack-stat">
+                    <div class="knapsack-stat knapsack-stat-progress">
                         <div class="knapsack-stat-label">Progress</div>
                         <div class="knapsack-stat-value knapsack-progress-value">0 / 0</div>
+                        <div class="knapsack-stat-status knapsack-progress-status">Ready</div>
                     </div>
                     <div class="knapsack-stat">
                         <div class="knapsack-stat-label">Best value</div>
@@ -314,10 +292,6 @@
                     </div>
                 </div>
 
-                <div class="knapsack-detail">
-                    <div class="knapsack-panel-title knapsack-detail-title">Solver view</div>
-                    <div class="knapsack-detail-body"></div>
-                </div>
 
                 <div class="knapsack-comparison" ${showComparison ? '' : 'hidden'}>
                     <div class="knapsack-panel-title">Algorithm comparison</div>
@@ -628,6 +602,7 @@
                 this.initialItems = enrichItems(generateItems(this.capacity, DEFAULT_GENERATED_ITEMS))
             }
 
+            this.itemCount = this.initialItems.length
             this.items = this.initialItems.map(item => ({ ...item }))
             this.wrapper = buildUI(this.capacity, this.items, this.solveMode, this.usesFixedItems, this.speed)
             this.el.innerHTML = ''
@@ -637,25 +612,23 @@
             this.stopBtn = this.wrapper.querySelector('.knapsack-btn-stop')
             this.resetBtn = this.wrapper.querySelector('.knapsack-btn-reset')
             this.randomiseBtn = this.wrapper.querySelector('.knapsack-btn-randomise')
-            this.editorAddBtn = this.wrapper.querySelector('.knapsack-btn-editor-add')
-            this.editorApplyBtn = this.wrapper.querySelector('.knapsack-btn-editor-apply')
             this.capacityValueEl = this.wrapper.querySelector('.knapsack-capacity-value')
             this.capacityRange = this.wrapper.querySelector('.knapsack-capacity-range')
             this.capacityNumber = this.wrapper.querySelector('.knapsack-capacity-number')
-            this.statusEl = this.wrapper.querySelector('.knapsack-status')
+            this.itemsControl = this.wrapper.querySelector('.knapsack-items-control')
+            this.itemsRange = this.wrapper.querySelector('.knapsack-items-range')
+            this.itemsNumber = this.wrapper.querySelector('.knapsack-items-number')
+            this.combinationsValue = this.wrapper.querySelector('.knapsack-combinations-value')
+            this.progressStatus = this.wrapper.querySelector('.knapsack-progress-status')
             this.candidateTrack = this.wrapper.querySelector('.knapsack-candidate-track')
             this.bestTrack = this.wrapper.querySelector('.knapsack-best-track')
             this.candidateSummary = this.wrapper.querySelector('.knapsack-candidate-summary')
             this.bestSummary = this.wrapper.querySelector('.knapsack-best-summary')
-            this.itemsCountEl = this.wrapper.querySelector('.knapsack-items-count')
             this.itemList = this.wrapper.querySelector('.knapsack-item-list')
-            this.editorBody = this.wrapper.querySelector('.knapsack-editor-body')
             this.progressValue = this.wrapper.querySelector('.knapsack-progress-value')
             this.bestValue = this.wrapper.querySelector('.knapsack-best-value')
             this.weightValue = this.wrapper.querySelector('.knapsack-weight-value')
             this.timeValue = this.wrapper.querySelector('.knapsack-time-value')
-            this.detailTitle = this.wrapper.querySelector('.knapsack-detail-title')
-            this.detailBody = this.wrapper.querySelector('.knapsack-detail-body')
             this.historyList = this.wrapper.querySelector('.knapsack-history-list')
             this.comparison = this.wrapper.querySelector('.knapsack-comparison')
             this.leftLabel = this.wrapper.querySelector('.knapsack-left-label')
@@ -681,6 +654,7 @@
         setupEventListeners() {
             this.startBtn.addEventListener('click', async () => {
                 if (this.solver && this.solver.running) return
+                this.resetView()
                 await this.run()
             })
 
@@ -689,34 +663,41 @@
 
             this.randomiseBtn.addEventListener('click', () => {
                 if (this.usesFixedItems) return
-                this.items = enrichItems(generateItems(this.capacity, this.items.length || DEFAULT_GENERATED_ITEMS))
+                this.items = enrichItems(generateItems(this.capacity, this.itemCount))
                 this.initialItems = this.items.map(item => ({ ...item }))
                 this.resetView()
             })
 
-            this.editorAddBtn.addEventListener('click', () => {
-                if (this.solver && this.solver.running) return
-                this.addEditorRow()
-            })
+            // Item count controls (only for generated items)
+            if (this.itemsRange && this.itemsNumber) {
+                this.itemsRange.addEventListener('input', () => {
+                    this.syncItemControls(this.itemsRange.value)
+                })
 
-            this.editorApplyBtn.addEventListener('click', () => {
-                if (this.solver && this.solver.running) return
-                this.applyItemEdits()
-            })
+                this.itemsNumber.addEventListener('input', () => {
+                    this.syncItemControls(this.itemsNumber.value)
+                })
 
-            this.editorBody.addEventListener('click', (event) => {
-                const button = event.target.closest('.knapsack-editor-remove')
-                if (!button) return
-                if (this.solver && this.solver.running) return
+                const applyItemCountChange = () => {
+                    if (this.solver && this.solver.running) return
 
-                const row = button.closest('tr')
-                if (!row) return
+                    const nextItemCount = this.readItemCountFromControls()
+                    if (nextItemCount === this.itemCount) {
+                    this.progressStatus.textContent = 'Item count unchanged.'
+                        return
+                    }
 
-                row.remove()
-                if (this.editorBody.children.length === 0) {
-                    this.addEditorRow()
+                    this.itemCount = nextItemCount
+                    this.syncItemControls(this.itemCount)
+                    this.items = enrichItems(generateItems(this.capacity, this.itemCount))
+                    this.initialItems = this.items.map(item => ({ ...item }))
+                    this.resetView()
+                    this.progressStatus.textContent = `Item count updated to ${this.itemCount}.`
                 }
-            })
+
+                this.itemsRange.addEventListener('change', applyItemCountChange)
+                this.itemsNumber.addEventListener('change', applyItemCountChange)
+            }
 
             this.capacityRange.addEventListener('input', () => {
                 this.syncCapacityControls(this.capacityRange.value)
@@ -731,14 +712,14 @@
 
                 const nextCapacity = this.readCapacityFromControls()
                 if (nextCapacity === this.capacity) {
-                    this.statusEl.textContent = 'Capacity unchanged.'
+                    this.progressStatus.textContent = 'Capacity unchanged.'
                     return
                 }
 
                 this.capacity = nextCapacity
                 this.syncCapacityControls(this.capacity)
                 this.resetView()
-                this.statusEl.textContent = `Capacity updated to ${this.capacity}.`
+                this.progressStatus.textContent = `Capacity updated to ${this.capacity}.`
             }
 
             this.capacityRange.addEventListener('change', applyCapacityChange)
@@ -750,21 +731,20 @@
             this.stopBtn.disabled = !isRunning
             this.resetBtn.disabled = isRunning
             this.randomiseBtn.disabled = isRunning || this.usesFixedItems
-            this.editorAddBtn.disabled = isRunning
-            this.editorApplyBtn.disabled = isRunning
             this.capacityRange.disabled = isRunning
             this.capacityNumber.disabled = isRunning
 
-            this.editorBody.querySelectorAll('input, button').forEach(control => {
-                control.disabled = isRunning
-            })
+            if (this.itemsRange && this.itemsNumber) {
+                this.itemsRange.disabled = isRunning
+                this.itemsNumber.disabled = isRunning
+            }
         }
 
         syncCapacityControls(value) {
             const safe = Math.max(MIN_CAPACITY, Math.min(MAX_CAPACITY, parsePositiveInt(value, this.capacity)))
             this.capacityRange.value = `${safe}`
             this.capacityNumber.value = `${safe}`
-            this.capacityValueEl.textContent = `${safe}`
+            // this.capacityValueEl.textContent = `${safe}`
 
             this.weightValue.textContent = `${formatNumber(this.bestResult.weight)} / ${formatNumber(safe)}`
             this.renderTracks()
@@ -774,48 +754,31 @@
             return Math.max(MIN_CAPACITY, Math.min(MAX_CAPACITY, parsePositiveInt(this.capacityNumber.value, this.capacity)))
         }
 
-        makeEditorRow(label, weight, value) {
-            return `
-                <tr>
-                    <td>${label}</td>
-                    <td><input class="knapsack-editor-input knapsack-editor-weight" type="number" min="1" step="1" value="${weight}"></td>
-                    <td><input class="knapsack-editor-input knapsack-editor-value" type="number" min="0" step="1" value="${value}"></td>
-                    <td><button class="knapsack-btn knapsack-btn-secondary knapsack-editor-remove" type="button">Remove</button></td>
-                </tr>
-            `
-        }
-
-        renderEditor() {
-            this.editorBody.innerHTML = this.items
-                .map(item => this.makeEditorRow(item.label, item.weight, item.value))
-                .join('')
-        }
-
-        addEditorRow(weight = 1, value = 1) {
-            const nextLabel = String.fromCharCode(65 + (this.editorBody.children.length % 26))
-            this.editorBody.insertAdjacentHTML('beforeend', this.makeEditorRow(nextLabel, weight, value))
-        }
-
-        applyItemEdits() {
-            const rows = [...this.editorBody.querySelectorAll('tr')]
-            const rawItems = rows.map(row => {
-                const weightInput = row.querySelector('.knapsack-editor-weight')
-                const valueInput = row.querySelector('.knapsack-editor-value')
-                return {
-                    weight: parsePositiveInt(weightInput?.value, 0),
-                    value: parseInt(valueInput?.value ?? '', 10)
-                }
-            }).filter(item => Number.isFinite(item.weight) && item.weight > 0 && Number.isFinite(item.value) && item.value >= 0)
-
-            if (rawItems.length === 0) {
-                this.statusEl.textContent = 'Add at least one valid item before applying edits.'
-                return
+        syncItemControls(value) {
+            if (!this.itemsRange || !this.itemsNumber) return
+            const safe = Math.max(MIN_GENERATED_ITEMS, Math.min(MAX_GENERATED_ITEMS, parsePositiveInt(value, this.itemCount)))
+            // --- ResizeObserver to refresh inventory tile widths on track resize ---
+            if (window.ResizeObserver && this.bestTrack) {
+                this._trackResizeObserver = new ResizeObserver(() => {
+                    this.renderInventory()
+                })
+                this._trackResizeObserver.observe(this.bestTrack)
             }
+            this.itemsRange.value = `${safe}`
+            this.itemsNumber.value = `${safe}`
+            this.updateCombinationsDisplay(safe)
+        }
 
-            this.items = enrichItems(rawItems)
-            this.initialItems = this.items.map(item => ({ ...item }))
-            this.resetView()
-            this.statusEl.textContent = `Applied ${this.items.length} item${this.items.length === 1 ? '' : 's'}.`
+        readItemCountFromControls() {
+            if (!this.itemsNumber) return this.itemCount
+            return Math.max(MIN_GENERATED_ITEMS, Math.min(MAX_GENERATED_ITEMS, parsePositiveInt(this.itemsNumber.value, this.itemCount)))
+        }
+
+        updateCombinationsDisplay(n) {
+            const combinations = Math.pow(2, n)
+            this.combinationsValue.textContent = combinations >= 1000000
+                ? `${(combinations / 1000000).toFixed(1)}M`
+                : formatNumber(combinations)
         }
 
         stop() {
@@ -824,7 +787,7 @@
                 this.solver.stop()
             }
             this.setButtons(false)
-            this.statusEl.textContent = 'Stopped'
+            this.progressStatus.textContent = 'Stopped'
         }
 
         addHistory(message) {
@@ -858,17 +821,16 @@
             this.inventoryState = {}
             this.historyList.innerHTML = ''
             this.syncCapacityControls(this.capacity)
-            this.itemsCountEl.textContent = this.items.length
-            this.statusEl.textContent = 'Ready'
+            this.itemCount = this.items.length
+            this.syncItemControls(this.itemCount)
+            this.updateCombinationsDisplay(this.itemCount)
+            this.progressStatus.textContent = 'Ready'
             this.progressValue.textContent = '0 / 0'
             this.bestValue.textContent = '0'
             this.weightValue.textContent = `0 / ${this.capacity}`
             this.timeValue.textContent = '0 ms'
-            this.detailTitle.textContent = 'Solver view'
-            this.detailBody.innerHTML = '<div class="knapsack-note-grid"><div class="knapsack-note"><strong>Bag</strong>Start the solver to fill the bag.</div><div class="knapsack-note"><strong>Items</strong>Watch slices grow as the solver picks items.</div><div class="knapsack-note"><strong>View</strong>Mode-specific detail appears here.</div></div>'
             this.resetComparison()
             this.renderTracks()
-            this.renderEditor()
             this.renderInventory()
             this.setButtons(false)
         }
@@ -887,7 +849,8 @@
 
         renderTrack(track, summary, result, currentItemId = null, isOverweight = false) {
             const maxItemValue = Math.max(...this.items.map(item => item.value), 1)
-            const selected = result?.selected || []
+            // Sort selected items by descending value
+            const selected = (result?.selected || []).slice().sort((a, b) => b.value - a.value)
             const usedWeight = result?.weight || 0
             const value = result?.value || 0
             const remaining = Math.max(0, this.capacity - usedWeight)
@@ -902,19 +865,29 @@
             }
 
             const parts = selected.map(item => {
-                const width = Math.max(6, (item.weight / this.capacity) * 100)
-                const text = width < 12
-                    ? `<span class="knapsack-slice-text">${item.label}</span>`
-                    : `<span class="knapsack-slice-text"><span>${item.label}</span><span class="knapsack-slice-meta">v${item.value} · w${item.weight}</span></span>`
+                const width = (item.weight / this.capacity) * 100
+                const text = width < 6 ? ' ' : (
+                    width < 12
+                        ? `<span class="knapsack-slice-text">${item.label}</span>`
+                        : `<span class="knapsack-slice-text"><span>${item.label}</span><span class="knapsack-slice-meta">v${item.value} · w${item.weight}</span></span>`
+                    )
 
                 return `
                     <div
                         class="knapsack-slice ${item.id === currentItemId ? 'is-current' : ''}"
-                        style="flex: 0 0 ${width}%; background: ${getItemColour(item, maxItemValue)};"
+                        style="--slice-width: ${width}; --slice-value: ${item.value}; --slice-max-value: ${maxItemValue};"
                         title="${item.name}: weight ${item.weight}, value ${item.value}">
                         ${text}
                     </div>
                 `
+                // return `
+                //     <div
+                //         class="knapsack-slice knapsack-slice-v${item.value} knapsack-slice-w${item.weight} ${item.id === currentItemId ? 'is-current' : ''}"
+                //         style="flex: 0 0 ${width}%; background: ${getItemColour(item, maxItemValue)};"
+                //         title="${item.name}: weight ${item.weight}, value ${item.value}">
+                //         ${text}
+                //     </div>
+                // `
             })
 
             if (remaining > 0) {
@@ -944,9 +917,20 @@
             } = this.inventoryState
 
             const maxItemValue = Math.max(...this.items.map(item => item.value), 1)
+            const capacity = this.capacity
+            // Try to get the width of the bestTrack (should be same as candidateTrack)
+            let trackWidth = 400 // fallback default
+            if (this.bestTrack && this.bestTrack.offsetWidth) {
+                trackWidth = this.bestTrack.offsetWidth
+            } else if (this.candidateTrack && this.candidateTrack.offsetWidth) {
+                trackWidth = this.candidateTrack.offsetWidth
+            }
+
+            // Minimum and maximum tile width for visibility
+            const MIN_TILE_PX = 24
+            const MAX_TILE_PX = Math.max(44, trackWidth)
 
             this.itemList.innerHTML = this.items.map(item => {
-                const badges = []
                 const isBest = bestIds.has(item.id)
                 const isCandidate = candidateIds.has(item.id)
                 const isRejected = rejectedIds.has(item.id)
@@ -954,178 +938,43 @@
                 const order = orderMap.get(item.id)
                 const decision = decisions.get(item.id)
 
-                if (isBest) badges.push('<span class="knapsack-badge knapsack-badge-best">Best bag</span>')
-                if (isCandidate) badges.push('<span class="knapsack-badge knapsack-badge-candidate">Current bag</span>')
-                if (isCurrent) badges.push('<span class="knapsack-badge knapsack-badge-current">Now</span>')
-                if (order != null) badges.push(`<span class="knapsack-badge knapsack-badge-order">#${order + 1}</span>`)
-                if (decision === 'take') badges.push('<span class="knapsack-badge knapsack-badge-take">Take</span>')
-                if (decision === 'skip') badges.push('<span class="knapsack-badge knapsack-badge-skip">Skip</span>')
-                if (isRejected) badges.push('<span class="knapsack-badge knapsack-badge-overweight">Rejected</span>')
+                const indicators = []
+                if (isBest) indicators.push('★')
+                if (isCandidate) indicators.push('●')
+                if (isCurrent) indicators.push('◆')
+                if (order != null) indicators.push(`${order + 1}`)
+
+                const classes = [
+                    'knapsack-item-tile',
+                    isBest && 'is-best',
+                    isCandidate && 'is-candidate',
+                    isCurrent && 'is-current',
+                    isRejected && 'is-rejected',
+                    decision === 'take' && 'is-take',
+                    decision === 'skip' && 'is-skip'
+                ].filter(Boolean).join(' ')
+
+                // Width proportional to weight/capacity * trackWidth
+                let tileWidth = Math.round((item.weight / capacity) * trackWidth)
+                if (!Number.isFinite(tileWidth) || tileWidth < MIN_TILE_PX) tileWidth = MIN_TILE_PX
+                if (tileWidth > trackWidth) tileWidth = trackWidth
+
+                const title = `${item.name}: w${item.weight} · v${item.value} · r${formatRatio(item.ratio)}`
 
                 return `
-                    <div class="knapsack-item-card ${isBest ? 'is-best' : ''} ${isCandidate ? 'is-candidate' : ''} ${isCurrent ? 'is-current' : ''} ${isRejected ? 'is-rejected' : ''}">
-                        <div class="knapsack-item-label" style="background: ${getItemColour(item, maxItemValue)};">${item.label}</div>
-                        <div class="knapsack-item-name">${item.name}</div>
-                        <div class="knapsack-item-stats">
-                            <div class="knapsack-item-stat"><span class="knapsack-item-stat-label">Weight</span><span class="knapsack-item-stat-value">${item.weight}</span></div>
-                            <div class="knapsack-item-stat"><span class="knapsack-item-stat-label">Value</span><span class="knapsack-item-stat-value">${item.value}</span></div>
-                            <div class="knapsack-item-stat"><span class="knapsack-item-stat-label">Ratio</span><span class="knapsack-item-stat-value">${formatRatio(item.ratio)}</span></div>
-                        </div>
-                        <div class="knapsack-item-badges">${badges.join('')}</div>
+                    <div
+                        class="${classes}" title="${title}" style="--slice-value: ${item.value}; --slice-max-value: ${maxItemValue}; width: ${tileWidth}px;">
+                        <div class="knapsack-item-tile-label">${item.label}</div>
+                        <div class="knapsack-item-tile-stats">w${item.weight} · v${item.value}</div>
+                        ${indicators.length > 0 ? `<div class="knapsack-item-tile-indicator">${indicators.join(' ')}</div>` : ''}
                     </div>
                 `
             }).join('')
         }
 
-        renderBruteDetail(progress) {
-            const bits = this.items.map((item, index) => {
-                const isOn = (progress.mask & (1 << index)) !== 0
-                const chipClass = !progress.feasible && isOn ? 'is-over' : isOn ? 'is-on' : ''
-                return `<span class="knapsack-bit-chip ${chipClass}">${item.label}: ${isOn ? '1' : '0'}</span>`
-            }).join('')
 
-            const treeHtml = this.items.length <= SMALL_TREE_MAX_ITEMS
-                ? this.renderCompactTree(progress.mask)
-                : `<div class="knapsack-note"><strong>Tree view</strong>Compact tree shown for ${SMALL_TREE_MAX_ITEMS} items or fewer.</div>`
 
-            this.detailTitle.textContent = 'Search state'
-            this.detailBody.innerHTML = `
-                <div class="knapsack-brute-grid">
-                    <div class="knapsack-note-grid">
-                        <div class="knapsack-note"><strong>Subset</strong>${formatNumber(progress.checked)} of ${formatNumber(progress.total)}</div>
-                        <div class="knapsack-note"><strong>Current</strong>${progress.feasible ? describeSelection(progress.current) : `Overweight: ${progress.current.weight} / ${this.capacity}`}</div>
-                        <div class="knapsack-note"><strong>Best so far</strong>${describeSelection(progress.best)}</div>
-                    </div>
-                    <div class="knapsack-chip-row">${bits}</div>
-                    ${treeHtml}
-                </div>
-            `
-        }
 
-        renderCompactTree(mask) {
-            const levels = Math.min(this.items.length, 4)
-            const levelRows = []
-
-            for (let level = 0; level <= levels; level++) {
-                const prefixMask = mask & ((1 << level) - 1)
-                const nodes = []
-
-                for (let node = 0; node < (1 << level); node++) {
-                    let weight = 0
-                    let value = 0
-
-                    for (let bit = 0; bit < level; bit++) {
-                        if ((node & (1 << bit)) !== 0) {
-                            weight += this.items[bit].weight
-                            value += this.items[bit].value
-                        }
-                    }
-
-                    const onPath = node === prefixMask
-                    const over = weight > this.capacity
-                    const decisionText = level === 0
-                        ? 'start'
-                        : this.items.slice(0, level).map((item, idx) => `${item.label}${(node & (1 << idx)) !== 0 ? '1' : '0'}`).join(' ')
-
-                    nodes.push(`
-                        <div class="knapsack-tree-node ${onPath ? 'is-path' : ''} ${over ? 'is-over' : ''}">
-                            <div class="knapsack-tree-decisions">${decisionText}</div>
-                            <div class="knapsack-tree-stats">w${weight} · v${value}</div>
-                        </div>
-                    `)
-                }
-
-                levelRows.push(`
-                    <div class="knapsack-tree-level">
-                        <div class="knapsack-tree-level-label">Depth ${level}</div>
-                        <div class="knapsack-tree-level-nodes">${nodes.join('')}</div>
-                    </div>
-                `)
-            }
-
-            const extraDepth = this.items.length - levels
-            const tail = extraDepth > 0
-                ? `<div class="knapsack-tree-tail">Showing first ${levels} levels. Remaining depth: ${extraDepth}.</div>`
-                : ''
-
-            return `<div class="knapsack-tree"><div class="knapsack-tree-title">Compact decision tree</div>${levelRows.join('')}${tail}</div>`
-        }
-
-        renderGreedyDetail(progress) {
-            const orderMap = new Map(progress.rankedItems.map((item, index) => [item.id, index]))
-            const decisionMap = new Map(progress.rankedItems.map(item => {
-                if (progress.best.selected.some(selected => selected.id === item.id)) return [item.id, 'take']
-                if (progress.rejectedIds.has(item.id)) return [item.id, 'skip']
-                return [item.id, null]
-            }))
-
-            this.detailTitle.textContent = 'Greedy order'
-            this.detailBody.innerHTML = `
-                <div class="knapsack-greedy-list">
-                    ${progress.rankedItems.map((item, index) => {
-                        const decision = decisionMap.get(item.id)
-                        const label = decision === 'take' ? 'Take' : decision === 'skip' ? 'Skip' : 'Waiting'
-                        return `
-                            <div class="knapsack-greedy-row ${progress.currentItem.id === item.id ? 'is-current' : ''}">
-                                <div class="knapsack-greedy-order">${index + 1}</div>
-                                <div>
-                                    <div><strong>${item.name}</strong></div>
-                                    <div class="knapsack-greedy-meta">ratio ${formatRatio(item.ratio)} | value ${item.value} | weight ${item.weight}</div>
-                                </div>
-                                <div class="knapsack-greedy-decision ${decision === 'take' ? 'is-take' : decision === 'skip' ? 'is-skip' : ''}">${label}</div>
-                            </div>
-                        `
-                    }).join('')}
-                </div>
-            `
-
-            this.renderInventory({
-                orderMap,
-                decisions: decisionMap,
-                currentId: progress.currentItem.id,
-                candidateIds: new Set(progress.best.selected.map(item => item.id)),
-                bestIds: new Set(progress.best.selected.map(item => item.id)),
-                rejectedIds: progress.rejectedIds
-            })
-        }
-
-        renderDynamicDetail(progress) {
-            const rows = this.items.length + 1
-            const cols = this.capacity + 1
-            const tableHtml = []
-
-            tableHtml.push('<div class="knapsack-dp-wrap"><table class="knapsack-dp-table"><thead><tr><th>Item</th>')
-            for (let col = 0; col < cols; col++) {
-                tableHtml.push(`<th>${col}</th>`)
-            }
-            tableHtml.push('</tr></thead><tbody>')
-
-            for (let row = 0; row < rows; row++) {
-                const rowLabel = row === 0 ? '0 items' : this.items[row - 1].label
-                tableHtml.push(`<tr><td>${rowLabel}</td>`)
-
-                for (let col = 0; col < cols; col++) {
-                    const classes = []
-                    if (row === progress.row) classes.push('is-row-active')
-                    if (col === progress.col) classes.push('is-col-active')
-                    if (row === progress.row && col === progress.col) classes.push('is-active')
-                    if (row === rows - 1 && col === cols - 1) classes.push('is-best')
-                    tableHtml.push(`<td class="${classes.join(' ')}">${progress.table[row][col]}</td>`)
-                }
-
-                tableHtml.push('</tr>')
-            }
-
-            tableHtml.push('</tbody></table></div>')
-
-            this.detailTitle.textContent = 'DP table'
-            this.detailBody.innerHTML = tableHtml.join('')
-            this.renderInventory({
-                currentId: progress.currentItem.id,
-                candidateIds: new Set(progress.best.selected.map(item => item.id)),
-                bestIds: new Set(progress.best.selected.map(item => item.id))
-            })
-        }
 
         updateComparisonPrimary(label, result, operations, elapsedTime) {
             this.leftLabel.textContent = label
@@ -1159,10 +1008,6 @@
 
         async run() {
             this.stopRequested = false
-            if ((this.solveMode === 'brute' || this.solveMode.startsWith('compare-')) && this.items.length > MAX_BRUTE_ITEMS) {
-                this.statusEl.textContent = `Too many items for brute force (${this.items.length}). Keep it at ${MAX_BRUTE_ITEMS} or fewer.`
-                return
-            }
 
             this.bestResult = createEmptyResult()
             this.candidateResult = createEmptyResult()
@@ -1194,9 +1039,7 @@
                     await this.runBruteForce()
                 }
             } finally {
-                if (!this.solver || !this.solver.running) {
-                    this.setButtons(false)
-                }
+                this.setButtons(false)
             }
         }
 
@@ -1210,7 +1053,10 @@
                 async progress => {
                     this.candidateResult = cloneResult(progress.current)
                     this.bestResult = cloneResult(progress.best)
-                    this.renderTracks(null, !progress.feasible)
+                    const lastItem = progress.current.selected.length > 0
+                        ? progress.current.selected[progress.current.selected.length - 1]
+                        : null;
+                    this.renderTracks(lastItem ? lastItem.id : null, !progress.feasible)
                     this.renderInventory({
                         candidateIds: new Set(progress.current.selected.map(item => item.id)),
                         bestIds: new Set(progress.best.selected.map(item => item.id)),
@@ -1219,9 +1065,9 @@
                         orderMap: new Map(),
                         decisions: new Map()
                     })
-                    this.renderBruteDetail(progress)
+
                     this.updateStats(`${formatNumber(progress.checked)} / ${formatNumber(progress.total)}`, progress.best, progress.actualComputeTime)
-                    this.statusEl.textContent = progress.feasible
+                    this.progressStatus.textContent = progress.feasible
                         ? `Checking subset ${formatNumber(progress.checked)} of ${formatNumber(progress.total)}`
                         : `Subset ${formatNumber(progress.checked)} is overweight`
 
@@ -1235,7 +1081,8 @@
                 result => {
                     finalResult = result
                     this.bestResult = cloneResult(result.best)
-                    this.candidateResult = cloneResult(result.best)
+                    // Clear candidate (current) bag and stats
+                    this.candidateResult = createEmptyResult()
                     this.renderTracks()
                     this.renderInventory({
                         candidateIds: new Set(result.best.selected.map(item => item.id)),
@@ -1244,16 +1091,9 @@
                         currentId: null
                     })
                     this.updateStats(`${formatNumber(result.total)} / ${formatNumber(result.total)}`, result.best, result.actualComputeTime)
-                    this.renderBruteDetail({
-                        mask: result.bestMask,
-                        checked: result.total,
-                        total: result.total,
-                        current: result.best,
-                        best: result.best,
-                        feasible: true
-                    })
-                    this.statusEl.textContent = `Complete. Best bag value ${result.best.value}.`
+                    this.progressStatus.textContent = `Complete. Best bag value ${result.best.value}.`
                     this.addHistory(`Complete: <strong>${describeSelection(result.best)}</strong>`)
+                    this.setButtons(false)
                 },
                 this.speedProfile.bruteUpdateMultiplier
             )
@@ -1275,7 +1115,7 @@
                     this.renderTracks(progress.currentItem.id)
                     this.renderDynamicDetail(progress)
                     this.updateStats(`${formatNumber(progress.operations)} / ${formatNumber(progress.totalOperations)}`, progress.best, progress.actualComputeTime)
-                    this.statusEl.textContent = `Filling row ${progress.row}, capacity ${progress.col}`
+                    this.progressStatus.textContent = `Filling row ${progress.row}, capacity ${progress.col}`
 
                     if (progress.best.value > lastBestValue) {
                         lastBestValue = progress.best.value
@@ -1288,7 +1128,8 @@
                 result => {
                     finalResult = result
                     this.bestResult = cloneResult(result.best)
-                    this.candidateResult = cloneResult(result.best)
+                    // Clear candidate (current) bag and stats
+                    this.candidateResult = createEmptyResult()
                     this.renderTracks()
                     this.renderInventory({
                         currentId: null,
@@ -1303,8 +1144,9 @@
                         best: result.best
                     })
                     this.updateStats(`${formatNumber(result.totalOperations)} / ${formatNumber(result.totalOperations)}`, result.best, result.actualComputeTime)
-                    this.statusEl.textContent = `Complete. Optimal value ${result.best.value}.`
+                    this.progressStatus.textContent = `Complete. Optimal value ${result.best.value}.`
                     this.addHistory(`Complete: <strong>${describeSelection(result.best)}</strong>`)
+                    this.setButtons(false)
                 }
             )
 
@@ -1324,7 +1166,7 @@
                     this.renderTracks(progress.currentItem.id)
                     this.renderGreedyDetail(progress)
                     this.updateStats(`${formatNumber(progress.step)} / ${formatNumber(progress.totalSteps)}`, progress.best, progress.actualComputeTime)
-                    this.statusEl.textContent = progress.decision === 'take'
+                    this.progressStatus.textContent = progress.decision === 'take'
                         ? `Taking ${progress.currentItem.name}`
                         : `Skipping ${progress.currentItem.name}`
                     this.addHistory(`${progress.decision === 'take' ? 'Take' : 'Skip'} <strong>${progress.currentItem.label}</strong> -> ${describeSelection(progress.best)}`)
@@ -1333,7 +1175,8 @@
                 result => {
                     finalResult = result
                     this.bestResult = cloneResult(result.best)
-                    this.candidateResult = cloneResult(result.best)
+                    // Clear candidate (current) bag and stats
+                    this.candidateResult = createEmptyResult()
                     this.renderTracks()
                     this.renderInventory({
                         candidateIds: new Set(result.best.selected.map(item => item.id)),
@@ -1348,8 +1191,9 @@
                         }))
                     })
                     this.updateStats(`${formatNumber(result.totalOperations)} / ${formatNumber(result.totalOperations)}`, result.best, result.actualComputeTime)
-                    this.statusEl.textContent = `Complete. Greedy value ${result.best.value}.`
+                    this.progressStatus.textContent = `Complete. Greedy value ${result.best.value}.`
                     this.addHistory(`Complete: <strong>${describeSelection(result.best)}</strong>`)
+                    this.setButtons(false)
                 }
             )
 
@@ -1359,7 +1203,10 @@
 
         async runCompareDynamic() {
             const dynamicPhase = await this.runDynamic()
-            if (!dynamicPhase || this.stopRequested) return
+            if (!dynamicPhase || this.stopRequested) {
+                this.setButtons(false)
+                return
+            }
 
             const dynamicResult = cloneResult(dynamicPhase.best)
             const dynamicOperations = dynamicPhase.totalOperations
@@ -1369,7 +1216,10 @@
             this.addHistory('Starting brute force for comparison')
 
             const brutePhase = await this.runBruteForce()
-            if (!brutePhase || this.stopRequested) return
+            if (!brutePhase || this.stopRequested) {
+                this.setButtons(false)
+                return
+            }
 
             const bruteResult = cloneResult(brutePhase.best)
             const bruteOperations = brutePhase.operations
@@ -1379,12 +1229,16 @@
             this.updateComparisonBrute(bruteResult, bruteOperations, bruteTime)
             this.updateComparisonSummary('Dynamic programming', dynamicResult, dynamicOperations, dynamicTime, bruteResult, bruteOperations, bruteTime)
             this.summaryMeta.textContent = `Dynamic table used ${formatNumber(dynamicOperations)} states. Brute force checked ${formatNumber(bruteOperations)} subsets.`
-            this.statusEl.textContent = 'Comparison complete. Dynamic matched optimal with fewer states.'
+            this.progressStatus.textContent = 'Comparison complete. Dynamic matched optimal with fewer states.'
+            this.setButtons(false)
         }
 
         async runCompareGreedy() {
             const greedyPhase = await this.runGreedy()
-            if (!greedyPhase || this.stopRequested) return
+            if (!greedyPhase || this.stopRequested) {
+                this.setButtons(false)
+                return
+            }
 
             const greedyResult = cloneResult(greedyPhase.best)
             const greedyOperations = greedyPhase.operations
@@ -1394,7 +1248,10 @@
             this.addHistory('Starting brute force for comparison')
 
             const brutePhase = await this.runBruteForce()
-            if (!brutePhase || this.stopRequested) return
+            if (!brutePhase || this.stopRequested) {
+                this.setButtons(false)
+                return
+            }
 
             const bruteResult = cloneResult(brutePhase.best)
             const bruteOperations = brutePhase.operations
@@ -1402,7 +1259,8 @@
 
             this.updateComparisonBrute(bruteResult, bruteOperations, bruteTime)
             this.updateComparisonSummary('Greedy', greedyResult, greedyOperations, greedyTime, bruteResult, bruteOperations, bruteTime)
-            this.statusEl.textContent = 'Comparison complete. Greedy speed against optimal quality.'
+            this.progressStatus.textContent = 'Comparison complete. Greedy speed against optimal quality.'
+            this.setButtons(false)
         }
     }
 

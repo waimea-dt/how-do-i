@@ -20,6 +20,9 @@ Each item can be used **once or not at all**.
 
 The bag is drawn as one long capacity block. Each chosen item becomes a slice whose width matches its weight. Higher-value items use a deeper colour, so you can see both **space used** and **value gained** at the same time.
 
+<knapsack></knapsack>
+
+
 ## Brute force
 
 Brute force checks every subset of items. That guarantees the best answer, but it grows as $2^n$.
