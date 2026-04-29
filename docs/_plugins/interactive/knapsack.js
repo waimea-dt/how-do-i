@@ -69,15 +69,15 @@
             slow: {
                 bruteDelay: 250,
                 bruteUpdateMultiplier: 0,
-                dynamicDelay: 140,
-                greedyDelay: 520,
+                dynamicDelay: 250,
+                greedyDelay: 250,
                 instant: false
             },
             normal: {
                 bruteDelay: 0,
                 bruteUpdateMultiplier: 1,
-                dynamicDelay: 70,
-                greedyDelay: 320,
+                dynamicDelay: 0,
+                greedyDelay: 0,
                 instant: false
             },
             fast: {
@@ -177,9 +177,9 @@
     }
 
     function getDynamicUpdateFrequency(totalSteps) {
-        if (totalSteps > 800) return 12
-        if (totalSteps > 300) return 6
-        if (totalSteps > 120) return 3
+        // if (totalSteps > 800) return 12
+        // if (totalSteps > 300) return 6
+        // if (totalSteps > 120) return 3
         return 1
     }
 
@@ -1145,7 +1145,7 @@
                     this.bestResult = cloneResult(progress.best)
                     this.candidateResult = cloneResult(progress.best)
                     this.renderTracks(progress.currentItem.id)
-                    this.renderDynamicDetail(progress)
+                    // this.renderDynamicDetail(progress)
                     this.updateStats(`${formatNumber(progress.operations)} / ${formatNumber(progress.totalOperations)}`, progress.best, progress.actualComputeTime)
                     this.progressStatus.textContent = `Filling row ${progress.row}, capacity ${progress.col}`
 
@@ -1168,13 +1168,13 @@
                         candidateIds: new Set(result.best.selected.map(item => item.id)),
                         bestIds: new Set(result.best.selected.map(item => item.id))
                     })
-                    this.renderDynamicDetail({
-                        row: this.items.length,
-                        col: this.capacity,
-                        currentItem: this.items[this.items.length - 1],
-                        table: result.table,
-                        best: result.best
-                    })
+                    // this.renderDynamicDetail({
+                    //     row: this.items.length,
+                    //     col: this.capacity,
+                    //     currentItem: this.items[this.items.length - 1],
+                    //     table: result.table,
+                    //     best: result.best
+                    // })
                     this.updateStats(`${formatNumber(result.totalOperations)} / ${formatNumber(result.totalOperations)}`, result.best, result.actualComputeTime)
                     this.progressStatus.textContent = `Complete. Optimal value ${result.best.value}.`
                     this.addHistory(`Complete: <strong>${describeSelection(result.best)}</strong>`)
@@ -1196,7 +1196,7 @@
                     this.bestResult = cloneResult(progress.best)
                     this.candidateResult = cloneResult(progress.best)
                     this.renderTracks(progress.currentItem.id)
-                    this.renderGreedyDetail(progress)
+                    // this.renderGreedyDetail(progress)
                     this.updateStats(`${formatNumber(progress.step)} / ${formatNumber(progress.totalSteps)}`, progress.best, progress.actualComputeTime)
                     this.progressStatus.textContent = progress.decision === 'take'
                         ? `Taking ${progress.currentItem.name}`
