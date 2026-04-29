@@ -23,6 +23,21 @@ The bag is drawn as one long capacity block. Each chosen item becomes a slice wh
 <knapsack></knapsack>
 
 
+## Brute force - Slow
+
+<knapsack speed="slow"></knapsack>
+
+
+## Brute force - Fast
+
+<knapsack speed="fast"></knapsack>
+
+
+## Brute force - Instant
+
+<knapsack speed="instant"></knapsack>
+
+
 ## Brute force
 
 Brute force checks every subset of items. That guarantees the best answer, but it grows as $2^n$.

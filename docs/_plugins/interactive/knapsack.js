@@ -21,6 +21,14 @@
     const MAX_GENERATED_ITEMS = 30
     const SMALL_TREE_MAX_ITEMS = 8
 
+    const SVG_ICONS = {
+        race: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>',
+        play: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
+        reset: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+        shuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle-icon lucide-shuffle"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>',
+        sort: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>',
+    }
+
     function sleep(ms = 0) {
         return new Promise(resolve => setTimeout(resolve, ms))
     }
@@ -56,33 +64,37 @@
     }
 
     function getSpeedProfile(speed) {
+        // TSP plugin: instant yields every 10k, disables visualization
         const profiles = {
             slow: {
-                bruteDelay: 30,
-                bruteUpdateMultiplier: 1,
+                bruteDelay: 250,
+                bruteUpdateMultiplier: 0,
                 dynamicDelay: 140,
-                greedyDelay: 520
+                greedyDelay: 520,
+                instant: false
             },
             normal: {
                 bruteDelay: 0,
                 bruteUpdateMultiplier: 1,
                 dynamicDelay: 70,
-                greedyDelay: 320
+                greedyDelay: 320,
+                instant: false
             },
             fast: {
                 bruteDelay: 0,
-                bruteUpdateMultiplier: 4,
+                bruteUpdateMultiplier: 20,
                 dynamicDelay: 0,
-                greedyDelay: 140
+                greedyDelay: 140,
+                instant: false
             },
             instant: {
                 bruteDelay: 0,
-                bruteUpdateMultiplier: 16,
+                bruteUpdateMultiplier: 10000, // yield every 10k
                 dynamicDelay: 0,
-                greedyDelay: 0
+                greedyDelay: 0,
+                instant: true
             }
         }
-
         return profiles[speed] || profiles.normal
     }
 
@@ -154,11 +166,13 @@
     }
 
     function getBruteUpdateFrequency(total) {
-        if (total > 20000) return 2048
-        if (total > 4000) return 512
-        if (total > 1000) return 128
-        if (total > 200) return 32
-        if (total > 40) return 8
+        if (total > 625000) return 128
+        if (total > 125000) return 64
+        if (total > 25000) return 32
+        if (total > 5000) return 16
+        if (total > 1000) return 8
+        if (total > 200) return 4
+        if (total > 40) return 2
         return 1
     }
 
@@ -183,7 +197,7 @@
         return `hsl(${hue} ${saturation}% ${lightness}%)`
     }
 
-    function buildUI(capacity, items, solverMode, usesFixedItems, speed) {
+    function buildUI(capacity, items, solverMode, usesFixedItems, speed, showHistory) {
         const titles = {
             brute: {
                 title: 'Knapsack Solver: Brute Force',
@@ -221,31 +235,25 @@
             </div>
             <div class="knapsack-content">
                 <div class="knapsack-control-group">
-                    <div class="knapsack-capacity-control">
-                        <label class="knapsack-capacity-label">Capacity</label>
-                        <div class="knapsack-capacity-inputs">
-                            <input class="knapsack-capacity-range" type="range" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" value="${capacity}">
-                            <input class="knapsack-capacity-number" type="number" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" step="1" value="${capacity}">
-                        </div>
+                    <label class="knapsack-capacity-label">Backpack Capacity</label>
+                    <div class="knapsack-capacity-inputs">
+                        <input class="knapsack-capacity-range" type="range" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" value="${capacity}">
+                        <input class="knapsack-capacity-number" type="number" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" step="1" value="${capacity}">
                     </div>
-                    <div class="knapsack-items-control" ${usesFixedItems ? 'style="display: none;"' : ''}>
-                        <label class="knapsack-items-label">Items (N)</label>
-                        <div class="knapsack-items-inputs">
-                            <input class="knapsack-items-range" type="range" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" value="${items.length}">
-                            <input class="knapsack-items-number" type="number" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" step="1" value="${items.length}">
-                        </div>
+                    <label class="knapsack-items-label" ${usesFixedItems ? 'style="display: none;"' : ''}>Items Available (N)</label>
+                    <div class="knapsack-items-inputs" ${usesFixedItems ? 'style="display: none;"' : ''}>
+                        <input class="knapsack-items-range" type="range" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" value="${items.length}">
+                        <input class="knapsack-items-number" type="number" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" step="1" value="${items.length}">
                     </div>
-                    <div class="knapsack-pill">
-                        <span class="knapsack-pill-label">Combinations</span>
-                        <span class="knapsack-pill-value knapsack-combinations-value">2^${items.length}</span>
-                    </div>
+                    <span class="knapsack-combo-label">Combinations to Check</span>
+                    <span class="knapsack-combo-value knapsack-combinations-value">2^${items.length}</span>
                 </div>
 
                 <div class="knapsack-button-group">
                     <button class="knapsack-btn knapsack-btn-start">Start</button>
                     <button class="knapsack-btn knapsack-btn-stop" disabled>Stop</button>
                     <button class="knapsack-btn knapsack-btn-secondary knapsack-btn-reset">Reset</button>
-                    <button class="knapsack-btn knapsack-btn-secondary knapsack-btn-randomise" ${usesFixedItems ? 'disabled title="Uses fixed items from markdown"' : ''}>Randomise</button>
+                    <button class="knapsack-btn knapsack-btn-secondary knapsack-btn-randomise" ${usesFixedItems ? 'disabled title="Uses fixed items from markdown"' : ''}>${SVG_ICONS.shuffle}</button>
                 </div>
 
                 <div class="knapsack-visualization">
@@ -268,7 +276,7 @@
                 </div>
 
                 <div class="knapsack-inventory">
-                    <div class="knapsack-panel-title">Items</div>
+                    <div class="knapsack-panel-title">Items to Select from</div>
                     <div class="knapsack-item-list"></div>
                 </div>
 
@@ -279,16 +287,16 @@
                         <div class="knapsack-stat-status knapsack-progress-status">Ready</div>
                     </div>
                     <div class="knapsack-stat">
+                        <div class="knapsack-stat-label">Compute time</div>
+                        <div class="knapsack-stat-value knapsack-time-value">0 ms</div>
+                    </div>
+                    <div class="knapsack-stat">
                         <div class="knapsack-stat-label">Best value</div>
                         <div class="knapsack-stat-value knapsack-best-value">0</div>
                     </div>
                     <div class="knapsack-stat">
                         <div class="knapsack-stat-label">Best weight</div>
                         <div class="knapsack-stat-value knapsack-weight-value">0 / ${capacity}</div>
-                    </div>
-                    <div class="knapsack-stat">
-                        <div class="knapsack-stat-label">Compute time</div>
-                        <div class="knapsack-stat-value knapsack-time-value">0 ms</div>
                     </div>
                 </div>
 
@@ -314,7 +322,7 @@
                     </div>
                 </div>
 
-                <div class="knapsack-history">
+                <div class="knapsack-history" style="${showHistory ? '' : 'display:none;'}">
                     <div class="knapsack-panel-title">History</div>
                     <div class="knapsack-history-list"></div>
                 </div>
@@ -338,7 +346,11 @@
             this.onProgress = onProgress
             this.onComplete = onComplete
             this.total = 2 ** items.length
-            this.updateEvery = Math.max(1, getBruteUpdateFrequency(this.total) * updateMultiplier)
+            if (!updateMultiplier || updateMultiplier === 0) {
+                this.updateEvery = 1
+            } else {
+                this.updateEvery = Math.max(1, getBruteUpdateFrequency(this.total) * updateMultiplier)
+            }
             this.running = false
         }
 
@@ -349,6 +361,10 @@
             let best = createEmptyResult()
             let bestMask = 0
             let actualComputeTime = 0
+
+
+            // Detect instant mode by large updateEvery (10,000 or more)
+            const isInstant = this.updateEvery >= 10000
 
             for (let mask = 0; mask < this.total; mask++) {
                 if (!this.running) break
@@ -393,6 +409,10 @@
                         elapsedTime: Date.now() - startedAt,
                         actualComputeTime
                     })
+                    // Yield to event loop in instant mode to keep UI responsive
+                    if (isInstant) {
+                        await sleep(0)
+                    }
                 }
             }
 
@@ -591,6 +611,7 @@
             this.speed = normaliseSpeed(el.getAttribute('speed') || 'normal')
             this.speedProfile = getSpeedProfile(this.speed)
             this.usesFixedItems = el.hasAttribute('items')
+            this.showHistory = el.hasAttribute('history')
 
             const parsedItems = this.usesFixedItems
                 ? parseItems(el.getAttribute('items'))
@@ -604,7 +625,7 @@
 
             this.itemCount = this.initialItems.length
             this.items = this.initialItems.map(item => ({ ...item }))
-            this.wrapper = buildUI(this.capacity, this.items, this.solveMode, this.usesFixedItems, this.speed)
+            this.wrapper = buildUI(this.capacity, this.items, this.solveMode, this.usesFixedItems, this.speed, this.showHistory)
             this.el.innerHTML = ''
             this.el.appendChild(this.wrapper)
 
@@ -791,6 +812,7 @@
         }
 
         addHistory(message) {
+            if (!this.showHistory) return;
             this.history.unshift(message)
             this.history = this.history.slice(0, 24)
             this.historyList.innerHTML = this.history
@@ -965,7 +987,7 @@
                     <div
                         class="${classes}" title="${title}" style="--slice-value: ${item.value}; --slice-max-value: ${maxItemValue}; width: ${tileWidth}px;">
                         <div class="knapsack-item-tile-label">${item.label}</div>
-                        <div class="knapsack-item-tile-stats">w${item.weight} · v${item.value}</div>
+                        <div class="knapsack-item-tile-stats">w${item.weight}·v${item.value}</div>
                         ${indicators.length > 0 ? `<div class="knapsack-item-tile-indicator">${indicators.join(' ')}</div>` : ''}
                     </div>
                 `
@@ -1047,24 +1069,31 @@
             let lastBestValue = -1
             let finalResult = null
 
+            // For instant mode, yield every 10k, no visualization
+            const isInstant = this.speedProfile.instant === true
+            const updateMultiplier = isInstant ? 10000 : this.speedProfile.bruteUpdateMultiplier
+
+
             this.solver = new KnapsackBruteForceSolver(
                 this.items,
                 this.capacity,
                 async progress => {
-                    this.candidateResult = cloneResult(progress.current)
-                    this.bestResult = cloneResult(progress.best)
-                    const lastItem = progress.current.selected.length > 0
-                        ? progress.current.selected[progress.current.selected.length - 1]
-                        : null;
-                    this.renderTracks(lastItem ? lastItem.id : null, !progress.feasible)
-                    this.renderInventory({
-                        candidateIds: new Set(progress.current.selected.map(item => item.id)),
-                        bestIds: new Set(progress.best.selected.map(item => item.id)),
-                        rejectedIds: progress.feasible ? new Set() : new Set(progress.current.selected.map(item => item.id)),
-                        currentId: null,
-                        orderMap: new Map(),
-                        decisions: new Map()
-                    })
+                    if (!isInstant) {
+                        this.candidateResult = cloneResult(progress.current)
+                        this.bestResult = cloneResult(progress.best)
+                        const lastItem = progress.current.selected.length > 0
+                            ? progress.current.selected[progress.current.selected.length - 1]
+                            : null;
+                        this.renderTracks(lastItem ? lastItem.id : null, !progress.feasible)
+                        this.renderInventory({
+                            candidateIds: new Set(progress.current.selected.map(item => item.id)),
+                            bestIds: new Set(progress.best.selected.map(item => item.id)),
+                            rejectedIds: progress.feasible ? new Set() : new Set(progress.current.selected.map(item => item.id)),
+                            currentId: null,
+                            orderMap: new Map(),
+                            decisions: new Map()
+                        })
+                    }
 
                     this.updateStats(`${formatNumber(progress.checked)} / ${formatNumber(progress.total)}`, progress.best, progress.actualComputeTime)
                     this.progressStatus.textContent = progress.feasible
@@ -1076,13 +1105,16 @@
                         this.addHistory(`New best: <strong>${describeSelection(progress.best)}</strong>`)
                     }
 
-                    await sleep(this.speedProfile.bruteDelay)
+                    if (!isInstant) {
+                        await sleep(this.speedProfile.bruteDelay)
+                    }
                 },
                 result => {
                     finalResult = result
                     this.bestResult = cloneResult(result.best)
                     // Clear candidate (current) bag and stats
                     this.candidateResult = createEmptyResult()
+                    // Always render the final best bag and inventory at the end
                     this.renderTracks()
                     this.renderInventory({
                         candidateIds: new Set(result.best.selected.map(item => item.id)),
@@ -1095,7 +1127,7 @@
                     this.addHistory(`Complete: <strong>${describeSelection(result.best)}</strong>`)
                     this.setButtons(false)
                 },
-                this.speedProfile.bruteUpdateMultiplier
+                updateMultiplier
             )
 
             await this.solver.start()
