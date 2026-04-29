@@ -1,5 +1,10 @@
 /**
- * knapsack.js - 0/1 knapsack solver visualiser
+ * docsify-knapsack.js - 0/1 Knapsack Problem Visualizer
+ *
+ * Visualizes three approaches to the 0/1 knapsack problem:
+ *   - Brute Force: Exhaustive search through all subsets
+ *   - Dynamic Programming: Builds optimal solution table
+ *   - Greedy: Quick heuristic based on value/weight ratio
  *
  * Usage in markdown:
  *   <knapsack></knapsack>
@@ -12,22 +17,113 @@
 
 ;(function () {
 
-    const DEFAULT_CAPACITY = 14
-    const MIN_CAPACITY = 4
-    const MAX_CAPACITY = 60
-    const DEFAULT_ITEMS = '2|3 3|4 4|5 5|8 7|9 8|11'
-    const DEFAULT_GENERATED_ITEMS = 6
-    const MIN_GENERATED_ITEMS = 3
-    const MAX_GENERATED_ITEMS = 30
-    const SMALL_TREE_MAX_ITEMS = 8
+    // =========================================================================
+    // Configuration & Constants
+    // =========================================================================
+
+    const CONFIG = {
+        DEFAULT_CAPACITY: 14,
+        MIN_CAPACITY: 4,
+        MAX_CAPACITY: 60,
+        DEFAULT_ITEMS: '2|3 3|4 4|5 5|8 7|9 8|11',
+        DEFAULT_GENERATED_ITEMS: 6,
+        MIN_GENERATED_ITEMS: 3,
+        MAX_GENERATED_ITEMS: 30,
+        MIN_TILE_PX: 24,
+        FALLBACK_TRACK_WIDTH: 400
+    }
+
+    const SOLVER_CONFIG = {
+        brute: {
+            title: 'Knapsack Solver: Brute Force, O(2<sup>n</sup>)',
+            subtitle: 'Checks every subset. Perfect answer, explosive growth.',
+            workLabel: 'Combinations to Check',
+            calculateWork: (n, capacity) => Math.pow(2, n),
+            formatWork: (work) => work >= 1000000 ? `${(work / 1000000).toFixed(1)}M` : formatNumber(work),
+            primarySolver: 'brute',
+            dependsOnCapacity: false,
+            isComparison: false
+        },
+        dynamic: {
+            title: 'Knapsack Solver: Dynamic Programming, O(n<sup>2</sup>)',
+            subtitle: 'Builds an exact answer by filling a value table.',
+            workLabel: 'Solutions to Check',
+            calculateWork: (n, capacity) => n * capacity,
+            formatWork: (work) => formatNumber(work),
+            primarySolver: 'dynamic',
+            dependsOnCapacity: true,
+            isComparison: false
+        },
+        greedy: {
+            title: 'Knapsack Solver: Greedy Ratio Heuristic, O(n log n)',
+            subtitle: 'Picks by value per unit of weight. Fast, but not always best.',
+            workLabel: 'Sorted Items to Pack',
+            calculateWork: (n, capacity) => n,
+            formatWork: (work) => work.toString(),
+            primarySolver: 'greedy',
+            dependsOnCapacity: false,
+            isComparison: false
+        },
+        'compare-dynamic': {
+            title: 'Knapsack Solver: Brute Force vs. Dynamic Programming',
+            subtitle: 'Same optimal answer, different amount of work.',
+            workLabel: 'Solutions to Check',
+            calculateWork: (n, capacity) => n * capacity,
+            formatWork: (work) => formatNumber(work),
+            primarySolver: 'dynamic',
+            dependsOnCapacity: true,
+            isComparison: true
+        },
+        'compare-greedy': {
+            title: 'Knapsack Solver: Brute Force vs. Greedy Heuristic',
+            subtitle: 'Fast heuristic against guaranteed optimal search.',
+            workLabel: 'Sorted Items to Pack',
+            calculateWork: (n, capacity) => n,
+            formatWork: (work) => work.toString(),
+            primarySolver: 'greedy',
+            dependsOnCapacity: false,
+            isComparison: true
+        }
+    }
 
     const SVG_ICONS = {
-        race: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>',
-        play: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
-        reset: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
-        shuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle-icon lucide-shuffle"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>',
-        sort: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>',
+        shuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>'
     }
+
+    const SPEED_PROFILES = {
+        slow: {
+            bruteDelay: 250,
+            bruteUpdateMultiplier: 0,
+            dynamicDelay: 250,
+            greedyDelay: 250,
+            instant: false
+        },
+        normal: {
+            bruteDelay: 0,
+            bruteUpdateMultiplier: 1,
+            dynamicDelay: 0,
+            greedyDelay: 0,
+            instant: false
+        },
+        fast: {
+            bruteDelay: 0,
+            bruteUpdateMultiplier: 20,
+            dynamicDelay: 0,
+            greedyDelay: 0,
+            instant: false
+        },
+        instant: {
+            bruteDelay: 0,
+            bruteUpdateMultiplier: 10000,
+            dynamicDelay: 0,
+            greedyDelay: 0,
+            instant: true
+        }
+    }
+
+    // =========================================================================
+    // Utility Functions - General
+    // =========================================================================
 
     function sleep(ms = 0) {
         return new Promise(resolve => setTimeout(resolve, ms))
@@ -37,6 +133,38 @@
         const parsed = parseInt(value ?? '', 10)
         return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
     }
+
+    function normaliseSolve(value) {
+        const allowed = ['brute', 'dynamic', 'greedy', 'compare-dynamic', 'compare-greedy']
+        return allowed.includes(value) ? value : 'brute'
+    }
+
+    function normaliseSpeed(value) {
+        const allowed = ['slow', 'normal', 'fast', 'instant']
+        return allowed.includes(value) ? value : 'normal'
+    }
+
+    function getSpeedProfile(speed) {
+        return SPEED_PROFILES[speed] || SPEED_PROFILES.normal
+    }
+
+    function getItemLabel(index) {
+        // A-Z for first 26 items
+        if (index < 26) {
+            return String.fromCharCode(65 + index)
+        }
+        // Greek letters for items 27-30
+        const greekLetters = ['α', 'β', 'γ', 'δ']
+        if (index < 30) {
+            return greekLetters[index - 26]
+        }
+        // Wrap back to A for items beyond 30
+        return String.fromCharCode(65 + (index % 26))
+    }
+
+    // =========================================================================
+    // Utility Functions - Formatting
+    // =========================================================================
 
     function formatNumber(value) {
         return Number(value || 0).toLocaleString()
@@ -53,50 +181,15 @@
         return Number.isFinite(value) ? value.toFixed(2) : '0.00'
     }
 
-    function normaliseSolve(value) {
-        const allowed = ['brute', 'dynamic', 'greedy', 'compare-dynamic', 'compare-greedy']
-        return allowed.includes(value) ? value : 'brute'
+    function describeSelection(result) {
+        if (!result || result.selected.length === 0) return 'No items selected'
+        const labels = result.selected.map(item => item.label).join(', ')
+        return `${labels} | weight ${result.weight} | value ${result.value}`
     }
 
-    function normaliseSpeed(value) {
-        const allowed = ['slow', 'normal', 'fast', 'instant']
-        return allowed.includes(value) ? value : 'normal'
-    }
-
-    function getSpeedProfile(speed) {
-        // TSP plugin: instant yields every 10k, disables visualization
-        const profiles = {
-            slow: {
-                bruteDelay: 250,
-                bruteUpdateMultiplier: 0,
-                dynamicDelay: 250,
-                greedyDelay: 250,
-                instant: false
-            },
-            normal: {
-                bruteDelay: 0,
-                bruteUpdateMultiplier: 1,
-                dynamicDelay: 0,
-                greedyDelay: 0,
-                instant: false
-            },
-            fast: {
-                bruteDelay: 0,
-                bruteUpdateMultiplier: 20,
-                dynamicDelay: 0,
-                greedyDelay: 140,
-                instant: false
-            },
-            instant: {
-                bruteDelay: 0,
-                bruteUpdateMultiplier: 10000, // yield every 10k
-                dynamicDelay: 0,
-                greedyDelay: 0,
-                instant: true
-            }
-        }
-        return profiles[speed] || profiles.normal
-    }
+    // =========================================================================
+    // Utility Functions - Items & Results
+    // =========================================================================
 
     function parseItems(itemsAttr) {
         if (!itemsAttr || !itemsAttr.trim()) return []
@@ -113,14 +206,31 @@
     }
 
     function enrichItems(items) {
-        return items.map((item, index) => ({
-            id: index,
-            label: String.fromCharCode(65 + (index % 26)),
-            name: `Item ${String.fromCharCode(65 + (index % 26))}`,
-            weight: item.weight,
-            value: item.value,
-            ratio: item.weight > 0 ? item.value / item.weight : 0
-        }))
+        return items.map((item, index) => {
+            const label = getItemLabel(index)
+            return {
+                id: index,
+                label: label,
+                name: `Item ${label}`,
+                weight: item.weight,
+                value: item.value,
+                ratio: item.weight > 0 ? item.value / item.weight : 0
+            }
+        })
+    }
+
+    function generateItems(capacity, count = CONFIG.DEFAULT_GENERATED_ITEMS) {
+        const items = []
+        const maxWeight = Math.max(2, Math.floor(capacity * 0.45))
+
+        for (let index = 0; index < count; index++) {
+            const weight = 1 + Math.floor(Math.random() * maxWeight)
+            const valueFloor = Math.max(2, Math.round(weight * (1.4 + Math.random() * 2.6)))
+            const value = valueFloor + Math.floor(Math.random() * Math.max(3, Math.round(capacity * 0.15)))
+            items.push({ weight, value })
+        }
+
+        return items
     }
 
     function cloneResult(result) {
@@ -151,19 +261,9 @@
         return candidate.selected.length < currentBest.selected.length
     }
 
-    function generateItems(capacity, count = DEFAULT_GENERATED_ITEMS) {
-        const items = []
-        const maxWeight = Math.max(2, Math.floor(capacity * 0.45))
-
-        for (let index = 0; index < count; index++) {
-            const weight = 1 + Math.floor(Math.random() * maxWeight)
-            const valueFloor = Math.max(2, Math.round(weight * (1.4 + Math.random() * 2.6)))
-            const value = valueFloor + Math.floor(Math.random() * Math.max(3, Math.round(capacity * 0.15)))
-            items.push({ weight, value })
-        }
-
-        return items
-    }
+    // =========================================================================
+    // Algorithm Configuration
+    // =========================================================================
 
     function getBruteUpdateFrequency(total) {
         if (total > 625000) return 128
@@ -177,52 +277,19 @@
     }
 
     function getDynamicUpdateFrequency(totalSteps) {
-        // if (totalSteps > 800) return 12
-        // if (totalSteps > 300) return 6
-        // if (totalSteps > 120) return 3
+        if (totalSteps > 800) return 12
+        if (totalSteps > 300) return 6
+        if (totalSteps > 120) return 3
         return 1
     }
 
-    function describeSelection(result) {
-        if (!result || result.selected.length === 0) return 'No items selected'
-        const labels = result.selected.map(item => item.label).join(', ')
-        return `${labels} | weight ${result.weight} | value ${result.value}`
-    }
-
-    function getItemColour(item, maxValue) {
-        const strength = maxValue > 0 ? item.value / maxValue : 0
-        const hue = 190 - Math.round(strength * 28)
-        const saturation = 68 + Math.round(strength * 10)
-        const lightness = 62 - Math.round(strength * 22)
-        return `hsl(${hue} ${saturation}% ${lightness}%)`
-    }
+    // =========================================================================
+    // UI Builder
+    // =========================================================================
 
     function buildUI(capacity, items, solverMode, usesFixedItems, speed, showHistory) {
-        const titles = {
-            brute: {
-                title: 'Knapsack Solver: Brute Force',
-                subtitle: 'Checks every subset. Perfect answer, explosive growth.'
-            },
-            dynamic: {
-                title: 'Knapsack Solver: Dynamic Programming',
-                subtitle: 'Builds an exact answer by filling a value table.'
-            },
-            greedy: {
-                title: 'Knapsack Solver: Greedy Ratio Heuristic',
-                subtitle: 'Picks by value per unit of weight. Fast, but not always best.'
-            },
-            'compare-dynamic': {
-                title: 'Knapsack Solver: Dynamic vs. Brute Force',
-                subtitle: 'Same optimal answer, different amount of work.'
-            },
-            'compare-greedy': {
-                title: 'Knapsack Solver: Greedy vs. Brute Force',
-                subtitle: 'Fast heuristic against guaranteed optimal search.'
-            }
-        }
-
-        const copy = titles[solverMode] || titles.brute
-        const showComparison = solverMode.startsWith('compare-')
+        const config = SOLVER_CONFIG[solverMode] || SOLVER_CONFIG.brute
+        const showComparison = config.isComparison
 
         const wrapper = document.createElement('div')
         wrapper.className = 'knapsack-wrapper'
@@ -230,23 +297,23 @@
 
         wrapper.innerHTML = `
             <div class="knapsack-header">
-                <h3 class="knapsack-title">${copy.title}</h3>
-                <p class="knapsack-subtitle">${copy.subtitle}</p>
+                <h3 class="knapsack-title">${config.title}</h3>
+                <p class="knapsack-subtitle">${config.subtitle}</p>
             </div>
             <div class="knapsack-content">
                 <div class="knapsack-control-group">
                     <label class="knapsack-capacity-label">Backpack Capacity</label>
                     <div class="knapsack-capacity-inputs">
-                        <input class="knapsack-capacity-range" type="range" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" value="${capacity}">
-                        <input class="knapsack-capacity-number" type="number" min="${MIN_CAPACITY}" max="${MAX_CAPACITY}" step="1" value="${capacity}">
+                        <input class="knapsack-capacity-range" type="range" min="${CONFIG.MIN_CAPACITY}" max="${CONFIG.MAX_CAPACITY}" value="${capacity}">
+                        <input class="knapsack-capacity-number" type="number" min="${CONFIG.MIN_CAPACITY}" max="${CONFIG.MAX_CAPACITY}" step="1" value="${capacity}">
                     </div>
-                    <label class="knapsack-items-label" ${usesFixedItems ? 'style="display: none;"' : ''}>Items Available (N)</label>
-                    <div class="knapsack-items-inputs" ${usesFixedItems ? 'style="display: none;"' : ''}>
-                        <input class="knapsack-items-range" type="range" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" value="${items.length}">
-                        <input class="knapsack-items-number" type="number" min="${MIN_GENERATED_ITEMS}" max="${MAX_GENERATED_ITEMS}" step="1" value="${items.length}">
+                    <label class="knapsack-items-label">Items Available (N)</label>
+                    <div class="knapsack-items-inputs">
+                        <input class="knapsack-items-range" type="range" min="${CONFIG.MIN_GENERATED_ITEMS}" max="${CONFIG.MAX_GENERATED_ITEMS}" value="${items.length}" ${usesFixedItems ? 'disabled' : ''}>
+                        <input class="knapsack-items-number" type="number" min="${CONFIG.MIN_GENERATED_ITEMS}" max="${CONFIG.MAX_GENERATED_ITEMS}" step="1" value="${items.length}" ${usesFixedItems ? 'disabled' : ''}>
                     </div>
-                    <span class="knapsack-combo-label">Combinations to Check</span>
-                    <span class="knapsack-combo-value knapsack-combinations-value">2^${items.length}</span>
+                    <span class="knapsack-combo-label knapsack-combinations-label">${config.workLabel}</span>
+                    <span class="knapsack-combo-value knapsack-combinations-value">${config.formatWork(config.calculateWork(items.length, capacity))}</span>
                 </div>
 
                 <div class="knapsack-button-group">
@@ -331,6 +398,10 @@
 
         return wrapper
     }
+
+    // =========================================================================
+    // Solver Classes
+    // =========================================================================
 
     class KnapsackSolverBase {
         stop() {
@@ -603,10 +674,14 @@
         }
     }
 
+    // =========================================================================
+    // Main Widget Class
+    // =========================================================================
+
     class KnapsackWidget {
         constructor(el) {
             this.el = el
-            this.capacity = Math.max(MIN_CAPACITY, Math.min(MAX_CAPACITY, parsePositiveInt(el.getAttribute('capacity'), DEFAULT_CAPACITY)))
+            this.capacity = Math.max(CONFIG.MIN_CAPACITY, Math.min(CONFIG.MAX_CAPACITY, parsePositiveInt(el.getAttribute('capacity'), CONFIG.DEFAULT_CAPACITY)))
             this.solveMode = normaliseSolve(el.getAttribute('solve') || 'brute')
             this.speed = normaliseSpeed(el.getAttribute('speed') || 'normal')
             this.speedProfile = getSpeedProfile(this.speed)
@@ -615,12 +690,12 @@
 
             const parsedItems = this.usesFixedItems
                 ? parseItems(el.getAttribute('items'))
-                : parseItems(DEFAULT_ITEMS)
+                : parseItems(CONFIG.DEFAULT_ITEMS)
 
             const fallbackItems = parsedItems.length > 0 ? parsedItems : generateItems(this.capacity)
             this.initialItems = enrichItems(fallbackItems)
             if (!this.usesFixedItems && !el.hasAttribute('items')) {
-                this.initialItems = enrichItems(generateItems(this.capacity, DEFAULT_GENERATED_ITEMS))
+                this.initialItems = enrichItems(generateItems(this.capacity, CONFIG.DEFAULT_GENERATED_ITEMS))
             }
 
             this.itemCount = this.initialItems.length
@@ -639,6 +714,7 @@
             this.itemsControl = this.wrapper.querySelector('.knapsack-items-control')
             this.itemsRange = this.wrapper.querySelector('.knapsack-items-range')
             this.itemsNumber = this.wrapper.querySelector('.knapsack-items-number')
+            this.combinationsLabel = this.wrapper.querySelector('.knapsack-combinations-label')
             this.combinationsValue = this.wrapper.querySelector('.knapsack-combinations-value')
             this.progressStatus = this.wrapper.querySelector('.knapsack-progress-status')
             this.candidateTrack = this.wrapper.querySelector('.knapsack-candidate-track')
@@ -756,28 +832,33 @@
             this.capacityNumber.disabled = isRunning
 
             if (this.itemsRange && this.itemsNumber) {
-                this.itemsRange.disabled = isRunning
-                this.itemsNumber.disabled = isRunning
+                this.itemsRange.disabled = isRunning || this.usesFixedItems
+                this.itemsNumber.disabled = isRunning || this.usesFixedItems
             }
         }
 
         syncCapacityControls(value) {
-            const safe = Math.max(MIN_CAPACITY, Math.min(MAX_CAPACITY, parsePositiveInt(value, this.capacity)))
+            const safe = Math.max(CONFIG.MIN_CAPACITY, Math.min(CONFIG.MAX_CAPACITY, parsePositiveInt(value, this.capacity)))
             this.capacityRange.value = `${safe}`
             this.capacityNumber.value = `${safe}`
-            // this.capacityValueEl.textContent = `${safe}`
 
             this.weightValue.textContent = `${formatNumber(this.bestResult.weight)} / ${formatNumber(safe)}`
             this.renderTracks()
+
+            // Update combinations display for modes that depend on capacity
+            const solverConfig = SOLVER_CONFIG[this.solveMode] || SOLVER_CONFIG.brute
+            if (solverConfig.dependsOnCapacity) {
+                this.updateCombinationsDisplay(this.itemCount)
+            }
         }
 
         readCapacityFromControls() {
-            return Math.max(MIN_CAPACITY, Math.min(MAX_CAPACITY, parsePositiveInt(this.capacityNumber.value, this.capacity)))
+            return Math.max(CONFIG.MIN_CAPACITY, Math.min(CONFIG.MAX_CAPACITY, parsePositiveInt(this.capacityNumber.value, this.capacity)))
         }
 
         syncItemControls(value) {
             if (!this.itemsRange || !this.itemsNumber) return
-            const safe = Math.max(MIN_GENERATED_ITEMS, Math.min(MAX_GENERATED_ITEMS, parsePositiveInt(value, this.itemCount)))
+            const safe = Math.max(CONFIG.MIN_GENERATED_ITEMS, Math.min(CONFIG.MAX_GENERATED_ITEMS, parsePositiveInt(value, this.itemCount)))
             // --- ResizeObserver to refresh inventory tile widths on track resize ---
             if (window.ResizeObserver && this.bestTrack) {
                 this._trackResizeObserver = new ResizeObserver(() => {
@@ -792,14 +873,15 @@
 
         readItemCountFromControls() {
             if (!this.itemsNumber) return this.itemCount
-            return Math.max(MIN_GENERATED_ITEMS, Math.min(MAX_GENERATED_ITEMS, parsePositiveInt(this.itemsNumber.value, this.itemCount)))
+            return Math.max(CONFIG.MIN_GENERATED_ITEMS, Math.min(CONFIG.MAX_GENERATED_ITEMS, parsePositiveInt(this.itemsNumber.value, this.itemCount)))
         }
 
         updateCombinationsDisplay(n) {
-            const combinations = Math.pow(2, n)
-            this.combinationsValue.textContent = combinations >= 1000000
-                ? `${(combinations / 1000000).toFixed(1)}M`
-                : formatNumber(combinations)
+            const solverConfig = SOLVER_CONFIG[this.solveMode] || SOLVER_CONFIG.brute
+
+            this.combinationsLabel.textContent = solverConfig.workLabel
+            const work = solverConfig.calculateWork(n, this.capacity)
+            this.combinationsValue.textContent = solverConfig.formatWork(work)
         }
 
         stop() {
@@ -888,28 +970,14 @@
 
             const parts = selected.map(item => {
                 const width = (item.weight / this.capacity) * 100
-                const text = width < 6 ? ' ' : (
-                    width < 12
-                        ? `<span class="knapsack-slice-text">${item.label}</span>`
-                        : `<span class="knapsack-slice-text"><span>${item.label}</span><span class="knapsack-slice-meta">v${item.value} · w${item.weight}</span></span>`
-                    )
-
                 return `
                     <div
                         class="knapsack-slice ${item.id === currentItemId ? 'is-current' : ''}"
                         style="--slice-width: ${width}; --slice-value: ${item.value}; --slice-max-value: ${maxItemValue};"
-                        title="${item.name}: weight ${item.weight}, value ${item.value}">
-                        ${text}
+                        title="${item.name}: w${item.weight} · v${item.value} · r${formatRatio(item.ratio)}">
+                        <div class="knapsack-slice-name">${item.label}</div>
                     </div>
                 `
-                // return `
-                //     <div
-                //         class="knapsack-slice knapsack-slice-v${item.value} knapsack-slice-w${item.weight} ${item.id === currentItemId ? 'is-current' : ''}"
-                //         style="flex: 0 0 ${width}%; background: ${getItemColour(item, maxItemValue)};"
-                //         title="${item.name}: weight ${item.weight}, value ${item.value}">
-                //         ${text}
-                //     </div>
-                // `
             })
 
             if (remaining > 0) {
@@ -940,16 +1008,16 @@
 
             const maxItemValue = Math.max(...this.items.map(item => item.value), 1)
             const capacity = this.capacity
-            // Try to get the width of the bestTrack (should be same as candidateTrack)
-            let trackWidth = 400 // fallback default
+
+            // Get track width for proportional tile sizing
+            let trackWidth = CONFIG.FALLBACK_TRACK_WIDTH
             if (this.bestTrack && this.bestTrack.offsetWidth) {
                 trackWidth = this.bestTrack.offsetWidth
             } else if (this.candidateTrack && this.candidateTrack.offsetWidth) {
                 trackWidth = this.candidateTrack.offsetWidth
             }
 
-            // Minimum and maximum tile width for visibility
-            const MIN_TILE_PX = 24
+            const MIN_TILE_PX = CONFIG.MIN_TILE_PX
             const MAX_TILE_PX = Math.max(44, trackWidth)
 
             this.itemList.innerHTML = this.items.map(item => {
@@ -983,11 +1051,14 @@
 
                 const title = `${item.name}: w${item.weight} · v${item.value} · r${formatRatio(item.ratio)}`
 
+                const text = tileWidth < 50
+                    ? `<div class="knapsack-item-tile-label">${item.label}</div>`
+                    : `<div class="knapsack-item-tile-label">${item.label}</div><div class="knapsack-item-tile-stats"><span>w<strong>${item.weight}</strong></span><span>v<strong>${item.value}</strong></span><span>r<strong>${formatRatio(item.ratio)}</strong></span></div>`
+
                 return `
                     <div
                         class="${classes}" title="${title}" style="--slice-value: ${item.value}; --slice-max-value: ${maxItemValue}; width: ${tileWidth}px;">
-                        <div class="knapsack-item-tile-label">${item.label}</div>
-                        <div class="knapsack-item-tile-stats">w${item.weight}·v${item.value}</div>
+                        ${text}
                         ${indicators.length > 0 ? `<div class="knapsack-item-tile-indicator">${indicators.join(' ')}</div>` : ''}
                     </div>
                 `
