@@ -68,6 +68,7 @@
     - [P vs NP Visualizer](tests/p-np.md)
     - [TSP Visualizer](tests/tsp.md)
     - [Knapsack Solver](tests/knapsack.md)
+    - [Bin Packing Solver](tests/bin-packing.md)
     - [Letter Frequency Analysis](tests/frequency.md)
     - [Colour Scheme Designer](tests/colours.md)
     - [Flash Cards](tests/flash-cards.md)
