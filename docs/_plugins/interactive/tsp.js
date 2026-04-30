@@ -489,7 +489,7 @@
         if (days < 7) return `${days.toFixed(1)} days`;
         if (weeks < 4) return `${weeks.toFixed(1)} weeks`;
         if (months < 12) return `${months.toFixed(1)} months`;
-        return `${years.toFixed(1)} years`;
+        return `${Number(years.toFixed(1)).toLocaleString()} years`;
     }
 
     function estimateRemainingTime(routesChecked, totalRoutes, elapsedTime) {
