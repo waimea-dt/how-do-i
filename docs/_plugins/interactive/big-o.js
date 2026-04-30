@@ -222,12 +222,8 @@
             id: 'pack-brute',
             name: 'Bin Packing: Brute Force',
             category: 'pack',
-            complexity: 'O(n!)',
-            fn: n => {
-                // Stirling's approximation for factorial
-                return Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n);
-            },
-            note: 'Approximation of O(n<sup>n</sup>)'
+            complexity: 'O(n<sup>n</sup>)',
+            fn: n => Math.pow(n, n)
         },
         {
             id: 'pack-next-fit',
