@@ -16,7 +16,6 @@
 - [ ] **rolling-code.js** - Garage door rolling code visualiser
 - [ ] **digital-sig.js** - Digital signature visualiser
 - [ ] **tls.js** - Simplified TLS handshake visualiser (TLS 1.2/1.3 toggle)
-- [ ] **knapsack** - Needs redoing with better UI / visuals
 
 ---
 
@@ -205,6 +204,8 @@
 - [x] **sorting-race.js** - Algorithm head-to-head visualiser
 - [x] **algo-race.js** - Algorithm race comparison visualiser
 - [x] **algorithm-visualiser.js** - Step-through algorithm visualiser
+- [x] **knapsack** - Explore and compare algos
+- [x] **bin-packing** - Explore and compare algos
 
 
 

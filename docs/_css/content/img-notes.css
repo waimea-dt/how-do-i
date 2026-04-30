@@ -1,0 +1,191 @@
+.markdown-section img-notes {
+    /* ---- Design tokens ---- */
+    --img-notes-margin:                 var(--margin-block);
+    --img-notes-border:                 var(--border-color);
+
+    --img-notes-gap:                    1rem;
+    --img-notes-gap-small:              1rem;
+    --img-notes-padding:                1rem;
+    --img-notes-padding-small:          0.5rem;
+
+    --img-notes-radius:                 var(--border-radius);
+    --img-notes-radius-hotspot:         var(--border-radius-small);
+    --img-notes-radius-tooltip:         var(--border-radius-small);
+    --img-notes-radius-error:           var(--border-radius);
+
+    --img-notes-stage-bg:               var(--color-mono-0);
+    --img-notes-stage-shadow:           var(--box-shadow);
+
+    --img-notes-accent:                 var(--palette-color-4);
+
+    --img-notes-label-bg:               var(--img-notes-accent);
+    --img-notes-label-fg:               var(--text-color);
+    --img-notes-label-size:             1.5rem;
+    --img-notes-hotspot-transition:     160ms ease;
+
+    --img-notes-hotspot-border:         color-mix(in srgb, var(--img-notes-accent), var(--color-mono-max) 35%);
+    --img-notes-hotspot-border-active:  color-mix(in srgb, var(--img-notes-accent), var(--color-mono-max) 10%);
+    --img-notes-hotspot-bg:             color-mix(in srgb, var(--img-notes-accent), transparent 100%);
+    --img-notes-hotspot-bg-active:      color-mix(in srgb, var(--img-notes-accent), transparent 85%);
+
+    --img-notes-tooltip-z:              3;
+    --img-notes-tooltip-width:          24rem;
+    --img-notes-tooltip-max-size:       calc(100% - var(--img-notes-margin));
+    --img-notes-tooltip-padding:        var(--img-notes-padding);
+    --img-notes-tooltip-bg:             var(--color-mono-0);
+    --img-notes-tooltip-shadow:         var(--box-shadow);
+
+    --img-notes-title-color:            var(--theme-color);
+    --img-notes-title-size:             1.2rem;
+    --img-notes-size:                   0.9rem;
+
+    --img-notes-error-border:           color-mix(in srgb, var(--color-attention), transparent 65%);
+    --img-notes-error-bg:               color-mix(in srgb, var(--color-attention), transparent 90%);
+    --img-notes-error-color:            var(--color-attention);
+    --img-notes-warning-border:         color-mix(in srgb, var(--color-warning), transparent 45%);
+    --img-notes-warning-bg:             color-mix(in srgb, var(--color-warning), transparent 90%);
+    --img-notes-warning-color:          var(--color-warning);
+
+    display: block;
+    margin: var(--img-notes-margin) 0;
+
+    .img-notes-stage {
+        position: relative;
+        margin: 0;
+        border: 1px solid var(--img-notes-border);
+        border-radius: var(--img-notes-radius);
+        background: var(--img-notes-stage-bg);
+        box-shadow: var(--img-notes-stage-shadow);
+
+        .img-notes-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin: 0;
+        }
+
+        .img-notes-hotspots {
+            position: absolute;
+            inset: 0;
+
+            &:is(:hover, :focus-visible, .is-active) {
+                .img-notes-hotspot {
+                    opacity: 1;
+                }
+            }
+
+            .img-notes-hotspot {
+                position: absolute;
+                display: flex;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 0;
+                border: 2px dashed var(--img-notes-hotspot-border);
+                border-radius: var(--img-notes-radius-hotspot);
+                background-color: var(--img-notes-hotspot-bg);
+                outline: none;
+                opacity: 0.4;
+                cursor: pointer;
+                transition:
+                    opacity var(--img-notes-hotspot-transition),
+                    background-color var(--img-notes-hotspot-transition),
+                    border-color var(--img-notes-hotspot-transition),
+                    border-style var(--img-notes-hotspot-transition);
+
+                &:is(:hover, :focus-visible, .is-active) {
+                    opacity: 1;
+                    background-color: var(--img-notes-hotspot-bg-active);
+                    border-color: var(--img-notes-hotspot-border-active);
+                    border-style: solid;
+                }
+
+                .img-notes-hotspot-label {
+                    position: absolute;
+                    top: calc(-0.5 * var(--img-notes-label-size));
+                    right: calc(-0.5 * var(--img-notes-label-size));
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: var(--img-notes-label-size);
+                    height: var(--img-notes-label-size);
+                    border-radius: var(--button-border-radius);
+                    background: var(--img-notes-label-bg);
+                    color: var(--img-notes-label-fg);
+                    font-size: calc(0.7 * var(--img-notes-label-size));
+                    font-weight: 700;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .img-notes-tooltip {
+            position: absolute;
+            z-index: var(--img-notes-tooltip-z);
+            width: min(var(--img-notes-tooltip-width), var(--img-notes-tooltip-max-size));
+            max-height: var(--img-notes-tooltip-max-size);
+            overflow-y: auto;
+            padding: var(--img-notes-tooltip-padding);
+            border: 1px solid var(--img-notes-border);
+            border-radius: var(--img-notes-radius-tooltip);
+            background: var(--img-notes-tooltip-bg);
+            box-shadow: var(--img-notes-tooltip-shadow);
+            text-align: left;
+            font-size: var(--img-notes-size);
+            line-height: 1.2;
+
+            .img-notes-tooltip-header {
+                margin-bottom: var(--img-notes-gap-small);
+                text-align: left;
+
+                .img-notes-current-title {
+                    margin: 0;
+                    font-size: var(--img-notes-title-size);
+                    line-height: 1.2;
+                    color: var(--img-notes-title-color);
+                }
+            }
+
+            .img-notes-current-body {
+                text-align: left;
+
+                > :first-child {
+                    margin-top: 0;
+                }
+
+                > :last-child {
+                    margin-bottom: 0;
+                }
+
+                .img-notes-body-warning {
+                    padding: 0.75rem;
+                    border: 1px solid var(--img-notes-warning-border);
+                    border-radius: var(--img-notes-radius);
+                    background: var(--img-notes-warning-bg);
+                    color: var(--img-notes-warning-color);
+
+                    p {
+                        margin: 0 0 0.5rem 0;
+                    }
+
+                    p:last-of-type {
+                        margin-bottom: 0.75rem;
+                    }
+
+                    pre {
+                        margin: 0;
+                        white-space: pre-wrap;
+                        word-break: break-word;
+                    }
+                }
+            }
+        }
+    }
+
+    .img-notes-error {
+        padding: calc(0.5 * var(--img-notes-margin));
+        border: 1px solid var(--img-notes-error-border);
+        border-radius: var(--img-notes-radius-error);
+        background: var(--img-notes-error-bg);
+        color: var(--img-notes-error-color);
+    }
+}

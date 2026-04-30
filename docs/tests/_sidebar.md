@@ -32,6 +32,7 @@
     - [Speech](tests/speech.md)
     - [Cards](tests/cards.md)
     - [Callouts](tests/callouts.md)
+    - [Image Notes](tests/img-notes.md)
     - [Tables](tests/tables.md)
     - [Definitions](tests/definitions.md)
     - [Video Embeds](tests/video-embed.md)
