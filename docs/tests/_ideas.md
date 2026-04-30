@@ -22,6 +22,172 @@
 
 ## Plugin Ideas
 
+### General T&L Plugins
+
+#### confidence-check.js - Confidence vs Correctness Tracker
+**Purpose**: Build better learner calibration by comparing confidence with actual performance
+**Features**:
+- Confidence prompt before answer reveal (e.g. 1-5)
+- Correctness check after submission
+- Confidence vs correctness history chart
+- "Overconfident" and "underconfident" markers
+- Session summary for reflection
+
+#### two-stage-quiz.js - Try, Hint, Retry Quiz Flow
+**Purpose**: Support formative assessment with feedback between attempts
+**Features**:
+- Stage 1 solo attempt
+- Stage 2 guided retry with hint
+- Scoring model that rewards improvement
+- Per-question feedback history
+- Teacher option to enable peer-discuss step
+
+#### misconception-bank.js - Common Wrong Ideas Explorer
+**Purpose**: Surface misconceptions and explain why they are tempting
+**Features**:
+- Link each question to common misconceptions
+- Wrong-answer specific feedback paths
+- "Why this is a common mistake" explanation blocks
+- Suggested remediation mini-tasks
+- Topic presets for complexity, recursion, SQL, networking
+
+#### worked-example-fader.js - Gradual Scaffolding Practice
+**Purpose**: Move students from fully guided examples to independent solving
+**Features**:
+- Full worked solution on first pass
+- Progressive hiding of key steps on repeats
+- Fill-the-gap prompts for missing steps
+- Toggle for teacher-controlled fade level
+- Auto-reset for revision sessions
+
+#### parsons-builder.js - Code Reordering Challenge
+**Purpose**: Practice program logic without full-code typing burden
+**Features**:
+- Jumbled code blocks with drag-drop order
+- Optional distractor lines
+- Multi-level difficulty modes
+- Instant structural validation
+- Replay with hints on incorrect placement
+
+#### error-diagnosis-lab.js - Bug Hunt + Fix Reasoning
+**Purpose**: Teach debugging process and error classification
+**Features**:
+- Present buggy snippet plus output/logs
+- Student identifies error type and location
+- Fix proposal input and model answer reveal
+- Debug strategy checklist
+- Mistake patterns by topic
+
+#### trace-table.js - Program State Tracer
+**Purpose**: Strengthen tracing skills for loops, recursion, and algorithms
+**Features**:
+- Auto-generate trace table scaffold from code
+- Predict-first mode before reveal
+- Step-by-step state progression playback
+- Compare learner trace vs model trace
+- Exportable trace summary
+
+#### predict-then-run.js - Mental Model First Runner
+**Purpose**: Force prediction before execution to deepen understanding
+**Features**:
+- Prediction prompts for output/time/memory
+- Run and compare view
+- Delta explanation for wrong predictions
+- Quick retry with modified inputs
+- Confidence capture integration
+
+#### spaced-review.js - Embedded Revision Scheduler
+**Purpose**: Turn content blocks into long-term memory review prompts
+**Features**:
+- Mark sections as review cards
+- Spaced repetition intervals (SM-2 style)
+- Daily/weekly review queue
+- Streak and due-card indicators
+- Topic-based revision filters
+
+#### objective-map.js - Learning Objective Coverage Tracker
+**Purpose**: Connect activities explicitly to achievement objectives
+**Features**:
+- Tag sections/questions to objectives
+- Coverage heatmap by page/topic
+- Mastery checkpoint prompts
+- Gaps report for unassessed objectives
+- Teacher view for planning adjustments
+
+#### prerequisite-gate.js - Just-in-Time Readiness Check
+**Purpose**: Catch missing prior knowledge before new content
+**Features**:
+- Lightweight pre-check quiz blocks
+- Soft gate with refresher path recommendations
+- Retry after targeted revision
+- Pass criteria per objective
+- Analytics for common prerequisite gaps
+
+#### concept-contrast.js - Similar-But-Different Comparator
+**Purpose**: Improve discrimination between commonly confused concepts
+**Features**:
+- Side-by-side concept cards
+- "Choose the right concept" micro-questions
+- Contrast prompts (what is same/different)
+- Example and non-example pairs
+- Topic packs (DFS/BFS, TCP/UDP, stack/heap)
+
+#### rubric-short-answer.js - Guided Explanation Writer
+**Purpose**: Improve quality of written reasoning with visible criteria
+**Features**:
+- Short-answer response box with rubric checklist
+- Live criteria coverage indicators
+- Self-assessment before reveal
+- Model answer comparison panel
+- Teacher-editable rubric templates
+
+#### socratic-tutor.js - Scoped Questioning Assistant
+**Purpose**: Provide guided help without direct answer dumping
+**Features**:
+- Topic-scoped prompt context per block
+- Hint-first questioning flow
+- Progressive clues rather than full answers
+- "Show thinking steps" prompts
+- Teacher control over strictness level
+
+#### class-insights.js - Aggregate Learning Signals Dashboard
+**Purpose**: Help teacher identify friction points quickly
+**Features**:
+- Aggregated anonymous misconception counts
+- Retry and hint usage trends
+- Confidence gap summaries
+- Hardest-question leaderboard
+- Exportable intervention notes
+
+#### exam-mode.js - Learning vs Assessment Toggle
+**Purpose**: Reuse same content for practice and test conditions
+**Features**:
+- Hide hints/reveals in assessment mode
+- Optional timers and lock-after-submit
+- Randomised question/item order
+- Reduced UI cues for exam realism
+- Attempt policy controls
+
+#### attention-reset.js - 90-Second Cognitive Break Tasks
+**Purpose**: Improve focus and retention between dense sections
+**Features**:
+- Micro retrieval prompts between topics
+- Sort/label/one-minute challenge templates
+- Auto-insert cadence control
+- Low-stakes completion tracking
+- Teacher-curated reset banks
+
+#### accessibility-coach.js - Readability & Access Checker
+**Purpose**: Improve inclusivity and clarity across notes/activities
+**Features**:
+- Detect low contrast and dense text blocks
+- Alt-text and structure checks
+- Reading-level estimates for content chunks
+- Quick-fix suggestions inline
+- Accessibility score per page
+
+
+
 ### NCEA Level 3: Complexity & Tractability
 
 #### growth-race.js - Polynomial vs Exponential Showdown
