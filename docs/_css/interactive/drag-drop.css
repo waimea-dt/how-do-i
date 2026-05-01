@@ -1,0 +1,323 @@
+/**
+ * Drag Drop Reorder Challenge
+ */
+
+.markdown-section drag-drop {
+    --drag-drop-bg: var(--color-mono-1);
+    --drag-drop-bg-header: var(--color-mono-2);
+    --drag-drop-bg-item: var(--color-mono-0);
+    --drag-drop-border: var(--color-mono-3);
+    --drag-drop-border-high: var(--color-mono-6);
+
+    --drag-drop-title: var(--theme-color);
+    --drag-drop-subtitle: var(--color-mono-6);
+    --drag-drop-text: var(--color-text);
+
+    --drag-drop-btn-bg: var(--theme-color-3);
+    --drag-drop-btn-bg-hover: var(--theme-color-4);
+    --drag-drop-btn-text: var(--color-text);
+
+    --drag-drop-feedback-correct: var(--color-good);
+    --drag-drop-feedback-almost: var(--color-warning);
+    --drag-drop-feedback-nope: var(--color-attention);
+
+    --drag-drop-item-correct-border: color-mix(in srgb, var(--color-good), transparent 0%);
+    --drag-drop-item-wrong-border: color-mix(in srgb, var(--color-attention), transparent 0%);
+
+    --drag-drop-control: var(--theme-color-5);
+    --drag-drop-gap: 1rem;
+    --drag-drop-gap-med: 0.75rem;
+    --drag-drop-gap-small: 0.5rem;
+    --drag-drop-gap-tiny: 0.25rem;
+    --drag-drop-padding: 1rem;
+    --drag-drop-padding-small: 0.5rem;
+    --drag-drop-padding-tiny: 0.25rem;
+
+    display: block;
+    margin: var(--margin-block) 0;
+    container-type: inline-size;
+
+    .drag-drop-wrapper {
+        background-color: var(--drag-drop-bg);
+        border: 1px solid var(--drag-drop-border);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--box-shadow-small);
+
+        .drag-drop-header {
+            padding: var(--drag-drop-padding);
+            background-color: var(--drag-drop-bg-header);
+            border-bottom: 1px solid var(--drag-drop-border);
+
+            .drag-drop-title {
+                margin: 0 0 0.2rem 0;
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: var(--drag-drop-title);
+            }
+
+            .drag-drop-subtitle {
+                margin: 0;
+                font-size: 0.9rem;
+                color: var(--drag-drop-subtitle);
+            }
+        }
+
+        .drag-drop-body {
+            padding: var(--drag-drop-padding);
+            display: grid;
+            gap: var(--drag-drop-gap);
+            grid-template-columns: 1fr;
+            grid-template-areas:
+                "list"
+                "actions"
+                "feedback";
+
+            @container (min-width: 900px) {
+                grid-template-columns: 1fr 240px;
+                grid-template-rows: 1fr auto;
+                grid-template-areas:
+                    "list   feedback"
+                    "list   actions";
+            }
+        }
+
+        .drag-drop-list {
+            grid-area: list;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--drag-drop-gap-tiny);
+            list-style: none;
+
+            .drag-drop-item {
+                color: var(--drag-drop-text);
+                background-color: var(--drag-drop-bg-item);
+                border: 1px solid var(--drag-drop-border);
+                border-radius: var(--border-radius);
+                padding: var(--drag-drop-padding-small);
+
+                &:hover {
+                    .drag-drop-drag-handle,
+                    .drag-drop-item-controls {
+                        opacity: 1;
+                    }
+                }
+
+                &:has(pre, code) {
+                    &:not(:has(p, ol, li, h1, h2, h3, h4, h5)) {
+                        padding-block: var(--drag-drop-padding-tiny);
+                        background-color: var(--code-bg-color);
+                    }
+                }
+
+                &.drag-drop-ghost {
+                    border-color: var(--drag-drop-border-high);
+                    opacity: 0.7;
+                }
+
+                &.drag-drop-dragging {
+                    border-color: var(--drag-drop-border-high);
+                    opacity: 0.5 !important;
+                }
+
+                &.drag-drop-item-correct-place {
+                    border-color: var(--drag-drop-item-correct-border);
+                }
+
+                &.drag-drop-item-wrong-place {
+                    border-color: var(--drag-drop-item-wrong-border);
+                }
+
+                .drag-drop-item-shell {
+                    display: grid;
+                    grid-template-columns: auto 1fr auto;
+                    gap: var(--drag-drop-gap);
+                    align-items: start;
+                }
+
+                .drag-drop-drag-handle {
+                    border: 0;
+                    background-color: transparent;
+                    color: var(--drag-drop-control);
+                    cursor: grab;
+                    user-select: none;
+                    padding: 0;
+                    margin: 0;
+                    padding-top: var(--drag-drop-gap-tiny);
+                    outline: none;
+                    opacity: 0.5;
+
+                    svg {
+                        width: 1.5rem;
+                        height: auto;
+                    }
+
+                    &:active {
+                        cursor: grabbing;
+                    }
+                }
+
+                .drag-drop-item-content {
+                    --margin-block: var(--drag-drop-gap-med);
+                    padding-top: var(--drag-drop-gap-tiny);
+                    overflow-x: auto;
+                    overflow-y: hidden;
+
+                    code, pre {
+                        padding: var(--drag-drop-gap-tiny) var(--drag-drop-padding-small) !important;
+                    }
+
+                    &:has(pre, code) {
+                        &:not(:has(p, ol, li, h1, h2, h3, h4, h5)) {
+                            pre {
+                                padding: 0.1rem 0 !important;
+                            }
+
+                            code {
+                                padding: 0 !important;
+                            }
+
+                            pre::after {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    & > :first-child {
+                        margin-top: 0;
+                    }
+
+                    & > :last-child {
+                        margin-bottom: 0;
+                    }
+                }
+
+                .drag-drop-item-controls {
+                    display: flex;
+                    flex-direction: row;
+                    gap: var(--drag-drop-gap-tiny);
+                    opacity: 0.5;
+
+                    .drag-drop-move-btn {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        border: 1px solid var(--drag-drop-border);
+                        border-radius: var(--border-radius-small);
+                        background-color: var(--color-mono-2);
+                        color: var(--drag-drop-control);
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0;
+
+                        svg {
+                            pointer-events: none;
+                        }
+
+                        &:disabled {
+                            opacity: 0.5;
+                            cursor: not-allowed;
+                        }
+                    }
+                }
+            }
+        }
+
+        .drag-drop-actions {
+            grid-area: actions;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: var(--drag-drop-gap-small);
+
+            .drag-drop-btn {
+                flex: 1;
+                min-width: 8rem;
+                border: 1px solid var(--drag-drop-btn-bg);
+                border-radius: var(--border-radius-small);
+                background-color: var(--drag-drop-btn-bg);
+                color: var(--drag-drop-btn-text);
+                padding: var(--drag-drop-padding-tiny) var(--drag-drop-padding-small);
+                font-size: 0.9rem;
+                font-weight: 600;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--drag-drop-gap-small);
+                cursor: pointer;
+                transition: background 160ms, border-color 160ms, transform 160ms;
+
+                svg {
+                    width: 1.3rem;
+                    height: 1.3rem;
+                    pointer-events: none;
+                }
+
+                &:hover {
+                    background-color: var(--drag-drop-btn-bg-hover);
+                    border-color: var(--drag-drop-btn-bg-hover);
+                    transform: translateY(-1px);
+                }
+            }
+
+            .drag-drop-submit {
+                flex: 1 1 auto;
+            }
+
+            .drag-drop-help,
+            .drag-drop-reset {
+                flex: 0 0 auto;
+                min-width: 0;
+                width: 2.2rem;
+                height: 2.2rem;
+                padding: 0;
+                border-color: var(--drag-drop-border);
+                background-color: var(--drag-drop-bg-header);
+                color: var(--drag-drop-control);
+                opacity: 0.85;
+
+                &:hover {
+                    background-color: var(--color-mono-3);
+                    border-color: var(--drag-drop-border-high);
+                }
+            }
+        }
+
+        .drag-drop-feedback {
+            grid-area: feedback;
+            margin: 0;
+            min-height: 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+
+            &[data-result="correct"] {
+                font-size: 1.2rem;
+                color: var(--drag-drop-feedback-correct);
+            }
+
+            &[data-result="almost"] {
+                color: var(--drag-drop-feedback-almost);
+            }
+
+            &[data-result="nope"] {
+                color: var(--drag-drop-feedback-nope);
+            }
+
+            @container (min-width: 900px) {
+                display: flex;
+                flex-direction: column;
+                gap: var(--drag-drop-gap-small);
+            }
+        }
+
+        .drag-drop-error {
+            padding: var(--drag-drop-padding-small);
+            border: 1px solid color-mix(in srgb, var(--color-attention), transparent 70%);
+            border-radius: var(--border-radius);
+            background-color: color-mix(in srgb, var(--color-attention), transparent 90%);
+            color: var(--color-attention);
+        }
+    }
+
+}

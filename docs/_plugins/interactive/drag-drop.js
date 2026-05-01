@@ -1,0 +1,384 @@
+/**
+ * docsify-drag-drop.js - Reorder challenge widget for Docsify
+ *
+ * Usage in markdown:
+ *   <drag-drop>
+ *   1. First item
+ *   2. Second item
+ *   3. Third item
+ *   </drag-drop>
+ *
+ * Attributes:
+ *   - almost: Percentage threshold for "almost" feedback (default: 60)
+ *   - shuffle: "true" or "false" (default: true, initial render only)
+ */
+
+;(function () {
+     const DEFAULT_ALMOST_THRESHOLD = 60
+    const MAX_SHUFFLE_ATTEMPTS = 20
+    const FEEDBACK_LABELS = {
+        correct: 'correct',
+        almost: 'almost',
+        nope: 'nope'
+    }
+
+    const UI_TEXT = {
+        title: 'Reorder Challenge',
+        subtitle: 'Put items back into correct order, then check if they are correct.',
+        buttons: {
+            submit: 'Check',
+            help: 'Help',
+            reshuffle: 'Reshuffle'
+        },
+        aria: {
+            dragHandle: 'Drag to reorder',
+            moveUp: 'Move item up',
+            moveDown: 'Move item down'
+        },
+        errors: {
+            notEnoughItems: 'Error: drag-drop needs an ordered list with at least two items.'
+        },
+        feedback: {
+            initialStatus: 'Drag the items into the correct order...',
+            correct: 'Correct! All items are in the correct position',
+            almost: 'Almost...',
+            nope: 'Not even close!',
+            positionSuffix: 'items are in the correct position.'
+        }
+    }
+
+    const SVG_ICONS = {
+        controls: {
+            up: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
+            down: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+            drag: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>'
+        },
+        actions: {
+            submit: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+            help: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>',
+            reshuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>'
+        }
+    }
+
+    function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max)
+    }
+
+    function parseBoolean(value, fallback = true) {
+        if (value == null) return fallback
+        if (value === 'true') return true
+        if (value === 'false') return false
+        return fallback
+    }
+
+    function parseThreshold(value) {
+        const parsed = parseInt(value ?? '', 10)
+        if (!Number.isFinite(parsed)) return DEFAULT_ALMOST_THRESHOLD
+        return clamp(parsed, 1, 99)
+    }
+
+    function shuffleArray(items) {
+        const copy = items.slice()
+        for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1))
+            ;[copy[i], copy[j]] = [copy[j], copy[i]]
+        }
+        return copy
+    }
+
+    function isInOriginalOrder(items) {
+        return items.every((item, index) => item.originalIndex === index)
+    }
+
+    function getItemsFromOl(el) {
+        const sourceOl = el.querySelector('ol')
+        if (!sourceOl) return []
+
+        return Array.from(sourceOl.children)
+            .filter((child) => child.tagName === 'LI')
+            .map((itemEl, index) => ({
+                id: `item-${index + 1}`,
+                originalIndex: index,
+                html: itemEl.innerHTML,
+            }))
+    }
+
+    function scoreOrder(currentItems) {
+        if (currentItems.length === 0) {
+            return { percentage: 0, correctCount: 0, total: 0 }
+        }
+
+        const correctCount = currentItems.reduce((count, item, currentIndex) => {
+            return count + (item.originalIndex === currentIndex ? 1 : 0)
+        }, 0)
+
+        const percentage = Math.round((correctCount / currentItems.length) * 100)
+        return {
+            percentage,
+            correctCount,
+            total: currentItems.length,
+        }
+    }
+
+    function getFeedbackType(score, almostThreshold) {
+        if (score.percentage === 100) return FEEDBACK_LABELS.correct
+        if (score.percentage >= almostThreshold) return FEEDBACK_LABELS.almost
+        return FEEDBACK_LABELS.nope
+    }
+
+    function getFeedbackText(feedbackType, score) {
+        if (feedbackType === FEEDBACK_LABELS.correct) {
+            return `<span>${UI_TEXT.feedback.correct}</span>`
+        }
+        if (feedbackType === FEEDBACK_LABELS.almost) {
+            return `<span>${UI_TEXT.feedback.almost}</span> <span><strong>${score.correctCount}/${score.total}</strong> ${UI_TEXT.feedback.positionSuffix}</span>`
+        }
+        return `<span>${UI_TEXT.feedback.nope}</span> <span>Only <strong>${score.correctCount}/${score.total}</strong> ${UI_TEXT.feedback.positionSuffix}</span>`
+    }
+
+    function createListItemHtml(item, index, total) {
+        const atTop = index === 0
+        const atBottom = index === total - 1
+
+        return `
+            <div class="drag-drop-item" role="listitem" data-id="${item.id}" data-original-index="${item.originalIndex}">
+                <div class="drag-drop-item-shell">
+                    <button class="drag-drop-drag-handle" type="button" aria-label="${UI_TEXT.aria.dragHandle}" title="${UI_TEXT.aria.dragHandle}">${SVG_ICONS.controls.drag}</button>
+                    <div class="drag-drop-item-content">${item.html}</div>
+                    <div class="drag-drop-item-controls">
+                        <button class="drag-drop-move-btn drag-drop-move-up" type="button" ${atTop ? 'disabled' : ''} aria-label="${UI_TEXT.aria.moveUp}">${SVG_ICONS.controls.up}</button>
+                        <button class="drag-drop-move-btn drag-drop-move-down" type="button" ${atBottom ? 'disabled' : ''} aria-label="${UI_TEXT.aria.moveDown}">${SVG_ICONS.controls.down}</button>
+                    </div>
+                </div>
+            </div>
+        `
+    }
+
+    class DragDropWidget {
+        constructor(el) {
+            this.el = el
+            this.almostThreshold = parseThreshold(el.getAttribute('almost'))
+            this.shouldShuffleInitially = parseBoolean(el.getAttribute('shuffle'), true)
+            this.hasInitialised = false
+
+            this.originalItems = getItemsFromOl(el)
+            this.currentItems = []
+
+            this.sortable = null
+
+            this.render()
+            this.resetItems()
+            this.bindEvents()
+            this.setupDragAndDrop()
+        }
+
+        get dragEnabled() {
+            return typeof window.Sortable !== 'undefined'
+        }
+
+        resetItems() {
+            let source = this.originalItems.slice()
+            const shouldShuffleNow = this.hasInitialised || this.shouldShuffleInitially
+
+            if (shouldShuffleNow) {
+                let attempts = 0
+                do {
+                    source = shuffleArray(this.originalItems)
+                    attempts += 1
+                } while (source.length > 1 && isInOriginalOrder(source) && attempts < MAX_SHUFFLE_ATTEMPTS)
+
+                if (source.length > 1 && isInOriginalOrder(source)) {
+                    ;[source[0], source[1]] = [source[1], source[0]]
+                }
+            }
+
+            this.currentItems = source.slice()
+            this.renderList()
+            this.clearPlacementHelp()
+            this.clearFeedback()
+            this.hasInitialised = true
+        }
+
+        render() {
+            if (this.originalItems.length < 2) {
+                this.el.innerHTML = `<div class="drag-drop-error">${UI_TEXT.errors.notEnoughItems}</div>`
+                return
+            }
+
+            this.el.innerHTML = `
+                <div class="drag-drop-wrapper">
+                    <div class="drag-drop-header">
+                        <p class="drag-drop-title">${UI_TEXT.title}</p>
+                        <p class="drag-drop-subtitle">${UI_TEXT.subtitle}</p>
+                    </div>
+
+                    <div class="drag-drop-body">
+                        <div class="drag-drop-list" role="list" aria-live="polite"></div>
+
+                        <div class="drag-drop-actions">
+                            <button class="drag-drop-btn drag-drop-submit" type="button">${SVG_ICONS.actions.submit}<span>${UI_TEXT.buttons.submit}</span></button>
+                            <button class="drag-drop-btn drag-drop-help" type="button" aria-label="${UI_TEXT.buttons.help}" title="${UI_TEXT.buttons.help}">${SVG_ICONS.actions.help}</button>
+                            <button class="drag-drop-btn drag-drop-reset" type="button" aria-label="${UI_TEXT.buttons.reshuffle}" title="${UI_TEXT.buttons.reshuffle}">${SVG_ICONS.actions.reshuffle}</button>
+                        </div>
+
+                        <p class="drag-drop-feedback" aria-live="polite"></p>
+                    </div>
+                </div>
+            `
+
+            this.listEl = this.el.querySelector('.drag-drop-list')
+            this.submitBtn = this.el.querySelector('.drag-drop-submit')
+            this.helpBtn = this.el.querySelector('.drag-drop-help')
+            this.resetBtn = this.el.querySelector('.drag-drop-reset')
+            this.feedbackEl = this.el.querySelector('.drag-drop-feedback')
+        }
+
+        renderList() {
+            if (!this.listEl) return
+
+            this.listEl.innerHTML = this.currentItems
+                .map((item, index) => createListItemHtml(item, index, this.currentItems.length))
+                .join('')
+
+            this.syncCurrentItemsFromDom()
+        }
+
+        syncCurrentItemsFromDom() {
+            const itemEls = Array.from(this.listEl.querySelectorAll('.drag-drop-item'))
+
+            this.currentItems = itemEls.map((itemEl) => {
+                const originalIndex = parseInt(itemEl.getAttribute('data-original-index') || '', 10)
+                const id = itemEl.getAttribute('data-id') || ''
+                const existing = this.originalItems.find(item => item.id === id)
+                return {
+                    id,
+                    originalIndex,
+                    html: existing ? existing.html : itemEl.querySelector('.drag-drop-item-content')?.innerHTML || '',
+                }
+            })
+
+            this.updateMoveButtonState()
+        }
+
+        updateMoveButtonState() {
+            const itemEls = Array.from(this.listEl.querySelectorAll('.drag-drop-item'))
+            itemEls.forEach((itemEl, index) => {
+                const upBtn = itemEl.querySelector('.drag-drop-move-up')
+                const downBtn = itemEl.querySelector('.drag-drop-move-down')
+                if (upBtn) upBtn.disabled = index === 0
+                if (downBtn) downBtn.disabled = index === itemEls.length - 1
+            })
+        }
+
+        moveItem(itemEl, direction) {
+            if (!itemEl) return
+
+            if (direction === 'up' && itemEl.previousElementSibling) {
+                this.listEl.insertBefore(itemEl, itemEl.previousElementSibling)
+            }
+
+            if (direction === 'down' && itemEl.nextElementSibling) {
+                this.listEl.insertBefore(itemEl.nextElementSibling, itemEl)
+            }
+
+            this.syncCurrentItemsFromDom()
+            this.clearPlacementHelp()
+            this.clearFeedback()
+        }
+
+        showPlacementHelp() {
+            if (!this.listEl) return
+
+            this.syncCurrentItemsFromDom()
+
+            const itemEls = Array.from(this.listEl.querySelectorAll('.drag-drop-item'))
+            itemEls.forEach((itemEl, currentIndex) => {
+                const originalIndex = parseInt(itemEl.getAttribute('data-original-index') || '', 10)
+                const isCorrect = originalIndex === currentIndex
+
+                itemEl.classList.toggle('drag-drop-item-correct-place', isCorrect)
+                itemEl.classList.toggle('drag-drop-item-wrong-place', !isCorrect)
+            })
+        }
+
+        clearPlacementHelp() {
+            if (!this.listEl) return
+
+            this.listEl.querySelectorAll('.drag-drop-item').forEach((itemEl) => {
+                itemEl.classList.remove('drag-drop-item-correct-place', 'drag-drop-item-wrong-place')
+            })
+        }
+
+        setupDragAndDrop() {
+            if (!this.dragEnabled || !this.listEl) return
+
+            this.sortable = window.Sortable.create(this.listEl, {
+                animation: 150,
+                handle: '.drag-drop-drag-handle',
+                ghostClass: 'drag-drop-ghost',
+                dragClass: 'drag-drop-dragging',
+                onEnd: () => {
+                    this.syncCurrentItemsFromDom()
+                    this.clearPlacementHelp()
+                    this.clearFeedback()
+                },
+            })
+        }
+
+        submitOrder() {
+            this.syncCurrentItemsFromDom()
+            const score = scoreOrder(this.currentItems)
+            const feedbackType = getFeedbackType(score, this.almostThreshold)
+            const feedbackText = getFeedbackText(feedbackType, score)
+
+            this.feedbackEl.innerHTML = feedbackText
+            this.feedbackEl.dataset.result = feedbackType
+        }
+
+        clearFeedback() {
+            if (!this.feedbackEl) return
+            this.feedbackEl.textContent = UI_TEXT.feedback.initialStatus
+            this.feedbackEl.dataset.result = ''
+        }
+
+        bindEvents() {
+            if (!this.listEl) return
+
+            this.submitBtn.addEventListener('click', () => this.submitOrder())
+            this.helpBtn.addEventListener('click', () => this.showPlacementHelp())
+            this.resetBtn.addEventListener('click', () => this.resetItems())
+
+            this.listEl.addEventListener('click', (event) => {
+                const target = event.target
+                if (!(target instanceof HTMLElement)) return
+
+                const itemEl = target.closest('.drag-drop-item')
+                if (!itemEl) return
+
+                if (target.classList.contains('drag-drop-move-up')) {
+                    this.moveItem(itemEl, 'up')
+                }
+
+                if (target.classList.contains('drag-drop-move-down')) {
+                    this.moveItem(itemEl, 'down')
+                }
+            })
+        }
+    }
+
+    function processDragDrop() {
+        const widgets = document.querySelectorAll('.markdown-section drag-drop:not(.drag-drop-initialized)')
+
+        widgets.forEach((el) => {
+            el.classList.add('drag-drop-initialized')
+            new DragDropWidget(el)
+        })
+    }
+
+    function docsifyDragDrop(hook) {
+        hook.doneEach(processDragDrop)
+    }
+
+    window.$docsify = window.$docsify || {}
+    window.$docsify.plugins = [].concat(docsifyDragDrop, window.$docsify.plugins || [])
+})()
