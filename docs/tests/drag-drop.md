@@ -65,6 +65,20 @@ Left list is fixed reference content. Right list is draggable content to match.
     print(f"Hello, {name}!")
     ```
 
+---
+
+1. Show Start-up message
+2. Ask user for their name
+3. Output greeting using the name
+
+</drag-drop>
+
+## Code Mode
+
+Useful where drag support is not wanted.
+
+<drag-drop mode="code">
+
 1.
     ```python
     print("Starting...")
@@ -78,6 +92,12 @@ Left list is fixed reference content. Right list is draggable content to match.
     ```python
     print(f"Hello, {name}!")
     ```
+
+</drag-drop>
+
+## Code Mode - Reference + Draggable Lists
+
+<drag-drop mode="code">
 
 1.
     ```python
@@ -98,26 +118,58 @@ Left list is fixed reference content. Right list is draggable content to match.
 1. Show Start-up message
 2. Ask user for their name
 3. Output greeting using the name
-1. Show Start-up message
-2. Ask user for their name
-3. Output greeting using the name
+
+</drag-drop>
+
+## No Header
+
+<drag-drop mode="code" header="false">
+
+1.
+    ```python
+    print("Starting...")
+    ```
+2.
+    ```python
+    name = input("What is your name? ")
+    ```
+
+3.
+    ```python
+    print(f"Hello, {name}!")
+    ```
+
+---
+
 1. Show Start-up message
 2. Ask user for their name
 3. Output greeting using the name
 
 </drag-drop>
 
-## Buttons-only Mode
+## Custom Header
 
-Useful where drag support is not wanted.
-
-<drag-drop mode="buttons">
+<drag-drop mode="code" title="Get Them Sorted">
 
 1.
     ```python
     name = input("What is your name? ")
     ```
+2.
+    ```python
+    print(f"Hello, {name}!")
+    ```
+    
+</drag-drop>
 
+## Custom Header with Sub-Title
+
+<drag-drop mode="code" title="Get Them Sorted" sub-title="Yeah, big dog!">
+
+1.
+    ```python
+    name = input("What is your name? ")
+    ```
 2.
     ```python
     print(f"Hello, {name}!")

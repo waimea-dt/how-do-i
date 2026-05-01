@@ -11,6 +11,10 @@
  * Attributes:
  *   - almost: Percentage threshold for "almost" feedback (default: 60)
  *   - shuffle: "true" or "false" (default: true, initial render only)
+ *   - mode: "code" updates UI for code-specific reorder problems
+ *   - header: "true" or "false" (default: true)
+ *   - title: custom header title text
+ *   - sub-title: custom header subtitle text
  */
 
 ;(function () {
@@ -42,6 +46,8 @@
         feedback: {
             initialStatus: 'Drag the items into the correct order...',
             initialStatusTwoList: 'Drag the items in the right list so that they match the items in the left list...',
+            initialStatusCode: 'Drag the lines of code into the correct order...',
+            initialStatusCodeTwoList: 'Drag the notes in the right list so that they match the lines of code...',
             correct: 'Correct! All items are in the correct position',
             almost: 'Almost...',
             nope: 'Not even close!',
@@ -202,6 +208,13 @@
             this.el = el
             this.almostThreshold = parseThreshold(el.getAttribute('almost'))
             this.shouldShuffleInitially = parseBoolean(el.getAttribute('shuffle'), true)
+            this.showHeader = parseBoolean(el.getAttribute('header'), true)
+            this.mode = (el.getAttribute('mode') || '').trim().toLowerCase()
+            this.customTitle = el.getAttribute('title')
+            if (this.customTitle != null) {
+                this.el.removeAttribute('title')
+            }
+            this.customSubtitle = el.getAttribute('sub-title') ?? el.getAttribute('subtitle')
             this.hasInitialised = false
 
             const parsedLists = getTopLevelWidgetLists(el)
@@ -267,12 +280,29 @@
                 ? '<div class="drag-drop-reference-list" role="list"></div>'
                 : ''
 
+            const wrapperClass = this.mode === 'code'
+                ? 'drag-drop-wrapper drag-drop-code'
+                : 'drag-drop-wrapper'
+
+            const hasCustomTitle = this.customTitle != null
+            const titleText = hasCustomTitle ? this.customTitle : UI_TEXT.title
+            const subtitleText = this.customSubtitle != null
+                ? this.customSubtitle
+                : (hasCustomTitle ? '' : UI_TEXT.subtitle)
+            const subtitleHtml = subtitleText
+                ? `<p class="drag-drop-subtitle">${subtitleText}</p>`
+                : ''
+
+            const headerHtml = this.showHeader
+                ? `<div class="drag-drop-header">
+                        <p class="drag-drop-title">${titleText}</p>
+                        ${subtitleHtml}
+                    </div>`
+                : ''
+
             this.el.innerHTML = `
-                <div class="drag-drop-wrapper">
-                    <div class="drag-drop-header">
-                        <p class="drag-drop-title">${UI_TEXT.title}</p>
-                        <p class="drag-drop-subtitle">${UI_TEXT.subtitle}</p>
-                    </div>
+                <div class="${wrapperClass}">
+                    ${headerHtml}
 
                     <div class="drag-drop-body">
                         <div class="${listAreaClass}">
@@ -413,9 +443,10 @@
 
         clearFeedback() {
             if (!this.feedbackEl) return
+            const isCodeMode = this.mode === 'code'
             const statusMessage = this.hasReferenceList
-                ? UI_TEXT.feedback.initialStatusTwoList
-                : UI_TEXT.feedback.initialStatus
+                ? (isCodeMode ? UI_TEXT.feedback.initialStatusCodeTwoList : UI_TEXT.feedback.initialStatusTwoList)
+                : (isCodeMode ? UI_TEXT.feedback.initialStatusCode : UI_TEXT.feedback.initialStatus)
             this.feedbackEl.textContent = statusMessage
             this.feedbackEl.dataset.result = ''
         }

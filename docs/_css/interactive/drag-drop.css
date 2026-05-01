@@ -12,6 +12,7 @@
     --drag-drop-title: var(--theme-color);
     --drag-drop-subtitle: var(--color-mono-6);
     --drag-drop-text: var(--color-text);
+    --drag-drop-feedback: var(--color-mono-7);
 
     --drag-drop-btn-bg: var(--theme-color-3);
     --drag-drop-btn-bg-hover: var(--theme-color-4);
@@ -34,6 +35,11 @@
     --drag-drop-padding-small: 0.5rem;
     --drag-drop-padding-tiny: 0.25rem;
 
+    --drag-drop-list-gap: var(--drag-drop-gap-tiny);
+    --drag-drop-list-padding: var(--drag-drop-padding-med);
+    --drag-drop-border-size: 1px;
+    --drag-drop-border-radius: var(--border-radius);
+
     display: block;
     margin: var(--margin-block) 0;
     container-type: inline-size;
@@ -44,6 +50,38 @@
         border-radius: var(--border-radius);
         overflow: hidden;
         box-shadow: var(--box-shadow-small);
+
+        &.drag-drop-code {
+            --drag-drop-list-gap: 0;
+            --drag-drop-list-padding: var(--drag-drop-padding-small);
+            --drag-drop-border-size: 0;
+            --drag-drop-border-radius: 0;
+
+            .drag-drop-reference-list,
+            .drag-drop-list {
+                border: 1px solid var(--drag-drop-border);
+                border-radius: var(--border-radius);
+            }
+
+            .drag-drop-list-area {
+                --drag-drop-bg-item: var(--code-bg-color);
+
+                padding-block: var(--drag-drop-padding-tiny);
+                background-color: var(--drag-drop-bg-item);
+                border: 1px solid var(--drag-drop-border);
+                border-radius: var(--border-radius);
+
+                &.drag-drop-list-area-has-reference {
+                    gap: var(--drag-drop-gap) 0;
+                }
+
+                .drag-drop-reference-list,
+                .drag-drop-list {
+                    border: none;
+                    background-color: transparent;
+                }
+            }
+        }
 
         .drag-drop-header {
             padding: var(--drag-drop-padding);
@@ -126,9 +164,19 @@
 
                 color: var(--drag-drop-text);
                 background-color: var(--drag-drop-bg-item);
-                border: 1px solid var(--drag-drop-border);
-                border-radius: var(--border-radius);
-                padding: var(--drag-drop-padding-med);
+                border: var(--drag-drop-border-size) solid var(--drag-drop-border);
+                border-radius: var(--drag-drop-border-radius);
+                padding: var(--drag-drop-list-padding);
+
+                &:first-child {
+                    border-top-left-radius: var(--border-radius);
+                    border-top-right-radius: var(--border-radius);
+                }
+
+                &:last-child {
+                    border-bottom-left-radius: var(--border-radius);
+                    border-bottom-right-radius: var(--border-radius);
+                }
 
                 &:has(pre, code) {
                     &:not(:has(p, ol, li, h1, h2, h3, h4, h5)) {
@@ -144,14 +192,14 @@
                     &:not(:has(p, ol, li, h1, h2, h3, h4, h5)) {
                         pre {
                             padding: 0.1rem 0 !important;
+
+                            &::after {
+                                display: none;
+                            }
                         }
 
                         code {
                             padding: 0 0.25rem !important;
-                        }
-
-                        pre::after {
-                            display: none;
                         }
                     }
                 }
@@ -165,18 +213,16 @@
                 }
             }
 
-            .drag-drop-reference-list {
+            .drag-drop-reference-list,
+            .drag-drop-list {
                 display: flex;
                 flex-direction: column;
-                gap: var(--drag-drop-gap-tiny);
+                gap: var(--drag-drop-list-gap);
+                list-style: none;
+                margin: 0;
             }
 
             .drag-drop-list {
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                gap: var(--drag-drop-gap-tiny);
-                list-style: none;
 
                 .drag-drop-item {
 
@@ -221,7 +267,7 @@
                         padding: 0;
                         margin: 0;
                         outline: none;
-                        opacity: 0.5;
+                        opacity: 0.4;
                         height: 1rem;
 
                         svg {
@@ -251,8 +297,7 @@
                         display: flex;
                         flex-direction: row;
                         gap: var(--drag-drop-gap-tiny);
-                        /* padding-top: var(--drag-drop-gap-tiny); */
-                        opacity: 0.5;
+                        opacity: 0.4;
 
                         .drag-drop-move-btn {
                             width: 1.5rem;
@@ -295,6 +340,7 @@
                 border-radius: var(--border-radius-small);
                 background-color: var(--drag-drop-btn-bg);
                 color: var(--drag-drop-btn-text);
+                margin: 0;
                 padding: var(--drag-drop-padding-tiny) var(--drag-drop-padding-small);
                 font-size: 0.9rem;
                 font-weight: 600;
@@ -348,6 +394,7 @@
             font-size: 1rem;
             font-weight: 500;
             align-self: center;
+            color: var(--drag-drop-feedback);
 
             &[data-result="correct"] {
                 font-size: 1.2rem;
