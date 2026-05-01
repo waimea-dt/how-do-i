@@ -2,6 +2,7 @@
 
 ## Things to Do
 
+- [ ] Drag-drop - add a code mode - collapsed gaps, borders, etc.
 - [ ] Mobile table char alignment still off
 - [ ] Calc animate="on/off" attribute
 - [ ] Tidy up the data views - borders, etc.
@@ -23,6 +24,12 @@
 ## Plugin Ideas
 
 ### General T&L Plugins
+
+#### primm.js - Predict Run Investigate Modify Make
+**Purpose**: Teach coding without the fear!
+**Features**:
+- Code check, prediction, run
+- Investigate via drag-drop labelling and trace table
 
 #### confidence-check.js - Confidence vs Correctness Tracker
 **Purpose**: Build better learner calibration by comparing confidence with actual performance

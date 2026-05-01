@@ -44,6 +44,69 @@ List items can contain full markdown blocks.
 
 </drag-drop>
 
+## Reference + Draggable Lists
+
+Use `---` to split into two ordered lists.
+Left list is fixed reference content. Right list is draggable content to match.
+
+<drag-drop>
+
+1.
+    ```python
+    print("Starting...")
+    ```
+2.
+    ```python
+    name = input("What is your name? ")
+    ```
+
+3.
+    ```python
+    print(f"Hello, {name}!")
+    ```
+
+1.
+    ```python
+    print("Starting...")
+    ```
+2.
+    ```python
+    name = input("What is your name? ")
+    ```
+
+3.
+    ```python
+    print(f"Hello, {name}!")
+    ```
+
+1.
+    ```python
+    print("Starting...")
+    ```
+2.
+    ```python
+    name = input("What is your name? ")
+    ```
+
+3.
+    ```python
+    print(f"Hello, {name}!")
+    ```
+
+---
+
+1. Show Start-up message
+2. Ask user for their name
+3. Output greeting using the name
+1. Show Start-up message
+2. Ask user for their name
+3. Output greeting using the name
+1. Show Start-up message
+2. Ask user for their name
+3. Output greeting using the name
+
+</drag-drop>
+
 ## Buttons-only Mode
 
 Useful where drag support is not wanted.

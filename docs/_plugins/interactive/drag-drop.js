@@ -36,10 +36,12 @@
             moveDown: 'Move item down'
         },
         errors: {
-            notEnoughItems: 'Error: drag-drop needs an ordered list with at least two items.'
+            notEnoughItems: 'Error: drag-drop needs an ordered list with at least two items.',
+            listLengthMismatch: 'Error: when using a separator, both ordered lists must have the same number of items.'
         },
         feedback: {
             initialStatus: 'Drag the items into the correct order...',
+            initialStatusTwoList: 'Drag the items in the right list so that they match the items in the left list...',
             correct: 'Correct! All items are in the correct position',
             almost: 'Almost...',
             nope: 'Not even close!',
@@ -90,17 +92,58 @@
         return items.every((item, index) => item.originalIndex === index)
     }
 
-    function getItemsFromOl(el) {
-        const sourceOl = el.querySelector('ol')
+    function getItemsFromOl(sourceOl, idPrefix = 'item') {
         if (!sourceOl) return []
 
         return Array.from(sourceOl.children)
             .filter((child) => child.tagName === 'LI')
             .map((itemEl, index) => ({
-                id: `item-${index + 1}`,
+                id: `${idPrefix}-${index + 1}`,
                 originalIndex: index,
                 html: itemEl.innerHTML,
             }))
+    }
+
+    function getTopLevelWidgetLists(el) {
+        const children = Array.from(el.children)
+        const hrIndex = children.findIndex((child) => child.tagName === 'HR')
+
+        if (hrIndex < 0) {
+            const firstOl = children.find((child) => child.tagName === 'OL') || el.querySelector('ol')
+            return {
+                referenceItems: [],
+                draggableItems: getItemsFromOl(firstOl, 'item')
+            }
+        }
+
+        let referenceOl = null
+        let draggableOl = null
+
+        for (let index = 0; index < children.length; index++) {
+            const child = children[index]
+            if (child.tagName !== 'OL') continue
+
+            if (index < hrIndex) {
+                referenceOl = child
+            }
+
+            if (index > hrIndex && !draggableOl) {
+                draggableOl = child
+            }
+        }
+
+        if (!referenceOl || !draggableOl) {
+            const fallbackOl = referenceOl || draggableOl || children.find((child) => child.tagName === 'OL') || el.querySelector('ol')
+            return {
+                referenceItems: [],
+                draggableItems: getItemsFromOl(fallbackOl, 'item')
+            }
+        }
+
+        return {
+            referenceItems: getItemsFromOl(referenceOl, 'reference'),
+            draggableItems: getItemsFromOl(draggableOl, 'item')
+        }
     }
 
     function scoreOrder(currentItems) {
@@ -161,7 +204,9 @@
             this.shouldShuffleInitially = parseBoolean(el.getAttribute('shuffle'), true)
             this.hasInitialised = false
 
-            this.originalItems = getItemsFromOl(el)
+            const parsedLists = getTopLevelWidgetLists(el)
+            this.referenceItems = parsedLists.referenceItems
+            this.originalItems = parsedLists.draggableItems
             this.currentItems = []
 
             this.sortable = null
@@ -174,6 +219,10 @@
 
         get dragEnabled() {
             return typeof window.Sortable !== 'undefined'
+        }
+
+        get hasReferenceList() {
+            return this.referenceItems.length > 0
         }
 
         resetItems() {
@@ -205,6 +254,19 @@
                 return
             }
 
+            if (this.hasReferenceList && this.referenceItems.length !== this.originalItems.length) {
+                this.el.innerHTML = `<div class="drag-drop-error">${UI_TEXT.errors.listLengthMismatch}</div>`
+                return
+            }
+
+            const listAreaClass = this.hasReferenceList
+                ? 'drag-drop-list-area drag-drop-list-area-has-reference'
+                : 'drag-drop-list-area'
+
+            const referencePanelHtml = this.hasReferenceList
+                ? '<div class="drag-drop-reference-list" role="list"></div>'
+                : ''
+
             this.el.innerHTML = `
                 <div class="drag-drop-wrapper">
                     <div class="drag-drop-header">
@@ -213,7 +275,10 @@
                     </div>
 
                     <div class="drag-drop-body">
-                        <div class="drag-drop-list" role="list" aria-live="polite"></div>
+                        <div class="${listAreaClass}">
+                            ${referencePanelHtml}
+                            <div class="drag-drop-list" role="list" aria-live="polite"></div>
+                        </div>
 
                         <div class="drag-drop-actions">
                             <button class="drag-drop-btn drag-drop-submit" type="button">${SVG_ICONS.actions.submit}<span>${UI_TEXT.buttons.submit}</span></button>
@@ -227,10 +292,21 @@
             `
 
             this.listEl = this.el.querySelector('.drag-drop-list')
+            this.referenceListEl = this.el.querySelector('.drag-drop-reference-list')
             this.submitBtn = this.el.querySelector('.drag-drop-submit')
             this.helpBtn = this.el.querySelector('.drag-drop-help')
             this.resetBtn = this.el.querySelector('.drag-drop-reset')
             this.feedbackEl = this.el.querySelector('.drag-drop-feedback')
+
+            this.renderReferenceList()
+        }
+
+        renderReferenceList() {
+            if (!this.referenceListEl || !this.hasReferenceList) return
+
+            this.referenceListEl.innerHTML = this.referenceItems
+                .map((item) => `<div class="drag-drop-reference-item" role="listitem">${item.html}</div>`)
+                .join('')
         }
 
         renderList() {
@@ -337,7 +413,10 @@
 
         clearFeedback() {
             if (!this.feedbackEl) return
-            this.feedbackEl.textContent = UI_TEXT.feedback.initialStatus
+            const statusMessage = this.hasReferenceList
+                ? UI_TEXT.feedback.initialStatusTwoList
+                : UI_TEXT.feedback.initialStatus
+            this.feedbackEl.textContent = statusMessage
             this.feedbackEl.dataset.result = ''
         }
 
