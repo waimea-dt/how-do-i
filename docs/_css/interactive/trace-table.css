@@ -1,0 +1,393 @@
+/* =============================================================================
+   Trace Table Visualizer - Variable state tracing for Python code
+   ============================================================================= */
+
+.markdown-section .trace-table-container {
+
+    /* ---- Design tokens ---- */
+    --trace-bg: var(--color-mono-1);
+
+    --trace-bg-header: var(--color-mono-2);
+    --trace-title-color: var(--theme-color);
+    --trace-subtitle-color: var(--color-mono-6);
+
+    --trace-bg-code: var(--code-bg-color);
+    --trace-border: var(--color-mono-3);
+    --trace-muted: var(--color-mono-5);
+
+    --trace-bg-table: var(--code-bg-color);
+    --trace-bg-table-line: var(--color-mono-min);
+    --trace-label-color: var(--color-text);
+    --trace-value-color: var(--color-text);
+    --trace-empty: var(--color-mono-4);
+
+    --trace-btn-bg: var(--theme-color-3);
+    --trace-btn-bg-hover: var(--theme-color-4);
+    --trace-btn-reset-bg: var(--color-mono-2);
+    --trace-btn-reset-hover: var(--color-mono-3);
+
+    --trace-line-active: var(--highlight-color);
+    --trace-line-active-bg: color-mix(in srgb, var(--highlight-color) 10%, transparent);
+    --trace-row-active-bg: color-mix(in srgb, var(--theme-color) 15%, transparent);
+    --trace-cell-highlight: var(--theme-color);
+
+    --trace-padding: 1rem;
+    --trace-padding-small: 0.5rem;
+    --trace-padding-tiny: 0.25rem;
+
+    display: block;
+    margin: var(--margin-block) 0;
+    container-type: inline-size;
+
+
+    /* ---- Wrapper ---- */
+
+    .trace-table-wrapper {
+        background: var(--trace-bg);
+        border: 1px solid var(--trace-border);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+    }
+
+    /* ---- Header ---- */
+
+    .trace-table-header {
+        padding: var(--trace-padding);
+        background: var(--trace-bg-header);
+        border-bottom: 1px solid var(--trace-border);
+
+        .trace-table-title {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--trace-title-color);
+        }
+
+        .trace-table-subtitle {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--trace-subtitle-color);
+        }
+    }
+
+    /* ---- Content (two-column layout) ---- */
+
+    .trace-table-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--trace-padding);
+        align-items: start;
+        padding: var(--trace-padding);
+        overflow: auto;
+
+        @container (min-width: 768px) {
+            grid-template-columns: 1fr auto;
+        }
+    }
+
+    /* ---- Code Panel ---- */
+
+    .trace-table-code-panel {
+        background: var(--trace-bg-code);
+        background-image: linear-gradient(
+            to right,
+            var(--trace-bg-code) 2.8rem,
+            var(--trace-border) 2.8rem,
+            var(--trace-bg-code) calc(2.8rem + 1px)
+        );
+        border: 1px solid var(--trace-border);
+        border-radius: var(--border-radius);
+        overflow: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 0.95rem;
+        padding: var(--trace-padding-small) var(--trace-padding);
+    }
+
+    .trace-table-code-line {
+        display: grid;
+        grid-template-columns: 1.2rem 1fr;
+        align-items: center;
+        column-gap: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+
+        .trace-table-code-number {
+            color: var(--trace-muted);
+            text-align: right;
+            user-select: none;
+            padding-top: var(--trace-padding-tiny);
+        }
+
+        &:hover {
+            background-color: var(--trace-line-active-bg);
+        }
+
+        &.active {
+            font-weight: 500;
+
+            code {
+                outline: 2px solid var(--trace-line-active) !important;
+            }
+        }
+
+        &.trace-table-condition-true::after,
+        &.trace-table-condition-false::after {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        &.trace-table-condition-true::after {
+            content: '✓';
+            color: var(--color-good);
+        }
+
+        &.trace-table-condition-false::after {
+            content: '✕';
+            color: var(--color-attention);
+        }
+
+        code {
+            background: none;
+            border: none !important;
+            /* border: 2px solid transparent !important; */
+            color: inherit;
+            font-size: inherit;
+            white-space: pre;
+            padding: var(--trace-padding-tiny) var(--trace-padding-small) !important;
+            min-height: 1.8rem;
+        }
+    }
+
+    /* ---- Trace Table Panel ---- */
+
+    .trace-table-panel {
+        overflow: auto;
+    }
+
+    .table-scroll {
+        margin-block: 0;
+        padding: 0;
+    }
+
+    .trace-table {
+        border-collapse: collapse;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        background-color: var(--trace-bg-table);
+
+        :is(td, th):has(input) {
+            padding: 2px;
+
+            .trace-table-cell-input {
+                width: auto;
+                min-width: 3rem;
+                border: 0;
+                outline: 0;
+                background: transparent;
+                color: inherit;
+                font: inherit;
+                text-align: center;
+                border-radius: 0;
+                padding: var(--trace-padding-tiny) var(--trace-padding-small);
+
+                &::placeholder {
+                    color: var(--trace-muted);
+                }
+
+                &:focus {
+                    outline: 3px solid var(--theme-color);
+                }
+            }
+        }
+
+        thead th {
+            text-align: center;
+            &:first-child,
+            &:last-child {
+                color: var(--trace-muted);
+                font-weight: 500;
+            }
+        }
+
+        tbody {
+            td {
+                color: var(--trace-value-color);
+                text-align: center;
+
+                &.trace-table-line-number {
+                    color: var(--trace-muted);
+                    font-weight: 500;
+                }
+
+                &.trace-table-cell-number {
+                    color: var(--code-hl-number-color);
+                }
+
+                &.trace-table-cell-string {
+                    color: var(--code-hl-string-color);
+                }
+
+                &.trace-table-cell-boolean {
+                    color: var(--code-hl-constant-color);
+                }
+
+                &.trace-table-cell-empty {
+                    color: var(--trace-empty);
+                }
+
+                &.trace-table-cell-changed,
+                &.trace-table-output-active {
+                    font-weight: 700;
+                    box-shadow: inset 0 0 0 2px var(--highlight-color) !important;
+                }
+
+                &.trace-table-line-number {
+
+                    :not(:hover) > & {
+                        background-color: var(--trace-bg-table-line);
+                    }
+                }
+            }
+
+            tr.active,
+            tr:has(td > input:focus) {
+                background: var(--trace-row-active-bg) !important;
+
+                td {
+                    font-weight: 500;
+
+                    &:not(.trace-table-line-number) {
+                        background-color: color-mix(in srgb, var(--trace-row-active-bg) 65%, var(--trace-bg-table-value));
+                    }
+                }
+            }
+        }
+    }
+
+    .trace-table--blank {
+        .trace-table-code-line {
+            cursor: default;
+        }
+
+        .trace-table-code-line:hover {
+            background-color: transparent;
+        }
+
+        .trace-table-code-line.active code {
+            outline: none !important;
+        }
+    }
+
+    /* Progressive row reveal when stepping */
+    .trace-table--stepping .trace-table tbody tr {
+        td {
+            opacity: 0.3;
+            transition: opacity 0.25s ease;
+        }
+
+        &.trace-table-row-revealed td {
+            opacity: 1;
+        }
+    }
+
+    .trace-table--hide-until-run .trace-table tbody tr {
+        td {
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        &.trace-table-row-revealed td {
+            opacity: 1;
+        }
+    }
+
+    /* ---- Controls ---- */
+
+    .trace-table-controls {
+        padding: 0 var(--trace-padding) var(--trace-padding);
+        /* background: var(--trace-bg-header); */
+        /* border-top: 1px solid var(--trace-border); */
+        display: flex;
+        justify-content: center;
+
+        .trace-table-button-group {
+            display: flex;
+            gap: var(--trace-padding-small);
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .trace-table-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                font-weight: 500;
+                border: none;
+                border-radius: var(--border-radius);
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &.trace-table-btn-play,
+                &.trace-table-btn-step {
+                    background: var(--trace-btn-bg);
+                    color: white;
+
+                    &:hover:not(:disabled) {
+                        background: var(--trace-btn-bg-hover);
+                    }
+                }
+
+                &.trace-table-btn-pause {
+                    background: var(--color-attention);
+                    color: white;
+
+                    &:hover:not(:disabled) {
+                        opacity: 0.8;
+                    }
+                }
+
+                &.trace-table-btn-reset {
+                    background: var(--trace-btn-reset-bg);
+                    color: var(--color-text);
+
+                    &:hover:not(:disabled) {
+                        background: var(--trace-btn-reset-hover);
+                    }
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+
+    /* ---- Error Display ---- */
+
+    .trace-table-error {
+        padding: var(--trace-padding);
+        background: var(--color-attention);
+        color: white;
+        border-radius: var(--border-radius);
+        margin: var(--trace-padding);
+
+        strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.2);
+            padding: var(--trace-padding-small);
+            border-radius: 4px;
+            overflow: auto;
+            font-size: 0.8rem;
+            margin: 0;
+        }
+    }
+}

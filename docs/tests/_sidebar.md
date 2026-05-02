@@ -12,6 +12,7 @@
     - [Python Runner](tests/python.md)
     - [Python Coverage](tests/coverage.md)
     - [Kotlin Runner](tests/kotlin.md)
+    - [Trace Table](tests/trace-table.md)
 
 - <i data-lucide="binary"></i>Databases
     - [Database Schema](tests/dbs.md)
