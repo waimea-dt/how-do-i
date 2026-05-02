@@ -162,646 +162,699 @@
         }
     }
 
-    function parseProgram(source) {
-        const sourceLines = source.split('\n')
-        const lineMeta = sourceLines.map(parseInputDirective)
-        const lines = lineMeta.map(entry => entry.codeLine)
+    class TraceLanguageAdapter {
+        constructor(language) {
+            this.language = language
+        }
 
-        function parseBlock(start, indentLevel) {
-            const statements = []
-            let i = start
+        parseProgram(_source) {
+            throw new Error('parseProgram not implemented')
+        }
 
-            while (i < lines.length) {
-                const raw = lines[i]
-                const trimmed = raw.trim()
+        toJsExpr(expr) {
+            return expr
+                .replace(/\bTrue\b/g, 'true')
+                .replace(/\bFalse\b/g, 'false')
+                .replace(/\bNone\b/g, 'null')
+                .replace(/\band\b/g, '&&')
+                .replace(/\bor\b/g, '||')
+                .replace(/\bnot\b/g, '!')
+                .replace(/!!/g, '')
+                .replace(/\.size\b/g, '.length')
+        }
 
-                if (!trimmed || trimmed.startsWith('#')) {
-                    i++
-                    continue
-                }
+        formatNullLiteral() {
+            return 'None'
+        }
 
-                const indent = countIndent(raw)
-                if (indent < indentLevel) break
-                if (indent > indentLevel) {
-                    i++
-                    continue
-                }
+        tryEvaluatePrintInterpolation(_trimmed, _env, _evalExpr, _formatOutputValue) {
+            return null
+        }
+    }
 
-                if (/^(elif\s+|else:)/.test(trimmed)) break
+    class PythonTraceLanguageAdapter extends TraceLanguageAdapter {
+        constructor() {
+            super('python')
+        }
 
-                const ifMatch = trimmed.match(/^if\s+(.+):$/)
-                if (ifMatch) {
-                    const branches = []
-                    const childIndent = findChildIndent(lines, i + 1, indent)
-                    const ifBody = parseBlock(i + 1, childIndent)
-                    branches.push({ kind: 'if', test: ifMatch[1], body: ifBody.statements, lineIndex: i })
-                    i = ifBody.nextIndex
+        parseProgram(source) {
+            const sourceLines = source.split('\n')
+            const lineMeta = sourceLines.map(parseInputDirective)
+            const lines = lineMeta.map(entry => entry.codeLine)
 
-                    while (i < lines.length) {
-                        const nxtRaw = lines[i]
-                        const nxtTrim = nxtRaw.trim()
-                        if (!nxtTrim || nxtTrim.startsWith('#')) {
+            function parseBlock(start, indentLevel) {
+                const statements = []
+                let i = start
+
+                while (i < lines.length) {
+                    const raw = lines[i]
+                    const trimmed = raw.trim()
+
+                    if (!trimmed || trimmed.startsWith('#')) {
+                        i++
+                        continue
+                    }
+
+                    const indent = countIndent(raw)
+                    if (indent < indentLevel) break
+                    if (indent > indentLevel) {
+                        i++
+                        continue
+                    }
+
+                    if (/^(elif\s+|else:)/.test(trimmed)) break
+
+                    const ifMatch = trimmed.match(/^if\s+(.+):$/)
+                    if (ifMatch) {
+                        const branches = []
+                        const childIndent = findChildIndent(lines, i + 1, indent)
+                        const ifBody = parseBlock(i + 1, childIndent)
+                        branches.push({ kind: 'if', test: ifMatch[1], body: ifBody.statements, lineIndex: i })
+                        i = ifBody.nextIndex
+
+                        while (i < lines.length) {
+                            const nxtRaw = lines[i]
+                            const nxtTrim = nxtRaw.trim()
+                            if (!nxtTrim || nxtTrim.startsWith('#')) {
+                                i++
+                                continue
+                            }
+                            const nxtIndent = countIndent(nxtRaw)
+                            if (nxtIndent !== indent) break
+
+                            const elifMatch = nxtTrim.match(/^elif\s+(.+):$/)
+                            if (elifMatch) {
+                                const elifChildIndent = findChildIndent(lines, i + 1, indent)
+                                const elifBody = parseBlock(i + 1, elifChildIndent)
+                                branches.push({ kind: 'elif', test: elifMatch[1], body: elifBody.statements, lineIndex: i })
+                                i = elifBody.nextIndex
+                                continue
+                            }
+
+                            if (nxtTrim === 'else:') {
+                                const elseChildIndent = findChildIndent(lines, i + 1, indent)
+                                const elseBody = parseBlock(i + 1, elseChildIndent)
+                                branches.push({ kind: 'else', body: elseBody.statements, lineIndex: i })
+                                i = elseBody.nextIndex
+                            }
+                            break
+                        }
+
+                        statements.push({ type: 'ifchain', branches, lineIndex: i })
+                        continue
+                    }
+
+                    const forMatch = trimmed.match(/^for\s+([A-Za-z_]\w*)\s+in\s+range\((.*)\):$/)
+                    if (forMatch) {
+                        const childIndent = findChildIndent(lines, i + 1, indent)
+                        const body = parseBlock(i + 1, childIndent)
+                        statements.push({
+                            type: 'for',
+                            varName: forMatch[1],
+                            iterableType: 'range',
+                            rangeExpr: forMatch[2],
+                            body: body.statements,
+                            lineIndex: i
+                        })
+                        i = body.nextIndex
+                        continue
+                    }
+
+                    const forEachMatch = trimmed.match(/^for\s+([A-Za-z_]\w*)\s+in\s+(.+):$/)
+                    if (forEachMatch) {
+                        const childIndent = findChildIndent(lines, i + 1, indent)
+                        const body = parseBlock(i + 1, childIndent)
+                        statements.push({
+                            type: 'for',
+                            varName: forEachMatch[1],
+                            iterableType: 'iterable',
+                            iterableExpr: forEachMatch[2].trim(),
+                            body: body.statements,
+                            lineIndex: i
+                        })
+                        i = body.nextIndex
+                        continue
+                    }
+
+                    const whileMatch = trimmed.match(/^while\s+(.+):$/)
+                    if (whileMatch) {
+                        const childIndent = findChildIndent(lines, i + 1, indent)
+                        const body = parseBlock(i + 1, childIndent)
+                        statements.push({
+                            type: 'while',
+                            test: whileMatch[1],
+                            body: body.statements,
+                            lineIndex: i
+                        })
+                        i = body.nextIndex
+                        continue
+                    }
+
+                    const assignMatch = trimmed.match(/^(?:(?:val|var)\s+)?([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*(.+)$/)
+                    if (assignMatch) {
+                        const inputText = lineMeta[i].inputText
+                        const inputValues = lineMeta[i].inputValues
+                        const isInputAssign = inputText !== null && /^(?:input|readln|readlnOrNull)\s*\(/.test(assignMatch[2].trim())
+                        if (isInputAssign) {
+                            statements.push({
+                                type: 'assign_input',
+                                varName: assignMatch[1],
+                                inputValue: inputText,
+                                inputValues,
+                                lineIndex: i
+                            })
                             i++
                             continue
                         }
-                        const nxtIndent = countIndent(nxtRaw)
-                        if (nxtIndent !== indent) break
 
-                        const elifMatch = nxtTrim.match(/^elif\s+(.+):$/)
-                        if (elifMatch) {
-                            const elifChildIndent = findChildIndent(lines, i + 1, indent)
-                            const elifBody = parseBlock(i + 1, elifChildIndent)
-                            branches.push({ kind: 'elif', test: elifMatch[1], body: elifBody.statements, lineIndex: i })
-                            i = elifBody.nextIndex
+                        const isInputExprAssign = inputText !== null && /\binput\s*\(/.test(assignMatch[2])
+                        if (isInputExprAssign) {
+                            statements.push({
+                                type: 'assign_input_expr',
+                                varName: assignMatch[1],
+                                expr: assignMatch[2],
+                                inputValue: inputText,
+                                inputValues,
+                                lineIndex: i
+                            })
+                            i++
                             continue
                         }
 
-                        if (nxtTrim === 'else:') {
-                            const elseChildIndent = findChildIndent(lines, i + 1, indent)
-                            const elseBody = parseBlock(i + 1, elseChildIndent)
-                            branches.push({ kind: 'else', body: elseBody.statements, lineIndex: i })
-                            i = elseBody.nextIndex
-                        }
-                        break
-                    }
-
-                    statements.push({ type: 'ifchain', branches, lineIndex: i })
-                    continue
-                }
-
-                const forMatch = trimmed.match(/^for\s+([A-Za-z_]\w*)\s+in\s+range\((.*)\):$/)
-                if (forMatch) {
-                    const childIndent = findChildIndent(lines, i + 1, indent)
-                    const body = parseBlock(i + 1, childIndent)
-                    statements.push({
-                        type: 'for',
-                        varName: forMatch[1],
-                        iterableType: 'range',
-                        rangeExpr: forMatch[2],
-                        body: body.statements,
-                        lineIndex: i
-                    })
-                    i = body.nextIndex
-                    continue
-                }
-
-                const forEachMatch = trimmed.match(/^for\s+([A-Za-z_]\w*)\s+in\s+(.+):$/)
-                if (forEachMatch) {
-                    const childIndent = findChildIndent(lines, i + 1, indent)
-                    const body = parseBlock(i + 1, childIndent)
-                    statements.push({
-                        type: 'for',
-                        varName: forEachMatch[1],
-                        iterableType: 'iterable',
-                        iterableExpr: forEachMatch[2].trim(),
-                        body: body.statements,
-                        lineIndex: i
-                    })
-                    i = body.nextIndex
-                    continue
-                }
-
-                const whileMatch = trimmed.match(/^while\s+(.+):$/)
-                if (whileMatch) {
-                    const childIndent = findChildIndent(lines, i + 1, indent)
-                    const body = parseBlock(i + 1, childIndent)
-                    statements.push({
-                        type: 'while',
-                        test: whileMatch[1],
-                        body: body.statements,
-                        lineIndex: i
-                    })
-                    i = body.nextIndex
-                    continue
-                }
-
-                const assignMatch = trimmed.match(/^(?:(?:val|var)\s+)?([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*(.+)$/)
-                if (assignMatch) {
-                    const inputText = lineMeta[i].inputText
-                    const inputValues = lineMeta[i].inputValues
-                    const isInputAssign = inputText !== null && /^(?:input|readln|readlnOrNull)\s*\(/.test(assignMatch[2].trim())
-                    if (isInputAssign) {
                         statements.push({
-                            type: 'assign_input',
-                            varName: assignMatch[1],
-                            inputValue: inputText,
-                            inputValues,
-                            lineIndex: i
-                        })
-                        i++
-                        continue
-                    }
-
-                    const isInputExprAssign = inputText !== null && /\binput\s*\(/.test(assignMatch[2])
-                    if (isInputExprAssign) {
-                        statements.push({
-                            type: 'assign_input_expr',
+                            type: 'assign',
                             varName: assignMatch[1],
                             expr: assignMatch[2],
-                            inputValue: inputText,
-                            inputValues,
                             lineIndex: i
                         })
                         i++
                         continue
                     }
 
-                    statements.push({
-                        type: 'assign',
-                        varName: assignMatch[1],
-                        expr: assignMatch[2],
-                        lineIndex: i
-                    })
+                    const indexAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*\[(.+)\]\s*=\s*(.+)$/)
+                    if (indexAssignMatch) {
+                        statements.push({
+                            type: 'list_set',
+                            varName: indexAssignMatch[1],
+                            indexExpr: indexAssignMatch[2].trim(),
+                            expr: indexAssignMatch[3],
+                            lineIndex: i
+                        })
+                        i++
+                        continue
+                    }
+
+                    const appendMatch = trimmed.match(/^([A-Za-z_]\w*)\.(?:append|add)\((.*)\)$/)
+                    if (appendMatch) {
+                        statements.push({
+                            type: 'list_append',
+                            varName: appendMatch[1],
+                            expr: appendMatch[2],
+                            lineIndex: i
+                        })
+                        i++
+                        continue
+                    }
+
+                    const augAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*([+\-*/%])=\s*(.+)$/)
+                    if (augAssignMatch) {
+                        statements.push({
+                            type: 'assign',
+                            varName: augAssignMatch[1],
+                            expr: `${augAssignMatch[1]} ${augAssignMatch[2]} (${augAssignMatch[3]})`,
+                            lineIndex: i
+                        })
+                        i++
+                        continue
+                    }
+
+                    const postfixIncMatch = trimmed.match(/^([A-Za-z_]\w*)(\+\+|--)$/)
+                    if (postfixIncMatch) {
+                        const op = postfixIncMatch[2] === '++' ? '+' : '-'
+                        statements.push({
+                            type: 'assign',
+                            varName: postfixIncMatch[1],
+                            expr: `${postfixIncMatch[1]} ${op} 1`,
+                            lineIndex: i
+                        })
+                        i++
+                        continue
+                    }
+
+                    const prefixIncMatch = trimmed.match(/^(\+\+|--)([A-Za-z_]\w*)$/)
+                    if (prefixIncMatch) {
+                        const op = prefixIncMatch[1] === '++' ? '+' : '-'
+                        statements.push({
+                            type: 'assign',
+                            varName: prefixIncMatch[2],
+                            expr: `${prefixIncMatch[2]} ${op} 1`,
+                            lineIndex: i
+                        })
+                        i++
+                        continue
+                    }
+
+                    if (trimmed === 'break') {
+                        statements.push({ type: 'break', lineIndex: i })
+                        i++
+                        continue
+                    }
+
+                    if (trimmed === 'continue') {
+                        statements.push({ type: 'continue', lineIndex: i })
+                        i++
+                        continue
+                    }
+
+                    const printMatch = trimmed.match(/^(?:print|println)\((.*)\)$/)
+                    if (printMatch) {
+                        statements.push({
+                            type: 'print',
+                            argsText: printMatch[1],
+                            lineIndex: i
+                        })
+                        i++
+                        continue
+                    }
+
+                    // Unsupported statement: skip.
                     i++
-                    continue
                 }
 
-                const indexAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*\[(.+)\]\s*=\s*(.+)$/)
-                if (indexAssignMatch) {
-                    statements.push({
-                        type: 'list_set',
-                        varName: indexAssignMatch[1],
-                        indexExpr: indexAssignMatch[2].trim(),
-                        expr: indexAssignMatch[3],
-                        lineIndex: i
-                    })
-                    i++
-                    continue
-                }
-
-                const appendMatch = trimmed.match(/^([A-Za-z_]\w*)\.(?:append|add)\((.*)\)$/)
-                if (appendMatch) {
-                    statements.push({
-                        type: 'list_append',
-                        varName: appendMatch[1],
-                        expr: appendMatch[2],
-                        lineIndex: i
-                    })
-                    i++
-                    continue
-                }
-
-                const augAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*([+\-*/%])=\s*(.+)$/)
-                if (augAssignMatch) {
-                    statements.push({
-                        type: 'assign',
-                        varName: augAssignMatch[1],
-                        expr: `${augAssignMatch[1]} ${augAssignMatch[2]} (${augAssignMatch[3]})`,
-                        lineIndex: i
-                    })
-                    i++
-                    continue
-                }
-
-                const postfixIncMatch = trimmed.match(/^([A-Za-z_]\w*)(\+\+|--)$/)
-                if (postfixIncMatch) {
-                    const op = postfixIncMatch[2] === '++' ? '+' : '-'
-                    statements.push({
-                        type: 'assign',
-                        varName: postfixIncMatch[1],
-                        expr: `${postfixIncMatch[1]} ${op} 1`,
-                        lineIndex: i
-                    })
-                    i++
-                    continue
-                }
-
-                const prefixIncMatch = trimmed.match(/^(\+\+|--)([A-Za-z_]\w*)$/)
-                if (prefixIncMatch) {
-                    const op = prefixIncMatch[1] === '++' ? '+' : '-'
-                    statements.push({
-                        type: 'assign',
-                        varName: prefixIncMatch[2],
-                        expr: `${prefixIncMatch[2]} ${op} 1`,
-                        lineIndex: i
-                    })
-                    i++
-                    continue
-                }
-
-                if (trimmed === 'break') {
-                    statements.push({ type: 'break', lineIndex: i })
-                    i++
-                    continue
-                }
-
-                if (trimmed === 'continue') {
-                    statements.push({ type: 'continue', lineIndex: i })
-                    i++
-                    continue
-                }
-
-                const printMatch = trimmed.match(/^(?:print|println)\((.*)\)$/)
-                if (printMatch) {
-                    statements.push({
-                        type: 'print',
-                        argsText: printMatch[1],
-                        lineIndex: i
-                    })
-                    i++
-                    continue
-                }
-
-                // Unsupported statement: skip.
-                i++
+                return { statements, nextIndex: i }
             }
 
-            return { statements, nextIndex: i }
+            return { lines, statements: parseBlock(0, 0).statements }
         }
 
-        return { lines, statements: parseBlock(0, 0).statements }
+        tryEvaluatePrintInterpolation(trimmed, env, evalExprImpl) {
+            const fStringMatch = trimmed.match(/^f(["'])([\s\S]*)\1$/)
+            if (!fStringMatch) return null
+            return fStringMatch[2].replace(/\{([^}]+)\}/g, (_, expr) => {
+                const value = evalExprImpl(expr.trim(), env)
+                return value === null || value === undefined ? this.formatNullLiteral() : String(value)
+            })
+        }
     }
 
-    function normalizeKotlinExpr(expr) {
-        return expr
-            .replace(/mutableListOf(?:<[^>]+>)?\s*\(\s*\)/g, '[]')
-            .replace(/\breadlnOrNull\s*\(\s*\)/g, 'input()')
-            .replace(/\breadln\s*\(\s*\)/g, 'input()')
-            .replace(/input\(\)\?\.toIntOrNull\s*\(\s*\)/g, 'toInt(input())')
-            .replace(/input\(\)\.toIntOrNull\s*\(\s*\)/g, 'toInt(input())')
-            .replace(/input\(\)\.toInt\s*\(\s*\)/g, 'toInt(input())')
-            .replace(/([A-Za-z_]\w*|\([^()]+\))\?\.toIntOrNull\s*\(\s*\)/g, 'toInt($1)')
-            .replace(/([A-Za-z_]\w*|\([^()]+\))\.toIntOrNull\s*\(\s*\)/g, 'toInt($1)')
-            .replace(/([A-Za-z_]\w*|\([^()]+\))\.toInt\s*\(\s*\)/g, 'toInt($1)')
-    }
-
-    function parseKotlinInlineStatement(text, lineIndex, inputText = null, inputValues = null) {
-        const trimmed = text.trim()
-        if (!trimmed || trimmed === '{' || trimmed === '}') return null
-
-        if (trimmed === 'break') return { type: 'break', lineIndex }
-        if (trimmed === 'continue') return { type: 'continue', lineIndex }
-
-        const printMatch = trimmed.match(/^(?:print|println)\((.*)\)$/)
-        if (printMatch) {
-            return { type: 'print', argsText: printMatch[1], lineIndex }
+    class KotlinTraceLanguageAdapter extends TraceLanguageAdapter {
+        constructor() {
+            super('kotlin')
         }
 
-        const indexAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*\[(.+)\]\s*=\s*(.+)$/)
-        if (indexAssignMatch) {
-            return {
-                type: 'list_set',
-                varName: indexAssignMatch[1],
-                indexExpr: normalizeKotlinExpr(indexAssignMatch[2].trim()),
-                expr: normalizeKotlinExpr(indexAssignMatch[3]),
-                lineIndex
+        normalizeExpr(expr) {
+            return expr
+                .replace(/mutableListOf(?:<[^>]+>)?\s*\(\s*\)/g, '[]')
+                .replace(/\breadlnOrNull\s*\(\s*\)/g, 'input()')
+                .replace(/\breadln\s*\(\s*\)/g, 'input()')
+                .replace(/input\(\)\?\.toIntOrNull\s*\(\s*\)/g, 'toInt(input())')
+                .replace(/input\(\)\.toIntOrNull\s*\(\s*\)/g, 'toInt(input())')
+                .replace(/input\(\)\.toInt\s*\(\s*\)/g, 'toInt(input())')
+                .replace(/([A-Za-z_]\w*|\([^()]+\))\?\.toIntOrNull\s*\(\s*\)/g, 'toInt($1)')
+                .replace(/([A-Za-z_]\w*|\([^()]+\))\.toIntOrNull\s*\(\s*\)/g, 'toInt($1)')
+                .replace(/([A-Za-z_]\w*|\([^()]+\))\.toInt\s*\(\s*\)/g, 'toInt($1)')
+        }
+
+        parseInlineStatement(text, lineIndex, inputText = null, inputValues = null) {
+            const trimmed = text.trim()
+            if (!trimmed || trimmed === '{' || trimmed === '}') return null
+
+            if (trimmed === 'break') return { type: 'break', lineIndex }
+            if (trimmed === 'continue') return { type: 'continue', lineIndex }
+
+            const printMatch = trimmed.match(/^(?:print|println)\((.*)\)$/)
+            if (printMatch) {
+                return { type: 'print', argsText: printMatch[1], lineIndex }
             }
-        }
 
-        const appendMatch = trimmed.match(/^([A-Za-z_]\w*)\.(?:add|append)\((.*)\)$/)
-        if (appendMatch) {
-            return {
-                type: 'list_append',
-                varName: appendMatch[1],
-                expr: normalizeKotlinExpr(appendMatch[2]),
-                lineIndex
-            }
-        }
-
-        const augAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*([+\-*/%])=\s*(.+)$/)
-        if (augAssignMatch) {
-            return {
-                type: 'assign',
-                varName: augAssignMatch[1],
-                expr: `${augAssignMatch[1]} ${augAssignMatch[2]} (${normalizeKotlinExpr(augAssignMatch[3])})`,
-                lineIndex
-            }
-        }
-
-        const postfixIncMatch = trimmed.match(/^([A-Za-z_]\w*)(\+\+|--)$/)
-        if (postfixIncMatch) {
-            const op = postfixIncMatch[2] === '++' ? '+' : '-'
-            return {
-                type: 'assign',
-                varName: postfixIncMatch[1],
-                expr: `${postfixIncMatch[1]} ${op} 1`,
-                lineIndex
-            }
-        }
-
-        const prefixIncMatch = trimmed.match(/^(\+\+|--)([A-Za-z_]\w*)$/)
-        if (prefixIncMatch) {
-            const op = prefixIncMatch[1] === '++' ? '+' : '-'
-            return {
-                type: 'assign',
-                varName: prefixIncMatch[2],
-                expr: `${prefixIncMatch[2]} ${op} 1`,
-                lineIndex
-            }
-        }
-
-        const declareMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?$/)
-        if (declareMatch) {
-            return {
-                type: 'declare',
-                varName: declareMatch[1],
-                lineIndex
-            }
-        }
-
-        const assignMatch = trimmed.match(/^(?:(?:val|var)\s+)?([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*(.+)$/)
-        if (assignMatch) {
-            const exprText = normalizeKotlinExpr(assignMatch[2])
-            const isInputAssign = inputText !== null && /^input\s*\(\s*\)$/.test(exprText)
-            if (isInputAssign) {
+            const indexAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*\[(.+)\]\s*=\s*(.+)$/)
+            if (indexAssignMatch) {
                 return {
-                    type: 'assign_input',
-                    varName: assignMatch[1],
-                    inputValue: inputText,
-                    inputValues,
+                    type: 'list_set',
+                    varName: indexAssignMatch[1],
+                    indexExpr: this.normalizeExpr(indexAssignMatch[2].trim()),
+                    expr: this.normalizeExpr(indexAssignMatch[3]),
                     lineIndex
                 }
             }
-            const isInputExprAssign = inputText !== null && /\binput\s*\(\s*\)/.test(exprText)
-            if (isInputExprAssign) {
+
+            const appendMatch = trimmed.match(/^([A-Za-z_]\w*)\.(?:add|append)\((.*)\)$/)
+            if (appendMatch) {
                 return {
-                    type: 'assign_input_expr',
+                    type: 'list_append',
+                    varName: appendMatch[1],
+                    expr: this.normalizeExpr(appendMatch[2]),
+                    lineIndex
+                }
+            }
+
+            const augAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*([+\-*/%])=\s*(.+)$/)
+            if (augAssignMatch) {
+                return {
+                    type: 'assign',
+                    varName: augAssignMatch[1],
+                    expr: `${augAssignMatch[1]} ${augAssignMatch[2]} (${this.normalizeExpr(augAssignMatch[3])})`,
+                    lineIndex
+                }
+            }
+
+            const postfixIncMatch = trimmed.match(/^([A-Za-z_]\w*)(\+\+|--)$/)
+            if (postfixIncMatch) {
+                const op = postfixIncMatch[2] === '++' ? '+' : '-'
+                return {
+                    type: 'assign',
+                    varName: postfixIncMatch[1],
+                    expr: `${postfixIncMatch[1]} ${op} 1`,
+                    lineIndex
+                }
+            }
+
+            const prefixIncMatch = trimmed.match(/^(\+\+|--)([A-Za-z_]\w*)$/)
+            if (prefixIncMatch) {
+                const op = prefixIncMatch[1] === '++' ? '+' : '-'
+                return {
+                    type: 'assign',
+                    varName: prefixIncMatch[2],
+                    expr: `${prefixIncMatch[2]} ${op} 1`,
+                    lineIndex
+                }
+            }
+
+            const declareMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?$/)
+            if (declareMatch) {
+                return {
+                    type: 'declare',
+                    varName: declareMatch[1],
+                    lineIndex
+                }
+            }
+
+            const assignMatch = trimmed.match(/^(?:(?:val|var)\s+)?([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*(.+)$/)
+            if (assignMatch) {
+                const exprText = this.normalizeExpr(assignMatch[2])
+                const isInputAssign = inputText !== null && /^input\s*\(\s*\)$/.test(exprText)
+                if (isInputAssign) {
+                    return {
+                        type: 'assign_input',
+                        varName: assignMatch[1],
+                        inputValue: inputText,
+                        inputValues,
+                        lineIndex
+                    }
+                }
+                const isInputExprAssign = inputText !== null && /\binput\s*\(\s*\)/.test(exprText)
+                if (isInputExprAssign) {
+                    return {
+                        type: 'assign_input_expr',
+                        varName: assignMatch[1],
+                        expr: exprText,
+                        inputValue: inputText,
+                        inputValues,
+                        lineIndex
+                    }
+                }
+                return {
+                    type: 'assign',
                     varName: assignMatch[1],
                     expr: exprText,
-                    inputValue: inputText,
-                    inputValues,
                     lineIndex
                 }
             }
-            return {
-                type: 'assign',
-                varName: assignMatch[1],
-                expr: exprText,
-                lineIndex
-            }
+
+            return null
         }
 
-        return null
-    }
+        parseProgram(source) {
+            const adapter = this
+            const sourceLines = source.split('\n')
+            const lineMeta = sourceLines.map(parseInputDirective)
+            const lines = lineMeta.map(entry => entry.codeLine)
 
-    function parseKotlinProgram(source) {
-        const sourceLines = source.split('\n')
-        const lineMeta = sourceLines.map(parseInputDirective)
-        const lines = lineMeta.map(entry => entry.codeLine)
-
-        function skipIgnorable(fromIndex) {
-            let i = fromIndex
-            while (i < lines.length) {
-                const t = lines[i].trim()
-                if (!t || t.startsWith('//') || t.startsWith('#')) {
-                    i++
-                    continue
-                }
-                break
-            }
-            return i
-        }
-
-        function parseForIterable(exprText) {
-            const text = normalizeKotlinExpr(exprText.trim())
-            const exclusive = text.match(/^(.*)\.\.<\s*(.*)$/)
-            if (exclusive) {
-                return {
-                    iterableType: 'range',
-                    rangeExpr: `${exclusive[1].trim()}, ${exclusive[2].trim()}`
-                }
-            }
-            const inclusive = text.match(/^(.*)\.\.\s*(.*)$/)
-            if (inclusive) {
-                return {
-                    iterableType: 'range',
-                    rangeExpr: `${inclusive[1].trim()}, (${inclusive[2].trim()}) + 1`
-                }
-            }
-            return {
-                iterableType: 'iterable',
-                iterableExpr: text
-            }
-        }
-
-        function parseWhenBlock(startIndex, indentLevel, subjectExpr = null, assignTargetVar = null) {
-            const branches = []
-            let i = startIndex
-            while (i < lines.length) {
-                i = skipIgnorable(i)
-                if (i >= lines.length) break
-                const trimmed = lines[i].trim()
-                if (trimmed.startsWith('}')) {
-                    return { branches, nextIndex: i + 1 }
-                }
-
-                const caseMatch = trimmed.match(/^(.+?)\s*->\s*(.*)$/)
-                if (!caseMatch) {
-                    i++
-                    continue
-                }
-
-                const caseExpr = caseMatch[1].trim()
-                const rhs = caseMatch[2].trim()
-                const caseLineIndex = i
-                const isElse = caseExpr === 'else'
-                const branchKind = isElse ? 'else' : (branches.length === 0 ? 'if' : 'elif')
-                const branchTest = isElse
-                    ? null
-                    : (subjectExpr === null ? normalizeKotlinExpr(caseExpr) : `(${normalizeKotlinExpr(subjectExpr)}) == (${normalizeKotlinExpr(caseExpr)})`)
-
-                let body = []
-                if (rhs === '{') {
-                    const bodyRes = parseKotlinBlock(i + 1, indentLevel + 1)
-                    body = bodyRes.statements
-                    i = bodyRes.nextIndex
-                } else if (rhs) {
-                    if (assignTargetVar) {
-                        body = [{
-                            type: 'assign',
-                            varName: assignTargetVar,
-                            expr: normalizeKotlinExpr(rhs),
-                            lineIndex: i
-                        }]
-                    } else {
-                        const inlineStmt = parseKotlinInlineStatement(rhs, i, lineMeta[i].inputText, lineMeta[i].inputValues)
-                        body = inlineStmt ? [inlineStmt] : []
+            function skipIgnorable(fromIndex) {
+                let i = fromIndex
+                while (i < lines.length) {
+                    const t = lines[i].trim()
+                    if (!t || t.startsWith('//') || t.startsWith('#')) {
+                        i++
+                        continue
                     }
-                    i += 1
-                } else {
-                    i += 1
+                    break
                 }
-
-                const branch = { kind: branchKind, body, lineIndex: caseLineIndex }
-                if (branchTest !== null) branch.test = branchTest
-                branches.push(branch)
+                return i
             }
 
-            return { branches, nextIndex: i }
-        }
-
-        function parseKotlinBlock(startIndex, indentLevel) {
-            const statements = []
-            let i = startIndex
-
-            while (i < lines.length) {
-                i = skipIgnorable(i)
-                if (i >= lines.length) break
-
-                const raw = lines[i]
-                const trimmed = raw.trim()
-                if (trimmed === '{') {
-                    i++
-                    continue
+            function parseForIterable(exprText) {
+                const text = adapter.normalizeExpr(exprText.trim())
+                const exclusive = text.match(/^(.*)\.\.<\s*(.*)$/)
+                if (exclusive) {
+                    return {
+                        iterableType: 'range',
+                        rangeExpr: `${exclusive[1].trim()}, ${exclusive[2].trim()}`
+                    }
                 }
-                if (trimmed.startsWith('}')) {
-                    return { statements, nextIndex: i + 1 }
+                const inclusive = text.match(/^(.*)\.\.\s*(.*)$/)
+                if (inclusive) {
+                    return {
+                        iterableType: 'range',
+                        rangeExpr: `${inclusive[1].trim()}, (${inclusive[2].trim()}) + 1`
+                    }
+                }
+                return {
+                    iterableType: 'iterable',
+                    iterableExpr: text
+                }
+            }
+
+            function parseWhenBlock(startIndex, indentLevel, subjectExpr = null, assignTargetVar = null) {
+                const branches = []
+                let i = startIndex
+                while (i < lines.length) {
+                    i = skipIgnorable(i)
+                    if (i >= lines.length) break
+                    const trimmed = lines[i].trim()
+                    if (trimmed.startsWith('}')) {
+                        return { branches, nextIndex: i + 1 }
+                    }
+
+                    const caseMatch = trimmed.match(/^(.+?)\s*->\s*(.*)$/)
+                    if (!caseMatch) {
+                        i++
+                        continue
+                    }
+
+                    const caseExpr = caseMatch[1].trim()
+                    const rhs = caseMatch[2].trim()
+                    const caseLineIndex = i
+                    const isElse = caseExpr === 'else'
+                    const branchKind = isElse ? 'else' : (branches.length === 0 ? 'if' : 'elif')
+                    const branchTest = isElse
+                        ? null
+                        : (subjectExpr === null
+                            ? adapter.normalizeExpr(caseExpr)
+                            : `(${adapter.normalizeExpr(subjectExpr)}) == (${adapter.normalizeExpr(caseExpr)})`)
+
+                    let body = []
+                    if (rhs === '{') {
+                        const bodyRes = parseKotlinBlock(i + 1, indentLevel + 1)
+                        body = bodyRes.statements
+                        i = bodyRes.nextIndex
+                    } else if (rhs) {
+                        if (assignTargetVar) {
+                            body = [{
+                                type: 'assign',
+                                varName: assignTargetVar,
+                                expr: adapter.normalizeExpr(rhs),
+                                lineIndex: i
+                            }]
+                        } else {
+                            const inlineStmt = adapter.parseInlineStatement(rhs, i, lineMeta[i].inputText, lineMeta[i].inputValues)
+                            body = inlineStmt ? [inlineStmt] : []
+                        }
+                        i += 1
+                    } else {
+                        i += 1
+                    }
+
+                    const branch = { kind: branchKind, body, lineIndex: caseLineIndex }
+                    if (branchTest !== null) branch.test = branchTest
+                    branches.push(branch)
                 }
 
-                const ifMatch = trimmed.match(/^if\s*\((.+)\)\s*\{$/)
-                if (ifMatch) {
-                    const branches = []
-                    const ifBody = parseKotlinBlock(i + 1, indentLevel + 1)
-                    branches.push({ kind: 'if', test: normalizeKotlinExpr(ifMatch[1]), body: ifBody.statements, lineIndex: i })
-                    i = ifBody.nextIndex
+                return { branches, nextIndex: i }
+            }
 
-                    while (i < lines.length) {
-                        const nextIndex = skipIgnorable(i)
-                        if (nextIndex >= lines.length) {
-                            i = nextIndex
+            function parseKotlinBlock(startIndex, indentLevel) {
+                const statements = []
+                let i = startIndex
+
+                while (i < lines.length) {
+                    i = skipIgnorable(i)
+                    if (i >= lines.length) break
+
+                    const raw = lines[i]
+                    const trimmed = raw.trim()
+                    if (trimmed === '{') {
+                        i++
+                        continue
+                    }
+                    if (trimmed.startsWith('}')) {
+                        return { statements, nextIndex: i + 1 }
+                    }
+
+                    const ifMatch = trimmed.match(/^if\s*\((.+)\)\s*\{$/)
+                    if (ifMatch) {
+                        const branches = []
+                        const ifBody = parseKotlinBlock(i + 1, indentLevel + 1)
+                        branches.push({ kind: 'if', test: adapter.normalizeExpr(ifMatch[1]), body: ifBody.statements, lineIndex: i })
+                        i = ifBody.nextIndex
+
+                        while (i < lines.length) {
+                            const nextIndex = skipIgnorable(i)
+                            if (nextIndex >= lines.length) {
+                                i = nextIndex
+                                break
+                            }
+                            const nextTrimmed = lines[nextIndex].trim()
+                            const elifMatch = nextTrimmed.match(/^else\s+if\s*\((.+)\)\s*\{$/)
+                            if (elifMatch) {
+                                const elifBody = parseKotlinBlock(nextIndex + 1, indentLevel + 1)
+                                branches.push({ kind: 'elif', test: adapter.normalizeExpr(elifMatch[1]), body: elifBody.statements, lineIndex: nextIndex })
+                                i = elifBody.nextIndex
+                                continue
+                            }
+                            if (/^else\s*\{$/.test(nextTrimmed)) {
+                                const elseBody = parseKotlinBlock(nextIndex + 1, indentLevel + 1)
+                                branches.push({ kind: 'else', body: elseBody.statements, lineIndex: nextIndex })
+                                i = elseBody.nextIndex
+                            }
                             break
                         }
-                        const nextTrimmed = lines[nextIndex].trim()
-                        const elifMatch = nextTrimmed.match(/^else\s+if\s*\((.+)\)\s*\{$/)
-                        if (elifMatch) {
-                            const elifBody = parseKotlinBlock(nextIndex + 1, indentLevel + 1)
-                            branches.push({ kind: 'elif', test: normalizeKotlinExpr(elifMatch[1]), body: elifBody.statements, lineIndex: nextIndex })
-                            i = elifBody.nextIndex
-                            continue
-                        }
-                        if (/^else\s*\{$/.test(nextTrimmed)) {
-                            const elseBody = parseKotlinBlock(nextIndex + 1, indentLevel + 1)
-                            branches.push({ kind: 'else', body: elseBody.statements, lineIndex: nextIndex })
-                            i = elseBody.nextIndex
-                        }
-                        break
+
+                        statements.push({ type: 'ifchain', branches, lineIndex: i })
+                        continue
                     }
 
-                    statements.push({ type: 'ifchain', branches, lineIndex: i })
-                    continue
+                    const whileMatch = trimmed.match(/^while\s*\((.+)\)\s*\{$/)
+                    if (whileMatch) {
+                        const body = parseKotlinBlock(i + 1, indentLevel + 1)
+                        statements.push({
+                            type: 'while',
+                            test: adapter.normalizeExpr(whileMatch[1]),
+                            body: body.statements,
+                            lineIndex: i
+                        })
+                        i = body.nextIndex
+                        continue
+                    }
+
+                    const forMatch = trimmed.match(/^for\s*\(\s*([A-Za-z_]\w*)\s+in\s+(.+)\)\s*\{$/)
+                    if (forMatch) {
+                        const iterable = parseForIterable(forMatch[2])
+                        const body = parseKotlinBlock(i + 1, indentLevel + 1)
+                        statements.push({
+                            type: 'for',
+                            varName: forMatch[1],
+                            iterableType: iterable.iterableType,
+                            rangeExpr: iterable.rangeExpr,
+                            iterableExpr: iterable.iterableExpr,
+                            body: body.statements,
+                            lineIndex: i
+                        })
+                        i = body.nextIndex
+                        continue
+                    }
+
+                    const whenAssignSubjectMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*when\s*\((.+)\)\s*\{$/)
+                    if (whenAssignSubjectMatch) {
+                        const whenRes = parseWhenBlock(i + 1, indentLevel + 1, whenAssignSubjectMatch[2], whenAssignSubjectMatch[1])
+                        statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                        i = whenRes.nextIndex
+                        continue
+                    }
+
+                    const whenAssignNoSubjectMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*when\s*\{$/)
+                    if (whenAssignNoSubjectMatch) {
+                        const whenRes = parseWhenBlock(i + 1, indentLevel + 1, null, whenAssignNoSubjectMatch[1])
+                        statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                        i = whenRes.nextIndex
+                        continue
+                    }
+
+                    const whenSubjectMatch = trimmed.match(/^when\s*\((.+)\)\s*\{$/)
+                    if (whenSubjectMatch) {
+                        const whenRes = parseWhenBlock(i + 1, indentLevel + 1, whenSubjectMatch[1])
+                        statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                        i = whenRes.nextIndex
+                        continue
+                    }
+
+                    if (/^when\s*\{$/.test(trimmed)) {
+                        const whenRes = parseWhenBlock(i + 1, indentLevel + 1, null)
+                        statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                        i = whenRes.nextIndex
+                        continue
+                    }
+
+                    const inlineStmt = adapter.parseInlineStatement(trimmed, i, lineMeta[i].inputText, lineMeta[i].inputValues)
+                    if (inlineStmt) {
+                        statements.push(inlineStmt)
+                    }
+                    i++
                 }
 
-                const whileMatch = trimmed.match(/^while\s*\((.+)\)\s*\{$/)
-                if (whileMatch) {
-                    const body = parseKotlinBlock(i + 1, indentLevel + 1)
-                    statements.push({
-                        type: 'while',
-                        test: normalizeKotlinExpr(whileMatch[1]),
-                        body: body.statements,
-                        lineIndex: i
-                    })
-                    i = body.nextIndex
-                    continue
-                }
-
-                const forMatch = trimmed.match(/^for\s*\(\s*([A-Za-z_]\w*)\s+in\s+(.+)\)\s*\{$/)
-                if (forMatch) {
-                    const iterable = parseForIterable(forMatch[2])
-                    const body = parseKotlinBlock(i + 1, indentLevel + 1)
-                    statements.push({
-                        type: 'for',
-                        varName: forMatch[1],
-                        iterableType: iterable.iterableType,
-                        rangeExpr: iterable.rangeExpr,
-                        iterableExpr: iterable.iterableExpr,
-                        body: body.statements,
-                        lineIndex: i
-                    })
-                    i = body.nextIndex
-                    continue
-                }
-
-                const whenAssignSubjectMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*when\s*\((.+)\)\s*\{$/)
-                if (whenAssignSubjectMatch) {
-                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, whenAssignSubjectMatch[2], whenAssignSubjectMatch[1])
-                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
-                    i = whenRes.nextIndex
-                    continue
-                }
-
-                const whenAssignNoSubjectMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*when\s*\{$/)
-                if (whenAssignNoSubjectMatch) {
-                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, null, whenAssignNoSubjectMatch[1])
-                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
-                    i = whenRes.nextIndex
-                    continue
-                }
-
-                const whenSubjectMatch = trimmed.match(/^when\s*\((.+)\)\s*\{$/)
-                if (whenSubjectMatch) {
-                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, whenSubjectMatch[1])
-                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
-                    i = whenRes.nextIndex
-                    continue
-                }
-
-                if (/^when\s*\{$/.test(trimmed)) {
-                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, null)
-                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
-                    i = whenRes.nextIndex
-                    continue
-                }
-
-                const inlineStmt = parseKotlinInlineStatement(trimmed, i, lineMeta[i].inputText, lineMeta[i].inputValues)
-                if (inlineStmt) {
-                    statements.push(inlineStmt)
-                }
-                i++
+                return { statements, nextIndex: i }
             }
 
-            return { statements, nextIndex: i }
+            return { lines, statements: parseKotlinBlock(0, 0).statements }
         }
 
-        return { lines, statements: parseKotlinBlock(0, 0).statements }
-    }
-
-    function toJsExpr(pyExpr) {
-        return pyExpr
-            .replace(/\bTrue\b/g, 'true')
-            .replace(/\bFalse\b/g, 'false')
-            .replace(/\bNone\b/g, 'null')
-            .replace(/\band\b/g, '&&')
-            .replace(/\bor\b/g, '||')
-            .replace(/\bnot\b/g, '!')
-            .replace(/!!/g, '')
-            .replace(/\.size\b/g, '.length')
-    }
-
-    function evalFString(text, env) {
-        return text.replace(/\{([^}]+)\}/g, (_, expr) => {
-            const value = evalExpr(expr.trim(), env)
-            return value === null || value === undefined ? 'None' : String(value)
-        })
-    }
-
-    function evalPrintArg(pyExpr, env, sourceLanguage = 'python') {
-        const trimmed = pyExpr.trim()
-        const fStringMatch = trimmed.match(/^f(["'])([\s\S]*)\1$/)
-        if (fStringMatch) {
-            return evalFString(fStringMatch[2], env)
+        formatNullLiteral() {
+            return 'null'
         }
 
-        const kotlinStringMatch = trimmed.match(/^"([\s\S]*)"$/)
-        if (kotlinStringMatch && /\$/.test(kotlinStringMatch[1])) {
+        tryEvaluatePrintInterpolation(trimmed, env, evalExprImpl, formatOutputValueImpl) {
+            const kotlinStringMatch = trimmed.match(/^"([\s\S]*)"$/)
+            if (!kotlinStringMatch || !/\$/.test(kotlinStringMatch[1])) return null
             return kotlinStringMatch[1]
-                .replace(/\$\{([^}]+)\}/g, (_, expr) => formatOutputValue(evalExpr(expr.trim(), env), sourceLanguage))
-                .replace(/\$([A-Za-z_]\w*)/g, (_, name) => formatOutputValue(evalExpr(name, env), sourceLanguage))
+                .replace(/\$\{([^}]+)\}/g, (_, expr) => formatOutputValueImpl(evalExprImpl(expr.trim(), env)))
+                .replace(/\$([A-Za-z_]\w*)/g, (_, name) => formatOutputValueImpl(evalExprImpl(name, env)))
         }
-
-        return evalExpr(trimmed, env)
     }
 
-    function formatOutputValue(value, sourceLanguage = 'python') {
-        if (Array.isArray(value)) {
-            return `[${value.map(item => formatOutputValue(item, sourceLanguage)).join(', ')}]`
+    const TRACE_LANGUAGE_ADAPTERS = {
+        python: new PythonTraceLanguageAdapter(),
+        kotlin: new KotlinTraceLanguageAdapter()
+    }
+
+    function getLanguageAdapter(sourceLanguage) {
+        return TRACE_LANGUAGE_ADAPTERS[sourceLanguage] || TRACE_LANGUAGE_ADAPTERS.python
+    }
+
+    function evalPrintArg(expr, env, adapter) {
+        const trimmed = expr.trim()
+        const interpolated = adapter.tryEvaluatePrintInterpolation(
+            trimmed,
+            env,
+            (innerExpr, innerEnv) => evalExpr(innerExpr, innerEnv, adapter),
+            value => formatOutputValue(value, adapter)
+        )
+        if (interpolated !== null) {
+            return interpolated
         }
-        if (value === null || value === undefined) return sourceLanguage === 'kotlin' ? 'null' : 'None'
+        return evalExpr(trimmed, env, adapter)
+    }
+
+    function formatOutputValue(value, adapter) {
+        if (Array.isArray(value)) {
+            return `[${value.map(item => formatOutputValue(item, adapter)).join(', ')}]`
+        }
+        if (value === null || value === undefined) return adapter.formatNullLiteral()
         if (typeof value === 'boolean') return value ? 'True' : 'False'
         return String(value)
     }
 
-    function evalExpr(pyExpr, env) {
-        const jsExpr = toJsExpr(pyExpr)
+    function evalExpr(expr, env, adapter) {
+        const jsExpr = adapter.toJsExpr(expr)
         const scope = Object.create(env)
 
         const castToInt = value => {
@@ -841,8 +894,8 @@
         return fn(scope)
     }
 
-    function evalRangeArgs(argText, env) {
-        const args = splitTopLevelArgs(argText).map(arg => evalExpr(arg, env))
+    function evalRangeArgs(argText, env, adapter) {
+        const args = splitTopLevelArgs(argText).map(arg => evalExpr(arg, env, adapter))
         let start = 0
         let stop = 0
         let step = 1
@@ -891,11 +944,10 @@
         return normalized
     }
 
-    function runTrace(program) {
+    function runTrace(program, adapter) {
         const env = Object.create(null)
         const traces = []
         const inputCounters = new Map()
-        const sourceLanguage = program.sourceLanguage || 'python'
         const maxWhileIterations = TRACE_TABLE_CONFIG.maxWhileIterations
         const CONTROL_FLOW = {
             BREAK: 'break',
@@ -948,28 +1000,28 @@
             if (stmt.type === 'assign_input_expr') {
                 const evalEnv = Object.create(env)
                 evalEnv.input = () => nextInputValue(stmt)
-                env[stmt.varName] = evalExpr(stmt.expr, evalEnv)
+                env[stmt.varName] = evalExpr(stmt.expr, evalEnv, adapter)
                 snapshot(stmt.lineIndex, { touchedVars: [stmt.varName] })
                 return
             }
 
             if (stmt.type === 'assign') {
-                env[stmt.varName] = evalExpr(stmt.expr, env)
+                env[stmt.varName] = evalExpr(stmt.expr, env, adapter)
                 snapshot(stmt.lineIndex, { touchedVars: [stmt.varName] })
                 return
             }
 
             if (stmt.type === 'list_append') {
                 const target = ensureListTarget(env[stmt.varName], stmt.varName)
-                target.push(evalExpr(stmt.expr, env))
+                target.push(evalExpr(stmt.expr, env, adapter))
                 snapshot(stmt.lineIndex, { touchedVars: [stmt.varName] })
                 return
             }
 
             if (stmt.type === 'list_set') {
                 const target = ensureListTarget(env[stmt.varName], stmt.varName)
-                const index = toValidListIndex(evalExpr(stmt.indexExpr, env), target.length, stmt.varName)
-                target[index] = evalExpr(stmt.expr, env)
+                const index = toValidListIndex(evalExpr(stmt.indexExpr, env, adapter), target.length, stmt.varName)
+                target[index] = evalExpr(stmt.expr, env, adapter)
                 snapshot(stmt.lineIndex, { touchedVars: [stmt.varName] })
                 return
             }
@@ -985,9 +1037,9 @@
             }
 
             if (stmt.type === 'print') {
-                const args = splitTopLevelArgs(stmt.argsText).map(arg => evalPrintArg(arg, env, sourceLanguage))
+                const args = splitTopLevelArgs(stmt.argsText).map(arg => evalPrintArg(arg, env, adapter))
                 const lineOutput = args
-                    .map(value => formatOutputValue(value, sourceLanguage))
+                    .map(value => formatOutputValue(value, adapter))
                     .join(' ')
                 snapshot(stmt.lineIndex, { kind: 'print', output: lineOutput })
                 return
@@ -999,7 +1051,7 @@
                         snapshot(branch.lineIndex, { kind: 'control', conditionResult: true, branchKind: 'else' })
                         return execBlock(branch.body)
                     }
-                    const passed = Boolean(evalExpr(branch.test, env))
+                    const passed = Boolean(evalExpr(branch.test, env, adapter))
                     snapshot(branch.lineIndex, { kind: 'control', conditionResult: passed, branchKind: branch.kind })
                     if (passed) {
                         return execBlock(branch.body)
@@ -1011,9 +1063,9 @@
             if (stmt.type === 'for') {
                 let values
                 if (stmt.iterableType === 'range') {
-                    values = evalRangeArgs(stmt.rangeExpr, env)
+                    values = evalRangeArgs(stmt.rangeExpr, env, adapter)
                 } else {
-                    const iterable = evalExpr(stmt.iterableExpr, env)
+                    const iterable = evalExpr(stmt.iterableExpr, env, adapter)
                     if (Array.isArray(iterable) || typeof iterable === 'string') {
                         values = Array.from(iterable)
                     } else {
@@ -1035,7 +1087,7 @@
             if (stmt.type === 'while') {
                 let guard = 0
                 while (true) {
-                    const passed = Boolean(evalExpr(stmt.test, env))
+                    const passed = Boolean(evalExpr(stmt.test, env, adapter))
                     snapshot(stmt.lineIndex, { kind: 'control', conditionResult: passed })
                     if (!passed) {
                         break
@@ -1180,11 +1232,11 @@
         return lineIndexes
     }
 
-    function buildBlankTemplateTable(program) {
+    function buildBlankTemplateTable(program, adapter) {
         const variableOrder = collectVariableOrder(program.statements)
         let traceStepCount = 0
         try {
-            traceStepCount = runTrace(program).length
+            traceStepCount = runTrace(program, adapter).length
         } catch (_err) {
             // Fallback to static statement-derived count if runtime trace fails.
             traceStepCount = collectTemplateLineIndexes(program.statements).length
@@ -1216,23 +1268,23 @@
         return { variableOrder, tableRows }
     }
 
-    function formatValue(value, sourceLanguage = 'python') {
+    function formatValue(value, adapter) {
         if (Array.isArray(value)) {
-            return `[${value.map(item => formatValue(item, sourceLanguage)).join(', ')}]`
+            return `[${value.map(item => formatValue(item, adapter)).join(', ')}]`
         }
-        if (value === null || value === undefined) return sourceLanguage === 'kotlin' ? 'null' : 'None'
+        if (value === null || value === undefined) return adapter.formatNullLiteral()
         if (typeof value === 'string') return `'${value}'`
         if (typeof value === 'boolean') return value ? 'True' : 'False'
         return String(value)
     }
 
-    function formatValueHtml(value, sourceLanguage = 'python') {
+    function formatValueHtml(value, adapter) {
         if (Array.isArray(value)) {
-            const items = value.map(item => formatValueHtml(item, sourceLanguage))
+            const items = value.map(item => formatValueHtml(item, adapter))
             const joiner = '<span class="token punctuation">, </span>'
             return `<span class="trace-table-list"><span class="token punctuation">[</span>${items.join(joiner)}<span class="token punctuation">]</span></span>`
         }
-        if (value === null || value === undefined) return `<span class="token constant">${sourceLanguage === 'kotlin' ? 'null' : 'None'}</span>`
+        if (value === null || value === undefined) return `<span class="token constant">${adapter.formatNullLiteral()}</span>`
         if (typeof value === 'string') return `<span class="token string">'${escapeHtml(value)}'</span>`
         if (typeof value === 'boolean') return `<span class="token boolean">${value ? 'True' : 'False'}</span>`
         if (typeof value === 'number') return `<span class="token number">${escapeHtml(String(value))}</span>`
@@ -1295,6 +1347,7 @@
     }
 
     function renderTraceTable(container, originalLines, variableOrder, tableRows, options = {}) {
+        const adapter = options.adapter || getLanguageAdapter(options.sourceLanguage)
         const wrapper = document.createElement('div')
         wrapper.className = 'trace-table-wrapper'
         if (options.hideUntilRun) {
@@ -1396,7 +1449,7 @@
                     td.appendChild(input)
                 } else if (Object.prototype.hasOwnProperty.call(row.variables, name)) {
                     const value = row.variables[name]
-                    td.innerHTML = formatValueHtml(value, options.sourceLanguage)
+                    td.innerHTML = formatValueHtml(value, adapter)
                     applyValueCellTypeClasses(td, value)
                 } else {
                     td.textContent = '—'
@@ -1599,18 +1652,16 @@
                 wrapper.parentElement.replaceChild(container, wrapper)
 
                 try {
-                    const parsed = renderOptions.sourceLanguage === 'kotlin'
-                        ? parseKotlinProgram(sourceCode)
-                        : parseProgram(sourceCode)
+                    const adapter = getLanguageAdapter(renderOptions.sourceLanguage)
+                    const parsed = adapter.parseProgram(sourceCode)
                     const traceProgram = {
                         lines: parsed.lines,
-                        statements: parsed.statements,
-                        sourceLanguage: renderOptions.sourceLanguage
+                        statements: parsed.statements
                     }
                     const { variableOrder, tableRows } = renderOptions.blankTemplate
-                        ? buildBlankTemplateTable(traceProgram)
-                        : buildTraceTable(runTrace(traceProgram))
-                    renderTraceTable(container, parsed.lines, variableOrder, tableRows, renderOptions)
+                        ? buildBlankTemplateTable(traceProgram, adapter)
+                        : buildTraceTable(runTrace(traceProgram, adapter))
+                    renderTraceTable(container, parsed.lines, variableOrder, tableRows, { ...renderOptions, adapter })
                 } catch (err) {
                     renderError(container, `Trace Error: ${err.message}`)
                 }
