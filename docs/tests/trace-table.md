@@ -165,3 +165,156 @@ while count < 4:
     value = value * 2
     count = count + 1
 ```
+
+## Python - int
+
+```python trace
+raw = "42"
+n = int(raw)
+total = n + 8
+```
+
+
+## Kotlin - Core Subset
+
+```kotlin trace
+var x = 0
+val y: Int = 2
+for (i in 1..3) {
+    x += i
+}
+println("Answer: ${x + y}")
+```
+
+```kotlin trace
+val name = readln() // INPUT: Dave
+var count = 0
+while (count < 2) {
+    println("Hi $name")
+    count++
+}
+```
+
+## Kotlin - Lists
+
+```kotlin trace
+val nums = mutableListOf<Int>()
+nums.add(4)
+nums.add(7)
+nums[1] = 9
+var total = 0
+for (item in nums) {
+    total += item
+}
+println(total)
+```
+
+```kotlin trace
+val nums = mutableListOf<Int>()
+nums.add(1)
+nums.add(2)
+var i = 0
+while (i < nums.size) {
+    if (i == 0) {
+        i++
+        continue
+    }
+    break
+}
+```
+
+## Kotlin - When
+
+```kotlin trace
+var grade = ""
+val score = 72
+when {
+    score >= 90 -> grade = "A"
+    score >= 70 -> grade = "B"
+    else -> grade = "F"
+}
+println("Grade $grade")
+```
+
+```kotlin trace
+val n = 2
+var text = "?"
+when (n) {
+    1 -> text = "one"
+    2 -> text = "two"
+    else -> text = "other"
+}
+println(text)
+```
+
+```kotlin trace
+val n = 2
+val text = when (n) {
+    1 -> "one"
+    2 -> "two"
+    else -> "other"
+}
+println(text)
+```
+
+```kotlin trace
+val score = 85
+var band = when {
+    score >= 90 -> "A"
+    score >= 80 -> "B"
+    else -> "C"
+}
+println(band)
+```
+
+## Kotlin null
+
+```kotlin trace
+var name: String? = null
+
+print("Your name: ")
+name = readln()         // INPUT: Dave
+
+if (name != null) {
+    println("Hello, $name")
+}
+```
+
+```kotlin trace
+var nick: String? = null
+
+print("Nick: ")
+nick = readlnOrNull()   // INPUT: Dee
+println(nick)
+```
+
+## Kotlin - toInt
+
+```kotlin trace
+var raw = readln() // INPUT: 12
+var n = raw.toInt()
+println(n + 3)
+```
+
+```kotlin trace
+var maybeNum = readlnOrNull() // INPUT: 21
+var parsed = maybeNum?.toIntOrNull()
+println(parsed)
+```
+
+```kotlin trace
+var num = readlnOrNull()?.toIntOrNull() // INPUT: 34
+println(num)
+```
+
+```kotlin trace
+var num: Int?
+while (true) {
+    var num = readlnOrNull()?.toIntOrNull() // INPUT: 21, 50, 67
+    if (num != null && num > 50) {
+        break
+    }
+}
+println(num!!)
+```
+

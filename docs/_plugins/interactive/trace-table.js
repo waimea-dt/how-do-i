@@ -139,14 +139,26 @@
         return out
     }
 
+    function parseInputValues(text) {
+        if (!text) return []
+        const values = splitTopLevelArgs(text)
+        return values.map(value => {
+            const trimmed = value.trim()
+            const quoted = trimmed.match(/^(["'])([\s\S]*)\1$/)
+            return quoted ? quoted[2] : trimmed
+        })
+    }
+
     function parseInputDirective(line) {
-        const m = line.match(/^(.*\binput\s*\([^)]*\).*)\s+#\s*INPUT:\s*(.*)$/)
+        const m = line.match(/^(.*\b(?:input|readln|readlnOrNull)\s*\([^)]*\).*)\s*(?:#|\/\/)\s*INPUT:\s*(.*)$/)
         if (!m) {
-            return { codeLine: line, inputText: null }
+            return { codeLine: line, inputText: null, inputValues: null }
         }
+        const inputValues = parseInputValues(m[2].trim())
         return {
             codeLine: m[1].replace(/\s+$/, ''),
-            inputText: m[2].trim()
+            inputText: inputValues.length > 0 ? inputValues[0] : '',
+            inputValues
         }
     }
 
@@ -263,15 +275,31 @@
                     continue
                 }
 
-                const assignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*=\s*(.+)$/)
+                const assignMatch = trimmed.match(/^(?:(?:val|var)\s+)?([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*(.+)$/)
                 if (assignMatch) {
                     const inputText = lineMeta[i].inputText
-                    const isInputAssign = inputText !== null && /^input\s*\(/.test(assignMatch[2].trim())
+                    const inputValues = lineMeta[i].inputValues
+                    const isInputAssign = inputText !== null && /^(?:input|readln|readlnOrNull)\s*\(/.test(assignMatch[2].trim())
                     if (isInputAssign) {
                         statements.push({
                             type: 'assign_input',
                             varName: assignMatch[1],
                             inputValue: inputText,
+                            inputValues,
+                            lineIndex: i
+                        })
+                        i++
+                        continue
+                    }
+
+                    const isInputExprAssign = inputText !== null && /\binput\s*\(/.test(assignMatch[2])
+                    if (isInputExprAssign) {
+                        statements.push({
+                            type: 'assign_input_expr',
+                            varName: assignMatch[1],
+                            expr: assignMatch[2],
+                            inputValue: inputText,
+                            inputValues,
                             lineIndex: i
                         })
                         i++
@@ -301,7 +329,7 @@
                     continue
                 }
 
-                const appendMatch = trimmed.match(/^([A-Za-z_]\w*)\.append\((.*)\)$/)
+                const appendMatch = trimmed.match(/^([A-Za-z_]\w*)\.(?:append|add)\((.*)\)$/)
                 if (appendMatch) {
                     statements.push({
                         type: 'list_append',
@@ -325,6 +353,32 @@
                     continue
                 }
 
+                const postfixIncMatch = trimmed.match(/^([A-Za-z_]\w*)(\+\+|--)$/)
+                if (postfixIncMatch) {
+                    const op = postfixIncMatch[2] === '++' ? '+' : '-'
+                    statements.push({
+                        type: 'assign',
+                        varName: postfixIncMatch[1],
+                        expr: `${postfixIncMatch[1]} ${op} 1`,
+                        lineIndex: i
+                    })
+                    i++
+                    continue
+                }
+
+                const prefixIncMatch = trimmed.match(/^(\+\+|--)([A-Za-z_]\w*)$/)
+                if (prefixIncMatch) {
+                    const op = prefixIncMatch[1] === '++' ? '+' : '-'
+                    statements.push({
+                        type: 'assign',
+                        varName: prefixIncMatch[2],
+                        expr: `${prefixIncMatch[2]} ${op} 1`,
+                        lineIndex: i
+                    })
+                    i++
+                    continue
+                }
+
                 if (trimmed === 'break') {
                     statements.push({ type: 'break', lineIndex: i })
                     i++
@@ -337,7 +391,7 @@
                     continue
                 }
 
-                const printMatch = trimmed.match(/^print\((.*)\)$/)
+                const printMatch = trimmed.match(/^(?:print|println)\((.*)\)$/)
                 if (printMatch) {
                     statements.push({
                         type: 'print',
@@ -358,6 +412,349 @@
         return { lines, statements: parseBlock(0, 0).statements }
     }
 
+    function normalizeKotlinExpr(expr) {
+        return expr
+            .replace(/mutableListOf(?:<[^>]+>)?\s*\(\s*\)/g, '[]')
+            .replace(/\breadlnOrNull\s*\(\s*\)/g, 'input()')
+            .replace(/\breadln\s*\(\s*\)/g, 'input()')
+            .replace(/input\(\)\?\.toIntOrNull\s*\(\s*\)/g, 'toInt(input())')
+            .replace(/input\(\)\.toIntOrNull\s*\(\s*\)/g, 'toInt(input())')
+            .replace(/input\(\)\.toInt\s*\(\s*\)/g, 'toInt(input())')
+            .replace(/([A-Za-z_]\w*|\([^()]+\))\?\.toIntOrNull\s*\(\s*\)/g, 'toInt($1)')
+            .replace(/([A-Za-z_]\w*|\([^()]+\))\.toIntOrNull\s*\(\s*\)/g, 'toInt($1)')
+            .replace(/([A-Za-z_]\w*|\([^()]+\))\.toInt\s*\(\s*\)/g, 'toInt($1)')
+    }
+
+    function parseKotlinInlineStatement(text, lineIndex, inputText = null, inputValues = null) {
+        const trimmed = text.trim()
+        if (!trimmed || trimmed === '{' || trimmed === '}') return null
+
+        if (trimmed === 'break') return { type: 'break', lineIndex }
+        if (trimmed === 'continue') return { type: 'continue', lineIndex }
+
+        const printMatch = trimmed.match(/^(?:print|println)\((.*)\)$/)
+        if (printMatch) {
+            return { type: 'print', argsText: printMatch[1], lineIndex }
+        }
+
+        const indexAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*\[(.+)\]\s*=\s*(.+)$/)
+        if (indexAssignMatch) {
+            return {
+                type: 'list_set',
+                varName: indexAssignMatch[1],
+                indexExpr: normalizeKotlinExpr(indexAssignMatch[2].trim()),
+                expr: normalizeKotlinExpr(indexAssignMatch[3]),
+                lineIndex
+            }
+        }
+
+        const appendMatch = trimmed.match(/^([A-Za-z_]\w*)\.(?:add|append)\((.*)\)$/)
+        if (appendMatch) {
+            return {
+                type: 'list_append',
+                varName: appendMatch[1],
+                expr: normalizeKotlinExpr(appendMatch[2]),
+                lineIndex
+            }
+        }
+
+        const augAssignMatch = trimmed.match(/^([A-Za-z_]\w*)\s*([+\-*/%])=\s*(.+)$/)
+        if (augAssignMatch) {
+            return {
+                type: 'assign',
+                varName: augAssignMatch[1],
+                expr: `${augAssignMatch[1]} ${augAssignMatch[2]} (${normalizeKotlinExpr(augAssignMatch[3])})`,
+                lineIndex
+            }
+        }
+
+        const postfixIncMatch = trimmed.match(/^([A-Za-z_]\w*)(\+\+|--)$/)
+        if (postfixIncMatch) {
+            const op = postfixIncMatch[2] === '++' ? '+' : '-'
+            return {
+                type: 'assign',
+                varName: postfixIncMatch[1],
+                expr: `${postfixIncMatch[1]} ${op} 1`,
+                lineIndex
+            }
+        }
+
+        const prefixIncMatch = trimmed.match(/^(\+\+|--)([A-Za-z_]\w*)$/)
+        if (prefixIncMatch) {
+            const op = prefixIncMatch[1] === '++' ? '+' : '-'
+            return {
+                type: 'assign',
+                varName: prefixIncMatch[2],
+                expr: `${prefixIncMatch[2]} ${op} 1`,
+                lineIndex
+            }
+        }
+
+        const declareMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?$/)
+        if (declareMatch) {
+            return {
+                type: 'declare',
+                varName: declareMatch[1],
+                lineIndex
+            }
+        }
+
+        const assignMatch = trimmed.match(/^(?:(?:val|var)\s+)?([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*(.+)$/)
+        if (assignMatch) {
+            const exprText = normalizeKotlinExpr(assignMatch[2])
+            const isInputAssign = inputText !== null && /^input\s*\(\s*\)$/.test(exprText)
+            if (isInputAssign) {
+                return {
+                    type: 'assign_input',
+                    varName: assignMatch[1],
+                    inputValue: inputText,
+                    inputValues,
+                    lineIndex
+                }
+            }
+            const isInputExprAssign = inputText !== null && /\binput\s*\(\s*\)/.test(exprText)
+            if (isInputExprAssign) {
+                return {
+                    type: 'assign_input_expr',
+                    varName: assignMatch[1],
+                    expr: exprText,
+                    inputValue: inputText,
+                    inputValues,
+                    lineIndex
+                }
+            }
+            return {
+                type: 'assign',
+                varName: assignMatch[1],
+                expr: exprText,
+                lineIndex
+            }
+        }
+
+        return null
+    }
+
+    function parseKotlinProgram(source) {
+        const sourceLines = source.split('\n')
+        const lineMeta = sourceLines.map(parseInputDirective)
+        const lines = lineMeta.map(entry => entry.codeLine)
+
+        function skipIgnorable(fromIndex) {
+            let i = fromIndex
+            while (i < lines.length) {
+                const t = lines[i].trim()
+                if (!t || t.startsWith('//') || t.startsWith('#')) {
+                    i++
+                    continue
+                }
+                break
+            }
+            return i
+        }
+
+        function parseForIterable(exprText) {
+            const text = normalizeKotlinExpr(exprText.trim())
+            const exclusive = text.match(/^(.*)\.\.<\s*(.*)$/)
+            if (exclusive) {
+                return {
+                    iterableType: 'range',
+                    rangeExpr: `${exclusive[1].trim()}, ${exclusive[2].trim()}`
+                }
+            }
+            const inclusive = text.match(/^(.*)\.\.\s*(.*)$/)
+            if (inclusive) {
+                return {
+                    iterableType: 'range',
+                    rangeExpr: `${inclusive[1].trim()}, (${inclusive[2].trim()}) + 1`
+                }
+            }
+            return {
+                iterableType: 'iterable',
+                iterableExpr: text
+            }
+        }
+
+        function parseWhenBlock(startIndex, indentLevel, subjectExpr = null, assignTargetVar = null) {
+            const branches = []
+            let i = startIndex
+            while (i < lines.length) {
+                i = skipIgnorable(i)
+                if (i >= lines.length) break
+                const trimmed = lines[i].trim()
+                if (trimmed.startsWith('}')) {
+                    return { branches, nextIndex: i + 1 }
+                }
+
+                const caseMatch = trimmed.match(/^(.+?)\s*->\s*(.*)$/)
+                if (!caseMatch) {
+                    i++
+                    continue
+                }
+
+                const caseExpr = caseMatch[1].trim()
+                const rhs = caseMatch[2].trim()
+                const caseLineIndex = i
+                const isElse = caseExpr === 'else'
+                const branchKind = isElse ? 'else' : (branches.length === 0 ? 'if' : 'elif')
+                const branchTest = isElse
+                    ? null
+                    : (subjectExpr === null ? normalizeKotlinExpr(caseExpr) : `(${normalizeKotlinExpr(subjectExpr)}) == (${normalizeKotlinExpr(caseExpr)})`)
+
+                let body = []
+                if (rhs === '{') {
+                    const bodyRes = parseKotlinBlock(i + 1, indentLevel + 1)
+                    body = bodyRes.statements
+                    i = bodyRes.nextIndex
+                } else if (rhs) {
+                    if (assignTargetVar) {
+                        body = [{
+                            type: 'assign',
+                            varName: assignTargetVar,
+                            expr: normalizeKotlinExpr(rhs),
+                            lineIndex: i
+                        }]
+                    } else {
+                        const inlineStmt = parseKotlinInlineStatement(rhs, i, lineMeta[i].inputText, lineMeta[i].inputValues)
+                        body = inlineStmt ? [inlineStmt] : []
+                    }
+                    i += 1
+                } else {
+                    i += 1
+                }
+
+                const branch = { kind: branchKind, body, lineIndex: caseLineIndex }
+                if (branchTest !== null) branch.test = branchTest
+                branches.push(branch)
+            }
+
+            return { branches, nextIndex: i }
+        }
+
+        function parseKotlinBlock(startIndex, indentLevel) {
+            const statements = []
+            let i = startIndex
+
+            while (i < lines.length) {
+                i = skipIgnorable(i)
+                if (i >= lines.length) break
+
+                const raw = lines[i]
+                const trimmed = raw.trim()
+                if (trimmed === '{') {
+                    i++
+                    continue
+                }
+                if (trimmed.startsWith('}')) {
+                    return { statements, nextIndex: i + 1 }
+                }
+
+                const ifMatch = trimmed.match(/^if\s*\((.+)\)\s*\{$/)
+                if (ifMatch) {
+                    const branches = []
+                    const ifBody = parseKotlinBlock(i + 1, indentLevel + 1)
+                    branches.push({ kind: 'if', test: normalizeKotlinExpr(ifMatch[1]), body: ifBody.statements, lineIndex: i })
+                    i = ifBody.nextIndex
+
+                    while (i < lines.length) {
+                        const nextIndex = skipIgnorable(i)
+                        if (nextIndex >= lines.length) {
+                            i = nextIndex
+                            break
+                        }
+                        const nextTrimmed = lines[nextIndex].trim()
+                        const elifMatch = nextTrimmed.match(/^else\s+if\s*\((.+)\)\s*\{$/)
+                        if (elifMatch) {
+                            const elifBody = parseKotlinBlock(nextIndex + 1, indentLevel + 1)
+                            branches.push({ kind: 'elif', test: normalizeKotlinExpr(elifMatch[1]), body: elifBody.statements, lineIndex: nextIndex })
+                            i = elifBody.nextIndex
+                            continue
+                        }
+                        if (/^else\s*\{$/.test(nextTrimmed)) {
+                            const elseBody = parseKotlinBlock(nextIndex + 1, indentLevel + 1)
+                            branches.push({ kind: 'else', body: elseBody.statements, lineIndex: nextIndex })
+                            i = elseBody.nextIndex
+                        }
+                        break
+                    }
+
+                    statements.push({ type: 'ifchain', branches, lineIndex: i })
+                    continue
+                }
+
+                const whileMatch = trimmed.match(/^while\s*\((.+)\)\s*\{$/)
+                if (whileMatch) {
+                    const body = parseKotlinBlock(i + 1, indentLevel + 1)
+                    statements.push({
+                        type: 'while',
+                        test: normalizeKotlinExpr(whileMatch[1]),
+                        body: body.statements,
+                        lineIndex: i
+                    })
+                    i = body.nextIndex
+                    continue
+                }
+
+                const forMatch = trimmed.match(/^for\s*\(\s*([A-Za-z_]\w*)\s+in\s+(.+)\)\s*\{$/)
+                if (forMatch) {
+                    const iterable = parseForIterable(forMatch[2])
+                    const body = parseKotlinBlock(i + 1, indentLevel + 1)
+                    statements.push({
+                        type: 'for',
+                        varName: forMatch[1],
+                        iterableType: iterable.iterableType,
+                        rangeExpr: iterable.rangeExpr,
+                        iterableExpr: iterable.iterableExpr,
+                        body: body.statements,
+                        lineIndex: i
+                    })
+                    i = body.nextIndex
+                    continue
+                }
+
+                const whenAssignSubjectMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*when\s*\((.+)\)\s*\{$/)
+                if (whenAssignSubjectMatch) {
+                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, whenAssignSubjectMatch[2], whenAssignSubjectMatch[1])
+                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                    i = whenRes.nextIndex
+                    continue
+                }
+
+                const whenAssignNoSubjectMatch = trimmed.match(/^(?:val|var)\s+([A-Za-z_]\w*)(?:\s*:\s*[^=]+)?\s*=\s*when\s*\{$/)
+                if (whenAssignNoSubjectMatch) {
+                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, null, whenAssignNoSubjectMatch[1])
+                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                    i = whenRes.nextIndex
+                    continue
+                }
+
+                const whenSubjectMatch = trimmed.match(/^when\s*\((.+)\)\s*\{$/)
+                if (whenSubjectMatch) {
+                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, whenSubjectMatch[1])
+                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                    i = whenRes.nextIndex
+                    continue
+                }
+
+                if (/^when\s*\{$/.test(trimmed)) {
+                    const whenRes = parseWhenBlock(i + 1, indentLevel + 1, null)
+                    statements.push({ type: 'ifchain', branches: whenRes.branches, lineIndex: i })
+                    i = whenRes.nextIndex
+                    continue
+                }
+
+                const inlineStmt = parseKotlinInlineStatement(trimmed, i, lineMeta[i].inputText, lineMeta[i].inputValues)
+                if (inlineStmt) {
+                    statements.push(inlineStmt)
+                }
+                i++
+            }
+
+            return { statements, nextIndex: i }
+        }
+
+        return { lines, statements: parseKotlinBlock(0, 0).statements }
+    }
+
     function toJsExpr(pyExpr) {
         return pyExpr
             .replace(/\bTrue\b/g, 'true')
@@ -366,6 +763,8 @@
             .replace(/\band\b/g, '&&')
             .replace(/\bor\b/g, '||')
             .replace(/\bnot\b/g, '!')
+            .replace(/!!/g, '')
+            .replace(/\.size\b/g, '.length')
     }
 
     function evalFString(text, env) {
@@ -375,20 +774,28 @@
         })
     }
 
-    function evalPrintArg(pyExpr, env) {
+    function evalPrintArg(pyExpr, env, sourceLanguage = 'python') {
         const trimmed = pyExpr.trim()
         const fStringMatch = trimmed.match(/^f(["'])([\s\S]*)\1$/)
         if (fStringMatch) {
             return evalFString(fStringMatch[2], env)
         }
+
+        const kotlinStringMatch = trimmed.match(/^"([\s\S]*)"$/)
+        if (kotlinStringMatch && /\$/.test(kotlinStringMatch[1])) {
+            return kotlinStringMatch[1]
+                .replace(/\$\{([^}]+)\}/g, (_, expr) => formatOutputValue(evalExpr(expr.trim(), env), sourceLanguage))
+                .replace(/\$([A-Za-z_]\w*)/g, (_, name) => formatOutputValue(evalExpr(name, env), sourceLanguage))
+        }
+
         return evalExpr(trimmed, env)
     }
 
-    function formatOutputValue(value) {
+    function formatOutputValue(value, sourceLanguage = 'python') {
         if (Array.isArray(value)) {
-            return `[${value.map(formatOutputValue).join(', ')}]`
+            return `[${value.map(item => formatOutputValue(item, sourceLanguage)).join(', ')}]`
         }
-        if (value === null || value === undefined) return 'None'
+        if (value === null || value === undefined) return sourceLanguage === 'kotlin' ? 'null' : 'None'
         if (typeof value === 'boolean') return value ? 'True' : 'False'
         return String(value)
     }
@@ -396,6 +803,17 @@
     function evalExpr(pyExpr, env) {
         const jsExpr = toJsExpr(pyExpr)
         const scope = Object.create(env)
+
+        const castToInt = value => {
+            if (typeof value === 'number' && Number.isFinite(value)) {
+                return Math.trunc(value)
+            }
+            const parsed = Number.parseInt(String(value), 10)
+            if (Number.isNaN(parsed)) {
+                throw new Error('int conversion failed')
+            }
+            return parsed
+        }
 
         // Provide minimal Python-like builtins used in teaching examples.
         if (typeof scope.input !== 'function') {
@@ -411,6 +829,12 @@
                 }
                 throw new Error('len() expects a list or string')
             }
+        }
+        if (!Object.prototype.hasOwnProperty.call(env, 'int')) {
+            scope.int = castToInt
+        }
+        if (!Object.prototype.hasOwnProperty.call(env, 'toInt')) {
+            scope.toInt = castToInt
         }
 
         const fn = new Function('env', `with (env) { return (${jsExpr}); }`)
@@ -470,10 +894,23 @@
     function runTrace(program) {
         const env = Object.create(null)
         const traces = []
+        const inputCounters = new Map()
+        const sourceLanguage = program.sourceLanguage || 'python'
         const maxWhileIterations = TRACE_TABLE_CONFIG.maxWhileIterations
         const CONTROL_FLOW = {
             BREAK: 'break',
             CONTINUE: 'continue'
+        }
+
+        function nextInputValue(stmt) {
+            const values = Array.isArray(stmt.inputValues) && stmt.inputValues.length > 0
+                ? stmt.inputValues
+                : [stmt.inputValue]
+            if (!values.length) return ''
+            const idx = inputCounters.get(stmt) || 0
+            const value = idx < values.length ? values[idx] : values[values.length - 1]
+            inputCounters.set(stmt, idx + 1)
+            return value === undefined || value === null ? '' : String(value)
         }
 
         function snapshot(lineIndex, options = {}) {
@@ -497,8 +934,21 @@
         }
 
         function execStmt(stmt) {
+            if (stmt.type === 'declare') {
+                snapshot(stmt.lineIndex)
+                return
+            }
+
             if (stmt.type === 'assign_input') {
-                env[stmt.varName] = stmt.inputValue
+                env[stmt.varName] = nextInputValue(stmt)
+                snapshot(stmt.lineIndex, { touchedVars: [stmt.varName] })
+                return
+            }
+
+            if (stmt.type === 'assign_input_expr') {
+                const evalEnv = Object.create(env)
+                evalEnv.input = () => nextInputValue(stmt)
+                env[stmt.varName] = evalExpr(stmt.expr, evalEnv)
                 snapshot(stmt.lineIndex, { touchedVars: [stmt.varName] })
                 return
             }
@@ -535,9 +985,9 @@
             }
 
             if (stmt.type === 'print') {
-                const args = splitTopLevelArgs(stmt.argsText).map(arg => evalPrintArg(arg, env))
+                const args = splitTopLevelArgs(stmt.argsText).map(arg => evalPrintArg(arg, env, sourceLanguage))
                 const lineOutput = args
-                    .map(formatOutputValue)
+                    .map(value => formatOutputValue(value, sourceLanguage))
                     .join(' ')
                 snapshot(stmt.lineIndex, { kind: 'print', output: lineOutput })
                 return
@@ -669,6 +1119,8 @@
             block.forEach(stmt => {
                 if (stmt.type === 'assign' ||
                     stmt.type === 'assign_input' ||
+                    stmt.type === 'assign_input_expr' ||
+                    stmt.type === 'declare' ||
                     stmt.type === 'list_append' ||
                     stmt.type === 'list_set') {
                     pushVar(stmt.varName)
@@ -764,23 +1216,23 @@
         return { variableOrder, tableRows }
     }
 
-    function formatValue(value) {
+    function formatValue(value, sourceLanguage = 'python') {
         if (Array.isArray(value)) {
-            return `[${value.map(formatValue).join(', ')}]`
+            return `[${value.map(item => formatValue(item, sourceLanguage)).join(', ')}]`
         }
-        if (value === null || value === undefined) return 'None'
+        if (value === null || value === undefined) return sourceLanguage === 'kotlin' ? 'null' : 'None'
         if (typeof value === 'string') return `'${value}'`
         if (typeof value === 'boolean') return value ? 'True' : 'False'
         return String(value)
     }
 
-    function formatValueHtml(value) {
+    function formatValueHtml(value, sourceLanguage = 'python') {
         if (Array.isArray(value)) {
-            const items = value.map(formatValueHtml)
+            const items = value.map(item => formatValueHtml(item, sourceLanguage))
             const joiner = '<span class="token punctuation">, </span>'
             return `<span class="trace-table-list"><span class="token punctuation">[</span>${items.join(joiner)}<span class="token punctuation">]</span></span>`
         }
-        if (value === null || value === undefined) return '<span class="token constant">None</span>'
+        if (value === null || value === undefined) return `<span class="token constant">${sourceLanguage === 'kotlin' ? 'null' : 'None'}</span>`
         if (typeof value === 'string') return `<span class="token string">'${escapeHtml(value)}'</span>`
         if (typeof value === 'boolean') return `<span class="token boolean">${value ? 'True' : 'False'}</span>`
         if (typeof value === 'number') return `<span class="token number">${escapeHtml(String(value))}</span>`
@@ -790,9 +1242,12 @@
     function getTraceRenderOptions(preEl, codeEl) {
         const hideClass = TRACE_TABLE_CONFIG.blockAttributes.hide
         const blankClass = TRACE_TABLE_CONFIG.blockAttributes.blank
+        const codeClass = codeEl.className || ''
+        const sourceLanguage = /language-kotlin/.test(codeClass) ? 'kotlin' : 'python'
         return {
             hideUntilRun: preEl.classList.contains(hideClass) || codeEl.classList.contains(hideClass),
-            blankTemplate: preEl.classList.contains(blankClass) || codeEl.classList.contains(blankClass)
+            blankTemplate: preEl.classList.contains(blankClass) || codeEl.classList.contains(blankClass),
+            sourceLanguage
         }
     }
 
@@ -866,10 +1321,12 @@
             const lineEl = document.createElement('div')
             lineEl.className = 'trace-table-code-line'
             lineEl.dataset.lineIndex = String(idx)
-            const highlighted = (window.Prism && Prism.languages.python)
-                ? Prism.highlight(line || '', Prism.languages.python, 'python')
+            const prismLanguage = options.sourceLanguage || 'python'
+            const prismGrammar = window.Prism && Prism.languages[prismLanguage]
+            const highlighted = prismGrammar
+                ? Prism.highlight(line || '', prismGrammar, prismLanguage)
                 : escapeHtml(line || '')
-            lineEl.innerHTML = `<span class="trace-table-code-number">${idx + 1}</span><code class="language-python">${highlighted}</code>`
+            lineEl.innerHTML = `<span class="trace-table-code-number">${idx + 1}</span><code class="language-${prismLanguage}">${highlighted}</code>`
             codeList.appendChild(lineEl)
         })
 
@@ -939,7 +1396,7 @@
                     td.appendChild(input)
                 } else if (Object.prototype.hasOwnProperty.call(row.variables, name)) {
                     const value = row.variables[name]
-                    td.innerHTML = formatValueHtml(value)
+                    td.innerHTML = formatValueHtml(value, options.sourceLanguage)
                     applyValueCellTypeClasses(td, value)
                 } else {
                     td.textContent = '—'
@@ -1122,7 +1579,7 @@
     const docsifyTraceTable = function (hook) {
         hook.afterEach(function (html) {
             return html.replace(
-                /<pre\b[^>]*\blanguage-python\s+trace\b[^>]*>[\s\S]*?<\/pre>/g,
+                /<pre\b[^>]*\blanguage-(?:python|kotlin)\s+trace\b[^>]*>[\s\S]*?<\/pre>/g,
                 (preBlock) => `<div class="trace-table-block">${preBlock}</div>`
             )
         })
@@ -1133,7 +1590,6 @@
                 codeEl.dataset.traceProcessed = 'true'
 
                 const sourceCode = codeEl.textContent
-                const { lines, statements } = parseProgram(sourceCode)
                 const container = document.createElement('div')
                 container.className = 'trace-table-container'
 
@@ -1143,11 +1599,18 @@
                 wrapper.parentElement.replaceChild(container, wrapper)
 
                 try {
-                    const traceProgram = { lines, statements }
+                    const parsed = renderOptions.sourceLanguage === 'kotlin'
+                        ? parseKotlinProgram(sourceCode)
+                        : parseProgram(sourceCode)
+                    const traceProgram = {
+                        lines: parsed.lines,
+                        statements: parsed.statements,
+                        sourceLanguage: renderOptions.sourceLanguage
+                    }
                     const { variableOrder, tableRows } = renderOptions.blankTemplate
                         ? buildBlankTemplateTable(traceProgram)
                         : buildTraceTable(runTrace(traceProgram))
-                    renderTraceTable(container, lines, variableOrder, tableRows, renderOptions)
+                    renderTraceTable(container, parsed.lines, variableOrder, tableRows, renderOptions)
                 } catch (err) {
                     renderError(container, `Trace Error: ${err.message}`)
                 }
