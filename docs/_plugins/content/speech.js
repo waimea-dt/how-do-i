@@ -18,17 +18,6 @@
 
 ;(function () {
   let appObserver = null
-  const DEBUG = !!(window.$docsify && window.$docsify.speechDebug)
-
-  function debugLog(eventName, payload) {
-    if (!DEBUG) return
-    if (payload === undefined) {
-      console.log(`[speech] ${eventName}`)
-      return
-    }
-
-    console.log(`[speech] ${eventName}`, payload)
-  }
 
   function getSpeechScopes() {
     const scopes = []
@@ -44,35 +33,16 @@
 
   function processSpeechInDom(root) {
     const scope = root || document
-    const speakNodes = scope.querySelectorAll('speak')
-    let replacedCount = 0
 
-    speakNodes.forEach((speakEl) => {
+    scope.querySelectorAll('speak').forEach((speakEl) => {
       const figure = convertSpeakElement(speakEl, speakEl.ownerDocument)
       if (!figure) return
       speakEl.replaceWith(figure)
-      replacedCount += 1
     })
-
-    return {
-      speakCount: speakNodes.length,
-      replacedCount,
-    }
   }
 
   function processSpeechInKnownScopes() {
-    const totals = {
-      speakCount: 0,
-      replacedCount: 0,
-    }
-
-    getSpeechScopes().forEach((scope) => {
-      const result = processSpeechInDom(scope)
-      totals.speakCount += result.speakCount
-      totals.replacedCount += result.replacedCount
-    })
-
-    return totals
+    getSpeechScopes().forEach((scope) => processSpeechInDom(scope))
   }
 
   function processSpeechFromAddedNode(node) {
@@ -115,7 +85,6 @@
     if (appObserver) {
       const currentTarget = appObserver.__speechTarget || null
       if (currentTarget === target) return
-
       appObserver.disconnect()
       appObserver = null
     }
@@ -138,43 +107,47 @@
     appObserver.__speechTarget = target
   }
 
-  function runSpeechPass(source) {
-    const triggerSource = source || 'unknown'
-    const run = function () {
-      ensureObserver()
-      const result = processSpeechInKnownScopes()
-      debugLog('pass', {
-        source: triggerSource,
-        route: window.location.hash || '(none)',
-        speakCount: result.speakCount,
-        replacedCount: result.replacedCount,
-      })
+  let fontIsReady = false
+
+  function whenFontReady(callback) {
+    // Once the font has loaded once, call synchronously on all subsequent navigations.
+    // Without this, document.fonts.load() always returns a Promise — even when cached —
+    // which means the callback fires as a microtask after the current call stack, creating
+    // a timing gap where speak elements are in the DOM but the pass finds nothing.
+    if (fontIsReady) {
+      callback()
+      return
     }
 
-    run()
-    setTimeout(run, 140)
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load('1em "Mouse Memoirs"').then(function () {
+        fontIsReady = true
+        callback()
+      })
+    } else {
+      fontIsReady = true
+      callback()
+    }
+  }
+
+  function runSpeechPass() {
+    whenFontReady(function () {
+      ensureObserver()
+      revealSpeechFigures()
+      // DOM pass catches cover page speak elements which bypass afterEach.
+      processSpeechInKnownScopes()
+    })
   }
 
   function bootstrapSpeechFallback() {
     if (document.readyState === 'loading') {
-      document.addEventListener(
-        'DOMContentLoaded',
-        function () {
-          runSpeechPass('dom-content-loaded')
-        },
-        { once: true }
-      )
+      document.addEventListener('DOMContentLoaded', runSpeechPass, { once: true })
     } else {
-      runSpeechPass('bootstrap-immediate')
+      runSpeechPass()
     }
 
-    window.addEventListener('load', function () {
-      runSpeechPass('window-load')
-    })
-
-    window.addEventListener('hashchange', function () {
-      runSpeechPass('hashchange')
-    })
+    window.addEventListener('load', runSpeechPass)
+    window.addEventListener('hashchange', runSpeechPass)
   }
 
   function convertSpeakElement(speakEl, documentRef) {
@@ -185,6 +158,9 @@
 
     const figure = documentRef.createElement('figure')
     figure.className = 'speech'
+    // Mark as pending until font is confirmed ready, so it stays invisible.
+    // Removed by revealSpeechFigures() once document.fonts.load() resolves.
+    if (!fontIsReady) figure.setAttribute('data-speech-loading', '')
     figure.appendChild(img.cloneNode(true))
 
     const figcaption = documentRef.createElement('figcaption')
@@ -219,28 +195,30 @@
     return wrapper.innerHTML
   }
 
+  function revealSpeechFigures() {
+    document.querySelectorAll('figure.speech[data-speech-loading]')
+      .forEach((fig) => fig.removeAttribute('data-speech-loading'))
+  }
+
   const docsifySpeech = function (hook) {
     hook.mounted(function () {
       ensureObserver()
     })
 
+    // afterEach transforms <speak> in the HTML string before Docsify sanitises the DOM.
+    // Figures are marked data-speech-loading and stay invisible until the font is ready.
     hook.afterEach(function (html) {
       return transformSpeechHtml(html)
     })
 
     // Cover pages are not guaranteed to pass through the same HTML transform path.
-    hook.doneEach(function () {
-      runSpeechPass('hook-doneEach')
-    })
+    hook.doneEach(runSpeechPass)
 
-    hook.ready(function () {
-      runSpeechPass('hook-ready')
-    })
+    hook.ready(runSpeechPass)
   }
 
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifySpeech, window.$docsify.plugins || [])
-  debugLog('plugin-registered', { route: window.location.hash || '(none)' })
   bootstrapSpeechFallback()
 })()
 

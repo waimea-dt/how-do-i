@@ -1,7 +1,12 @@
 /** Speech Bubbles
  * Comic-style speech bubbles for character dialogue
  */
-@import url('https://fonts.googleapis.com/css2?family=Mouse+Memoirs&display=swap');
+
+/* Hide speech figures until the font is confirmed loaded.
+ * The JS plugin removes this attribute once document.fonts.load() resolves. */
+figure.speech[data-speech-loading] {
+    opacity: 0;
+}
 
 figure.speech {
     --speech-font-family: "Mouse Memoirs", sans-serif;
