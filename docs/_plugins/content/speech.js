@@ -17,53 +17,14 @@
  */
 
 ;(function () {
-  const DEBUG = /[?&]speechDebug=1\b/.test(window.location.search) || /[?&]speechDebug=1\b/.test(window.location.hash)
   let appObserver = null
-
-  function debugLog(...args) {
-    if (!DEBUG) return
-    console.log('[speech]', ...args)
-  }
-
-  function routeInfo() {
-    return {
-      hash: window.location.hash,
-      path: window.location.pathname,
-    }
-  }
 
   function processSpeechInDom(root) {
     const scope = root || document
-    const speakBlocks = scope.querySelectorAll('speak')
-
-    debugLog('processSpeechInDom:start', {
-      ...routeInfo(),
-      root: scope === document ? 'document' : scope.nodeName,
-      speakCount: speakBlocks.length,
-    })
-
-    speakBlocks.forEach((speakEl, index) => {
+    scope.querySelectorAll('speak').forEach((speakEl) => {
       const figure = convertSpeakElement(speakEl, speakEl.ownerDocument)
-      if (!figure) {
-        debugLog('processSpeechInDom:skip', {
-          index,
-          reason: 'convertSpeakElement returned null',
-          snippet: (speakEl.outerHTML || '').slice(0, 200),
-        })
-        return
-      }
+      if (!figure) return
       speakEl.replaceWith(figure)
-
-      debugLog('processSpeechInDom:replaced', {
-        index,
-        hasCaption: !!figure.querySelector('figcaption'),
-      })
-    })
-
-    debugLog('processSpeechInDom:end', {
-      ...routeInfo(),
-      remainingSpeakCount: scope.querySelectorAll('speak').length,
-      speechFigureCount: scope.querySelectorAll('figure.speech').length,
     })
   }
 
@@ -74,7 +35,6 @@
       const figure = convertSpeakElement(node, node.ownerDocument)
       if (figure) {
         node.replaceWith(figure)
-        debugLog('observer:replaced-direct-speak')
         return true
       }
       return false
@@ -84,7 +44,6 @@
       const nestedSpeak = node.querySelector('speak')
       if (nestedSpeak) {
         processSpeechInDom(node)
-        debugLog('observer:processed-nested-speak')
         return true
       }
     }
@@ -113,38 +72,18 @@
 
       appObserver.disconnect()
       appObserver = null
-      debugLog('observer:retarget', {
-        from: currentTargetName,
-        to: nextTargetName,
-      })
     }
 
-    if (!target) {
-      debugLog('observer:skip-no-target', routeInfo())
-      return
-    }
+    if (!target) return
 
     const targetName = target.id ? `#${target.id}` : target.className || target.nodeName
 
     appObserver = new MutationObserver((mutations) => {
-      let handled = false
-
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
-          if (processSpeechFromAddedNode(node)) {
-            handled = true
-          }
+          processSpeechFromAddedNode(node)
         })
       })
-
-      if (handled) {
-        debugLog('observer:mutation-handled', {
-          ...routeInfo(),
-          target: targetName,
-          speechFigureCount: document.querySelectorAll('figure.speech').length,
-          remainingSpeakCount: document.querySelectorAll('speak').length,
-        })
-      }
     })
 
     appObserver.observe(target, {
@@ -153,24 +92,11 @@
     })
 
     appObserver.__speechTargetName = targetName
-
-    debugLog('observer:attached', {
-      ...routeInfo(),
-      target: targetName,
-      hasApp: !!document.querySelector('#app'),
-      hasCoverMain: !!document.querySelector('.cover-main'),
-      hasMarkdownSection: !!document.querySelector('.markdown-section'),
-    })
   }
 
   function convertSpeakElement(speakEl, documentRef) {
     const img = speakEl.querySelector('img')
-    if (!img) {
-      debugLog('convertSpeakElement:no-image', {
-        snippet: (speakEl.outerHTML || '').slice(0, 240),
-      })
-      return null
-    }
+    if (!img) return null
 
     const imgParent = img.closest('p')
 
@@ -197,83 +123,38 @@
   }
 
   function transformSpeechHtml(html) {
-    if (!html) {
-      debugLog('transformSpeechHtml:empty-html')
-      return html
-    }
-
-    const hasSpeak = html.indexOf('<speak') !== -1
-    debugLog('transformSpeechHtml:start', {
-      ...routeInfo(),
-      hasSpeak,
-      htmlLength: html.length,
-    })
-
-    if (!hasSpeak) return html
+    if (!html || html.indexOf('<speak') === -1) return html
 
     const wrapper = document.createElement('div')
     wrapper.innerHTML = html
 
-    const speakBlocks = wrapper.querySelectorAll('speak')
-    debugLog('transformSpeechHtml:found', {
-      speakCount: speakBlocks.length,
-    })
-
-    speakBlocks.forEach((speakEl, index) => {
+    wrapper.querySelectorAll('speak').forEach((speakEl) => {
       const figure = convertSpeakElement(speakEl, wrapper.ownerDocument)
-      if (!figure) {
-        debugLog('transformSpeechHtml:skip', {
-          index,
-          reason: 'convertSpeakElement returned null',
-          snippet: (speakEl.outerHTML || '').slice(0, 200),
-        })
-        return
-      }
+      if (!figure) return
       speakEl.replaceWith(figure)
-
-      debugLog('transformSpeechHtml:replaced', {
-        index,
-        hasCaption: !!figure.querySelector('figcaption'),
-      })
-    })
-
-    debugLog('transformSpeechHtml:end', {
-      remainingSpeakCount: wrapper.querySelectorAll('speak').length,
-      speechFigureCount: wrapper.querySelectorAll('figure.speech').length,
     })
 
     return wrapper.innerHTML
   }
 
   const docsifySpeech = function (hook) {
-    hook.init(function () {
-      debugLog('hook.init', routeInfo())
-    })
-
     hook.mounted(function () {
-      debugLog('hook.mounted', routeInfo())
       ensureObserver()
     })
 
     hook.afterEach(function (html) {
-      debugLog('hook.afterEach', {
-        ...routeInfo(),
-        hasSpeak: typeof html === 'string' && html.indexOf('<speak') !== -1,
-      })
       return transformSpeechHtml(html)
     })
 
     // Cover pages are not guaranteed to pass through the same html transform path.
     // Run an immediate DOM pass after each render cycle with no timeout.
     hook.doneEach(function () {
-      debugLog('hook.doneEach', routeInfo())
       ensureObserver()
       processSpeechInDom(document)
     })
 
     // Initial load safety for first cover render.
     hook.ready(function () {
-      debugLog('hook.ready', routeInfo())
       ensureObserver()
       processSpeechInDom(document)
     })
