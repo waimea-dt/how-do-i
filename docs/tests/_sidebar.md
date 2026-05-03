@@ -30,6 +30,7 @@
 - <i data-lucide="layout-panel-top"></i>Content
     - [Asides](tests/asides.md)
     - [Captions](tests/captions.md)
+    - [Details](tests/details.md)
     - [Speech](tests/speech.md)
     - [Cards](tests/cards.md)
     - [Callouts](tests/callouts.md)

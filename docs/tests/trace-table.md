@@ -116,7 +116,9 @@ for i in range(3):
     x += i
 print(x + y)
 ```
-### Compare...
+
+<details>
+<summary>Compare...</summary>
 
 ```python trace hide
 x = 0
@@ -125,6 +127,8 @@ for i in range(3):
     x += i
 print(x + y)
 ```
+</details>
+
 
 ### Another
 

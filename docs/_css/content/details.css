@@ -1,0 +1,78 @@
+/**
+ * Details / Summary
+ * Styled collapsible containers. Groups are styled as a single, linked set
+ */
+
+.markdown-section details {
+    --details-back-color:               var(--color-mono-0);
+    --details-border-color:             var(--color-mono-3);
+
+    --details-summary-color:            var(--theme-color-5);
+    --details-summary-back-color:       var(--color-mono-1);
+    --details-summary-back-color-high:  var(--theme-color-1);
+    --details-summary-icon-color:       var(--color-mono-6);
+    --details-summary-icon-color-high:  var(--color-mono-8);
+
+    --details-padding:                  1rem;
+    --details-gap:                      1rem;
+
+    background-color: var(--details-back-color);
+    border: 1px solid var(--details-border-color);
+    border-bottom: none;
+    padding: var(--details-padding);
+    margin-block: 0;
+    overflow: hidden;
+
+    summary {
+        font-size: 1.1rem;
+        color: var(--details-summary-color);
+        font-weight: 500;
+        margin: calc(-1 * var(--details-padding));
+        padding: var(--details-padding);
+        background-color: var(--details-summary-back-color);
+
+        &::marker {
+            color: var(--details-summary-icon-color);
+            font-size: 1.2em;
+        }
+
+        details[open] > & {
+            background-color: var(--details-back-color);
+
+            &::marker {
+                color: var(--details-summary-icon-color-high);
+            }
+        }
+
+        details[open] > &:hover,
+        &:hover {
+            background-color: var(--details-summary-back-color-high);
+        }
+    }
+
+    &:first-child,
+    :not(details) + & {
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+    }
+
+    &:has(+ :not(details)),
+    &:last-child {
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        border-bottom: 1px solid var(--details-border-color);
+    }
+
+    :not(details) + & {
+        margin-top: var(--margin-block);
+    }
+
+    &:has(+ :not(details)) {
+        margin-bottom: var(--margin-block);
+    }
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+

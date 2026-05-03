@@ -57,15 +57,6 @@
 - Hardest-question leaderboard
 - Exportable intervention notes
 
-#### exam-mode.js - Learning vs Assessment Toggle
-**Purpose**: Reuse same content for practice and test conditions
-**Features**:
-- Hide hints/reveals in assessment mode
-- Optional timers and lock-after-submit
-- Randomised question/item order
-- Reduced UI cues for exam realism
-- Attempt policy controls
-
 #### attention-reset.js - 90-Second Cognitive Break Tasks
 **Purpose**: Improve focus and retention between dense sections
 **Features**:
@@ -74,16 +65,6 @@
 - Auto-insert cadence control
 - Low-stakes completion tracking
 - Teacher-curated reset banks
-
-#### accessibility-coach.js - Readability & Access Checker
-**Purpose**: Improve inclusivity and clarity across notes/activities
-**Features**:
-- Detect low contrast and dense text blocks
-- Alt-text and structure checks
-- Reading-level estimates for content chunks
-- Quick-fix suggestions inline
-- Accessibility score per page
-
 
 
 ### NCEA Level 3: Complexity & Tractability
