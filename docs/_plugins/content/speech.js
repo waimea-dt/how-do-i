@@ -18,14 +18,61 @@
 
 ;(function () {
   let appObserver = null
+  const DEBUG = !!(window.$docsify && window.$docsify.speechDebug)
+
+  function debugLog(eventName, payload) {
+    if (!DEBUG) return
+    if (payload === undefined) {
+      console.log(`[speech] ${eventName}`)
+      return
+    }
+
+    console.log(`[speech] ${eventName}`, payload)
+  }
+
+  function getSpeechScopes() {
+    const scopes = []
+    const markdownSection = document.querySelector('.markdown-section')
+    const coverMain = document.querySelector('.cover-main')
+
+    if (markdownSection) scopes.push(markdownSection)
+    if (coverMain) scopes.push(coverMain)
+    if (scopes.length === 0) scopes.push(document)
+
+    return scopes
+  }
 
   function processSpeechInDom(root) {
     const scope = root || document
-    scope.querySelectorAll('speak').forEach((speakEl) => {
+    const speakNodes = scope.querySelectorAll('speak')
+    let replacedCount = 0
+
+    speakNodes.forEach((speakEl) => {
       const figure = convertSpeakElement(speakEl, speakEl.ownerDocument)
       if (!figure) return
       speakEl.replaceWith(figure)
+      replacedCount += 1
     })
+
+    return {
+      speakCount: speakNodes.length,
+      replacedCount,
+    }
+  }
+
+  function processSpeechInKnownScopes() {
+    const totals = {
+      speakCount: 0,
+      replacedCount: 0,
+    }
+
+    getSpeechScopes().forEach((scope) => {
+      const result = processSpeechInDom(scope)
+      totals.speakCount += result.speakCount
+      totals.replacedCount += result.replacedCount
+    })
+
+    return totals
   }
 
   function processSpeechFromAddedNode(node) {
@@ -66,17 +113,14 @@
     const target = findObserverTarget()
 
     if (appObserver) {
-      const currentTargetName = appObserver.__speechTargetName || 'unknown'
-      const nextTargetName = target ? (target.id ? `#${target.id}` : target.className || target.nodeName) : 'none'
-      if (currentTargetName === nextTargetName) return
+      const currentTarget = appObserver.__speechTarget || null
+      if (currentTarget === target) return
 
       appObserver.disconnect()
       appObserver = null
     }
 
     if (!target) return
-
-    const targetName = target.id ? `#${target.id}` : target.className || target.nodeName
 
     appObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
@@ -91,7 +135,46 @@
       subtree: true,
     })
 
-    appObserver.__speechTargetName = targetName
+    appObserver.__speechTarget = target
+  }
+
+  function runSpeechPass(source) {
+    const triggerSource = source || 'unknown'
+    const run = function () {
+      ensureObserver()
+      const result = processSpeechInKnownScopes()
+      debugLog('pass', {
+        source: triggerSource,
+        route: window.location.hash || '(none)',
+        speakCount: result.speakCount,
+        replacedCount: result.replacedCount,
+      })
+    }
+
+    run()
+    setTimeout(run, 140)
+  }
+
+  function bootstrapSpeechFallback() {
+    if (document.readyState === 'loading') {
+      document.addEventListener(
+        'DOMContentLoaded',
+        function () {
+          runSpeechPass('dom-content-loaded')
+        },
+        { once: true }
+      )
+    } else {
+      runSpeechPass('bootstrap-immediate')
+    }
+
+    window.addEventListener('load', function () {
+      runSpeechPass('window-load')
+    })
+
+    window.addEventListener('hashchange', function () {
+      runSpeechPass('hashchange')
+    })
   }
 
   function convertSpeakElement(speakEl, documentRef) {
@@ -127,7 +210,6 @@
 
     const wrapper = document.createElement('div')
     wrapper.innerHTML = html
-
     wrapper.querySelectorAll('speak').forEach((speakEl) => {
       const figure = convertSpeakElement(speakEl, wrapper.ownerDocument)
       if (!figure) return
@@ -146,21 +228,19 @@
       return transformSpeechHtml(html)
     })
 
-    // Cover pages are not guaranteed to pass through the same html transform path.
-    // Run an immediate DOM pass after each render cycle with no timeout.
+    // Cover pages are not guaranteed to pass through the same HTML transform path.
     hook.doneEach(function () {
-      ensureObserver()
-      processSpeechInDom(document)
+      runSpeechPass('hook-doneEach')
     })
 
-    // Initial load safety for first cover render.
     hook.ready(function () {
-      ensureObserver()
-      processSpeechInDom(document)
+      runSpeechPass('hook-ready')
     })
   }
 
   window.$docsify = window.$docsify || {}
   window.$docsify.plugins = [].concat(docsifySpeech, window.$docsify.plugins || [])
+  debugLog('plugin-registered', { route: window.location.hash || '(none)' })
+  bootstrapSpeechFallback()
 })()
 
