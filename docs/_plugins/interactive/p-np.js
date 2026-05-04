@@ -48,7 +48,7 @@
             const probeCanvas = document.createElement('canvas')
             probeCanvas.width = 1
             probeCanvas.height = 1
-            colorProbeContext = probeCanvas.getContext('2d')
+            colorProbeContext = probeCanvas.getContext('2d', { willReadFrequently: true })
         }
 
         if (!colorProbeContext) {
