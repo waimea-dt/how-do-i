@@ -1,5 +1,11 @@
-- <span class="material-icons">directions_run</span> Animation
+<div class="breadcrumbs">
 
-    - [The Wick Editor](wick/intro/about.md)
+[Home](/)
+→ **Animation**
+
+</div>
+
+
+- [The Wick Editor](wick/intro/about.md)
 
 

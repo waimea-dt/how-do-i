@@ -11,10 +11,8 @@
  */
 (function () {
     var docsifyLucideIcons = function (hook) {
-        var hasRenderedOnce = false
-
-        function renderIcons() {
-            if (!window.lucide || typeof window.lucide.createIcons !== 'function') return
+        hook.doneEach(function () {
+            if (!window.lucide?.createIcons) return
 
             lucide.createIcons({
                 attrs: {
@@ -23,19 +21,6 @@
                     stroke: 'currentColor'
                 },
             })
-        }
-
-        hook.doneEach(function () {
-            // doneEach is required because Docsify swaps page content via client-side routing.
-            if (!hasRenderedOnce && document.readyState !== 'complete') {
-                // Avoid forcing layout before CSS has settled on initial load.
-                window.addEventListener('load', renderIcons, { once: true })
-                hasRenderedOnce = true
-                return
-            }
-
-            renderIcons()
-            hasRenderedOnce = true
         })
     }
 

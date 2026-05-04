@@ -1,5 +1,11 @@
-- <span class="material-icons">view_in_ar</span> Minecraft
+<div class="breadcrumbs">
 
-    - [Commands in Minecraft](minecraft/intro/about.md)
+[Home](/)
+→ **Minecraft**
+
+</div>
+
+
+- [Commands in Minecraft](minecraft/intro/about.md)
 
 
