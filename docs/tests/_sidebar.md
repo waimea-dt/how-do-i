@@ -57,6 +57,7 @@
         - [Quizzes](tests/quiz.md)
     - **Design**
         - [Colour Scheme Designer](tests/colours.md)
+        - [Accessibility Simulation](tests/accessibility.md)
     - **Numbers**
         - [Binary Numbers](tests/binary.md)
         - [Number Base Converter](tests/convertor.md)

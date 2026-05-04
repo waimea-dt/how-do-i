@@ -24,12 +24,6 @@
 
 ### General T&L Plugins
 
-#### primm.js - Predict Run Investigate Modify Make
-**Purpose**: Teach coding without the fear!
-**Features**:
-- Code check, prediction, run
-- Investigate via drag-drop labelling and trace table
-
 #### rubric-short-answer.js - Guided Explanation Writer
 **Purpose**: Improve quality of written reasoning with visible criteria
 **Features**:
@@ -39,55 +33,6 @@
 - Model answer comparison panel
 - Teacher-editable rubric templates
 
-#### socratic-tutor.js - Scoped Questioning Assistant
-**Purpose**: Provide guided help without direct answer dumping
-**Features**:
-- Topic-scoped prompt context per block
-- Hint-first questioning flow
-- Progressive clues rather than full answers
-- "Show thinking steps" prompts
-- Teacher control over strictness level
-
-#### class-insights.js - Aggregate Learning Signals Dashboard
-**Purpose**: Help teacher identify friction points quickly
-**Features**:
-- Aggregated anonymous misconception counts
-- Retry and hint usage trends
-- Confidence gap summaries
-- Hardest-question leaderboard
-- Exportable intervention notes
-
-#### attention-reset.js - 90-Second Cognitive Break Tasks
-**Purpose**: Improve focus and retention between dense sections
-**Features**:
-- Micro retrieval prompts between topics
-- Sort/label/one-minute challenge templates
-- Auto-insert cadence control
-- Low-stakes completion tracking
-- Teacher-curated reset banks
-
-
-### NCEA Level 3: Complexity & Tractability
-
-#### growth-race.js - Polynomial vs Exponential Showdown
-**Purpose**: Animate growth rates at different input sizes
-**Features**:
-- Racing bars: O(n) vs O(n²) vs O(2ⁿ) vs O(n!) grow simultaneously
-- Input slider: n = 5 → 10 → 15 (watch factorial explode)
-- Time equivalents: "1ms → 1 hour → 13 years" for n=20
-- Crossing point finder: When does O(n²) beat O(n log n)?
-- Interactive legend: Click complexity → highlight corresponding curve
-
-#### approximation-demo.js - Heuristic Quality Evaluator
-**Purpose**: Show trade-off between speed and solution quality
-**Features**:
-- Problem selector: TSP, Knapsack, Bin Packing, Graph Colouring
-- Algorithm slider: Optimal → Good Heuristic → Fast Greedy
-- Quality meter: % of optimal solution (e.g., "92% optimal in 0.01s vs 100% in 45s")
-- Real-world context: "Delivery routes don't need perfection"
-- Scaling demo: Show where brute-force becomes impractical (crossover point)
-
----
 
 ### NCEA Level 2: Encryption
 
@@ -127,30 +72,9 @@
 - Trust chain: Show how certificates chain up to root CA
 - Real-world use: Code signing, email signatures
 
-
 ---
 
 ### NCEA Level 1: Human-Computer Interfaces (HCI)
-
-#### heuristic-checker.js - Nielsen's 10 Heuristics Interactive Evaluator
-**Purpose**: Teach students to identify and apply Nielsen's usability heuristics
-**Features**:
-- Upload/paste screenshots of interfaces (or use pre-loaded examples)
-- Heuristic checklist: 10 heuristics with expandable explanations
-- Annotation mode: Click interface → tag with heuristic violation/success
-- Severity rating: Minor/Major/Critical for each issue found
-- Report generator: Export findings with screenshots + explanations
-- Example gallery: Good vs bad implementations for each heuristic
-
-#### interface-compare.js - Side-by-Side Usability Comparison
-**Purpose**: Compare usability of two interfaces performing the same task
-**Features**:
-- Dual-frame view: Display two interfaces side-by-side (e.g., mobile vs desktop, old vs new design)
-- Task scenario: "Book a flight" or "Find product" walkthrough
-- Click counter: Track steps required for each interface
-- Heuristic scorecard: Rate each interface against Nielsen's 10 heuristics
-- Consistency checker: Highlight internal/external consistency issues
-- Winner determination: Auto-calculate which interface scores better
 
 #### accessibility-audit.js - WCAG/Accessibility Principle Demonstrator
 **Purpose**: Show how accessibility principles affect real users
@@ -164,67 +88,6 @@
 - Keyboard navigation test: Can you complete task without mouse?
 - Alt text inspector: Show missing/poor image descriptions
 - Before/after toggle: Inaccessible → accessible versions
-
-#### consistency-inspector.js - Internal & External Consistency Visualizer
-**Purpose**: Identify consistency patterns (or violations) in interfaces
-**Features**:
-- Internal consistency scan: Highlight inconsistent button styles, fonts, spacing within one interface
-- External consistency examples: Show how interfaces follow platform conventions (iOS vs Android vs Web)
-- Pattern library: Common UI patterns (navigation, forms, buttons)
-- Violation highlighter: Red boxes around inconsistent elements
-- Fix suggestions: "This button uses Arial while others use Roboto"
-- Platform comparison: Show same app on different OS with native patterns
-
-#### response-time.js - System Response Time Impact Visualizer
-**Purpose**: Show how response delays affect user experience
-**Features**:
-- Simulated loading delays: 0.1s / 1s / 3s / 10s button response
-- User perception scale: "Instant" → "Noticeable" → "Frustrating" → "Abandoned"
-- Spinner/progress bars: Compare feedback mechanisms
-- Task completion race: Same task with fast vs slow responses
-- Mobile vs Wi-Fi: Simulate network conditions
-- Abandonment meter: Show when users give up (based on research)
-
-#### effort-evaluator.js - Commensurate Effort Principle Demo
-**Purpose**: Evaluate if task difficulty matches interface complexity
-**Features**:
-- Task complexity slider: Simple → Medium → Complex tasks
-- Step counter: How many actions to complete task?
-- Fitt's Law demo: Target size + distance = time to click
-- Form optimization: Compare 1-page vs multi-step forms
-- Undo/redo analysis: How easy to recover from mistakes?
-- Efficiency comparison: Expert shortcuts vs beginner paths
-
-#### te-reo-interface.js - Mātāpono Māori & Te Reo Māori Usability
-**Purpose**: Evaluate cultural and linguistic appropriateness in interfaces
-**Features**:
-- Macron checker: Highlight missing macrons in te reo Māori text
-- Spell-check demo: Show interfaces with/without te reo support
-- Whakapapa/pepeha forms: Examples supporting iwi, hapū, waka, maunga, awa
-- Tikanga alignment: Interface patterns supporting kanohi ki te kanohi, whanaungatanga
-- Before/after comparison: Generic form → culturally responsive form
-- Cultural audit checklist: Does interface support mātauranga Māori expression?
-
-#### heuristic-violations.js - "Spot the Usability Issues" Game
-**Purpose**: Gamified learning of Nielsen's heuristics through bad examples
-**Features**:
-- Mock interfaces: Deliberately flawed designs (missing feedback, inconsistent buttons, poor error messages)
-- Click-to-identify: Students click violations → select which heuristic is broken
-- Timer + scoring: Speed and accuracy points
-- Difficulty levels: 3 issues → 7 issues → 10 issues
-- Explanation mode: Show why each violation matters with real-world impact
-- Leaderboard: Class competition mode
-
-#### improvement-suggester.js - Interface Redesign Proposal Tool
-**Purpose**: Apply usability principles to suggest concrete improvements
-**Features**:
-- Before/after editor: Upload interface → annotate problems → sketch improvements
-- Principle linking: Connect each suggestion to specific heuristic/principle
-- Priority ranker: Critical vs nice-to-have improvements
-- Implementation notes: "Change button color to #007AFF for better contrast"
-- Export report: PDF with screenshots, issues, and suggested fixes
-- Peer review mode: Share proposals for class feedback
-
 
 ---
 
@@ -253,6 +116,7 @@
 - [x] **bin-packing** - Explore and compare algos
 - [x] **trace-table.js** - Program state tracer with executable code-to-table playback, blank worksheet mode, and Python/Kotlin support
 - [x] **parsons-builder.js** - Covered by drag-drop plugin support for code-ordering puzzle workflows
+- [x] **primm.js** - Allows students to predict output of a code block, then run it to see for real
 - [x] **excalidraw.js** - Rendering of excalidraw JSON files as SVGs
 
 
