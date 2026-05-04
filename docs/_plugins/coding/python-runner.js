@@ -18,6 +18,62 @@
 
 (function () {
 
+    function ensurePythonLintRegistered() {
+        if (!window.CodeMirror) return false
+        if (!CodeMirror.helpers.lint?.python) {
+            CodeMirror.registerHelper('lint', 'python', pythonLint)
+        }
+        return true
+    }
+
+    function initPythonRunnerBlocks(root = document, setupBlocks = {}) {
+        if (!ensurePythonLintRegistered()) return
+
+        root.querySelectorAll('codapi-snippet[sandbox="python"][editor="external"]:not([data-python-runner-initialized])').forEach(snippet => {
+            snippet.dataset.pythonRunnerInitialized = 'true'
+
+            // The <pre> may be a direct previous sibling, or inside a wrapper div
+            const prev = snippet.previousElementSibling
+            const pre = prev && prev.tagName === 'PRE'
+                ? prev
+                : prev && prev.querySelector('pre')
+            if (!pre) return
+
+            const code = pre.querySelector('code')
+            if (!code) return
+
+            // Look up any named setup code for this snippet
+            const setupName = snippet.dataset.setup
+            const setupCode = setupName ? (setupBlocks[setupName] ?? '') : ''
+            const visibleCode = code.textContent
+
+            // Prepend setup code to what the runner sees, but not what the editor shows
+            if (setupCode) code.textContent = setupCode + '\n' + visibleCode
+
+            const cm = CodeMirror(function (editorEl) {
+                pre.parentNode.insertBefore(editorEl, pre)
+            }, {
+                value:             visibleCode,
+                mode:              'text/x-python',
+                theme:             'material-darker',
+                lineNumbers:       false,
+                autoCloseBrackets: true,
+                matchBrackets:     true,
+                indentUnit:        4,
+                lineWrapping:      false,
+                viewportMargin:    Infinity,
+                styleActiveLine:   true,
+                lint:              true,
+                gutters:           ['CodeMirror-lint-markers'],
+            })
+
+            pre.style.display = 'none'
+            cm.on('change', () => {
+                code.textContent = setupCode ? setupCode + '\n' + cm.getValue() : cm.getValue()
+            })
+        })
+    }
+
     // -------------------------------------------------------------------------
     // Python syntax linter
     //
@@ -167,54 +223,12 @@
         })
 
         hook.doneEach(function () {
-            // Register the linter once (will no-op on subsequent page loads).
-            if (!CodeMirror.helpers.lint?.python) {
-                CodeMirror.registerHelper('lint', 'python', pythonLint)
-            }
-
-            document.querySelectorAll('codapi-snippet[sandbox="python"][editor="external"]').forEach(snippet => {
-                // The <pre> may be a direct previous sibling, or inside a wrapper div
-                const prev = snippet.previousElementSibling
-                const pre = prev && prev.tagName === 'PRE'
-                    ? prev
-                    : prev && prev.querySelector('pre')
-                if (!pre) return
-
-                const code = pre.querySelector('code')
-                if (!code) return
-
-                // Look up any named setup code for this snippet
-                const setupName = snippet.dataset.setup
-                const setupCode = setupName ? (setupBlocks[setupName] ?? '') : ''
-                const visibleCode = code.textContent
-
-                // Prepend setup code to what the runner sees, but not what the editor shows
-                if (setupCode) code.textContent = setupCode + '\n' + visibleCode
-
-                const cm = CodeMirror(function (editorEl) {
-                    pre.parentNode.insertBefore(editorEl, pre)
-                }, {
-                    value:             visibleCode,
-                    mode:              'text/x-python',
-                    theme:             'material-darker',
-                    lineNumbers:       false,
-                    autoCloseBrackets: true,
-                    matchBrackets:     true,
-                    indentUnit:        4,
-                    lineWrapping:      false,
-                    viewportMargin:    Infinity,
-                    styleActiveLine:   true,
-                    lint:              true,
-                    gutters:           ['CodeMirror-lint-markers'],
-                })
-
-                pre.style.display = 'none'
-                cm.on('change', () => {
-                    code.textContent = setupCode ? setupCode + '\n' + cm.getValue() : cm.getValue()
-                })
-            })
+            initPythonRunnerBlocks(document, setupBlocks)
         })
     }
+
+    window.docsifyPythonRunner = window.docsifyPythonRunner || {}
+    window.docsifyPythonRunner.init = initPythonRunnerBlocks
 
     window.$docsify = window.$docsify || {}
     window.$docsify.plugins = [].concat(docsifyPythonRunner, window.$docsify.plugins || [])

@@ -1,0 +1,290 @@
+/**
+ * PRIMM Predict & Run Widget
+ * Interactive code prediction and execution learning tool
+ */
+
+.markdown-section primm {
+    --primm-bg: var(--color-mono-1);
+    --primm-bg-header: var(--color-mono-2);
+    --primm-bg-section: var(--color-mono-0);
+    --primm-border: var(--color-mono-3);
+    --primm-border-high: var(--color-mono-6);
+
+    --primm-title: var(--theme-color);
+    --primm-label: var(--color-mono-7);
+    --primm-text: var(--color-text);
+
+    --primm-btn-bg: var(--theme-color-3);
+    --primm-btn-bg-hover: var(--theme-color-4);
+    --primm-btn-bg-disabled: var(--color-mono-4);
+    --primm-btn-text: var(--color-text);
+
+    --primm-code-bg: var(--code-bg-color);
+    --primm-code-border: var(--code-border-color);
+
+    --primm-prediction-bg: var(--color-mono-0);
+    --primm-prediction-border: var(--color-mono-4);
+    --primm-prediction-text-color: var(--color-mono-7);
+
+
+    --primm-gap: 1rem;
+    --primm-gap-med: 0.75rem;
+    --primm-gap-small: 0.5rem;
+    --primm-padding: 1rem;
+    --primm-padding-med: 0.75rem;
+    --primm-padding-small: 0.5rem;
+
+    --primm-border-radius: var(--border-radius);
+    --primm-box-shadow: var(--box-shadow-small);
+
+    display: block;
+    margin: var(--margin-block) 0;
+
+
+    .primm-wrapper {
+        background-color: var(--primm-bg);
+        border: 1px solid var(--primm-border);
+        border-radius: var(--primm-border-radius);
+        overflow: hidden;
+        box-shadow: var(--primm-box-shadow);
+    }
+
+    .primm-header {
+        padding: var(--primm-padding);
+        background-color: var(--primm-bg-header);
+        border-bottom: 1px solid var(--primm-border);
+
+        .primm-title {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primm-title);
+        }
+    }
+
+    .primm-body {
+        padding: var(--primm-padding);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--primm-gap);
+        grid-template-areas:
+            "code"
+            "predict"
+            "controls"
+            "status";
+
+        @container (min-width: 400px) {
+            grid-template-columns: auto 1fr;
+            grid-template-areas:
+                "code     code"
+                "predict  predict"
+                "controls status";
+        }
+
+        @container (min-width: 900px) {
+            grid-template-columns: 3fr 2fr;
+            grid-template-rows: auto auto 1fr;
+            grid-template-areas:
+                "code predict"
+                "code status"
+                "code controls";
+        }
+    }
+
+    .primm-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--primm-gap-small);
+    }
+
+    /* Code Display Section */
+    .primm-code-section {
+        grid-area: code;
+        margin: 0;
+
+        .primm-code-display {
+            background-color: var(--primm-code-bg);
+            border: 1px solid var(--primm-code-border);
+            border-radius: var(--primm-border-radius);
+            overflow-x: auto;
+            margin: 0;
+            height: 100%;
+
+            .primm-code {
+                margin: 0;
+                padding: var(--primm-padding);
+
+                &:has([data-kotlin-playground-initialized]) {
+                    padding: 0;
+                }
+
+                code[class*="language-"] {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    /* Prediction Section */
+    .primm-prediction-section {
+        grid-area: predict;
+
+        .primm-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--primm-label);
+            margin-bottom: var(--primm-gap-small);
+        }
+
+        .primm-prediction-input {
+            width: 100%;
+            min-height: 100px;
+            padding: var(--primm-padding-small);
+            border: 1px solid var(--primm-prediction-border);
+            border-radius: var(--primm-border-radius);
+            background-color: var(--primm-prediction-bg);
+            color: var(--primm-text);
+            font-family: var(--font-family-mono);
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.2s ease;
+
+            &:focus {
+                outline: none;
+                border-color: var(--theme-color);
+                box-shadow: 0 0 0 2px rgba(var(--theme-rgb), 0.1);
+            }
+
+            &:disabled {
+                background-color: var(--color-mono-2);
+                opacity: 0.6;
+            }
+        }
+
+        .primm-prediction-output {
+            margin: 0;
+            padding: var(--primm-padding-small);
+            background-color: var(--primm-code-bg);
+            border: 1px solid var(--primm-code-border);
+            border-radius: var(--primm-border-radius);
+            font-family: var(--font-family-mono);
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--md-code-fg-color);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+        }
+    }
+
+    /* Action Buttons */
+    .primm-actions {
+        grid-area: controls;
+        display: flex;
+        gap: var(--primm-gap-small);
+        align-items: center;
+        flex-direction: column;
+
+        @container (min-width: 400px) {
+            flex-direction: row;
+            gap: var(--primm-gap);
+        }
+
+        @container (min-width: 900px) {
+            flex-direction: column-reverse;
+            gap: var(--primm-gap-small);
+            align-items: flex-start;
+        }
+
+        .primm-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--primm-gap-small);
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: var(--primm-border-radius);
+            background-color: var(--primm-btn-bg);
+            color: var(--primm-btn-text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            justify-content: center;
+
+            svg {
+                width: 18px;
+                height: 18px;
+                flex-shrink: 0;
+            }
+
+            &:hover:not(:disabled) {
+                background-color: var(--primm-btn-bg-hover);
+                transform: translateY(-1px);
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            &:disabled {
+                background-color: var(--primm-btn-bg-disabled);
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            span {
+                font-size: 0.9em;
+            }
+
+            @container (min-width: 400px) {
+                width: auto;
+            }
+        }
+    }
+
+    .primm-status {
+        grid-area: status;
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1.2;
+        width: 100%;
+        text-align: center;
+        display: inline-flex;
+        gap: var(--primm-gap-small);
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        &[data-status="waiting"] {
+            color: var(--color-mono-7);
+        }
+
+        &[data-status="saved"] {
+            color: var(--color-good);
+        }
+
+        &[data-status="reflect"] {
+            color: var(--theme-color);
+        }
+
+        &[data-status="unavailable"] {
+            color: var(--color-attention);
+        }
+
+        @container (min-width: 400px) {
+            width: auto;
+            text-align: left;
+            justify-content: flex-start;
+        }
+    }
+}
