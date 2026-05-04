@@ -56,6 +56,10 @@
 
     .sidebar-nav {
         order: 3;
+
+        li a.page-link {
+            border-radius: 0;
+        }
     }
 
 
