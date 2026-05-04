@@ -2,6 +2,8 @@
 
 Image notes let you mark parts of an image with percentage-based boxes. Hover or click a highlighted area to show the matching note.
 
+<img src="tests/_assets/ui-demo.png" alt="UI shop demo screen">
+
 ## Example
 
 <img-notes>

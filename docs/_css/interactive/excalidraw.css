@@ -1,0 +1,32 @@
+/* Excalidraw block styles */
+
+.markdown-section excalidraw {
+    display: block;
+    margin: var(--margin-block) 0;
+
+
+    .excalidraw-loading,
+    .excalidraw-error {
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        background: var(--color-bg-elev-1);
+        color: var(--color-text);
+        padding: 0.9rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .excalidraw-error {
+        border-color: color-mix(in srgb, var(--color-attention) 45%, var(--color-border));
+        color: var(--color-attention);
+    }
+
+    .excalidraw-image {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--color-border);
+        background: transparent;
+    }
+}

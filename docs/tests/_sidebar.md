@@ -15,18 +15,15 @@
     - [PRIMM Widget](tests/primm.md)
     - [Trace Table](tests/trace-table.md)
 
-- <i data-lucide="binary"></i>Databases
+- <i data-lucide="database"></i>Databases
     - [Database Schema](tests/dbs.md)
     - [SQL Runner Demo](tests/sql.md)
     - [ERD Creator](tests/erd.md)
 
-- <i data-lucide="binary"></i>Graphics
+- <i data-lucide="image"></i>Graphics
+    - [Image Notes](tests/img-notes.md)
     - [Mermaid](tests/mermaid.md)
-
-- <i data-lucide="binary"></i>Data
-    - [Binary Numbers](tests/binary.md)
-    - [Logical Operations](tests/logic.md)
-    - [Database Schema](tests/dbs.md)
+    - [Excalidraw](tests/excalidraw.md)
 
 - <i data-lucide="layout-panel-top"></i>Content
     - [Asides](tests/asides.md)
@@ -35,7 +32,6 @@
     - [Speech](tests/speech.md)
     - [Cards](tests/cards.md)
     - [Callouts](tests/callouts.md)
-    - [Image Notes](tests/img-notes.md)
     - [Tables](tests/tables.md)
     - [Definitions](tests/definitions.md)
     - [Video Embeds](tests/video-embed.md)
@@ -54,29 +50,37 @@
     - [SimCore](tests/sim-core.md)
 
 - <i data-lucide="mouse-pointer-click"></i>Interactive
-    - [Number Base Converter](tests/convertor.md)
-    - [Binary Calculator](tests/calc.md)
-    - [Hash Function Demo](tests/hasher.md)
-    - [Rainbow Table Attack](tests/rainbow.md)
-    - [Modulo Arithmetic](tests/modulus.md)
-    - [Diffie-Hellman Key Exchange](tests/diffie-hellman.md)
-    - [Symmetric vs Asymmetric](tests/sym-asym.md)
-    - [WiFi Handshake](tests/wifi.md)
-    - [Rolling Code Garage](tests/rolling-code.md)
-    - [Digital Signature](tests/digital-sig.md)
-    - [Simplified TLS](tests/tls.md)
-    - [Substitution Cypher](tests/sub-cypher.md)
-    - [Algorithm Race](tests/algo-race.md)
-    - [Big-O Algorithm Explorer](tests/big-o.md)
-    - [Big-O Growth Curves](tests/big-o-chart.md)
-    - [P vs NP Visualizer](tests/p-np.md)
-    - [TSP Visualizer](tests/tsp.md)
-    - [Knapsack Solver](tests/knapsack.md)
-    - [Bin Packing Solver](tests/bin-packing.md)
-    - [Drag Drop Reorder](tests/drag-drop.md)
-    - [Letter Frequency Analysis](tests/frequency.md)
-    - [Colour Scheme Designer](tests/colours.md)
-    - [Flash Cards](tests/flash-cards.md)
-    - [Reveal.js Slides](tests/slides.md)
-    - [Quizzes](tests/quiz.md)
+    - **General**
+        - [Drag Drop Reorder](tests/drag-drop.md)
+        - [Flash Cards](tests/flash-cards.md)
+        - [Reveal.js Slides](tests/slides.md)
+        - [Quizzes](tests/quiz.md)
+    - **Design**
+        - [Colour Scheme Designer](tests/colours.md)
+    - **Numbers**
+        - [Binary Numbers](tests/binary.md)
+        - [Number Base Converter](tests/convertor.md)
+        - [Binary Calculator](tests/calc.md)
+        - [Modulo Arithmetic](tests/modulus.md)
+    - **Logic**
+        - [Logical Operations](tests/logic.md)
+    - **Encryption**
+        - [Letter Frequency Analysis](tests/frequency.md)
+        - [Substitution Cypher](tests/sub-cypher.md)
+        - [Symmetric vs Asymmetric](tests/sym-asym.md)
+        - [Hash Function Demo](tests/hasher.md)
+        - [Rainbow Table Attack](tests/rainbow.md)
+        - [Diffie-Hellman Key Exchange](tests/diffie-hellman.md)
+        - [WiFi Handshake](tests/wifi.md)
+        - [Rolling Code Garage](tests/rolling-code.md)
+        - [Digital Signature](tests/digital-sig.md)
+        - [Simplified TLS](tests/tls.md)
+    - **Complexity**
+        - [Big-O Growth Curves](tests/big-o-chart.md)
+        - [Big-O Algorithm Explorer](tests/big-o.md)
+        - [P vs NP Visualizer](tests/p-np.md)
+        - [Algorithm Race](tests/algo-race.md)
+        - [TSP Visualizer](tests/tsp.md)
+        - [Knapsack Solver](tests/knapsack.md)
+        - [Bin Packing Solver](tests/bin-packing.md)
 

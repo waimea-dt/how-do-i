@@ -11,14 +11,31 @@
 
 (function () {
 
+    const OVERLAY_TRANSITION = 'opacity 500ms ease';
+    const ZOOM_TRANSITION = 'transform 500ms ease';
+
+    function isSvgImage(img) {
+        if (!img || img.tagName !== 'IMG') return false;
+        const src = (img.getAttribute('src') || '').toLowerCase();
+        return src.endsWith('.svg') || src.startsWith('data:image/svg+xml');
+    }
+
+    function scanAndAttach(root) {
+        if (!root || !root.querySelectorAll) return;
+        root.querySelectorAll('svg:not(.no-zoom)').forEach(attachZoom);
+        root.querySelectorAll('img:not(.no-zoom)').forEach(img => {
+            if (isSvgImage(img)) attachZoom(img);
+        });
+    }
+
     var svgZoom = function (hook) {
 
         hook.doneEach(function () {
             const markdownSection = document.querySelector('.markdown-section');
             if (!markdownSection) return;
 
-            // Attach zoom to any existing SVGs
-            markdownSection.querySelectorAll('svg:not(.no-zoom)').forEach(attachZoom);
+            // Attach zoom to any existing SVGs and SVG images.
+            scanAndAttach(markdownSection);
 
             // Watch for new SVGs being added (e.g., Mermaid, ERD updates)
             const observer = new MutationObserver(function (mutations) {
@@ -31,9 +48,15 @@
                                 attachZoom(node);
                             }
                         }
+                        // Support zooming image tags that point at SVGs.
+                        else if (node.tagName === 'IMG' && isSvgImage(node)) {
+                            if (!node.classList.contains('no-zoom') && node.dataset.noZoom !== 'true') {
+                                attachZoom(node);
+                            }
+                        }
                         // Check if the node contains SVGs
                         else if (node.querySelectorAll) {
-                            node.querySelectorAll('svg:not(.no-zoom)').forEach(attachZoom);
+                            scanAndAttach(node);
                         }
                     });
                 });
@@ -50,7 +73,7 @@
 
 
     function attachZoom(svg) {
-        // Skip if already attached, has no-zoom class, or has data-no-zoom attribute
+        // Skip if already attached, has no-zoom class, or has data-no-zoom attribute.
         if (svg.dataset.zoomAttached || svg.classList.contains('no-zoom') || svg.dataset.noZoom === 'true') return;
 
         svg.dataset.zoomAttached = 'true';
@@ -63,6 +86,8 @@
 
     function showOverlay(svg) {
         const from = svg.getBoundingClientRect();
+        const isImage = svg.tagName === 'IMG';
+        const originTransform = `translate(${from.left + from.width / 2 - window.innerWidth / 2}px, ${from.top + from.height / 2 - window.innerHeight / 2}px) scale(${from.width / window.innerWidth})`;
 
         const overlay = document.createElement('div');
         overlay.style.cssText = [
@@ -75,43 +100,52 @@
             'z-index: 9999',
             'cursor: zoom-out',
             'opacity: 0',
-            'transition: opacity 0.3s ease',
+            `transition: ${OVERLAY_TRANSITION}`,
         ].join(';');
 
         const clone = svg.cloneNode(true);
-        clone.removeAttribute('width');
-        clone.removeAttribute('height');
+        if (!isImage) {
+            clone.removeAttribute('width');
+            clone.removeAttribute('height');
+        }
         clone.style.cssText = [
             'max-width: 95vw',
             'max-height: 95vh',
-            'width: auto',
+            'width: 100%',
             'height: auto',
-            // Start from the original SVG's position and size
+            // Start from the original element position and size.
             'transform-origin: center center',
-            `transform: translate(${from.left + from.width / 2 - window.innerWidth / 2}px, ${from.top + from.height / 2 - window.innerHeight / 2}px) scale(${from.width / window.innerWidth})`,
-            'transition: transform 0.3s ease',
+            `transform: ${originTransform}`,
+            `transition: ${ZOOM_TRANSITION}`,
+            'will-change: transform',
         ].join(';');
 
-        // Preserve any wrapper classes for styling (e.g., .mermaid)
-        const wrapper = document.createElement('div');
-        const parentClasses = svg.parentElement?.className || '';
-        if (parentClasses) {
-            wrapper.className = parentClasses;
+        // Preserve wrapper classes for style-sensitive diagrams (e.g. mermaid).
+        if (isImage) {
+            overlay.appendChild(clone);
+        } else {
+            const wrapper = document.createElement('div');
+            const parentClasses = svg.parentElement?.className || '';
+            if (parentClasses) {
+                wrapper.className = parentClasses;
+            }
+            wrapper.style.display = 'contents';
+            wrapper.appendChild(clone);
+            overlay.appendChild(wrapper);
         }
-        wrapper.style.display = 'contents';
-        wrapper.appendChild(clone);
-        overlay.appendChild(wrapper);
         document.body.appendChild(overlay);
 
-        // Trigger animation on next frame
+        // Trigger animation after insertion + first paint so opening motion always runs.
         requestAnimationFrame(function () {
-            overlay.style.opacity = '1';
-            clone.style.transform = 'translate(0, 0) scale(1)';
+            requestAnimationFrame(function () {
+                overlay.style.opacity = '1';
+                clone.style.transform = 'translate(0, 0) scale(1)';
+            });
         });
 
         function close() {
             overlay.style.opacity = '0';
-            clone.style.transform = `translate(${from.left + from.width / 2 - window.innerWidth / 2}px, ${from.top + from.height / 2 - window.innerHeight / 2}px) scale(${from.width / window.innerWidth})`;
+            clone.style.transform = originTransform;
             overlay.addEventListener('transitionend', function () {
                 overlay.remove();
             }, { once: true });
@@ -125,6 +159,13 @@
         overlay.addEventListener('click', close);
         document.addEventListener('keydown', onKey);
     }
+
+    window.SvgZoom = window.SvgZoom || {};
+    window.SvgZoom.refresh = function (root) {
+        const target = root || document.querySelector('.markdown-section');
+        if (!target) return;
+        scanAndAttach(target);
+    };
 
 
     window.$docsify = window.$docsify || {};

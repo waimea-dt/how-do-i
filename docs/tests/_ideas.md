@@ -253,7 +253,7 @@
 - [x] **bin-packing** - Explore and compare algos
 - [x] **trace-table.js** - Program state tracer with executable code-to-table playback, blank worksheet mode, and Python/Kotlin support
 - [x] **parsons-builder.js** - Covered by drag-drop plugin support for code-ordering puzzle workflows
-
+- [x] **excalidraw.js** - Rendering of excalidraw JSON files as SVGs
 
 
 ### Completed Maintenance

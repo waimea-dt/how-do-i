@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="_css/interactive/digital-sig.css">
     <link rel="stylesheet" href="_css/interactive/tls.css">
     <link rel="stylesheet" href="_css/interactive/trace-table.css">
+    <link rel="stylesheet" href="_css/interactive/excalidraw.css">
 </head>
 
 <body>
@@ -160,6 +161,27 @@
             }
         });
         window.mermaid = mermaid;
+    </script>
+
+    <script type="module">
+        const nativeWorker = window.Worker
+
+        // Excalidraw worker chunks are cross-origin in this setup.
+        // Disable worker detection during module init so it uses main-thread fallback.
+        window.Worker = undefined
+
+        window.ExcalidrawReady = import('https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0.18.1/+esm')
+            .then(module => {
+                window.ExcalidrawLib = module
+                return module
+            })
+            .catch(error => {
+                console.error('Failed to load Excalidraw library from CDN.', error)
+                return null
+            })
+            .finally(() => {
+                window.Worker = nativeWorker
+            })
     </script>
 
 
@@ -292,6 +314,7 @@
     <script defer src="_plugins/interactive/digital-sig.js"></script>
     <script defer src="_plugins/interactive/tls.js"></script>
     <script defer src="_plugins/interactive/trace-table.js"></script>
+    <script defer src="_plugins/graphics/excalidraw.js"></script>
 </body>
 
 </html>
