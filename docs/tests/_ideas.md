@@ -74,27 +74,11 @@
 
 ---
 
-### NCEA Level 1: Human-Computer Interfaces (HCI)
-
-#### accessibility-audit.js - WCAG/Accessibility Principle Demonstrator
-**Purpose**: Show how accessibility principles affect real users
-**Features**:
-- Simulation modes:
-  - Colour blindness filters (protanopia, deuteranopia, tritanopia)
-  - Screen reader mode (show tab order + alt text)
-  - Low vision (blur/zoom)
-  - Motor impairment (large click targets)
-- Contrast checker: WCAG AA/AAA compliance for text/background
-- Keyboard navigation test: Can you complete task without mouse?
-- Alt text inspector: Show missing/poor image descriptions
-- Before/after toggle: Inaccessible → accessible versions
-
----
-
 ## Completed
 
 ### Completed Plugins
 
+- [x] **accessibility.js** - Accessibility teaching widget with screen-reader, low-vision, colour-blind, motor-impairment, and contrast audit modes
 - [x] **erd.js** - Interactive SQLite ERD generator with live editing, auto-layout, and relationship visualization
 - [x] **memory-sim.js** - Kotlin/Python OOP memory visualization with stack/heap
 - [x] **oop-sim.js** - Class definitions, instantiation, field updates and method calls
