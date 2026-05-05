@@ -157,6 +157,44 @@
         `
 
     const ACCESSIBILITY_IFRAME_THEME_CSS = {
+            grey: `
+                :root {
+                    color-scheme: light;
+
+                    --preview-page-bg: #e9e9e9;
+                    --preview-text: #111;
+                    --preview-text-inv: #fff;
+
+                    --preview-header-bg: #3f3f3f;
+                    --preview-header-text: #fff;
+
+                    --preview-panel-bg: #55555522;
+
+                    --preview-accent: #444444;
+                    --preview-high: #7a7a7a;
+
+                    --preview-link: #353535;
+                }
+            `,
+            bw: `
+                :root {
+                    color-scheme: light;
+
+                    --preview-page-bg: #ffffff;
+                    --preview-text: #000000;
+                    --preview-text-inv: #fff;
+
+                    --preview-header-bg: #000000;
+                    --preview-header-text: #fff;
+
+                    --preview-panel-bg: #00000022;
+
+                    --preview-accent: #000000;
+                    --preview-high: #000000;
+
+                    --preview-link: #000000;
+                }
+            `,
             blue: `
                 :root {
                     color-scheme: light;
@@ -222,8 +260,8 @@
                     --preview-text: #d9627b;
                     --preview-text-inv: #603500;
 
-                    --preview-header-bg: #1488ae;
-                    --preview-header-text: #9f35a4;
+                    --preview-header-bg: #0a9aca;
+                    --preview-header-text: #a43583;
 
                     --preview-panel-bg: #1488ae22;
 
@@ -238,18 +276,18 @@
                     color-scheme: light;
 
                     --preview-page-bg: #b2b2b2;
-                    --preview-text: #ff3da8;
-                    --preview-text-inv: #045a00;
+                    --preview-text: #009141;
+                    --preview-text-inv: #ff6188;
 
-                    --preview-header-bg: #009554;
-                    --preview-header-text: #bc2b7d;
+                    --preview-header-bg: #00b667;
+                    --preview-header-text: #ff0037;
 
-                    --preview-panel-bg: #00955422;
+                    --preview-panel-bg: #00803522;
 
-                    --preview-accent: #da4d4f;
+                    --preview-accent: #00642d;
                     --preview-high: #f3e84b;
 
-                    --preview-link: #5373ff;
+                    --preview-link: #c0003a;
                 }
             `,
     }

@@ -400,6 +400,80 @@ Use this plugin to compare visual similarity with accessibility quality.
 </accessibility>
 
 
+<accessibility mode="contrast" header="true" theme="grey">
+
+```html
+<header>
+    <h1>Riverside Art College</h1>
+    <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#courses">Courses</a>
+        <a href="#support">Support</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Course Overview</h2>
+    <p>Choose a pathway and check practical tasks for this week.</p>
+
+    <section>
+        <h3>Highlights</h3>
+        <ul>
+            <li><a href="#design">Design Studio</a></li>
+            <li><a href="#code">Creative Coding</a></li>
+            <li><a href="#media">Digital Media</a></li>
+        </ul>
+    </section>
+
+    <form>
+        <h3>Search Courses</h3>
+        <label for="course-search">Name</label>
+        <input id="course-search" type="text" placeholder="e.g. Digital Design">
+        <button type="submit">Search</button>
+    </form>
+</main>
+```
+
+</accessibility>
+
+
+<accessibility mode="contrast" header="true" theme="bw">
+
+```html
+<header>
+    <h1>Riverside Art College</h1>
+    <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#courses">Courses</a>
+        <a href="#support">Support</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Course Overview</h2>
+    <p>Choose a pathway and check practical tasks for this week.</p>
+
+    <section>
+        <h3>Highlights</h3>
+        <ul>
+            <li><a href="#design">Design Studio</a></li>
+            <li><a href="#code">Creative Coding</a></li>
+            <li><a href="#media">Digital Media</a></li>
+        </ul>
+    </section>
+
+    <form>
+        <h3>Search Courses</h3>
+        <label for="course-search">Name</label>
+        <input id="course-search" type="text" placeholder="e.g. Digital Design">
+        <button type="submit">Search</button>
+    </form>
+</main>
+```
+
+</accessibility>
+
+
 <accessibility mode="contrast" header="false" theme="blue">
 
 ```html
