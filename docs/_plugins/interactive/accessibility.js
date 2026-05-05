@@ -6,6 +6,13 @@
  * - low-vision: dual preview scaffold with simulation controls
  * - colour-blind: dual preview scaffold with simulation controls
  * - motor-impairment: dual preview scaffold with simulation controls
+ * - contrast: text/background contrast audit (WCAG AA/AAA)
+ *
+ * Supported <accessibility> attributes:
+ * - mode: screen-reader | low-vision | colour-blind | motor-impairment | contrast
+ * - theme: blue | red | lowcontrast | colourful1 | colourful2
+ * - header: true | false (show widget title/subtitle)
+ * - audit: true | false (screen-reader mode only; checklist + reading order panel)
  *
  * Authoring pattern:
  * <accessibility mode="screen-reader">
@@ -25,9 +32,12 @@
 
                 --preview-page-bg: #eee;
                 --preview-text: #111;
+                --preview-text-inv: #fff;
 
                 --preview-header-bg: #666;
                 --preview-header-text: #fff;
+
+                --preview-panel-bg: #6663;
 
                 --preview-accent: #369;
                 --preview-high: #69c;
@@ -80,13 +90,17 @@
                 border: 1px solid var(--preview-accent);
                 border-radius: 0.25rem;
                 margin-bottom: 1rem;
+                background-color: var(--preview-panel-bg);
             }
 
             header, .header {
                 border-bottom: 1px solid var(--preview-accent);
                 background-color: var(--preview-header-bg);
 
-                h1, .big-title, a { color: var(--preview-header-text); }
+                h1, .big-title, a {
+                    color: var(--preview-header-text);
+                    font-weight: bold;
+                }
             }
 
             h1, .big-title,
@@ -132,6 +146,14 @@
                 }
             }
 
+            button {
+                background-color: var(--preview-accent);
+                color: var(--preview-text-inv);
+                border: 1px solid var(--preview-accent);
+                padding: 0.1em 0.4em 0.2em;
+                border-radius: 0.25em;
+            }
+
         `
 
     const ACCESSIBILITY_IFRAME_THEME_CSS = {
@@ -141,14 +163,17 @@
 
                     --preview-page-bg: #c2d7e6;
                     --preview-text: #111;
+                    --preview-text-inv: #fff;
 
                     --preview-header-bg: #183b5e;
                     --preview-header-text: #fff;
 
-                    --preview-accent: #2263a4;
+                    --preview-panel-bg: #183b5e22;
+
+                    --preview-accent: #003d7b;
                     --preview-high: #0169d2;
 
-                    --preview-link: #0169d2;
+                    --preview-link: #003d7b;
                 }
             `,
             red: `
@@ -157,37 +182,84 @@
 
                     --preview-page-bg: #e7c6ca;
                     --preview-text: #111;
+                    --preview-text-inv: #fff;
 
-                    --preview-header-bg: #5a1f29;
+                    --preview-header-bg: #3e1017;
                     --preview-header-text: #fff;
 
-                    --preview-accent: #6f2831;
+                    --preview-panel-bg: #3e101722;
+
+                    --preview-accent: #6c000e;
                     --preview-high: #be2439;
 
-                    --preview-link: #be2439;
+                    --preview-link: #6c000e;
                 }
             `,
             lowcontrast: `
                 :root {
-                    color-scheme: dark;
+                    color-scheme: light;
 
-                    --preview-page-bg: blue;
-                    --preview-text: green;
+                    --preview-page-bg: #efdbb5;
+                    --preview-text: #75adbb;
+                    --preview-text-inv: #999;
 
-                    --preview-header-bg: darkblue;
-                    --preview-header-text: darkgreen;
+                    --preview-header-bg: #83c4d8;
+                    --preview-header-text: #b69c71;
 
-                    --preview-accent: darkblue;
-                    --preview-high: red;
+                    --preview-panel-bg: #b69c7122;
 
-                    --preview-link: red;
+                    --preview-accent: #5b8198;
+                    --preview-high: #c1b59f;
+
+                    --preview-link: #588aa6;
+                }
+            `,
+            colourful1: `
+                :root {
+                    color-scheme: light;
+
+                    --preview-page-bg: #acda9b;
+                    --preview-text: #d9627b;
+                    --preview-text-inv: #603500;
+
+                    --preview-header-bg: #1488ae;
+                    --preview-header-text: #9f35a4;
+
+                    --preview-panel-bg: #1488ae22;
+
+                    --preview-accent: #27916c;
+                    --preview-high: #f3e84b;
+
+                    --preview-link: #1d8c2c;
+                }
+            `,
+            colourful2: `
+                :root {
+                    color-scheme: light;
+
+                    --preview-page-bg: #b2b2b2;
+                    --preview-text: #ff3da8;
+                    --preview-text-inv: #045a00;
+
+                    --preview-header-bg: #009554;
+                    --preview-header-text: #bc2b7d;
+
+                    --preview-panel-bg: #00955422;
+
+                    --preview-accent: #da4d4f;
+                    --preview-high: #f3e84b;
+
+                    --preview-link: #5373ff;
                 }
             `,
     }
 
     const ACCESSIBILITY_UI = {
             title: 'Screen Reader Simulation',
-            subtitle: 'Approximation only - Not a real screen-reader emulator.',
+            subtitle: 'Approximation only — not a real screen-reader emulator.',
+            lowVisionSubtitle: 'How the page might appear with reduced visual acuity.',
+            colourBlindSubtitle: 'How the page might appear with a colour vision deficiency.',
+            motorImpairmentSubtitle: 'How the page might feel to navigate with limited motor control.',
             htmlTitle: 'HTML Code',
             previewTitle: 'Rendered Preview',
             simulationTitle: 'Simulated View',
@@ -201,21 +273,21 @@
             noAnnouncements: 'No key announcements detected.',
             modeControls: {
                 lowVision: {
-                    blur: 'Blur strength',
-                    tunnelVision: 'Enable tunnel vision'
+                    blur: 'Blur',
+                    tunnelVision: 'Tunnel Vision'
                 },
                 colourBlind: {
-                    filter: 'Colour filter',
+                    filter: 'Colour Blindness',
                     options: {
-                        protanopia: 'Protanopia',
-                        deuteranopia: 'Deuteranopia',
-                        tritanopia: 'Tritanopia',
-                        achromatopsia: 'Achromatopsia'
+                        deuteranopia: 'Deuteranopia (green-blind, 3.3%)',
+                        protanopia: 'Protanopia (red-blind, 1.3%)',
+                        tritanopia: 'Tritanopia (blue-blind, 0.03%)',
+                        achromatopsia: 'Achromatopsia (no colour, <0.0001%)'
                     }
                 },
                 motorImpairment: {
-                    targetHighlight: 'Highlight click targets',
-                    shakyCursor: 'Enable shaky cursor'
+                    targetHighlight: 'Click targets',
+                    shakyCursor: 'Shaky Cursor'
                 }
             },
             readerLabels: {
@@ -240,7 +312,17 @@
                 pass: 'pass',
                 warn: 'warn',
                 fail: 'fail'
-            }
+            },
+            contrastTitle: 'Colour Contrast Audit',
+            contrastSubtitle: 'Checks text and background colour combinations against WCAG contrast guidelines.',
+            contrastResultsTitle: 'Contrast Results',
+            contrastLoading: 'Analysing…',
+            contrastNoResults: 'No elements found to analyse.',
+            contrastBadgeAA: 'AA',
+            contrastBadgeAAA: 'AAA',
+            contrastBadgePass: 'Pass',
+            contrastBadgeFail: 'Fail',
+            contrastLargeText: 'large text'
     }
 
     const ACCESSIBILITY_CHECKLIST = [
@@ -378,13 +460,155 @@
         'screen-reader',
         'low-vision',
         'colour-blind',
-        'motor-impairment'
+        'motor-impairment',
+        'contrast'
     ])
+
+    const CONTRAST_CHECKS = [
+        // [selector, label, isLargeText]
+        ['header h1, header h2, .header .big-title', 'Header heading', true],
+        ['header a, .header a', 'Header link', false],
+        ['nav a, .menu a', 'Navigation link', false],
+        ['main h1, .content h1', 'Main heading', true],
+        ['main h2, .content h2', 'Main subheading', true],
+        ['main h3, main h4, .content h3, .content h4', 'Body heading', false],
+        ['main p, .content p', 'Body text', false],
+        ['main a, .content a', 'Content link', false],
+        ['main li, .content li', 'List item', false],
+        ['button', 'Button', false],
+        ['label', 'Form label', false],
+        ['footer', 'Footer text', false],
+    ]
 
     const VAGUE_LINK_TEXT = new Set(['click here', 'here', 'read more', 'more', 'link'])
 
     let pageBlocks = {}
     let blockCounter = 0
+    const unknownThemeWarnings = new Set()
+
+    function lineariseChannel(c) {
+        c = c / 255
+        return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+    }
+
+    function clampChannel(value) {
+        return Math.min(255, Math.max(0, value))
+    }
+
+    function clampAlpha(value) {
+        return Math.min(1, Math.max(0, value))
+    }
+
+    function toRgbString(color) {
+        return `rgb(${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(color.b)})`
+    }
+
+    function parseCssColor(color) {
+        const normalized = normalizeText(color).toLowerCase()
+        if (!normalized || normalized === 'transparent') {
+            return { r: 0, g: 0, b: 0, a: 0 }
+        }
+
+        const hexMatch = normalized.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)
+        if (hexMatch) {
+            const hex = hexMatch[1]
+            if (hex.length === 3) {
+                return {
+                    r: Number.parseInt(hex[0] + hex[0], 16),
+                    g: Number.parseInt(hex[1] + hex[1], 16),
+                    b: Number.parseInt(hex[2] + hex[2], 16),
+                    a: 1,
+                }
+            }
+
+            return {
+                r: Number.parseInt(hex.slice(0, 2), 16),
+                g: Number.parseInt(hex.slice(2, 4), 16),
+                b: Number.parseInt(hex.slice(4, 6), 16),
+                a: 1,
+            }
+        }
+
+        const rgbMatch = normalized.match(/^rgba?\(([^)]+)\)$/)
+        if (!rgbMatch) return null
+
+        const parts = rgbMatch[1]
+            .replace('/', ' ')
+            .split(/[\s,]+/)
+            .filter(Boolean)
+
+        if (parts.length < 3) return null
+
+        const r = clampChannel(Number.parseFloat(parts[0]))
+        const g = clampChannel(Number.parseFloat(parts[1]))
+        const b = clampChannel(Number.parseFloat(parts[2]))
+        const a = parts.length > 3 ? clampAlpha(Number.parseFloat(parts[3])) : 1
+
+        if ([r, g, b, a].some((value) => Number.isNaN(value))) return null
+
+        return { r, g, b, a }
+    }
+
+    function parseRgbColor(color) {
+        const parsed = parseCssColor(color)
+        if (!parsed) return null
+        return [parsed.r, parsed.g, parsed.b]
+    }
+
+    function compositeColors(fg, bg) {
+        const outA = fg.a + bg.a * (1 - fg.a)
+        if (outA <= 0) {
+            return { r: 0, g: 0, b: 0, a: 0 }
+        }
+
+        return {
+            r: ((fg.r * fg.a) + (bg.r * bg.a * (1 - fg.a))) / outA,
+            g: ((fg.g * fg.a) + (bg.g * bg.a * (1 - fg.a))) / outA,
+            b: ((fg.b * fg.a) + (bg.b * bg.a * (1 - fg.a))) / outA,
+            a: outA,
+        }
+    }
+
+    function getRelativeLuminance(rgb) {
+        if (!rgb) return 0
+        return 0.2126 * lineariseChannel(rgb[0])
+             + 0.7152 * lineariseChannel(rgb[1])
+             + 0.0722 * lineariseChannel(rgb[2])
+    }
+
+    function getWcagContrastRatio(color1, color2) {
+        const rgb1 = Array.isArray(color1) ? color1 : parseRgbColor(color1)
+        const rgb2 = Array.isArray(color2) ? color2 : parseRgbColor(color2)
+        if (!rgb1 || !rgb2) return 1
+
+        const l1 = getRelativeLuminance(rgb1)
+        const l2 = getRelativeLuminance(rgb2)
+        const lighter = Math.max(l1, l2)
+        const darker = Math.min(l1, l2)
+        return (lighter + 0.05) / (darker + 0.05)
+    }
+
+    function getEffectiveBg(el, frameWin) {
+        const layers = []
+        let current = el
+
+        while (current) {
+            const bg = parseCssColor(frameWin.getComputedStyle(current).backgroundColor)
+            if (bg && bg.a > 0) {
+                layers.push(bg)
+            }
+
+            if (current === frameWin.document.documentElement) break
+            current = current.parentElement
+        }
+
+        let composited = { r: 255, g: 255, b: 255, a: 1 }
+        for (let index = layers.length - 1; index >= 0; index -= 1) {
+            composited = compositeColors(layers[index], composited)
+        }
+
+        return toRgbString(composited)
+    }
 
     function escapeHtml(value) {
         return String(value || '')
@@ -435,7 +659,33 @@
     function parseThemeAttribute(value, defaultTheme = 'blue') {
         const normalized = normalizeText(value).toLowerCase()
         if (!normalized) return defaultTheme
-        return normalized
+
+        if (Object.prototype.hasOwnProperty.call(ACCESSIBILITY_CONFIG.iframeThemeCss, normalized)) {
+            return normalized
+        }
+
+        if (!unknownThemeWarnings.has(normalized)) {
+            unknownThemeWarnings.add(normalized)
+            console.warn(`[accessibility] Unknown theme "${normalized}". Falling back to "${defaultTheme}".`)
+        }
+
+        return defaultTheme
+    }
+
+    function evaluateContrastResult(ratio, isLargeText) {
+        const aaThreshold = isLargeText ? 3 : 4.5
+        const aaaThreshold = isLargeText ? 4.5 : 7
+        const passesAA = ratio >= aaThreshold
+        const passesAAA = ratio >= aaaThreshold
+        const status = passesAAA
+            ? ACCESSIBILITY_CONFIG.ui.statuses.pass
+            : (passesAA ? ACCESSIBILITY_CONFIG.ui.statuses.warn : ACCESSIBILITY_CONFIG.ui.statuses.fail)
+
+        return {
+            passesAA,
+            passesAAA,
+            status,
+        }
     }
 
     function parseModeAttribute(value, defaultMode = 'screen-reader') {
@@ -833,6 +1083,128 @@ ${html}
         }
     }
 
+    function analyseContrast(iframe) {
+        const frameDoc = iframe.contentDocument
+        const frameWin = iframe.contentWindow
+        if (!frameDoc || !frameWin) return []
+
+        const results = []
+        const domOrder = new Map()
+        Array.from(frameDoc.querySelectorAll('*')).forEach((node, index) => {
+            domOrder.set(node, index)
+        })
+
+        for (const [selector, label, isLargeText] of CONTRAST_CHECKS) {
+            let elements
+            try {
+                elements = Array.from(frameDoc.querySelectorAll(selector))
+            } catch (e) {
+                continue
+            }
+            if (!elements.length) continue
+
+            let worstResult = null
+
+            elements.forEach((el) => {
+                const style = frameWin.getComputedStyle(el)
+                const fg = style.color
+                const bg = getEffectiveBg(el, frameWin)
+                const ratio = getWcagContrastRatio(fg, bg)
+                if (!Number.isFinite(ratio)) return
+
+                const contrastEvaluation = evaluateContrastResult(ratio, isLargeText)
+                const item = {
+                    label,
+                    fg,
+                    bg,
+                    ratio,
+                    domIndex: domOrder.get(el) ?? Number.MAX_SAFE_INTEGER,
+                    isLargeText,
+                    ...contrastEvaluation,
+                }
+
+                if (!worstResult || item.ratio < worstResult.ratio) {
+                    worstResult = item
+                }
+            })
+
+            if (worstResult) {
+                results.push(worstResult)
+            }
+        }
+
+        return results.sort((a, b) => {
+            if (a.domIndex !== b.domIndex) return a.domIndex - b.domIndex
+            return a.ratio - b.ratio
+        })
+    }
+
+    function renderContrastItems(results) {
+        if (!results.length) {
+            return `<li class="accessibility-contrast-empty">${escapeHtml(ACCESSIBILITY_CONFIG.ui.contrastNoResults)}</li>`
+        }
+
+        return results.map((item) => {
+            const ratio = item.ratio.toFixed(1)
+            const aaBadgeClass = item.passesAA ? 'pass' : 'fail'
+            const aaaBadgeClass = item.passesAAA ? 'pass' : 'fail'
+            const aaLabel = `${ACCESSIBILITY_CONFIG.ui.contrastBadgeAA}: ${item.passesAA ? ACCESSIBILITY_CONFIG.ui.contrastBadgePass : ACCESSIBILITY_CONFIG.ui.contrastBadgeFail}`
+            const aaaLabel = `${ACCESSIBILITY_CONFIG.ui.contrastBadgeAAA}: ${item.passesAAA ? ACCESSIBILITY_CONFIG.ui.contrastBadgePass : ACCESSIBILITY_CONFIG.ui.contrastBadgeFail}`
+            return `
+                <li class="accessibility-contrast-item" data-status="${item.status}">
+                    <span class="accessibility-contrast-swatches" aria-hidden="true">
+                        <span class="accessibility-contrast-swatch" style="background:${escapeHtml(item.fg)}"></span>
+                        <span class="accessibility-contrast-swatch" style="background:${escapeHtml(item.bg)}"></span>
+                    </span>
+                    <span class="accessibility-contrast-label">
+                        ${escapeHtml(item.label)}
+                        ${item.isLargeText ? `<span class="accessibility-contrast-note">${escapeHtml(ACCESSIBILITY_CONFIG.ui.contrastLargeText)}</span>` : ''}
+                    </span>
+                    <span class="accessibility-contrast-stats">
+                        <span class="accessibility-contrast-ratio">${escapeHtml(ratio)}:1</span>
+                        <span class="accessibility-contrast-badge accessibility-contrast-badge--${aaBadgeClass}">${escapeHtml(aaLabel)}</span>
+                        <span class="accessibility-contrast-badge accessibility-contrast-badge--${aaaBadgeClass}">${escapeHtml(aaaLabel)}</span>
+                    </span>
+                </li>
+            `
+        }).join('')
+    }
+
+    function hydrateContrastWidget(el, block) {
+        const headerEnabled = block.header !== false
+        const theme = block.theme || 'blue'
+        const srcdoc = createIframeDocument(block.html, theme)
+        const headerPanel = renderHeaderPanel(ACCESSIBILITY_CONFIG.ui.contrastTitle, ACCESSIBILITY_CONFIG.ui.contrastSubtitle, headerEnabled)
+
+        el.innerHTML = `
+            <div class="accessibility-wrapper accessibility-wrapper--contrast">
+${headerPanel}
+
+                <div class="accessibility-layout accessibility-layout--contrast">
+                    <section class="accessibility-panel accessibility-preview-panel">
+                        <p class="accessibility-panel-title">${ACCESSIBILITY_CONFIG.ui.previewTitle}</p>
+                        <iframe class="accessibility-preview" sandbox="allow-same-origin" srcdoc="${escapeHtml(srcdoc)}" title="Contrast audit preview"></iframe>
+                    </section>
+
+                    <section class="accessibility-panel accessibility-contrast-panel">
+                        <p class="accessibility-panel-title">${ACCESSIBILITY_CONFIG.ui.contrastResultsTitle}</p>
+                        <ul class="accessibility-contrast-list" role="list">
+                            <li class="accessibility-contrast-loading">${escapeHtml(ACCESSIBILITY_CONFIG.ui.contrastLoading)}</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        `
+
+        const iframe = el.querySelector('.accessibility-preview')
+        const list = el.querySelector('.accessibility-contrast-list')
+
+        iframe.addEventListener('load', () => {
+            const results = analyseContrast(iframe)
+            list.innerHTML = renderContrastItems(results)
+        })
+    }
+
     function renderChecklistItems(checklist) {
         const getChecklistIcon = (status) => {
             if (status === ACCESSIBILITY_CONFIG.ui.statuses.pass) {
@@ -872,7 +1244,7 @@ ${html}
 
     function renderSourcePanel(html) {
         return `
-            <section class="accessibility-panel accessibility-panel--source accessibility-html-panel">
+            <section class="accessibility-panel accessibility-html-panel">
                 <p class="accessibility-panel-title">${ACCESSIBILITY_CONFIG.ui.htmlTitle}</p>
                 <pre class="accessibility-code-block"><code class="language-html">${escapeHtml(html)}</code></pre>
             </section>
@@ -881,16 +1253,16 @@ ${html}
 
     function renderPrimaryPreviewPanel(srcdoc) {
         return `
-            <section class="accessibility-panel accessibility-panel--primary-preview accessibility-preview-panel">
+            <section class="accessibility-panel accessibility-preview-panel">
                 <p class="accessibility-panel-title">${ACCESSIBILITY_CONFIG.ui.previewTitle}</p>
                 <iframe class="accessibility-preview" sandbox srcdoc="${escapeHtml(srcdoc)}" title="Accessibility preview"></iframe>
             </section>
         `
     }
 
-    function renderSecondaryPreviewPanel(title, srcdoc, modeClass, controlsHtml) {
+    function renderSimulationPanel(title, srcdoc, modeClass, controlsHtml) {
         return `
-            <section class="accessibility-panel accessibility-panel--secondary-preview accessibility-simulation-panel">
+            <section class="accessibility-panel accessibility-simulation-panel">
                 <p class="accessibility-panel-title">${escapeHtml(title)}</p>
                 <div class="accessibility-simulation-controls" data-a11y-mode-controls="${escapeHtml(modeClass)}">
                     ${controlsHtml}
@@ -922,8 +1294,8 @@ ${html}
                 <label>${ACCESSIBILITY_CONFIG.ui.modeControls.colourBlind.filter}</label>
                 <select>
                     <option value="none">None</option>
-                    <option value="protanopia">${escapeHtml(options.protanopia)}</option>
                     <option value="deuteranopia">${escapeHtml(options.deuteranopia)}</option>
+                    <option value="protanopia">${escapeHtml(options.protanopia)}</option>
                     <option value="tritanopia">${escapeHtml(options.tritanopia)}</option>
                     <option value="achromatopsia">${escapeHtml(options.achromatopsia)}</option>
                 </select>
@@ -958,6 +1330,7 @@ ${html}
         if (mode === 'low-vision') {
             return {
                 title: ACCESSIBILITY_CONFIG.ui.lowVisionTitle,
+                subtitle: ACCESSIBILITY_CONFIG.ui.lowVisionSubtitle,
                 controls: renderLowVisionControls(),
                 modeClass: 'accessibility-sim--low-vision'
             }
@@ -966,6 +1339,7 @@ ${html}
         if (mode === 'colour-blind') {
             return {
                 title: ACCESSIBILITY_CONFIG.ui.colourBlindTitle,
+                subtitle: ACCESSIBILITY_CONFIG.ui.colourBlindSubtitle,
                 controls: renderColourBlindControls(),
                 modeClass: 'accessibility-sim--colour-blind'
             }
@@ -973,6 +1347,7 @@ ${html}
 
         return {
             title: ACCESSIBILITY_CONFIG.ui.motorImpairmentTitle,
+            subtitle: ACCESSIBILITY_CONFIG.ui.motorImpairmentSubtitle,
             controls: renderMotorImpairmentControls(),
             modeClass: 'accessibility-sim--motor-impairment'
         }
@@ -992,14 +1367,14 @@ ${html}
             : 'accessibility-layout accessibility-layout--screen-reader accessibility-layout--screen-reader-no-audit'
         const auditPanels = auditEnabled
             ? `
-                    <section class="accessibility-panel accessibility-panel--analysis accessibility-checklist-panel">
+                    <section class="accessibility-panel accessibility-checklist-panel">
                         <p class="accessibility-panel-title">${ACCESSIBILITY_CONFIG.ui.checklistTitle}</p>
                         <ul class="accessibility-checklist" role="list">
                             ${renderChecklistItems(analysis.checklist)}
                         </ul>
                     </section>
 
-                    <section class="accessibility-panel accessibility-panel--reader accessibility-order-panel">
+                    <section class="accessibility-panel accessibility-order-panel">
                         <p class="accessibility-panel-title">${ACCESSIBILITY_CONFIG.ui.readerTitle}</p>
                         <ol class="accessibility-order" role="list">
                             ${renderAnnouncementItems(analysis.announcements)}
@@ -1173,10 +1548,11 @@ ${auditPanels}
     }
 
     const CB_FILTER_MATRICES = {
-        protanopia:    '0.567 0.433 0     0 0  0.558 0.442 0     0 0  0     0.242 0.758 0 0  0 0 0 1 0',
-        deuteranopia:  '0.625 0.375 0     0 0  0.7   0.3   0     0 0  0     0.3   0.7   0 0  0 0 0 1 0',
-        tritanopia:    '0.95  0.05  0     0 0  0     0.433 0.567 0 0  0     0.475 0.525 0 0  0 0 0 1 0',
-        achromatopsia: '0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0 0 0 1 0',
+        // Machado et al. (2009), full severity (1.0), adapted for SVG feColorMatrix.
+        deuteranopia:  '0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0',
+        protanopia:    '0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0',
+        tritanopia:    '1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0',
+        achromatopsia: '0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0',
     }
 
     function hydrateColourBlindControls(el, simIframe, simPanel, controls) {
@@ -1210,16 +1586,18 @@ ${auditPanels}
         })
     }
 
-    const MOTOR_TARGET_CSS = `
+    const MOTOR_TARGET_OUTLINE_CSS = `
         a, button, input, select, textarea, [role="button"], [tabindex] {
             outline: 3px solid #e74c3c !important;
             outline-offset: 1px !important;
         }
+    `
 
-        .a11y-motor-hover-target {
+    const MOTOR_TARGET_HOVER_CSS = `
+        .a11y-motor-hover-target, a:hover, button:hover, input:hover, select:hover, textarea:hover, [role="button"]:hover, [tabindex]:hover {
             outline-color: #e74c3c !important;
             background-color: #ff08 !important;
-            box-shadow: inset 0 0 0 4px #ff0c !important;
+            box-shadow: inset 0 0 0 1px #ff0 !important;
         }
     `
 
@@ -1229,7 +1607,10 @@ ${auditPanels}
         const shakyCheckbox = checkboxes[1]
         const iframeWrap = simPanel.querySelector('.accessibility-iframe-wrap')
 
-        const buildSrcdoc = (highlight) => createIframeDocument(block.html, theme, highlight ? MOTOR_TARGET_CSS : '')
+        const buildSrcdoc = (highlight) => {
+            const extraCss = `${highlight ? MOTOR_TARGET_OUTLINE_CSS : ''}\n${MOTOR_TARGET_HOVER_CSS}`
+            return createIframeDocument(block.html, theme, extraCss)
+        }
         simIframe.srcdoc = buildSrcdoc(true)
 
         targetCheckbox.addEventListener('change', () => {
@@ -1269,7 +1650,8 @@ ${auditPanels}
         }
 
         const updateHoveredTarget = (simX, simY) => {
-            if (!targetCheckbox.checked) {
+            const highlightEnabled = targetCheckbox.checked || shakyCheckbox.checked
+            if (!highlightEnabled) {
                 clearHoveredTarget()
                 return
             }
@@ -1440,23 +1822,22 @@ ${auditPanels}
         const theme = block.theme || 'blue'
         const srcdoc = createIframeDocument(block.html, theme)
         const modeMeta = getSimulationModeMeta(mode)
-        const headerPanel = renderHeaderPanel(modeMeta.title, ACCESSIBILITY_CONFIG.ui.subtitle, headerEnabled)
-        const layoutClass = 'accessibility-layout accessibility-layout--dual-preview'
+        const headerPanel = renderHeaderPanel(modeMeta.title, modeMeta.subtitle, headerEnabled)
+        const layoutClass = 'accessibility-layout accessibility-layout--simulation'
 
         el.innerHTML = `
             <div class="accessibility-wrapper accessibility-wrapper--${escapeHtml(mode)}">
 ${headerPanel}
 
                 <div class="${layoutClass}">
-                    ${renderPrimaryPreviewPanel(srcdoc)}
-                    ${renderSecondaryPreviewPanel(ACCESSIBILITY_CONFIG.ui.simulationTitle, srcdoc, modeMeta.modeClass, modeMeta.controls)}
+                    ${renderSimulationPanel(ACCESSIBILITY_CONFIG.ui.simulationTitle, srcdoc, modeMeta.modeClass, modeMeta.controls)}
                 </div>
             </div>
         `
 
         const simIframe = el.querySelector('.accessibility-preview--simulated')
         const controls = el.querySelector('.accessibility-simulation-controls')
-        const simPanel = el.querySelector('.accessibility-panel--secondary-preview')
+        const simPanel = el.querySelector('.accessibility-simulation-panel')
 
         if (mode === 'low-vision') {
             hydrateLowVisionControls(simIframe, simPanel, controls)
@@ -1489,6 +1870,11 @@ ${headerPanel}
 
             if (mode === 'screen-reader') {
                 hydrateScreenReaderWidget(el, block)
+                return
+            }
+
+            if (mode === 'contrast') {
+                hydrateContrastWidget(el, block)
                 return
             }
 
