@@ -41,6 +41,8 @@
 
 (function () {
 
+    const escapeHtmlStrict = window.DocsifyUtils.escapeHtml
+
     // Shared hidden snippet for executing coverage tests
     // Defined at module level so it's accessible from all functions
     let globalSnippet = null
@@ -1052,9 +1054,7 @@
     }
 
     function escapeHtml(text) {
-        const div = document.createElement('div')
-        div.textContent = text
-        return div.innerHTML
+        return escapeHtmlStrict(text)
     }
 
     function highlightPythonLine(line) {
@@ -1069,7 +1069,6 @@
     // Plugin Registration
     // -------------------------------------------------------------------------
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyPythonTest, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyPythonTest)
 
 })()

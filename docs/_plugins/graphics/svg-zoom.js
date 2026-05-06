@@ -11,14 +11,10 @@
 
 (function () {
 
+    const { isSvgImage } = window.DocsifyUtils
+
     const OVERLAY_TRANSITION = 'opacity 500ms ease';
     const ZOOM_TRANSITION = 'transform 500ms ease';
-
-    function isSvgImage(img) {
-        if (!img || img.tagName !== 'IMG') return false;
-        const src = (img.getAttribute('src') || '').toLowerCase();
-        return src.endsWith('.svg') || src.startsWith('data:image/svg+xml');
-    }
 
     function scanAndAttach(root) {
         if (!root || !root.querySelectorAll) return;
@@ -28,7 +24,7 @@
         });
     }
 
-    var svgZoom = function (hook) {
+    const svgZoom = function (hook) {
 
         hook.doneEach(function () {
             const markdownSection = document.querySelector('.markdown-section');
@@ -168,7 +164,6 @@
     };
 
 
-    window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [].concat(svgZoom, window.$docsify.plugins || []);
+    window.DocsifyUtils.registerPlugin(svgZoom)
 
 })();

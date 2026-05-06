@@ -23,12 +23,16 @@
  *   result = call funcName(params) - rendered with ← instead of =
  */
 
-(function () {
 
-    var pseudoHighlighter = function (hook) {
+;(function () {
+
+    const pseudoHighlighter = function (hook) {
 
         hook.doneEach(function () {
-            document.querySelectorAll('pre code.language-pseudo').forEach(highlightElement)
+            window.DocsifyUtils.processBlocks('pseudo', highlightElement, {
+                selector: 'pre code.language-pseudo',
+                processedClass: 'pseudo-highlight-processed'
+            })
         })
 
     }
@@ -140,8 +144,7 @@
     }
 
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(pseudoHighlighter, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(pseudoHighlighter)
 
 })()
 

@@ -16,14 +16,14 @@
  */
 (function () {
 
+    const { clamp } = window.DocsifyUtils
+
     const ICONS = {
         FIRST:      'chevrons-left',
         PREVIOUS:   'chevron-left',
         NEXT:       'chevron-right',
         FULLSCREEN: 'expand',
     }
-
-    const clamp = (val, min, max) => Math.min(Math.max(val, min), max)
 
     let cleanupWindowListeners = () => {}
 
@@ -297,7 +297,6 @@
         hook.doneEach(processFlashCards)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyFlashCards, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyFlashCards)
 
 })()

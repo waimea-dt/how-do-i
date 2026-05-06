@@ -42,7 +42,6 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyInlineHighlight, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyInlineHighlight)
 })()
 

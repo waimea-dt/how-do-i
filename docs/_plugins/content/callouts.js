@@ -76,7 +76,6 @@
         hook.doneEach(processCallouts)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyCallouts, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyCallouts)
 })()
 

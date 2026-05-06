@@ -397,8 +397,9 @@
     // -------------------------------------------------------------------------
 
     // CSS class name constants (extend base with plugin-specific)
+    const { CSS_CLASSES: CORE_CSS_CLASSES, createTiming, TIMING_PRESETS } = window.ExchangeCore
     const CSS_CLASSES = {
-        ...window.ExchangeCore.CSS_CLASSES,
+        ...CORE_CSS_CLASSES,
         CALC_ANIMATE: 'dh-calc-animate'
     }
 
@@ -417,14 +418,10 @@
     class DiffieHellmanAnimation extends window.ExchangeAnimation {
         constructor(el, p, g, mode = 'numeric', baseColor = '#9370DB', showIntercept = true) {
             // Animation timing configuration
-            const timing = {
-                BASE: 500,
-                get REVEAL() { return this.BASE },
-                get STEP() { return this.BASE + 200 },
-                get ANIMATE() { return this.STEP + 400 },
-                get CALC_WAIT() { return this.ANIMATE },
-                get BETWEEN_STEPS() { return this.ANIMATE + 400 }
-            }
+            const timing = createTiming(500, TIMING_PRESETS.LONG_ANIMATE)
+            Object.defineProperty(timing, 'CALC_WAIT', {
+                get() { return this.ANIMATE }
+            })
 
             super(el, { timing })
 
@@ -751,9 +748,7 @@
             // Alice sends A to Bob
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
-            this.dom.arrows.right.classList.add(CSS_CLASSES.ANIMATE)
-
-            await this.sleep(this.TIMING.ANIMATE)
+            await this.animateArrow(this.dom.arrows.right)
             if (!this.isRunning) return
             if (this.isColorMode) {
                 this.dom.bob.received.innerHTML = this.formatColorDisplay(this.A)
@@ -768,9 +763,7 @@
             // Bob sends B to Alice
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
-            this.dom.arrows.left.classList.add(CSS_CLASSES.ANIMATE)
-
-            await this.sleep(this.TIMING.ANIMATE)
+            await this.animateArrow(this.dom.arrows.left)
             if (!this.isRunning) return
             if (this.isColorMode) {
                 this.dom.alice.received.innerHTML = this.formatColorDisplay(this.B)
@@ -976,7 +969,6 @@
         hook.doneEach(processDiffieHellman)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyDiffieHellman, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyDiffieHellman)
 
 })()

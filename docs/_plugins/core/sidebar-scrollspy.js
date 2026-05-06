@@ -50,6 +50,5 @@
         });
     };
 
-    window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [docsifySidebarScrollspy].concat(window.$docsify.plugins || []);
+    window.DocsifyUtils.registerPlugin(docsifySidebarScrollspy)
 })();

@@ -32,11 +32,8 @@
         }
 
         // Render standard scratch blocks
-        const scratchElements = document.querySelectorAll('pre[data-lang="scratch"]')
-        scratchElements.forEach(pre => {
-            if (!pre.classList.contains('scratch-processed')) {
-                pre.classList.add('scratch-processed')
-            }
+        window.DocsifyUtils.processBlocks('scratch', () => {}, {
+            processedClass: 'scratch-processed'
         })
 
         scratchblocks.renderMatching('pre[data-lang="scratch"]', {
@@ -44,11 +41,8 @@
         })
 
         // Render scratch-inline blocks (block style but not inline)
-        const scratchInlineElements = document.querySelectorAll('pre[data-lang="scratch-inline"]')
-        scratchInlineElements.forEach(pre => {
-            if (!pre.classList.contains('scratch-processed')) {
-                pre.classList.add('scratch-processed')
-            }
+        window.DocsifyUtils.processBlocks('scratch-inline', () => {}, {
+            processedClass: 'scratch-processed'
         })
 
         scratchblocks.renderMatching('pre[data-lang="scratch-inline"]', {
@@ -57,11 +51,9 @@
         })
 
         // Render inline scratch blocks (within text)
-        const inlineElements = document.querySelectorAll('code.language-scratch')
-        inlineElements.forEach(code => {
-            if (!code.classList.contains('scratch-processed')) {
-                code.classList.add('scratch-processed')
-            }
+        window.DocsifyUtils.processBlocks('scratch-inline-code', () => {}, {
+            selector: 'code.language-scratch',
+            processedClass: 'scratch-processed'
         })
 
         scratchblocks.renderMatching('code.language-scratch', {
@@ -81,8 +73,7 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyScratchBlocks, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyScratchBlocks)
 
 })()
 

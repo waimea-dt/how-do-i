@@ -17,6 +17,8 @@
 
 ;(function () {
 
+    const { sleep, parsePositiveInt } = window.DocsifyUtils
+
     // =========================================================================
     // Configuration & Constants
     // =========================================================================
@@ -120,15 +122,6 @@
     // =========================================================================
     // Utility Functions - General
     // =========================================================================
-
-    function sleep(ms = 0) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
-    function parsePositiveInt(value, fallback) {
-        const parsed = parseInt(value ?? '', 10)
-        return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
-    }
 
     function normaliseSolve(value) {
         const allowed = ['brute', 'dynamic', 'greedy', 'compare-dynamic', 'compare-greedy']
@@ -1373,6 +1366,5 @@
         hook.doneEach(processKnapsack)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyKnapsack, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyKnapsack)
 })()

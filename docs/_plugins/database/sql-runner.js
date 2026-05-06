@@ -240,8 +240,7 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifySqlRunner, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifySqlRunner)
 
 })();
 

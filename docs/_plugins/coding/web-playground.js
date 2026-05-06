@@ -262,8 +262,7 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyWebPlayground, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyWebPlayground)
 
 })()
 

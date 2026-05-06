@@ -224,8 +224,6 @@
   }
 
   // Add plugin to docsify
-  if (window.$docsify) {
-    window.$docsify.plugins = [].concat(install, window.$docsify.plugins || []);
-  }
+  window.DocsifyUtils.registerPlugin(install)
 })();
 

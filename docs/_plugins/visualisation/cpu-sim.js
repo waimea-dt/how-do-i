@@ -35,6 +35,8 @@
 
 ;(function () {
 
+    const escapeHtmlStrict = window.DocsifyUtils.escapeHtml
+
     // -------------------------------------------------------------------------
     // Configuration Constants
     // -------------------------------------------------------------------------
@@ -1059,9 +1061,7 @@
     }
 
     function escapeHtml(text) {
-        const div = document.createElement('div')
-        div.textContent = text
-        return div.innerHTML
+        return escapeHtmlStrict(text)
     }
 
     function clearHighlighting(cpu, container) {
@@ -1312,15 +1312,8 @@
 
     function processCPUSimulators() {
         // Look for code blocks with cpu-sim language identifier
-        const codeBlocks = document.querySelectorAll('pre[data-lang="cpu-sim"]:not(.processed)')
-
-        codeBlocks.forEach((element, index) => {
-            const preElement = element
-            const codeElement = element.querySelector('code')
-
-            // Mark as processed
-            preElement.classList.add('processed')
-            if (codeElement) codeElement.classList.add('processed')
+        window.DocsifyUtils.processVisualBlocks('cpu-sim', preElement => {
+            const codeElement = preElement.querySelector('code')
 
             // Get the code content
             const code = codeElement ? codeElement.textContent.trim() : preElement.textContent.trim()
@@ -1351,11 +1344,9 @@
 
                 const ui = createCpuUI(cpu)
 
-                // Replace the pre element with the simulator UI
-                preElement.parentNode.replaceChild(ui, preElement)
-
                 updateUI(cpu, ui)
                 setupControls(cpu, ui, { speed: speedMap[speed] || 1000 })
+                return ui
             } catch (error) {
                 // Display assembly errors in a user-friendly format
                 const errorDiv = document.createElement('div')
@@ -1372,9 +1363,11 @@
                 errorDiv.appendChild(errorTitle)
                 errorDiv.appendChild(errorList)
 
-                // Replace the pre element with the error display
-                preElement.parentNode.replaceChild(errorDiv, preElement)
+                return errorDiv
             }
+        }, {
+            mode: 'replace',
+            processedClass: 'processed'
         })
     }
 
@@ -1382,14 +1375,10 @@
     // Register Docsify Plugin
     // -------------------------------------------------------------------------
 
-    if (window.$docsify) {
-        window.$docsify.plugins = (window.$docsify.plugins || []).concat(
-            function (hook) {
-                hook.doneEach(function () {
-                    processCPUSimulators()
-                })
-            }
-        )
-    }
+    window.DocsifyUtils.registerPlugin(function (hook) {
+        hook.doneEach(function () {
+            processCPUSimulators()
+        })
+    }, false)
 
 })()

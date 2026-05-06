@@ -24,7 +24,6 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyLucideIcons, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyLucideIcons)
 })();
 

@@ -71,7 +71,6 @@
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyCards, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyCards)
 })()
 

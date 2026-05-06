@@ -40,6 +40,8 @@
 
 ;(function () {
 
+    const randomHex = (length, segments = 2) => window.DocsifyUtils.randomHex(length, segments, ' ')
+
     // -------------------------------------------------------------------------
     // Configuration
     // -------------------------------------------------------------------------
@@ -52,16 +54,9 @@
     // Helpers
     // -------------------------------------------------------------------------
 
-    function randomHex(segLen, segments = 2) {
-        const chars = 'ABCDEF0123456789'
-        return Array.from({ length: segments }, () =>
-            Array.from({ length: segLen }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-        ).join(' ')
-    }
-
     /**
      * Derive a visually unique session key from two nonces + password.
-     * Not real crypto — just for visualisation.
+     * Not real crypto - just for visualisation.
      */
     function deriveKey(nonce1, nonce2, password) {
         const combined = nonce1 + nonce2 + password
@@ -505,17 +500,11 @@
     // Animation Controller
     // -------------------------------------------------------------------------
 
-    const CSS_CLASSES = window.ExchangeCore.CSS_CLASSES
+    const { CSS_CLASSES, createTiming, TIMING_PRESETS } = window.ExchangeCore
 
     class WiFiAnimation extends window.ExchangeAnimation {
         constructor(el, security, ssid, showIntercept) {
-            const timing = {
-                BASE: 500,
-                get REVEAL() { return this.BASE },
-                get STEP() { return this.BASE + 200 },
-                get ANIMATE() { return this.STEP + 400 },
-                get BETWEEN_STEPS() { return this.ANIMATE + 400 }
-            }
+            const timing = createTiming(500, TIMING_PRESETS.LONG_ANIMATE)
             super(el, { timing })
 
             this.security     = security
@@ -642,35 +631,6 @@
         }
 
         // -------------------------------------------------------------------------
-        // Helpers
-        // -------------------------------------------------------------------------
-
-        /** Show an arrow, optionally with a value, and animate it */
-        async showArrow(arrowEl, valueEl, value) {
-            if (valueEl) valueEl.textContent = value ?? valueEl.textContent
-            arrowEl.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE)
-            arrowEl.classList.add(CSS_CLASSES.ANIMATE)
-            await this.sleep(this.TIMING.ANIMATE)
-        }
-
-        /** Show multiple arrows in sequence for multi-value steps */
-        async showArrowSequence(arrowEls) {
-            for (const arrowEl of arrowEls) {
-                await this.showArrow(arrowEl, null, null)
-                if (!this.isRunning) return
-            }
-        }
-
-        /** Reveal a result container with a value */
-        revealResult(resultEl, valueEl, value) {
-            if (valueEl && value !== undefined) valueEl.textContent = value
-            if (resultEl) {
-                resultEl.classList.add(CSS_CLASSES.PULSE)
-                resultEl.classList.add(CSS_CLASSES.SHOW)
-            }
-        }
-
-        // -------------------------------------------------------------------------
         // WPA2 Steps
         // -------------------------------------------------------------------------
 
@@ -716,7 +676,7 @@
             // Animate arrow from Router → Device
             const arrowEl = exchangeStep.querySelector('.exchange-arrow-left')
             if (this.dom.arrows.anonce) this.dom.arrows.anonce.textContent = this.anonce
-            await this.showArrow(arrowEl, null, null)
+            await this.animateArrow(arrowEl)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStep)
@@ -756,7 +716,7 @@
             const arrowEls = exchangeStep.querySelectorAll('.exchange-arrow-right')
             if (this.dom.arrows.snonce) this.dom.arrows.snonce.textContent = this.snonce
             if (this.dom.arrows.mic1) this.dom.arrows.mic1.textContent = this.mic1
-            await this.showArrowSequence(arrowEls)
+            await this.animateArrowSequence(arrowEls)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStep)
@@ -796,7 +756,7 @@
             const arrowEls = exchangeStep.querySelectorAll('.exchange-arrow-left')
             if (this.dom.arrows.gtk)  this.dom.arrows.gtk.textContent  = this.gtk
             if (this.dom.arrows.mic2) this.dom.arrows.mic2.textContent = this.mic2
-            await this.showArrowSequence(arrowEls)
+            await this.animateArrowSequence(arrowEls)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStep)
@@ -816,7 +776,7 @@
             this.revealResult(this.dom.device.ackResult, null, null)
 
             const arrowEl = exchangeStep.querySelector('.exchange-arrow-right')
-            await this.showArrow(arrowEl, null, null)
+            await this.animateArrow(arrowEl)
             if (!this.isRunning) return
 
             if (this.showIntercept && this.dom.eveNote) {
@@ -886,7 +846,7 @@
 
             const arrowEl = exchangeStep.querySelector('.exchange-arrow-right')
             if (this.dom.arrows.deviceCommit) this.dom.arrows.deviceCommit.textContent = this.deviceCommit
-            await this.showArrow(arrowEl, null, null)
+            await this.animateArrow(arrowEl)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStep)
@@ -912,7 +872,7 @@
 
             const arrowEl = exchangeStep.querySelector('.exchange-arrow-left')
             if (this.dom.arrows.routerCommit) this.dom.arrows.routerCommit.textContent = this.routerCommit
-            await this.showArrow(arrowEl, null, null)
+            await this.animateArrow(arrowEl)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStep)
@@ -938,7 +898,7 @@
 
             const arrowEl = exchangeStep.querySelector('.exchange-arrow-right')
             if (this.dom.arrows.deviceConfirm) this.dom.arrows.deviceConfirm.textContent = this.deviceConfirm
-            await this.showArrow(arrowEl, null, null)
+            await this.animateArrow(arrowEl)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStep)
@@ -964,7 +924,7 @@
 
             const arrowEl = exchangeStep.querySelector('.exchange-arrow-left')
             if (this.dom.arrows.routerConfirm) this.dom.arrows.routerConfirm.textContent = this.routerConfirm
-            await this.showArrow(arrowEl, null, null)
+            await this.animateArrow(arrowEl)
             if (!this.isRunning) return
 
             if (this.showIntercept && this.dom.eveNote) {
@@ -1031,7 +991,6 @@
         hook.doneEach(processWiFi)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyWiFi, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyWiFi)
 
 })()

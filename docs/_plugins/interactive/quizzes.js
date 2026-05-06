@@ -275,7 +275,6 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyQuizzes, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyQuizzes)
 })();
 

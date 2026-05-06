@@ -50,7 +50,6 @@
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifySequence, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifySequence)
 })()
 

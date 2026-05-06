@@ -15,6 +15,8 @@
 
 ;(function () {
 
+    const escapeHtmlStrict = window.DocsifyUtils.escapeHtml
+
     // -------------------------------------------------------------------------
     // Data - hashes pre-computed so the plugin renders synchronously
     // -------------------------------------------------------------------------
@@ -44,11 +46,7 @@
     // -------------------------------------------------------------------------
 
     function escapeHtml(str) {
-        return str
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
+        return escapeHtmlStrict(str)
     }
 
     // -------------------------------------------------------------------------
@@ -228,7 +226,6 @@
         hook.doneEach(processRainbowTables)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyRainbow, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyRainbow)
 
 })()

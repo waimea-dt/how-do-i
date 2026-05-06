@@ -359,7 +359,6 @@
         hook.doneEach(processFrequency);
     };
 
-    window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [].concat(docsifyFrequency, window.$docsify.plugins || []);
+    window.DocsifyUtils.registerPlugin(docsifyFrequency)
 
 })();

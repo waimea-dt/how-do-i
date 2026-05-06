@@ -282,7 +282,6 @@
         hook.doneEach(processHashers)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyHasher, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyHasher)
 
 })()

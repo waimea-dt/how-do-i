@@ -18,6 +18,8 @@
 
 ;(function () {
 
+    const { padDigits } = window.DocsifyUtils
+
     // -------------------------------------------------------------------------
     // Configuration
     // -------------------------------------------------------------------------
@@ -96,10 +98,6 @@
     // -------------------------------------------------------------------------
     // Utility Functions
     // -------------------------------------------------------------------------
-
-    const padDigits = (digits, blockSize) => {
-        return digits.padStart(blockSize * Math.ceil(digits.length / blockSize), '0')
-    }
 
     // -------------------------------------------------------------------------
     // HTML Generation Functions
@@ -445,14 +443,7 @@
     // -------------------------------------------------------------------------
 
     function processData() {
-        const dataBlocks = document.querySelectorAll('pre[data-lang="data"]')
-
-        dataBlocks.forEach(block => {
-            // Skip if already processed
-            if (block.classList.contains('data-processed')) {
-                return
-            }
-
+        window.DocsifyUtils.processVisualBlocks('data', block => {
             const codeBlock = block.querySelector('code')
             if (!codeBlock) return
 
@@ -472,8 +463,10 @@
             dataDiv.classList.add('display-data')
             dataDiv.innerHTML = processedContent
 
-            // Replace the pre block with the data display
-            block.parentNode.replaceChild(dataDiv, block)
+            return dataDiv
+        }, {
+            mode: 'replace',
+            processedClass: 'data-processed'
         })
     }
 
@@ -481,16 +474,11 @@
     // Docsify Plugin Hook
     // -------------------------------------------------------------------------
 
-    if (window.$docsify) {
-        window.$docsify.plugins = [].concat(
-            window.$docsify.plugins || [],
-            function (hook) {
-                hook.doneEach(function () {
-                    processData()
-                })
-            }
-        )
-    }
+    window.DocsifyUtils.registerPlugin(function (hook) {
+        hook.doneEach(function () {
+            processData()
+        })
+    }, false)
 
     // Also run on initial load if not using docsify
     if (document.readyState === 'loading') {

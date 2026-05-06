@@ -16,6 +16,8 @@
 
 ;(function () {
 
+    const { shuffleArray } = window.DocsifyUtils
+
     const UI_TEXT = {
         // Search mode
         searchTitle: 'Algorithm Race',
@@ -95,16 +97,6 @@
         // Merge sort has O(n log n) operations
         // Less aggressive scaling needed since it's more efficient
         return Math.max(2, Math.floor(50 / Math.log(arraySize)))
-    }
-
-    function shuffleArray(array) {
-        // Fisher-Yates shuffle algorithm
-        const shuffled = [...array]
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1))
-            ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-        }
-        return shuffled
     }
 
     function isSorted(array) {
@@ -1379,14 +1371,11 @@
 // Plugin registration
 // -------------------------------------------------------------------------
 
-if (window.$docsify) {
-        window.$docsify.plugins = window.$docsify.plugins || []
-        window.$docsify.plugins.push(function (hook, vm) {
-            hook.doneEach(function () {
-                const elements = document.querySelectorAll('algo-race')
-                elements.forEach(el => new AlgoRaceVisualizer(el))
-            })
-        })
-    }
+window.DocsifyUtils.registerPlugin(function (hook) {
+    hook.doneEach(function () {
+        const elements = document.querySelectorAll('algo-race')
+        elements.forEach(el => new AlgoRaceVisualizer(el))
+    })
+})
 
 })()

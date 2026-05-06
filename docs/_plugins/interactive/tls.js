@@ -19,16 +19,11 @@
 
 ;(function () {
 
+    const { randomHex } = window.DocsifyUtils
+
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
-
-    function randomHex(length) {
-        const chars = 'ABCDEF0123456789'
-        let out = ''
-        for (let i = 0; i < length; i++) out += chars[Math.floor(Math.random() * chars.length)]
-        return out
-    }
 
     function formatHex(str) {
         return str.match(/.{1,4}/g).join(' ')
@@ -313,17 +308,11 @@
     // Animation
     // -------------------------------------------------------------------------
 
-    const CSS_CLASSES = window.ExchangeCore.CSS_CLASSES
+    const { CSS_CLASSES, createTiming, TIMING_PRESETS } = window.ExchangeCore
 
     class TlsAnimation extends window.ExchangeAnimation {
         constructor(el, domain, showIntercept, tlsVersion, onVersionChange) {
-            const timing = {
-                BASE: 500,
-                get REVEAL() { return this.BASE },
-                get STEP() { return this.BASE + 220 },
-                get ANIMATE() { return this.STEP + 320 },
-                get BETWEEN_STEPS() { return this.ANIMATE + 360 }
-            }
+            const timing = createTiming(500, TIMING_PRESETS.TLS)
             super(el, { timing })
 
             this.domain = domain
@@ -446,22 +435,6 @@
             this.responseCipher = visualEncrypt('200 OK', this.sessionKey)
         }
 
-        revealResult(resultEl, valueEl, value) {
-            if (valueEl && value !== undefined) valueEl.textContent = value
-            if (resultEl) {
-                resultEl.classList.add(CSS_CLASSES.SHOW)
-                resultEl.classList.add(CSS_CLASSES.PULSE)
-            }
-        }
-
-        async showArrow(stepEl, valueEl, value) {
-            if (valueEl) valueEl.textContent = value
-            const arrowEl = valueEl?.closest('.exchange-arrow') || stepEl.querySelector('.exchange-arrow')
-            if (!arrowEl) return
-            arrowEl.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE, CSS_CLASSES.ANIMATE)
-            await this.sleep(this.TIMING.ANIMATE)
-        }
-
         async step1_clientHello() {
             this.setStatus('Client starts TLS handshake by sending ClientHello with fresh random value.', 'info')
 
@@ -498,10 +471,10 @@
 
             this.dom.server.random.textContent = this.serverRandom
             this.dom.server.cert.textContent = this.serverCert
-            await this.showArrow(exchangeStep, this.dom.arrows.serverRandom, this.serverRandom)
+            await this.animateArrowInStep(exchangeStep, { valueEl: this.dom.arrows.serverRandom, value: this.serverRandom })
             if (!this.isRunning) return
 
-            await this.showArrow(exchangeStep, this.dom.arrows.cert, this.serverCert)
+            await this.animateArrowInStep(exchangeStep, { valueEl: this.dom.arrows.cert, value: this.serverCert })
             if (!this.isRunning) return
 
             this.completeStep(exchangeStep)
@@ -551,7 +524,7 @@
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
 
-            await this.showArrow(exchangeStep, this.dom.arrows.premaster, this.encryptedPremaster)
+            await this.animateArrowInStep(exchangeStep, { valueEl: this.dom.arrows.premaster, value: this.encryptedPremaster })
             if (!this.isRunning) return
 
             this.revealResult(this.dom.server.premasterResult, this.dom.server.premaster, this.premaster)
@@ -600,10 +573,10 @@
             await this.sleep(this.TIMING.STEP)
             if (!this.isRunning) return
 
-            await this.showArrow(exchangeStep, this.dom.arrows.requestCipher, this.requestCipher)
+            await this.animateArrowInStep(exchangeStep, { valueEl: this.dom.arrows.requestCipher, value: this.requestCipher })
             if (!this.isRunning) return
 
-            await this.showArrow(exchangeStep, this.dom.arrows.responseCipher, this.responseCipher)
+            await this.animateArrowInStep(exchangeStep, { valueEl: this.dom.arrows.responseCipher, value: this.responseCipher })
             if (!this.isRunning) return
 
             if (this.showIntercept && this.dom.eveNote) {
@@ -659,6 +632,5 @@
         hook.doneEach(processPlugin)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyPlugin, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyPlugin)
 })()

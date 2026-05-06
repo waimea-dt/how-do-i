@@ -729,7 +729,6 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyConvertor, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyConvertor)
 
 })()

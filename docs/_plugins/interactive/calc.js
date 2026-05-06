@@ -2149,14 +2149,10 @@
     // Register Docsify Plugin
     // -------------------------------------------------------------------------
 
-    if (window.$docsify) {
-        window.$docsify.plugins = (window.$docsify.plugins || []).concat(
-            function (hook) {
-                hook.doneEach(function () {
-                    processCalculators()
-                })
-            }
-        )
-    }
+        window.DocsifyUtils.registerPlugin(function (hook) {
+            hook.doneEach(function () {
+                processCalculators()
+            })
+        }, false)
 
 })()

@@ -57,7 +57,6 @@
     hook.doneEach(processCaptions)
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyCaptions, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyCaptions)
 })()
 

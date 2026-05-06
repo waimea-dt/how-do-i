@@ -61,9 +61,7 @@
     // -------------------------------------------------------------------------
 
     function processOopSims() {
-        document.querySelectorAll('pre[data-lang="oop-sim"]:not(.processed)').forEach(block => {
-            block.classList.add('processed')
-
+        window.DocsifyUtils.processVisualBlocks('oop-sim', block => {
             const code = block.textContent
             const state = new SimCore.HeapState()
 
@@ -100,10 +98,12 @@
             `
 
             block.parentNode.insertBefore(container, block)
-            block.style.display = 'none'
 
             SimCore.setupControls(container, state, updateUI)
             updateUI(container, state, null)
+        }, {
+            mode: 'hide',
+            processedClass: 'processed'
         })
     }
 
@@ -111,10 +111,8 @@
     // Docsify Plugin
     // -------------------------------------------------------------------------
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(
-        hook => hook.doneEach(() => processOopSims()),
-        window.$docsify.plugins || []
+    window.DocsifyUtils.registerPlugin(
+        hook => hook.doneEach(() => processOopSims())
     )
 
 })()

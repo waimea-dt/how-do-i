@@ -44,6 +44,22 @@
         BETWEEN_STEPS: 1500
     }
 
+    const TIMING_PRESETS = {
+        STANDARD: { stepOffset: 200, animateOffset: 300, betweenOffset: 350 },
+        LONG_ANIMATE: { stepOffset: 200, animateOffset: 400, betweenOffset: 400 },
+        TLS: { stepOffset: 220, animateOffset: 320, betweenOffset: 360 }
+    }
+
+    function createTiming(base = 500, preset = TIMING_PRESETS.STANDARD) {
+        return {
+            BASE: base,
+            get REVEAL() { return this.BASE },
+            get STEP() { return this.BASE + preset.stepOffset },
+            get ANIMATE() { return this.STEP + preset.animateOffset },
+            get BETWEEN_STEPS() { return this.ANIMATE + preset.betweenOffset }
+        }
+    }
+
     // -------------------------------------------------------------------------
     // Base Exchange Animation Class
     // -------------------------------------------------------------------------
@@ -298,6 +314,56 @@
             })
         }
 
+        /**
+         * Reveal a result container and optionally populate a value.
+         * @param {HTMLElement|null} resultEl
+         * @param {HTMLElement|null} valueEl
+         * @param {*} value
+         */
+        revealResult(resultEl, valueEl, value) {
+            if (valueEl && value !== undefined) valueEl.textContent = value
+            if (resultEl) {
+                resultEl.classList.add(CSS_CLASSES.SHOW)
+                resultEl.classList.add(CSS_CLASSES.PULSE)
+            }
+        }
+
+        /**
+         * Animate a specific exchange arrow element.
+         * @param {HTMLElement|null} arrowEl
+         * @param {HTMLElement|null} valueEl
+         * @param {*} value
+         */
+        async animateArrow(arrowEl, valueEl, value) {
+            if (!arrowEl) return
+            if (valueEl && value !== undefined) valueEl.textContent = value
+            arrowEl.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE, CSS_CLASSES.ANIMATE)
+            await this.sleep(this.TIMING.ANIMATE)
+        }
+
+        /**
+         * Animate the first arrow in a step, or the arrow owning valueEl.
+         * @param {HTMLElement|null} stepEl
+         * @param {{valueEl?: HTMLElement, value?: *}} options
+         */
+        async animateArrowInStep(stepEl, options = {}) {
+            const valueEl = options.valueEl || null
+            const value = options.value
+            const arrowEl = valueEl?.closest('.exchange-arrow') || stepEl?.querySelector('.exchange-arrow')
+            await this.animateArrow(arrowEl, valueEl, value)
+        }
+
+        /**
+         * Animate multiple arrow elements in order.
+         * @param {Array<HTMLElement>|NodeList} arrowEls
+         */
+        async animateArrowSequence(arrowEls) {
+            for (const arrowEl of arrowEls) {
+                await this.animateArrow(arrowEl)
+                if (!this.isRunning) return
+            }
+        }
+
         // -------------------------------------------------------------------------
         // Animation Timing & Flow Control
         // -------------------------------------------------------------------------
@@ -341,6 +407,8 @@
     window.ExchangeCore = {
         CSS_CLASSES,
         DEFAULT_TIMING,
+        TIMING_PRESETS,
+        createTiming,
         ExchangeAnimation
     }
 

@@ -18,6 +18,7 @@
 
 ;(function () {
   const FOCUS_MARKER = '!! '
+  const { extractMarker } = window.DocsifyUtils
 
   function processStructures() {
     const structureBlocks = document.querySelectorAll('.markdown-section structure')
@@ -43,10 +44,10 @@
         // Check for focus marker
         const heading = (item.children.length > 0) ? item.children[0] : item.childNodes[0]
         if (heading && heading.textContent) {
-          const name = heading.textContent.trim()
-          if (name.startsWith(FOCUS_MARKER)) {
+          const markerInfo = extractMarker(heading.textContent.trim(), FOCUS_MARKER)
+          if (markerInfo.hasMarker) {
             item.classList.add('focus')
-            heading.textContent = name.slice(FOCUS_MARKER.length)
+            heading.textContent = markerInfo.cleanText
           }
         }
       })
@@ -63,13 +64,12 @@
     })
   }
 
-  var docsifyStructure = function (hook) {
+  const docsifyStructure = function (hook) {
     hook.doneEach(function () {
       processStructures()
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyStructure, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyStructure)
 })()
 

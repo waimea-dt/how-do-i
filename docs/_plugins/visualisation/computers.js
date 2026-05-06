@@ -111,8 +111,7 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyComputers, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyComputers)
 
 })()
 

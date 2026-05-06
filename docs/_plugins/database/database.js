@@ -455,7 +455,6 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyDatabase, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyDatabase)
 })()
 

@@ -29,7 +29,6 @@
         });
     };
 
-    window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [].concat(docsifyScrollToTop, window.$docsify.plugins || []);
+    window.DocsifyUtils.registerPlugin(docsifyScrollToTop)
 })();
 

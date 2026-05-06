@@ -27,16 +27,11 @@
 
 ;(function () {
 
+    const { randomHex } = window.DocsifyUtils
+
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
-
-    function randomHex(n) {
-        const chars = 'ABCDEF0123456789'
-        let out = ''
-        for (let i = 0; i < n; i++) out += chars[Math.floor(Math.random() * chars.length)]
-        return out
-    }
 
     function formatHex(s) {
         return s.match(/.{1,4}/g).join(' ')
@@ -274,17 +269,11 @@
     // Animation
     // -------------------------------------------------------------------------
 
-    const CSS_CLASSES = window.ExchangeCore.CSS_CLASSES
+    const { CSS_CLASSES, createTiming, TIMING_PRESETS } = window.ExchangeCore
 
     class DigitalSigAnimation extends window.ExchangeAnimation {
         constructor(el, filename, showTamper) {
-            const timing = {
-                BASE: 500,
-                get REVEAL() { return this.BASE },
-                get STEP() { return this.BASE + 200 },
-                get ANIMATE() { return this.STEP + 300 },
-                get BETWEEN_STEPS() { return this.ANIMATE + 350 }
-            }
+            const timing = createTiming(500, TIMING_PRESETS.STANDARD)
             super(el, { timing })
 
             this.filename = filename
@@ -397,21 +386,6 @@
             this.valid            = this.bobComputedHash === this.bobRecoveredHash
         }
 
-        revealResult(resultEl, valueEl, value) {
-            if (valueEl && value !== undefined) valueEl.textContent = value
-            if (resultEl) {
-                resultEl.classList.add(CSS_CLASSES.SHOW)
-                resultEl.classList.add(CSS_CLASSES.PULSE)
-            }
-        }
-
-        async animateArrow(stepEl, valueEl, value) {
-            if (valueEl) valueEl.textContent = value
-            const arrowEl = stepEl.querySelector('.exchange-arrow')
-            arrowEl.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE, CSS_CLASSES.ANIMATE)
-            await this.sleep(this.TIMING.ANIMATE)
-        }
-
         // -------------------------------------------------------------------------
         // Steps
         // -------------------------------------------------------------------------
@@ -482,7 +456,7 @@
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
 
-            await this.animateArrow(stepEl, this.dom.arrows.content, this.originalContent)
+            await this.animateArrowInStep(stepEl, { valueEl: this.dom.arrows.content, value: this.originalContent })
             if (!this.isRunning) return
 
             this.completeStep(stepEl)
@@ -497,7 +471,7 @@
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
 
-            await this.animateArrow(stepEl, this.dom.arrows.sig, this.signature)
+            await this.animateArrowInStep(stepEl, { valueEl: this.dom.arrows.sig, value: this.signature })
             if (!this.isRunning) return
 
             if (this.showTamper && this.dom.eveNote) {
@@ -605,6 +579,5 @@
         hook.doneEach(processPlugin)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyPlugin, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyPlugin)
 })()

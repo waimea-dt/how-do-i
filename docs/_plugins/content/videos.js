@@ -163,6 +163,5 @@
     hook.doneEach(processVideoEmbeds)
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyVideoEmbed, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyVideoEmbed)
 })()

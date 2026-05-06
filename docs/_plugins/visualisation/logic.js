@@ -153,14 +153,7 @@
     // -------------------------------------------------------------------------
 
     function processLogic() {
-        const logicBlocks = document.querySelectorAll('pre[data-lang="logic"]')
-
-        logicBlocks.forEach(block => {
-            // Skip if already processed
-            if (block.classList.contains('logic-processed')) {
-                return
-            }
-
+        window.DocsifyUtils.processVisualBlocks('logic', block => {
             const codeBlock = block.querySelector('code')
             if (!codeBlock) return
 
@@ -185,13 +178,15 @@
             scrollWrapper.classList.add('logic-scroll')
             scrollWrapper.appendChild(logicDiv)
 
-            // Replace the pre block with the wrapped logic display
-            block.parentNode.replaceChild(scrollWrapper, block)
-
             // Prevent double-click selection
             logicDiv.addEventListener('mousedown', (e) => {
                 if (e.detail > 1) e.preventDefault()
             }, false)
+
+            return scrollWrapper
+        }, {
+            mode: 'replace',
+            processedClass: 'logic-processed'
         })
     }
 
@@ -409,8 +404,7 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyLogic, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyLogic)
 
 })()
 

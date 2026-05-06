@@ -55,6 +55,9 @@
  */
 
 ;(function () {
+
+    const escapeHtmlStrict = window.DocsifyUtils.escapeHtml
+    const { renderErrorBox } = window.DocsifyUtils
     const TRACE_TABLE_CONFIG = {
         maxWhileIterations: 1000,
         autoplayDelayMs: 900,
@@ -88,9 +91,7 @@
     }
 
     function escapeHtml(text) {
-        const div = document.createElement('div')
-        div.textContent = text
-        return div.innerHTML
+        return escapeHtmlStrict(text)
     }
 
     function countIndent(line) {
@@ -1623,10 +1624,7 @@
     }
 
     function renderError(container, message) {
-        const errorDiv = document.createElement('div')
-        errorDiv.className = 'trace-table-error'
-        errorDiv.textContent = message
-        container.appendChild(errorDiv)
+        renderErrorBox(container, message, 'trace-table-error')
     }
 
     const docsifyTraceTable = function (hook) {
@@ -1669,6 +1667,5 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyTraceTable, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyTraceTable)
 })()

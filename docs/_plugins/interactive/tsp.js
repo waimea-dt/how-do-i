@@ -1603,6 +1603,5 @@
         hook.doneEach(processTSP);
     };
 
-    window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [].concat(docsifyTSP, window.$docsify.plugins || []);
+    window.DocsifyUtils.registerPlugin(docsifyTSP)
 })();

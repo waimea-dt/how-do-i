@@ -244,7 +244,6 @@
     }
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyTables, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyTables)
 })()
 

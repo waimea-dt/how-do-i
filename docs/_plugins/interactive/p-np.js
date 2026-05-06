@@ -974,7 +974,5 @@
         })
     }
 
-    if (window.$docsify) {
-        window.$docsify.plugins = [].concat(pnpPlugin, window.$docsify.plugins || [])
-    }
+    window.DocsifyUtils.registerPlugin(pnpPlugin)
 })()

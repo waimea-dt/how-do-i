@@ -24,6 +24,8 @@
  */
 
 ;(function () {
+    const { escapeHtml } = window.DocsifyUtils
+
     const BLOCK_PATTERN = /<accessibility([^>]*)>\s*```html\s*\n([\s\S]*?)\n```\s*<\/accessibility>/g
 
     const ACCESSIBILITY_IFRAME_CSS = `
@@ -646,15 +648,6 @@
         }
 
         return toRgbString(composited)
-    }
-
-    function escapeHtml(value) {
-        return String(value || '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
     }
 
     function normalizeText(value) {
@@ -1949,6 +1942,5 @@ ${headerPanel}
         hook.doneEach(processAccessibilityWidgets)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyAccessibility, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyAccessibility)
 })()

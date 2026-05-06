@@ -121,7 +121,6 @@
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifySpeech, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifySpeech)
 })()
 

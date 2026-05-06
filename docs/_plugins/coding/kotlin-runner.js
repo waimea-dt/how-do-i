@@ -65,17 +65,20 @@
 
     function initKotlinRunnerBlocks(root = document) {
         const kotlinCodeSelector = '.kotlin-run pre code.lang-kotlin, .kotlin-run pre code.language-kotlin'
-        const kotlinCodeBlocks = root.querySelectorAll(`${kotlinCodeSelector}:not([data-kotlin-runner-initialized])`)
-        if (!kotlinCodeBlocks.length) return
-
-        kotlinCodeBlocks.forEach(codeBlock => {
+        const kotlinCodeBlocks = window.DocsifyUtils.processBlocks('kotlin', codeBlock => {
             codeBlock.dataset.kotlinRunnerInitialized = 'true'
             codeBlock.classList.add('kotlin-runner-target')
             codeBlock.setAttribute('theme', 'darcula')
             codeBlock.setAttribute('data-autocomplete', 'true')
             // codeBlock.setAttribute('lines', 'true')
             codeBlock.setAttribute('match-brackets', 'true')
+        }, {
+            root,
+            selector: kotlinCodeSelector,
+            processedClass: 'kotlin-runner-processed'
         })
+
+        if (!kotlinCodeBlocks.length) return
 
         KotlinPlayground('.kotlin-runner-target').then(function () {
             kotlinCodeBlocks.forEach(function (codeBlock) {
@@ -116,7 +119,6 @@
     window.docsifyKotlinRunner.init = initKotlinRunnerBlocks
     window.docsifyKotlinRunner.preprocess = preprocessKotlinRunnableCode
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyKotlinRunner, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyKotlinRunner)
 })();
 

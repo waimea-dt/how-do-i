@@ -18,6 +18,8 @@
 
 ;(function () {
 
+    const { sleep, parsePositiveInt } = window.DocsifyUtils
+
     // =========================================================================
     // Configuration & Constants
     // =========================================================================
@@ -118,15 +120,6 @@
     // =========================================================================
     // Utility Functions - General
     // =========================================================================
-
-    function sleep(ms = 0) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
-    function parsePositiveInt(value, fallback) {
-        const parsed = parseInt(value ?? '', 10)
-        return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
-    }
 
     function normaliseMethod(value) {
         const allowed = ['brute', 'next-fit', 'best-fit', 'compare-next-fit', 'compare-best-fit']
@@ -1122,9 +1115,6 @@
     }
 
     if (typeof window !== 'undefined') {
-        window.$docsify = window.$docsify || {}
-        window.$docsify.plugins = window.$docsify.plugins || []
-        window.$docsify.plugins.push(plugin)
-    }
+    window.DocsifyUtils.registerPlugin(plugin)
 
 })()

@@ -18,6 +18,7 @@
  */
 
 ;(function () {
+    const { clamp, parseBoolean, shuffleArray } = window.DocsifyUtils
      const DEFAULT_ALMOST_THRESHOLD = 60
     const MAX_SHUFFLE_ATTEMPTS = 20
     const FEEDBACK_LABELS = {
@@ -66,30 +67,10 @@
         }
     }
 
-    function clamp(value, min, max) {
-        return Math.min(Math.max(value, min), max)
-    }
-
-    function parseBoolean(value, fallback = true) {
-        if (value == null) return fallback
-        if (value === 'true') return true
-        if (value === 'false') return false
-        return fallback
-    }
-
     function parseThreshold(value) {
         const parsed = parseInt(value ?? '', 10)
         if (!Number.isFinite(parsed)) return DEFAULT_ALMOST_THRESHOLD
         return clamp(parsed, 1, 99)
-    }
-
-    function shuffleArray(items) {
-        const copy = items.slice()
-        for (let i = copy.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1))
-            ;[copy[i], copy[j]] = [copy[j], copy[i]]
-        }
-        return copy
     }
 
     function isInOriginalOrder(items) {
@@ -487,6 +468,5 @@
         hook.doneEach(processDragDrop)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyDragDrop, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyDragDrop)
 })()

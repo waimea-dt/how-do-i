@@ -530,7 +530,6 @@
         hook.doneEach(processSubCypher);
     };
 
-    window.$docsify = window.$docsify || {};
-    window.$docsify.plugins = [].concat(docsifySubCypher, window.$docsify.plugins || []);
+    window.DocsifyUtils.registerPlugin(docsifySubCypher)
 
 })();

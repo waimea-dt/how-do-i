@@ -32,6 +32,8 @@
 
 ;(function () {
 
+    const escapeHtmlStrict = window.DocsifyUtils.escapeHtml
+
     // -------------------------------------------------------------------------
     // Constants
     // -------------------------------------------------------------------------
@@ -448,14 +450,7 @@
      * Escape HTML special characters
      */
     function escapeHtml(text) {
-        const map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        }
-        return text.replace(/[&<>"']/g, m => map[m])
+        return escapeHtmlStrict(text)
     }
 
     // -------------------------------------------------------------------------
@@ -838,11 +833,6 @@
     }
 
     // Register plugin
-    if (window.$docsify) {
-        window.$docsify.plugins = [].concat(
-            docsifyERD,
-            window.$docsify.plugins || []
-        )
-    }
+    window.DocsifyUtils.registerPlugin(docsifyERD)
 
 })();

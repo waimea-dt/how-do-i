@@ -72,11 +72,7 @@
     // -------------------------------------------------------------------------
 
     function processMemorySims() {
-        const simBlocks = document.querySelectorAll('pre[data-lang="memory-sim"]:not(.processed)')
-
-        simBlocks.forEach(block => {
-            block.classList.add('processed')
-
+        window.DocsifyUtils.processVisualBlocks('memory-sim', block => {
             const code = block.textContent
             const classes = []
             const fieldResolver = makeMemoryFieldResolver(classes)
@@ -109,9 +105,11 @@
             `
 
             block.parentNode.insertBefore(container, block)
-            block.style.display = 'none'
 
             setupControls(container, memory)
+        }, {
+            mode: 'hide',
+            processedClass: 'processed'
         })
     }
 
@@ -125,7 +123,6 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyMemorySim, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyMemorySim)
 
 })()

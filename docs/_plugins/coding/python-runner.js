@@ -230,7 +230,6 @@
     window.docsifyPythonRunner = window.docsifyPythonRunner || {}
     window.docsifyPythonRunner.init = initPythonRunnerBlocks
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyPythonRunner, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyPythonRunner)
 })()
 

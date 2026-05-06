@@ -31,6 +31,8 @@
  */
 
 (function () {
+    const { generateId, escapeHtml: escapeHtmlStrict } = window.DocsifyUtils
+
     const FENCED_BLOCK_REGEX = /```([a-zA-Z0-9_+-]+)?\s*\n([\s\S]*?)\n```/
 
     const UI_TEXT = {
@@ -66,8 +68,8 @@
 
         render() {
             const language = this.language
-            const codeId = `primm-code-${Math.random().toString(36).substr(2, 9)}`
-            const predictionId = `primm-pred-${Math.random().toString(36).substr(2, 9)}`
+            const codeId = generateId('primm-code')
+            const predictionId = generateId('primm-pred')
 
             const escapedCode = this.escapeHtml(this.code)
 
@@ -128,9 +130,7 @@
         }
 
         escapeHtml(text) {
-            const div = document.createElement('div')
-            div.textContent = text
-            return div.innerHTML
+            return escapeHtmlStrict(text)
         }
 
         getLanguageFromCodeClass(codeEl) {
@@ -324,6 +324,5 @@
         hook.doneEach(processPrimm)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyPrimm, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyPrimm)
 })()

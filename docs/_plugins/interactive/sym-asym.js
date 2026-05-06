@@ -352,18 +352,12 @@
     // -------------------------------------------------------------------------
 
     // Use CSS classes from core
-    const CSS_CLASSES = window.ExchangeCore.CSS_CLASSES
+    const { CSS_CLASSES, createTiming, TIMING_PRESETS } = window.ExchangeCore
 
     class SymAsymAnimation extends window.ExchangeAnimation {
         constructor(el, mode, message, showIntercept, showInterceptKey) {
             // Animation timing configuration
-            const timing = {
-                BASE: 500,
-                get REVEAL() { return this.BASE },
-                get STEP() { return this.BASE + 200 },
-                get ANIMATE() { return this.STEP + 400 },
-                get BETWEEN_STEPS() { return this.ANIMATE + 400 }
-            }
+            const timing = createTiming(500, TIMING_PRESETS.LONG_ANIMATE)
 
             super(el, { timing })
 
@@ -535,11 +529,7 @@
             if (!this.isRunning) return
 
             // Show key on arrow
-            this.dom.arrows.key.textContent = this.isSymmetric ? this.sharedKey : this.publicKey
-            this.dom.arrows.left.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE)
-            this.dom.arrows.left.classList.add(CSS_CLASSES.ANIMATE)
-
-            await this.sleep(this.TIMING.ANIMATE)
+            await this.animateArrow(this.dom.arrows.left, this.dom.arrows.key, this.isSymmetric ? this.sharedKey : this.publicKey)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStepEl)
@@ -624,10 +614,7 @@
 
             // Show ciphertext on arrow
             this.dom.arrows.cipher.innerHTML = this.encrypted
-            this.dom.arrows.right.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE)
-            this.dom.arrows.right.classList.add(CSS_CLASSES.ANIMATE)
-
-            await this.sleep(this.TIMING.ANIMATE)
+            await this.animateArrow(this.dom.arrows.right)
             if (!this.isRunning) return
 
             this.completeStep(exchangeStepEl)
@@ -723,7 +710,6 @@
         hook.doneEach(processSymAsym)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifySymAsym, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifySymAsym)
 
 })()

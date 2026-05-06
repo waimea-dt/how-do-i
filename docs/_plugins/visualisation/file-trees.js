@@ -16,6 +16,7 @@
 
 ;(function () {
   const FOCUS_MARKER = '!! '
+  const { extractMarker } = window.DocsifyUtils
 
   function processFileTrees() {
     const fileTreeBlocks = document.querySelectorAll('.markdown-section filetree')
@@ -43,10 +44,9 @@
         const textContent = contentNodes.map(node => node.textContent).join('').trim()
 
         // Check for focus marker
-        const hasFocus = textContent.startsWith(FOCUS_MARKER)
-        const cleanText = hasFocus ? textContent.slice(FOCUS_MARKER.length) : textContent
+        const markerInfo = extractMarker(textContent, FOCUS_MARKER)
 
-        if (hasFocus) {
+        if (markerInfo.hasMarker) {
           item.classList.add('focus')
         }
 
@@ -54,7 +54,7 @@
         contentNodes.forEach(node => node.remove())
 
         // Add back as plain text node at the beginning
-        const textNode = document.createTextNode(cleanText)
+        const textNode = document.createTextNode(markerInfo.cleanText)
         if (nestedUL) {
           item.insertBefore(textNode, nestedUL)
         } else {
@@ -73,7 +73,7 @@
     })
   }
 
-  var docsifyFileTree = function (hook) {
+  const docsifyFileTree = function (hook) {
     // Process markdown BEFORE parsing to escape special characters
     hook.beforeEach(function (content) {
       // Find all <filetree>...</filetree> blocks
@@ -103,7 +103,6 @@
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyFileTree, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyFileTree)
 })()
 

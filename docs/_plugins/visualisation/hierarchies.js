@@ -19,6 +19,7 @@
 
 ;(function () {
   const FOCUS_MARKER = '!! '
+  const { extractMarker } = window.DocsifyUtils
 
   function processHierarchies() {
     const hierarchyBlocks = document.querySelectorAll('.markdown-section hierarchy')
@@ -48,10 +49,10 @@
         // Check for focus marker
         const heading = (item.children.length > 0) ? item.children[0] : item.childNodes[0]
         if (heading && heading.textContent) {
-          const name = heading.textContent.trim()
-          if (name.startsWith(FOCUS_MARKER)) {
+          const markerInfo = extractMarker(heading.textContent.trim(), FOCUS_MARKER)
+          if (markerInfo.hasMarker) {
             item.classList.add('focus')
-            heading.textContent = name.slice(FOCUS_MARKER.length)
+            heading.textContent = markerInfo.cleanText
           }
         }
       })
@@ -72,13 +73,12 @@
     })
   }
 
-  var docsifyHierarchies = function (hook) {
+  const docsifyHierarchies = function (hook) {
     hook.doneEach(function () {
       processHierarchies()
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyHierarchies, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyHierarchies)
 })()
 

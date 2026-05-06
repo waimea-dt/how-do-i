@@ -14,18 +14,11 @@
  */
 
 ;(function () {
+    const { escapeHtml } = window.DocsifyUtils
+
     const DEFAULT_ALT = 'Annotated image'
     const HOTSPOT_EVENTS_ACTIVATE = ['mouseenter', 'focus', 'click']
     const HOTSPOT_EVENTS_DEACTIVATE = ['mouseleave', 'blur']
-
-    function escapeHtml(value) {
-        return String(value || '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-    }
 
     function createBodyContainer() {
         return document.createElement('div')
@@ -339,6 +332,5 @@
         hook.doneEach(processImgNotes)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyImgNotes, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyImgNotes)
 })()

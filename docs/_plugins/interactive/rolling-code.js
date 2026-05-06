@@ -17,6 +17,8 @@
 
 ;(function () {
 
+    const { randomHex } = window.DocsifyUtils
+
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
@@ -25,15 +27,6 @@
         const n = Number.parseInt(value, 10)
         if (Number.isNaN(n)) return fallback
         return Math.max(min, Math.min(max, n))
-    }
-
-    function randomHex(length) {
-        const chars = 'ABCDEF0123456789'
-        let out = ''
-        for (let i = 0; i < length; i++) {
-            out += chars[Math.floor(Math.random() * chars.length)]
-        }
-        return out
     }
 
     /**
@@ -249,17 +242,11 @@
     // Animation
     // -------------------------------------------------------------------------
 
-    const CSS_CLASSES = window.ExchangeCore.CSS_CLASSES
+    const { CSS_CLASSES, createTiming, TIMING_PRESETS } = window.ExchangeCore
 
     class RollingCodeAnimation extends window.ExchangeAnimation {
         constructor(el, startCounter, windowSize, drift, showIntercept) {
-            const timing = {
-                BASE: 500,
-                get REVEAL() { return this.BASE },
-                get STEP() { return this.BASE + 200 },
-                get ANIMATE() { return this.STEP + 300 },
-                get BETWEEN_STEPS() { return this.ANIMATE + 350 }
-            }
+            const timing = createTiming(500, TIMING_PRESETS.STANDARD)
             super(el, { timing })
 
             this.startCounter = startCounter
@@ -361,21 +348,6 @@
             this.accepted = this.inWindow && this.codeMatches
         }
 
-        revealResult(resultEl, valueEl, value) {
-            if (valueEl && value !== undefined) valueEl.textContent = value
-            if (resultEl) {
-                resultEl.classList.add(CSS_CLASSES.SHOW)
-                resultEl.classList.add(CSS_CLASSES.PULSE)
-            }
-        }
-
-        async animateArrow(stepEl, valueEl, value) {
-            if (valueEl) valueEl.textContent = value
-            const arrowEl = stepEl.querySelector('.exchange-arrow')
-            arrowEl.classList.add(CSS_CLASSES.SHOW, CSS_CLASSES.PULSE, CSS_CLASSES.ANIMATE)
-            await this.sleep(this.TIMING.ANIMATE)
-        }
-
         async step1_setup() {
             this.setStatus('Remote and receiver share the same secret and starting counter.', 'info')
 
@@ -433,7 +405,7 @@
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
 
-            await this.animateArrow(stepEl, this.dom.arrows.counter, String(this.txCounter))
+            await this.animateArrowInStep(stepEl, { valueEl: this.dom.arrows.counter, value: String(this.txCounter) })
             if (!this.isRunning) return
 
             this.completeStep(stepEl)
@@ -448,7 +420,7 @@
             await this.sleep(this.TIMING.REVEAL)
             if (!this.isRunning) return
 
-            await this.animateArrow(stepEl, this.dom.arrows.code, this.txCode)
+            await this.animateArrowInStep(stepEl, { valueEl: this.dom.arrows.code, value: this.txCode })
             if (!this.isRunning) return
 
             if (this.showIntercept && this.dom.eveNote) {
@@ -550,7 +522,6 @@
         hook.doneEach(processRollingCode)
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyRollingCode, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyRollingCode)
 
 })()

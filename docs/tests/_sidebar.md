@@ -31,11 +31,13 @@
     - [Details](tests/details.md)
     - [Speech](tests/speech.md)
     - [Cards](tests/cards.md)
-    - [Components](tests/components.md)
     - [Callouts](tests/callouts.md)
     - [Tables](tests/tables.md)
     - [Definitions](tests/definitions.md)
     - [Video Embeds](tests/video-embed.md)
+    - [Components](tests/components.md)
+    - [Utils Library](tests/utils-library.md)
+    - [Plugin Smoke](tests/plugin-smoke.md)
 
 - <i data-lucide="bar-chart-2"></i>Visualisation
     - [Timeline](tests/timeline.md)

@@ -707,12 +707,8 @@
     // Docsify hook
     // -------------------------------------------------------------------------
 
-    window.$docsify = window.$docsify ?? {};
-    window.$docsify.plugins = [
-        ...(window.$docsify.plugins ?? []),
-        hook => {
-            hook.doneEach(() => processBigO());
-        },
-    ];
+        window.DocsifyUtils.registerPlugin(hook => {
+            hook.doneEach(() => processBigO())
+        }, false)
 
 })();

@@ -345,7 +345,6 @@
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyRequests, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyRequests)
 })()
 

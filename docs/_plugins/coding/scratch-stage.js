@@ -221,20 +221,11 @@
     // -------------------------------------------------------------------------
 
     function processScratchStage() {
-        const stageBlocks = document.querySelectorAll('pre[data-lang="scratch-stage"]')
-
-        stageBlocks.forEach(block => {
-            // Skip if already processed
-            if (block.classList.contains('scratch-stage-processed')) {
-                return
-            }
-
+        window.DocsifyUtils.processBlocks('scratch-stage', block => {
             const codeBlock = block.querySelector('code')
             if (!codeBlock) return
 
             highlightElement(codeBlock)
-
-            block.classList.add('scratch-stage-processed')
         })
     }
 
@@ -248,8 +239,7 @@
         })
     }
 
-    window.$docsify = window.$docsify || {}
-    window.$docsify.plugins = [].concat(docsifyScratchStage, window.$docsify.plugins || [])
+    window.DocsifyUtils.registerPlugin(docsifyScratchStage)
 
 })()
 

@@ -17,6 +17,8 @@
  */
 
 (function () {
+    const { hexToRgb, rgbToHex } = window.DocsifyUtils
+
     const UI_TEXT = {
         title: 'Colour Scheme Designer',
         subtitle: 'Create harmonious colour palettes for websites',
@@ -43,29 +45,6 @@
         sun: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
         crosshair: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crosshair-icon lucide-crosshair"><circle cx="12" cy="12" r="10"/><line x1="22" x2="18" y1="12" y2="12"/><line x1="6" x2="2" y1="12" y2="12"/><line x1="12" x2="12" y1="6" y2="2"/><line x1="12" x2="12" y1="22" y2="18"/></svg>',
         swap: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-left-icon lucide-arrow-right-left"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>',
-    }
-
-    /**
-     * Convert hex colour to RGB values
-     */
-    function hexToRgb(hex) {
-        const clean = hex.replace('#', '')
-        const r = parseInt(clean.substring(0, 2), 16)
-        const g = parseInt(clean.substring(2, 4), 16)
-        const b = parseInt(clean.substring(4, 6), 16)
-        return { r, g, b }
-    }
-
-    /**
-     * Convert RGB to hex colour
-     */
-    function rgbToHex(r, g, b) {
-        const toHex = (n) => {
-            const clamped = Math.max(0, Math.min(255, Math.round(n)))
-            const hex = clamped.toString(16)
-            return hex.length === 1 ? '0' + hex : hex
-        }
-        return '#' + toHex(r) + toHex(g) + toHex(b)
     }
 
     /**
@@ -920,6 +899,5 @@
     }
 
     if (window.$docsify) {
-        window.$docsify.plugins = [].concat(colourPickerPlugin, window.$docsify.plugins || [])
-    }
+    window.DocsifyUtils.registerPlugin(colourPickerPlugin)
 })()

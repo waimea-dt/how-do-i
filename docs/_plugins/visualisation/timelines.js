@@ -121,7 +121,6 @@
     })
   }
 
-  window.$docsify = window.$docsify || {}
-  window.$docsify.plugins = [].concat(docsifyTimeline, window.$docsify.plugins || [])
+  window.DocsifyUtils.registerPlugin(docsifyTimeline)
 })()
 

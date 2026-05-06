@@ -517,14 +517,9 @@
     }
 
     // Install plugin
-    if (window.$docsify) {
-        window.$docsify.plugins = [].concat(
-            window.$docsify.plugins || [],
-            (hook) => {
-                hook.doneEach(() => processModulus())
-            }
-        )
-    }
+    window.DocsifyUtils.registerPlugin(hook => {
+        hook.doneEach(() => processModulus())
+    }, false)
 
 })()
 
