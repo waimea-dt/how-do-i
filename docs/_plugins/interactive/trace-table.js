@@ -8,7 +8,7 @@
  *   - syntax-highlighted code (Prism, if available)
  *   - step-by-step variable trace table
  *   - optional per-step output column for print statements
- *   - play / pause / next / reset controls
+ *   - play-pause toggle / next / reset controls
  *
  * Fence usage
  * - Basic trace block:
@@ -1507,12 +1507,10 @@
         group.className = 'trace-table-button-group'
 
         const playBtn = createTraceButton('trace-table-btn trace-table-btn-play btn-go', TRACE_TABLE_CONFIG.uiText.buttons.play)
-        const pauseBtn = createTraceButton('trace-table-btn trace-table-btn-pause btn-stop', TRACE_TABLE_CONFIG.uiText.buttons.pause, true)
         const nextBtn = createTraceButton('trace-table-btn trace-table-btn-step btn-next', TRACE_TABLE_CONFIG.uiText.buttons.next)
         const resetBtn = createTraceButton('trace-table-btn trace-table-btn-reset btn-reset', TRACE_TABLE_CONFIG.uiText.buttons.reset)
 
         group.appendChild(playBtn)
-        group.appendChild(pauseBtn)
         group.appendChild(nextBtn)
         group.appendChild(resetBtn)
         controls.appendChild(group)
@@ -1523,6 +1521,32 @@
         let step = -1
         let timer = null
         let stepping = false
+
+        function stopAutoPlay() {
+            if (timer) {
+                clearTimeout(timer)
+                timer = null
+            }
+            playBtn.textContent = TRACE_TABLE_CONFIG.uiText.buttons.play
+            playBtn.classList.remove('running')
+        }
+
+        function startAutoPlay() {
+            playBtn.textContent = TRACE_TABLE_CONFIG.uiText.buttons.pause
+            playBtn.classList.add('running')
+            nextBtn.disabled = true
+
+            function loop() {
+                if (step < tableRows.length - 1) {
+                    nextStep()
+                    timer = setTimeout(loop, TRACE_TABLE_CONFIG.autoplayDelayMs)
+                } else {
+                    pause()
+                }
+            }
+
+            loop()
+        }
 
         function setStep(newStep) {
             if (newStep < -1 || newStep >= tableRows.length) {
@@ -1564,7 +1588,7 @@
 
             const atEnd = step >= tableRows.length - 1
             playBtn.disabled = atEnd
-            nextBtn.disabled = atEnd
+            nextBtn.disabled = atEnd || !!timer
         }
 
         function nextStep() {
@@ -1576,28 +1600,21 @@
         }
 
         function play() {
+            if (timer) {
+                pause()
+                return
+            }
+
             if (!stepping) {
                 stepping = true
                 wrapper.classList.add('trace-table--stepping')
             }
-            playBtn.disabled = true
-            pauseBtn.disabled = false
-            nextBtn.disabled = true
-            function loop() {
-                if (step < tableRows.length - 1) {
-                    nextStep()
-                    timer = setTimeout(loop, TRACE_TABLE_CONFIG.autoplayDelayMs)
-                } else {
-                    pause()
-                }
-            }
-            loop()
+
+            startAutoPlay()
         }
 
         function pause() {
-            if (timer) clearTimeout(timer)
-            timer = null
-            pauseBtn.disabled = true
+            stopAutoPlay()
             playBtn.disabled = step >= tableRows.length - 1
             nextBtn.disabled = step >= tableRows.length - 1
         }
@@ -1611,7 +1628,6 @@
         }
 
         playBtn.addEventListener('click', play)
-        pauseBtn.addEventListener('click', pause)
         nextBtn.addEventListener('click', nextStep)
         resetBtn.addEventListener('click', reset)
 

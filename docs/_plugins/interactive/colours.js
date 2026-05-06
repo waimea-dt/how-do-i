@@ -899,5 +899,6 @@
     }
 
     if (window.$docsify) {
-    window.DocsifyUtils.registerPlugin(colourPickerPlugin)
+        window.DocsifyUtils.registerPlugin(colourPickerPlugin)
+    }
 })()

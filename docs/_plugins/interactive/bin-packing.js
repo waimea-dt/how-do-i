@@ -1115,6 +1115,7 @@
     }
 
     if (typeof window !== 'undefined') {
-    window.DocsifyUtils.registerPlugin(plugin)
+        window.DocsifyUtils.registerPlugin(plugin)
+    }
 
 })()
