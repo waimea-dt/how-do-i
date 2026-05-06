@@ -15,6 +15,27 @@
  */
 
 ;(function () {
+  function getIframeAllowValue() {
+    const ua = navigator.userAgent || ''
+    const isFirefox = /firefox/i.test(ua)
+
+    // Firefox logs noisy warnings for several tokens in Permissions Policy `allow`.
+    // Keep the attribute minimal there, and use the broader YouTube set elsewhere.
+    if (isFirefox) return ''
+
+    return 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+  }
+
+  function configureIframePermissions(iframe) {
+    const allowValue = getIframeAllowValue()
+    if (allowValue) {
+      iframe.setAttribute('allow', allowValue)
+    } else {
+      iframe.removeAttribute('allow')
+    }
+    iframe.setAttribute('allowfullscreen', '')
+  }
+
   // Step 1: Add closing tags before markdown is parsed
   function addClosingTags(content) {
     // Match <videoembed ...> tags that aren't already closed
@@ -51,17 +72,16 @@
 
     // Set the appropriate URL based on whether it's a playlist or single video
     if (isPlaylist) {
-      iframe.src = `https://www.youtube.com/embed/videoseries?list=${videoId}`
+      iframe.src = `https://www.youtube-nocookie.com/embed/videoseries?list=${videoId}`
       iframe.title = 'Video Playlist'
     } else {
-      iframe.src = `https://www.youtube.com/embed/${videoId}`
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}`
       iframe.title = 'Video'
     }
 
     iframe.setAttribute('frameborder', '0')
-    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
     iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
-    iframe.setAttribute('allowfullscreen', '')
+    configureIframePermissions(iframe)
 
     // Replace the videoembed tag with the iframe
     videoEmbed.parentNode.replaceChild(iframe, videoEmbed)
@@ -79,12 +99,11 @@
     // Create iframe for playing videos
     const iframe = document.createElement('iframe')
     iframe.className = 'video youtube playlist-grid-player'
-    iframe.src = `https://www.youtube.com/embed/${ids[0]}`
+    iframe.src = `https://www.youtube-nocookie.com/embed/${ids[0]}`
     iframe.title = 'Video Player'
     iframe.setAttribute('frameborder', '0')
-    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
     iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
-    iframe.setAttribute('allowfullscreen', '')
+    configureIframePermissions(iframe)
 
     // Create grid for thumbnails
     const grid = document.createElement('div')
@@ -103,14 +122,14 @@
       thumbnail.className = 'playlist-grid-thumbnail'
       thumbnail.loading = 'lazy'
 
-      // Create title (fetch from oembed)
+      // Create title (fetch from embed)
       const title = document.createElement('div')
       title.className = 'playlist-grid-title'
       title.textContent = 'Loading...'
 
       // Add click handler to load video
       item.addEventListener('click', () => {
-        iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`
 
         // Update active state
         grid.querySelectorAll('.playlist-grid-item').forEach(el => el.classList.remove('active'))
@@ -142,7 +161,7 @@
     videoEmbed.parentNode.replaceChild(container, videoEmbed)
   }
 
-  // Fetch video title from YouTube oembed API
+  // Fetch video title from YouTube embed API
   async function fetchVideoTitle(videoId) {
     try {
       const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`)

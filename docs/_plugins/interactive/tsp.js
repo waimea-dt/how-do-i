@@ -652,8 +652,9 @@
         const width = canvas.width;
         const height = canvas.height;
 
-        // Get computed colors from TSP CSS variables
-        const styles = getComputedStyle(canvas.closest('.markdown-section tsp'));
+        // Read CSS variables from the nearest stable host; fallback avoids resize crashes during re-render/unmount.
+        const styleHost = canvas.closest('tsp') || canvas.closest('.markdown-section') || document.documentElement;
+        const styles = getComputedStyle(styleHost);
         const routeExploringColor = styles.getPropertyValue('--tsp-canvas-route-exploring').trim();
         const routeBestColor = styles.getPropertyValue('--tsp-canvas-route-best').trim();
         const routeSearchingColor = styles.getPropertyValue('--tsp-canvas-route-searching').trim();

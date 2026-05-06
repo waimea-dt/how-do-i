@@ -5,6 +5,10 @@
 
 </div>
 
+- <i data-lucide="smile"></i>General
+    - [Components](tests/_components.md)
+    - [Utils Library](tests/_utils.md)
+    - [Plugin Smoke](tests/_smoke.md)
 
 - <i data-lucide="binary"></i>Coding
     - [Scratch Blocks & Stage](tests/scratch.md)
@@ -35,9 +39,6 @@
     - [Tables](tests/tables.md)
     - [Definitions](tests/definitions.md)
     - [Video Embeds](tests/video-embed.md)
-    - [Components](tests/components.md)
-    - [Utils Library](tests/utils-library.md)
-    - [Plugin Smoke](tests/plugin-smoke.md)
 
 - <i data-lucide="bar-chart-2"></i>Visualisation
     - [Timeline](tests/timeline.md)

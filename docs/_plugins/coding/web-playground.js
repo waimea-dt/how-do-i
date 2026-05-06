@@ -47,6 +47,7 @@
     // Build a self-contained HTML string for the preview iframe.
     function buildSrcdoc(html, css, js) {
         const parts = []
+        parts.push('<!DOCTYPE html>')
         if (css) parts.push(`<style>\n${css}\n</style>`)
         parts.push(html)
         if (js)  parts.push(`<script>\n${js}\n<\/script>`)
