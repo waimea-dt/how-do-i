@@ -12,7 +12,7 @@
     --stage-speech-back-color:   #fff;
     --stage-speech-text-color:   #333;
     --stage-speech-border-color: #0004;
-    --stage-shadow:              0 0.1em 0.15em #0004;
+    --stage-shadow:              var(--box-shadow-small);
     --stage-ques-back-color:     #fff;
     --stage-ques-border-color:   #0008;
     --stage-ques-accent-color:   #b4f;
@@ -39,7 +39,7 @@
     }
 
     > code {
-        padding: 0 0 1rem !important;
+        padding: 0 0 var(--padding) !important;
         background: none;
         border: none;
         white-space: normal;

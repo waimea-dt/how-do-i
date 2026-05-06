@@ -540,7 +540,7 @@
         controls.appendChild(info)
 
         const swapBtn = document.createElement('button')
-        swapBtn.className = 'convertor-btn'
+        swapBtn.className = 'convertor-btn btn-swap'
         swapBtn.textContent = 'Swap Direction'
         swapBtn.onclick = () => swapDirection(state, container)
         controls.appendChild(swapBtn)

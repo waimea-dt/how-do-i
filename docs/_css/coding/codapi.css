@@ -16,7 +16,7 @@
         > code {
             display: block;
             margin: 0;
-            padding: 1rem 1.5rem !important;
+            padding: var(--padding) var(--padding-large) !important;
             border: none !important;
         }
     }
@@ -31,12 +31,12 @@
     margin-bottom: var(--margin-block);
     codapi-toolbar {
         display: flex;
-        padding: 0.5em 1em;
-        font-size: 0.9em;
+        padding: var(--padding-small) var(--padding);
+        font-size: var(--font-med);
         width: 100%;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: var(--gap);
         background-color: var(--code-control-back-color);
         border-top: 1px solid var(--border-color);
 
@@ -51,7 +51,7 @@
         }
 
         button {
-            margin-right: 1em;
+            margin-right: var(--space);
             padding-left: 30px;
             height: 1.3em;
             line-height: 1;
@@ -89,7 +89,7 @@
                 width: 100%;
                 margin: 0;
                 border: none !important;
-                padding: 1rem !important;
+                padding: var(--padding) !important;
                 overflow-x: auto;
                 font-family: var(--code-font-family);
                 line-height: var(--code-output-line-height);

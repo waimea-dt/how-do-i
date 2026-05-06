@@ -41,7 +41,7 @@
     .playlist-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
-        gap: 1rem;
+        gap: var(--gap);
 
         @container (min-width: 640px) {
             grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
@@ -72,7 +72,7 @@
 
             .playlist-grid-title {
                 padding: 0.5em 0.75em;
-                font-size: 0.9rem;
+                font-size: var(--font-med);
                 line-height: 1.4;
                 font-weight: 500;
                 color: var(--video-thumb-text-color);

@@ -27,7 +27,7 @@
     margin: var(--margin-block) auto;
     width: fit-content;
     max-width: 100%;
-    padding: 0 0.5rem;
+    padding: 0 var(--padding-small);
 }
 
 /* Logic gate containers */

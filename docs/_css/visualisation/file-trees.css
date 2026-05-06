@@ -17,19 +17,19 @@
     --file-tree-focus-width:        3px;
 
     --file-tree-icon-size:          1.2em;
-    --file-tree-indent:             1em;
+    --file-tree-indent:             var(--space);
     --file-tree-line-width:         2px;
-    --file-tree-line-radius:        0.5em;
+    --file-tree-line-radius:        var(--space-small);
 
     /* Base styling */
     font-family: var(--font-family-mono);
     background-color: var(--file-tree-back-color);
-    padding: 0.75em 1em;
+    padding: var(--padding-med) var(--padding);
     width: fit-content;
     border: 1px solid var(--file-tree-border-color);
     border-radius: var(--border-radius);
-    font-size: 1em;
-    margin: 2em auto;
+    font-size: var(--font-base);
+    margin: var(--margin-block) auto;
     list-style: none;
 }
 

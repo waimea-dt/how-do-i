@@ -92,10 +92,6 @@
         }
     }
 
-    const SVG_ICONS = {
-        shuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>'
-    }
-
     const SPEED_PROFILES = {
         slow: {
             bruteDelay: 250,
@@ -321,10 +317,10 @@
                 </div>
 
                 <div class="bin-packing-button-group">
-                    <button class="bin-packing-btn bin-packing-btn-start">Start</button>
-                    <button class="bin-packing-btn bin-packing-btn-stop" disabled>Stop</button>
-                    <button class="bin-packing-btn bin-packing-btn-secondary bin-packing-btn-reset">Reset</button>
-                    <button class="bin-packing-btn bin-packing-btn-secondary bin-packing-btn-randomise" ${usesFixedItems ? 'disabled title="Uses fixed items from markdown"' : ''}>${SVG_ICONS.shuffle}</button>
+                    <button class="bin-packing-btn bin-packing-btn-start btn-go">Start</button>
+                    <button class="bin-packing-btn bin-packing-btn-stop btn-stop" disabled>Stop</button>
+                    <button class="bin-packing-btn bin-packing-btn-secondary bin-packing-btn-reset btn-reset">Reset</button>
+                    <button class="bin-packing-btn bin-packing-btn-secondary bin-packing-btn-randomise btn-shuffle" ${usesFixedItems ? 'disabled title="Uses fixed items from markdown"' : ''}></button>
                 </div>
 
                 <div class="bin-packing-visualization">

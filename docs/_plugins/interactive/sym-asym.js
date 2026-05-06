@@ -331,15 +331,12 @@
             <div class="exchange-footer">
                 <div class="exchange-controls">
                     <button class="exchange-btn exchange-btn-start">
-                        <span class="btn-icon">▶</span>
                         <span class="btn-text">Start</span>
                     </button>
                     <button class="exchange-btn exchange-btn-reset">
-                        <span class="btn-icon">↺</span>
                         <span class="btn-text">Reset</span>
                     </button>
                     <button class="exchange-btn exchange-btn-step">
-                        <span class="btn-icon">→</span>
                         <span class="btn-text">Next</span>
                     </button>
                 </div>

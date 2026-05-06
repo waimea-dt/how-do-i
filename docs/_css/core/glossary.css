@@ -11,7 +11,7 @@
         /* list-style: square; */
         list-style: none;
         display: grid;
-        gap: 1rem;
+        gap: var(--gap);
         align-items: top;
         grid-template-columns: 10rem 1fr;
         /* border-bottom: 1px solid var(--border-color); */
@@ -28,7 +28,7 @@
             &:first-of-type {
                 /* Term name (first paragraph in each li) */
                 color: var(--theme-color);
-                font-size: 1.1rem;
+                font-size: var(--font-large);
                 font-weight: 500;
             }
 

@@ -30,7 +30,7 @@
 	--bigo-chart-marker-color:    var(--color-mono-5);
 
 	--bigo-chart-tick-color:      var(--color-mono-6);
-	--bigo-chart-tick-size:       0.6rem;
+	--bigo-chart-tick-size:       var(--font-tiny);
 
 	--bigo-chart-slider-accent:   var(--theme-color);
 	--bigo-chart-font-mono:       var(--font-family-mono);
@@ -44,11 +44,11 @@
 		background:    var(--bigo-chart-bg);
 		border:        2px solid var(--bigo-chart-border);
 		border-radius: var(--border-radius);
-		padding:       1rem;
+		padding:       var(--padding);
 		box-shadow:    var(--box-shadow);
 		display:       flex;
 		flex-direction: column;
-		gap:           0.85rem;
+		gap:           var(--gap-med);
 
 		.bigo-legend {
 			display:   flex;
@@ -92,21 +92,21 @@
 
 				.bigo-legend-label {
 					font-family:  var(--bigo-chart-font-mono);
-					font-size:    0.75rem;
+					font-size:    var(--font-small);
 					font-weight:  600;
 					color:        var(--color-text);
 					white-space:  nowrap;
 				}
 
 				.bigo-legend-title {
-					font-size:  0.65rem;
+					font-size:  var(--font-tiny);
 					color:      var(--bigo-chart-note-color);
 					white-space: nowrap;
 				}
 
 				.bigo-legend-value {
 					font-family:  var(--bigo-chart-font-mono);
-					font-size:    0.7rem;
+					font-size:    var(--font-small);
 					color:        var(--bigo-chart-label-color);
 					margin-left:  0.25em;
 					min-width:    3.5ch;
@@ -122,7 +122,7 @@
 			gap:         0.6em;
 
 			.bigo-ctrl-label {
-				font-size:    0.72rem;
+				font-size:    var(--font-small);
 				font-weight:  600;
 				letter-spacing: 0.05em;
 				text-transform: uppercase;
@@ -139,7 +139,7 @@
 
 			.bigo-n-display {
 				font-family:  var(--bigo-chart-font-mono);
-				font-size:    0.85rem;
+				font-size:    var(--font-med);
 				font-weight:  600;
 				color:        var(--color-text);
 				min-width:    2.5ch;

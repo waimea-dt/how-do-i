@@ -3,10 +3,10 @@
     --img-notes-margin:                 var(--margin-block);
     --img-notes-border:                 var(--border-color);
 
-    --img-notes-gap:                    1rem;
-    --img-notes-gap-small:              1rem;
-    --img-notes-padding:                1rem;
-    --img-notes-padding-small:          0.5rem;
+    --img-notes-gap:                    var(--gap);
+    --img-notes-gap-small:              var(--gap);
+    --img-notes-padding:                var(--padding);
+    --img-notes-padding-small:          var(--padding-small);
 
     --img-notes-radius:                 var(--border-radius);
     --img-notes-radius-hotspot:         var(--border-radius-small);
@@ -20,7 +20,7 @@
 
     --img-notes-label-bg:               var(--img-notes-accent);
     --img-notes-label-fg:               var(--text-color);
-    --img-notes-label-size:             1.5rem;
+    --img-notes-label-size:             var(--font-display);
     --img-notes-hotspot-transition:     160ms ease;
 
     --img-notes-hotspot-border:         color-mix(in srgb, var(--img-notes-accent), var(--color-mono-max) 35%);
@@ -37,7 +37,7 @@
 
     --img-notes-title-color:            var(--theme-color);
     --img-notes-title-size:             1.2rem;
-    --img-notes-size:                   0.9rem;
+    --img-notes-size:                   var(--font-med);
 
     --img-notes-error-border:           color-mix(in srgb, var(--color-attention), transparent 65%);
     --img-notes-error-bg:               color-mix(in srgb, var(--color-attention), transparent 90%);

@@ -7,41 +7,41 @@
     /* ---- Design tokens ---- */
 
     /* Spacing */
-    --cp-padding-tiny:      0.25rem;
-    --cp-padding-small:     0.5rem;
-    --cp-padding:           1rem;
-    --cp-padding-large:     1.5rem;
-    --cp-padding-xlarge:    2rem;
+    --cp-padding-tiny:      var(--padding-tiny);
+    --cp-padding-small:     var(--padding-small);
+    --cp-padding:           var(--padding);
+    --cp-padding-large:     var(--padding-large);
+    --cp-padding-xlarge:    var(--padding-xlarge);
 
-    --cp-gap-tiny:          0.25rem;
-    --cp-gap-small:         0.5rem;
-    --cp-gap:               1rem;
-    --cp-gap-large:         1.5rem;
-    --cp-gap-xlarge:        2rem;
+    --cp-gap-tiny:          var(--gap-tiny);
+    --cp-gap-small:         var(--gap-small);
+    --cp-gap:               var(--gap);
+    --cp-gap-large:         var(--gap-large);
+    --cp-gap-xlarge:        var(--gap-xlarge);
 
     /* Colors */
-    --cp-bg:                var(--color-mono-1);
-    --cp-bg-header:         var(--color-mono-2);
-    --cp-bg-card:           var(--color-mono-0);
-    --cp-border:            var(--color-mono-3);
+    --cp-bg:                var(--plugin-wrapper-bg);
+    --cp-bg-header:         var(--plugin-header-bg);
+    --cp-bg-card:           var(--plugin-panel-bg);
+    --cp-border:            var(--plugin-wrapper-border);
     --cp-border-hover:      var(--color-mono-4);
 
-    --cp-title-color:       var(--theme-color);
-    --cp-subtitle-color:    var(--color-mono-6);
+    --cp-title-color:       var(--plugin-header-title);
+    --cp-subtitle-color:    var(--plugin-header-subtitle);
     --cp-label-color:       var(--color-text);
     --cp-muted:             var(--color-mono-7);
 
-    --cp-btn-bg:            var(--color-mono-2);
-    --cp-btn-bg-hover:      var(--theme-color-3);
-    --cp-btn-color:         var(--color-text);
+    --cp-btn-bg:            var(--btn-bg);
+    --cp-btn-bg-hover:      var(--btn-bg-hover);
+    --cp-btn-color:         var(--btn-text);
 
     --cp-input-bg:          var(--color-mono-0);
     --cp-input-border:      var(--color-mono-3);
 
     /* Shadows */
-    --cp-shadow-sm:         0 1px 3px rgba(0, 0, 0, 0.1);
-    --cp-shadow-md:         0 2px 8px rgba(0, 0, 0, 0.15);
-    --cp-shadow-lg:         0 4px 16px rgba(0, 0, 0, 0.2);
+    --cp-shadow-sm:         var(--box-shadow-small);
+    --cp-shadow-md:         var(--box-shadow);
+    --cp-shadow-lg:         var(--box-shadow-large);
 
     display: block;
     margin: var(--margin-block) 0;
@@ -71,7 +71,7 @@
 
         .cp-title {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: var(--font-display);
             font-weight: 600;
             color: var(--cp-title-color);
             display: flex;
@@ -85,7 +85,7 @@
 
         .cp-subtitle {
             margin: 0;
-            font-size: 0.95rem;
+            font-size: var(--font-med);
             color: var(--cp-subtitle-color);
         }
     }
@@ -103,7 +103,7 @@
 
     .cp-section-title {
         margin: 0 0 var(--cp-gap);
-        font-size: 1.2rem;
+        font-size: var(--font-xlarge);
         font-weight: 600;
         color: var(--cp-label-color);
     }
@@ -130,7 +130,7 @@
             gap: var(--cp-gap-small);
 
             .cp-label {
-                font-size: 1.2rem;
+                font-size: var(--font-xlarge);
                 font-weight: 600;
                 color: var(--cp-label-color);
                 display: block;
@@ -196,7 +196,7 @@
                     background: transparent;
                     color: var(--cp-label-color);
                     font-family: var(--font-family-mono);
-                    font-size: 0.9rem;
+                    font-size: var(--font-med);
                     text-transform: uppercase;
 
                     &:focus {
@@ -227,14 +227,15 @@
     /* ---- Shared button styles ---- */
 
     .cp-btn {
-        padding: var(--cp-padding-small);
-        border: 1px solid var(--cp-input-border);
-        border-radius: var(--border-radius);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        border: 1px solid var(--btn-border);
+        border-radius: var(--btn-radius);
         background: var(--cp-btn-bg);
         color: var(--cp-btn-color);
-        font-size: 0.9rem;
+        font-size: var(--btn-font-size);
+        font-weight: var(--btn-font-weight);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: var(--btn-transition);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -243,6 +244,7 @@
         &:hover {
             background: var(--cp-btn-bg-hover);
             border-color: var(--cp-border-hover);
+            box-shadow: var(--btn-shadow-hover);
         }
 
         &:active {
@@ -273,15 +275,16 @@
     }
 
     .cp-toggle-btn {
-        padding: var(--cp-padding-small);
-        border: 1px solid var(--cp-input-border);
-        border-radius: var(--border-radius);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        border: 1px solid var(--btn-border);
+        border-radius: var(--btn-radius);
         background: var(--cp-btn-bg);
         color: var(--cp-btn-color);
         gap: var(--cp-gap-small);
-        font-size: 0.9rem;
+        font-size: var(--btn-font-size);
+        font-weight: var(--btn-font-weight);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: var(--btn-transition);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -289,6 +292,7 @@
         &:hover {
             background: var(--cp-btn-bg-hover);
             border-color: var(--cp-border-hover);
+            box-shadow: var(--btn-shadow-hover);
         }
 
         &.active {
@@ -296,13 +300,15 @@
             color: var(--theme-color);
             border-color: var(--theme-color);
 
-            svg {
+            &::before,
+            .cp-link-icon::before {
                 opacity: 1;
             }
         }
 
         &:not(.active) {
-            svg {
+            &::before,
+            .cp-link-icon::before {
                 opacity: 0.4;
             }
         }
@@ -312,9 +318,41 @@
             cursor: not-allowed;
         }
 
-        svg {
-            flex-shrink: 0;
+        &::before,
+        .cp-link-icon::before {
             transition: opacity 0.2s ease;
+        }
+
+        .cp-link-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            inline-size: 1em;
+            block-size: 1em;
+        }
+
+        .cp-link-icon::before {
+            content: "";
+            inline-size: 1em;
+            block-size: 1em;
+            flex: 0 0 1em;
+            background-color: currentColor;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            mask-size: contain;
+        }
+
+        .cp-link-icon.btn-link::before {
+            -webkit-mask-image: var(--btn-icon-link);
+            mask-image: var(--btn-icon-link);
+        }
+
+        .cp-link-icon.btn-unlink::before {
+            -webkit-mask-image: var(--btn-icon-unlink);
+            mask-image: var(--btn-icon-unlink);
         }
     }
 
@@ -353,7 +391,7 @@
             gap: var(--cp-gap-small);
 
             .cp-shade-column-label {
-                font-size: 1rem;
+                font-size: var(--font-base);
                 font-weight: 600;
                 color: var(--cp-label-color);
                 margin-bottom: var(--cp-padding-tiny);
@@ -381,7 +419,6 @@
                 cursor: pointer;
                 border: 2px solid var(--cp-border);
                 overflow: hidden;
-                isolation: isolate;
 
                 &:hover {
                     transform: translateY(-4px) scale(1.05);
@@ -399,7 +436,7 @@
 
                 &.cp-shade-highlighted {
                     transform: translateY(-4px) scale(1.1);
-                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+                    box-shadow: var(--cp-shadow-lg);
                     border-color: var(--highlight-color);
                     border-width: 3px;
                     z-index: 20;
@@ -411,7 +448,7 @@
                 }
 
                 .cp-shade-label {
-                    font-size: 0.65rem;
+                    font-size: var(--font-tiny);
                     font-weight: 600;
                     text-transform: uppercase;
                     letter-spacing: 0.05em;
@@ -422,7 +459,7 @@
 
                 .cp-shade-hex {
                     font-family: var(--font-family-mono);
-                    font-size: 0.7rem;
+                    font-size: var(--font-small);
                     opacity: 0;
                     transition: opacity 0.2s ease;
                 }
@@ -483,7 +520,7 @@
         .cp-website-mockup {
             overflow: hidden;
             box-shadow: var(--cp-shadow-lg);
-            font-size: 0.85rem;
+            font-size: var(--font-med);
 
             .cp-color-preview {
                 position: relative;
@@ -509,7 +546,7 @@
                 }
 
                 .cp-mockup-logo {
-                    font-size: 1.2rem;
+                    font-size: var(--font-xlarge);
                     font-weight: 700;
                 }
 
@@ -520,7 +557,7 @@
                     border-radius: var(--border-radius);
 
                     span {
-                        font-size: 0.9rem;
+                        font-size: var(--font-med);
                         font-weight: 500;
                         cursor: pointer;
                         transition: opacity 0.2s ease;
@@ -542,7 +579,7 @@
 
                 h1 {
                     margin: 0;
-                    font-size: 2rem;
+                    font-size: var(--font-hero);
                     font-weight: 800;
 
                     @container (min-width: 500px) {
@@ -552,7 +589,7 @@
 
                 p {
                     margin: 0;
-                    font-size: 1.1rem;
+                    font-size: var(--font-large);
                     max-width: 600px;
                     opacity: 0.9;
                 }
@@ -562,7 +599,7 @@
                 padding: var(--cp-padding-small) var(--cp-padding-xlarge);
                 border: none;
                 border-radius: var(--border-radius);
-                font-size: 1rem;
+                font-size: var(--font-base);
                 font-weight: 600;
                 cursor: pointer;
                 transition: all 0.2s ease;
@@ -610,20 +647,20 @@
 
                 h3 {
                     margin: 0;
-                    font-size: 1.1rem;
+                    font-size: var(--font-large);
                     font-weight: 700;
                 }
 
                 p {
                     margin: 0;
-                    font-size: 0.9rem;
+                    font-size: var(--font-med);
                     line-height: 1.5;
                     flex: 1;
                     opacity: 0.8;
                 }
 
                 a {
-                    font-size: 0.9rem;
+                    font-size: var(--font-med);
                     font-weight: 600;
                     text-decoration: none;
                     transition: opacity 0.2s ease;
@@ -639,7 +676,7 @@
                     right: var(--cp-gap-small);
                     padding: var(--cp-padding-tiny) var(--cp-padding-small);
                     border-radius: calc(var(--border-radius) / 2);
-                    font-size: 0.7rem;
+                    font-size: var(--font-small);
                     font-weight: 700;
                     letter-spacing: 0.05em;
                 }
@@ -649,7 +686,7 @@
                 padding: var(--cp-padding-xlarge) var(--cp-padding);
                 display: grid;
                 gap: var(--cp-gap-large);
-                font-size: 0.85rem;
+                font-size: var(--font-med);
 
                 @container (min-width: 600px) {
                     grid-template-columns: repeat(3, 1fr);
@@ -661,7 +698,7 @@
                     gap: var(--cp-gap-small);
 
                     strong {
-                        font-size: 0.9rem;
+                        font-size: var(--font-med);
                         margin-bottom: var(--cp-padding-tiny);
                         color: inherit !important;
                     }

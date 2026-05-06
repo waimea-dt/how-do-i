@@ -10,26 +10,26 @@
 	   ======================================================================== */
 
 	/* Spacing */
-	--ar-padding-tiny:      0.25rem;
-	--ar-padding-small:     0.5rem;
-	--ar-padding:           1rem;
-	--ar-padding-large:     1.5rem;
+	--ar-padding-tiny:      var(--padding-tiny);
+	--ar-padding-small:     var(--padding-small);
+	--ar-padding:           var(--padding);
+	--ar-padding-large:     var(--padding-large);
 
-	--ar-gap-tiny:          0.25rem;
-	--ar-gap-small:         0.5rem;
-	--ar-gap:               1rem;
-	--ar-gap-large:         1.5rem;
+	--ar-gap-tiny:          var(--gap-tiny);
+	--ar-gap-small:         var(--gap-small);
+	--ar-gap:               var(--gap);
+	--ar-gap-large:         var(--gap-large);
 
 	/* Colors */
-	--ar-bg:                var(--color-mono-0);
-	--ar-bg-header:         var(--color-mono-2);
-	--ar-bg-section:        var(--color-mono-1);
-	--ar-bg-card:           var(--color-mono-0);
-	--ar-border:            var(--color-mono-3);
+	--ar-bg:                var(--plugin-wrapper-bg);
+	--ar-bg-header:         var(--plugin-header-bg);
+	--ar-bg-section:        var(--plugin-panel-bg);
+	--ar-bg-card:           var(--plugin-panel-bg);
+	--ar-border:            var(--plugin-wrapper-border);
 	--ar-border-hover:      var(--color-mono-6);
 
-	--ar-title-color:       var(--theme-color);
-	--ar-subtitle-color:    var(--color-mono-7);
+	--ar-title-color:       var(--plugin-header-title);
+	--ar-subtitle-color:    var(--plugin-header-subtitle);
 	--ar-label-color:       var(--color-text);
 	--ar-muted:             var(--color-mono-4);
 
@@ -46,14 +46,10 @@
 	--ar-rejected-color:    var(--color-mono-2);
 
 	/* Button & controls */
-	--ar-btn-bg:            var(--color-mono-2);
-	--ar-btn-bg-hover:      var(--theme-color-3);
-	--ar-btn-bg-active:     var(--theme-color);
-	--ar-btn-color:         var(--color-text);
 	--ar-slider-accent:     var(--theme-color);
 
 	/* Shadows */
-	--ar-shadow-md:         0 2px 8px rgba(0, 0, 0, 0.15);
+	--ar-shadow-md:         var(--plugin-wrapper-shadow);
 
 	/* Typography */
 	--ar-font-mono:         var(--font-family-mono);
@@ -89,7 +85,7 @@
 
 				.ar-title {
 					margin: 0;
-					font-size: 1.5rem;
+					font-size: var(--font-display);
 					font-weight: 600;
 					color: var(--ar-title-color);
 					display: flex;
@@ -103,7 +99,7 @@
 
 				.ar-subtitle {
 					margin: 0;
-					font-size: 1rem;
+					font-size: var(--font-base);
                     font-weight: 400;
 					color: var(--ar-subtitle-color);
 				}
@@ -155,8 +151,7 @@
                         }
 
 						.ar-label {
-							font-size: 0.9rem;
-							font-weight: 600;
+								font-size: var(--font-med);
 							color: var(--ar-label-color);
 							min-width: 8rem;
 						}
@@ -210,7 +205,7 @@
 
 							.ar-slider-value {
 								font-family: var(--ar-font-mono);
-								font-size: 1rem;
+									font-size: var(--font-base);
 								font-weight: 600;
 								color: var(--ar-slider-accent);
 								min-width: 2.5rem;
@@ -228,7 +223,7 @@
 								width: 5rem;
 								padding: var(--ar-padding-tiny) var(--ar-padding-small);
 								font-family: var(--ar-font-mono);
-								font-size: 1rem;
+									font-size: var(--font-base);
 								font-weight: 600;
 								color: var(--ar-target-color);
 								background: var(--ar-bg-card);
@@ -262,39 +257,25 @@
 			}
 
             .ar-btn {
-                padding: var(--ar-padding-small) var(--ar-padding);
-                background: var(--ar-btn-bg);
-                color: var(--ar-btn-color);
-                border: 1px solid var(--ar-border);
-                border-radius: var(--border-radius-small);
-                font-size: 0.9rem;
-                font-weight: 600;
+				padding: var(--btn-padding-block) var(--btn-padding-inline);
+				border: 1px solid var(--btn-border);
+				border-radius: var(--btn-radius);
+				font-size: var(--btn-font-size);
+				font-weight: var(--btn-font-weight);
                 cursor: pointer;
-                transition: background 150ms, border-color 150ms, transform 150ms;
+				transition: var(--btn-transition);
                 display: flex;
                 align-items: center;
                 gap: var(--ar-gap-tiny);
 
-                svg {
-                    width: 1rem;
-                    height: 1rem;
-                    flex-shrink: 0;
-                }
-
                 &:hover:not(:disabled) {
-                    background: var(--ar-btn-bg-hover);
                     border-color: var(--ar-border-hover);
                     transform: translateY(-1px);
+					box-shadow: var(--btn-shadow-hover);
                 }
 
                 &:active:not(:disabled) {
                     transform: translateY(0);
-                }
-
-                &.ar-btn-primary {
-                    background: var(--ar-btn-bg-active);
-                    color: white;
-                    border-color: var(--ar-btn-bg-active);
                 }
 
                 &.ar-btn-small {
@@ -317,16 +298,7 @@
 				padding: var(--ar-padding-small) var(--ar-padding);
 				background: var(--ar-bg-card);
 				border-radius: var(--border-radius-small);
-				font-size: 0.85rem;
-				border: 1px solid var(--ar-border);
-
-				@container (min-width: 700px) {
-					flex-direction: column;
-				}
-
-				.ar-legend-item {
-					display: flex;
-					align-items: center;
+					font-size: var(--font-med);
 					gap: var(--ar-gap-small);
 
 					.ar-legend-swatch {
@@ -454,21 +426,20 @@
 							gap: var(--ar-gap-tiny);
 
 							.ar-track-title {
-								font-size: 1.1rem;
-								font-weight: 600;
-								margin: 0;
-							}
+										font-size: var(--font-large);
+										font-weight: 600;
+										margin: 0;
+									}
 
-							.ar-track-category {
-								font-size: 1.1rem;
-								font-weight: 400;
-								margin: 0;
-							}
+									.ar-track-category {
+										font-size: var(--font-large);
+										font-weight: 400;
+										margin: 0;
+									}
 
-							.ar-track-status {
-								font-family: var(--ar-font-mono);
-								font-size: 0.85rem;
-								color: var(--ar-muted);
+									.ar-track-status {
+										font-family: var(--ar-font-mono);
+										font-size: var(--font-med);
 								margin-top: var(--ar-gap-tiny);
 
 								&.is-found {
@@ -489,16 +460,11 @@
 							display: flex;
 							flex-direction: column;
 							align-items: flex-end;
-							font-size: 0.85rem;
-
-							.ar-stat-row {
-								display: flex;
-								align-items: center;
+									font-size: var(--font-med);
 								gap: var(--ar-gap-small);
 
 								&.ar-stat-total {
-									font-size: 0.95rem;
-									margin-top: var(--ar-gap-tiny);
+											font-size: var(--font-base);
 									padding-top: var(--ar-gap-tiny);
 									border-top: 1px solid var(--ar-border);
 								}
@@ -511,7 +477,7 @@
 								.ar-stat-value {
 									font-family: var(--ar-font-mono);
 									font-weight: 700;
-									font-size: 1rem;
+								font-size: var(--font-base);
 									color: var(--theme-color);
 									min-width: 2rem;
 									text-align: right;

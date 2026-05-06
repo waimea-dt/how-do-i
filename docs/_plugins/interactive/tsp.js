@@ -591,9 +591,9 @@
                     <div class="tsp-factorial"><span class="tsp-metric-label">${metricLabel}</span> <span class="tsp-factorial-value">...</span></div>
                 </div>
                 <div class="tsp-button-group">
-                    <button class="tsp-btn tsp-btn-start">Start</button>
-                    <button class="tsp-btn tsp-btn-stop" disabled>Stop</button>
-                    <button class="tsp-btn tsp-btn-reset">Reset</button>
+                    <button class="tsp-btn tsp-btn-start btn-go">Start</button>
+                    <button class="tsp-btn tsp-btn-stop btn-stop" disabled>Stop</button>
+                    <button class="tsp-btn tsp-btn-reset btn-reset">Reset</button>
                 </div>
                 <div class="tsp-visualization">
                     <canvas class="tsp-canvas"></canvas>

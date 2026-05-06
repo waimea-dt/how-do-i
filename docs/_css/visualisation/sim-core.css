@@ -32,9 +32,9 @@
 
 .markdown-section .sim-block {
     /* Design tokens - all sims share these; override per-sim */
-    --sim-wrapper-back:     var(--theme-color-1);
-    --sim-panel-back:       var(--color-mono-0);
-    --sim-border-color:     var(--color-mono-3);
+    --sim-wrapper-back:     var(--plugin-wrapper-bg);
+    --sim-panel-back:       var(--plugin-panel-bg);
+    --sim-border-color:     var(--plugin-wrapper-border);
     --sim-header-color:     var(--theme-color-6);
     --sim-highlight-color:  var(--highlight-color);
 
@@ -55,20 +55,12 @@
     --sim-null-color:       var(--color-mono-5);
     --sim-fieldname-color:  var(--color-mono-6);
 
-    /* Controls */
-    --sim-btn-bg:           var(--color-mono-min);
-    --sim-btn-border:       var(--border-color);
-    --sim-btn-text:         var(--color-text);
-    --sim-btn-hover:        var(--theme-color);
-    --sim-btn-reset-color:  var(--color-attention);
-    --sim-btn-next-color:   var(--palette-color-3);
-
     /* Spacing */
     --sim-gap:              0.75em;
-    --sim-gap-lg:           0.75rem;
-    --sim-padding:          0.75rem;
+    --sim-gap-lg:           var(--gap-med);
+    --sim-padding:          var(--padding-med);
     --sim-padding-cell:     0.25em 0.5em;
-    --sim-padding-btn:      0.3em 0.6em;
+    --sim-padding-btn:      var(--btn-padding-block) var(--btn-padding-inline);
 
     /* Typography */
     --sim-font-xs:   0.88em;
@@ -84,14 +76,14 @@
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     font-family: var(--font-family-mono);
-    font-size: 0.85rem;
+    font-size: var(--font-med);
 
     @container (min-width: 600px) {
-        font-size: 0.9rem;
+        font-size: var(--font-med);
     }
 
     @media (max-width: 768px) {
-        font-size: 0.8rem;
+        font-size: var(--font-small);
         padding: calc(var(--sim-padding) * 0.75);
     }
 
@@ -459,21 +451,16 @@
             align-items: center;
             gap: var(--sim-gap);
             padding: var(--sim-padding-btn);
-            background: var(--sim-btn-bg);
-            border: 1px solid var(--sim-btn-border);
-            border-radius: calc(var(--border-radius) / 2);
-            color: var(--sim-btn-text);
+            border-radius: var(--btn-radius);
             font-family: inherit;
-            font-size: var(--sim-font-base);
-            font-weight: 600;
+            font-size: var(--btn-font-size);
+            font-weight: var(--btn-font-weight);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--btn-transition);
 
             &:hover:not(:disabled) {
-                background: var(--color-mono-1);
-                border-color: var(--sim-btn-hover);
                 transform: translateY(-1px);
-                box-shadow: var(--box-shadow-small);
+                box-shadow: var(--btn-shadow-hover);
             }
 
             &:active:not(:disabled) { transform: translateY(0); }
@@ -481,16 +468,6 @@
             &:disabled {
                 opacity: 0.5;
                 cursor: not-allowed;
-            }
-
-            &.sim-btn-reset:hover:not(:disabled) {
-                border-color: var(--sim-btn-reset-color);
-                color: var(--sim-btn-reset-color);
-            }
-
-            &.sim-btn-next:hover:not(:disabled) {
-                border-color: var(--sim-btn-next-color);
-                color: var(--sim-btn-next-color);
             }
 
             .btn-icon {

@@ -12,13 +12,13 @@
     --steps-color:              var(--palette-color-1);
 
     /* Background colors */
-    --wrapper-bg:               var(--color-mono-0);
-    --section-bg:               var(--color-mono-1);
+    --wrapper-bg:               var(--plugin-wrapper-bg);
+    --section-bg:               var(--plugin-panel-bg);
     --input-bg:                 var(--color-mono-0);
     --place-value-bg:           var(--color-mono-0);
 
     /* Border colors */
-    --wrapper-border:           var(--color-mono-3);
+    --wrapper-border:           var(--plugin-wrapper-border);
     --input-border:             var(--color-mono-4);
     --input-border-hover:       var(--color-mono-5);
     --input-border-focus:       var(--theme-color);
@@ -33,13 +33,13 @@
     --place-operator-color:     var(--color-mono-6);
 
     /* Button colors */
-    --btn-bg:                   var(--theme-color-2);
-    --btn-bg-hover:             var(--theme-color-3);
-    --btn-color:                var(--color-mono-9);
+    --btn-bg:                   var(--btn-bg);
+    --btn-bg-hover:             var(--btn-bg-hover);
+    --btn-color:                var(--btn-text);
 
     /* Typography - base size for scaling */
     --convertor-base-font-size: 0.45rem;
-    --convertor-note-font-size: 0.7rem;
+    --convertor-note-font-size: var(--font-small);
     --convertor-font-mono:      var(--font-family-mono);
 
     display: block;
@@ -51,13 +51,13 @@
     }
 
     @container (min-width: 480px) {
-        --convertor-base-font-size: 0.6rem;
+        --convertor-base-font-size: var(--font-tiny);
         --convertor-note-font-size: 0.8rem;
     }
 
     @container (min-width: 800px) {
-        --convertor-base-font-size: 1rem;
-        --convertor-note-font-size: 1rem;
+        --convertor-base-font-size: var(--font-base);
+        --convertor-note-font-size: var(--font-base);
     }
 
     .convertor-wrapper {
@@ -138,7 +138,7 @@
         border-radius: calc(var(--border-radius) * 1);
         padding: 0.5em;
         font-family: var(--convertor-font-mono);
-        font-size: 1.5rem;
+        font-size: var(--font-display);
         color: var(--input-color);
         transition: border-color 200ms, box-shadow 200ms;
         text-align: center;
@@ -339,17 +339,18 @@
     .convertor-btn {
         background: var(--btn-bg);
         color: var(--btn-color);
-        border: none;
-        border-radius: var(--button-border-radius);
-        padding: 0.6em 1.25em;
-        font-size: var(--convertor-note-font-size);
-        font-weight: 600;
+        border: 1px solid var(--btn-border);
+        border-radius: var(--btn-radius);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        font-size: var(--btn-font-size);
+        font-weight: var(--btn-font-weight);
         cursor: pointer;
-        transition: background-color 200ms, transform 150ms;
+        transition: var(--btn-transition);
         white-space: nowrap;
 
         &:hover {
             background: var(--btn-bg-hover);
+            box-shadow: var(--btn-shadow-hover);
         }
 
         &:focus {

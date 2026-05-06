@@ -24,6 +24,10 @@
     --bigo-color-near-intractable:  color-mix(in srgb, var(--highlight-color), transparent 80%);
     --bigo-color-intractable:       color-mix(in srgb, var(--color-attention), transparent 70%);
 
+    /* Component micro-geometry */
+    --bigo-th-algo-padding:         0.8rem 0.2rem 0.4rem 0.2rem;
+    --bigo-cell-padding:            0.3rem 0.4rem;
+
 
     display: block;
     margin: var(--margin-block) 0;
@@ -34,7 +38,7 @@
         background:    var(--bigo-bg);
         border:        2px solid var(--bigo-border);
         border-radius: var(--border-radius);
-        padding:       0.75rem;
+        padding:       var(--padding-med);
         box-shadow:    var(--box-shadow);
         display:       grid;
         grid-template-columns: 1fr;
@@ -42,7 +46,7 @@
             "title"
             "table"
             "categories";
-        gap:           1.5rem;
+        gap:           var(--gap-large);
     }
 
     .bigo-title {
@@ -58,17 +62,17 @@
         display: flex;
         min-width: 250px;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: var(--gap-med);
     }
 
     .bigo-category {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: var(--gap-tiny);
     }
 
     .bigo-category-title {
-        font-size: 0.85rem;
+        font-size: var(--font-med);
         font-weight: 500;
         letter-spacing: 0.05em;
         text-transform: uppercase;
@@ -80,14 +84,14 @@
     .bigo-category-algos {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: var(--gap-tiny);
     }
 
     .bigo-algo-card {
         background: var(--bigo-card-bg);
         border: 1px solid var(--bigo-border);
         border-radius: calc(var(--border-radius) * 0.5);
-        padding: 0.2rem 0.5rem;
+        padding: var(--padding-tiny) var(--padding-small);
         cursor: pointer;
         user-select: none;
         transition: all 120ms;
@@ -158,19 +162,19 @@
         width: min(100%, fit-content);
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: var(--gap-small);
     }
 
     .bigo-table {
         border-collapse: collapse;
-        font-size: 0.85rem;
+        font-size: var(--font-med);
     }
 
     .bigo-table-header {
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        font-size: 0.7rem;
+        font-size: var(--font-small);
 
         th {
             text-align: center;
@@ -190,19 +194,19 @@
             text-orientation: mixed;
             transform: rotate(180deg);
             min-width: 3rem;
-            padding: 0.8rem 0.2rem 0.4rem 0.2rem;
+            padding: var(--bigo-th-algo-padding);
             text-align: left;
             vertical-align: middle;
         }
 
         .bigo-th-algo-name {
-            font-size: 0.75rem;
-            margin-bottom: 0.5rem;
+            font-size: var(--font-small);
+            margin-bottom: var(--space-small);
         }
 
         .bigo-th-algo-complexity {
             font-family: var(--bigo-font-mono);
-            font-size: 0.7rem;
+            font-size: var(--font-small);
             color: var(--bigo-complexity-color);
             text-transform: none;
             letter-spacing: 0;
@@ -213,40 +217,40 @@
             writing-mode: horizontal-tb;
             transform: none;
             min-width: unset;
-            padding: 0.5rem;
+            padding: var(--padding-small);
             height: auto;
         }
 
         .bigo-th-algo-multi .bigo-th-algo-name {
             writing-mode: horizontal-tb;
             transform: none;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
+            font-size: var(--font-med);
+            margin-bottom: var(--space-small);
             text-align: center;
         }
 
         .bigo-th-algo-subcols {
             display: flex;
-            gap: 0.5rem;
+            gap: var(--gap-small);
             justify-content: space-around;
         }
 
         .bigo-th-algo-subcol {
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
+            gap: var(--gap-tiny);
             text-align: center;
             min-width: 3.5rem;
         }
 
         .bigo-th-algo-sublabel {
-            font-size: 0.65rem;
+            font-size: var(--font-tiny);
             font-weight: 500;
             color: var(--bigo-muted);
         }
 
         .bigo-th-algo-subcol .bigo-th-algo-complexity {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
 
             em {
                 color: var(--bigo-muted);
@@ -256,7 +260,7 @@
     }
 
     .bigo-td-n {
-        padding: 0.3rem 0.4rem;
+        padding: var(--bigo-cell-padding);
         border-right-width: 2px;
         font-weight: 600;
         text-align: center;
@@ -264,11 +268,11 @@
     }
 
     .bigo-td-effort {
-        padding: 0.3rem 0.4rem;
+        padding: var(--bigo-cell-padding);
         white-space: nowrap;
         text-align: center;
         font-family: var(--bigo-font-mono);
-        font-size: 0.85rem;
+        font-size: var(--font-med);
         color: var(--color-text);
         background-color: var(--bigo-color-tractable);
 
@@ -304,8 +308,8 @@
 
     @container (min-width: 800px) {
         .bigo-wrapper {
-            padding: 1rem;
-            gap: 2rem;
+            padding: var(--padding);
+            gap: var(--gap-xlarge);
             width: fit-content;
             margin-inline: auto;
             grid-template-columns: minmax(1fr, auto) 1fr;

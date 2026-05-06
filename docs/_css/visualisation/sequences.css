@@ -6,13 +6,13 @@
     --sequence-block-border-color: var(--color-mono-3);
     --sequence-block-border-color--focus: var(--theme-color);
     --sequence-arrow-color: var(--theme-color);
-    --sequence-gap: 1.8em;
+    --sequence-gap: var(--gap-large);
 
     /* Base layout */
     display: flex !important;
     flex-direction: column;
     list-style: none;
-    margin-block: 2em;
+    margin-block: var(--margin-block);
     margin-inline: auto !important;
     gap: var(--sequence-gap) 0;
     min-width: 30%;
@@ -36,13 +36,13 @@
 .markdown-section .sequence > li.sequence-item {
     margin: 0;
     flex: 1;
-    padding: 0.8em;
+    padding: var(--padding-med);
     background-color: var(--sequence-block-back-color);
     border: 1px solid var(--sequence-block-border-color);
-    border-radius: 0.25em;
+    border-radius: var(--border-radius-small);
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: var(--gap);
     justify-content: flex-start;
     position: relative;
     transition: all 250ms;

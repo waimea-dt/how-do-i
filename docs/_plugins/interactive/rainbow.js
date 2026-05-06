@@ -82,8 +82,8 @@
                         spellcheck="false"
                         maxlength="80"
                     >
-                    <button class="rt-start-btn">Start</button>
-                    <button class="rt-reset-btn" disabled>Reset</button>
+                    <button class="rt-start-btn btn-go">Start</button>
+                    <button class="rt-reset-btn btn-reset" disabled>Reset</button>
                 </div>
             </div>
 

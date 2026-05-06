@@ -5,29 +5,23 @@
 .markdown-section knapsack {
 
     /* ---- Design tokens ---- */
-    --knapsack-bg: var(--color-mono-1);
-    --knapsack-bg-header: var(--color-mono-2);
-    --knapsack-bg-inventory: var(--color-mono-0);
-    --knapsack-bg-canvas: var(--color-mono-0);
+    --knapsack-bg: var(--plugin-wrapper-bg);
+    --knapsack-bg-header: var(--plugin-header-bg);
+    --knapsack-bg-inventory: var(--plugin-panel-bg);
+    --knapsack-bg-canvas: var(--plugin-panel-bg);
     --knapsack-bg-stat: var(--color-mono-2);
-    --knapsack-border: var(--color-mono-3);
+    --knapsack-border: var(--plugin-wrapper-border);
 
     --knapsack-track-border: var(--color-mono-6);
     --knapsack-slice-bg: var(--palette-color-2);
 
-    --knapsack-title-color: var(--theme-color);
-    --knapsack-subtitle-color: var(--color-mono-6);
+    --knapsack-title-color: var(--plugin-header-title);
+    --knapsack-subtitle-color: var(--plugin-header-subtitle);
     --knapsack-label-color: var(--color-mono-7);
     --knapsack-input-bg: var(--color-mono-0);
     --knapsack-value-color: var(--theme-color);
     --knapsack-metric-color: color-mix(in srgb, var(--theme-color), var(--color-text) 55%);
     --knapsack-muted: var(--color-mono-6);
-
-    --knapsack-btn-bg: var(--theme-color-3);
-    --knapsack-btn-bg-hover: var(--theme-color-4);
-    --knapsack-btn-stop-bg: var(--color-attention);
-    --knapsack-btn-reset-bg: var(--color-mono-2);
-    --knapsack-btn-reset-hover: var(--color-mono-3);
 
     --knapsack-item-default: var(--color-mono-3);
     --knapsack-item-selected: var(--theme-color);
@@ -39,12 +33,12 @@
     --knapsack-comparison-equal: var(--theme-color);
     --knapsack-comparison-different: var(--color-attention);
 
-    --knapsack-padding: 1rem;
-    --knapsack-padding-small: 0.5rem;
-    --knapsack-padding-tiny: 0.25rem;
+    --knapsack-padding: var(--padding);
+    --knapsack-padding-small: var(--padding-small);
+    --knapsack-padding-tiny: var(--padding-tiny);
 
-    --knapsack-gap: 1rem;
-    --knapsack-gap-small: 0.5rem;
+    --knapsack-gap: var(--gap);
+    --knapsack-gap-small: var(--gap-small);
 
     --knapsack-status-bg: rgba(0, 0, 0, 0.5);
 
@@ -71,14 +65,14 @@
 
     .knapsack-title {
         margin: 0 0 0.25rem 0;
-        font-size: 1.25rem;
+        font-size: var(--font-xlarge);
         font-weight: 600;
         color: var(--knapsack-title-color);
     }
 
     .knapsack-subtitle {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--knapsack-subtitle-color);
     }
 
@@ -150,7 +144,7 @@
     .knapsack-items-label {
         display: block;
         text-wrap: nowrap;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--knapsack-label-color);
     }
 
@@ -171,17 +165,17 @@
         color: var(--theme-color);
         font: inherit;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: var(--font-base);
         text-align: center;
     }
 
     .knapsack-combo-label {
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--knapsack-label-color);
     }
 
     .knapsack-combo-value {
-        font-size: 1.1rem;
+        font-size: var(--font-large);
         font-weight: 650;
         color: var(--knapsack-value-color);
     }
@@ -200,23 +194,19 @@
 
         .knapsack-btn {
             flex: 1;
-            padding: var(--knapsack-padding-small) var(--knapsack-padding);
-            border: 1px solid var(--knapsack-btn-bg);
-            border-radius: var(--border-radius-small);
-            background: var(--knapsack-btn-bg);
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 500;
+            padding: var(--btn-padding-block) var(--btn-padding-inline);
+            border-radius: var(--btn-radius);
+            font-size: var(--btn-font-size);
+            font-weight: var(--btn-font-weight);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--btn-transition);
             display: flex;
             justify-content: center;
             align-items: center;
 
             &:hover:not(:disabled) {
-                background: var(--knapsack-btn-bg-hover);
-                border-color: var(--knapsack-btn-bg-hover);
                 transform: translateY(-1px);
+                box-shadow: var(--btn-shadow-hover);
             }
 
             &:active:not(:disabled) {
@@ -228,26 +218,6 @@
                 cursor: not-allowed;
             }
 
-            &.knapsack-btn-stop {
-                background: var(--knapsack-btn-stop-bg);
-                border-color: var(--knapsack-btn-stop-bg);
-
-                &:hover:not(:disabled) {
-                    background: color-mix(in srgb, var(--knapsack-btn-stop-bg), black 15%);
-                    border-color: color-mix(in srgb, var(--knapsack-btn-stop-bg), black 15%);
-                }
-            }
-
-            &.knapsack-btn-reset {
-                background: var(--knapsack-btn-reset-bg);
-                border-color: var(--knapsack-btn-reset-bg);
-                color: var(--knapsack-label-color);
-
-                &:hover:not(:disabled) {
-                    background: var(--knapsack-btn-reset-hover);
-                    border-color: var(--knapsack-btn-reset-hover);
-                }
-            }
         }
     }
 
@@ -304,14 +274,14 @@
         }
 
         .knapsack-stat-label {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             color: var(--knapsack-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .knapsack-stat-value {
-            font-size: 1.1rem;
+            font-size: var(--font-large);
             font-weight: 600;
             color: var(--knapsack-value-color);
             word-wrap: break-word;
@@ -321,7 +291,7 @@
 
         .knapsack-stat-status {
             grid-column: 1 / -1;
-            font-size: 0.8rem;
+            font-size: var(--font-small);
             color: var(--knapsack-label-color);
             line-height: 1.3;
             font-style: italic;
@@ -332,10 +302,10 @@
     /* ---- Bag Visualization ---- */
 
     .knapsack-sacks {
-        padding: 1.5rem;
+        padding: var(--padding-large);
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: var(--gap-xlarge);
 
         .knapsack-sack-card {
             display: flex;
@@ -347,7 +317,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.95rem;
+            font-size: var(--font-med);
             margin-bottom: 0.35rem;
 
             span:first-child {
@@ -357,7 +327,7 @@
         }
 
         .knapsack-sack-summary {
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             color: var(--knapsack-muted);
             font-weight: 450;
         }
@@ -406,8 +376,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.1rem;
-            font-size: 1.1rem;
+            gap: var(--gap-micro, var(--space-micro));
+            font-size: var(--font-large);
             font-weight: 700;
             color: white;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
@@ -428,7 +398,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--knapsack-muted);
         font-style: italic;
     }
@@ -437,7 +407,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.8rem;
+        font-size: var(--font-small);
         color: var(--knapsack-muted);
         background: repeating-linear-gradient(
             45deg,
@@ -453,7 +423,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.85rem;
+        font-size: var(--font-med);
         font-weight: 600;
         color: white;
         background: var(--color-attention);
@@ -480,7 +450,7 @@
         border-radius: var(--border-radius-small);
 
         .knapsack-panel-title {
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.06em;
@@ -491,7 +461,7 @@
         .knapsack-item-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.4rem;
+            gap: var(--gap-small);
             align-items: flex-end;
         }
     }
@@ -512,7 +482,7 @@
         &:hover {
             transform: scale(1.15);
             z-index: 10;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--box-shadow);
         }
 
         &.is-best {
@@ -543,7 +513,7 @@
         }
 
         .knapsack-item-tile-label {
-            font-size: 1.1rem;
+            font-size: var(--font-large);
             font-weight: 700;
             color: var(--color-text);
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
@@ -552,7 +522,7 @@
         }
 
         .knapsack-item-tile-stats {
-            font-size: 0.65rem;
+            font-size: var(--font-tiny);
             font-weight: 500;
             color: var(--knapsack-label-color);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -574,12 +544,12 @@
             right: -0.35rem;
             background: rgba(0, 0, 0, 0.7);
             color: white;
-            font-size: 0.65rem;
+            font-size: var(--font-tiny);
             font-weight: 600;
             padding: 0.15rem 0.35rem;
             border-radius: 0.3rem;
             line-height: 1;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--box-shadow-small);
         }
     }
 
@@ -603,7 +573,7 @@
         padding: var(--knapsack-padding);
 
         .knapsack-comparison-title {
-            font-size: 1rem;
+            font-size: var(--font-base);
             font-weight: 600;
             color: var(--knapsack-label-color);
             margin-bottom: 0.75rem;
@@ -628,7 +598,7 @@
 
             &:hover {
                 border-color: var(--knapsack-value-color);
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                box-shadow: var(--box-shadow-small);
             }
 
             &.knapsack-comparison-summary {
@@ -643,7 +613,7 @@
         }
 
         .knapsack-comparison-label {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             color: var(--knapsack-muted);
             margin-bottom: 0.5rem;
             text-transform: uppercase;
@@ -651,19 +621,19 @@
         }
 
         .knapsack-comparison-value {
-            font-size: 1rem;
+            font-size: var(--font-base);
             font-weight: 600;
             color: var(--knapsack-value-color);
             margin-bottom: 0.25rem;
         }
 
         .knapsack-comparison-time {
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             color: var(--knapsack-label-color);
         }
 
         .knapsack-comparison-diff {
-            font-size: 0.95rem;
+            font-size: var(--font-med);
             font-weight: 600;
             color: var(--knapsack-value-color);
         }

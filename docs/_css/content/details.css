@@ -13,8 +13,8 @@
     --details-summary-icon-color:       var(--color-mono-6);
     --details-summary-icon-color-high:  var(--color-mono-8);
 
-    --details-padding:                  1rem;
-    --details-gap:                      1rem;
+    --details-padding:                  var(--padding);
+    --details-gap:                      var(--gap);
 
     background-color: var(--details-back-color);
     border: 1px solid var(--details-border-color);

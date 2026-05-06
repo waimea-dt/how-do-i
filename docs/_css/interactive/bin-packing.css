@@ -5,30 +5,24 @@
 .markdown-section bin-packing {
 
     /* ---- Design tokens ---- */
-    --bin-packing-bg: var(--color-mono-1);
-    --bin-packing-bg-header: var(--color-mono-2);
-    --bin-packing-bg-inventory: var(--color-mono-0);
-    --bin-packing-bg-canvas: var(--color-mono-0);
+    --bin-packing-bg: var(--plugin-wrapper-bg);
+    --bin-packing-bg-header: var(--plugin-header-bg);
+    --bin-packing-bg-inventory: var(--plugin-panel-bg);
+    --bin-packing-bg-canvas: var(--plugin-panel-bg);
     --bin-packing-bg-stat: var(--color-mono-2);
-    --bin-packing-border: var(--color-mono-3);
+    --bin-packing-border: var(--plugin-wrapper-border);
 
     --bin-packing-bin-border: var(--color-mono-6);
     --bin-packing-slice-bg: var(--palette-color-5);
     --bin-packing-slice-bg2: var(--palette-color-8);
 
-    --bin-packing-title-color: var(--theme-color);
-    --bin-packing-subtitle-color: var(--color-mono-6);
+    --bin-packing-title-color: var(--plugin-header-title);
+    --bin-packing-subtitle-color: var(--plugin-header-subtitle);
     --bin-packing-label-color: var(--color-mono-7);
     --bin-packing-input-bg: var(--color-mono-0);
     --bin-packing-value-color: var(--theme-color);
     --bin-packing-metric-color: color-mix(in srgb, var(--theme-color), var(--color-text) 55%);
     --bin-packing-muted: var(--color-mono-6);
-
-    --bin-packing-btn-bg: var(--theme-color-3);
-    --bin-packing-btn-bg-hover: var(--theme-color-4);
-    --bin-packing-btn-stop-bg: var(--color-attention);
-    --bin-packing-btn-reset-bg: var(--color-mono-2);
-    --bin-packing-btn-reset-hover: var(--color-mono-3);
 
     --bin-packing-item-default: var(--color-mono-3);
     --bin-packing-item-current: var(--highlight-color);
@@ -37,12 +31,12 @@
     --bin-packing-comparison-equal: var(--theme-color);
     --bin-packing-comparison-different: var(--color-attention);
 
-    --bin-packing-padding: 1rem;
-    --bin-packing-padding-small: 0.5rem;
-    --bin-packing-padding-tiny: 0.25rem;
+    --bin-packing-padding: var(--padding);
+    --bin-packing-padding-small: var(--padding-small);
+    --bin-packing-padding-tiny: var(--padding-tiny);
 
-    --bin-packing-gap: 1rem;
-    --bin-packing-gap-small: 0.5rem;
+    --bin-packing-gap: var(--gap);
+    --bin-packing-gap-small: var(--gap-small);
 
     --bin-width: 50px;
     --bin-height: 250px;
@@ -70,14 +64,14 @@
 
     .bin-packing-title {
         margin: 0 0 0.25rem 0;
-        font-size: 1.25rem;
+        font-size: var(--font-xlarge);
         font-weight: 600;
         color: var(--bin-packing-title-color);
     }
 
     .bin-packing-subtitle {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--bin-packing-subtitle-color);
         line-height: 1.4;
     }
@@ -144,7 +138,7 @@
     .bin-packing-items-label {
         display: block;
         text-wrap: nowrap;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--bin-packing-label-color);
     }
 
@@ -165,17 +159,17 @@
         color: var(--theme-color);
         font: inherit;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: var(--font-base);
         text-align: center;
     }
 
     .bin-packing-combo-label {
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--bin-packing-label-color);
     }
 
     .bin-packing-combo-value {
-        font-size: 1.1rem;
+        font-size: var(--font-large);
         font-weight: 650;
         color: var(--bin-packing-value-color);
     }
@@ -196,23 +190,19 @@
 
         .bin-packing-btn {
             flex: 1;
-            padding: var(--bin-packing-padding-small) var(--bin-packing-padding);
-            border: 1px solid var(--bin-packing-btn-bg);
-            border-radius: var(--border-radius-small);
-            background: var(--bin-packing-btn-bg);
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 500;
+            padding: var(--btn-padding-block) var(--btn-padding-inline);
+            border-radius: var(--btn-radius);
+            font-size: var(--btn-font-size);
+            font-weight: var(--btn-font-weight);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--btn-transition);
             display: flex;
             justify-content: center;
             align-items: center;
 
             &:hover:not(:disabled) {
-                background: var(--bin-packing-btn-bg-hover);
-                border-color: var(--bin-packing-btn-bg-hover);
                 transform: translateY(-1px);
+                box-shadow: var(--btn-shadow-hover);
             }
 
             &:active:not(:disabled) {
@@ -222,28 +212,6 @@
             &:disabled {
                 opacity: 0.5;
                 cursor: not-allowed;
-            }
-
-            &.bin-packing-btn-stop {
-                background: var(--bin-packing-btn-stop-bg);
-                border-color: var(--bin-packing-btn-stop-bg);
-
-                &:hover:not(:disabled) {
-                    background: color-mix(in srgb, var(--bin-packing-btn-stop-bg), black 15%);
-                    border-color: color-mix(in srgb, var(--bin-packing-btn-stop-bg), black 15%);
-                }
-            }
-
-            &.bin-packing-btn-reset,
-            &.bin-packing-btn-randomise {
-                background: var(--bin-packing-btn-reset-bg);
-                border-color: var(--bin-packing-btn-reset-bg);
-                color: var(--bin-packing-label-color);
-
-                &:hover:not(:disabled) {
-                    background: var(--bin-packing-btn-reset-hover);
-                    border-color: var(--bin-packing-btn-reset-hover);
-                }
             }
 
             &.bin-packing-btn-secondary {
@@ -294,7 +262,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
+            font-size: var(--font-med);
         }
 
         .bin-packing-bin-label {
@@ -303,7 +271,7 @@
         }
 
         .bin-packing-bin-summary {
-            font-size: 0.8rem;
+            font-size: var(--font-small);
             color: var(--bin-packing-muted);
             font-weight: 500;
         }
@@ -338,7 +306,7 @@
         align-items: center;
         justify-content: center;
         gap: var(--bin-packing-gap-small);
-        padding: 0 0.25rem;
+        padding: 0 var(--padding-tiny);
         position: relative;
         border-bottom: 1px solid var(--bin-packing-bg);
         transition: all 0.2s;
@@ -353,7 +321,7 @@
         }
 
         .bin-packing-slice-text {
-            font-size: 1rem;
+            font-size: var(--font-base);
             font-weight: 700;
             color: white;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -361,7 +329,7 @@
         }
 
         .bin-packing-slice-size {
-            font-size: 0.7rem;
+            font-size: var(--font-small);
             font-weight: 600;
             color: rgba(255, 255, 255, 0.8);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -387,7 +355,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        font-size: 0.7rem;
+        font-size: var(--font-small);
         color: var(--bin-packing-muted);
     }
 
@@ -427,14 +395,14 @@
         }
 
         .bin-packing-stat-label {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             color: var(--bin-packing-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .bin-packing-stat-value {
-            font-size: 1.1rem;
+            font-size: var(--font-large);
             font-weight: 600;
             color: var(--bin-packing-value-color);
             word-wrap: break-word;
@@ -444,7 +412,7 @@
 
         .bin-packing-stat-status {
             grid-column: 1 / -1;
-            font-size: 0.8rem;
+            font-size: var(--font-small);
             color: var(--bin-packing-label-color);
             line-height: 1.3;
             font-style: italic;
@@ -468,7 +436,7 @@
         border-radius: var(--border-radius-small);
 
         .bin-packing-panel-title {
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.06em;
@@ -479,7 +447,7 @@
         .bin-packing-item-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: var(--gap-small);
             align-items: flex-end;
         }
     }
@@ -500,11 +468,11 @@
         &:hover {
             transform: scale(1.15);
             z-index: 10;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--box-shadow);
         }
 
         .bin-packing-item-tile-label {
-            font-size: 1rem;
+            font-size: var(--font-base);
             font-weight: 700;
             color: white;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -513,7 +481,7 @@
         }
 
         .bin-packing-item-tile-size {
-            font-size: 0.7rem;
+            font-size: var(--font-small);
             font-weight: 600;
             color: rgba(255, 255, 255, 0.85);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -536,7 +504,7 @@
         }
 
         .bin-packing-panel-title {
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.06em;
@@ -571,14 +539,14 @@
         }
 
         .bin-packing-comparison-label {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             color: var(--bin-packing-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .bin-packing-comparison-value {
-            font-size: 1.1rem;
+            font-size: var(--font-large);
             font-weight: 650;
             color: var(--bin-packing-value-color);
 
@@ -592,7 +560,7 @@
         }
 
         .bin-packing-comparison-meta {
-            font-size: 0.8rem;
+            font-size: var(--font-small);
             color: var(--bin-packing-label-color);
             font-style: italic;
         }

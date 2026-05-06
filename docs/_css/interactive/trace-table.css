@@ -5,14 +5,14 @@
 .markdown-section .trace-table-container {
 
     /* ---- Design tokens ---- */
-    --trace-bg: var(--color-mono-1);
+    --trace-bg: var(--plugin-wrapper-bg);
 
-    --trace-bg-header: var(--color-mono-2);
-    --trace-title-color: var(--theme-color);
-    --trace-subtitle-color: var(--color-mono-6);
+    --trace-bg-header: var(--plugin-header-bg);
+    --trace-title-color: var(--plugin-header-title);
+    --trace-subtitle-color: var(--plugin-header-subtitle);
 
     --trace-bg-code: var(--code-bg-color);
-    --trace-border: var(--color-mono-3);
+    --trace-border: var(--plugin-wrapper-border);
     --trace-muted: var(--color-mono-5);
 
     --trace-bg-table: var(--code-bg-color);
@@ -21,19 +21,14 @@
     --trace-value-color: var(--color-text);
     --trace-empty: var(--color-mono-4);
 
-    --trace-btn-bg: var(--theme-color-3);
-    --trace-btn-bg-hover: var(--theme-color-4);
-    --trace-btn-reset-bg: var(--color-mono-2);
-    --trace-btn-reset-hover: var(--color-mono-3);
-
     --trace-line-active: var(--highlight-color);
     --trace-line-active-bg: color-mix(in srgb, var(--highlight-color) 10%, transparent);
     --trace-row-active-bg: color-mix(in srgb, var(--theme-color) 15%, transparent);
     --trace-cell-highlight: var(--theme-color);
 
-    --trace-padding: 1rem;
-    --trace-padding-small: 0.5rem;
-    --trace-padding-tiny: 0.25rem;
+    --trace-padding: var(--padding);
+    --trace-padding-small: var(--padding-small);
+    --trace-padding-tiny: var(--padding-tiny);
 
     display: block;
     margin: var(--margin-block) 0;
@@ -58,14 +53,14 @@
 
         .trace-table-title {
             margin: 0 0 0.25rem 0;
-            font-size: 1.25rem;
+            font-size: var(--font-xlarge);
             font-weight: 600;
             color: var(--trace-title-color);
         }
 
         .trace-table-subtitle {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             color: var(--trace-subtitle-color);
         }
     }
@@ -99,7 +94,7 @@
         border-radius: var(--border-radius);
         overflow: auto;
         font-family: 'Courier New', monospace;
-        font-size: 0.95rem;
+        font-size: var(--font-med);
         padding: var(--trace-padding-small) var(--trace-padding);
     }
 
@@ -137,7 +132,7 @@
             right: 0.5rem;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 2rem;
+            font-size: var(--font-hero);
             font-weight: 700;
             line-height: 1;
         }
@@ -323,40 +318,15 @@
             justify-content: center;
 
             .trace-table-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-                font-weight: 500;
-                border: none;
-                border-radius: var(--border-radius);
+                padding: var(--btn-padding-block) var(--btn-padding-inline);
+                font-size: var(--btn-font-size);
+                font-weight: var(--btn-font-weight);
+                border-radius: var(--btn-radius);
                 cursor: pointer;
-                transition: all 0.2s ease;
+                transition: var(--btn-transition);
 
-                &.trace-table-btn-play,
-                &.trace-table-btn-step {
-                    background: var(--trace-btn-bg);
-                    color: white;
-
-                    &:hover:not(:disabled) {
-                        background: var(--trace-btn-bg-hover);
-                    }
-                }
-
-                &.trace-table-btn-pause {
-                    background: var(--color-attention);
-                    color: white;
-
-                    &:hover:not(:disabled) {
-                        opacity: 0.8;
-                    }
-                }
-
-                &.trace-table-btn-reset {
-                    background: var(--trace-btn-reset-bg);
-                    color: var(--color-text);
-
-                    &:hover:not(:disabled) {
-                        background: var(--trace-btn-reset-hover);
-                    }
+                &:hover:not(:disabled) {
+                    box-shadow: var(--btn-shadow-hover);
                 }
 
                 &:disabled {

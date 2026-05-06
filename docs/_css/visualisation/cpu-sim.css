@@ -3,9 +3,9 @@
  */
 
 .markdown-section .cpu-simulator {
-    --cpu-wrapper-back-color:   var(--theme-color-1);
-    --cpu-border-color:         var(--color-mono-3);
-    --cpu-panel-back-color:     var(--color-mono-0);
+    --cpu-wrapper-back-color:   var(--plugin-wrapper-bg);
+    --cpu-border-color:         var(--plugin-wrapper-border);
+    --cpu-panel-back-color:     var(--plugin-panel-bg);
 
     /* Component-specific colors */
     --cpu-fetch-color:          var(--palette-color-3);
@@ -44,15 +44,6 @@
     --status-secondary-color:   var(--color-mono-6);
     --status-border-color:      var(--theme-color);
 
-    /* Control button colors */
-    --btn-bg:                   var(--color-mono-min);
-    --btn-border:               var(--border-color);
-    --btn-text:                 var(--color-text);
-    --btn-hover-border:         var(--theme-color);
-    --btn-reset-color:          var(--color-attention);
-    --btn-step-color:           var(--cpu-fetch-color);
-    --btn-run-color:            var(--cpu-execute-color);
-
     /* Section header colors */
     --section-header-color:     var(--theme-color-6);
     --directive-header-color:   var(--secondary-color-6);
@@ -84,14 +75,14 @@
     background: color-mix(in srgb, var(--error-color), var(--color-bg) 85%);
     border: 2px solid var(--error-color);
     border-radius: var(--border-radius);
-    padding: 1rem;
+    padding: var(--padding);
     margin: var(--margin-block) 0;
     font-family: var(--font-family-mono);
 
     .error-title {
         color: var(--error-color);
         display: block;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--space-small);
         font-size: 1.1em;
         font-weight: 700;
     }
@@ -114,12 +105,12 @@
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     font-family: var(--font-family-mono);
-    font-size: 0.75rem;
+    font-size: var(--font-small);
 
     @container (min-width: 600px) {
         --padding-panel: 1em;
         --gap-large: 1em;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
     }
 
     .cpu-sim-grid {
@@ -447,7 +438,7 @@
             margin-bottom: 0.5em;
 
             &:not(:first-of-type) {
-                margin-top: 1rem;
+                margin-top: var(--space);
             }
 
             .line-code {
@@ -659,22 +650,17 @@
         justify-content: center;
         min-width: 3em;
         gap: var(--gap-normal);
-        padding: var(--padding-button);
-        background: var(--btn-bg);
-        border: 1px solid var(--btn-border);
-        border-radius: calc(var(--border-radius) / 2);
-        color: var(--btn-text);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        border-radius: var(--btn-radius);
         font-family: inherit;
-        font-size: var(--font-size-base);
-        font-weight: 600;
+        font-size: var(--btn-font-size);
+        font-weight: var(--btn-font-weight);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: var(--btn-transition);
 
         &:hover:not(:disabled) {
-            background: var(--color-mono-1);
-            border-color: var(--btn-hover-border);
             transform: translateY(-1px);
-            box-shadow: var(--box-shadow-small);
+            box-shadow: var(--btn-shadow-hover);
         }
 
         &:active:not(:disabled) {
@@ -689,29 +675,6 @@
         .btn-icon {
             font-size: var(--font-size-lg);
             line-height: 1;
-        }
-    }
-
-    .cpu-btn-reset:hover:not(:disabled) {
-        border-color: var(--btn-reset-color);
-        color: var(--btn-reset-color);
-    }
-
-    .cpu-btn-step:hover:not(:disabled) {
-        border-color: var(--btn-step-color);
-        color: var(--btn-step-color);
-    }
-
-    .cpu-btn-run {
-        &:hover:not(:disabled) {
-            border-color: var(--btn-run-color);
-            color: var(--btn-run-color);
-        }
-
-        &.running {
-            background: color-mix(in srgb, var(--cpu-execute-color) 15%, var(--color-mono-1));
-            border-color: var(--cpu-execute-color);
-            color: var(--cpu-execute-color);
         }
     }
 

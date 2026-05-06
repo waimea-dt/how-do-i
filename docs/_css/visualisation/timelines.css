@@ -14,14 +14,14 @@
     --timeline-date-fg-color:   var(--secondary-color-5);
     --timeline-title-fg-color:  var(--theme-color-5);
 
-    margin: 2em 1em;
+    margin: var(--margin-block) var(--gap);
 }
 
 /* Date and title row */
 
 .markdown-section dl.timeline dt {
     display: flex;
-    gap: 0.8em;
+    gap: var(--gap-med);
     align-items: center;
     height: 1.5em;
 }
@@ -39,13 +39,13 @@
 
 .markdown-section dl.timeline dt .date {
     display: block;
-    font-size: 1.2em;
+    font-size: var(--font-xlarge);
     color: var(--timeline-date-fg-color);
     white-space: nowrap;
 }
 
 .markdown-section dl.timeline dt .title {
-    font-size: 1.1em;
+    font-size: var(--font-large);
     line-height: 1;
     color: var(--timeline-title-fg-color);
 }

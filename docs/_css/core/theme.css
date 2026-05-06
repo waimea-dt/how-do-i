@@ -11,8 +11,8 @@
 
     /* Theme color variants */
     --color-mono-0:               color-mix(in srgb, var(--color-mono-min),  #000                10%);
-    --theme-color-0:              color-mix(in srgb, var(--theme-color),     var(--color-bg)       97%);
-    --secondary-color-0:          color-mix(in srgb, var(--secondary-color), var(--color-bg)       97%);
+    --theme-color-0:              color-mix(in srgb, var(--theme-color),     var(--color-mono-min) 97%);
+    --secondary-color-0:          color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 97%);
 
     --secondary-color-1:          color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 90%);
     --secondary-color-2:          color-mix(in srgb, var(--secondary-color), var(--color-mono-min) 75%);
@@ -66,6 +66,23 @@
     --font-family-mono:           "Source Code Pro", monospace;
     --font-size:                  18px;
     --font-size-mono:             1em;
+    --font-tiny:                  0.6rem;
+    --font-small:                 0.75rem;
+    --font-med:                   0.9rem;
+    --font-base:                  1rem;
+    --font-large:                 1.1rem;
+    --font-xlarge:                1.25rem;
+    --font-display:               1.5rem;
+    --font-hero:                  2rem;
+
+    --font-size-tiny:             var(--font-tiny);
+    --font-size-small:            var(--font-small);
+    --font-size-med:              var(--font-med);
+    --font-size-base:             var(--font-base);
+    --font-size-large:            var(--font-large);
+    --font-size-xlarge:           var(--font-xlarge);
+    --font-size-display:          var(--font-display);
+    --font-size-hero:             var(--font-hero);
     --line-height:                1.5;
 
     /* Layout */
@@ -74,6 +91,87 @@
     --border-radius-med:          0.4rem;
     --border-radius-small:        0.27rem;
     --margin-block:               1.75rem;
+
+    --space-micro:                0.1rem;
+    --space-tiny:                 0.25rem;
+    --space-small:                0.5rem;
+    --space-med:                  0.75rem;
+    --space:                      1rem;
+    --space-large:                1.5rem;
+    --space-xlarge:               2rem;
+
+    --padding-micro:              var(--space-micro);
+    --padding-tiny:               var(--space-tiny);
+    --padding-small:              var(--space-small);
+    --padding-med:                var(--space-med);
+    --padding:                    var(--space);
+    --padding-large:              var(--space-large);
+    --padding-xlarge:             var(--space-xlarge);
+
+    --gap-tiny:                   var(--space-tiny);
+    --gap-small:                  var(--space-small);
+    --gap-med:                    var(--space-med);
+    --gap:                        var(--space);
+    --gap-large:                  var(--space-large);
+    --gap-xlarge:                 var(--space-xlarge);
+
+    /* Plugin primitives */
+    --plugin-wrapper-bg:          var(--color-mono-1);
+    --plugin-wrapper-border:      var(--color-mono-3);
+    --plugin-wrapper-radius:      var(--border-radius);
+    --plugin-wrapper-shadow:      var(--box-shadow-small);
+
+    --plugin-panel-bg:            var(--color-mono-0);
+    --plugin-panel-border:        var(--color-mono-3);
+    --plugin-panel-radius:        var(--border-radius-small);
+
+    --plugin-header-bg:           var(--color-mono-2);
+    --plugin-header-border:       var(--color-mono-3);
+    --plugin-header-title:        var(--theme-color);
+    --plugin-header-subtitle:     var(--color-mono-6);
+
+    --btn-bg:                     var(--theme-color-3);
+    --btn-bg-hover:               var(--theme-color-4);
+    --btn-bg-active:              var(--theme-color-5);
+    --btn-bg-disabled:            var(--color-mono-4);
+
+    --btn-text:                   var(--color-text);
+    --btn-text-strong:            var(--color-mono-min);
+    --btn-font-size:              var(--font-med);
+    --btn-font-weight:            500;
+
+    --btn-border:                 var(--border-color);
+    --btn-radius:                 var(--border-radius-small);
+    --btn-padding-block:          var(--padding-small);
+    --btn-padding-inline:         var(--padding-small);
+    --btn-transition:             all 0.16s ease;
+    --btn-shadow-hover:           var(--box-shadow-small);
+
+    --btn-go-bg:                  color-mix(in srgb, var(--color-good),      var(--color-mono-min) 35%);
+    --btn-reset-bg:               color-mix(in srgb, var(--color-warning),   var(--color-mono-min) 35%);
+    --btn-stop-bg:                color-mix(in srgb, var(--color-attention), var(--color-mono-min) 35%);
+    --btn-go-hover:               var(--color-good);
+    --btn-reset-hover:            var(--color-warning);
+    --btn-stop-hover:             var(--color-attention);
+
+    --btn-icon-size:              1.2em;
+
+    --btn-icon-go:                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z'/%3E%3C/svg%3E");
+    --btn-icon-pause:             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='14' y='3' width='5' height='18' rx='1'/%3E%3Crect x='5' y='3' width='5' height='18' rx='1'/%3E%3C/svg%3E");
+    --btn-icon-reset:             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/%3E%3Cpath d='M3 3v5h5'/%3E%3C/svg%3E");
+    --btn-icon-stop:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2'/%3E%3C/svg%3E");
+    --btn-icon-step:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.029 4.285A2 2 0 0 0 7 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z'/%3E%3Cpath d='M3 4v16'/%3E%3C/svg%3E");
+    --btn-icon-next:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13.207 19.793a.707.707 0 0 1-1.207-.5V16a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h6a1 1 0 0 0 1-1V4.707a.707.707 0 0 1 1.207-.5l6.94 6.94a1.207 1.207 0 0 1 0 1.707z'/%3E%3C/svg%3E");
+    --btn-icon-shuffle:           url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m18 14 4 4-4 4'/%3E%3Cpath d='m18 2 4 4-4 4'/%3E%3Cpath d='M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22'/%3E%3Cpath d='M2 6h1.972a4 4 0 0 1 3.6 2.2'/%3E%3Cpath d='M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45'/%3E%3C/svg%3E");
+    --btn-icon-swap:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3 4 7l4 4'/%3E%3Cpath d='M4 7h16'/%3E%3Cpath d='m16 21 4-4-4-4'/%3E%3Cpath d='M20 17H4'/%3E%3C/svg%3E");
+    --btn-icon-sort:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 16 4 4 4-4'/%3E%3Cpath d='M7 20V4'/%3E%3Cpath d='M11 4h4'/%3E%3Cpath d='M11 8h7'/%3E%3Cpath d='M11 12h10'/%3E%3C/svg%3E");
+    --btn-icon-info:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
+    --btn-icon-speak:             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z'/%3E%3Cpath d='M16 9a5 5 0 0 1 0 6'/%3E%3Cpath d='M19.364 18.364a9 9 0 0 0 0-12.728'/%3E%3C/svg%3E");
+    --btn-icon-save:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z'/%3E%3Cpath d='M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7'/%3E%3Cpath d='M7 3v4a1 1 0 0 0 1 1h7'/%3E%3C/svg%3E");
+    --btn-icon-copy:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='14' height='14' x='8' y='8' rx='2' ry='2'/%3E%3Cpath d='M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2'/%3E%3C/svg%3E");
+    --btn-icon-link:              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E");
+    --btn-icon-unlink:            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m18.84 12.25 1.72-1.71h-.02a5.004 5.004 0 0 0-.12-7.07 5.006 5.006 0 0 0-6.95 0l-1.72 1.71'/%3E%3Cpath d='m5.17 11.75-1.71 1.71a5.004 5.004 0 0 0 .12 7.07 5.006 5.006 0 0 0 6.95 0l1.71-1.71'/%3E%3Cline x1='8' x2='8' y1='2' y2='5'/%3E%3Cline x1='2' x2='5' y1='8' y2='8'/%3E%3Cline x1='16' x2='16' y1='19' y2='22'/%3E%3Cline x1='19' x2='22' y1='16' y2='16'/%3E%3C/svg%3E");
+    --btn-icon-check:             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
 
     --content-max-width:          60rem;
     --content-margin-inline:      4%;
@@ -85,6 +183,7 @@
     /* Effects */
     --box-shadow:                 0 0.3rem 0.8rem #0006;
     --box-shadow-small:           0 0.1rem 0.3rem #0006;
+    --box-shadow-large:           0 0.5rem 1rem #0008;
 
     /* Elements */
     --button-bg:                  var(--theme-color-3);
@@ -187,6 +286,124 @@ em {
 .cover-main a.button.secondary {
     color: var(--color-text);
     border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Button Components and Interactive Elements */
+
+/* Button base state - low specificity using :where() for better cascade control */
+:where(.markdown-section button, .markdown-section [role="button"]) {
+    --btn-action-color: var(--btn-bg);
+    --btn-action-color-hover: var(--btn-bg-hover);
+    padding: var(--btn-padding-block) var(--btn-padding-inline);
+    border: 1px solid var(--btn-border);
+    border-radius: var(--btn-radius);
+    font-size: var(--btn-font-size);
+    font-weight: var(--btn-font-weight);
+    cursor: pointer;
+    transition: var(--btn-transition);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Button enabled state */
+:where(.markdown-section button:not(:disabled), .markdown-section [role="button"]:not(:disabled)) {
+    background: var(--btn-action-color);
+    border-color: var(--btn-action-color);
+    color: var(--btn-text);
+
+    &:hover {
+        background: var(--btn-action-color-hover);
+        border-color: var(--btn-action-color-hover);
+        color: var(--btn-text);
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
+}
+
+/* Button disabled state */
+:where(.markdown-section button:disabled, .markdown-section [role="button"]:disabled) {
+    background: var(--btn-bg-disabled);
+    border-color: var(--btn-bg-disabled);
+    color: color-mix(in srgb, var(--btn-text), transparent 35%);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Semantic button colors - establish --btn-action-color for theme consistency */
+:where(.markdown-section .btn-go:not(:disabled)) {
+    --btn-action-color: var(--btn-go-bg);
+    --btn-action-color-hover: var(--btn-go-hover);
+}
+
+:where(.markdown-section .btn-stop:not(:disabled)) {
+    --btn-action-color: var(--btn-stop-bg);
+    --btn-action-color-hover: var(--btn-stop-hover);
+}
+
+:where(.markdown-section .btn-reset:not(:disabled)) {
+    --btn-action-color: var(--btn-reset-bg);
+    --btn-action-color-hover: var(--btn-reset-hover);
+}
+
+/* Icon button layout - flex alignment for text + icon combinations */
+:where(.markdown-section :is(.btn-go, .btn-stop, .btn-reset, .btn-step, .btn-next, .btn-shuffle, .btn-swap, .btn-sort, .btn-info, .btn-speak, .btn-save, .btn-copy, .btn-link, .btn-unlink, .btn-check)) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45em;
+    min-block-size: calc((var(--line-height) * 1em) + (2 * var(--btn-padding-block)));
+}
+
+/* Icon-only button sizing */
+:where(.markdown-section :is(.btn-go, .btn-stop, .btn-reset, .btn-step, .btn-next, .btn-shuffle, .btn-swap, .btn-sort, .btn-info, .btn-speak, .btn-save, .btn-copy, .btn-link, .btn-unlink, .btn-check):empty) {
+    --btn-icon-size: 1.5em;
+    min-inline-size: calc((var(--line-height) * 1em) + (2 * var(--btn-padding-inline)));
+}
+
+/* Icon button base styling - uses CSS mask-image for all icon types */
+.markdown-section :is(.btn-go, .btn-stop, .btn-reset, .btn-step, .btn-next, .btn-shuffle, .btn-swap, .btn-sort, .btn-info, .btn-speak, .btn-save, .btn-copy, .btn-link, .btn-unlink, .btn-check)::before {
+    content: "";
+    inline-size: var(--btn-icon-size);
+    block-size: var(--btn-icon-size);
+    flex: 0 0 var(--btn-icon-size);
+    background-color: currentColor;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
+
+/* Icon assignments for button variants - modern CSS with single mask-image property */
+.markdown-section .btn-go::before { mask-image: var(--btn-icon-go); }
+.markdown-section .btn-go:is(.running, .playing, .is-playing)::before { mask-image: var(--btn-icon-pause); }
+.markdown-section .btn-stop::before { mask-image: var(--btn-icon-stop); }
+.markdown-section .btn-reset::before { mask-image: var(--btn-icon-reset); }
+.markdown-section .btn-step::before { mask-image: var(--btn-icon-step); }
+.markdown-section .btn-next::before { mask-image: var(--btn-icon-next); }
+.markdown-section .btn-shuffle::before { mask-image: var(--btn-icon-shuffle); }
+.markdown-section .btn-swap::before { mask-image: var(--btn-icon-swap); }
+.markdown-section .btn-sort::before { mask-image: var(--btn-icon-sort); }
+.markdown-section .btn-info::before { mask-image: var(--btn-icon-info); }
+.markdown-section .btn-speak::before { mask-image: var(--btn-icon-speak); }
+.markdown-section .btn-save::before { mask-image: var(--btn-icon-save); }
+.markdown-section .btn-copy::before { mask-image: var(--btn-icon-copy); }
+.markdown-section .btn-link::before { mask-image: var(--btn-icon-link); }
+.markdown-section .btn-unlink::before { mask-image: var(--btn-icon-unlink); }
+.markdown-section .btn-check::before { mask-image: var(--btn-icon-check); }
+
+/* Bordered button variant - uses --btn-action-color set by semantic button class
+   Border = action color; background = translucent 10% opaque; hover increases to 33% */
+:where(.markdown-section .btn-bordered:not(:disabled)) {
+    background: color-mix(in srgb, var(--btn-action-color) 10%, transparent) !important;
+    border-color: var(--btn-action-color) !important;
+    color: var(--btn-text) !important;
+
+    &:hover {
+        background: color-mix(in srgb, var(--btn-action-color) 33%, transparent) !important;
+        border-color: color-mix(in srgb, var(--btn-action-color), white 15%) !important;
+        color: var(--btn-text) !important;
+    }
 }
 
 /* Force light mode for iframes */

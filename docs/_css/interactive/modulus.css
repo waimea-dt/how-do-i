@@ -34,8 +34,8 @@
     --mod-clock-marker:     var(--theme-color-5);
     --mod-clock-high:       var(--highlight-color);
 
-    --mod-padding:          1rem;
-    --mod-padding-small:    0.5rem;
+    --mod-padding:          var(--padding);
+    --mod-padding-small:    var(--padding-small);
 
 
     /* ---- Base element ---- */
@@ -235,7 +235,7 @@
         --message-gap: 0;
 
         @container (min-width: 700px) {
-            --message-gap: 2rem;
+            --message-gap: var(--gap-xlarge);
         }
     }
 

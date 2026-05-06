@@ -9,9 +9,9 @@
     --hasher-accent:             var(--theme-color);
     --hasher-output-accent:      var(--palette-color-1);
 
-    --hasher-bg:                 var(--color-mono-0);
-    --hasher-section-bg:         var(--color-mono-1);
-    --hasher-border:             var(--color-mono-3);
+    --hasher-bg:                 var(--plugin-wrapper-bg);
+    --hasher-section-bg:         var(--plugin-panel-bg);
+    --hasher-border:             var(--plugin-wrapper-border);
 
     --hasher-label-color:        var(--theme-color-6);
     --hasher-label-note-color:   var(--color-mono-6);
@@ -37,11 +37,11 @@
         background: var(--hasher-bg);
         border: 2px solid var(--hasher-border);
         border-radius: var(--border-radius);
-        padding: 1rem;
+        padding: var(--padding);
         box-shadow: var(--box-shadow);
         display: flex;
         flex-direction: column;
-        gap: 0.75em;
+        gap: var(--gap-med);
         align-items: stretch;
     }
 
@@ -51,7 +51,7 @@
     .hasher-output-section {
         display: flex;
         flex-direction: column;
-        gap: 0.5em;
+        gap: var(--gap-small);
     }
 
     .hasher-output-section {
@@ -65,7 +65,7 @@
     /* ---- Labels ---- */
 
     .hasher-label {
-        font-size: 0.72rem;
+        font-size: var(--font-small);
         font-weight: 600;
         letter-spacing: 0.07em;
         text-transform: uppercase;
@@ -78,27 +78,28 @@
 
     .hasher-copy-btn {
         margin-left: auto;
-        font-size: 0.6rem;
-        padding: 0.2em 0.5em;
+        font-size: var(--font-tiny);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
         background: transparent;
-        border: 1px solid var(--hasher-input-border);
-        border-radius: calc(var(--border-radius) * 0.5);
+        border: 1px solid var(--btn-border);
+        border-radius: var(--btn-radius);
         color: var(--hasher-label-color);
         cursor: pointer;
-        font-weight: 500;
+        font-weight: var(--btn-font-weight);
         letter-spacing: 0;
         text-transform: none;
-        transition: background 120ms, color 120ms;
+        transition: var(--btn-transition);
 
         &:hover {
             background: color-mix(in srgb, var(--hasher-output-accent), transparent 80%);
             border-color: var(--hasher-output-accent);
             color: var(--color-text);
+            box-shadow: var(--btn-shadow-hover);
         }
     }
 
     .hasher-label-note {
-        font-size: 0.85em;
+        font-size: var(--font-med);
         font-weight: 400;
         letter-spacing: 0.03em;
         text-transform: none;
@@ -120,8 +121,8 @@
     .hasher-salt-toggle {
         display: flex;
         align-items: center;
-        gap: 0.4em;
-        font-size: 0.78rem;
+        gap: var(--gap-small);
+        font-size: var(--font-small);
         color: var(--hasher-label-color);
         cursor: pointer;
         user-select: none;
@@ -135,12 +136,12 @@
     .hasher-salt-display {
         display: flex;
         align-items: center;
-        gap: 0.4em;
+        gap: var(--gap-small);
         flex-wrap: wrap;
     }
 
     .hasher-salt-label {
-        font-size: 0.72rem;
+        font-size: var(--font-small);
         font-weight: 600;
         letter-spacing: 0.05em;
         text-transform: uppercase;
@@ -149,24 +150,25 @@
 
     .hasher-salt-value {
         font-family: var(--hasher-font-mono);
-        font-size: 0.75rem;
+        font-size: var(--font-small);
         color: var(--hasher-salt-color) !important;
         letter-spacing: 0.04em;
     }
 
     .hasher-salt-refresh-btn {
-        font-size: 0.65rem;
-        padding: 0.15em 0.45em;
+        font-size: var(--font-tiny);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
         background: transparent;
-        border: 1px solid var(--hasher-input-border);
-        border-radius: calc(var(--border-radius) * 0.5);
+        border: 1px solid var(--btn-border);
+        border-radius: var(--btn-radius);
         color: var(--hasher-label-color);
         cursor: pointer;
-        transition: background 120ms, border-color 120ms;
+        transition: var(--btn-transition);
 
         &:hover {
             background: color-mix(in srgb, var(--hasher-accent), transparent 85%);
             border-color: var(--hasher-accent);
+            box-shadow: var(--btn-shadow-hover);
         }
     }
 
@@ -180,7 +182,7 @@
         border-radius: calc(var(--border-radius) * 0.75);
         padding: 0.5em 0.75em;
         color: var(--color-text);
-        font-size: 1rem;
+        font-size: var(--font-base);
         font-family: var(--font-family);
         transition: border-color 150ms, box-shadow 150ms;
 
@@ -265,7 +267,7 @@
     }
 
     .hasher-history-note {
-        font-size: 0.85em;
+        font-size: var(--font-med);
         font-weight: 400;
         letter-spacing: 0.03em;
         text-transform: none;

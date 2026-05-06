@@ -5,13 +5,13 @@
 .markdown-section p-np {
 
     /* ---- Design tokens ---- */
-    --pnp-bg:               var(--color-mono-1);
-    --pnp-bg-header:        var(--color-mono-2);
-    --pnp-bg-canvas:        var(--color-mono-0);
-    --pnp-border:           var(--color-mono-3);
+    --pnp-bg:               var(--plugin-wrapper-bg);
+    --pnp-bg-header:        var(--plugin-header-bg);
+    --pnp-bg-canvas:        var(--plugin-panel-bg);
+    --pnp-border:           var(--plugin-wrapper-border);
 
-    --pnp-title-color:      var(--theme-color);
-    --pnp-subtitle-color:   var(--color-mono-6);
+    --pnp-title-color:      var(--plugin-header-title);
+    --pnp-subtitle-color:   var(--plugin-header-subtitle);
     --pnp-label-color:      var(--color-text);
     --pnp-muted:            var(--color-mono-7);
 
@@ -25,16 +25,16 @@
     --pnp-color-tract-high:    color-mix(in srgb, var(--pnp-color-tract), var(--color-mono-max) 10%);
     --pnp-color-intract-high:  color-mix(in srgb, var(--pnp-color-intract), var(--color-mono-max) 10%);
 
-    --pnp-btn-bg:           var(--color-mono-1);
-    --pnp-btn-bg-hover:     var(--theme-color-3);
+    --pnp-btn-bg:           var(--btn-bg);
+    --pnp-btn-bg-hover:     var(--btn-bg-hover);
 
     --pnp-card-bg:          var(--color-mono-0);
     --pnp-card-border:      var(--color-mono-3);
 
-    --pnp-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --pnp-card-shadow: var(--box-shadow-small);
 
-    --pnp-padding: 1rem;
-    --pnp-padding-small: 0.5rem;
+    --pnp-padding: var(--padding);
+    --pnp-padding-small: var(--padding-small);
 
     display: block;
     margin: var(--margin-block) 0;
@@ -96,17 +96,19 @@
         flex-shrink: 0;
 
         .pnp-btn-toggle {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--pnp-border);
-            border-radius: var(--border-radius-small);
+            padding: var(--btn-padding-block) var(--btn-padding-inline);
+            border: 1px solid var(--btn-border);
+            border-radius: var(--btn-radius);
             background-color: var(--pnp-btn-bg);
-            color: var(--pnp-label-color);
-            font-weight: 500;
+            color: var(--btn-text);
+            font-size: var(--btn-font-size);
+            font-weight: var(--btn-font-weight);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--btn-transition);
 
             &:hover {
                 background: var(--pnp-btn-bg-hover);
+                box-shadow: var(--btn-shadow-hover);
             }
         }
     }
@@ -131,14 +133,14 @@
 
     .pnp-title {
         margin: 0 0 0.25rem 0;
-        font-size: 1.25rem;
+        font-size: var(--font-xlarge);
         font-weight: 600;
         color: var(--pnp-title-color);
     }
 
     .pnp-subtitle {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--pnp-subtitle-color);
     }
 
@@ -182,13 +184,13 @@
         left: 0;
         top: 0;
         width: min(260px, calc(100% - 1.5rem));
-        padding: 0.75rem;
+        padding: var(--padding-med);
         border: 1px solid var(--pnp-card-border);
         border-radius: var(--border-radius-small);
         background: color-mix(in srgb, var(--pnp-card-bg) 92%, black);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        box-shadow: var(--box-shadow-large);
         color: var(--pnp-label-color);
-        font-size: 0.85rem;
+        font-size: var(--font-med);
         line-height: 1.4;
         pointer-events: none;
         opacity: 0;
@@ -211,15 +213,15 @@
 
     .pnp-marker-title {
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: var(--font-med);
         display: flex;
-        gap: 0.5rem;
+        gap: var(--gap-small);
         align-items: center;
     }
 
     .pnp-marker-class {
         margin-top: 0.3rem;
-        font-size: 0.8rem;
+        font-size: var(--font-small);
 
         strong {
             font-weight: 600;
@@ -241,7 +243,7 @@
         .pnp-legend-item {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
+            gap: var(--gap-med);
             padding: var(--pnp-padding);
             background: var(--pnp-card-bg);
             border: 1px solid var(--pnp-card-border);
@@ -281,7 +283,7 @@
     .pnp-problem-selector {
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
+        gap: var(--gap-small);
         align-items: center;
         flex-wrap: wrap;
 
@@ -291,7 +293,7 @@
     }
 
     .pnp-label {
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         font-weight: 500;
         color: var(--pnp-label-color);
         white-space: nowrap;
@@ -302,7 +304,7 @@
         border: 1px solid var(--pnp-border);
         border-radius: var(--border-radius-small);
         background: var(--pnp-btn-bg);
-        font-size: 1rem;
+        font-size: var(--font-base);
         cursor: pointer;
         flex: 1;
         min-width: 180px;
@@ -311,11 +313,11 @@
 
     .pnp-time-badge {
         display: inline-block;
-        padding: 0.5rem 1rem;
+        padding: var(--padding-small) var(--padding);
         background: var(--color-mono-1);
         border: 1px solid var(--pnp-border);
         border-radius: var(--border-radius-small);
-        font-size: 1.4em;
+        font-size: var(--font-display);
         font-weight: 600;
         width: fit-content;
         color: var(--theme-color);
@@ -358,13 +360,13 @@
 
             .pnp-description {
                 margin-block: 0.75em;
-                font-size: 0.95rem;
+                font-size: var(--font-med);
                 color: var(--pnp-label-color);
             }
 
             .pnp-example {
                 margin-block: 0.75em;
-                font-size: 0.95rem;
+                font-size: var(--font-med);
             }
         }
 
@@ -392,7 +394,7 @@
                 grid-area: header;
                 display: flex;
                 flex-direction: column;
-                gap: 0.25rem;
+                gap: var(--gap-tiny);
 
                 .pnp-category-title {
                     margin: 0;
@@ -411,21 +413,21 @@
                 box-shadow: var(--pnp-card-shadow);
                 display: flex;
                 flex-direction: column;
-                gap: 0.75rem;
+                gap: var(--gap-med);
                 text-align: center;
 
                 h5 {
                     margin: 0;
-                    font-size: 1.1rem;
+                    font-size: var(--font-large);
                     color: var(--pnp-label-color);
                     display: flex;
-                    gap: 0.5rem;
+                    gap: var(--gap-small);
                     text-align: center;
                     justify-content: center;
                 }
 
                 p {
-                    font-size: 0.9rem;
+                    font-size: var(--font-med);
                     color: var(--pnp-muted);
                     margin: 0;
                 }
@@ -474,7 +476,7 @@
 
                 .pnp-note {
                     color: var(--color-text);
-                    font-size: 0.95rem;
+                    font-size: var(--font-med);
                     margin: 0;
 
                     svg {
@@ -495,17 +497,17 @@
 
     .pnp-tabs {
         display: flex;
-        gap: 0.5rem;
+        gap: var(--gap-small);
         flex-wrap: wrap;
     }
 
     .pnp-tab-btn {
-        padding: 0.5rem 1rem;
+        padding: var(--padding-small) var(--padding);
         border: 2px solid transparent;
         border-radius: var(--border-radius-small);
         background: var(--color-mono-1);
         color: var(--pnp-label-color);
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s;
@@ -571,11 +573,11 @@
         transition: all 0.2s;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: var(--gap-small);
 
         &:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--box-shadow);
         }
     }
 
@@ -598,7 +600,7 @@
 
     .pnp-problem-description {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--pnp-label-color);
         line-height: 1.4;
         text-align: center;
@@ -611,7 +613,7 @@
 
     .pnp-problem-complexity {
         display: flex;
-        gap: 1rem;
+        gap: var(--gap);
         padding-top: 0.75rem;
         margin-top: auto;
         border-top: 1px solid var(--pnp-border);
@@ -620,9 +622,9 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: var(--gap-small);
             align-items: center;
-            font-size: 0.9rem;
+            font-size: var(--font-med);
 
             .pnp-complexity-label {
                 font-weight: 500;

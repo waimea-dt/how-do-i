@@ -35,7 +35,7 @@
         text-align: center;
 
         .dh-param-label {
-            font-size: 0.75rem;
+            font-size: var(--exchange-font-caption);
             font-weight: 600;
             color: var(--exchange-accent-public);
             text-transform: uppercase;
@@ -54,13 +54,13 @@
             align-items: center;
             gap: var(--exchange-gap-small);
             font-family: var(--exchange-font-mono);
-            font-size: 1rem;
+            font-size: var(--exchange-font-code);
             font-weight: 700;
         }
 
         .dh-param-name {
             color: var(--exchange-accent-public);
-            font-size: 1.2rem;
+            font-size: var(--exchange-font-display);
         }
 
         .dh-param-equals {
@@ -69,11 +69,11 @@
 
         .dh-param-value {
             color: var(--exchange-text-primary);
-            font-size: 1.2rem;
+            font-size: var(--exchange-font-display);
         }
 
         .dh-param-desc {
-            font-size: 0.8em;
+            font-size: var(--exchange-font-caption);
             font-weight: 400;
             color: var(--exchange-text-secondary);
             font-family: var(--font-family);
@@ -90,7 +90,7 @@
         color: var(--dh-swatch-color-text);
         background-color: var(--dh-swatch-color);
         padding: var(--exchange-padding-tiny);
-        font-size: 0.7em;
+        font-size: var(--exchange-font-caption);
         font-family: var(--font-family-mono);
         font-weight: 500;
         border-radius: var(--border-radius-small);
@@ -112,7 +112,7 @@
         display: flex;
         flex-direction: column;
         font-family: var(--exchange-font-mono);
-        font-size: 0.9rem;
+        font-size: var(--exchange-font-body);
         width: fit-content;
         margin: 0 auto;
         gap: var(--exchange-gap-tiny);
@@ -131,7 +131,7 @@
         }
 
         &:last-child {
-            font-size: 1.1rem;
+            font-size: var(--exchange-font-emphasis);
         }
 
         strong {

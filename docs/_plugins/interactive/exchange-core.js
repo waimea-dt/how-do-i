@@ -85,6 +85,11 @@
             this.resetBtn = el.querySelector('.exchange-btn-reset')
             this.stepBtn = el.querySelector('.exchange-btn-step')
 
+            // Semantic button classes map hover colour to background, not text.
+            this.startBtn.classList.add('btn-go')
+            this.resetBtn.classList.add('btn-reset')
+            this.stepBtn.classList.add('btn-next')
+
             // Bind event handlers
             this.startBtn.addEventListener('click', () => this.start())
             this.resetBtn.addEventListener('click', () => this.reset())
@@ -250,6 +255,7 @@
             this.startBtn.disabled = this.isRunning
             this.resetBtn.disabled = !this.isRunning && this.currentStep === 0
             this.stepBtn.disabled = this.currentStep >= maxSteps
+            this.startBtn.classList.toggle('running', this.isRunning)
         }
 
         /**

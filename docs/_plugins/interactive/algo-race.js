@@ -607,16 +607,13 @@
                 <div class="ar-target-group">
                     <input type="number" class="ar-target-input" id="ar-target-input-${instanceId}"
                         min="1" max="${initialSize}" value="${actualTarget}">
-                    <button class="ar-btn ar-btn-small" id="ar-random-btn-${instanceId}" title="${UI_TEXT.randomButton}">
-                        ${SVG_ICONS.shuffle}
-                    </button>
+                    <button class="ar-btn ar-btn-small btn-shuffle" id="ar-random-btn-${instanceId}" title="${UI_TEXT.randomButton}"></button>
                 </div>
             </div>` : ''
 
         // Sort button (initially hidden since both modes start sorted)
         const sortButtonHTML = `
-            <button class="ar-btn ar-btn-small" id="ar-sort-btn-${instanceId}" style="display: none;">
-                ${SVG_ICONS.sort}
+            <button class="ar-btn ar-btn-small btn-sort" id="ar-sort-btn-${instanceId}" style="display: none;">
                 <span>${UI_TEXT.sortButton}</span>
             </button>`
 
@@ -662,8 +659,7 @@
                                     min="20" max="200" step="10" value="${initialSize}">
                                 <span class="ar-slider-value" id="ar-size-value-${instanceId}">${initialSize}</span>
                                 ${sortButtonHTML}
-                                <button class="ar-btn ar-btn-small" id="ar-shuffle-btn-${instanceId}">
-                                    ${SVG_ICONS.shuffle}
+                                <button class="ar-btn ar-btn-small btn-shuffle" id="ar-shuffle-btn-${instanceId}">
                                     <span>${UI_TEXT.shuffleButton}</span>
                                 </button>
                             </div>
@@ -675,12 +671,10 @@
 
                 <!-- Buttons -->
                 <div class="ar-button-group">
-                    <button class="ar-btn ar-btn-primary" id="ar-start-btn-${instanceId}">
-                        ${SVG_ICONS.play}
+                    <button class="ar-btn ar-btn-primary btn-go" id="ar-start-btn-${instanceId}">
                         <span>${UI_TEXT.startButton}</span>
                     </button>
-                    <button class="ar-btn" id="ar-reset-btn-${instanceId}">
-                        ${SVG_ICONS.reset}
+                    <button class="ar-btn btn-reset" id="ar-reset-btn-${instanceId}">
                         <span>${UI_TEXT.resetButton}</span>
                     </button>
                 </div>

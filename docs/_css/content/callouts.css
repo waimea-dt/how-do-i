@@ -45,7 +45,7 @@
         margin: 0;
         padding: 0;
         font-weight: 600;
-        font-size: 0.85em;
+        font-size: var(--font-med);
         letter-spacing: 0.06em;
         text-transform: uppercase;
         color: var(--callout-color);

@@ -23,9 +23,10 @@
     --structure-border-width: 2px;
     --structure-focus-width:  4px;
 
-    --structure-gap: 1em;
+    --structure-gap: var(--gap);
     --structure-item-min-width: 30ch;
-    margin: 2em auto !important;
+    
+    margin: var(--margin-block) auto !important;
     width: fit-content;
     padding: 0;
     list-style: none;
@@ -104,36 +105,36 @@
 
     /* Notes (non-first paragraphs) */
     > p:not(:first-child) {
-        font-size: 0.8em;
+        font-size: var(--font-small);
     }
 }
 
 /* Top-level items */
 .markdown-section .structure > .structure-item {
-    border-radius: 0.5em;
+    border-radius: var(--border-radius-small);
 }
 
 /* Level 2 items */
 .markdown-section .structure > .structure-item > .structure-container > .structure-item {
-    border-radius: 0.4em;
+    border-radius: var(--border-radius-small);
     min-width: calc(var(--structure-item-min-width) - calc(2 * var(--structure-gap)));
 }
 
 /* Level 3 items */
 .markdown-section .structure > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item {
-    border-radius: 0.3em;
+    border-radius: var(--border-radius-small);
     min-width: calc(var(--structure-item-min-width) - calc(4.2 * var(--structure-gap)));
 }
 
 /* Level 4 items */
 .markdown-section .structure > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item {
-    border-radius: 0.2em;
+    border-radius: calc(var(--border-radius-small) * 0.8);
     min-width: calc(var(--structure-item-min-width) - calc(6.4 * var(--structure-gap)));
 }
 
 /* Level 5 items */
 .markdown-section .structure > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item > .structure-container > .structure-item {
-    border-radius: 0.1em;
+    border-radius: calc(var(--border-radius-small) * 0.4);
     min-width: calc(var(--structure-item-min-width) - calc(8.6 * var(--structure-gap)));
 }
 

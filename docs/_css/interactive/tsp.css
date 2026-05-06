@@ -5,24 +5,18 @@
 .markdown-section tsp {
 
     /* ---- Design tokens ---- */
-    --tsp-bg: var(--color-mono-1);
-    --tsp-bg-header: var(--color-mono-2);
-    --tsp-bg-canvas: var(--color-mono-0);
+    --tsp-bg: var(--plugin-wrapper-bg);
+    --tsp-bg-header: var(--plugin-header-bg);
+    --tsp-bg-canvas: var(--plugin-panel-bg);
     --tsp-bg-stat: var(--color-mono-2);
-    --tsp-border: var(--color-mono-3);
+    --tsp-border: var(--plugin-wrapper-border);
 
-    --tsp-title-color: var(--theme-color);
-    --tsp-subtitle-color: var(--color-mono-6);
+    --tsp-title-color: var(--plugin-header-title);
+    --tsp-subtitle-color: var(--plugin-header-subtitle);
     --tsp-label-color: var(--color-text);
     --tsp-value-color: var(--theme-color);
     --tsp-factorial-color: color-mix(in srgb, var(--theme-color), var(--color-text) 55%);
     --tsp-muted: var(--color-mono-6);
-
-    --tsp-btn-bg: var(--theme-color-3);
-    --tsp-btn-bg-hover: var(--theme-color-4);
-    --tsp-btn-stop-bg: var(--color-attention);
-    --tsp-btn-reset-bg: var(--color-mono-2);
-    --tsp-btn-reset-hover: var(--color-mono-3);
 
     --tsp-canvas-route-exploring: var(--color-mono-4);
     --tsp-canvas-route-best: var(--theme-color);
@@ -38,8 +32,8 @@
     --tsp-canvas-city-current: var(--theme-color);
     --tsp-canvas-city-current-label: var(--color-bg);
 
-    --tsp-padding: 1rem;
-    --tsp-padding-small: 0.5rem;
+    --tsp-padding: var(--padding);
+    --tsp-padding-small: var(--padding-small);
 
     --tsp-status-bg: rgba(0, 0, 0, 0.5);
 
@@ -66,14 +60,14 @@
 
     .tsp-title {
         margin: 0 0 0.25rem 0;
-        font-size: 1.25rem;
+        font-size: var(--font-xlarge);
         font-weight: 600;
         color: var(--tsp-title-color);
     }
 
     .tsp-subtitle {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--tsp-subtitle-color);
     }
 
@@ -134,10 +128,10 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0.5rem 1rem;
+        gap: var(--gap-small) var(--gap);
 
         .tsp-label {
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             font-weight: 480;
             color: var(--tsp-label-color);
             display: block;
@@ -145,7 +139,7 @@
 
         .tsp-cities-value {
             color: var(--tsp-value-color);
-            font-size: 1rem;
+            font-size: var(--font-base);
             font-weight: 600;
         }
 
@@ -155,13 +149,13 @@
         }
 
         .tsp-factorial {
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             color: var(--tsp-muted);
         }
 
         .tsp-factorial-value {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: var(--font-base);
             color: var(--tsp-factorial-color);
         }
     }
@@ -171,28 +165,24 @@
         align-self: center;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: var(--gap-small);
 
         @container (min-width: 320px) {
             flex-direction: row;
         }
 
         .tsp-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--tsp-btn-bg);
-            border-radius: var(--border-radius-small);
-            background: var(--tsp-btn-bg);
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 500;
+            padding: var(--btn-padding-block) var(--btn-padding-inline);
+            border-radius: var(--btn-radius);
+            font-size: var(--btn-font-size);
+            font-weight: var(--btn-font-weight);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--btn-transition);
             flex: 1;
 
             &:hover:not(:disabled) {
-                background: var(--tsp-btn-bg-hover);
-                border-color: var(--tsp-btn-bg-hover);
                 transform: translateY(-1px);
+                box-shadow: var(--btn-shadow-hover);
             }
 
             &:active:not(:disabled) {
@@ -205,25 +195,6 @@
             }
         }
 
-        .tsp-btn-stop {
-            background: var(--tsp-btn-stop-bg);
-            border-color: var(--tsp-btn-stop-bg);
-
-            &:hover:not(:disabled) {
-                background: color-mix(in srgb, var(--tsp-btn-stop-bg), #000 20%);
-                border-color: color-mix(in srgb, var(--tsp-btn-stop-bg), #000 20%);
-            }
-        }
-
-        .tsp-btn-reset {
-            background: var(--tsp-btn-reset-bg);
-            border-color: var(--tsp-border);
-            color: var(--tsp-label-color);
-
-            &:hover:not(:disabled) {
-                background: var(--tsp-btn-reset-hover);
-            }
-        }
     }
 
     /* ---- Visualization ---- */
@@ -248,7 +219,7 @@
             padding: var(--tsp-padding-small);
             background: var(--tsp-status-bg);
             color: var(--color-text);
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             font-weight: 500;
             border-radius: var(--border-radius-small);
             backdrop-filter: blur(4px);
@@ -283,7 +254,7 @@
         }
 
         .tsp-stat-label {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--tsp-muted);
@@ -291,7 +262,7 @@
         }
 
         .tsp-stat-value {
-            font-size: 1.1rem;
+            font-size: var(--font-large);
             font-weight: 600;
             color: var(--tsp-value-color);
             font-variant-numeric: tabular-nums;
@@ -310,7 +281,7 @@
             border: 1px solid var(--tsp-border);
             border-radius: var(--border-radius-small);
             font-family: var(--code-font-family);
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             line-height: 1.5;
             color: var(--tsp-muted);
             height: 200px;
@@ -398,7 +369,7 @@
         margin-top: var(--tsp-padding);
 
         .tsp-comparison-title {
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             font-weight: 600;
             color: var(--tsp-label-color);
             margin-bottom: var(--tsp-padding-small);
@@ -437,7 +408,7 @@
         }
 
         .tsp-comparison-label {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--tsp-muted);
@@ -445,26 +416,26 @@
         }
 
         .tsp-comparison-distance {
-            font-size: 1.1rem;
+            font-size: var(--font-large);
             font-weight: 600;
             color: var(--tsp-value-color);
             font-variant-numeric: tabular-nums;
         }
 
         .tsp-comparison-time {
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             color: var(--tsp-muted);
             margin-top: 0.25rem;
         }
 
         .tsp-comparison-diff {
-            font-size: 0.95rem;
+            font-size: var(--font-med);
             font-weight: 500;
             color: var(--tsp-label-color);
         }
 
         .tsp-comparison-optimal {
-            font-size: 0.95rem;
+            font-size: var(--font-med);
             font-weight: 700;
             color: var(--highlight-color);
             margin-top: 0.25rem;

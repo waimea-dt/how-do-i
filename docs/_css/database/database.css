@@ -55,7 +55,7 @@
     overflow-x: auto;
     overflow-y: visible;
     margin: var(--margin-block) 0;
-    padding: 0.5rem 0;
+    padding: var(--padding-small) 0;
     container-type: inline-size;
 
     /* Smooth scrolling on touch devices */
@@ -91,11 +91,11 @@
     align-items: flex-start;
     width: max-content;
     margin: 0 auto;
-    padding: 0.5rem 0
+    padding: var(--padding-small) 0
 }
 
 .db-data-wrapper {
-    gap: 2rem;
+    gap: var(--gap-xlarge);
     flex-wrap: wrap;
     max-width: 100%;
 }
@@ -154,7 +154,7 @@ table.db-schema {
     overflow: hidden;
 
     tbody tr > td:nth-child(n+3) {
-        font-size: 0.8em;
+        font-size: var(--font-small);
     }
 
     tbody tr > td:nth-child(2) { color: var(--schema-fieldname-color); }
@@ -183,7 +183,7 @@ table.db-schema {
 table.db-data {
     td {
         padding: 0.2em 0.5em;
-        font-size: 0.9em;
+        font-size: var(--font-med);
     }
 
     thead tr:nth-child(2) {
@@ -400,7 +400,7 @@ table.db-schema .icon.foreign svg {
     }
 
     .table {
-        font-size: 1.3em;
+        font-size: var(--font-xlarge);
         text-align: center;
         min-width: 6em;
         padding: 1.5em 0.75em;

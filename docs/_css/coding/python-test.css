@@ -5,12 +5,12 @@
 
 .markdown-section .python-test-container {
     /* Wrapper */
-    --wrapper-bg: var(--color-mono-1);
-    --wrapper-border: var(--color-mono-2);
+    --wrapper-bg: var(--plugin-wrapper-bg);
+    --wrapper-border: var(--plugin-wrapper-border);
 
     /* Sections */
-    --section-bg: var(--color-mono-0);
-    --section-border: var(--color-mono-3);
+    --section-bg: var(--plugin-panel-bg);
+    --section-border: var(--plugin-panel-border);
 
     /* Coverage color palette */
     --coverage-hit-color: var(--color-good);
@@ -21,14 +21,6 @@
     --coverage-hit-bg: color-mix(in srgb, var(--coverage-hit-color) 15%, transparent);
     --coverage-miss-bg: color-mix(in srgb, var(--coverage-miss-color) 15%, transparent);
     --coverage-partial-bg: color-mix(in srgb, var(--coverage-partial-color) 15%, transparent);
-
-    /* Button colors */
-    --btn-bg: var(--theme-color-3);
-    --btn-bg-hover: var(--theme-color-4);
-    --btn-text: var(--color-text);
-    --btn-border: var(--border-color);
-    --btn-clear-bg: var(--color-mono-3);
-    --btn-clear-bg-hover: var(--color-mono-4);
 
     /* Results colors */
     --results-bg: var(--section-bg);
@@ -52,19 +44,19 @@
 
     /* Typography */
     --font-family: var(--font-family-mono);
-    --font-size-base: 0.9rem;
-    --font-size-sm: 0.85rem;
-    --font-size-xs: 0.75rem;
+    --font-size-base: var(--font-med);
+    --font-size-sm: var(--font-med);
+    --font-size-xs: var(--font-small);
 
     /* Spacing */
-    --padding-container: 1rem;
-    --padding-section: 0.75rem;
-    --padding-message: 0.25em 0.5em;
-    --padding-button: 0.5em 1em;
-    --padding-code: 0.5rem;
+    --padding-container: var(--padding);
+    --padding-section: var(--padding-med);
+    --padding-message: var(--padding-tiny) var(--padding-small);
+    --padding-button: var(--btn-padding-block) var(--btn-padding-inline);
+    --padding-code: var(--padding-small);
     --padding-gutter: 0.25rem 0.5rem;
-    --gap-controls: 0.5rem;
-    --gap-stats: 1rem;
+    --gap-controls: var(--gap-small);
+    --gap-stats: var(--gap);
 
     /* Effects */
     --border-radius-sm: calc(var(--border-radius) * 0.75);
@@ -250,7 +242,7 @@
             flex: 1;
             display: flex;
             align-items: stretch;
-            padding: 0 0.7rem;
+            padding: 0 var(--padding-med);
             background-color: var(--code-bg-color);
             border-radius: var(--border-radius-sm);
             border: 1px solid var(--section-border);
@@ -275,17 +267,13 @@
         button {
             padding: var(--padding-button);
             font-family: var(--font-family);
-            font-size: var(--font-size-sm);
-            font-weight: 500;
-            color: var(--btn-text);
-            background: var(--btn-bg);
-            border: 1px solid var(--btn-border);
-            border-radius: var(--border-radius-md);
+            font-size: var(--btn-font-size);
+            font-weight: var(--btn-font-weight);
+            border-radius: var(--btn-radius);
             cursor: pointer;
-            transition: all var(--transition-duration) ease;
+            transition: var(--btn-transition);
 
             &:hover:not(:disabled) {
-                background: var(--btn-bg-hover);
                 transform: translateY(-1px);
                 box-shadow: var(--box-shadow-small);
             }
@@ -303,14 +291,6 @@
         .python-test-run-btn {
             flex: 1;
             min-width: fit-content;
-        }
-
-        .python-test-clear-btn {
-            background: var(--btn-clear-bg);
-
-            &:hover:not(:disabled) {
-                background: var(--btn-clear-bg-hover);
-            }
         }
     }
 
@@ -385,10 +365,10 @@
             padding: var(--padding-message);
             display: flex;
             align-items: flex-start;
-            gap: 0.5rem;
+            gap: var(--gap-small);
 
             &:not(:last-child) {
-                margin-bottom: 0.25rem;
+                margin-bottom: var(--space-tiny);
             }
 
             &.test-pass,
@@ -460,7 +440,7 @@
 
         strong {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-small);
             color: var(--theme-color-6);
         }
 
@@ -486,7 +466,7 @@
     .python-test-output-label,
     .python-test-results-label,
     .python-test-coverage-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--space-small);
         font-size: var(--font-size-sm);
         font-weight: 600;
         color: var(--theme-color-6);
@@ -530,13 +510,13 @@
 
         strong {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-small);
             font-weight: 600;
             color: var(--coverage-miss-color);
         }
 
         .error-message {
-            margin-top: 0.5rem;
+            margin-top: var(--space-small);
 
             code {
                 background: rgba(0, 0, 0, 0.3);

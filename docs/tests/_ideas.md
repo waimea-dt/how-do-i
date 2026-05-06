@@ -22,18 +22,6 @@
 
 ## Plugin Ideas
 
-### General T&L Plugins
-
-#### rubric-short-answer.js - Guided Explanation Writer
-**Purpose**: Improve quality of written reasoning with visible criteria
-**Features**:
-- Short-answer response box with rubric checklist
-- Live criteria coverage indicators
-- Self-assessment before reveal
-- Model answer comparison panel
-- Teacher-editable rubric templates
-
-
 ### NCEA Level 2: Encryption
 
 #### vpn-tunnel.js - VPN Encryption Visualizer

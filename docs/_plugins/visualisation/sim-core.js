@@ -696,17 +696,15 @@
 
     /**
      * Build control buttons HTML.
-     * Uses .sim-btn, .sim-btn-reset, .sim-btn-next class names.
+    * Uses .sim-btn plus semantic classes (.btn-reset, .btn-next).
      * @returns {string} HTML string
      */
     function renderControls() {
         return `
-            <button class="sim-btn sim-btn-reset" disabled>
-                <span class="btn-icon">↺</span>
+            <button class="sim-btn sim-btn-reset btn-reset" disabled>
                 <span class="btn-text">Reset</span>
             </button>
-            <button class="sim-btn sim-btn-next">
-                <span class="btn-icon">→</span>
+            <button class="sim-btn sim-btn-next btn-next">
                 <span class="btn-text">Next</span>
             </button>
         `

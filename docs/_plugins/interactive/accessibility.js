@@ -1417,7 +1417,7 @@ ${headerPanel}
                         <ol class="accessibility-order" role="list">
                             ${renderAnnouncementItems(analysis.announcements)}
                         </ol>
-                        <button class="accessibility-order-speak-btn" data-announcements="${escapeHtml(JSON.stringify(analysis.announcements))}" title="Speak all items" aria-label="Speak all announcements">🔊 Speak</button>
+                        <button class="accessibility-order-speak-btn btn-bordered btn-speak" data-announcements="${escapeHtml(JSON.stringify(analysis.announcements))}" title="Speak all items" aria-label="Speak all announcements">Speak</button>
                     </section>
             `
             : ''
@@ -1454,7 +1454,7 @@ ${auditPanels}
                             button.dataset.ttsState = 'idle'
                             window.speechSynthesis.cancel()
                             clearHighlight()
-                            button.textContent = '🔊 Speak'
+                            button.textContent = 'Speak'
                         } else {
                             const announcements = JSON.parse(announcementsJson)
                             if (!announcements.length) {
@@ -1463,7 +1463,7 @@ ${auditPanels}
 
                             button.dataset.ttsState = 'playing'
                             window.speechSynthesis.cancel()
-                            button.textContent = '⏹ Stop'
+                            button.textContent = 'Stop'
                             clearHighlight()
 
                             const separator = '. '
@@ -1516,14 +1516,14 @@ ${auditPanels}
                                 }
                                 button.dataset.ttsState = 'idle'
                                 clearHighlight()
-                                button.textContent = '🔊 Speak'
+                                button.textContent = 'Speak'
                             }
 
                             utterance.onerror = () => {
                                 button.dataset.ttsState = 'idle'
                                 window.speechSynthesis.cancel()
                                 clearHighlight()
-                                button.textContent = '🔊 Speak'
+                                button.textContent = 'Speak'
                             }
 
                             window.speechSynthesis.speak(utterance)
@@ -1535,7 +1535,7 @@ ${auditPanels}
                         const items = Array.from(el.querySelectorAll('.accessibility-order-item[data-announcement-index]'))
                         items.forEach((item) => item.classList.remove('is-speaking'))
                         button.dataset.ttsState = 'idle'
-                        button.textContent = '🔊 Speak'
+                        button.textContent = 'Speak'
                         console.error('Failed to parse announcements for TTS:', e)
                     }
                 }

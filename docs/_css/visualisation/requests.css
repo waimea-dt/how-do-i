@@ -24,7 +24,7 @@
     align-items: stretch;
     width: fit-content;
     max-width: 100%;
-    margin: 2em auto;
+    margin: var(--margin-block) auto;
     overflow: hidden;
 }
 
@@ -51,7 +51,7 @@
     flex: 0;
     text-align: center;
     align-content: center;
-    padding: 0.7em 1em;
+    padding: var(--padding-med) var(--padding);
     background-color: var(--requests-end-point-back-color);
     border: var(--requests-border-width) solid var(--requests-border-color);
     border-radius: var(--border-radius);
@@ -73,7 +73,7 @@
 
     p {
         line-height: 1.2;
-        font-size: 0.9em;
+        font-size: var(--font-med);
     }
 
     img {
@@ -173,13 +173,13 @@
 .markdown-section .request-sequence .requests {
     flex: 1;
     margin: 0;
-    padding: 1.5em 0 2em;
+    padding: var(--padding-large) 0 var(--padding-xlarge);
     list-style: none;
     text-align: center;
     align-content: center;
     display: flex;
     flex-direction: column;
-    gap: 1.2em;
+    gap: var(--gap-large);
     justify-content: space-between;
 
     /* Default: left list borders */
@@ -197,13 +197,13 @@
 
 @media (min-width: 40rem) {
     .markdown-section .request-sequence .requests {
-        padding-top: 0.5em;
-        padding-bottom: 1.5em;
+        padding-top: var(--padding-small);
+        padding-bottom: var(--padding-large);
         border: none;
 
         &:has(.message.info-left:last-child),
         &:has(.message.info-right:last-child) {
-            padding-bottom: 0.5em;
+            padding-bottom: var(--padding-small);
         }
     }
 }
@@ -213,7 +213,7 @@
 
 .markdown-section .request-sequence .requests .message {
     margin: 0;
-    padding: 0 1em 0.3em;
+    padding: 0 var(--padding) var(--padding-tiny);
     border-bottom: var(--requests-line-width) solid var(--color-mono-4);
     line-height: 1.2;
     align-content: flex-end;
@@ -239,28 +239,28 @@
     &.left-to-right,
     &.info-left {
         text-align: left;
-        margin-right: 0.5em;
-        padding-right: 1em;
+        margin-right: var(--space-small);
+        padding-right: var(--padding);
     }
 
     /* Right-aligned messages */
     &.right-to-left,
     &.info-right {
         text-align: right;
-        margin-left: 0.5em;
-        padding-left: 1em;
+        margin-left: var(--space-small);
+        padding-left: var(--padding);
     }
 
     /* Info messages */
     &.info-left,
     &.info-right {
-        font-size: 0.9em;
+        font-size: var(--font-med);
         font-weight: 500;
         border-bottom: none;
-        padding: 0.3em 0.6em;
+        padding: var(--padding-tiny) var(--padding-med);
         min-width: 10ch;
         max-width: 75%;
-        padding-block: 0.4em;
+        padding-block: var(--padding-tiny);
         background-color: color-mix(in srgb, var(--message-color) 25%, transparent);
         --animation-text: color-mix(in srgb, var(--message-color) 25%, #fff);
     }

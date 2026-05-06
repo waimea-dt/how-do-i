@@ -9,21 +9,26 @@
     --tls-code-bg: color-mix(in srgb, var(--exchange-accent-public), transparent 88%);
     --tls-chip-bg: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 90%);
     --tls-chip-border: var(--exchange-accent-shared);
+    --tls-meta-gap: 0.35rem;
+    --tls-toggle-gap: var(--gap-tiny);
+    --tls-toggle-padding: 0.15rem;
+    --tls-toggle-btn-padding: 0.18rem 0.55rem;
+    --tls-chip-padding: 0.2rem 0.55rem;
 
     container-type: inline-size;
 
     .tls-meta {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
+        gap: var(--gap-small);
         justify-content: flex-end;
     }
 
     .tls-toggle {
         display: inline-flex;
         align-items: center;
-        gap: 0.25rem;
-        padding: 0.15rem;
+        gap: var(--tls-toggle-gap);
+        padding: var(--tls-toggle-padding);
         border-radius: 999px;
         border: 1px solid var(--exchange-border);
         background: var(--exchange-bg);
@@ -33,8 +38,8 @@
         appearance: none;
         border: 0;
         border-radius: 999px;
-        padding: 0.18rem 0.55rem;
-        font-size: 0.78rem;
+        padding: var(--tls-toggle-btn-padding);
+        font-size: var(--exchange-font-caption);
         font-weight: 700;
         line-height: 1.2;
         color: var(--exchange-text-secondary);
@@ -58,10 +63,10 @@
 
     .tls-chip {
         display: inline-flex;
-        gap: 0.35rem;
+        gap: var(--tls-meta-gap);
         align-items: center;
-        padding: 0.2rem 0.55rem;
-        font-size: 0.82rem;
+        padding: var(--tls-chip-padding);
+        font-size: var(--exchange-font-caption);
         border-radius: 999px;
         border: 1px solid var(--tls-chip-border);
         background: var(--tls-chip-bg);
@@ -75,7 +80,7 @@
 
     .tls-code {
         font-family: var(--exchange-font-mono);
-        font-size: 0.76em;
+        font-size: var(--exchange-font-caption);
         letter-spacing: 0.05em;
         background: var(--tls-code-bg);
         padding: 0.1em 0.32em;

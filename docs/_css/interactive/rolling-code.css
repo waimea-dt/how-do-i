@@ -15,7 +15,7 @@
     .rc-config {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
+        gap: var(--gap-small);
         justify-content: flex-end;
     }
 
@@ -24,7 +24,7 @@
         gap: 0.35rem;
         align-items: center;
         padding: 0.2rem 0.55rem;
-        font-size: 0.82rem;
+        font-size: var(--font-small);
         border-radius: 999px;
         border: 1px solid var(--rc-chip-border);
         background: var(--rc-chip-bg);
@@ -37,7 +37,7 @@
 
     .rc-code {
         font-family: var(--exchange-font-mono);
-        font-size: 0.78em;
+        font-size: var(--exchange-font-caption);
         letter-spacing: 0.05em;
         background: var(--rc-code-bg);
         padding: 0.1em 0.3em;

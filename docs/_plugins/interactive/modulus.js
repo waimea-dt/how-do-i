@@ -354,7 +354,7 @@
                     The clock has ${initialMod} positions (0 to ${initialMod - 1}).<br>
                     Starting at 0, count forward ${initialValue} steps to find where you land.
                 </div>
-                <button class="mod-restart-btn" data-restart-btn>↻ Restart</button>
+                <button class="mod-restart-btn btn-reset" data-restart-btn>Restart</button>
             </div>
         `
         return wrapper

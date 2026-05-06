@@ -825,16 +825,13 @@
                 </div>
 
                 <div class="cpu-sim-controls">
-                <button class="cpu-btn cpu-btn-run" title="Run continuously">
-                    <span class="btn-icon">▶</span>
+                <button class="cpu-btn cpu-btn-run btn-go" title="Run continuously">
                     <span class="btn-text">Run</span>
                 </button>
-                <button class="cpu-btn cpu-btn-step" title="Execute one phase">
-                    <span class="btn-icon">▶❙</span>
+                <button class="cpu-btn cpu-btn-step btn-next" title="Execute one phase">
                     <span class="btn-text">Step</span>
                 </button>
-                <button class="cpu-btn cpu-btn-reset" title="Reset CPU to initial state">
-                    <span class="btn-icon">⟲</span>
+                <button class="cpu-btn cpu-btn-reset btn-reset" title="Reset CPU to initial state">
                     <span class="btn-text">Reset</span>
                 </button>
                 <div class="cpu-speed-control">
@@ -1245,7 +1242,6 @@
                 runInterval = null
             }
             btnRun.querySelector('.btn-text').textContent = 'Run'
-            btnRun.querySelector('.btn-icon').textContent = '▶'
             btnRun.classList.remove('running')
         }
 
@@ -1281,7 +1277,6 @@
             }
 
             btnRun.querySelector('.btn-text').textContent = 'Pause'
-            btnRun.querySelector('.btn-icon').textContent = '❙❙'
             btnRun.classList.add('running')
 
             runInterval = setInterval(() => {

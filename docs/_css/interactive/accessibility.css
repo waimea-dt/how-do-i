@@ -18,15 +18,22 @@
     --accessibility-warn: var(--color-warning);
     --accessibility-fail: var(--color-attention);
 
-    --accessibility-gap: 1rem;
-    --accessibility-gap-med: 0.75rem;
-    --accessibility-gap-small: 0.5rem;
-    --accessibility-gap-tint: 0.25rem;
-    --accessibility-padding: 1rem;
-    --accessibility-padding-med: 0.75rem;
-    --accessibility-padding-small: 0.5rem;
-    --accessibility-padding-tiny: 0.25rem;
-    --accessibility-padding-micro: 0.1rem;
+    --accessibility-accent: var(--theme-color);
+
+    --accessibility-gap: var(--gap);
+    --accessibility-gap-med: var(--gap-med);
+    --accessibility-gap-small: var(--gap-small);
+    --accessibility-gap-tint: var(--gap-tiny);
+    --accessibility-padding: var(--padding);
+    --accessibility-padding-med: var(--padding-med);
+    --accessibility-padding-small: var(--padding-small);
+    --accessibility-padding-tiny: var(--padding-tiny);
+    --accessibility-padding-micro: var(--padding-micro);
+
+    /* Component micro-geometry */
+    --accessibility-order-item-padding:  0.2rem 0.35rem;
+    --accessibility-contrast-label-gap: 0.35rem;
+    --accessibility-badge-padding:      0.1rem 0.4rem;
 
     display: block;
     margin: var(--margin-block) 0;
@@ -47,14 +54,12 @@
 
         .accessibility-title {
             margin: 0 0 var(--accessibility-gap-small) 0;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--accessibility-title);
+                font-size: var(--font-xlarge);
         }
 
         .accessibility-subtitle {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             color: var(--accessibility-subtitle);
         }
     }
@@ -207,7 +212,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: var(--accessibility-gap-small);
-            font-size: 0.85rem;
+            font-size: var(--font-med);
             color: var(--accessibility-text);
 
             input,
@@ -279,7 +284,7 @@
 
     .accessibility-code-block {
         margin: 0;
-        padding: 0.85rem 1rem;
+        padding: var(--padding-med) var(--padding);
         border: 1px solid var(--accessibility-border-high);
         border-radius: var(--border-radius-small);
         background: var(--code-bg-color);
@@ -305,7 +310,7 @@
             border: 1px solid var(--accessibility-border-high);
             border-radius: var(--border-radius-small);
             padding: var(--accessibility-padding-micro) var(--accessibility-padding-tiny);
-            font-size: 0.6rem;
+            font-size: var(--font-tiny);
             font-weight: 500;
             color: var(--accessibility-subtitle);
             background-color: var(--color-mono-1);
@@ -328,14 +333,14 @@
             background-color: var(--color-mono-1);
             color: var(--accessibility-text);
             display: flex;
-            gap: 0.6rem;
+            gap: var(--gap-small);
             align-items: flex-start;
 
             .accessibility-checklist-icon {
                 width: 2rem;
                 height: 2rem;
                 flex: 0 0 2rem;
-                margin-top: 0.1rem;
+                margin-top: var(--space-micro);
 
                 svg {
                     width: 2rem;
@@ -356,7 +361,7 @@
 
             .accessibility-checklist-detail {
                 margin: 0;
-                font-size: 0.9rem;
+                font-size: var(--font-med);
                 color: var(--accessibility-text-muted);
             }
 
@@ -392,35 +397,23 @@
         background-size: 150px 150px;
 
         .accessibility-order-item {
-            font-size: 0.95rem;
+            font-size: var(--font-base);
             color: var(--secondary-color);
             border-radius: var(--border-radius-small);
-            padding: 0.2rem 0.35rem;
+            padding: var(--accessibility-order-item-padding);
             transition: background-color 0.2s ease, color 0.2s ease;
 
             &.is-speaking {
-                background-color: color-mix(in srgb, var(--accessibility-accent), white 80%);
-                color: var(--accessibility-accent);
+                background-color: color-mix(in srgb, var(--accessibility-accent), transparent 80%);
+                color: var(--accessibility-text);
             }
         }
 
         .accessibility-order-speak-btn {
+            --btn-action-color: var(--accessibility-accent);
             position: absolute;
             bottom: 1rem;
             right: 1rem;
-            padding: var(--accessibility-padding-small) var(--accessibility-padding-med);
-            border: 1px solid currentColor;
-            border-radius: 0.3rem;
-            background: transparent;
-            color: inherit;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 500;
-            transition: background 0.2s;
-
-            &:hover {
-                background: color-mix(in srgb, currentColor, transparent 85%);
-            }
 
             &:active {
                 transform: scale(0.95);
@@ -449,7 +442,7 @@
             list-style: none;
             margin: 0;
             padding: var(--accessibility-padding-small);
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             color: var(--accessibility-text-muted);
         }
 
@@ -467,7 +460,7 @@
                 "swatches label"
                 "swatches stats";
             align-items: start;
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             line-height: 1.25;
 
             &[data-status="pass"] {
@@ -521,12 +514,12 @@
             font-weight: 600;
             color: var(--accessibility-text);
             display: flex;
-            gap: 0.35rem;
+            gap: var(--accessibility-contrast-label-gap);
             align-items: center;
         }
 
         .accessibility-contrast-note {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             font-weight: 400;
             color: var(--accessibility-text-muted);
         }
@@ -552,9 +545,9 @@
 
         .accessibility-contrast-badge {
             flex: 0 0 auto;
-            padding: 0.1rem 0.4rem;
+            padding: var(--accessibility-badge-padding);
             border-radius: var(--border-radius-small);
-            font-size: 0.7rem;
+            font-size: var(--font-small);
             font-weight: 600;
 
             &.accessibility-contrast-badge--pass {

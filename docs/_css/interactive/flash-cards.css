@@ -22,6 +22,7 @@
     /* Card dimensions */
     --flash-card-width:             40rem;
     --flash-card-aspect:            16/9;
+    --flash-card-padding:           var(--padding);
 
     /* Animation */
     --flash-flip-time:              300ms;
@@ -81,7 +82,7 @@
             position: absolute;
             inset: 0;
             margin: 0;
-            padding: 1rem;
+            padding: var(--flash-card-padding);
 
             display: flex;
             flex-direction: column;

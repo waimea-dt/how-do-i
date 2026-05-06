@@ -483,10 +483,10 @@
                             <p class="erd-subtitle">Edit SQL to update diagram</p>
                         </div>
                         <div class="erd-controls">
-                            <button class="erd-btn erd-save-svg-btn" title="Save as SVG">
+                            <button class="erd-btn erd-save-svg-btn btn-save" title="Save as SVG">
                                 Save SVG
                             </button>
-                            <button class="erd-btn erd-save-png-btn" title="Save as PNG">
+                            <button class="erd-btn erd-save-png-btn btn-save" title="Save as PNG">
                                 Save PNG
                             </button>
                         </div>

@@ -1505,10 +1505,10 @@
         const group = document.createElement('div')
         group.className = 'trace-table-button-group'
 
-        const playBtn = createTraceButton('trace-table-btn trace-table-btn-play', TRACE_TABLE_CONFIG.uiText.buttons.play)
-        const pauseBtn = createTraceButton('trace-table-btn trace-table-btn-pause', TRACE_TABLE_CONFIG.uiText.buttons.pause, true)
-        const nextBtn = createTraceButton('trace-table-btn trace-table-btn-step', TRACE_TABLE_CONFIG.uiText.buttons.next)
-        const resetBtn = createTraceButton('trace-table-btn trace-table-btn-reset', TRACE_TABLE_CONFIG.uiText.buttons.reset)
+        const playBtn = createTraceButton('trace-table-btn trace-table-btn-play btn-go', TRACE_TABLE_CONFIG.uiText.buttons.play)
+        const pauseBtn = createTraceButton('trace-table-btn trace-table-btn-pause btn-stop', TRACE_TABLE_CONFIG.uiText.buttons.pause, true)
+        const nextBtn = createTraceButton('trace-table-btn trace-table-btn-step btn-next', TRACE_TABLE_CONFIG.uiText.buttons.next)
+        const resetBtn = createTraceButton('trace-table-btn trace-table-btn-reset btn-reset', TRACE_TABLE_CONFIG.uiText.buttons.reset)
 
         group.appendChild(playBtn)
         group.appendChild(pauseBtn)

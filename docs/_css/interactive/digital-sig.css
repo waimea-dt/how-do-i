@@ -41,19 +41,19 @@
     }
 
     .ds-file-icon {
-        font-size: 1.3em;
+        font-size: var(--exchange-font-title);
         line-height: 1;
     }
 
     .ds-header-filename {
         font-family: var(--exchange-font-mono);
-        font-size: 0.95rem;
+        font-size: var(--exchange-font-body);
         font-weight: 700;
         color: var(--exchange-text-primary);
     }
 
     .ds-tamper-badge {
-        font-size: 0.78rem;
+        font-size: var(--exchange-font-caption);
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -68,7 +68,7 @@
 
     .ds-formula {
         font-family: var(--exchange-font-mono);
-        font-size: 0.82em;
+        font-size: var(--exchange-font-caption);
         color: var(--exchange-text-secondary);
         padding: 0.2em 0.4em;
         background: color-mix(in srgb, var(--ds-func-color), transparent 93%);
@@ -87,7 +87,7 @@
 
     .ds-hash {
         font-family: var(--exchange-font-mono);
-        font-size: 0.78em;
+        font-size: var(--exchange-font-caption);
         letter-spacing: 0.06em;
         background: var(--ds-hash-bg);
         padding: 0.1em 0.35em;
@@ -96,7 +96,7 @@
 
     .ds-key {
         font-family: var(--exchange-font-mono);
-        font-size: 0.78em;
+        font-size: var(--exchange-font-caption);
         letter-spacing: 0.06em;
         background: var(--ds-key-bg);
         padding: 0.1em 0.35em;
@@ -105,7 +105,7 @@
 
     .ds-content {
         font-family: var(--exchange-font-mono);
-        font-size: 0.85em;
+        font-size: var(--exchange-font-body);
         background: var(--ds-content-bg);
         padding: 0.1em 0.35em;
         border-radius: var(--border-radius-small);
@@ -127,7 +127,7 @@
 
     .ds-compare-label {
         font-family: var(--exchange-font-mono);
-        font-size: 0.82em;
+        font-size: var(--exchange-font-caption);
         padding: 0.25em 0.5em;
         border-radius: var(--border-radius-small);
         margin-bottom: 0.4em;

@@ -3,20 +3,16 @@
  */
 
 .markdown-section drag-drop {
-    --drag-drop-bg: var(--color-mono-1);
-    --drag-drop-bg-header: var(--color-mono-2);
-    --drag-drop-bg-item: var(--color-mono-0);
-    --drag-drop-border: var(--color-mono-3);
+    --drag-drop-bg: var(--plugin-wrapper-bg);
+    --drag-drop-bg-header: var(--plugin-header-bg);
+    --drag-drop-bg-item: var(--plugin-panel-bg);
+    --drag-drop-border: var(--plugin-wrapper-border);
     --drag-drop-border-high: var(--color-mono-6);
 
-    --drag-drop-title: var(--theme-color);
-    --drag-drop-subtitle: var(--color-mono-6);
+    --drag-drop-title: var(--plugin-header-title);
+    --drag-drop-subtitle: var(--plugin-header-subtitle);
     --drag-drop-text: var(--color-text);
     --drag-drop-feedback: var(--color-mono-7);
-
-    --drag-drop-btn-bg: var(--theme-color-3);
-    --drag-drop-btn-bg-hover: var(--theme-color-4);
-    --drag-drop-btn-text: var(--color-text);
 
     --drag-drop-feedback-correct: var(--color-good);
     --drag-drop-feedback-almost: var(--color-warning);
@@ -25,15 +21,14 @@
     --drag-drop-item-correct-border: color-mix(in srgb, var(--color-good), transparent 0%);
     --drag-drop-item-wrong-border: color-mix(in srgb, var(--color-attention), transparent 0%);
 
-    --drag-drop-control: var(--theme-color-5);
-    --drag-drop-gap: 1rem;
-    --drag-drop-gap-med: 0.75rem;
-    --drag-drop-gap-small: 0.5rem;
-    --drag-drop-gap-tiny: 0.25rem;
-    --drag-drop-padding: 1rem;
-    --drag-drop-padding-med: 0.75rem;
-    --drag-drop-padding-small: 0.5rem;
-    --drag-drop-padding-tiny: 0.25rem;
+    --drag-drop-gap: var(--gap);
+    --drag-drop-gap-med: var(--gap-med);
+    --drag-drop-gap-small: var(--gap-small);
+    --drag-drop-gap-tiny: var(--gap-tiny);
+    --drag-drop-padding: var(--padding);
+    --drag-drop-padding-med: var(--padding-med);
+    --drag-drop-padding-small: var(--padding-small);
+    --drag-drop-padding-tiny: var(--padding-tiny);
 
     --drag-drop-list-gap: var(--drag-drop-gap-tiny);
     --drag-drop-list-padding: var(--drag-drop-padding-med);
@@ -97,7 +92,7 @@
 
             .drag-drop-subtitle {
                 margin: 0;
-                font-size: 0.9rem;
+                font-size: var(--font-med);
                 color: var(--drag-drop-subtitle);
             }
         }
@@ -336,31 +331,21 @@
             .drag-drop-btn {
                 flex: 1;
                 min-width: 3rem;
-                border: 1px solid var(--drag-drop-btn-bg);
-                border-radius: var(--border-radius-small);
-                background-color: var(--drag-drop-btn-bg);
-                color: var(--drag-drop-btn-text);
+                border-radius: var(--btn-radius);
                 margin: 0;
-                padding: var(--drag-drop-padding-tiny) var(--drag-drop-padding-small);
-                font-size: 0.9rem;
-                font-weight: 600;
+                padding: var(--btn-padding-block) var(--btn-padding-inline);
+                font-size: var(--btn-font-size);
+                font-weight: var(--btn-font-weight);
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 gap: var(--drag-drop-gap-small);
                 cursor: pointer;
-                transition: background 160ms, border-color 160ms, transform 160ms;
-
-                svg {
-                    width: 1.3rem;
-                    height: 1.3rem;
-                    pointer-events: none;
-                }
+                transition: var(--btn-transition);
 
                 &:hover {
-                    background-color: var(--drag-drop-btn-bg-hover);
-                    border-color: var(--drag-drop-btn-bg-hover);
                     transform: translateY(-1px);
+                    box-shadow: var(--btn-shadow-hover);
                 }
             }
 
@@ -375,13 +360,9 @@
                 width: 2.2rem;
                 height: 2.2rem;
                 padding: 0;
-                border-color: var(--drag-drop-border);
-                background-color: var(--drag-drop-bg-header);
-                color: var(--drag-drop-control);
                 opacity: 0.85;
 
                 &:hover {
-                    background-color: var(--color-mono-3);
                     border-color: var(--drag-drop-border-high);
                 }
             }

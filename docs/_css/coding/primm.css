@@ -4,20 +4,21 @@
  */
 
 .markdown-section primm {
-    --primm-bg: var(--color-mono-1);
-    --primm-bg-header: var(--color-mono-2);
-    --primm-bg-section: var(--color-mono-0);
-    --primm-border: var(--color-mono-3);
+    --primm-bg: var(--plugin-wrapper-bg);
+    --primm-bg-header: var(--plugin-header-bg);
+    --primm-bg-section: var(--plugin-panel-bg);
+    --primm-border: var(--plugin-wrapper-border);
     --primm-border-high: var(--color-mono-6);
 
-    --primm-title: var(--theme-color);
-    --primm-label: var(--color-mono-7);
+    --primm-title: var(--plugin-header-title);
+    --primm-label: var(--plugin-header-subtitle);
     --primm-text: var(--color-text);
 
-    --primm-btn-bg: var(--theme-color-3);
-    --primm-btn-bg-hover: var(--theme-color-4);
-    --primm-btn-bg-disabled: var(--color-mono-4);
-    --primm-btn-text: var(--color-text);
+    --primm-btn-bg: var(--btn-bg);
+    --primm-btn-bg-hover: var(--btn-bg-hover);
+    --primm-btn-bg-disabled: var(--btn-bg-disabled);
+    --primm-btn-text: var(--btn-text);
+    --primm-btn-border: var(--btn-border);
 
     --primm-code-bg: var(--code-bg-color);
     --primm-code-border: var(--code-border-color);
@@ -27,15 +28,15 @@
     --primm-prediction-text-color: var(--color-mono-7);
 
 
-    --primm-gap: 1rem;
-    --primm-gap-med: 0.75rem;
-    --primm-gap-small: 0.5rem;
-    --primm-padding: 1rem;
-    --primm-padding-med: 0.75rem;
-    --primm-padding-small: 0.5rem;
+    --primm-gap: var(--gap);
+    --primm-gap-med: var(--gap-med);
+    --primm-gap-small: var(--gap-small);
+    --primm-padding: var(--padding);
+    --primm-padding-med: var(--padding-med);
+    --primm-padding-small: var(--padding-small);
 
-    --primm-border-radius: var(--border-radius);
-    --primm-box-shadow: var(--box-shadow-small);
+    --primm-border-radius: var(--plugin-wrapper-radius);
+    --primm-box-shadow: var(--plugin-wrapper-shadow);
 
     display: block;
     margin: var(--margin-block) 0;
@@ -56,7 +57,7 @@
 
         .primm-title {
             margin: 0;
-            font-size: 1.2rem;
+            font-size: var(--font-xlarge);
             font-weight: 600;
             color: var(--primm-title);
         }
@@ -131,7 +132,7 @@
 
         .primm-label {
             display: block;
-            font-size: 0.95rem;
+            font-size: var(--font-base);
             font-weight: 500;
             color: var(--primm-label);
             margin-bottom: var(--primm-gap-small);
@@ -146,7 +147,7 @@
             background-color: var(--primm-prediction-bg);
             color: var(--primm-text);
             font-family: var(--font-family-mono);
-            font-size: 1rem;
+            font-size: var(--font-base);
             line-height: 1.5;
             resize: vertical;
             transition: border-color 0.2s ease;
@@ -170,7 +171,7 @@
             border: 1px solid var(--primm-code-border);
             border-radius: var(--primm-border-radius);
             font-family: var(--font-family-mono);
-            font-size: 1rem;
+            font-size: var(--font-base);
             line-height: 1.5;
             color: var(--md-code-fg-color);
             white-space: pre-wrap;
@@ -202,15 +203,15 @@
             display: inline-flex;
             align-items: center;
             gap: var(--primm-gap-small);
-            padding: 0.5em 1em;
-            border: none;
-            border-radius: var(--primm-border-radius);
+            padding: var(--btn-padding-block) var(--btn-padding-inline);
+            border: 1px solid var(--primm-btn-border);
+            border-radius: var(--btn-radius);
             background-color: var(--primm-btn-bg);
             color: var(--primm-btn-text);
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: var(--btn-font-size);
+            font-weight: var(--btn-font-weight);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--btn-transition);
             width: 100%;
             justify-content: center;
 
@@ -223,7 +224,7 @@
             &:hover:not(:disabled) {
                 background-color: var(--primm-btn-bg-hover);
                 transform: translateY(-1px);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+                box-shadow: var(--btn-shadow-hover);
             }
 
             &:active:not(:disabled) {
@@ -237,7 +238,7 @@
             }
 
             span {
-                font-size: 0.9em;
+                font-size: var(--btn-font-size);
             }
 
             @container (min-width: 400px) {
@@ -249,7 +250,7 @@
     .primm-status {
         grid-area: status;
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         font-weight: 600;
         line-height: 1.2;
         width: 100%;

@@ -33,7 +33,7 @@
 
         .sa-mode-label {
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: var(--exchange-font-body);
             color: var(--exchange-accent-shared);
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -41,7 +41,7 @@
 
         .sa-mode-message {
             font-family: var(--exchange-font-mono);
-            font-size: 0.95rem;
+            font-size: var(--exchange-font-body);
             font-weight: 600;
             color: var(--exchange-text-primary);
         }
@@ -65,14 +65,14 @@
 
     .sa-operation-formula {
         font-family: var(--exchange-font-mono);
-        font-size: 0.9em;
+        font-size: var(--exchange-font-body);
         text-align: center;
     }
 
     /* ---- Ciphertext specific ---- */
 
     .sa-ciphertext {
-        font-size: 0.7em;
+        font-size: var(--exchange-font-caption);
         letter-spacing: 0.05em;
         max-width: 19ch;
         line-height: 1.1;
@@ -113,7 +113,7 @@
 
     .sa-operation-formula {
         font-family: var(--exchange-font-mono);
-        font-size: 0.9rem;
+        font-size: var(--exchange-font-body);
         line-height: 1.6;
     }
 }

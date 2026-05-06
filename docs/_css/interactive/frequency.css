@@ -10,21 +10,21 @@
 /* ---- Design tokens (shared across all frequency components) ---- */
 .markdown-section frequency,
 .markdown-section .frequency-chart {
-    --frequency-bg: var(--color-mono-1);
-    --frequency-bg-header: var(--color-mono-2);
-    --frequency-bg-textarea: var(--color-mono-0);
+    --frequency-bg: var(--plugin-wrapper-bg);
+    --frequency-bg-header: var(--plugin-header-bg);
+    --frequency-bg-textarea: var(--plugin-panel-bg);
     --frequency-bg-stat: var(--color-mono-2);
-    --frequency-border: var(--color-mono-3);
+    --frequency-border: var(--plugin-wrapper-border);
 
-    --frequency-title-color: var(--theme-color);
-    --frequency-subtitle-color: var(--color-mono-6);
+    --frequency-title-color: var(--plugin-header-title);
+    --frequency-subtitle-color: var(--plugin-header-subtitle);
     --frequency-label-color: var(--color-text);
     --frequency-value-color: var(--frequency-accent);
     --frequency-muted: var(--color-mono-6);
 
-    --frequency-btn-bg: var(--color-mono-1);
-    --frequency-btn-border: var(--color-mono-5);
-    --frequency-btn-bg-hover: var(--color-mono-2);
+    --frequency-btn-bg: var(--btn-bg);
+    --frequency-btn-border: var(--btn-border);
+    --frequency-btn-bg-hover: var(--btn-bg-hover);
     --frequency-btn-bg-active: var(--theme-color-1);
     --frequency-btn-color-active: var(--theme-color-6);
 
@@ -32,8 +32,8 @@
     --frequency-bar-label-color: var(--color-text);
     --frequency-bar-inactive: var(--color-mono-3);
 
-    --frequency-padding: 1rem;
-    --frequency-padding-small: 0.5rem;
+    --frequency-padding: var(--padding);
+    --frequency-padding-small: var(--padding-small);
 }
 
 .markdown-section frequency {
@@ -63,14 +63,14 @@
 
     .frequency-title {
         margin: 0 0 0.25rem 0;
-        font-size: 1.25rem;
+        font-size: var(--font-xlarge);
         font-weight: 600;
         color: var(--frequency-title-color);
     }
 
     .frequency-subtitle {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         color: var(--frequency-subtitle-color);
     }
 
@@ -102,7 +102,7 @@
         width: 100%;
         padding: var(--frequency-padding-small);
         font-family: var(--font-family-mono);
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         line-height: 1.5;
         background: var(--frequency-bg-textarea);
         border: 1px solid var(--frequency-border);
@@ -149,7 +149,7 @@
     }
 
     .frequency-stat-value {
-        font-size: 1.5rem;
+        font-size: var(--font-display);
         font-weight: 700;
         color: var(--frequency-value-color);
     }
@@ -292,25 +292,26 @@
             cursor: pointer;
 
             .frequency-toggle-label {
-                font-size: 0.7rem;
+                font-size: var(--font-small);
                 font-weight: 600;
                 color: var(--frequency-label-color);
                 margin-right: var(--frequency-padding-small);
             }
 
             .frequency-toggle-btn {
-                padding: 0.2em 0.5em;
-                font-size: 0.75rem;
-                font-weight: 500;
+                padding: var(--btn-padding-block) var(--btn-padding-inline);
+                font-size: var(--btn-font-size);
+                font-weight: var(--btn-font-weight);
                 background: var(--frequency-btn-bg);
                 border: 1px solid var(--frequency-btn-border);
-                border-radius: var(--border-radius);
+                border-radius: var(--btn-radius);
                 color: var(--frequency-label-color);
                 cursor: pointer;
-                transition: all 0.2s;
+                transition: var(--btn-transition);
 
                 &:hover {
                     background: var(--frequency-btn-bg-hover);
+                    box-shadow: var(--btn-shadow-hover);
                 }
 
                 &.active {

@@ -10,9 +10,9 @@
     --rt-crack-accent:        var(--palette-color-4);
     --rt-found-color:         var(--color-good);
 
-    --rt-bg:                  var(--color-mono-0);
-    --rt-section-bg:          var(--color-mono-1);
-    --rt-border:              var(--color-mono-3);
+    --rt-bg:                  var(--plugin-wrapper-bg);
+    --rt-section-bg:          var(--plugin-panel-bg);
+    --rt-border:              var(--plugin-wrapper-border);
 
     --rt-label-color:         var(--color-mono-6);
     --rt-note-color:          var(--color-mono-4);
@@ -32,14 +32,6 @@
     --rt-input-border:        var(--color-mono-4);
     --rt-input-border-hover:  var(--color-mono-5);
     --rt-input-border-focus:  var(--rt-crack-accent);
-
-    --rt-start-btn-bg:        color-mix(in srgb, var(--rt-crack-accent), transparent 75%);
-    --rt-start-btn-border:    var(--rt-crack-accent);
-    --rt-start-btn-hover:     color-mix(in srgb, var(--rt-crack-accent), transparent 60%);
-
-    --rt-reset-btn-bg:        var(--color-mono-2);
-    --rt-reset-btn-border:    var(--color-mono-4);
-    --rt-reset-btn-hover:     var(--color-mono-3);
 
     --rt-result-found-bg:     color-mix(in srgb, var(--rt-found-color),  transparent 88%);
     --rt-result-found-border: var(--rt-found-color);
@@ -73,7 +65,7 @@
     }
 
     .rt-label {
-        font-size: 0.72rem;
+        font-size: var(--font-small);
         font-weight: 600;
         letter-spacing: 0.07em;
         text-transform: uppercase;
@@ -95,7 +87,7 @@
         padding: 0.5em 0.75em;
         color: var(--color-text);
         font-family: var(--rt-font-mono);
-        font-size: 0.78rem;
+        font-size: var(--font-small);
         transition: border-color 150ms, box-shadow 150ms;
 
         &:hover {
@@ -114,36 +106,18 @@
     .rt-start-btn,
     .rt-reset-btn {
         flex-shrink: 0;
-        padding: 0.5em 1.1em;
-        border-radius: calc(var(--border-radius) * 0.75);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        border-radius: var(--btn-radius);
         color: var(--color-text);
-        font-size: 0.85rem;
-        font-weight: 600;
+        font-size: var(--btn-font-size);
+        font-weight: var(--btn-font-weight);
         cursor: pointer;
-        transition: background 120ms;
+        transition: var(--btn-transition);
         white-space: nowrap;
 
         &:disabled {
             opacity: 0.4;
             cursor: not-allowed;
-        }
-    }
-
-    .rt-start-btn {
-        background: var(--rt-start-btn-bg);
-        border: 2px solid var(--rt-start-btn-border);
-
-        &:hover:not(:disabled) {
-            background: var(--rt-start-btn-hover);
-        }
-    }
-
-    .rt-reset-btn {
-        background: var(--rt-reset-btn-bg);
-        border: 2px solid var(--rt-reset-btn-border);
-
-        &:hover:not(:disabled) {
-            background: var(--rt-reset-btn-hover);
         }
     }
 
@@ -167,7 +141,7 @@
     }
 
     .rt-section-note {
-        font-size: 0.85em;
+        font-size: var(--font-med);
         font-weight: 400;
         letter-spacing: 0.03em;
         text-transform: none;
@@ -261,13 +235,13 @@
 
     .rt-cell-num {
         color: var(--rt-note-color);
-        font-size: 0.75rem;
+        font-size: var(--font-small);
         text-align: right;
     }
 
     .rt-cell-hash {
         font-family: var(--rt-font-mono);
-        font-size: 0.72rem;
+        font-size: var(--font-small);
     }
 
     /* Copy button in SHA-256 column header */
@@ -293,7 +267,7 @@
         margin: 0.4em 1.5em 1.25em;
         padding: 0.65em 1em;
         border-radius: calc(var(--border-radius) * 0.75);
-        font-size: 0.9rem;
+        font-size: var(--font-med);
         display: none;
         align-items: center;
         flex-wrap: wrap;
@@ -321,7 +295,7 @@
         }
     }
 
-    .rt-result-icon   { font-size: 1.1em; }
+    .rt-result-icon   { font-size: var(--font-large); }
     .rt-result-label  { font-weight: 600; }
 
     .rt-result-value {
@@ -331,7 +305,7 @@
     }
 
     .rt-result-note {
-        font-size: 0.85em;
+        font-size: var(--font-med);
         color: var(--rt-hint-color);
         width: 100%;
     }

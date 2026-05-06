@@ -38,11 +38,7 @@
 
     const SVG_ICONS = {
         palette: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette-icon lucide-palette"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
-        copy: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy-icon lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',
-        check: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>',
         random: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle-icon lucide-shuffle"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>',
-        link: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
-        unlink: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-unlink-icon lucide-unlink"><path d="m18.84 12.25 1.72-1.71h-.02a5.004 5.004 0 0 0-.12-7.07 5.006 5.006 0 0 0-6.95 0l-1.72 1.71"/><path d="m5.17 11.75-1.71 1.71a5.004 5.004 0 0 0 .12 7.07 5.006 5.006 0 0 0 6.95 0l1.71-1.71"/><line x1="8" x2="8" y1="2" y2="5"/><line x1="2" x2="5" y1="8" y2="8"/><line x1="16" x2="16" y1="19" y2="22"/><line x1="19" x2="22" y1="16" y2="16"/></svg>',
         moon: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>',
         sun: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
         crosshair: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crosshair-icon lucide-crosshair"><circle cx="12" cy="12" r="10"/><line x1="22" x2="18" y1="12" y2="12"/><line x1="6" x2="2" y1="12" y2="12"/><line x1="12" x2="12" y1="6" y2="2"/><line x1="12" x2="12" y1="22" y2="18"/></svg>',
@@ -262,10 +258,9 @@
     async function copyToClipboard(text, icon) {
         try {
             await navigator.clipboard.writeText(text)
-            const originalHtml = icon.innerHTML
-            icon.innerHTML = SVG_ICONS.check
+            icon.classList.add('btn-check')
             setTimeout(() => {
-                icon.innerHTML = originalHtml
+                icon.classList.remove('btn-check')
             }, 1500)
         } catch (err) {
             console.error('Failed to copy:', err)
@@ -433,21 +428,17 @@
                         <div class="cp-colour-combined-input">
                             <input type="color" class="cp-colour-swatch" id="cp-primary-input" value="${this.primaryColour}">
                             <input type="text" class="cp-hex-input" id="cp-primary-hex" value="${this.primaryColour}" maxlength="7" placeholder="#000000">
-                            <button class="cp-btn cp-btn-icon" id="cp-random-btn" title="${UI_TEXT.randomButton}">
-                                ${SVG_ICONS.random}
-                            </button>
-                            <button class="cp-btn cp-btn-icon" id="cp-swap-btn" title="Swap primary and accent" ${!this.accentEnabled ? 'disabled' : ''}>
-                                ${SVG_ICONS.swap}
-                            </button>
+                            <button class="cp-btn cp-btn-icon btn-shuffle" id="cp-random-btn" title="${UI_TEXT.randomButton}"></button>
+                            <button class="cp-btn cp-btn-icon btn-swap" id="cp-swap-btn" title="Swap primary and accent" ${!this.accentEnabled ? 'disabled' : ''}></button>
                         </div>
                     </div>
 
                     <div class="cp-colour-group">
                         <label class="cp-label">${UI_TEXT.accentLabel}</label>
                         <div class="cp-accent-controls">
-                            <button class="cp-toggle-btn ${this.accentEnabled ? 'active' : ''}" id="cp-accent-toggle">${SVG_ICONS.check}</button>
+                            <button class="cp-toggle-btn btn-check ${this.accentEnabled ? 'active' : ''}" id="cp-accent-toggle"></button>
                             <button class="cp-toggle-btn ${this.accentLinked ? 'active' : ''}" id="cp-accent-link-btn" ${!this.accentEnabled ? 'disabled' : ''}>
-                                ${this.accentLinked ? SVG_ICONS.link : SVG_ICONS.unlink}
+                                <span class="cp-link-icon ${this.accentLinked ? 'btn-link' : 'btn-unlink'}"></span>
                             </button>
                             <div class="cp-colour-combined-input ${this.accentLinked && this.accentEnabled ? 'cp-linked' : ''}">
                                 <input type="color" class="cp-colour-swatch" id="cp-accent-input" value="${this.accentColour}" ${this.accentLinked || !this.accentEnabled ? 'disabled' : ''}>
@@ -485,9 +476,7 @@
                     <div class="cp-shade" style="background-color: ${colour}; color: ${textColour}">
                         <span class="cp-shade-label">${label}</span>
                         <span class="cp-shade-hex">${colour}</span>
-                        <span class="cp-copy-icon" data-colour="${colour}">
-                            ${SVG_ICONS.copy}
-                        </span>
+                        <span class="cp-copy-icon btn-copy" data-colour="${colour}"></span>
                         <span class="cp-set-primary-icon" data-colour="${colour}" data-is-accent="${isAccent}">
                             ${SVG_ICONS.crosshair}
                         </span>

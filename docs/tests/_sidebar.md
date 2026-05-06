@@ -31,6 +31,7 @@
     - [Details](tests/details.md)
     - [Speech](tests/speech.md)
     - [Cards](tests/cards.md)
+    - [Components](tests/components.md)
     - [Callouts](tests/callouts.md)
     - [Tables](tests/tables.md)
     - [Definitions](tests/definitions.md)

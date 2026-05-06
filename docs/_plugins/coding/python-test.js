@@ -103,7 +103,7 @@
                            '</div>' +
                            '<div class="python-test-controls">' +
                             '<button class="python-test-run-btn">▶ Run Tests</button>' +
-                            '<button class="python-test-clear-btn">Reset</button>' +
+                            '<button class="python-test-clear-btn btn-reset">Reset</button>' +
                            '</div>' +
                            '<div class="python-test-original" style="display:none;">' + cleaned + '</div>' +
                            '</div>'

@@ -23,11 +23,11 @@
     container-type: inline-size;
 
     /* Design tokens */
-    --exchange-bg:                  var(--color-mono-0);
-    --exchange-header-bg:           var(--color-mono-1);
-    --exchange-card-bg:             var(--color-mono-1);
-    --exchange-border:              var(--color-mono-4);
-    --exchange-border-light:        var(--color-mono-2);
+    --exchange-bg:                  var(--plugin-wrapper-bg);
+    --exchange-header-bg:           var(--plugin-header-bg);
+    --exchange-card-bg:             var(--plugin-panel-bg);
+    --exchange-border:              var(--plugin-wrapper-border);
+    --exchange-border-light:        var(--plugin-panel-border);
 
     --exchange-text-primary:        var(--color-text);
     --exchange-text-secondary:      var(--color-mono-6);
@@ -55,20 +55,22 @@
     --exchange-eve-bg:              color-mix(in srgb, var(--color-attention), transparent 95%);
     --exchange-eve-border:          color-mix(in srgb, var(--color-attention), transparent 10%);
 
-    --exchange-btn-bg:              var(--color-mono-min);
-    --exchange-btn-border:          var(--color-mono-3);
-    --exchange-btn-text:            var(--color-text);
-    --exchange-btn-hover:           var(--theme-color);
-    --exchange-btn-reset-color:     var(--color-attention);
-
     --exchange-font-mono:           var(--font-family-mono);
-    --exchange-gap-big:             2rem;
-    --exchange-gap:                 1rem;
-    --exchange-gap-small:           0.5rem;
-    --exchange-padding:             1rem;
-    --exchange-padding-med:         0.7rem;
-    --exchange-padding-small:       0.5rem;
-    --exchange-padding-tiny:        0.25rem;
+    --exchange-font-caption:        var(--font-small);
+    --exchange-font-body:           var(--font-med);
+    --exchange-font-code:           var(--font-base);
+    --exchange-font-title:          1.3rem;
+    --exchange-font-heading:        1.4rem;
+    --exchange-font-emphasis:       var(--font-large);
+    --exchange-font-display:        var(--font-xlarge);
+    --exchange-gap-big:             var(--gap-xlarge);
+    --exchange-gap-tiny:            var(--gap-tiny);
+    --exchange-gap:                 var(--gap);
+    --exchange-gap-small:           var(--gap-small);
+    --exchange-padding:             var(--padding);
+    --exchange-padding-med:         var(--padding-med);
+    --exchange-padding-small:       var(--padding-small);
+    --exchange-padding-tiny:        var(--padding-tiny);
 
 
     /* ==================== Main Wrapper ==================== */
@@ -101,14 +103,14 @@
         }
 
         .exchange-title {
-            font-size: 1.3rem;
+            font-size: var(--exchange-font-title);
             font-weight: 700;
             color: var(--exchange-accent);
             margin-bottom: var(--exchange-gap-small);
         }
 
         .exchange-subtitle {
-            font-size: 0.9rem;
+            font-size: var(--font-med);
             color: var(--exchange-text-secondary);
             line-height: 1.5;
         }
@@ -144,7 +146,7 @@
     /* ==================== General Labels ==================== */
 
     .exchange-label {
-        font-size: 0.75rem;
+        font-size: var(--font-small);
         font-weight: 600;
         color: var(--exchange-text-secondary);
         text-transform: uppercase;
@@ -167,7 +169,7 @@
         }
 
         .exchange-party-name {
-            font-size: 1.4rem;
+            font-size: var(--exchange-font-heading);
             font-weight: 600;
         }
 
@@ -234,7 +236,7 @@
         }
 
         .exchange-step-label {
-            font-size: 0.75rem;
+            font-size: var(--exchange-font-caption);
             font-weight: 600;
             color: var(--exchange-text-secondary);
             margin-bottom: var(--exchange-gap-small);
@@ -321,11 +323,11 @@
         }
 
         .exchange-arrow-icon {
-            font-size: 1.5rem;
+            font-size: var(--exchange-font-display);
         }
 
         .exchange-arrow-label {
-            font-size: 0.8rem;
+            font-size: var(--exchange-font-caption);
             color: var(--exchange-text);
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -365,14 +367,14 @@
         }
 
         .exchange-eve-icon {
-            font-size: 1.2rem;
+            font-size: var(--exchange-font-display);
             font-weight: 700;
             margin-bottom: var(--exchange-gap-small);
             color: var(--color-attention);
         }
 
         .exchange-eve-text {
-            font-size: 0.9rem;
+            font-size: var(--exchange-font-body);
             line-height: 1.4;
             margin-bottom: var(--exchange-gap-small);
             color: var(--exchange-text-primary);
@@ -388,7 +390,7 @@
 
         .exchange-eve-warning,
         .exchange-eve-problem {
-            font-size: 0.85rem;
+            font-size: var(--exchange-font-body);
             font-weight: 500;
             padding: var(--exchange-padding-tiny) var(--exchange-padding-small);
             background-color: var(--exchange-eve-bg);
@@ -407,13 +409,13 @@
     .exchange-value-group {
         display: inline-flex;
         align-items: center;
-        gap: 0.25rem;
+        gap: var(--exchange-gap-tiny);
         padding: var(--exchange-padding-tiny) var(--exchange-padding-med);
         background: var(--exchange-value-bg);
         border: 2px solid var(--exchange-value-border);
         border-radius: var(--border-radius-small);
         font-family: var(--exchange-font-mono);
-        font-size: 1.2rem;
+        font-size: var(--exchange-font-display);
 
         /* Value color variants */
         &.exchange-value-party1 {
@@ -457,7 +459,7 @@
     .exchange-badge {
         display: inline-block;
         padding: var(--exchange-padding-tiny) var(--exchange-padding-small);
-        font-size: 0.75rem;
+        font-size: var(--exchange-font-caption);
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -548,7 +550,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: var(--exchange-font-body);
             color: var(--exchange-text-secondary);
             line-height: 1.5;
 
@@ -594,16 +596,13 @@
         align-items: center;
         justify-content: center;
         gap: var(--exchange-gap-small);
-        padding: var(--exchange-padding-small) var(--exchange-padding);
-        background: var(--exchange-btn-bg);
-        border: 1px solid var(--exchange-btn-border);
-        border-radius: calc(var(--border-radius) / 2);
-        color: var(--exchange-btn-text);
+        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        border-radius: var(--btn-radius);
         font-family: inherit;
-        font-size: 1rem;
-        font-weight: 600;
+        font-size: var(--btn-font-size);
+        font-weight: var(--btn-font-weight);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: var(--btn-transition);
         width: 100%;
 
         @container (min-width: 481px) {
@@ -611,10 +610,8 @@
         }
 
         &:hover:not(:disabled) {
-            background: var(--color-mono-1);
-            border-color: var(--exchange-btn-hover);
             transform: translateY(-1px);
-            box-shadow: var(--box-shadow-small);
+            box-shadow: var(--btn-shadow-hover);
         }
 
         &:active:not(:disabled) {
@@ -625,17 +622,12 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
-
-        &.exchange-btn-reset:hover:not(:disabled) {
-            border-color: var(--exchange-btn-reset-color);
-            color: var(--exchange-btn-reset-color);
-        }
     }
 
     /* ==================== Error States ==================== */
 
     .exchange-error {
-        padding: 2rem;
+        padding: var(--padding-xlarge);
         text-align: center;
         color: var(--error-color);
         font-weight: 600;

@@ -63,8 +63,6 @@
         },
         actions: {
             submit: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-            help: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>',
-            reshuffle: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></svg>'
         }
     }
 
@@ -312,8 +310,8 @@
 
                         <div class="drag-drop-actions">
                             <button class="drag-drop-btn drag-drop-submit" type="button">${SVG_ICONS.actions.submit}<span>${UI_TEXT.buttons.submit}</span></button>
-                            <button class="drag-drop-btn drag-drop-help" type="button" aria-label="${UI_TEXT.buttons.help}" title="${UI_TEXT.buttons.help}">${SVG_ICONS.actions.help}</button>
-                            <button class="drag-drop-btn drag-drop-reset" type="button" aria-label="${UI_TEXT.buttons.reshuffle}" title="${UI_TEXT.buttons.reshuffle}">${SVG_ICONS.actions.reshuffle}</button>
+                            <button class="drag-drop-btn drag-drop-help btn-info" type="button" aria-label="${UI_TEXT.buttons.help}" title="${UI_TEXT.buttons.help}"></button>
+                            <button class="drag-drop-btn drag-drop-reset btn-reset btn-shuffle" type="button" aria-label="${UI_TEXT.buttons.reshuffle}" title="${UI_TEXT.buttons.reshuffle}"></button>
                         </div>
 
                         <p class="drag-drop-feedback" aria-live="polite"></p>

@@ -41,7 +41,7 @@ abbr.glossary-term {
 @media print {
     abbr.glossary-term::after {
         content: " (" attr(data-tooltip) ")";
-        font-size: 0.9em;
+        font-size: var(--font-med);
         font-style: italic;
         color: var(--color-mono-5);
     }
