@@ -2,7 +2,6 @@
 
 ## Things to Fix
 
-- [ ] Mobile table char alignment still off
 - [ ] Tidy up the data views - borders, etc.
 
 
@@ -16,6 +15,7 @@
 
 ## Completed
 
+- [x] Mobile table char alignment still off
 - [x] Accessibility views rendered panel sizing
 - [x] Mermaid SVGs not zooming
 - [x] Algo race sizing

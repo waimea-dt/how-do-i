@@ -63,7 +63,7 @@
 
     /* Typography */
     --font-family:                system-ui, sans-serif;
-    --font-family-mono:           "Source Code Pro", monospace;
+    --font-family-mono:           monospace;
     --font-size:                  18px;
     --font-size-mono:             1em;
     --font-tiny:                  0.6rem;
