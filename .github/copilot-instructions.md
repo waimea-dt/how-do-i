@@ -1,6 +1,6 @@
 # Copilot Instructions for dt-notes
 
-Apply these rules when editing plugin files in this repository.
+Apply these rules when creating new or editing existing plugin files in this repository.
 
 ## Scope
 
@@ -10,10 +10,11 @@ Apply these rules when editing plugin files in this repository.
 ## Plugin Conventions
 
 - Use window.DocsifyUtils helpers before creating new local utility functions.
+- Use globally defined CSS vars from themes.css for colors, spacing, buttons, etc. in preference to creating specific plugin styles.
 - Register plugins with window.DocsifyUtils.registerPlugin.
 - Keep doneEach logic idempotent using processBlocks/processVisualBlocks helpers.
 - Keep domain-specific parsing/rendering local to plugin files.
-- Use globally defined CSS vars from themes.css for colors, spacing, buttons, etc. in preference to creating specific plugin styles.
+- Avoid conflicts between plugins: do not overwrite other plugins' behaviour, and use unique namespaces/prefixes for plugin-specific logic.
 
 ## Structure
 
@@ -40,3 +41,4 @@ Apply these rules when editing plugin files in this repository.
 3. Script and stylesheet links present in docs/index.html.
 4. Test/demo page present in docs/tests.
 5. docs/tests/_sidebar.md updated.
+6. Review existing plugins for current usage and remove outdated or unused plugins and their references (but get confirmation first).
