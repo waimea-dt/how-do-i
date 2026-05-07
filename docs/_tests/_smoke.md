@@ -295,13 +295,13 @@ print(a + " " + b)
 
 ```python test
 def smoke(x):
-    if x == True:
+    if x >= 10:
         return "Smoke!"
     return "No smoke"
 
 # Tests
-True -> "Smoke!"
-False -> "No smoke"
+10 -> "Smoke!"
+9  -> "No smoke"
 ```
 
 ### scratch-blocks.js ([tests](_tests/scratch.md))
@@ -340,14 +340,20 @@ GATE None AND A B OUT
 ### oop-sim.js ([tests](_tests/oop-sim.md))
 
 ```oop-sim
-class Person(val name: String)
-val p = Person("Sam")
+// Step: Class
+class Smoke(val type: String)
+
+// Step: Object
+val test = Smoke("Test")
 ```
 
 ### memory-sim.js ([tests](_tests/memory-sim.md))
 
 ```memory-sim
+// Step: One var
 val x = 1
+
+// Step: Another var
 val test = "Smoke"
 ```
 

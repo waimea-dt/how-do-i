@@ -2,13 +2,13 @@
 
 Image notes let you mark parts of an image with percentage-based boxes. Hover or click a highlighted area to show the matching note.
 
-<img src="tests/_assets/ui-demo.png" alt="UI shop demo screen">
+<img src="_tests/_assets/ui-demo.png" alt="UI shop demo screen">
 
 ## Example
 
 <img-notes>
 
-<img src="tests/_assets/ui-demo.png" alt="UI shop demo screen">
+<img src="_tests/_assets/ui-demo.png" alt="UI shop demo screen">
 
 - Brand area [1.5, 1, 10, 5]
 
@@ -57,7 +57,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
 
 <img-notes colour="5">
 
-<img src="tests/_assets/ui-demo.png" alt="UI shop demo screen">
+<img src="_tests/_assets/ui-demo.png" alt="UI shop demo screen">
 
 1. Brand area [1.5, 1, 10, 5]
 
@@ -106,7 +106,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
 
 <img-notes colour="8">
 
-<img src="tests/_assets/ui-demo.png" alt="UI shop demo screen">
+<img src="_tests/_assets/ui-demo.png" alt="UI shop demo screen">
 
 1. Brand area [1.5, 1, 10, 5]
 

@@ -2,8 +2,6 @@
 
 ## Things to Fix
 
-- [ ] OOP / Mem sim not stepping correctly - after refactoring of animation / timing logic
-- [ ] Mermaid SVGs not zooming
 - [ ] Coverage boundary checking - bugs?
 - [ ] Structure colouring - use color-mix
 
@@ -21,6 +19,7 @@
 
 ## Completed
 
+- [x] Mermaid SVGs not zooming
 - [x] Algo race sizing
 - [x] Slides next button styling
 - [x] Web playground iframe size/margin

@@ -2,7 +2,7 @@
  * docsify-excalidraw.js - Renders .excalidraw scene files as SVG images.
  *
  * Usage in markdown:
- *   <excalidraw src="tests/_assets/test.excalidraw"></excalidraw>
+ *   <excalidraw src="_tests/_assets/test.excalidraw"></excalidraw>
  *
  * Optional attributes:
  *   - alt: Alt text for generated image.

@@ -3,12 +3,12 @@
 Render `.excalidraw` JSON scenes as SVG images using:
 
 ```html
-<excalidraw src="tests/_assets/test.excalidraw"></excalidraw>
+<excalidraw src="_tests/_assets/test.excalidraw"></excalidraw>
 ```
 
 ## Basic Example
 
-<excalidraw src="tests/_assets/test.excalidraw" alt="Excalidraw test scene"></excalidraw>
+<excalidraw src="_tests/_assets/test.excalidraw" alt="Excalidraw test scene"></excalidraw>
 
 ## Notes
 

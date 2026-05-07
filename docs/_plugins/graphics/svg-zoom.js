@@ -1,91 +1,133 @@
 /**
- * docsify-svg-zoom.js - Adds click-to-zoom behaviour to all SVG diagrams,
- * including Mermaid, ERD, and other dynamically rendered SVGs.
- * Uses a MutationObserver on the markdown section to catch SVGs rendered
- * asynchronously after Docsify's doneEach hook has already fired.
- *
- * Usage in markdown:
- *   No custom syntax required.
- *   Works automatically for all SVG elements in the content area.
+ * svg-zoom.js - click-to-zoom for SVG diagrams and SVG images.
  */
-
 (function () {
+    'use strict'
 
-    const { isSvgImage } = window.DocsifyUtils
+    const OVERLAY_TRANSITION = 'opacity 500ms ease'
+    const ZOOM_TRANSITION = 'transform 500ms ease'
+    let globalCaptureAttached = false
 
-    const OVERLAY_TRANSITION = 'opacity 500ms ease';
-    const ZOOM_TRANSITION = 'transform 500ms ease';
+    function isSvgImage(img) {
+        if (window.DocsifyUtils?.isSvgImage) return window.DocsifyUtils.isSvgImage(img)
+        if (!img || img.tagName !== 'IMG') return false
+        const src = (img.getAttribute('src') || '').toLowerCase()
+        return src.endsWith('.svg') || src.startsWith('data:image/svg+xml')
+    }
+
+    function registerPlugin(fn) {
+        if (window.DocsifyUtils?.registerPlugin) {
+            window.DocsifyUtils.registerPlugin(fn)
+            return
+        }
+
+        window.$docsify = window.$docsify || {}
+        const plugins = window.$docsify.plugins || []
+        window.$docsify.plugins = [fn, ...plugins]
+    }
+
+    function getZoomTargetFromEvent(event) {
+        const path = event.composedPath ? event.composedPath() : []
+        for (const node of path) {
+            if (!node) continue
+
+            if (node.tagName === 'IMG' && node.dataset?.zoomAttached === 'true') {
+                if (node.dataset.noZoom !== 'true' && !node.classList?.contains('no-zoom')) {
+                    return node
+                }
+            }
+
+            if (node.tagName === 'SVG' && node.dataset?.zoomAttached === 'true') {
+                if (node.dataset.noZoom !== 'true' && !node.classList?.contains('no-zoom')) {
+                    return node
+                }
+            }
+
+            const ownerSvg = node.ownerSVGElement
+            if (ownerSvg?.dataset?.zoomAttached === 'true') {
+                if (ownerSvg.dataset.noZoom !== 'true' && !ownerSvg.classList?.contains('no-zoom')) {
+                    return ownerSvg
+                }
+            }
+
+            const nearestSvg = node.closest?.('svg[data-zoom-attached="true"]')
+            if (nearestSvg && nearestSvg.dataset.noZoom !== 'true' && !nearestSvg.classList?.contains('no-zoom')) {
+                return nearestSvg
+            }
+        }
+        return null
+    }
+
+    function attachZoom(node) {
+        if (!node) return
+        if (node.classList?.contains('no-zoom') || node.dataset?.noZoom === 'true') return
+
+        node.dataset.zoomAttached = 'true'
+        node.style.cursor = 'zoom-in'
+
+        if (node.tagName === 'SVG') {
+            node.querySelectorAll('foreignObject, foreignObject *').forEach(function (el) {
+                el.style.cursor = 'zoom-in'
+            })
+        }
+    }
 
     function scanAndAttach(root) {
-        if (!root || !root.querySelectorAll) return;
-        root.querySelectorAll('svg:not(.no-zoom)').forEach(attachZoom);
-        root.querySelectorAll('img:not(.no-zoom)').forEach(img => {
-            if (isSvgImage(img)) attachZoom(img);
-        });
+        if (!root || !root.querySelectorAll) return
+        root.querySelectorAll('svg:not(.no-zoom)').forEach(attachZoom)
+        root.querySelectorAll('img:not(.no-zoom)').forEach(function (img) {
+            if (isSvgImage(img)) attachZoom(img)
+        })
     }
 
-    const svgZoom = function (hook) {
+    function ensureGlobalCapture() {
+        if (globalCaptureAttached) return
+        globalCaptureAttached = true
 
-        hook.doneEach(function () {
-            const markdownSection = document.querySelector('.markdown-section');
-            if (!markdownSection) return;
+        document.addEventListener('pointerdown', function (event) {
+            if (event.__svgZoomHandled) return
+            if (event.button !== 0) return
+            if (event.target?.closest?.('a[href]')) return
+            if (event.target?.closest?.('[data-svg-zoom-overlay="true"]')) return
 
-            // Attach zoom to any existing SVGs and SVG images.
-            scanAndAttach(markdownSection);
+            const zoomTarget = getZoomTargetFromEvent(event)
+            if (!zoomTarget) return
 
-            // Watch for new SVGs being added (e.g., Mermaid, ERD updates)
-            const observer = new MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
-                    mutation.addedNodes.forEach(function (node) {
-                        // Check if the node itself is an SVG
-                        if (node.nodeName === 'SVG' || node.tagName === 'svg') {
-                            // Skip if it has the no-zoom class
-                            if (!node.classList.contains('no-zoom')) {
-                                attachZoom(node);
-                            }
-                        }
-                        // Support zooming image tags that point at SVGs.
-                        else if (node.tagName === 'IMG' && isSvgImage(node)) {
-                            if (!node.classList.contains('no-zoom') && node.dataset.noZoom !== 'true') {
-                                attachZoom(node);
-                            }
-                        }
-                        // Check if the node contains SVGs
-                        else if (node.querySelectorAll) {
-                            scanAndAttach(node);
-                        }
-                    });
-                });
-            });
-
-            // Observe the entire markdown section for any changes
-            observer.observe(markdownSection, {
-                childList: true,
-                subtree: true // Watch all descendants
-            });
-        });
-
-    };
-
-
-    function attachZoom(svg) {
-        // Skip if already attached, has no-zoom class, or has data-no-zoom attribute.
-        if (svg.dataset.zoomAttached || svg.classList.contains('no-zoom') || svg.dataset.noZoom === 'true') return;
-
-        svg.dataset.zoomAttached = 'true';
-        svg.style.cursor = 'zoom-in';
-        svg.addEventListener('click', function () {
-            showOverlay(svg);
-        });
+            event.__svgZoomHandled = true
+            event.preventDefault()
+            event.stopPropagation()
+            showOverlay(zoomTarget)
+        }, true)
     }
 
+    function ensureMutationObserver(markdownSection) {
+        if (!markdownSection || markdownSection.dataset.svgZoomObserverAttached) return
+        markdownSection.dataset.svgZoomObserverAttached = 'true'
+
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (node) {
+                    if (node.nodeName === 'SVG' || node.tagName === 'svg') {
+                        attachZoom(node)
+                    } else if (node.tagName === 'IMG' && isSvgImage(node)) {
+                        attachZoom(node)
+                    } else if (node.querySelectorAll) {
+                        scanAndAttach(node)
+                    }
+                })
+            })
+        })
+
+        observer.observe(markdownSection, { childList: true, subtree: true })
+    }
 
     function showOverlay(svg) {
-        const from = svg.getBoundingClientRect();
-        const isImage = svg.tagName === 'IMG';
-        const originTransform = `translate(${from.left + from.width / 2 - window.innerWidth / 2}px, ${from.top + from.height / 2 - window.innerHeight / 2}px) scale(${from.width / window.innerWidth})`;
+        const from = svg.getBoundingClientRect()
+        const isImage = svg.tagName === 'IMG'
+        const originTransform = `translate(${from.left + from.width / 2 - window.innerWidth / 2}px, ${from.top + from.height / 2 - window.innerHeight / 2}px) scale(${from.width / window.innerWidth})`
 
-        const overlay = document.createElement('div');
+        const overlay = document.createElement('div')
+        overlay.dataset.svgZoomOverlay = 'true'
         overlay.style.cssText = [
             'position: fixed',
             'inset: 0',
@@ -97,73 +139,108 @@
             'cursor: zoom-out',
             'opacity: 0',
             `transition: ${OVERLAY_TRANSITION}`,
-        ].join(';');
+        ].join(';')
 
-        const clone = svg.cloneNode(true);
+        const clone = svg.cloneNode(true)
+        clone.dataset.noZoom = 'true'
+        clone.classList.add('no-zoom')
+        clone.removeAttribute('data-zoom-attached')
         if (!isImage) {
-            clone.removeAttribute('width');
-            clone.removeAttribute('height');
+            clone.removeAttribute('width')
+            clone.removeAttribute('height')
         }
         clone.style.cssText = [
             'max-width: 95vw',
             'max-height: 95vh',
             'width: 100%',
             'height: auto',
-            // Start from the original element position and size.
             'transform-origin: center center',
             `transform: ${originTransform}`,
             `transition: ${ZOOM_TRANSITION}`,
             'will-change: transform',
-        ].join(';');
+        ].join(';')
 
-        // Preserve wrapper classes for style-sensitive diagrams (e.g. mermaid).
         if (isImage) {
-            overlay.appendChild(clone);
+            overlay.appendChild(clone)
         } else {
-            const wrapper = document.createElement('div');
-            const parentClasses = svg.parentElement?.className || '';
-            if (parentClasses) {
-                wrapper.className = parentClasses;
-            }
-            wrapper.style.display = 'contents';
-            wrapper.appendChild(clone);
-            overlay.appendChild(wrapper);
+            const wrapper = document.createElement('div')
+            const parentClasses = svg.parentElement?.className || ''
+            if (parentClasses) wrapper.className = parentClasses
+            wrapper.style.display = 'contents'
+            wrapper.appendChild(clone)
+            overlay.appendChild(wrapper)
         }
-        document.body.appendChild(overlay);
 
-        // Trigger animation after insertion + first paint so opening motion always runs.
+        document.body.appendChild(overlay)
+
+        let canClose = false
         requestAnimationFrame(function () {
             requestAnimationFrame(function () {
-                overlay.style.opacity = '1';
-                clone.style.transform = 'translate(0, 0) scale(1)';
-            });
-        });
+                overlay.style.opacity = '1'
+                clone.style.transform = 'translate(0, 0) scale(1)'
+                canClose = true
+            })
+        })
 
         function close() {
-            overlay.style.opacity = '0';
-            clone.style.transform = originTransform;
+            overlay.style.opacity = '0'
+            clone.style.transform = originTransform
             overlay.addEventListener('transitionend', function () {
-                overlay.remove();
-            }, { once: true });
-            document.removeEventListener('keydown', onKey);
+                overlay.remove()
+            }, { once: true })
+            document.removeEventListener('keydown', onKey)
         }
 
         function onKey(e) {
-            if (e.key === 'Escape') close();
+            if (e.key === 'Escape') close()
         }
 
-        overlay.addEventListener('click', close);
-        document.addEventListener('keydown', onKey);
+        overlay.addEventListener('click', function (event) {
+            if (!canClose) {
+                event.preventDefault()
+                event.stopPropagation()
+                return
+            }
+            close()
+        })
+        document.addEventListener('keydown', onKey)
     }
 
-    window.SvgZoom = window.SvgZoom || {};
+    function bootstrapNow() {
+        const markdownSection = document.querySelector('.markdown-section')
+        if (!markdownSection) return false
+
+        ensureGlobalCapture()
+        scanAndAttach(markdownSection)
+        ensureMutationObserver(markdownSection)
+        return true
+    }
+
+    const svgZoom = function (hook) {
+        hook.doneEach(function () {
+            bootstrapNow()
+        })
+    }
+
+    window.SvgZoom = window.SvgZoom || {}
     window.SvgZoom.refresh = function (root) {
-        const target = root || document.querySelector('.markdown-section');
-        if (!target) return;
-        scanAndAttach(target);
-    };
+        const target = root || document.querySelector('.markdown-section')
+        if (!target) return
+        scanAndAttach(target)
+    }
 
+    if (!bootstrapNow()) {
+        document.addEventListener('DOMContentLoaded', bootstrapNow, { once: true })
+        window.addEventListener('load', bootstrapNow, { once: true })
+        const retryTimer = window.setInterval(function () {
+            if (bootstrapNow()) {
+                window.clearInterval(retryTimer)
+            }
+        }, 250)
+        window.setTimeout(function () {
+            window.clearInterval(retryTimer)
+        }, 10000)
+    }
 
-    window.DocsifyUtils.registerPlugin(svgZoom)
-
-})();
+    registerPlugin(svgZoom)
+})()

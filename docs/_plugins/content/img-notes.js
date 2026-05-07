@@ -2,7 +2,7 @@
  * img-notes.js - Renders <img-notes> blocks as image annotations with tooltips.
  *
  * Usage in markdown:
- *   <img-notes src="tests/_assets/ui-demo.png">
+ *   <img-notes src="_tests/_assets/ui-demo.png">
  *   - Header [58, 12, 32, 18]
  *
  *       Markdown note body here.
