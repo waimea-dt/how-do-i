@@ -504,6 +504,9 @@
         'contrast'
     ])
 
+    const ACCESSIBILITY_IFRAME_MIN_HEIGHT_REM = 10
+    const ACCESSIBILITY_IFRAME_HEIGHT_BUFFER_PX = 6
+
     const CONTRAST_CHECKS = [
         // [selector, label, isLargeText]
         ['header h1, header h2, .header .big-title', 'Header heading', true],
@@ -740,6 +743,94 @@
 ${html}
 </body>
 </html>`
+    }
+
+    function getIframeMinHeightPx() {
+        const rootFontSize = Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16
+        return ACCESSIBILITY_IFRAME_MIN_HEIGHT_REM * rootFontSize
+    }
+
+    function fitIframeHeightToContent(iframe) {
+        if (!iframe) return
+
+        try {
+            const frameDoc = iframe.contentDocument
+            if (!frameDoc || !frameDoc.documentElement) return
+
+            const docEl = frameDoc.documentElement
+            const body = frameDoc.body
+            const contentHeight = Math.max(
+                docEl.scrollHeight,
+                docEl.offsetHeight,
+                docEl.clientHeight,
+                body ? body.scrollHeight : 0,
+                body ? body.offsetHeight : 0,
+                body ? body.clientHeight : 0,
+            )
+
+            const minHeight = getIframeMinHeightPx()
+            const currentHeight = Number.parseFloat(iframe.style.height) || 0
+            let targetHeight = Math.max(contentHeight + ACCESSIBILITY_IFRAME_HEIGHT_BUFFER_PX, minHeight)
+
+            // Guard against ResizeObserver feedback loops where contentHeight tracks
+            // the iframe viewport height rather than intrinsic content growth.
+            if (currentHeight > 0 && contentHeight <= currentHeight && targetHeight > currentHeight) {
+                targetHeight = currentHeight
+            }
+
+            if (Math.abs(targetHeight - currentHeight) < 1) {
+                return
+            }
+
+            iframe.style.height = `${targetHeight}px`
+        } catch (error) {
+            // Ignore cross-origin/sandbox read failures for defensive safety.
+        }
+    }
+
+    function enableIframeAutoHeight(iframe) {
+        if (!iframe) return
+
+        let resizeRafId = null
+
+        const scheduleFit = () => {
+            if (resizeRafId) {
+                cancelAnimationFrame(resizeRafId)
+            }
+
+            resizeRafId = requestAnimationFrame(() => {
+                resizeRafId = null
+                fitIframeHeightToContent(iframe)
+            })
+        }
+
+        const onLoad = () => {
+            scheduleFit()
+
+            try {
+                const frameDoc = iframe.contentDocument
+                const frameWin = iframe.contentWindow
+                if (!frameDoc || !frameDoc.documentElement) return
+
+                if (typeof ResizeObserver === 'function') {
+                    const observer = new ResizeObserver(scheduleFit)
+                    observer.observe(frameDoc.documentElement)
+                    if (frameDoc.body) observer.observe(frameDoc.body)
+                }
+
+                if (frameWin) {
+                    frameWin.addEventListener('resize', scheduleFit)
+                }
+            } catch (error) {
+                // Ignore cross-origin/sandbox read failures for defensive safety.
+            }
+        }
+
+        iframe.addEventListener('load', onLoad)
+
+        if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            onLoad()
+        }
     }
 
     function findLabelByFor(root, id) {
@@ -1230,6 +1321,8 @@ ${headerPanel}
         const iframe = el.querySelector('.accessibility-preview')
         const list = el.querySelector('.accessibility-contrast-list')
 
+        enableIframeAutoHeight(iframe)
+
         iframe.addEventListener('load', () => {
             const results = analyseContrast(iframe)
             list.innerHTML = renderContrastItems(results)
@@ -1286,7 +1379,7 @@ ${headerPanel}
         return `
             <section class="accessibility-panel accessibility-preview-panel">
                 <p class="accessibility-panel-title">${ACCESSIBILITY_CONFIG.ui.previewTitle}</p>
-                <iframe class="accessibility-preview" sandbox srcdoc="${escapeHtml(srcdoc)}" title="Accessibility preview"></iframe>
+                <iframe class="accessibility-preview" sandbox="allow-same-origin" srcdoc="${escapeHtml(srcdoc)}" title="Accessibility preview"></iframe>
             </section>
         `
     }
@@ -1431,6 +1524,9 @@ ${auditPanels}
             const codeEl = el.querySelector('.accessibility-code-block code')
             if (codeEl) window.Prism.highlightElement(codeEl)
         }
+
+        const previewIframe = el.querySelector('.accessibility-preview')
+        enableIframeAutoHeight(previewIframe)
 
         el.addEventListener('click', (event) => {
             if (event.target.classList.contains('accessibility-order-speak-btn')) {
@@ -1869,6 +1965,8 @@ ${headerPanel}
         const simIframe = el.querySelector('.accessibility-preview--simulated')
         const controls = el.querySelector('.accessibility-simulation-controls')
         const simPanel = el.querySelector('.accessibility-simulation-panel')
+
+        enableIframeAutoHeight(simIframe)
 
         if (mode === 'low-vision') {
             hydrateLowVisionControls(simIframe, simPanel, controls)

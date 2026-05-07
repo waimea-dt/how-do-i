@@ -29,6 +29,7 @@
     --accessibility-padding-small: var(--padding-small);
     --accessibility-padding-tiny: var(--padding-tiny);
     --accessibility-padding-micro: var(--padding-micro);
+    --accessibility-preview-min-height: 10rem;
 
     /* Component micro-geometry */
     --accessibility-order-item-padding:  0.2rem 0.35rem;
@@ -72,7 +73,8 @@
 
         .accessibility-preview {
             width: 100%;
-            min-height: 30rem;
+            min-height: var(--accessibility-preview-min-height);
+            height: auto;
             border: 1px solid var(--accessibility-border-high);
             border-radius: var(--border-radius-small);
             background: #ffffff;
@@ -160,12 +162,15 @@
     }
 
     .accessibility-preview-panel {
-        height: 100%;
-        min-height: 50vh;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 0;
 
         iframe {
             margin: 0;
-            height: calc(100% - 2rem);
+            height: auto;
+            flex: 1 1 auto;
         }
     }
 
@@ -197,7 +202,7 @@
 
         iframe {
             margin: 0;
-            height: calc(100% - 2rem);
+            height: auto;
         }
 
         .accessibility-simulation-controls {

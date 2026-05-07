@@ -16,6 +16,7 @@
 
 ## Completed
 
+- [x] Accessibility views rendered panel sizing
 - [x] Mermaid SVGs not zooming
 - [x] Algo race sizing
 - [x] Slides next button styling
