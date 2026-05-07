@@ -20,6 +20,14 @@ Test with 200 items to see the dramatic efficiency difference.
 
 <algo-race type="search" size="200" target="67"></algo-race>
 
+### Tag Size Clamping
+
+Tag-defined sizes are clamped into the supported 20 to 500 range.
+
+<algo-race type="search" size="10"></algo-race>
+
+<algo-race type="sort" size="600"></algo-race>
+
 ## Small Array
 
 Even with small arrays, binary search is more efficient.

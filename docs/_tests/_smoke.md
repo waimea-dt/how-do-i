@@ -48,10 +48,10 @@ Smoke testing (hover)
 
 ### tables.js ([tests](_tests/tables.md))
 
-| A | B |
-|---|---|
-| 1 | 2 |
-
+| S   | M   | O   | K   | E   |
+| --- | --- | --- | --- | --- |
+| 1   | 2   | 3   | 4   | 4   |
+| T   | E   | S   | T   | ! |
 
 
 
@@ -115,6 +115,16 @@ A[Smoke] --> B[Test]
 
 ## Visualisation Plugins
 
+### timelines.js ([tests](_tests/timeline.md))
+
+<timeline>
+
+- 1967: Smoke
+- 1978: Test
+
+</timeline>
+
+
 ### hierarchies.js ([tests](_tests/hierarchy.md))
 
 <hierarchy>
@@ -148,16 +158,6 @@ A[Smoke] --> B[Test]
 </structure>
 
 
-### timelines.js ([tests](_tests/timeline.md))
-
-<timeline>
-
-- 1967: Smoke
-- 1978: Test
-
-</timeline>
-
-
 ### file-trees.js ([tests](_tests/file-list.md))
 
 <filetree>
@@ -167,6 +167,17 @@ A[Smoke] --> B[Test]
   - test.md
 
 </filetree>
+
+
+### sequences.js ([tests](_tests/sequences.md))
+
+<sequence>
+
+1. Smoke
+
+2. Test
+
+</sequence>
 
 
 ### requests.js ([tests](_tests/requests.md))
@@ -182,17 +193,6 @@ A[Smoke] --> B[Test]
   1. L ---> R : Smoke
 
 </requests>
-
-
-### sequences.js ([tests](_tests/sequences.md))
-
-<sequence>
-
-1. Smoke
-
-2. Test
-
-</sequence>
 
 
 ### computers.js ([tests](_tests/computers.md))
@@ -216,7 +216,7 @@ A[Smoke] --> B[Test]
 
 ---
 
-# Test!
+## Test!
 
 </slides>
 
@@ -261,6 +261,15 @@ A[Smoke] --> B[Test]
     - [x] Yes
     - [ ] No
 
+- # Test?
+
+    Yes?
+
+    ---
+
+    - [x] Yes
+    - [ ] No
+
 </quiz>
 
 
@@ -272,14 +281,6 @@ A[Smoke] --> B[Test]
 
 Inline code `print("Smoke!")`(python) testing
 
-
-### pseudo-highlighter.js ([tests](_tests/pseudo.md))
-
-```pseudo
-start
-  show "smoke"
-end
-```
 
 ### python-runner.js ([tests](_tests/python.md))
 
@@ -293,6 +294,25 @@ print("Smoke!")
 println("smoke")
 ```
 
+### pseudo-highlighter.js ([tests](_tests/pseudo.md))
+
+```pseudo
+start
+  show "smoke"
+end
+```
+
+### primm.js ([tests](_tests/primm.md))
+
+<primm>
+
+```python
+print("Smoke!")
+```
+
+</primm>
+
+
 ### trace-table.js ([tests](_tests/trace-table.md))
 
 ```python trace
@@ -300,6 +320,7 @@ a = "Smoke"
 b = "Test"
 print(a + " " + b)
 ```
+
 
 ### python-test.js ([tests](_tests/coverage.md))
 
@@ -329,17 +350,6 @@ stage space #1a1a2e
   sprite rocket1 0 0 100 0 1 ""
 endstage
 ```
-
-### primm.js ([tests](_tests/primm.md))
-
-<primm>
-
-```python
-print("Smoke!")
-```
-
-</primm>
-
 
 
 ### logic.js ([tests](_tests/logic.md))
@@ -373,6 +383,37 @@ LOAD R0, 1
 ADD R0, 2
 ```
 
+
+
+## Web Development Plugins
+
+### web-playground.js ([tests](_tests/_components.md))
+
+<div
+    class="web-playground"
+    data-html="_demos/smoke.html"
+    data-css="_demos/smoke.css"
+    data-js="_demos/smoke.js"
+    data-height="20em"
+></div>
+
+
+### colours.js ([tests](_tests/colours.md))
+
+<colours></colours>
+
+
+### accessibility.js ([tests](_tests/accessibility.md))
+
+<accessibility mode="screen-reader">
+
+```html
+<main>
+    <h1>Smoke!</h1>
+</main>
+```
+
+</accessibility>
 
 
 
@@ -415,40 +456,6 @@ CREATE TABLE smoke (
 
 
 
-
-## Web Development Plugins
-
-### web-playground.js ([tests](_tests/_components.md))
-
-<div
-    class="web-playground"
-    data-html="_demos/smoke.html"
-    data-css="_demos/smoke.css"
-    data-js="_demos/smoke.js"
-    data-height="20em"
-></div>
-
-
-### colours.js ([tests](_tests/colours.md))
-
-<colours></colours>
-
-
-### accessibility.js ([tests](_tests/accessibility.md))
-
-<accessibility mode="screen-reader">
-
-```html
-<main>
-    <h1>Smoke!</h1>
-</main>
-```
-
-</accessibility>
-
-
-
-
 ## Number Plugins
 
 ### calc.js ([tests](_tests/calc.md))
@@ -469,7 +476,6 @@ show dec 255 as hex-bytes
 
 
 
-
 ## Complexity Plugins
 
 ### big-o-chart.js ([tests](_tests/big-o-chart.md))
@@ -484,7 +490,7 @@ show dec 255 as hex-bytes
 
 ### algo-race.js ([tests](_tests/algo-race.md))
 
-<algo-race type="search" size="10"></algo-race>
+<algo-race type="search" size="20"></algo-race>
 
 
 ### p-np.js ([tests](_tests/p-np.md))

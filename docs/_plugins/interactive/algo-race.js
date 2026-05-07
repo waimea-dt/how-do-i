@@ -79,6 +79,15 @@
         sort: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>',
     }
 
+    const MIN_ARRAY_SIZE = 20
+    const MAX_ARRAY_SIZE = 500
+
+    function clampArraySize(size) {
+        const parsedSize = Number.parseInt(size, 10)
+        if (Number.isNaN(parsedSize)) return MIN_ARRAY_SIZE
+        return Math.min(MAX_ARRAY_SIZE, Math.max(MIN_ARRAY_SIZE, parsedSize))
+    }
+
     function getLinearStepDelay(arraySize) {
         return Math.max(20, Math.floor(2000 / arraySize))
     }
@@ -649,7 +658,7 @@
                             <div class="ar-slider-group">
                                 <label>N</label>
                                 <input type="range" class="ar-slider" id="ar-size-slider-${instanceId}"
-                                    min="20" max="200" step="10" value="${initialSize}">
+                                    min="${MIN_ARRAY_SIZE}" max="${MAX_ARRAY_SIZE}" step="10" value="${initialSize}">
                                 <span class="ar-slider-value" id="ar-size-value-${instanceId}">${initialSize}</span>
                                 ${sortButtonHTML}
                                 <button class="ar-btn ar-btn-small btn-shuffle" id="ar-shuffle-btn-${instanceId}">
@@ -1066,7 +1075,7 @@
         }
 
         init() {
-            const initialSize = parseInt(this.element.getAttribute('size')) || 20
+            const initialSize = clampArraySize(this.element.getAttribute('size'))
             const initialTarget = parseInt(this.element.getAttribute('target')) || null
             const mode = this.element.getAttribute('type') || 'search'
             this.mode = mode
@@ -1208,6 +1217,7 @@
     }
 
     updateSize(size) {
+        size = clampArraySize(size)
         const baseArray = generateSimpleArray(size)
         // Search mode stays sorted, sort mode stays shuffled
         this.array = this.mode === 'sort' ? shuffleArray(baseArray) : baseArray
