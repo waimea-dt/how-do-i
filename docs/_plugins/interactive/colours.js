@@ -416,12 +416,11 @@
                         <label class="cp-label">${UI_TEXT.accentLabel}</label>
                         <div class="cp-accent-controls">
                             <button class="cp-toggle-btn btn-check ${this.accentEnabled ? 'active' : ''}" id="cp-accent-toggle"></button>
-                            <button class="cp-toggle-btn ${this.accentLinked ? 'active' : ''}" id="cp-accent-link-btn" ${!this.accentEnabled ? 'disabled' : ''}>
-                                <span class="cp-link-icon ${this.accentLinked ? 'btn-link' : 'btn-unlink'}"></span>
-                            </button>
+                            <button class="cp-toggle-btn ${this.accentLinked ? 'active' : ''}  ${this.accentLinked ? 'btn-link' : 'btn-unlink'}" id="cp-accent-link-btn" ${!this.accentEnabled ? 'disabled' : ''}></button>
                             <div class="cp-colour-combined-input ${this.accentLinked && this.accentEnabled ? 'cp-linked' : ''}">
                                 <input type="color" class="cp-colour-swatch" id="cp-accent-input" value="${this.accentColour}" ${this.accentLinked || !this.accentEnabled ? 'disabled' : ''}>
                                 <input type="text" class="cp-hex-input" id="cp-accent-hex" value="${this.accentColour}" maxlength="7" placeholder="#000000" ${!this.accentEnabled ? 'disabled' : ''} ${this.accentLinked ? 'readonly' : ''}>
+                                ${!this.accentLinked ? `<button class="cp-btn cp-btn-icon btn-shuffle" id="cp-accent-random-btn" title="${UI_TEXT.randomButton}" ${!this.accentEnabled ? 'disabled' : ''}></button>` : ''}
                             </div>
                         </div>
                     </div>
@@ -748,6 +747,14 @@
                 randomBtn.addEventListener('click', () => {
                     const randomColour = generateRandomColour()
                     this.updateColours(randomColour)
+                })
+            }
+
+            const accentRandomBtn = this.query('#cp-accent-random-btn')
+            if (accentRandomBtn) {
+                accentRandomBtn.addEventListener('click', () => {
+                    const randomColour = generateRandomColour()
+                    this.updateAccent(randomColour)
                 })
             }
 

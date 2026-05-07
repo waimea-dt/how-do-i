@@ -6,24 +6,10 @@
 
     /* ---- Design tokens ---- */
 
-    /* Spacing */
-    --cp-padding-tiny:      var(--padding-tiny);
-    --cp-padding-small:     var(--padding-small);
-    --cp-padding:           var(--padding);
-    --cp-padding-large:     var(--padding-large);
-    --cp-padding-xlarge:    var(--padding-xlarge);
-
-    --cp-gap-tiny:          var(--gap-tiny);
-    --cp-gap-small:         var(--gap-small);
-    --cp-gap:               var(--gap);
-    --cp-gap-large:         var(--gap-large);
-    --cp-gap-xlarge:        var(--gap-xlarge);
-
     /* Colors */
     --cp-border-hover:      var(--color-mono-4);
     --cp-label-color:       var(--color-text);
     --cp-muted:             var(--color-mono-7);
-
 
     --cp-input-bg:          var(--color-mono-0);
     --cp-input-border:      var(--color-mono-3);
@@ -49,14 +35,14 @@
     /* ---- Header ---- */
 
     .cp-header {
-        padding: var(--cp-padding);
+        padding: var(--padding);
         background: var(--plugin-header-bg);
         border-bottom: 1px solid var(--plugin-wrapper-border);
 
         .cp-header-text {
             display: flex;
             flex-direction: column;
-            gap: var(--cp-gap-small);
+            gap: var(--gap-small);
         }
 
         .cp-title {
@@ -66,7 +52,7 @@
             color: var(--plugin-header-title);
             display: flex;
             align-items: center;
-            gap: var(--cp-gap-small);
+            gap: var(--gap-small);
 
             svg {
                 flex-shrink: 0;
@@ -83,16 +69,16 @@
     /* ---- Content ---- */
 
     .cp-content {
-        padding: var(--cp-padding);
+        padding: var(--padding);
         display: flex;
         flex-direction: column;
-        gap: var(--cp-gap-xlarge);
+        gap: var(--gap-xlarge);
     }
 
     /* ---- Section title (shared) ---- */
 
     .cp-section-title {
-        margin: 0 0 var(--cp-gap);
+        margin: 0 0 var(--gap);
         font-size: var(--font-xlarge);
         font-weight: 600;
         color: var(--cp-label-color);
@@ -103,11 +89,11 @@
     .cp-picker-section {
         display: flex;
         flex-direction: column;
-        gap: var(--cp-gap-xlarge);
+        gap: var(--gap-xlarge);
 
         .cp-colour-controls {
             display: grid;
-            gap: var(--cp-gap);
+            gap: var(--gap);
 
             @container (min-width: 600px) {
                 grid-template-columns: 1fr 1fr;
@@ -117,7 +103,7 @@
         .cp-colour-group {
             display: flex;
             flex-direction: column;
-            gap: var(--cp-gap-small);
+            gap: var(--gap-small);
 
             .cp-label {
                 font-size: var(--font-xlarge);
@@ -134,7 +120,7 @@
                 background: var(--plugin-panel-bg);
                 border: 1px solid var(--cp-input-border);
                 border-radius: var(--border-radius);
-                padding: var(--cp-padding-tiny);
+                padding: var(--padding-tiny);
                 transition: border-color 0.2s ease;
 
                 &:focus-within {
@@ -181,7 +167,7 @@
                     min-width: 0;
                     max-width: 10ch;
                     margin-right: auto;
-                    padding: var(--cp-padding-small) var(--cp-padding-small);
+                    padding: var(--padding-small) var(--padding-small);
                     border: none;
                     background: transparent;
                     color: var(--cp-label-color);
@@ -203,7 +189,7 @@
 
         .cp-accent-controls {
             display: flex;
-            gap: var(--cp-gap-small);
+            gap: var(--gap-small);
             align-items: center;
 
             .cp-toggle-btn {
@@ -217,7 +203,7 @@
     /* ---- Shared button styles ---- */
 
     .cp-btn {
-        gap: var(--cp-gap-small);
+        gap: var(--gap-small);
 
         &:hover {
             border-color: var(--cp-border-hover);
@@ -235,7 +221,7 @@
         &.cp-btn-icon {
             width: 40px;
             height: 40px;
-            padding: var(--cp-padding-small);
+            padding: var(--padding-small);
             border: none;
             background: transparent;
             flex-shrink: 0;
@@ -252,7 +238,7 @@
     }
 
     .cp-toggle-btn {
-        gap: var(--cp-gap-small);
+        gap: var(--gap-small);
 
         &:hover {
             border-color: var(--cp-border-hover);
@@ -264,15 +250,13 @@
             color: var(--theme-color);
             border-color: var(--theme-color);
 
-            &::before,
-            .cp-link-icon::before {
+            &::before {
                 opacity: 1;
             }
         }
 
         &:not(.active) {
-            &::before,
-            .cp-link-icon::before {
+            &::before {
                 opacity: 0.4;
             }
         }
@@ -282,41 +266,8 @@
             cursor: not-allowed;
         }
 
-        &::before,
-        .cp-link-icon::before {
+        &::before {
             transition: opacity 0.2s ease;
-        }
-
-        .cp-link-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            inline-size: 1em;
-            block-size: 1em;
-        }
-
-        .cp-link-icon::before {
-            content: "";
-            inline-size: 1em;
-            block-size: 1em;
-            flex: 0 0 1em;
-            background-color: currentColor;
-            -webkit-mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            -webkit-mask-size: contain;
-            mask-repeat: no-repeat;
-            mask-position: center;
-            mask-size: contain;
-        }
-
-        .cp-link-icon.btn-link::before {
-            -webkit-mask-image: var(--butt-icon-link);
-            mask-image: var(--butt-icon-link);
-        }
-
-        .cp-link-icon.btn-unlink::before {
-            -webkit-mask-image: var(--butt-icon-unlink);
-            mask-image: var(--butt-icon-unlink);
         }
     }
 
@@ -325,16 +276,16 @@
     .cp-shades-section {
         display: flex;
         flex-direction: column;
-        gap: var(--cp-gap);
+        gap: var(--gap);
 
         @container (min-width: 1000px) {
             position: sticky;
             top: -5rem;
             z-index: 10;
             background: var(--plugin-wrapper-bg);
-            padding: var(--cp-padding);
-            margin: calc(var(--cp-padding) * -1);
-            margin-bottom: var(--cp-gap-small);
+            padding: var(--padding);
+            margin: calc(var(--padding) * -1);
+            margin-bottom: var(--gap-small);
             border-bottom: 1px solid var(--plugin-wrapper-border);
             box-shadow: 0 0.5rem 1rem var(--plugin-wrapper-bg);
         }
@@ -342,7 +293,7 @@
         .cp-shades-grid {
             display: flex;
             flex-direction: column;
-            gap: var(--cp-gap-xlarge);
+            gap: var(--gap-xlarge);
 
             @container (min-width: 1000px) {
                 flex-direction: row;
@@ -352,18 +303,18 @@
         .cp-shade-column {
             display: flex;
             flex-direction: column;
-            gap: var(--cp-gap-small);
+            gap: var(--gap-small);
 
             .cp-shade-column-label {
                 font-size: var(--font-base);
                 font-weight: 600;
                 color: var(--cp-label-color);
-                margin-bottom: var(--cp-padding-tiny);
+                margin-bottom: var(--padding-tiny);
             }
 
             .cp-shade-strip {
                 display: flex;
-                gap: var(--cp-gap-small);
+                gap: var(--gap-small);
                 flex-wrap: wrap;
             }
 
@@ -376,7 +327,7 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: flex-end;
-                padding-bottom: var(--cp-padding-tiny);
+                padding-bottom: var(--padding-tiny);
                 gap: 0;
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
                 box-shadow: var(--cp-shadow-md);
@@ -431,17 +382,21 @@
                 .cp-copy-icon,
                 .cp-set-primary-icon {
                     position: absolute;
-                    top: var(--cp-padding-tiny);
+                    top: var(--padding-tiny);
                     width: 16px;
                     height: 16px;
                     opacity: 0;
                     transition: opacity 0.2s ease;
                     cursor: pointer;
+                    --butt-icon-size: 16px;
+                    --butt-padding-block: 0;
+                    --butt-padding-inline: 0;
 
                     svg {
                         width: 16px;
                         height: 16px;
                         stroke: currentColor;
+                        vertical-align: top;
                     }
 
                     &:hover {
@@ -450,11 +405,11 @@
                 }
 
                 .cp-copy-icon {
-                    right: var(--cp-padding-tiny);
+                    right: var(--padding-tiny);
                 }
 
                 .cp-set-primary-icon {
-                    left: var(--cp-padding-tiny);
+                    left: var(--padding-tiny);
                 }
             }
         }
@@ -465,19 +420,19 @@
     .cp-preview-section {
         display: flex;
         flex-direction: column;
-        gap: var(--cp-gap);
+        gap: var(--gap);
 
         .cp-section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: var(--cp-gap);
+            gap: var(--gap);
         }
 
         .cp-preview-container {
             background: var(--plugin-panel-bg);
             border: 1px solid var(--plugin-wrapper-border);
-            padding: var(--cp-padding);
+            padding: var(--padding);
             overflow: hidden;
         }
 
@@ -498,10 +453,10 @@
             }
 
             .cp-mockup-header {
-                padding: var(--cp-padding);
+                padding: var(--padding);
                 display: flex;
                 flex-direction: column;
-                gap: var(--cp-gap-small);
+                gap: var(--gap-small);
 
                 @container (min-width: 500px) {
                     flex-direction: row;
@@ -516,8 +471,8 @@
 
                 .cp-mockup-nav {
                     display: flex;
-                    gap: var(--cp-gap);
-                    padding: var(--cp-padding-small) var(--cp-padding);
+                    gap: var(--gap);
+                    padding: var(--padding-small) var(--padding);
                     border-radius: var(--border-radius);
 
                     span {
@@ -534,12 +489,12 @@
             }
 
             .cp-mockup-hero {
-                padding: var(--cp-padding-xlarge) var(--cp-padding-large);
+                padding: var(--padding-xlarge) var(--padding-large);
                 text-align: center;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: var(--cp-gap);
+                gap: var(--gap);
 
                 h1 {
                     margin: 0;
@@ -560,7 +515,7 @@
             }
 
             .cp-mockup-btn {
-                padding: var(--cp-padding-small) var(--cp-padding-xlarge);
+                padding: var(--padding-small) var(--padding-xlarge);
                 border: none;
                 border-radius: var(--border-radius);
                 font-size: var(--font-base);
@@ -579,9 +534,9 @@
             }
 
             .cp-mockup-content {
-                padding: var(--cp-padding-xlarge) var(--cp-padding);
+                padding: var(--padding-xlarge) var(--padding);
                 display: grid;
-                gap: var(--cp-gap);
+                gap: var(--gap);
 
                 @container (min-width: 600px) {
                     grid-template-columns: repeat(2, 1fr);
@@ -594,13 +549,13 @@
 
             .cp-mockup-card {
                 position: relative;
-                padding: var(--cp-padding-large);
+                padding: var(--padding-large);
                 border-radius: var(--border-radius);
                 border: 1px solid;
                 box-shadow: var(--cp-shadow-sm);
                 display: flex;
                 flex-direction: column;
-                gap: var(--cp-gap-small);
+                gap: var(--gap-small);
                 transition: all 0.2s ease;
 
                 &:hover {
@@ -635,9 +590,9 @@
 
                 .cp-mockup-card-badge {
                     position: absolute;
-                    top: var(--cp-gap-small);
-                    right: var(--cp-gap-small);
-                    padding: var(--cp-padding-tiny) var(--cp-padding-small);
+                    top: var(--gap-small);
+                    right: var(--gap-small);
+                    padding: var(--padding-tiny) var(--padding-small);
                     border-radius: calc(var(--border-radius) / 2);
                     font-size: var(--font-small);
                     font-weight: 700;
@@ -646,9 +601,9 @@
             }
 
             .cp-mockup-footer {
-                padding: var(--cp-padding-xlarge) var(--cp-padding);
+                padding: var(--padding-xlarge) var(--padding);
                 display: grid;
-                gap: var(--cp-gap-large);
+                gap: var(--gap-large);
                 font-size: var(--font-med);
 
                 @container (min-width: 600px) {
@@ -658,11 +613,11 @@
                 .cp-mockup-footer-section {
                     display: flex;
                     flex-direction: column;
-                    gap: var(--cp-gap-small);
+                    gap: var(--gap-small);
 
                     strong {
                         font-size: var(--font-med);
-                        margin-bottom: var(--cp-padding-tiny);
+                        margin-bottom: var(--padding-tiny);
                         color: inherit !important;
                     }
 
