@@ -257,11 +257,6 @@
         align-self: end;
         display: flex;
         gap: var(--gap-controls);
-
-        .python-test-run-btn {
-            flex: 1;
-            min-width: fit-content;
-        }
     }
 
     /* Stats grid layout */

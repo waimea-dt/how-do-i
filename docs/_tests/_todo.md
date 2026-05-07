@@ -2,9 +2,6 @@
 
 ## Things to Fix
 
-- [ ] Coverage boundary checking - bugs?
-- [ ] Structure colouring - use color-mix
-
 - [ ] Mobile table char alignment still off
 - [ ] Tidy up the data views - borders, etc.
 

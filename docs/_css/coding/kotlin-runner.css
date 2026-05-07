@@ -37,7 +37,7 @@
             flex-direction: column;
 
             .code-area {
-                padding: var(--padding-small) var(--padding-tiny);
+                /* padding: var(--padding-small) var(--padding-tiny); */
                 border-radius: var(--border-radius) var(--border-radius) 0 0;
             }
 
@@ -54,18 +54,18 @@
                 order: 2;
                 position: static !important;
                 width: 100% !important;
-                height: auto !important;
+                height: 2.3rem !important;
                 border-top: 1px solid var(--code-border-color);
                 background-color: var(--code-control-back-color) !important;
                 background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'><polygon fill='transparent' stroke='%23777' stroke-width='2' stroke-linejoin='round' points='15,10 1,19 1,1'/></svg>") !important;
                 background-size: 16px 20px !important;
-                background-position: 0.75em 0.6em !important;
+                background-position: 1.2rem 0.5rem !important;
                 color: var(--code-control-color);
 
                 &::after {
-                    padding-left: 30px;
-                    vertical-align: top;
+                    padding-left: 2.8rem;
                     content: "Run";
+                    line-height: 2;
                     color: var(--code-control-color);
                 }
 

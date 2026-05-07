@@ -3,7 +3,7 @@
 One smoke entry per plugin under docs/_plugins.
 
 
----
+
 
 ## Content Plugins
 
@@ -53,6 +53,11 @@ Smoke testing (hover)
 | 1 | 2 |
 
 
+
+
+
+## Media Plugins
+
 ### captions.js ([tests](_tests/captions.md))
 
 <captioned>
@@ -88,12 +93,118 @@ Smoke
 </img-notes>
 
 
+### excalidraw.js ([tests](_tests/excalidraw.md))
+
+<excalidraw src="_tests/_assets/smoke.excalidraw"></excalidraw>
+
+
+### svg-zoom.js ([tests](_tests/mermaid.md))
+
+```mermaid
+graph TD
+A[Smoke] --> B[Test]
+```
+
+
 ### videos.js ([tests](_tests/video-embed.md))
 
 <videoembed id="_u03uI-zCCk"></videoembed>
 
 
----
+
+
+## Visualisation Plugins
+
+### hierarchies.js ([tests](_tests/hierarchy.md))
+
+<hierarchy>
+
+- Smoke
+
+    - Test
+
+        - S
+        - M
+        - O
+
+    - Test
+
+        - K
+        - E
+
+</hierarchy>
+
+
+### structures.js ([tests](_tests/structure.md))
+
+<structure>
+
+- Smoke
+
+    - Test
+    - Test
+    - Test
+
+</structure>
+
+
+### timelines.js ([tests](_tests/timeline.md))
+
+<timeline>
+
+- 1967: Smoke
+- 1978: Test
+
+</timeline>
+
+
+### file-trees.js ([tests](_tests/file-list.md))
+
+<filetree>
+
+- src/
+  - smoke.js
+  - test.md
+
+</filetree>
+
+
+### requests.js ([tests](_tests/requests.md))
+
+<requests>
+
+- Left: **Smoke**
+
+- Right: **Test**
+
+- Requests:
+
+  1. L ---> R : Smoke
+
+</requests>
+
+
+### sequences.js ([tests](_tests/sequences.md))
+
+<sequence>
+
+1. Smoke
+
+2. Test
+
+</sequence>
+
+
+### computers.js ([tests](_tests/computers.md))
+
+<computer type="laptop">
+
+# Smoke!
+
+</computer>
+
+
+
 
 ## Activity Plugins
 
@@ -139,7 +250,7 @@ Smoke
 
 <quiz>
 
-## Smole Quiz
+### Smoke Quiz
 
 - # Smoke?
 
@@ -154,107 +265,6 @@ Smoke
 
 
 
----
-
-## Graphics Plugins
-
-### excalidraw.js ([tests](_tests/excalidraw.md))
-
-<excalidraw src="_tests/_assets/smoke.excalidraw"></excalidraw>
-
-
-### svg-zoom.js ([tests](_tests/mermaid.md))
-
-```mermaid
-graph TD
-A[Smoke] --> B[Test]
-```
-
-
----
-
-## Visualisation Plugins
-
-### computers.js ([tests](_tests/computers.md))
-
-<computer type="desktop">
-
-# Smoke!
-
-</computer>
-
-
-### file-trees.js ([tests](_tests/file-list.md))
-
-<filetree>
-
-- src/
-  - smoke.js
-  - test.md
-
-</filetree>
-
-
-### hierarchies.js ([tests](_tests/hierarchy.md))
-
-<hierarchy>
-
-- Smoke
-  - Test
-  - Test
-  - Test
-
-</hierarchy>
-
-
-### structures.js ([tests](_tests/structure.md))
-
-<structure>
-
-- Smoke
-  - Test
-  - Test
-  - Test
-
-</structure>
-
-
-### requests.js ([tests](_tests/requests.md))
-
-<requests>
-
-- Left: **Smoke**
-
-- Right: **Test**
-
-- Requests:
-
-  1. L ---> R : Smoke
-
-</requests>
-
-
-### sequences.js ([tests](_tests/sequences.md))
-
-<sequence>
-
-1. Smoke
-
-2. Test
-
-</sequence>
-
-
-### timelines.js ([tests](_tests/timeline.md))
-
-<timeline>
-
-- 1967: Smoke
-- 1978: Test
-
-</timeline>
-
----
 
 ## Coding Plugins
 
@@ -300,6 +310,7 @@ def smoke(x):
     return "No smoke"
 
 # Tests
+# Boundary Values
 10 -> "Smoke!"
 9  -> "No smoke"
 ```
@@ -342,7 +353,6 @@ GATE None AND A B OUT
 ```oop-sim
 // Step: Class
 class Smoke(val type: String)
-
 // Step: Object
 val test = Smoke("Test")
 ```
@@ -352,7 +362,6 @@ val test = Smoke("Test")
 ```memory-sim
 // Step: One var
 val x = 1
-
 // Step: Another var
 val test = "Smoke"
 ```
@@ -366,7 +375,7 @@ ADD R0, 2
 
 
 
----
+
 
 ## Database Plugins
 
@@ -405,7 +414,7 @@ CREATE TABLE smoke (
 
 
 
----
+
 
 ## Web Development Plugins
 
@@ -438,7 +447,7 @@ CREATE TABLE smoke (
 </accessibility>
 
 
----
+
 
 ## Number Plugins
 
@@ -459,7 +468,7 @@ show dec 255 as hex-bytes
 ```
 
 
----
+
 
 ## Complexity Plugins
 
@@ -498,7 +507,7 @@ show dec 255 as hex-bytes
 <bin-packing></bin-packing>
 
 
----
+
 
 ## Encryption Plugins
 

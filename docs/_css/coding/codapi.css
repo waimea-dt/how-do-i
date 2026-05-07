@@ -49,9 +49,15 @@
             }
         }
 
+        &:not(:has([data-restore-focus])) {
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+        }
+
         button {
             margin-right: var(--space);
             padding-left: 30px;
+            flex: 1;
             height: 1.3em;
             line-height: 1;
             border: none;
