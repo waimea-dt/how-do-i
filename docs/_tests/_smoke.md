@@ -348,6 +348,7 @@ val p = Person("Sam")
 
 ```memory-sim
 val x = 1
+val test = "Smoke"
 ```
 
 ### cpu-sim.js ([tests](_tests/cpu-sim.md))
@@ -388,7 +389,7 @@ SELECT 1 AS smoke;
 <erd>
 
 ```sql
-CREATE TABLE authors (
+CREATE TABLE smoke (
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL
 );
@@ -406,8 +407,9 @@ CREATE TABLE authors (
 
 <div
     class="web-playground"
-    data-html="_demos/simple.html"
-    data-css="_demos/simple.css"
+    data-html="_demos/smoke.html"
+    data-css="_demos/smoke.css"
+    data-js="_demos/smoke.js"
     data-height="20em"
 ></div>
 

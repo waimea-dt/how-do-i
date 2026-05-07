@@ -2,6 +2,7 @@
 
 ## Things to Fix
 
+- [ ] OOP / Mem sim not stepping correctly - after refactoring of animation / timing logic
 - [ ] Algo race sizing
 - [ ] Mermaid SVGs not zooming
 - [ ] Coverage boundary checking - bugs?
