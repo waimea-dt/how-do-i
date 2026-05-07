@@ -23,8 +23,8 @@
     --img-notes-label-size:             var(--font-display);
     --img-notes-hotspot-transition:     160ms ease;
 
-    --img-notes-hotspot-border:         color-mix(in srgb, var(--img-notes-accent), var(--color-mono-max) 35%);
-    --img-notes-hotspot-border-active:  color-mix(in srgb, var(--img-notes-accent), var(--color-mono-max) 10%);
+    --img-notes-hotspot-border:         color-mix(in srgb, var(--img-notes-accent), transparent 25%);
+    --img-notes-hotspot-border-active:  color-mix(in srgb, var(--img-notes-accent), transparent 0%);
     --img-notes-hotspot-bg:             color-mix(in srgb, var(--img-notes-accent), transparent 100%);
     --img-notes-hotspot-bg-active:      color-mix(in srgb, var(--img-notes-accent), transparent 85%);
 
@@ -51,7 +51,7 @@
 
     .img-notes-stage {
         position: relative;
-        margin: 0;
+        margin: 0 auto;
         border: 1px solid var(--img-notes-border);
         border-radius: var(--img-notes-radius);
         background: var(--img-notes-stage-bg);
@@ -80,11 +80,11 @@
                 align-items: flex-start;
                 justify-content: flex-start;
                 padding: 0;
-                border: 2px dashed var(--img-notes-hotspot-border);
+                border: 3px dashed var(--img-notes-hotspot-border);
                 border-radius: var(--img-notes-radius-hotspot);
                 background-color: var(--img-notes-hotspot-bg);
                 outline: none;
-                opacity: 0.4;
+                opacity: 0.5;
                 cursor: pointer;
                 transition:
                     opacity var(--img-notes-hotspot-transition),

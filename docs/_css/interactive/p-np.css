@@ -25,8 +25,8 @@
     --pnp-color-tract-high:    color-mix(in srgb, var(--pnp-color-tract), var(--color-mono-max) 10%);
     --pnp-color-intract-high:  color-mix(in srgb, var(--pnp-color-intract), var(--color-mono-max) 10%);
 
-    --pnp-btn-bg:           var(--btn-bg);
-    --pnp-btn-bg-hover:     var(--btn-bg-hover);
+    --pnp-btn-bg:           var(--butt-bg);
+    --pnp-btn-bg-hover:     var(--butt-bg-hover);
 
     --pnp-card-bg:          var(--color-mono-0);
     --pnp-card-border:      var(--color-mono-3);
@@ -96,19 +96,19 @@
         flex-shrink: 0;
 
         .pnp-btn-toggle {
-            padding: var(--btn-padding-block) var(--btn-padding-inline);
-            border: 1px solid var(--btn-border);
-            border-radius: var(--btn-radius);
+            padding: var(--butt-padding-block) var(--butt-padding-inline);
+            border: 1px solid var(--butt-border);
+            border-radius: var(--butt-radius);
             background-color: var(--pnp-btn-bg);
-            color: var(--btn-text);
-            font-size: var(--btn-font-size);
-            font-weight: var(--btn-font-weight);
+            color: var(--butt-text);
+            font-size: var(--butt-font-size);
+            font-weight: var(--butt-font-weight);
             cursor: pointer;
-            transition: var(--btn-transition);
+            transition: var(--butt-transition);
 
             &:hover {
                 background: var(--pnp-btn-bg-hover);
-                box-shadow: var(--btn-shadow-hover);
+                box-shadow: var(--butt-shadow-hover);
             }
         }
     }

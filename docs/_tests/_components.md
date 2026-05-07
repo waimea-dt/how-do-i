@@ -247,8 +247,8 @@ Use this page to quickly check shared design tokens and global component styles.
 
 ## Quick Notes
 
-- Use `--btn-action-color` for button accent colour.
-- Standard buttons inherit `--btn-bg` by default.
+- Use `--butt-action-color` for button accent colour.
+- Standard buttons inherit `--butt-bg` by default.
 - `btn-go`, `btn-stop`, and `btn-reset` override that shared colour.
 - Icon variants are colour-neutral by default and can be combined with `btn-bordered`.
 - `btn-bordered` uses same accent colour but swaps solid fill for translucent background.

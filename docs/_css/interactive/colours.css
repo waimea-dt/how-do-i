@@ -31,9 +31,9 @@
     --cp-label-color:       var(--color-text);
     --cp-muted:             var(--color-mono-7);
 
-    --cp-btn-bg:            var(--btn-bg);
-    --cp-btn-bg-hover:      var(--btn-bg-hover);
-    --cp-btn-color:         var(--btn-text);
+    --cp-btn-bg:            var(--butt-bg);
+    --cp-btn-bg-hover:      var(--butt-bg-hover);
+    --cp-btn-color:         var(--butt-text);
 
     --cp-input-bg:          var(--color-mono-0);
     --cp-input-border:      var(--color-mono-3);
@@ -227,15 +227,15 @@
     /* ---- Shared button styles ---- */
 
     .cp-btn {
-        padding: var(--btn-padding-block) var(--btn-padding-inline);
-        border: 1px solid var(--btn-border);
-        border-radius: var(--btn-radius);
+        padding: var(--butt-padding-block) var(--butt-padding-inline);
+        border: 1px solid var(--butt-border);
+        border-radius: var(--butt-radius);
         background: var(--cp-btn-bg);
         color: var(--cp-btn-color);
-        font-size: var(--btn-font-size);
-        font-weight: var(--btn-font-weight);
+        font-size: var(--butt-font-size);
+        font-weight: var(--butt-font-weight);
         cursor: pointer;
-        transition: var(--btn-transition);
+        transition: var(--butt-transition);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -244,7 +244,7 @@
         &:hover {
             background: var(--cp-btn-bg-hover);
             border-color: var(--cp-border-hover);
-            box-shadow: var(--btn-shadow-hover);
+            box-shadow: var(--butt-shadow-hover);
         }
 
         &:active {
@@ -275,16 +275,16 @@
     }
 
     .cp-toggle-btn {
-        padding: var(--btn-padding-block) var(--btn-padding-inline);
-        border: 1px solid var(--btn-border);
-        border-radius: var(--btn-radius);
+        padding: var(--butt-padding-block) var(--butt-padding-inline);
+        border: 1px solid var(--butt-border);
+        border-radius: var(--butt-radius);
         background: var(--cp-btn-bg);
         color: var(--cp-btn-color);
         gap: var(--cp-gap-small);
-        font-size: var(--btn-font-size);
-        font-weight: var(--btn-font-weight);
+        font-size: var(--butt-font-size);
+        font-weight: var(--butt-font-weight);
         cursor: pointer;
-        transition: var(--btn-transition);
+        transition: var(--butt-transition);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -292,7 +292,7 @@
         &:hover {
             background: var(--cp-btn-bg-hover);
             border-color: var(--cp-border-hover);
-            box-shadow: var(--btn-shadow-hover);
+            box-shadow: var(--butt-shadow-hover);
         }
 
         &.active {
@@ -346,13 +346,13 @@
         }
 
         .cp-link-icon.btn-link::before {
-            -webkit-mask-image: var(--btn-icon-link);
-            mask-image: var(--btn-icon-link);
+            -webkit-mask-image: var(--butt-icon-link);
+            mask-image: var(--butt-icon-link);
         }
 
         .cp-link-icon.btn-unlink::before {
-            -webkit-mask-image: var(--btn-icon-unlink);
-            mask-image: var(--btn-icon-unlink);
+            -webkit-mask-image: var(--butt-icon-unlink);
+            mask-image: var(--butt-icon-unlink);
         }
     }
 

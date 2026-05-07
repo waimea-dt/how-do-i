@@ -101,7 +101,7 @@
 
                         <!-- Action Buttons -->
                         <div class="primm-actions">
-                            <button class="primm-btn primm-save-btn btn-save" type="button">
+                            <button class="primm-btn primm-save-btn btn-save">
                                 <span>${UI_TEXT.savePrediction}</span>
                             </button>
                         </div>

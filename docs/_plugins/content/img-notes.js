@@ -259,7 +259,6 @@
             const hotspotHtml = this.notes.map((note, index) => `
                 <button
                     class="img-notes-hotspot ${index === 0 ? 'is-active' : ''}"
-                    type="button"
                     data-index="${index}"
                     aria-label="Show note: ${escapeHtml(note.title)}"
                     aria-pressed="${index === 0 ? 'true' : 'false'}"

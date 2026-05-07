@@ -327,45 +327,6 @@
             display: flex;
             flex-wrap: nowrap;
             gap: var(--drag-drop-gap-small);
-
-            .drag-drop-btn {
-                flex: 1;
-                min-width: 3rem;
-                border-radius: var(--btn-radius);
-                margin: 0;
-                padding: var(--btn-padding-block) var(--btn-padding-inline);
-                font-size: var(--btn-font-size);
-                font-weight: var(--btn-font-weight);
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: var(--drag-drop-gap-small);
-                cursor: pointer;
-                transition: var(--btn-transition);
-
-                &:hover {
-                    transform: translateY(-1px);
-                    box-shadow: var(--btn-shadow-hover);
-                }
-            }
-
-            .drag-drop-submit {
-                flex: 1 1 auto;
-            }
-
-            .drag-drop-help,
-            .drag-drop-reset {
-                flex: 0 0 auto;
-                min-width: 0;
-                width: 2.2rem;
-                height: 2.2rem;
-                padding: 0;
-                opacity: 0.85;
-
-                &:hover {
-                    border-color: var(--drag-drop-border-high);
-                }
-            }
         }
 
         .drag-drop-feedback {
@@ -373,6 +334,7 @@
             margin: 0;
             min-height: 1.2rem;
             font-size: 1rem;
+            line-height: 1.2;
             font-weight: 500;
             align-self: center;
             color: var(--drag-drop-feedback);

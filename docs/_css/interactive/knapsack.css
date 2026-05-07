@@ -194,19 +194,19 @@
 
         .knapsack-btn {
             flex: 1;
-            padding: var(--btn-padding-block) var(--btn-padding-inline);
-            border-radius: var(--btn-radius);
-            font-size: var(--btn-font-size);
-            font-weight: var(--btn-font-weight);
+            padding: var(--butt-padding-block) var(--butt-padding-inline);
+            border-radius: var(--butt-radius);
+            font-size: var(--butt-font-size);
+            font-weight: var(--butt-font-weight);
             cursor: pointer;
-            transition: var(--btn-transition);
+            transition: var(--butt-transition);
             display: flex;
             justify-content: center;
             align-items: center;
 
             &:hover:not(:disabled) {
                 transform: translateY(-1px);
-                box-shadow: var(--btn-shadow-hover);
+                box-shadow: var(--butt-shadow-hover);
             }
 
             &:active:not(:disabled) {

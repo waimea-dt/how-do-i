@@ -34,7 +34,7 @@
     --quiz-star-color:                  var(--color-important);
     --quiz-stamp-color:                 var(--color-mono-8);
 
-    --quiz-padding:                     var(--padding-small);
+    --quiz-padding:                     var(--padding-med);
 
     --quiz-shadow:                      var(--box-shadow-small);
 
@@ -71,7 +71,7 @@
         text-align: center;
         font-size: var(--font-base);
         box-shadow: var(--box-shadow-small);
-        margin-bottom: var(--quiz-padding);
+        /* margin-bottom: var(--quiz-padding); */
         margin-inline: auto;
 
         display: grid;

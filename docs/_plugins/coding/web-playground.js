@@ -23,6 +23,8 @@
 
 (function () {
 
+    const WIDE_LAYOUT_BREAKPOINT_PX = 900
+
     // Resolve a data-html/css/js path against the current page's directory.
     // A leading / means root-relative (docs root); otherwise page-relative.
     function resolvePath(path) {
@@ -193,11 +195,11 @@
         }
 
         // Horizontal split between editors and preview - created/destroyed as the
-        // viewport crosses the wide-screen breakpoint so that Split.js inline styles
-        // don't override the CSS layout on mobile.
+        // container crosses the wide-screen breakpoint so Split.js inline styles
+        // stay in sync with the CSS container query layout.
         let hSplit = null
         function syncHorizontalSplit() {
-            const isWide = window.matchMedia('(min-width: 120ch)').matches
+            const isWide = container.getBoundingClientRect().width >= WIDE_LAYOUT_BREAKPOINT_PX
             if (isWide && !hSplit) {
                 hSplit = Split([editorsCol, previewCol], {
                     direction: 'horizontal',
@@ -214,11 +216,22 @@
             }
         }
 
-        const mq = window.matchMedia('(min-width: 120ch)')
-        mq.addEventListener('change', syncHorizontalSplit)
+        let containerResizeObserver = null
+        let removeResizeFallback = null
+        if (typeof ResizeObserver !== 'undefined') {
+            containerResizeObserver = new ResizeObserver(() => {
+                syncHorizontalSplit()
+            })
+            containerResizeObserver.observe(container)
+        } else {
+            // Fallback for older browsers without ResizeObserver support.
+            window.addEventListener('resize', syncHorizontalSplit)
+            removeResizeFallback = () => window.removeEventListener('resize', syncHorizontalSplit)
+        }
+
         syncHorizontalSplit()
 
-        return { editors, iframe }
+        return { editors, iframe, hSplitRef: () => hSplit, containerResizeObserver, removeResizeFallback }
     }
 
     async function initPlayground(container) {
@@ -248,7 +261,31 @@
         if (css  !== null) contents.css  = css
         if (js   !== null) contents.js   = js
 
-        const { editors, iframe } = buildWidget(container, contents)
+        const { editors, iframe, hSplitRef, containerResizeObserver, removeResizeFallback } = buildWidget(container, contents)
+
+        // Ensure observer is disconnected if the widget is removed from the DOM.
+        if (containerResizeObserver) {
+            const cleanupObserver = new MutationObserver(() => {
+                if (!document.body.contains(container)) {
+                    const hSplit = hSplitRef()
+                    if (hSplit) hSplit.destroy()
+                    containerResizeObserver.disconnect()
+                    if (removeResizeFallback) removeResizeFallback()
+                    cleanupObserver.disconnect()
+                }
+            })
+            cleanupObserver.observe(document.body, { childList: true, subtree: true })
+        } else if (removeResizeFallback) {
+            const cleanupFallback = new MutationObserver(() => {
+                if (!document.body.contains(container)) {
+                    const hSplit = hSplitRef()
+                    if (hSplit) hSplit.destroy()
+                    removeResizeFallback()
+                    cleanupFallback.disconnect()
+                }
+            })
+            cleanupFallback.observe(document.body, { childList: true, subtree: true })
+        }
 
         // Initial render so the preview is populated immediately on load.
         renderPreview(iframe, editors)

@@ -61,9 +61,6 @@
             up: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
             down: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
             drag: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>'
-        },
-        actions: {
-            submit: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
         }
     }
 
@@ -171,11 +168,11 @@
         return `
             <div class="drag-drop-item" role="listitem" data-id="${item.id}" data-original-index="${item.originalIndex}">
                 <div class="drag-drop-item-shell">
-                    <button class="drag-drop-drag-handle" type="button" aria-label="${UI_TEXT.aria.dragHandle}" title="${UI_TEXT.aria.dragHandle}">${SVG_ICONS.controls.drag}</button>
+                    <button class="drag-drop-drag-handle" aria-label="${UI_TEXT.aria.dragHandle}" title="${UI_TEXT.aria.dragHandle}">${SVG_ICONS.controls.drag}</button>
                     <div class="drag-drop-item-content">${item.html}</div>
                     <div class="drag-drop-item-controls">
-                        <button class="drag-drop-move-btn drag-drop-move-up" type="button" ${atTop ? 'disabled' : ''} aria-label="${UI_TEXT.aria.moveUp}">${SVG_ICONS.controls.up}</button>
-                        <button class="drag-drop-move-btn drag-drop-move-down" type="button" ${atBottom ? 'disabled' : ''} aria-label="${UI_TEXT.aria.moveDown}">${SVG_ICONS.controls.down}</button>
+                        <button class="drag-drop-move-btn drag-drop-move-up" ${atTop ? 'disabled' : ''} aria-label="${UI_TEXT.aria.moveUp}">${SVG_ICONS.controls.up}</button>
+                        <button class="drag-drop-move-btn drag-drop-move-down" ${atBottom ? 'disabled' : ''} aria-label="${UI_TEXT.aria.moveDown}">${SVG_ICONS.controls.down}</button>
                     </div>
                 </div>
             </div>
@@ -290,9 +287,9 @@
                         </div>
 
                         <div class="drag-drop-actions">
-                            <button class="drag-drop-btn drag-drop-submit" type="button">${SVG_ICONS.actions.submit}<span>${UI_TEXT.buttons.submit}</span></button>
-                            <button class="drag-drop-btn drag-drop-help btn-info" type="button" aria-label="${UI_TEXT.buttons.help}" title="${UI_TEXT.buttons.help}"></button>
-                            <button class="drag-drop-btn drag-drop-reset btn-reset btn-shuffle" type="button" aria-label="${UI_TEXT.buttons.reshuffle}" title="${UI_TEXT.buttons.reshuffle}"></button>
+                            <button class="drag-drop-btn drag-drop-submit btn-check"><span>${UI_TEXT.buttons.submit}</span></button>
+                            <button class="drag-drop-btn drag-drop-help btn-info" aria-label="${UI_TEXT.buttons.help}" title="${UI_TEXT.buttons.help}"></button>
+                            <button class="drag-drop-btn drag-drop-reset btn-reset btn-shuffle" aria-label="${UI_TEXT.buttons.reshuffle}" title="${UI_TEXT.buttons.reshuffle}"></button>
                         </div>
 
                         <p class="drag-drop-feedback" aria-live="polite"></p>

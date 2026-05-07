@@ -8,7 +8,7 @@
     }
 }
 
-.markdown-section aside {
+.markdown-section :not(.reveal) aside {
     /* Color palette for aside variants */
     --aside-note-color:           var(--secondary-color);
     --aside-tip-color:            var(--theme-color);

@@ -26,9 +26,9 @@
     --erd-padding-tiny: var(--padding-tiny);
     --erd-gap: var(--gap);
     --erd-gap-small: var(--gap-small);
-    --erd-btn-bg: var(--btn-bg);
-    --erd-btn-bg-hover: var(--btn-bg-hover);
-    --erd-btn-text: var(--btn-text);
+    --erd-btn-bg: var(--butt-bg);
+    --erd-btn-bg-hover: var(--butt-bg-hover);
+    --erd-btn-text: var(--butt-text);
 
     display: block;
     margin: var(--margin-block) 0;
@@ -81,19 +81,19 @@
                 align-items: center;
 
                 .erd-btn {
-                    padding: var(--btn-padding-block) var(--btn-padding-inline);
+                    padding: var(--butt-padding-block) var(--butt-padding-inline);
                     background: var(--erd-btn-bg, var(--erd-button));
                     color: var(--erd-btn-text);
-                    border: 1px solid var(--btn-border);
-                    border-radius: var(--btn-radius);
-                    font-size: var(--btn-font-size);
-                    font-weight: var(--btn-font-weight);
+                    border: 1px solid var(--butt-border);
+                    border-radius: var(--butt-radius);
+                    font-size: var(--butt-font-size);
+                    font-weight: var(--butt-font-weight);
                     cursor: pointer;
-                    transition: var(--btn-transition);
+                    transition: var(--butt-transition);
 
                     &:hover {
                         background: var(--erd-btn-bg-hover, var(--erd-button-hover));
-                        box-shadow: var(--btn-shadow-hover);
+                        box-shadow: var(--butt-shadow-hover);
                     }
                 }
             }

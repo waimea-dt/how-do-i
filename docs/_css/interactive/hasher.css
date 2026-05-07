@@ -79,22 +79,22 @@
     .hasher-copy-btn {
         margin-left: auto;
         font-size: var(--font-tiny);
-        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        padding: var(--butt-padding-block) var(--butt-padding-inline);
         background: transparent;
-        border: 1px solid var(--btn-border);
-        border-radius: var(--btn-radius);
+        border: 1px solid var(--butt-border);
+        border-radius: var(--butt-radius);
         color: var(--hasher-label-color);
         cursor: pointer;
-        font-weight: var(--btn-font-weight);
+        font-weight: var(--butt-font-weight);
         letter-spacing: 0;
         text-transform: none;
-        transition: var(--btn-transition);
+        transition: var(--butt-transition);
 
         &:hover {
             background: color-mix(in srgb, var(--hasher-output-accent), transparent 80%);
             border-color: var(--hasher-output-accent);
             color: var(--color-text);
-            box-shadow: var(--btn-shadow-hover);
+            box-shadow: var(--butt-shadow-hover);
         }
     }
 
@@ -157,18 +157,18 @@
 
     .hasher-salt-refresh-btn {
         font-size: var(--font-tiny);
-        padding: var(--btn-padding-block) var(--btn-padding-inline);
+        padding: var(--butt-padding-block) var(--butt-padding-inline);
         background: transparent;
-        border: 1px solid var(--btn-border);
-        border-radius: var(--btn-radius);
+        border: 1px solid var(--butt-border);
+        border-radius: var(--butt-radius);
         color: var(--hasher-label-color);
         cursor: pointer;
-        transition: var(--btn-transition);
+        transition: var(--butt-transition);
 
         &:hover {
             background: color-mix(in srgb, var(--hasher-accent), transparent 85%);
             border-color: var(--hasher-accent);
-            box-shadow: var(--btn-shadow-hover);
+            box-shadow: var(--butt-shadow-hover);
         }
     }
 

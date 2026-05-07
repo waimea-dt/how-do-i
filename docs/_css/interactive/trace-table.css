@@ -318,15 +318,15 @@
             justify-content: center;
 
             .trace-table-btn {
-                padding: var(--btn-padding-block) var(--btn-padding-inline);
-                font-size: var(--btn-font-size);
-                font-weight: var(--btn-font-weight);
-                border-radius: var(--btn-radius);
+                padding: var(--butt-padding-block) var(--butt-padding-inline);
+                font-size: var(--butt-font-size);
+                font-weight: var(--butt-font-weight);
+                border-radius: var(--butt-radius);
                 cursor: pointer;
-                transition: var(--btn-transition);
+                transition: var(--butt-transition);
 
                 &:hover:not(:disabled) {
-                    box-shadow: var(--btn-shadow-hover);
+                    box-shadow: var(--butt-shadow-hover);
                 }
 
                 &:disabled {

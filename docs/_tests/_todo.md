@@ -2,14 +2,9 @@
 
 ## Things to Fix
 
-- [ ] Image notes - bolder outline
-- [ ] Centre image notes images
+- [ ] Algo race sizing
 - [ ] Mermaid SVGs not zooming
-- [ ] Slides next button styling
-- [ ] Web playground iframe size/margin
 - [ ] Coverage boundary checking - bugs?
-- [ ] Python/SQL runner button styling
-- [ ] Algo race legend styling
 - [ ] Structure colouring - use color-mix
 
 - [ ] Mobile table char alignment still off
@@ -26,6 +21,12 @@
 
 ## Completed
 
+- [x] Slides next button styling
+- [x] Web playground iframe size/margin
+- [x] Python/SQL runner button styling
+- [x] Algo race legend styling
+- [x] Image notes - bolder outline
+- [x] Centre image notes images
 - [x] Drag-drop - add a code mode - collapsed gaps, borders, etc.
 - [x] Big-O alignment of keys / values
 - [x] Fix the Mac screen view... Worth it?

@@ -93,8 +93,8 @@
                     <span class="tls-chip">Domain: <strong>${domain}</strong></span>
                     <span class="tls-chip">Mode: <strong>${modeText}</strong></span>
                     <div class="tls-toggle" role="group" aria-label="TLS version">
-                        <button class="tls-toggle-btn ${tlsVersion === '1.2' ? 'is-active' : ''}" type="button" data-tls-version="1.2">TLS 1.2</button>
-                        <button class="tls-toggle-btn ${tlsVersion === '1.3' ? 'is-active' : ''}" type="button" data-tls-version="1.3">TLS 1.3</button>
+                        <button class="tls-toggle-btn ${tlsVersion === '1.2' ? 'is-active' : ''}" data-tls-version="1.2">TLS 1.2</button>
+                        <button class="tls-toggle-btn ${tlsVersion === '1.3' ? 'is-active' : ''}" data-tls-version="1.3">TLS 1.3</button>
                     </div>
                 </div>
             </div>

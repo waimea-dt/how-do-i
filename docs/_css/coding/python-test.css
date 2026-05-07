@@ -52,7 +52,7 @@
     --padding-container: var(--padding);
     --padding-section: var(--padding-med);
     --padding-message: var(--padding-tiny) var(--padding-small);
-    --padding-button: var(--btn-padding-block) var(--btn-padding-inline);
+    --padding-button: var(--butt-padding-block) var(--butt-padding-inline);
     --padding-code: var(--padding-small);
     --padding-gutter: 0.25rem 0.5rem;
     --gap-controls: var(--gap-small);
@@ -267,11 +267,11 @@
         button {
             padding: var(--padding-button);
             font-family: var(--font-family);
-            font-size: var(--btn-font-size);
-            font-weight: var(--btn-font-weight);
-            border-radius: var(--btn-radius);
+            font-size: var(--butt-font-size);
+            font-weight: var(--butt-font-weight);
+            border-radius: var(--butt-radius);
             cursor: pointer;
-            transition: var(--btn-transition);
+            transition: var(--butt-transition);
 
             &:hover:not(:disabled) {
                 transform: translateY(-1px);

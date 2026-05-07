@@ -60,7 +60,7 @@
     --sim-gap-lg:           var(--gap-med);
     --sim-padding:          var(--padding-med);
     --sim-padding-cell:     0.25em 0.5em;
-    --sim-padding-btn:      var(--btn-padding-block) var(--btn-padding-inline);
+    --sim-padding-btn:      var(--butt-padding-block) var(--butt-padding-inline);
 
     /* Typography */
     --sim-font-xs:   0.88em;
@@ -451,16 +451,16 @@
             align-items: center;
             gap: var(--sim-gap);
             padding: var(--sim-padding-btn);
-            border-radius: var(--btn-radius);
+            border-radius: var(--butt-radius);
             font-family: inherit;
-            font-size: var(--btn-font-size);
-            font-weight: var(--btn-font-weight);
+            font-size: var(--butt-font-size);
+            font-weight: var(--butt-font-weight);
             cursor: pointer;
-            transition: var(--btn-transition);
+            transition: var(--butt-transition);
 
             &:hover:not(:disabled) {
                 transform: translateY(-1px);
-                box-shadow: var(--btn-shadow-hover);
+                box-shadow: var(--butt-shadow-hover);
             }
 
             &:active:not(:disabled) { transform: translateY(0); }

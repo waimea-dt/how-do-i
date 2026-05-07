@@ -14,11 +14,11 @@
     --primm-label: var(--plugin-header-subtitle);
     --primm-text: var(--color-text);
 
-    --primm-btn-bg: var(--btn-bg);
-    --primm-btn-bg-hover: var(--btn-bg-hover);
-    --primm-btn-bg-disabled: var(--btn-bg-disabled);
-    --primm-btn-text: var(--btn-text);
-    --primm-btn-border: var(--btn-border);
+    --primm-btn-bg: var(--butt-bg);
+    --primm-btn-bg-hover: var(--butt-bg-hover);
+    --primm-btn-bg-disabled: var(--butt-bg-disabled);
+    --primm-btn-text: var(--butt-text);
+    --primm-btn-border: var(--butt-border);
 
     --primm-code-bg: var(--code-bg-color);
     --primm-code-border: var(--code-border-color);
@@ -203,15 +203,15 @@
             display: inline-flex;
             align-items: center;
             gap: var(--primm-gap-small);
-            padding: var(--btn-padding-block) var(--btn-padding-inline);
+            padding: var(--butt-padding-block) var(--butt-padding-inline);
             border: 1px solid var(--primm-btn-border);
-            border-radius: var(--btn-radius);
+            border-radius: var(--butt-radius);
             background-color: var(--primm-btn-bg);
             color: var(--primm-btn-text);
-            font-size: var(--btn-font-size);
-            font-weight: var(--btn-font-weight);
+            font-size: var(--butt-font-size);
+            font-weight: var(--butt-font-weight);
             cursor: pointer;
-            transition: var(--btn-transition);
+            transition: var(--butt-transition);
             width: 100%;
             justify-content: center;
 
@@ -224,7 +224,7 @@
             &:hover:not(:disabled) {
                 background-color: var(--primm-btn-bg-hover);
                 transform: translateY(-1px);
-                box-shadow: var(--btn-shadow-hover);
+                box-shadow: var(--butt-shadow-hover);
             }
 
             &:active:not(:disabled) {
@@ -238,7 +238,7 @@
             }
 
             span {
-                font-size: var(--btn-font-size);
+                font-size: var(--butt-font-size);
             }
 
             @container (min-width: 400px) {

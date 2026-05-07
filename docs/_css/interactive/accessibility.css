@@ -410,7 +410,7 @@
         }
 
         .accessibility-order-speak-btn {
-            --btn-action-color: var(--accessibility-accent);
+            --butt-action-color: var(--accessibility-accent);
             position: absolute;
             bottom: 1rem;
             right: 1rem;

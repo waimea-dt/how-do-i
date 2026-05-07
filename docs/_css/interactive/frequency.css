@@ -22,9 +22,9 @@
     --frequency-value-color: var(--frequency-accent);
     --frequency-muted: var(--color-mono-6);
 
-    --frequency-btn-bg: var(--btn-bg);
-    --frequency-btn-border: var(--btn-border);
-    --frequency-btn-bg-hover: var(--btn-bg-hover);
+    --frequency-btn-bg: var(--butt-bg);
+    --frequency-btn-border: var(--butt-border);
+    --frequency-btn-bg-hover: var(--butt-bg-hover);
     --frequency-btn-bg-active: var(--theme-color-1);
     --frequency-btn-color-active: var(--theme-color-6);
 
@@ -299,19 +299,19 @@
             }
 
             .frequency-toggle-btn {
-                padding: var(--btn-padding-block) var(--btn-padding-inline);
-                font-size: var(--btn-font-size);
-                font-weight: var(--btn-font-weight);
+                padding: var(--butt-padding-block) var(--butt-padding-inline);
+                font-size: var(--butt-font-size);
+                font-weight: var(--butt-font-weight);
                 background: var(--frequency-btn-bg);
                 border: 1px solid var(--frequency-btn-border);
-                border-radius: var(--btn-radius);
+                border-radius: var(--butt-radius);
                 color: var(--frequency-label-color);
                 cursor: pointer;
-                transition: var(--btn-transition);
+                transition: var(--butt-transition);
 
                 &:hover {
                     background: var(--frequency-btn-bg-hover);
-                    box-shadow: var(--btn-shadow-hover);
+                    box-shadow: var(--butt-shadow-hover);
                 }
 
                 &.active {

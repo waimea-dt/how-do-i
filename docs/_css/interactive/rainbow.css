@@ -106,13 +106,13 @@
     .rt-start-btn,
     .rt-reset-btn {
         flex-shrink: 0;
-        padding: var(--btn-padding-block) var(--btn-padding-inline);
-        border-radius: var(--btn-radius);
+        padding: var(--butt-padding-block) var(--butt-padding-inline);
+        border-radius: var(--butt-radius);
         color: var(--color-text);
-        font-size: var(--btn-font-size);
-        font-weight: var(--btn-font-weight);
+        font-size: var(--butt-font-size);
+        font-weight: var(--butt-font-weight);
         cursor: pointer;
-        transition: var(--btn-transition);
+        transition: var(--butt-transition);
         white-space: nowrap;
 
         &:disabled {
