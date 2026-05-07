@@ -5,14 +5,7 @@
 .markdown-section tsp {
 
     /* ---- Design tokens ---- */
-    --tsp-bg: var(--plugin-wrapper-bg);
-    --tsp-bg-header: var(--plugin-header-bg);
-    --tsp-bg-canvas: var(--plugin-panel-bg);
     --tsp-bg-stat: var(--color-mono-2);
-    --tsp-border: var(--plugin-wrapper-border);
-
-    --tsp-title-color: var(--plugin-header-title);
-    --tsp-subtitle-color: var(--plugin-header-subtitle);
     --tsp-label-color: var(--color-text);
     --tsp-value-color: var(--theme-color);
     --tsp-factorial-color: color-mix(in srgb, var(--theme-color), var(--color-text) 55%);
@@ -44,8 +37,8 @@
     /* ---- Wrapper ---- */
 
     .tsp-wrapper {
-        background: var(--tsp-bg);
-        border: 1px solid var(--tsp-border);
+        background: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
     }
@@ -54,21 +47,21 @@
 
     .tsp-header {
         padding: var(--tsp-padding);
-        background: var(--tsp-bg-header);
-        border-bottom: 1px solid var(--tsp-border);
+        background: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
     }
 
     .tsp-title {
         margin: 0 0 0.25rem 0;
         font-size: var(--font-xlarge);
         font-weight: 600;
-        color: var(--tsp-title-color);
+        color: var(--plugin-header-title);
     }
 
     .tsp-subtitle {
         margin: 0;
         font-size: var(--font-med);
-        color: var(--tsp-subtitle-color);
+        color: var(--plugin-header-subtitle);
     }
 
     /* ---- Content ---- */
@@ -172,27 +165,7 @@
         }
 
         .tsp-btn {
-            padding: var(--butt-padding-block) var(--butt-padding-inline);
-            border-radius: var(--butt-radius);
-            font-size: var(--butt-font-size);
-            font-weight: var(--butt-font-weight);
-            cursor: pointer;
-            transition: var(--butt-transition);
             flex: 1;
-
-            &:hover:not(:disabled) {
-                transform: translateY(-1px);
-                box-shadow: var(--butt-shadow-hover);
-            }
-
-            &:active:not(:disabled) {
-                transform: translateY(0);
-            }
-
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
         }
 
     }
@@ -206,8 +179,8 @@
         .tsp-canvas {
             width: 100%;
             height: 400px;
-            background: var(--tsp-bg-canvas);
-            border: 1px solid var(--tsp-border);
+            background: var(--plugin-panel-bg);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             display: block;
         }
@@ -245,7 +218,7 @@
         .tsp-stat {
             padding: var(--tsp-padding-small);
             background: var(--tsp-bg-stat);
-            border: 1px solid var(--tsp-border);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             text-align: center;
             display: flex;
@@ -277,8 +250,8 @@
         .tsp-history-list {
             margin: 0;
             padding: var(--tsp-padding-small) var(--tsp-padding);
-            background: var(--tsp-bg-canvas);
-            border: 1px solid var(--tsp-border);
+            background: var(--plugin-panel-bg);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             font-family: var(--code-font-family);
             font-size: var(--font-med);
@@ -290,7 +263,7 @@
 
             /* Scrollbar styling */
             scrollbar-width: thin;
-            scrollbar-color: var(--tsp-border) transparent;
+            scrollbar-color: var(--plugin-wrapper-border) transparent;
 
             &::-webkit-scrollbar {
                 width: 6px;
@@ -302,7 +275,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-                background: var(--tsp-border);
+                background: var(--plugin-wrapper-border);
                 border-radius: 3px;
 
                 &:hover {
@@ -384,7 +357,7 @@
         .tsp-comparison-item {
             padding: var(--tsp-padding-small);
             background: var(--tsp-bg-stat);
-            border: 1px solid var(--tsp-border);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             text-align: center;
             transition: all 200ms ease;

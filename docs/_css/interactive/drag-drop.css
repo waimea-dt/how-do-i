@@ -3,14 +3,8 @@
  */
 
 .markdown-section drag-drop {
-    --drag-drop-bg: var(--plugin-wrapper-bg);
-    --drag-drop-bg-header: var(--plugin-header-bg);
     --drag-drop-bg-item: var(--plugin-panel-bg);
-    --drag-drop-border: var(--plugin-wrapper-border);
     --drag-drop-border-high: var(--color-mono-6);
-
-    --drag-drop-title: var(--plugin-header-title);
-    --drag-drop-subtitle: var(--plugin-header-subtitle);
     --drag-drop-text: var(--color-text);
     --drag-drop-feedback: var(--color-mono-7);
 
@@ -40,8 +34,8 @@
     container-type: inline-size;
 
     .drag-drop-wrapper {
-        background-color: var(--drag-drop-bg);
-        border: 1px solid var(--drag-drop-border);
+        background-color: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
         box-shadow: var(--box-shadow-small);
@@ -54,7 +48,7 @@
 
             .drag-drop-reference-list,
             .drag-drop-list {
-                border: 1px solid var(--drag-drop-border);
+                border: 1px solid var(--plugin-wrapper-border);
                 border-radius: var(--border-radius);
             }
 
@@ -63,7 +57,7 @@
 
                 padding-block: var(--drag-drop-padding-tiny);
                 background-color: var(--drag-drop-bg-item);
-                border: 1px solid var(--drag-drop-border);
+                border: 1px solid var(--plugin-wrapper-border);
                 border-radius: var(--border-radius);
 
                 &.drag-drop-list-area-has-reference {
@@ -80,20 +74,20 @@
 
         .drag-drop-header {
             padding: var(--drag-drop-padding);
-            background-color: var(--drag-drop-bg-header);
-            border-bottom: 1px solid var(--drag-drop-border);
+            background-color: var(--plugin-header-bg);
+            border-bottom: 1px solid var(--plugin-wrapper-border);
 
             .drag-drop-title {
                 margin: 0 0 0.2rem 0;
                 font-size: 1.3rem;
                 font-weight: 600;
-                color: var(--drag-drop-title);
+                color: var(--plugin-header-title);
             }
 
             .drag-drop-subtitle {
                 margin: 0;
                 font-size: var(--font-med);
-                color: var(--drag-drop-subtitle);
+                color: var(--plugin-header-subtitle);
             }
         }
 
@@ -159,7 +153,7 @@
 
                 color: var(--drag-drop-text);
                 background-color: var(--drag-drop-bg-item);
-                border: var(--drag-drop-border-size) solid var(--drag-drop-border);
+                border: var(--drag-drop-border-size) solid var(--plugin-wrapper-border);
                 border-radius: var(--drag-drop-border-radius);
                 padding: var(--drag-drop-list-padding);
 
@@ -297,14 +291,10 @@
                         .drag-drop-move-btn {
                             width: 1.5rem;
                             height: 1.5rem;
-                            border: 1px solid var(--drag-drop-border);
+                            border: 1px solid var(--plugin-wrapper-border);
                             border-radius: var(--border-radius-small);
                             background-color: var(--color-mono-2);
                             color: var(--drag-drop-control);
-                            cursor: pointer;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
                             padding: 0;
                             margin: 0;
 

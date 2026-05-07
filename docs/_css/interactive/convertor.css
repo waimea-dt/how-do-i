@@ -12,13 +12,10 @@
     --steps-color:              var(--palette-color-1);
 
     /* Background colors */
-    --wrapper-bg:               var(--plugin-wrapper-bg);
-    --section-bg:               var(--plugin-panel-bg);
     --input-bg:                 var(--color-mono-0);
     --place-value-bg:           var(--color-mono-0);
 
     /* Border colors */
-    --wrapper-border:           var(--plugin-wrapper-border);
     --input-border:             var(--color-mono-4);
     --input-border-hover:       var(--color-mono-5);
     --input-border-focus:       var(--theme-color);
@@ -61,8 +58,8 @@
     }
 
     .convertor-wrapper {
-        background: var(--wrapper-bg);
-        border: 2px solid var(--wrapper-border);
+        background: var(--plugin-wrapper-bg);
+        border: 2px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         padding: 1em;
         display: grid;
@@ -91,7 +88,7 @@
     }
 
     .convertor-section {
-        background: var(--section-bg);
+        background: var(--plugin-panel-bg);
         border-radius: calc(var(--border-radius) * 0.75);
         padding: 1em;
         display: flex;
@@ -241,7 +238,7 @@
     .convertor-steps {
         font-size: var(--convertor-note-font-size);
         grid-area: steps;
-        background: var(--section-bg);
+        background: var(--plugin-panel-bg);
         border-radius: calc(var(--border-radius) * 0.75);
         border: 1px solid var(--color-mono-3);
         padding: 1em;
@@ -327,7 +324,7 @@
         justify-content: space-between;
         gap: 1em;
         padding-top: 0.5em;
-        border-top: 1px solid var(--wrapper-border);
+        border-top: 1px solid var(--plugin-wrapper-border);
     }
 
     .convertor-info {
@@ -337,21 +334,7 @@
     }
 
     .convertor-btn {
-        background: var(--butt-bg);
-        color: var(--butt-color);
-        border: 1px solid var(--butt-border);
-        border-radius: var(--butt-radius);
-        padding: var(--butt-padding-block) var(--butt-padding-inline);
-        font-size: var(--butt-font-size);
-        font-weight: var(--butt-font-weight);
-        cursor: pointer;
-        transition: var(--butt-transition);
         white-space: nowrap;
-
-        &:hover {
-            background: var(--butt-bg-hover);
-            box-shadow: var(--butt-shadow-hover);
-        }
 
         &:focus {
             outline: none;

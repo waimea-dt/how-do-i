@@ -21,15 +21,7 @@
     --ar-gap-large:         var(--gap-large);
 
     /* Colors */
-    --ar-bg:                var(--plugin-wrapper-bg);
-    --ar-bg-header:         var(--plugin-header-bg);
-    --ar-bg-section:        var(--plugin-panel-bg);
-    --ar-bg-card:           var(--plugin-panel-bg);
-    --ar-border:            var(--plugin-wrapper-border);
     --ar-border-hover:      var(--color-mono-6);
-
-    --ar-title-color:       var(--plugin-header-title);
-    --ar-subtitle-color:    var(--plugin-header-subtitle);
     --ar-label-color:       var(--color-text);
     --ar-muted:             var(--color-mono-4);
 
@@ -49,8 +41,6 @@
     --ar-slider-accent:     var(--theme-color);
 
     /* Shadows */
-    --ar-shadow-md:         var(--plugin-wrapper-shadow);
-
     /* Typography */
     --ar-font-mono:         var(--font-family-mono);
 
@@ -66,17 +56,17 @@
        ======================================================================== */
 
     .ar-wrapper {
-        background: var(--ar-bg);
-        border: 2px solid var(--ar-border);
+        background: var(--plugin-wrapper-bg);
+        border: 2px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
-        box-shadow: var(--ar-shadow-md);
+        box-shadow: var(--plugin-wrapper-shadow);
 
         /* Header */
         .ar-header {
             padding: var(--ar-padding);
-            background: var(--ar-bg-header);
-            border-bottom: 1px solid var(--ar-border);
+            background: var(--plugin-header-bg);
+            border-bottom: 1px solid var(--plugin-wrapper-border);
 
             .ar-header-text {
                 display: flex;
@@ -87,7 +77,7 @@
                     margin: 0;
                     font-size: var(--font-display);
                     font-weight: 600;
-                    color: var(--ar-title-color);
+                    color: var(--plugin-header-title);
                     display: flex;
                     align-items: center;
                     gap: var(--ar-gap-small);
@@ -101,7 +91,7 @@
                     margin: 0;
                     font-size: var(--font-base);
                     font-weight: 400;
-                    color: var(--ar-subtitle-color);
+                    color: var(--plugin-header-subtitle);
                 }
             }
         }
@@ -226,7 +216,7 @@
                                 font-size: var(--font-base);
                                 font-weight: 600;
                                 color: var(--ar-target-color);
-                                background: var(--ar-bg-card);
+                                background: var(--plugin-panel-bg);
                                 border: 2px solid var(--ar-target-color);
                                 border-radius: var(--border-radius-small);
                                 text-align: center;
@@ -251,41 +241,17 @@
             .ar-button-group {
                 grid-area: buttons;
                 display: flex;
-                align-items: center;
                 gap: var(--ar-gap-small);
                 flex-wrap: wrap;
             }
 
             .ar-btn {
-                padding: var(--butt-padding-block) var(--butt-padding-inline);
-                border: 1px solid var(--butt-border);
-                border-radius: var(--butt-radius);
-                font-size: var(--butt-font-size);
-                font-weight: var(--butt-font-weight);
-                cursor: pointer;
-                transition: var(--butt-transition);
-                display: flex;
-                align-items: center;
                 gap: var(--ar-gap-tiny);
-
-                &:hover:not(:disabled) {
-                    border-color: var(--ar-border-hover);
-                    transform: translateY(-1px);
-                    box-shadow: var(--butt-shadow-hover);
-                }
-
-                &:active:not(:disabled) {
-                    transform: translateY(0);
-                }
 
                 &.ar-btn-small {
                     padding: var(--ar-padding-small);
                 }
 
-                &:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
             }
 
             /* Legend */
@@ -296,7 +262,7 @@
                 gap: var(--ar-gap-small);
                 flex-wrap: wrap;
                 padding: var(--ar-padding-small) var(--ar-padding);
-                background: var(--ar-bg-card);
+                background: var(--plugin-panel-bg);
                 border-radius: var(--border-radius-small);
                 font-size: var(--font-med);
                 gap: var(--ar-gap-small);
@@ -315,58 +281,58 @@
                     }
 
                     &.is-value .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--ar-value-color), var(--ar-bg-card) 85%);
+                        background: color-mix(in srgb, var(--ar-value-color), var(--plugin-panel-bg) 85%);
                         border-color: var(--ar-value-color);
                     }
 
                     &.is-target .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--ar-target-color), var(--ar-bg-card) 85%);
+                        background: color-mix(in srgb, var(--ar-target-color), var(--plugin-panel-bg) 85%);
                         border-color: var(--ar-target-color);
                     }
 
                     &.is-inspecting .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--ar-inspecting-color), var(--ar-bg-card) 70%);
+                        background: color-mix(in srgb, var(--ar-inspecting-color), var(--plugin-panel-bg) 70%);
                         border-color: var(--ar-inspecting-color);
                     }
 
                     &.is-checked .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--ar-checked-color), var(--ar-bg-card) 75%);
+                        background: color-mix(in srgb, var(--ar-checked-color), var(--plugin-panel-bg) 75%);
                         border-color: var(--ar-checked-color);
                     }
 
                     &.is-rejected .ar-legend-swatch {
-                        background: var(--ar-bg-card);
+                        background: var(--plugin-panel-bg);
                         border-color: var(--ar-rejected-color);
                     }
 
                     &.is-found .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 70%);
+                        background: color-mix(in srgb, var(--ar-found-color), var(--plugin-panel-bg) 70%);
                         border-color: var(--ar-found-color);
                     }
 
                     /* Sort mode legend */
                     &.is-comparing .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--ar-inspecting-color), var(--ar-bg-card) 70%);
+                        background: color-mix(in srgb, var(--ar-inspecting-color), var(--plugin-panel-bg) 70%);
                         border-color: var(--ar-inspecting-color);
                     }
 
                     &.is-swapping .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--palette-color-3), var(--ar-bg-card) 65%);
+                        background: color-mix(in srgb, var(--palette-color-3), var(--plugin-panel-bg) 65%);
                         border-color: var(--palette-color-3);
                     }
 
                     &.is-merging .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 80%);
+                        background: color-mix(in srgb, var(--palette-color-8), var(--plugin-panel-bg) 80%);
                         border-color: var(--palette-color-8);
                     }
 
                     &.is-merged .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 92%);
-                        border-color: color-mix(in srgb, var(--palette-color-8), var(--ar-border) 55%);
+                        background: color-mix(in srgb, var(--palette-color-8), var(--plugin-panel-bg) 92%);
+                        border-color: color-mix(in srgb, var(--palette-color-8), var(--plugin-wrapper-border) 55%);
                     }
 
                     &.is-sorted .ar-legend-swatch {
-                        background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 75%);
+                        background: color-mix(in srgb, var(--ar-found-color), var(--plugin-panel-bg) 75%);
                         border-color: var(--ar-found-color);
                     }
                 }
@@ -385,8 +351,8 @@
                 }
 
                 .ar-track {
-                    background: var(--ar-bg-section);
-                    border: 1px solid var(--ar-border);
+                    background: var(--plugin-panel-bg);
+                    border: 1px solid var(--plugin-wrapper-border);
                     border-radius: var(--border-radius);
                     padding: var(--ar-padding-small);
                     display: flex;
@@ -417,7 +383,7 @@
                         align-items: flex-start;
                         gap: var(--ar-gap-small);
                         padding-bottom: var(--ar-padding-small);
-                        border-bottom: 1px solid var(--ar-border);
+                        border-bottom: 1px solid var(--plugin-wrapper-border);
 
                         @container (min-width: 400px) {
                             flex-direction: row;
@@ -478,7 +444,7 @@
                             .ar-stat-row.ar-stat-total {
                                 font-size: var(--font-base);
                                 padding-top: var(--ar-gap-tiny);
-                                border-top: 1px solid var(--ar-border);
+                                border-top: 1px solid var(--plugin-wrapper-border);
                             }
 
                             .ar-stat-label {
@@ -502,7 +468,7 @@
                         grid-template-columns: repeat(10, 1fr);
                         gap: var(--ar-cell-gap);
                         padding: var(--ar-padding-small);
-                        background: var(--ar-bg-card);
+                        background: var(--plugin-panel-bg);
                         border-radius: var(--border-radius-small);
                         min-height: 4rem;
 
@@ -511,7 +477,7 @@
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            background: var(--ar-bg-card);
+                            background: var(--plugin-panel-bg);
                             border: 2px solid var(--ar-value-color);
                             border-radius: 3px;
                             transition: all 250ms ease-out;
@@ -523,20 +489,20 @@
 
                             &.is-target {
                                 border-color: var(--ar-target-color);
-                                background: color-mix(in srgb, var(--ar-target-color), var(--ar-bg-card) 85%);
+                                background: color-mix(in srgb, var(--ar-target-color), var(--plugin-panel-bg) 85%);
                                 box-shadow: 0 0 8px color-mix(in srgb, var(--ar-target-color), transparent 70%);
                             }
 
                             &.is-inspecting {
                                 border-color: var(--ar-inspecting-color);
-                                background: color-mix(in srgb, var(--ar-inspecting-color), var(--ar-bg-card) 70%);
+                                background: color-mix(in srgb, var(--ar-inspecting-color), var(--plugin-panel-bg) 70%);
                                 transform: scale(1.15);
                                 box-shadow: 0 0 12px color-mix(in srgb, var(--ar-inspecting-color), transparent 50%);
                                 z-index: 1;
 
                                 &.is-access {
                                     border-color: var(--palette-color-5);
-                                    background: color-mix(in srgb, var(--palette-color-5), var(--ar-bg-card) 70%);
+                                    background: color-mix(in srgb, var(--palette-color-5), var(--plugin-panel-bg) 70%);
                                 }
 
                                 &.is-compare {
@@ -546,17 +512,17 @@
 
                             &.is-checked {
                                 border-color: var(--ar-checked-color);
-                                background: color-mix(in srgb, var(--ar-checked-color), var(--ar-bg-card) 75%);
+                                background: color-mix(in srgb, var(--ar-checked-color), var(--plugin-panel-bg) 75%);
                             }
 
                             &.is-rejected {
                                 border-color: var(--ar-rejected-color);
-                                background: var(--ar-bg-card);
+                                background: var(--plugin-panel-bg);
                             }
 
                             &.is-found {
                                 border-color: var(--ar-found-color);
-                                background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 70%);
+                                background: color-mix(in srgb, var(--ar-found-color), var(--plugin-panel-bg) 70%);
                                 transform: scale(1.2);
                                 box-shadow: 0 0 16px color-mix(in srgb, var(--ar-found-color), transparent 30%);
                                 z-index: 2;
@@ -566,7 +532,7 @@
                             /* Sort mode states */
                             &.is-comparing {
                                 border-color: var(--ar-inspecting-color);
-                                background: color-mix(in srgb, var(--ar-inspecting-color), var(--ar-bg-card) 70%);
+                                background: color-mix(in srgb, var(--ar-inspecting-color), var(--plugin-panel-bg) 70%);
                                 transform: scale(1.1);
                                 box-shadow: 0 0 10px color-mix(in srgb, var(--ar-inspecting-color), transparent 50%);
                                 z-index: 1;
@@ -574,7 +540,7 @@
 
                             &.is-swapping {
                                 border-color: var(--palette-color-3);
-                                background: color-mix(in srgb, var(--palette-color-3), var(--ar-bg-card) 65%);
+                                background: color-mix(in srgb, var(--palette-color-3), var(--plugin-panel-bg) 65%);
                                 transform: scale(1.15);
                                 box-shadow: 0 0 12px color-mix(in srgb, var(--palette-color-3), transparent 40%);
                                 z-index: 2;
@@ -583,17 +549,17 @@
 
                             &.is-merging {
                                 border-color: var(--palette-color-8);
-                                background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 80%);
+                                background: color-mix(in srgb, var(--palette-color-8), var(--plugin-panel-bg) 80%);
                             }
 
                             &.is-merged {
-                                border-color: color-mix(in srgb, var(--palette-color-8), var(--ar-border) 55%);
-                                background: color-mix(in srgb, var(--palette-color-8), var(--ar-bg-card) 92%);
+                                border-color: color-mix(in srgb, var(--palette-color-8), var(--plugin-wrapper-border) 55%);
+                                background: color-mix(in srgb, var(--palette-color-8), var(--plugin-panel-bg) 92%);
                             }
 
                             &.is-sorted {
                                 border-color: var(--ar-found-color);
-                                background: color-mix(in srgb, var(--ar-found-color), var(--ar-bg-card) 75%);
+                                background: color-mix(in srgb, var(--ar-found-color), var(--plugin-panel-bg) 75%);
                             }
                         }
                     }

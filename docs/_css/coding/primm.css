@@ -4,21 +4,8 @@
  */
 
 .markdown-section primm {
-    --primm-bg: var(--plugin-wrapper-bg);
-    --primm-bg-header: var(--plugin-header-bg);
-    --primm-bg-section: var(--plugin-panel-bg);
-    --primm-border: var(--plugin-wrapper-border);
     --primm-border-high: var(--color-mono-6);
-
-    --primm-title: var(--plugin-header-title);
-    --primm-label: var(--plugin-header-subtitle);
     --primm-text: var(--color-text);
-
-    --primm-btn-bg: var(--butt-bg);
-    --primm-btn-bg-hover: var(--butt-bg-hover);
-    --primm-btn-bg-disabled: var(--butt-bg-disabled);
-    --primm-btn-text: var(--butt-text);
-    --primm-btn-border: var(--butt-border);
 
     --primm-code-bg: var(--code-bg-color);
     --primm-code-border: var(--code-border-color);
@@ -34,32 +21,28 @@
     --primm-padding: var(--padding);
     --primm-padding-med: var(--padding-med);
     --primm-padding-small: var(--padding-small);
-
-    --primm-border-radius: var(--plugin-wrapper-radius);
-    --primm-box-shadow: var(--plugin-wrapper-shadow);
-
     display: block;
     margin: var(--margin-block) 0;
 
 
     .primm-wrapper {
-        background-color: var(--primm-bg);
-        border: 1px solid var(--primm-border);
-        border-radius: var(--primm-border-radius);
+        background-color: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
+        border-radius: var(--plugin-wrapper-radius);
         overflow: hidden;
-        box-shadow: var(--primm-box-shadow);
+        box-shadow: var(--plugin-wrapper-shadow);
     }
 
     .primm-header {
         padding: var(--primm-padding);
-        background-color: var(--primm-bg-header);
-        border-bottom: 1px solid var(--primm-border);
+        background-color: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
 
         .primm-title {
             margin: 0;
             font-size: var(--font-xlarge);
             font-weight: 600;
-            color: var(--primm-title);
+            color: var(--plugin-header-title);
         }
     }
 
@@ -106,7 +89,7 @@
         .primm-code-display {
             background-color: var(--primm-code-bg);
             border: 1px solid var(--primm-code-border);
-            border-radius: var(--primm-border-radius);
+            border-radius: var(--plugin-wrapper-radius);
             overflow-x: auto;
             margin: 0;
             height: 100%;
@@ -134,7 +117,7 @@
             display: block;
             font-size: var(--font-base);
             font-weight: 500;
-            color: var(--primm-label);
+            color: var(--plugin-header-subtitle);
             margin-bottom: var(--primm-gap-small);
         }
 
@@ -143,7 +126,7 @@
             min-height: 100px;
             padding: var(--primm-padding-small);
             border: 1px solid var(--primm-prediction-border);
-            border-radius: var(--primm-border-radius);
+            border-radius: var(--plugin-wrapper-radius);
             background-color: var(--primm-prediction-bg);
             color: var(--primm-text);
             font-family: var(--font-family-mono);
@@ -169,7 +152,7 @@
             padding: var(--primm-padding-small);
             background-color: var(--primm-code-bg);
             border: 1px solid var(--primm-code-border);
-            border-radius: var(--primm-border-radius);
+            border-radius: var(--plugin-wrapper-radius);
             font-family: var(--font-family-mono);
             font-size: var(--font-base);
             line-height: 1.5;
@@ -200,45 +183,12 @@
         }
 
         .primm-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--primm-gap-small);
-            padding: var(--butt-padding-block) var(--butt-padding-inline);
-            border: 1px solid var(--primm-btn-border);
-            border-radius: var(--butt-radius);
-            background-color: var(--primm-btn-bg);
-            color: var(--primm-btn-text);
-            font-size: var(--butt-font-size);
-            font-weight: var(--butt-font-weight);
-            cursor: pointer;
-            transition: var(--butt-transition);
             width: 100%;
-            justify-content: center;
 
             svg {
                 width: 18px;
                 height: 18px;
                 flex-shrink: 0;
-            }
-
-            &:hover:not(:disabled) {
-                background-color: var(--primm-btn-bg-hover);
-                transform: translateY(-1px);
-                box-shadow: var(--butt-shadow-hover);
-            }
-
-            &:active:not(:disabled) {
-                transform: translateY(0);
-            }
-
-            &:disabled {
-                background-color: var(--primm-btn-bg-disabled);
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
-
-            span {
-                font-size: var(--butt-font-size);
             }
 
             @container (min-width: 400px) {

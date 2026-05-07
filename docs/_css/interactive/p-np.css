@@ -5,13 +5,6 @@
 .markdown-section p-np {
 
     /* ---- Design tokens ---- */
-    --pnp-bg:               var(--plugin-wrapper-bg);
-    --pnp-bg-header:        var(--plugin-header-bg);
-    --pnp-bg-canvas:        var(--plugin-panel-bg);
-    --pnp-border:           var(--plugin-wrapper-border);
-
-    --pnp-title-color:      var(--plugin-header-title);
-    --pnp-subtitle-color:   var(--plugin-header-subtitle);
     --pnp-label-color:      var(--color-text);
     --pnp-muted:            var(--color-mono-7);
 
@@ -24,9 +17,6 @@
     --pnp-color-intract:    var(--color-attention);
     --pnp-color-tract-high:    color-mix(in srgb, var(--pnp-color-tract), var(--color-mono-max) 10%);
     --pnp-color-intract-high:  color-mix(in srgb, var(--pnp-color-intract), var(--color-mono-max) 10%);
-
-    --pnp-btn-bg:           var(--butt-bg);
-    --pnp-btn-bg-hover:     var(--butt-bg-hover);
 
     --pnp-card-bg:          var(--color-mono-0);
     --pnp-card-border:      var(--color-mono-3);
@@ -61,8 +51,8 @@
     /* ---- Wrapper ---- */
 
     .pnp-wrapper {
-        background: var(--pnp-bg);
-        border: 1px solid var(--pnp-border);
+        background: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
     }
@@ -71,8 +61,8 @@
 
     .pnp-header {
         padding: var(--pnp-padding);
-        background: var(--pnp-bg-header);
-        border-bottom: 1px solid var(--pnp-border);
+        background: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
         display: flex;
         flex-direction: column;
         gap: var(--pnp-padding);
@@ -96,20 +86,6 @@
         flex-shrink: 0;
 
         .pnp-btn-toggle {
-            padding: var(--butt-padding-block) var(--butt-padding-inline);
-            border: 1px solid var(--butt-border);
-            border-radius: var(--butt-radius);
-            background-color: var(--pnp-btn-bg);
-            color: var(--butt-text);
-            font-size: var(--butt-font-size);
-            font-weight: var(--butt-font-weight);
-            cursor: pointer;
-            transition: var(--butt-transition);
-
-            &:hover {
-                background: var(--pnp-btn-bg-hover);
-                box-shadow: var(--butt-shadow-hover);
-            }
         }
     }
 
@@ -135,13 +111,13 @@
         margin: 0 0 0.25rem 0;
         font-size: var(--font-xlarge);
         font-weight: 600;
-        color: var(--pnp-title-color);
+        color: var(--plugin-header-title);
     }
 
     .pnp-subtitle {
         margin: 0;
         font-size: var(--font-med);
-        color: var(--pnp-subtitle-color);
+        color: var(--plugin-header-subtitle);
     }
 
     /* ---- Content ---- */
@@ -165,8 +141,8 @@
     .pnp-venn-wrapper {
         position: relative;
         width: 100%;
-        background: var(--pnp-bg-canvas);
-        border: 1px solid var(--pnp-border);
+        background: var(--plugin-panel-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         padding: var(--pnp-padding);
     }
@@ -202,7 +178,7 @@
         }
 
         strong {
-            color: var(--pnp-title-color);
+            color: var(--plugin-header-title);
         }
     }
 
@@ -260,8 +236,8 @@
                 border-radius: 50%;
                 border: 2px solid currentColor;
                 flex-shrink: 0;
-                background-color: color-mix(in srgb, var(--pnp-class-color, var(--pnp-border)), transparent 40%);
-                border-color: var(--pnp-class-color, var(--pnp-border));
+                background-color: color-mix(in srgb, var(--pnp-class-color, var(--plugin-wrapper-border)), transparent 40%);
+                border-color: var(--pnp-class-color, var(--plugin-wrapper-border));
             }
 
             .pnp-legend-title {
@@ -301,9 +277,9 @@
 
     .pnp-select {
         padding: 0.5em 1em;
-        border: 1px solid var(--pnp-border);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
-        background: var(--pnp-btn-bg);
+        background: var(--butt-bg);
         font-size: var(--font-base);
         cursor: pointer;
         flex: 1;
@@ -315,7 +291,7 @@
         display: inline-block;
         padding: var(--padding-small) var(--padding);
         background: var(--color-mono-1);
-        border: 1px solid var(--pnp-border);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
         font-size: var(--font-display);
         font-weight: 600;
@@ -341,7 +317,7 @@
             padding: var(--pnp-padding);
             border: 1px solid var(--pnp-card-border);
             border-radius: var(--border-radius-small);
-            background: var(--pnp-bg);
+            background: var(--plugin-wrapper-bg);
 
             h4 {
                 margin: 0 0 0.85rem 0;
@@ -371,9 +347,9 @@
         }
 
         .pnp-comparison-grid {
-            background-color: var(--pnp-bg);
+            background-color: var(--plugin-wrapper-bg);
             padding: var(--pnp-padding);
-            border: 1px solid var(--pnp-border);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius);
             display: grid;
             grid-template-columns: 1fr;
@@ -509,7 +485,6 @@
         color: var(--pnp-label-color);
         font-size: var(--font-med);
         font-weight: 500;
-        cursor: pointer;
         transition: all 0.2s;
 
         &:hover {
@@ -616,7 +591,7 @@
         gap: var(--gap);
         padding-top: 0.75rem;
         margin-top: auto;
-        border-top: 1px solid var(--pnp-border);
+        border-top: 1px solid var(--plugin-wrapper-border);
 
         .pnp-complexity-item {
             flex: 1;

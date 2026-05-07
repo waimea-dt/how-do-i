@@ -44,7 +44,6 @@
         line-height: 1.2;
         color: var(--exchange-text-secondary);
         background: transparent;
-        cursor: pointer;
         transition: background 160ms ease, color 160ms ease;
 
         &:hover,

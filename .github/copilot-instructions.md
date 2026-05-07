@@ -13,6 +13,7 @@ Apply these rules when editing plugin files in this repository.
 - Register plugins with window.DocsifyUtils.registerPlugin.
 - Keep doneEach logic idempotent using processBlocks/processVisualBlocks helpers.
 - Keep domain-specific parsing/rendering local to plugin files.
+- Use globally defined CSS vars from themes.css for colors, spacing, buttons, etc. in preference to creating specific plugin styles.
 
 ## Structure
 

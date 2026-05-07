@@ -32,9 +32,6 @@
 
 .markdown-section .sim-block {
     /* Design tokens - all sims share these; override per-sim */
-    --sim-wrapper-back:     var(--plugin-wrapper-bg);
-    --sim-panel-back:       var(--plugin-panel-bg);
-    --sim-border-color:     var(--plugin-wrapper-border);
     --sim-header-color:     var(--theme-color-6);
     --sim-highlight-color:  var(--highlight-color);
 
@@ -60,7 +57,6 @@
     --sim-gap-lg:           var(--gap-med);
     --sim-padding:          var(--padding-med);
     --sim-padding-cell:     0.25em 0.5em;
-    --sim-padding-btn:      var(--butt-padding-block) var(--butt-padding-inline);
 
     /* Typography */
     --sim-font-xs:   0.88em;
@@ -71,8 +67,8 @@
     container-type: inline-size;
     margin-block: var(--margin-block);
     padding: var(--sim-padding);
-    background: var(--sim-wrapper-back);
-    border: 1px solid var(--sim-border-color);
+    background: var(--plugin-wrapper-bg);
+    border: 1px solid var(--plugin-wrapper-border);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     font-family: var(--font-family-mono);
@@ -98,7 +94,7 @@
     }
 
     .sim-panel {
-        background: var(--sim-panel-back);
+        background: var(--plugin-panel-bg);
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius-med);
         padding: var(--sim-padding);
@@ -133,7 +129,7 @@
         margin: 0;
         background: var(--code-bg-color, var(--color-mono-1));
         border-radius: var(--border-radius-small);
-        border: 1px solid var(--sim-border-color);
+        border: 1px solid var(--plugin-wrapper-border);
         font-family: var(--font-family-mono);
         font-size: var(--sim-font-sm);
         line-height: 1.6;
@@ -421,7 +417,7 @@
         display: flex;
         align-items: center;
         padding: var(--sim-padding);
-        background: var(--sim-panel-back);
+        background: var(--plugin-panel-bg);
         border: 1px solid var(--border-color);
         border-radius: calc(var(--border-radius) / 2);
 
@@ -440,35 +436,14 @@
         display: flex;
         gap: var(--sim-gap);
         padding: var(--sim-padding);
-        background: var(--sim-panel-back);
+        background: var(--plugin-panel-bg);
         border: 1px solid var(--border-color);
         border-radius: calc(var(--border-radius) / 2);
         flex-wrap: wrap;
         align-items: center;
 
         .sim-btn {
-            display: inline-flex;
-            align-items: center;
             gap: var(--sim-gap);
-            padding: var(--sim-padding-btn);
-            border-radius: var(--butt-radius);
-            font-family: inherit;
-            font-size: var(--butt-font-size);
-            font-weight: var(--butt-font-weight);
-            cursor: pointer;
-            transition: var(--butt-transition);
-
-            &:hover:not(:disabled) {
-                transform: translateY(-1px);
-                box-shadow: var(--butt-shadow-hover);
-            }
-
-            &:active:not(:disabled) { transform: translateY(0); }
-
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
 
             .btn-icon {
                 font-size: var(--sim-font-lg);

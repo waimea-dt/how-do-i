@@ -5,14 +5,7 @@
 .markdown-section .trace-table-container {
 
     /* ---- Design tokens ---- */
-    --trace-bg: var(--plugin-wrapper-bg);
-
-    --trace-bg-header: var(--plugin-header-bg);
-    --trace-title-color: var(--plugin-header-title);
-    --trace-subtitle-color: var(--plugin-header-subtitle);
-
     --trace-bg-code: var(--code-bg-color);
-    --trace-border: var(--plugin-wrapper-border);
     --trace-muted: var(--color-mono-5);
 
     --trace-bg-table: var(--code-bg-color);
@@ -38,8 +31,8 @@
     /* ---- Wrapper ---- */
 
     .trace-table-wrapper {
-        background: var(--trace-bg);
-        border: 1px solid var(--trace-border);
+        background: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
     }
@@ -48,20 +41,20 @@
 
     .trace-table-header {
         padding: var(--trace-padding);
-        background: var(--trace-bg-header);
-        border-bottom: 1px solid var(--trace-border);
+        background: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
 
         .trace-table-title {
             margin: 0 0 0.25rem 0;
             font-size: var(--font-xlarge);
             font-weight: 600;
-            color: var(--trace-title-color);
+            color: var(--plugin-header-title);
         }
 
         .trace-table-subtitle {
             margin: 0;
             font-size: var(--font-med);
-            color: var(--trace-subtitle-color);
+            color: var(--plugin-header-subtitle);
         }
     }
 
@@ -87,10 +80,10 @@
         background-image: linear-gradient(
             to right,
             var(--trace-bg-code) 2.8rem,
-            var(--trace-border) 2.8rem,
+            var(--plugin-wrapper-border) 2.8rem,
             var(--trace-bg-code) calc(2.8rem + 1px)
         );
-        border: 1px solid var(--trace-border);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: auto;
         font-family: 'Courier New', monospace;
@@ -306,8 +299,8 @@
 
     .trace-table-controls {
         padding: 0 var(--trace-padding) var(--trace-padding);
-        /* background: var(--trace-bg-header); */
-        /* border-top: 1px solid var(--trace-border); */
+        /* background: var(--plugin-header-bg); */
+        /* border-top: 1px solid var(--plugin-wrapper-border); */
         display: flex;
         justify-content: center;
 
@@ -315,25 +308,6 @@
             display: flex;
             gap: var(--trace-padding-small);
             flex-wrap: wrap;
-            justify-content: center;
-
-            .trace-table-btn {
-                padding: var(--butt-padding-block) var(--butt-padding-inline);
-                font-size: var(--butt-font-size);
-                font-weight: var(--butt-font-weight);
-                border-radius: var(--butt-radius);
-                cursor: pointer;
-                transition: var(--butt-transition);
-
-                &:hover:not(:disabled) {
-                    box-shadow: var(--butt-shadow-hover);
-                }
-
-                &:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-            }
         }
     }
 

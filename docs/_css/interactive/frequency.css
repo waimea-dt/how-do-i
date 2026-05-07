@@ -10,21 +10,11 @@
 /* ---- Design tokens (shared across all frequency components) ---- */
 .markdown-section frequency,
 .markdown-section .frequency-chart {
-    --frequency-bg: var(--plugin-wrapper-bg);
-    --frequency-bg-header: var(--plugin-header-bg);
-    --frequency-bg-textarea: var(--plugin-panel-bg);
     --frequency-bg-stat: var(--color-mono-2);
-    --frequency-border: var(--plugin-wrapper-border);
-
-    --frequency-title-color: var(--plugin-header-title);
-    --frequency-subtitle-color: var(--plugin-header-subtitle);
     --frequency-label-color: var(--color-text);
     --frequency-value-color: var(--frequency-accent);
     --frequency-muted: var(--color-mono-6);
 
-    --frequency-btn-bg: var(--butt-bg);
-    --frequency-btn-border: var(--butt-border);
-    --frequency-btn-bg-hover: var(--butt-bg-hover);
     --frequency-btn-bg-active: var(--theme-color-1);
     --frequency-btn-color-active: var(--theme-color-6);
 
@@ -47,8 +37,8 @@
     /* ---- Wrapper ---- */
 
     .frequency-wrapper {
-        background: var(--frequency-bg);
-        border: 1px solid var(--frequency-border);
+        background: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
     }
@@ -57,21 +47,21 @@
 
     .frequency-header {
         padding: var(--frequency-padding);
-        background: var(--frequency-bg-header);
-        border-bottom: 1px solid var(--frequency-border);
+        background: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
     }
 
     .frequency-title {
         margin: 0 0 0.25rem 0;
         font-size: var(--font-xlarge);
         font-weight: 600;
-        color: var(--frequency-title-color);
+        color: var(--plugin-header-title);
     }
 
     .frequency-subtitle {
         margin: 0;
         font-size: var(--font-med);
-        color: var(--frequency-subtitle-color);
+        color: var(--plugin-header-subtitle);
     }
 
     /* ---- Content Layout ---- */
@@ -104,8 +94,8 @@
         font-family: var(--font-family-mono);
         font-size: var(--font-med);
         line-height: 1.5;
-        background: var(--frequency-bg-textarea);
-        border: 1px solid var(--frequency-border);
+        background: var(--plugin-panel-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         color: var(--color-text);
         resize: vertical;
@@ -299,20 +289,7 @@
             }
 
             .frequency-toggle-btn {
-                padding: var(--butt-padding-block) var(--butt-padding-inline);
-                font-size: var(--butt-font-size);
-                font-weight: var(--butt-font-weight);
-                background: var(--frequency-btn-bg);
-                border: 1px solid var(--frequency-btn-border);
-                border-radius: var(--butt-radius);
                 color: var(--frequency-label-color);
-                cursor: pointer;
-                transition: var(--butt-transition);
-
-                &:hover {
-                    background: var(--frequency-btn-bg-hover);
-                    box-shadow: var(--butt-shadow-hover);
-                }
 
                 &.active {
                     background: var(--frequency-btn-bg-active);

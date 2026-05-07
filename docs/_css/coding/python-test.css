@@ -5,13 +5,7 @@
 
 .markdown-section .python-test-container {
     /* Wrapper */
-    --wrapper-bg: var(--plugin-wrapper-bg);
-    --wrapper-border: var(--plugin-wrapper-border);
-
     /* Sections */
-    --section-bg: var(--plugin-panel-bg);
-    --section-border: var(--plugin-panel-border);
-
     /* Coverage color palette */
     --coverage-hit-color: var(--color-good);
     --coverage-miss-color: var(--color-attention);
@@ -23,15 +17,15 @@
     --coverage-partial-bg: color-mix(in srgb, var(--coverage-partial-color) 15%, transparent);
 
     /* Results colors */
-    --results-bg: var(--section-bg);
-    --results-border: var(--section-border);
+    --results-bg: var(--plugin-panel-bg);
+    --results-border: var(--plugin-panel-border);
 
     --results-pass-bg: color-mix(in srgb, var(--color-good) 10%, transparent);
     --results-fail-bg: color-mix(in srgb, var(--color-attention) 20%, transparent);
 
     /* Stats colors */
-    --stats-bg: var(--section-bg);
-    --stats-border: var(--section-border);
+    --stats-bg: var(--plugin-panel-bg);
+    --stats-border: var(--plugin-panel-border);
     --stats-excellent: var(--color-good);
     --stats-good: var(--palette-color-1);
     --stats-fair: var(--color-important);
@@ -68,8 +62,8 @@
     position: relative;
     margin: var(--margin-block) 0;
     padding: var(--padding-container);
-    background: var(--wrapper-bg);
-    border: 1px solid var(--wrapper-border);
+    background: var(--plugin-wrapper-bg);
+    border: 1px solid var(--plugin-wrapper-border);
     border-radius: var(--border-radius-md);
     box-shadow: var(--box-shadow);
     font-family: var(--font-family);
@@ -126,7 +120,7 @@
             pre.python-test-source-code {
                 margin: 0;
                 border-radius: var(--border-radius-sm);
-                border: 1px solid var(--section-border);
+                border: 1px solid var(--plugin-panel-border);
                 overflow-x: auto;
                 max-width: 100% !important;
                 background-color: var(--code-bg-color);
@@ -245,7 +239,7 @@
             padding: 0 var(--padding-med);
             background-color: var(--code-bg-color);
             border-radius: var(--border-radius-sm);
-            border: 1px solid var(--section-border);
+            border: 1px solid var(--plugin-panel-border);
 
             .CodeMirror {
                 width: 100%;
@@ -263,30 +257,6 @@
         align-self: end;
         display: flex;
         gap: var(--gap-controls);
-
-        button {
-            padding: var(--padding-button);
-            font-family: var(--font-family);
-            font-size: var(--butt-font-size);
-            font-weight: var(--butt-font-weight);
-            border-radius: var(--butt-radius);
-            cursor: pointer;
-            transition: var(--butt-transition);
-
-            &:hover:not(:disabled) {
-                transform: translateY(-1px);
-                box-shadow: var(--box-shadow-small);
-            }
-
-            &:active:not(:disabled) {
-                transform: translateY(0);
-            }
-
-            &:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
-        }
 
         .python-test-run-btn {
             flex: 1;
@@ -450,7 +420,7 @@
             padding: var(--padding-section);
             background: var(--code-color-back);
             border-radius: var(--border-radius-sm);
-            border: 1px solid var(--section-border);
+            border: 1px solid var(--plugin-panel-border);
             font-family: var(--font-family-mono);
             font-size: inherit;
             line-height: 1.4;
@@ -490,7 +460,7 @@
         font-style: italic;
         opacity: 0.7;
         animation: pyTestPulse 1.5s ease-in-out infinite;
-        background: var(--section-bg);
+        background: var(--plugin-panel-bg);
         border: 1px solid var(--stats-border);
         border-radius: var(--border-radius-sm);
         font-size: var(--font-size-sm);

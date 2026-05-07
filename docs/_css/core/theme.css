@@ -307,6 +307,7 @@ em {
 
     font-size: var(--butt-font-size);
     font-weight: var(--butt-font-weight);
+    white-space: nowrap;
 
     cursor: pointer;
     transition: var(--butt-transition);

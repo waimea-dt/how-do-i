@@ -5,18 +5,9 @@
 .markdown-section knapsack {
 
     /* ---- Design tokens ---- */
-    --knapsack-bg: var(--plugin-wrapper-bg);
-    --knapsack-bg-header: var(--plugin-header-bg);
-    --knapsack-bg-inventory: var(--plugin-panel-bg);
-    --knapsack-bg-canvas: var(--plugin-panel-bg);
     --knapsack-bg-stat: var(--color-mono-2);
-    --knapsack-border: var(--plugin-wrapper-border);
-
     --knapsack-track-border: var(--color-mono-6);
     --knapsack-slice-bg: var(--palette-color-2);
-
-    --knapsack-title-color: var(--plugin-header-title);
-    --knapsack-subtitle-color: var(--plugin-header-subtitle);
     --knapsack-label-color: var(--color-mono-7);
     --knapsack-input-bg: var(--color-mono-0);
     --knapsack-value-color: var(--theme-color);
@@ -49,8 +40,8 @@
     /* ---- Wrapper ---- */
 
     .knapsack-wrapper {
-        background: var(--knapsack-bg);
-        border: 1px solid var(--knapsack-border);
+        background: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
     }
@@ -59,21 +50,21 @@
 
     .knapsack-header {
         padding: var(--knapsack-padding);
-        background: var(--knapsack-bg-header);
-        border-bottom: 1px solid var(--knapsack-border);
+        background: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
     }
 
     .knapsack-title {
         margin: 0 0 0.25rem 0;
         font-size: var(--font-xlarge);
         font-weight: 600;
-        color: var(--knapsack-title-color);
+        color: var(--plugin-header-title);
     }
 
     .knapsack-subtitle {
         margin: 0;
         font-size: var(--font-med);
-        color: var(--knapsack-subtitle-color);
+        color: var(--plugin-header-subtitle);
     }
 
     /* ---- Content ---- */
@@ -159,7 +150,7 @@
     .knapsack-items-number {
         width: 4rem;
         padding: var(--knapsack-padding-tiny);
-        border: 1px solid var(--knapsack-border);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
         background: var(--knapsack-input-bg);
         color: var(--theme-color);
@@ -194,29 +185,6 @@
 
         .knapsack-btn {
             flex: 1;
-            padding: var(--butt-padding-block) var(--butt-padding-inline);
-            border-radius: var(--butt-radius);
-            font-size: var(--butt-font-size);
-            font-weight: var(--butt-font-weight);
-            cursor: pointer;
-            transition: var(--butt-transition);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            &:hover:not(:disabled) {
-                transform: translateY(-1px);
-                box-shadow: var(--butt-shadow-hover);
-            }
-
-            &:active:not(:disabled) {
-                transform: translateY(0);
-            }
-
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
 
         }
     }
@@ -226,8 +194,8 @@
     .knapsack-visualization {
         grid-area: visual;
         position: relative;
-        background: var(--knapsack-bg-canvas);
-        border: 1px solid var(--knapsack-border);
+        background: var(--plugin-panel-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
         overflow: hidden;
 
@@ -256,7 +224,7 @@
 
         .knapsack-stat {
             background: var(--knapsack-bg-stat);
-            border: 1px solid var(--knapsack-border);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             padding: var(--knapsack-padding-small) var(--knapsack-padding);
             min-width: 0;
@@ -354,7 +322,7 @@
         justify-content: center;
         padding: 0;
         position: relative;
-        border-right: 2px solid var(--knapsack-bg);
+        border-right: 2px solid var(--plugin-wrapper-bg);
         transition: all 0.2s;
         flex: 0 0 calc(var(--slice-width) * 1%);
         overflow-x: hidden;
@@ -413,8 +381,8 @@
             45deg,
             transparent,
             transparent 8px,
-            color-mix(in srgb, var(--knapsack-border), transparent 70%) 8px,
-            color-mix(in srgb, var(--knapsack-border), transparent 70%) 10px
+            color-mix(in srgb, var(--plugin-wrapper-border), transparent 70%) 8px,
+            color-mix(in srgb, var(--plugin-wrapper-border), transparent 70%) 10px
         );
         font-weight: 500;
     }
@@ -445,8 +413,8 @@
     .knapsack-inventory {
         grid-area: inventory;
         padding: var(--knapsack-padding);
-        background-color: var(--knapsack-bg-inventory);
-        border: 1px solid var(--knapsack-border);
+        background-color: var(--plugin-panel-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
 
         .knapsack-panel-title {
@@ -477,7 +445,7 @@
         position: relative;
         cursor: pointer;
         transition: all 0.2s;
-        border: 2px solid var(--knapsack-border);
+        border: 2px solid var(--plugin-wrapper-border);
 
         &:hover {
             transform: scale(1.15);
@@ -558,7 +526,7 @@
     .knapsack-history {
         grid-area: history;
         padding: var(--knapsack-padding);
-        border: 1px solid var(--knapsack-border);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
     }
 
@@ -568,7 +536,7 @@
     .knapsack-comparison {
         grid-area: comparison;
         background: var(--knapsack-bg-stat);
-        border: 1px solid var(--knapsack-border);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
         padding: var(--knapsack-padding);
 
@@ -590,8 +558,8 @@
         }
 
         .knapsack-comparison-item {
-            background: var(--knapsack-bg-canvas);
-            border: 1px solid var(--knapsack-border);
+            background: var(--plugin-panel-bg);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             padding: var(--knapsack-padding-small);
             transition: all 0.2s;
@@ -606,7 +574,7 @@
                 font-weight: 600;
 
                 &:hover {
-                    border-color: var(--knapsack-border);
+                    border-color: var(--plugin-wrapper-border);
                     box-shadow: none;
                 }
             }

@@ -5,19 +5,10 @@
 .markdown-section bin-packing {
 
     /* ---- Design tokens ---- */
-    --bin-packing-bg: var(--plugin-wrapper-bg);
-    --bin-packing-bg-header: var(--plugin-header-bg);
-    --bin-packing-bg-inventory: var(--plugin-panel-bg);
-    --bin-packing-bg-canvas: var(--plugin-panel-bg);
     --bin-packing-bg-stat: var(--color-mono-2);
-    --bin-packing-border: var(--plugin-wrapper-border);
-
     --bin-packing-bin-border: var(--color-mono-6);
     --bin-packing-slice-bg: var(--palette-color-5);
     --bin-packing-slice-bg2: var(--palette-color-8);
-
-    --bin-packing-title-color: var(--plugin-header-title);
-    --bin-packing-subtitle-color: var(--plugin-header-subtitle);
     --bin-packing-label-color: var(--color-mono-7);
     --bin-packing-input-bg: var(--color-mono-0);
     --bin-packing-value-color: var(--theme-color);
@@ -48,8 +39,8 @@
     /* ---- Wrapper ---- */
 
     .bin-packing-wrapper {
-        background: var(--bin-packing-bg);
-        border: 1px solid var(--bin-packing-border);
+        background: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: hidden;
     }
@@ -58,21 +49,21 @@
 
     .bin-packing-header {
         padding: var(--bin-packing-padding);
-        background: var(--bin-packing-bg-header);
-        border-bottom: 1px solid var(--bin-packing-border);
+        background: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
     }
 
     .bin-packing-title {
         margin: 0 0 0.25rem 0;
         font-size: var(--font-xlarge);
         font-weight: 600;
-        color: var(--bin-packing-title-color);
+        color: var(--plugin-header-title);
     }
 
     .bin-packing-subtitle {
         margin: 0;
         font-size: var(--font-med);
-        color: var(--bin-packing-subtitle-color);
+        color: var(--plugin-header-subtitle);
         line-height: 1.4;
     }
 
@@ -153,7 +144,7 @@
     .bin-packing-items-number {
         width: 4rem;
         padding: var(--bin-packing-padding-tiny);
-        border: 1px solid var(--bin-packing-border);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
         background: var(--bin-packing-input-bg);
         color: var(--theme-color);
@@ -190,29 +181,6 @@
 
         .bin-packing-btn {
             flex: 1;
-            padding: var(--butt-padding-block) var(--butt-padding-inline);
-            border-radius: var(--butt-radius);
-            font-size: var(--butt-font-size);
-            font-weight: var(--butt-font-weight);
-            cursor: pointer;
-            transition: var(--butt-transition);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            &:hover:not(:disabled) {
-                transform: translateY(-1px);
-                box-shadow: var(--butt-shadow-hover);
-            }
-
-            &:active:not(:disabled) {
-                transform: translateY(0);
-            }
-
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
 
             &.bin-packing-btn-secondary {
                 min-width: 2.5rem;
@@ -225,8 +193,8 @@
     .bin-packing-visualization {
         grid-area: visual;
         position: relative;
-        background: var(--bin-packing-bg-canvas);
-        border: 1px solid var(--bin-packing-border);
+        background: var(--plugin-panel-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
         padding: var(--bin-packing-padding);
         min-height: var(--bin-height);
@@ -308,7 +276,7 @@
         gap: var(--bin-packing-gap-small);
         padding: 0 var(--padding-tiny);
         position: relative;
-        border-bottom: 1px solid var(--bin-packing-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-bg);
         transition: all 0.2s;
 
         &:first-child {
@@ -348,8 +316,8 @@
             45deg,
             transparent,
             transparent 8px,
-            color-mix(in srgb, var(--bin-packing-border), transparent 70%) 8px,
-            color-mix(in srgb, var(--bin-packing-border), transparent 70%) 10px
+            color-mix(in srgb, var(--plugin-wrapper-border), transparent 70%) 8px,
+            color-mix(in srgb, var(--plugin-wrapper-border), transparent 70%) 10px
         );
         min-height: 4px;
         display: flex;
@@ -377,7 +345,7 @@
 
         .bin-packing-stat {
             background: var(--bin-packing-bg-stat);
-            border: 1px solid var(--bin-packing-border);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             padding: var(--bin-packing-padding-small) var(--bin-packing-padding);
             min-width: 0;
@@ -431,8 +399,8 @@
     .bin-packing-inventory {
         grid-area: inventory;
         padding: var(--bin-packing-padding);
-        background-color: var(--bin-packing-bg-inventory);
-        border: 1px solid var(--bin-packing-border);
+        background-color: var(--plugin-panel-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
 
         .bin-packing-panel-title {
@@ -458,7 +426,7 @@
         justify-content: center;
         gap: var(--bin-packing-gap-small);
         padding: 0;
-        border: 2px solid var(--bin-packing-border);
+        border: 2px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
         transition: all 0.2s;
         cursor: default;
@@ -495,8 +463,8 @@
     .bin-packing-comparison {
         grid-area: comparison;
         padding: var(--bin-packing-padding);
-        background-color: var(--bin-packing-bg-inventory);
-        border: 1px solid var(--bin-packing-border);
+        background-color: var(--plugin-panel-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius-small);
 
         &[hidden] {
@@ -524,7 +492,7 @@
 
         .bin-packing-comparison-item {
             background: var(--bin-packing-bg-stat);
-            border: 1px solid var(--bin-packing-border);
+            border: 1px solid var(--plugin-wrapper-border);
             border-radius: var(--border-radius-small);
             padding: var(--bin-packing-padding-small) var(--bin-packing-padding);
             display: flex;

@@ -9,11 +9,6 @@
     --rt-accent:              var(--theme-color);
     --rt-crack-accent:        var(--palette-color-4);
     --rt-found-color:         var(--color-good);
-
-    --rt-bg:                  var(--plugin-wrapper-bg);
-    --rt-section-bg:          var(--plugin-panel-bg);
-    --rt-border:              var(--plugin-wrapper-border);
-
     --rt-label-color:         var(--color-mono-6);
     --rt-note-color:          var(--color-mono-4);
     --rt-hint-color:          var(--color-mono-5);
@@ -45,8 +40,8 @@
     /* ---- Outer wrapper ---- */
 
     .rt-wrapper {
-        background: var(--rt-bg);
-        border: 2px solid var(--rt-border);
+        background: var(--plugin-wrapper-bg);
+        border: 2px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         box-shadow: var(--box-shadow);
         overflow: hidden;
@@ -58,7 +53,7 @@
 
     .rt-input-section {
         padding: 1.25em 1.5em;
-        border-bottom: 2px solid var(--rt-border);
+        border-bottom: 2px solid var(--plugin-wrapper-border);
         display: flex;
         flex-direction: column;
         gap: 0.6em;
@@ -106,19 +101,6 @@
     .rt-start-btn,
     .rt-reset-btn {
         flex-shrink: 0;
-        padding: var(--butt-padding-block) var(--butt-padding-inline);
-        border-radius: var(--butt-radius);
-        color: var(--color-text);
-        font-size: var(--butt-font-size);
-        font-weight: var(--butt-font-weight);
-        cursor: pointer;
-        transition: var(--butt-transition);
-        white-space: nowrap;
-
-        &:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
     }
 
     /* ---- Section label (table header) ---- */

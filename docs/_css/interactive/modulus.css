@@ -338,7 +338,6 @@
         background: var(--mod-bg);
         border: 2px solid var(--mod-accent-light);
         border-radius: calc(var(--border-radius) / 2);
-        cursor: pointer;
         transition: all 150ms ease;
         white-space: nowrap;
 

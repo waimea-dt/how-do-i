@@ -8,11 +8,6 @@
     /* ---- Design tokens (mapped from theme vars) ---- */
     --hasher-accent:             var(--theme-color);
     --hasher-output-accent:      var(--palette-color-1);
-
-    --hasher-bg:                 var(--plugin-wrapper-bg);
-    --hasher-section-bg:         var(--plugin-panel-bg);
-    --hasher-border:             var(--plugin-wrapper-border);
-
     --hasher-label-color:        var(--theme-color-6);
     --hasher-label-note-color:   var(--color-mono-6);
     --hasher-empty-color:        var(--color-mono-4);
@@ -34,8 +29,8 @@
     /* ---- Outer wrapper ---- */
 
     .hasher-wrapper {
-        background: var(--hasher-bg);
-        border: 2px solid var(--hasher-border);
+        background: var(--plugin-wrapper-bg);
+        border: 2px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         padding: var(--padding);
         box-shadow: var(--box-shadow);
@@ -56,7 +51,7 @@
 
     .hasher-output-section {
         flex: 1;
-        background: var(--hasher-section-bg);
+        background: var(--plugin-panel-bg);
         border: 1px solid var(--hasher-output-accent);
         border-radius: calc(var(--border-radius) * 0.75);
         padding: 0.75em 1em;
@@ -79,16 +74,10 @@
     .hasher-copy-btn {
         margin-left: auto;
         font-size: var(--font-tiny);
-        padding: var(--butt-padding-block) var(--butt-padding-inline);
         background: transparent;
-        border: 1px solid var(--butt-border);
-        border-radius: var(--butt-radius);
         color: var(--hasher-label-color);
-        cursor: pointer;
-        font-weight: var(--butt-font-weight);
         letter-spacing: 0;
         text-transform: none;
-        transition: var(--butt-transition);
 
         &:hover {
             background: color-mix(in srgb, var(--hasher-output-accent), transparent 80%);
@@ -157,13 +146,8 @@
 
     .hasher-salt-refresh-btn {
         font-size: var(--font-tiny);
-        padding: var(--butt-padding-block) var(--butt-padding-inline);
         background: transparent;
-        border: 1px solid var(--butt-border);
-        border-radius: var(--butt-radius);
         color: var(--hasher-label-color);
-        cursor: pointer;
-        transition: var(--butt-transition);
 
         &:hover {
             background: color-mix(in srgb, var(--hasher-accent), transparent 85%);
@@ -276,7 +260,7 @@
 
     .hasher-history-pre {
         margin: 0;
-        border: 1px solid var(--hasher-border);
+        border: 1px solid var(--plugin-wrapper-border);
         background: var(--code-bg-color);
         border-radius: calc(var(--border-radius) * 0.75);
         overflow-y: hidden;

@@ -55,7 +55,6 @@
                 position: static !important;
                 width: 100% !important;
                 height: auto !important;
-                padding: var(--butt-padding-block) var(--butt-padding-inline);
                 border-top: 1px solid var(--code-border-color);
                 background-color: var(--code-control-back-color) !important;
                 background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'><polygon fill='transparent' stroke='%23777' stroke-width='2' stroke-linejoin='round' points='15,10 1,19 1,1'/></svg>") !important;
@@ -67,7 +66,6 @@
                     padding-left: 30px;
                     vertical-align: top;
                     content: "Run";
-                    font-size: var(--butt-font-size);
                     color: var(--code-control-color);
                 }
 

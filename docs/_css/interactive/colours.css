@@ -20,20 +20,10 @@
     --cp-gap-xlarge:        var(--gap-xlarge);
 
     /* Colors */
-    --cp-bg:                var(--plugin-wrapper-bg);
-    --cp-bg-header:         var(--plugin-header-bg);
-    --cp-bg-card:           var(--plugin-panel-bg);
-    --cp-border:            var(--plugin-wrapper-border);
     --cp-border-hover:      var(--color-mono-4);
-
-    --cp-title-color:       var(--plugin-header-title);
-    --cp-subtitle-color:    var(--plugin-header-subtitle);
     --cp-label-color:       var(--color-text);
     --cp-muted:             var(--color-mono-7);
 
-    --cp-btn-bg:            var(--butt-bg);
-    --cp-btn-bg-hover:      var(--butt-bg-hover);
-    --cp-btn-color:         var(--butt-text);
 
     --cp-input-bg:          var(--color-mono-0);
     --cp-input-border:      var(--color-mono-3);
@@ -50,8 +40,8 @@
     /* ---- Wrapper ---- */
 
     .cp-wrapper {
-        background: var(--cp-bg);
-        border: 1px solid var(--cp-border);
+        background: var(--plugin-wrapper-bg);
+        border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         overflow: visible;
     }
@@ -60,8 +50,8 @@
 
     .cp-header {
         padding: var(--cp-padding);
-        background: var(--cp-bg-header);
-        border-bottom: 1px solid var(--cp-border);
+        background: var(--plugin-header-bg);
+        border-bottom: 1px solid var(--plugin-wrapper-border);
 
         .cp-header-text {
             display: flex;
@@ -73,7 +63,7 @@
             margin: 0;
             font-size: var(--font-display);
             font-weight: 600;
-            color: var(--cp-title-color);
+            color: var(--plugin-header-title);
             display: flex;
             align-items: center;
             gap: var(--cp-gap-small);
@@ -86,7 +76,7 @@
         .cp-subtitle {
             margin: 0;
             font-size: var(--font-med);
-            color: var(--cp-subtitle-color);
+            color: var(--plugin-header-subtitle);
         }
     }
 
@@ -141,7 +131,7 @@
                 display: flex;
                 align-items: stretch;
                 gap: 0;
-                background: var(--cp-bg-card);
+                background: var(--plugin-panel-bg);
                 border: 1px solid var(--cp-input-border);
                 border-radius: var(--border-radius);
                 padding: var(--cp-padding-tiny);
@@ -227,22 +217,9 @@
     /* ---- Shared button styles ---- */
 
     .cp-btn {
-        padding: var(--butt-padding-block) var(--butt-padding-inline);
-        border: 1px solid var(--butt-border);
-        border-radius: var(--butt-radius);
-        background: var(--cp-btn-bg);
-        color: var(--cp-btn-color);
-        font-size: var(--butt-font-size);
-        font-weight: var(--butt-font-weight);
-        cursor: pointer;
-        transition: var(--butt-transition);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
         gap: var(--cp-gap-small);
 
         &:hover {
-            background: var(--cp-btn-bg-hover);
             border-color: var(--cp-border-hover);
             box-shadow: var(--butt-shadow-hover);
         }
@@ -264,7 +241,7 @@
             flex-shrink: 0;
 
             &:hover {
-                background: var(--cp-btn-bg);
+                background: var(--butt-bg);
             }
 
             &.active {
@@ -275,22 +252,9 @@
     }
 
     .cp-toggle-btn {
-        padding: var(--butt-padding-block) var(--butt-padding-inline);
-        border: 1px solid var(--butt-border);
-        border-radius: var(--butt-radius);
-        background: var(--cp-btn-bg);
-        color: var(--cp-btn-color);
         gap: var(--cp-gap-small);
-        font-size: var(--butt-font-size);
-        font-weight: var(--butt-font-weight);
-        cursor: pointer;
-        transition: var(--butt-transition);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
 
         &:hover {
-            background: var(--cp-btn-bg-hover);
             border-color: var(--cp-border-hover);
             box-shadow: var(--butt-shadow-hover);
         }
@@ -367,12 +331,12 @@
             position: sticky;
             top: -5rem;
             z-index: 10;
-            background: var(--cp-bg);
+            background: var(--plugin-wrapper-bg);
             padding: var(--cp-padding);
             margin: calc(var(--cp-padding) * -1);
             margin-bottom: var(--cp-gap-small);
-            border-bottom: 1px solid var(--cp-border);
-            box-shadow: 0 0.5rem 1rem var(--cp-bg);
+            border-bottom: 1px solid var(--plugin-wrapper-border);
+            box-shadow: 0 0.5rem 1rem var(--plugin-wrapper-bg);
         }
 
         .cp-shades-grid {
@@ -417,7 +381,7 @@
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
                 box-shadow: var(--cp-shadow-md);
                 cursor: pointer;
-                border: 2px solid var(--cp-border);
+                border: 2px solid var(--plugin-wrapper-border);
                 overflow: hidden;
 
                 &:hover {
@@ -511,8 +475,8 @@
         }
 
         .cp-preview-container {
-            background: var(--cp-bg-card);
-            border: 1px solid var(--cp-border);
+            background: var(--plugin-panel-bg);
+            border: 1px solid var(--plugin-wrapper-border);
             padding: var(--cp-padding);
             overflow: hidden;
         }
@@ -601,7 +565,6 @@
                 border-radius: var(--border-radius);
                 font-size: var(--font-base);
                 font-weight: 600;
-                cursor: pointer;
                 transition: all 0.2s ease;
                 box-shadow: var(--cp-shadow-md);
 

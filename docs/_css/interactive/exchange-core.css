@@ -23,12 +23,6 @@
     container-type: inline-size;
 
     /* Design tokens */
-    --exchange-bg:                  var(--plugin-wrapper-bg);
-    --exchange-header-bg:           var(--plugin-header-bg);
-    --exchange-card-bg:             var(--plugin-panel-bg);
-    --exchange-border:              var(--plugin-wrapper-border);
-    --exchange-border-light:        var(--plugin-panel-border);
-
     --exchange-text-primary:        var(--color-text);
     --exchange-text-secondary:      var(--color-mono-6);
     --exchange-text-muted:          var(--color-mono-5);
@@ -76,8 +70,8 @@
     /* ==================== Main Wrapper ==================== */
 
     .exchange-wrapper {
-        background: var(--exchange-bg);
-        border: 2px solid var(--exchange-border);
+        background: var(--plugin-wrapper-bg);
+        border: 2px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
         box-shadow: var(--box-shadow);
         overflow: hidden;
@@ -90,8 +84,8 @@
         flex-direction: column;
         gap: var(--exchange-gap);
         padding: var(--exchange-padding);
-        border-bottom: 2px solid var(--exchange-border);
-        background-color: var(--exchange-header-bg);
+        border-bottom: 2px solid var(--plugin-wrapper-border);
+        background-color: var(--plugin-header-bg);
 
         @container (min-width: 1024px) {
             flex-direction: row;
@@ -123,7 +117,7 @@
         grid-template-columns: 1fr;
         gap: var(--exchange-gap-big) var(--exchange-gap);
         padding: var(--exchange-padding);
-        background: var(--exchange-bg);
+        background: var(--plugin-wrapper-bg);
         grid-template-areas:
             "party1"
             "exchange"
@@ -164,7 +158,7 @@
         .exchange-party-header {
             text-align: center;
             padding-bottom: var(--exchange-padding-small);
-            border-bottom: 2px solid var(--exchange-border-light);
+            border-bottom: 2px solid var(--plugin-panel-border);
             margin-bottom: var(--exchange-gap-small);
         }
 
@@ -472,7 +466,7 @@
         }
 
         &.exchange-public-badge {
-            background: color-mix(in srgb, var(--exchange-accent-public), var(--exchange-bg) 90%);
+            background: color-mix(in srgb, var(--exchange-accent-public), var(--plugin-wrapper-bg) 90%);
             color: var(--exchange-accent-public);
             border: 1px solid var(--exchange-accent-public);
 
@@ -482,7 +476,7 @@
         }
 
         &.exchange-secret-badge {
-            background: color-mix(in srgb, var(--exchange-accent-secret), var(--exchange-bg) 90%);
+            background: color-mix(in srgb, var(--exchange-accent-secret), var(--plugin-wrapper-bg) 90%);
             color: var(--exchange-accent-secret);
             border: 1px solid var(--exchange-accent-secret);
 
@@ -492,7 +486,7 @@
         }
 
         &.exchange-shared-badge {
-            background: color-mix(in srgb, var(--exchange-accent-shared), var(--exchange-bg) 90%);
+            background: color-mix(in srgb, var(--exchange-accent-shared), var(--plugin-wrapper-bg) 90%);
             color: var(--exchange-accent-shared);
             border: 1px solid var(--exchange-accent-shared);
 
@@ -536,8 +530,8 @@
     .exchange-footer {
         display: flex;
         flex-direction: column;
-        border-top: 2px solid var(--exchange-border);
-        background: var(--exchange-card-bg);
+        border-top: 2px solid var(--plugin-wrapper-border);
+        background: var(--plugin-panel-bg);
 
         @container (min-width: 1024px) {
             flex-direction: row;
@@ -556,7 +550,7 @@
 
             @container (min-width: 1024px) {
                 flex: 1;
-                border-left: 2px solid var(--exchange-border);
+                border-left: 2px solid var(--plugin-wrapper-border);
             }
 
             &:empty {
@@ -592,35 +586,11 @@
     /* ==================== Buttons ==================== */
 
     .exchange-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
         gap: var(--exchange-gap-small);
-        padding: var(--butt-padding-block) var(--butt-padding-inline);
-        border-radius: var(--butt-radius);
-        font-family: inherit;
-        font-size: var(--butt-font-size);
-        font-weight: var(--butt-font-weight);
-        cursor: pointer;
-        transition: var(--butt-transition);
         width: 100%;
 
         @container (min-width: 481px) {
             width: auto;
-        }
-
-        &:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: var(--butt-shadow-hover);
-        }
-
-        &:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
     }
 
