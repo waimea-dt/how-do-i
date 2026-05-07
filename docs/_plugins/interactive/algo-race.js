@@ -626,10 +626,11 @@
 
         // Tracks based on mode
         const tracksHTML = mode === 'search' ? `
-            ${createTrackHTML(UI_TEXT.linearTitle, UI_TEXT.linearCategory, 'is-linear', instanceId, 'linear', mode)}
-            ${createTrackHTML(UI_TEXT.binaryTitle, UI_TEXT.binaryCategory, 'is-binary', instanceId, 'binary', mode)}` : `
-            ${createTrackHTML(UI_TEXT.bubbleTitle, UI_TEXT.bubbleCategory, 'is-bubble', instanceId, 'bubble', mode)}
-            ${createTrackHTML(UI_TEXT.mergeTitle, UI_TEXT.mergeCategory, 'is-merge', instanceId, 'merge', mode)}`
+            ${createTrackHTML(UI_TEXT.linearTitle, UI_TEXT.linearCategory, 'is-linear ar-track-1', instanceId, 'linear', mode)}
+            ${createTrackHTML(UI_TEXT.binaryTitle, UI_TEXT.binaryCategory, 'is-binary ar-track-2', instanceId, 'binary', mode)}
+        ` : `
+            ${createTrackHTML(UI_TEXT.bubbleTitle, UI_TEXT.bubbleCategory, 'is-bubble ar-track-1', instanceId, 'bubble', mode)}
+            ${createTrackHTML(UI_TEXT.mergeTitle, UI_TEXT.mergeCategory, 'is-merge ar-track-2', instanceId, 'merge', mode)}`
 
         wrapper.innerHTML = `
             <div class="ar-header">
@@ -677,9 +678,7 @@
                 </div>
 
                 <!-- Race tracks -->
-                <div class="ar-race-container">
-                    ${tracksHTML}
-                </div>
+                ${tracksHTML}
             </div>
         `
 
