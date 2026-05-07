@@ -6,24 +6,24 @@ This page demonstrates the YouTube video embed functionality.
 
 Add a YouTube video using the `<videoembed>` tag with the video ID:
 
-<videoembed id="62xlzGs8LXA">
+<videoembed id="62xlzGs8LXA"></videoembed>
 
 ## Multiple Videos
 
 You can embed multiple videos on the same page:
 
-<videoembed id="jNQXAC9IVRw">
+<videoembed id="jNQXAC9IVRw"></videoembed>
 
 ## Playlist Embed
 
 Embed an entire YouTube playlist using the `playlist` attribute:
 
-<videoembed playlist id="PLkUv3HSgBKrViKy1AwpIvThl5nNBiiocu">
+<videoembed playlist id="PLkUv3HSgBKrViKy1AwpIvThl5nNBiiocu"></videoembed>
 
 
 ## Playlist Grid
 
-<videoembed playlist-grid id="62xlzGs8LXA,U5GZeMm5nhI,Mt3QerTMITg,NXIu-B52WPU,nZa-Vqu-_fU,V-pACEENHBw,7DfexfHzT-w,iHBgNGnTiK4,-QD0J8EfYqw,P_oSLBZABGA">
+<videoembed playlist-grid id="62xlzGs8LXA,U5GZeMm5nhI,Mt3QerTMITg,NXIu-B52WPU,nZa-Vqu-_fU,V-pACEENHBw,7DfexfHzT-w,iHBgNGnTiK4,-QD0J8EfYqw,P_oSLBZABGA"></videoembed>
 
 
 ## Features
@@ -44,7 +44,7 @@ The video embed plugin:
 ### Single Video
 
 ```markdown
-<videoembed id="VIDEO_ID_HERE">
+<videoembed id="VIDEO_ID_HERE"></videoembed>
 ```
 
 No closing tag needed! The plugin automatically preserves any content after the tag.
@@ -59,7 +59,7 @@ For example:
 ### Playlist
 
 ```markdown
-<videoembed playlist id="PLAYLIST_ID_HERE">
+<videoembed playlist id="PLAYLIST_ID_HERE"></videoembed>
 ```
 
 Replace `PLAYLIST_ID_HERE` with the YouTube playlist ID (the part after `list=` in the URL).
@@ -72,7 +72,7 @@ For example:
 ### Playlist Grid
 
 ```markdown
-<videoembed playlist-grid id="VIDEO_ID1,VIDEO_ID2,VIDEO_ID3">
+<videoembed playlist-grid id="VIDEO_ID1,VIDEO_ID2,VIDEO_ID3"></videoembed>
 ```
 
 Creates an interactive grid of video thumbnails with titles, and a shared player. Clicking any thumbnail loads that video in the player.

@@ -1,14 +1,4 @@
-# Ideas and Things To Do
-
-## Things to Do
-
-- [ ] Mobile table char alignment still off
-- [ ] Calc animate="on/off" attribute
-- [ ] Tidy up the data views - borders, etc.
-- [ ] Python code indent highlighting added to Python snippets
-- [ ] Code runner fake input... should this be shown?
-
----
+# Plugin and Site Ideas
 
 ## In Progress
 
@@ -90,23 +80,4 @@
 - [x] **parsons-builder.js** - Covered by drag-drop plugin support for code-ordering puzzle workflows
 - [x] **primm.js** - Allows students to predict output of a code block, then run it to see for real
 - [x] **excalidraw.js** - Rendering of excalidraw JSON files as SVGs
-
-
-### Completed Maintenance
-
-- [x] Drag-drop - add a code mode - collapsed gaps, borders, etc.
-- [x] Big-O alignment of keys / values
-- [x] Fix the Mac screen view... Worth it?
-- [x] Computer screens - font size too big on mobile
-- [x] Request sequence on mobile... Better to use scrolling?
-- [x] Swipe on flash cards?
-- [x] Video embedding
-- [x] Scrolling on codeapi editor and output
-- [x] Kotlin runner code font is not monospace (mobile only?) and also for codeapi
-- [x] Mobile sidebar tab is small
-- [x] Codeapi output box chars is broken
-- [x] Images on captions and speech tests missing
-- [x] Video grid thumbs too big on mobile (stick to 2 cols min)
-- [x] Borders of sequence steps bolder
-
 

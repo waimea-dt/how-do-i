@@ -1,4 +1,4 @@
-# Waimea College Digital Technologies[.](tests/)
+# Waimea College Digital Technologies[.](_tests/)
 
 ## Digital Technologies Notes
 
