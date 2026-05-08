@@ -12,6 +12,13 @@
 
 ## Plugin Ideas
 
+### General
+
+#### Binary number explorer - ascii / colour
+
+
+
+
 ### NCEA Level 2: Encryption
 
 #### vpn-tunnel.js - VPN Encryption Visualizer

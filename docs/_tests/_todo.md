@@ -2,6 +2,8 @@
 
 ## Things to Fix
 
+- [ ] Code within reveal slides - size, bg, etc.
+
 
 ## Things to Change / Improve
 
