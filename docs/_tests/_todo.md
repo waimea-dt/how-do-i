@@ -2,8 +2,7 @@
 
 ## Things to Fix
 
-- [ ] Tidy up the data views - borders, etc.
-
+- [ ] Asides
 
 ## Things to Change / Improve
 
@@ -15,6 +14,7 @@
 
 ## Completed
 
+- [x] Tidy up the data views - borders, etc.
 - [x] Mobile table char alignment still off
 - [x] Accessibility views rendered panel sizing
 - [x] Mermaid SVGs not zooming

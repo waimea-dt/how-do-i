@@ -99,6 +99,14 @@ Now in the dark world where I dwell, ugly things, and surprising things, and som
 show hex ff9 as pixels
 ```
 
+```data
+show hex 39f as pixels
+```
+
+```data
+show hex f7a as pixels
+```
+
 Now in the dark world where I dwell, ugly things, and surprising things, and sometimes little wondrous things, spill out in me constantly, and I can count on nothing.
 
 ## ASCII & Unicode

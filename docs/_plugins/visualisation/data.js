@@ -254,10 +254,10 @@
                  fill="black"
             >
                 <defs>
-                    <pattern id="pixel-${digits}" x="1" y="2" width="14" height="14" patternUnits="userSpaceOnUse">
-                        <rect fill="rgb(${red},0,0)" x="0" width="3" height="10" />
-                        <rect fill="rgb(0,${grn},0)" x="4" width="3" height="10" />
-                        <rect fill="rgb(0,0,${blu})" x="8" width="3" height="10" />
+                    <pattern id="pixel-${digits}" x="1" y="2" width="4" height="4" patternUnits="userSpaceOnUse">
+                        <rect fill="rgb(${red},0,0)" x="0.0" width="1.0" height="3.6" />
+                        <rect fill="rgb(0,${grn},0)" x="1.2" width="1.0" height="3.6" />
+                        <rect fill="rgb(0,0,${blu})" x="2.4" width="1.0" height="3.6" />
                     </pattern>
                 </defs>
                 <rect fill="black"       width="200" height="200" />

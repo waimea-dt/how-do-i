@@ -1,7 +1,7 @@
 /** Data Visualization
  * Binary, hexadecimal, decimal, ASCII, and color display
  */
-.display-data {
+.markdown-section .display-data {
     /* Colors */
     --num-table-back-color: var(--color-mono-0);
     --num-headings-color:   var(--color-mono-6);
@@ -57,150 +57,151 @@
             }
         }
     }
-}
 
-/* Number tables */
+    /* Number tables */
 
-table.number {
-    border-collapse: collapse;
-    margin: 0;
-
-    &:not(.aligned) {
+    table.number {
+        border-collapse: collapse;
+        margin: 0;
         width: fit-content;
-    }
 
-    /* Headings */
+        &.aligned {
+            width: 100%;
+        }
 
-    th {
-        font-size: 0.6em;
-        padding: 0.3em 0.1em;
-        text-align: center;
-        color: var(--num-headings-color);
-    }
+        /* Headings */
 
-    /* -----------------------------------------------------------------------
-       Digits
-       ----------------------------------------------------------------------- */
+        th {
+            font-size: 0.6em;
+            padding: 0.3em 0.1em;
+            text-align: center;
+            color: var(--num-headings-color);
+        }
 
-    td {
-        font-size: 1.7em;
-        line-height: 1.2;
-        font-family: var(--font-family-mono);
-        padding: 0.1em 0.3em;
-        background-color: var(--num-table-back-color);
-        border: var(--num-border-width) solid var(--num-border-color);
-        border-width: var(--num-border-width) 1px;
-        border-style: solid dashed;
-        text-align: center;
+        /* -----------------------------------------------------------------------
+        Digits
+        ----------------------------------------------------------------------- */
 
-        &:first-child {
+        td {
+            font-size: 1.7em;
+            line-height: 1.2;
+            font-family: var(--font-family-mono);
+            padding: 0.1em 0.3em;
+            background-color: var(--num-table-back-color);
+            border: var(--num-border-width) solid var(--num-border-color);
+            border-width: var(--num-border-width) 1px;
+            border-style: solid dashed;
+            text-align: center;
+
+            &:first-child {
+                border-left-width: var(--num-border-width);
+                border-left-style: solid;
+            }
+
+            &:last-child {
+                border-right-width: var(--num-border-width);
+                border-right-style: solid;
+            }
+        }
+
+        /* Byte boundaries - stronger left border every 8 bits */
+        &.base-2 td:nth-last-child(8n),
+        &.base-16 td:nth-last-child(2n),
+        &.colour td:nth-last-child(2n),
+        &.colour tr.values-base-10 td,
+        &.colour tr.values-colour td {
             border-left-width: var(--num-border-width);
             border-left-style: solid;
         }
 
-        &:last-child {
-            border-right-width: var(--num-border-width);
-            border-right-style: solid;
+        /* -----------------------------------------------------------------------
+        Binary Numbers
+        ----------------------------------------------------------------------- */
+
+        &.base-2 td,
+        .values-base-2 td {
+            color: var(--digit-color-bin);
         }
-    }
 
-    /* Byte boundaries - stronger left border every 8 bits */
-    &.base-2 td:nth-last-child(8n),
-    &.base-16 td:nth-last-child(2n),
-    &.colour td:nth-last-child(2n),
-    &.colour tr.values-base-10 td,
-    &.colour tr.values-colour td {
-        border-left-width: var(--num-border-width);
-        border-left-style: solid;
-    }
+        /* -----------------------------------------------------------------------
+        Decimal Numbers
+        ----------------------------------------------------------------------- */
 
-    /* -----------------------------------------------------------------------
-       Binary Numbers
-       ----------------------------------------------------------------------- */
-
-    &.base-2 td,
-    .values-base-2 td {
-        color: var(--digit-color-bin);
-    }
-
-    /* -----------------------------------------------------------------------
-       Decimal Numbers
-       ----------------------------------------------------------------------- */
-
-    &.base-10 td,
-    .values-base-10 td {
-        color: var(--digit-color-dec);
-    }
-
-    /* -----------------------------------------------------------------------
-       Hexadecimal Numbers
-       ----------------------------------------------------------------------- */
-
-    &.base-16 td,
-    .values-base-16 td {
-        color: var(--digit-color-hex);
-    }
-
-    /* -----------------------------------------------------------------------
-       Zero and Padding
-       ----------------------------------------------------------------------- */
-
-    td[data-value="0"] {
-        color: var(--zero-color);
-    }
-
-    td.num-padding {
-        color: var(--zero-color-padding);
-    }
-
-    /* -----------------------------------------------------------------------
-       Colour Display
-       ----------------------------------------------------------------------- */
-
-    &.colour,
-    &.pixels {
-        min-width: 13em;
-
-        tr.values-colour td,
-        tr.values-pixels td {
-            box-shadow: inset 0 0 0 var(--num-color-inset) var(--num-table-back-color);
+        &.base-10 td,
+        .values-base-10 td {
+            color: var(--digit-color-dec);
         }
-    }
 
-    &.pixels {
-        tr.values-pixels {
-            background-color: black;
+        /* -----------------------------------------------------------------------
+        Hexadecimal Numbers
+        ----------------------------------------------------------------------- */
 
-            td {
-                clip-path: circle(40%);
-                padding: 0;
+        &.base-16 td,
+        .values-base-16 td {
+            color: var(--digit-color-hex);
+        }
 
-                svg {
-                    transition: transform 250ms;
-                    display: block;
+        /* -----------------------------------------------------------------------
+        Zero and Padding
+        ----------------------------------------------------------------------- */
 
-                    &:hover {
-                        transform: scale(4);
+        td[data-value="0"] {
+            color: var(--zero-color);
+        }
+
+        td.num-padding {
+            color: var(--zero-color-padding);
+        }
+
+        /* -----------------------------------------------------------------------
+        Colour Display
+        ----------------------------------------------------------------------- */
+
+        &.colour,
+        &.pixels {
+            min-width: 12em;
+
+            tr.values-colour td,
+            tr.values-pixels td {
+                box-shadow: inset 0 0 0 var(--num-color-inset) var(--num-table-back-color);
+            }
+        }
+
+        &.pixels {
+            tr.values-pixels {
+                background-color: black;
+
+                td {
+                    clip-path: circle(43%);
+                    padding: 0;
+
+                    svg {
+                        transition: transform 250ms;
+                        display: block;
+
+                        &:hover {
+                            transform: scale(12);
+                        }
                     }
                 }
             }
         }
-    }
 
-    /* -----------------------------------------------------------------------
-       ASCII / Unicode Character Display
-       ----------------------------------------------------------------------- */
+        /* -----------------------------------------------------------------------
+        ASCII / Unicode Character Display
+        ----------------------------------------------------------------------- */
 
-    &.char {
-        min-width: 13em;
+        &.char {
+            min-width: 13em;
 
-        tr.values-char td {
-            font-weight: bold;
+            tr.values-char td {
+                font-weight: bold;
 
-            &.control-char {
-                font-weight: normal;
-                font-style: italic;
-                color: var(--ascii-ctrl-color);
+                &.control-char {
+                    font-weight: normal;
+                    font-style: italic;
+                    color: var(--ascii-ctrl-color);
+                }
             }
         }
     }
