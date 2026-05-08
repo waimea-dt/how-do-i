@@ -19,6 +19,7 @@
  *   - value: Initial value in the source base
  *   - bits: Bit width (4, 8, 16, 32) - default 8
  *   - signed: Show signed interpretation (optional, default false)
+ *   - nibbles: Show nibble linking rows for binary/hex conversions (optional)
  */
 
 ;(function () {
@@ -28,12 +29,13 @@
     // -------------------------------------------------------------------------
 
     class ConverterState {
-        constructor(from, to, value, bits, signed) {
+        constructor(from, to, value, bits, signed, nibbles) {
             this.from = from.toLowerCase()
             this.to = to.toLowerCase()
             // Limit to 8 bits or less
             this.bits = Math.min(parseInt(bits) || 8, 8)
             this.signed = signed === 'true'
+            this.nibbles = nibbles === true
             this.maxValue = Math.pow(2, this.bits) - 1
             this.minValue = this.signed ? -Math.pow(2, this.bits - 1) : 0
             this.maxSigned = this.signed ? Math.pow(2, this.bits - 1) - 1 : this.maxValue
@@ -87,6 +89,58 @@
 
         getBinaryArray() {
             return this.getBinary().split('')
+        }
+
+        shouldShowNibbleLinking() {
+            if (!this.nibbles) return false
+            if (this.bits < 4) return false
+
+            const isBinHex =
+                (this.from === 'bin' && this.to === 'hex') ||
+                (this.from === 'hex' && this.to === 'bin')
+
+            return isBinHex
+        }
+
+        getBinaryNibbles() {
+            const binary = this.getBinary()
+            const nibbleGroups = []
+
+            for (let i = binary.length; i > 0; i -= 4) {
+                const nibble = binary.substring(Math.max(0, i - 4), i).padStart(4, '0')
+                const decimal = parseInt(nibble, 2)
+                nibbleGroups.unshift({
+                    bits: nibble,
+                    decimal,
+                    hex: decimal.toString(16).toUpperCase()
+                })
+            }
+
+            return nibbleGroups
+        }
+
+        getPlaceValuesPerNibble() {
+            const binary = this.getBinary()
+            const nibbles = this.getBinaryNibbles()
+            const allValues = []
+
+            nibbles.forEach((nibble) => {
+                const bits = nibble.bits.split('')
+                for (let i = 0; i < bits.length; i++) {
+                    const bit = bits[i]
+                    const position = bits.length - 1 - i
+                    const placeValue = Math.pow(2, position)
+                    allValues.push({
+                        digit: bit,
+                        position: position,
+                        placeValue: placeValue,
+                        contribution: parseInt(bit) * placeValue,
+                        isPerNibble: true
+                    })
+                }
+            })
+
+            return allValues
         }
 
         getPlaceValues(base) {
@@ -343,6 +397,12 @@
         const wrapper = document.createElement('div')
         wrapper.className = 'convertor-wrapper'
 
+        wrapper.dataset.convertFrom = state.from
+        wrapper.dataset.convertTo = state.to
+        if (state.shouldShowNibbleLinking()) {
+            wrapper.dataset.nibbles = 'true'
+        }
+
         // Add data attribute for conversion type to enable CSS styling
         if (state.from === 'bin') {
             wrapper.dataset.conversionType = 'binary-source'
@@ -374,6 +434,7 @@
     function createValueSection(state, base, role) {
         const section = document.createElement('div')
         section.className = `convertor-section convertor-${role}`
+        section.dataset.base = base
 
         const title = document.createElement('h4')
         title.className = 'convertor-title'
@@ -418,14 +479,20 @@
         const breakdown = document.createElement('div')
         breakdown.className = 'convertor-breakdown'
 
-        const placeValues = state.getPlaceValues(base)
+        const placeValues = (base === 'bin' && state.shouldShowNibbleLinking())
+            ? state.getPlaceValuesPerNibble()
+            : state.getPlaceValues(base)
 
         const grid = document.createElement('div')
         grid.className = 'convertor-place-values'
 
-        placeValues.forEach(({ digit, position, placeValue, contribution }) => {
+        placeValues.forEach(({ digit, position, placeValue, contribution }, index) => {
             const cell = document.createElement('div')
             cell.className = 'convertor-place-value'
+
+            if (base === 'bin' && state.shouldShowNibbleLinking()) {
+                cell.dataset.nibbleIndex = Math.floor(index / 4)
+            }
 
             const digitEl = document.createElement('div')
             digitEl.className = 'place-digit'
@@ -466,7 +533,67 @@
         })
 
         breakdown.appendChild(grid)
+
+        if (base === 'bin' && state.shouldShowNibbleLinking()) {
+            breakdown.appendChild(createNibbleBreakdown(state))
+        }
+
         return breakdown
+    }
+
+    function createNibbleBreakdown(state) {
+        const wrapper = document.createElement('div')
+        wrapper.className = 'convertor-nibble-breakdown'
+
+        const nibbles = state.getBinaryNibbles()
+
+        const decimalRow = document.createElement('div')
+        decimalRow.className = 'convertor-nibble-row'
+
+        const decimalLabel = document.createElement('div')
+        decimalLabel.className = 'convertor-nibble-label'
+        decimalLabel.textContent = 'Dec:'
+        decimalRow.appendChild(decimalLabel)
+
+        const decimalValues = document.createElement('div')
+        decimalValues.className = 'convertor-nibble-values'
+
+        nibbles.forEach((nibble, index) => {
+            const value = document.createElement('div')
+            value.className = 'convertor-nibble-value'
+            value.dataset.nibbleIndex = String(index)
+            value.textContent = String(nibble.decimal)
+            decimalValues.appendChild(value)
+        })
+
+        decimalRow.appendChild(decimalValues)
+        decimalRow.appendChild(document.createElement('div'))
+        wrapper.appendChild(decimalRow)
+
+        const hexRow = document.createElement('div')
+        hexRow.className = 'convertor-nibble-row'
+
+        const hexLabel = document.createElement('div')
+        hexLabel.className = 'convertor-nibble-label'
+        hexLabel.textContent = 'Hex:'
+        hexRow.appendChild(hexLabel)
+
+        const hexValues = document.createElement('div')
+        hexValues.className = 'convertor-nibble-values'
+
+        nibbles.forEach((nibble, index) => {
+            const value = document.createElement('div')
+            value.className = 'convertor-nibble-value nibble-hex'
+            value.dataset.nibbleIndex = String(index)
+            value.textContent = nibble.hex
+            hexValues.appendChild(value)
+        })
+
+        hexRow.appendChild(hexValues)
+        hexRow.appendChild(document.createElement('div'))
+        wrapper.appendChild(hexRow)
+
+        return wrapper
     }
 
     function createStepsSection(state) {
@@ -559,7 +686,7 @@
         container.setAttribute('to', newTo)
 
         // Recreate state and UI
-        const newState = new ConverterState(newFrom, newTo, currentValue.toString(), state.bits, state.signed)
+        const newState = new ConverterState(newFrom, newTo, currentValue.toString(), state.bits, state.signed, state.nibbles)
 
         const wrapper = container.querySelector('.convertor-wrapper')
         if (wrapper) {
@@ -706,9 +833,10 @@
             const value = container.getAttribute('value') || '0'
             const bits = container.getAttribute('bits') || '8'
             const signed = container.getAttribute('signed') || 'false'
+            const nibbles = container.hasAttribute('nibbles')
 
             // Create state
-            const state = new ConverterState(from, to, value, bits, signed)
+            const state = new ConverterState(from, to, value, bits, signed, nibbles)
 
             // Create UI
             const ui = createConverterUI(state, container)
