@@ -21,7 +21,6 @@
     --result-bg: color-mix(in srgb, var(--result-color), transparent 85%);
     --overflow-bg: color-mix(in srgb, var(--overflow-color), transparent 80%);
     --input-bg: var(--color-mono-0);
-    --steps-bg: var(--color-mono-2);
 
     /* Border colors */
     --wrapper-border: var(--color-mono-3);
@@ -55,7 +54,6 @@
     --padding-input: 0.2em 0.5em;
     --padding-digit: 0.05em 0.25em;
     --padding-button: 0.5em 1em;
-    --padding-steps: 1.25em;
     --padding-stack: 0.75em;
 
     /* Gaps (em units - scale with base) */
@@ -507,17 +505,14 @@
     /* Steps explanation */
     .calc-steps {
         font-size: var(--font-size-steps);
-        background: var(--steps-bg);
         border-radius: var(--border-radius);
         border: 1px solid var(--wrapper-border);
-        padding: var(--padding-steps);
         margin: 0;
         line-height: 1.5;
     }
 
     .calc-steps-title {
-        margin: 0;
-        padding: 0;
+        font-size: 0.9rem;
         font-weight: 600;
         color: var(--steps-title-color);
         text-transform: uppercase;
@@ -546,6 +541,7 @@
         font-family: var(--calc-font-mono);
         font-size: 0.9em;
         color: var(--color-text);
+        padding-top: var(--padding);
 
         p {
             margin: 0.5em 0;
