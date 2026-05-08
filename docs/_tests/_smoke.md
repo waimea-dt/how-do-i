@@ -3,6 +3,58 @@
 One smoke entry per plugin under docs/_plugins.
 
 
+## Core Rendering (Non-Plugin)
+
+Quick checks for markdown/HTML/CSS behavior that should always work, even if plugins fail to load.
+
+
+### Aside Styling (native HTML)
+
+<aside note narrow>
+
+### Aside Smoke
+
+If this box is not styled/floated correctly, core content CSS is broken.
+
+</aside>
+
+Paragraph text to verify wrapping around floated aside blocks.
+
+
+### Details/Summary (native HTML)
+
+<details>
+<summary>Open smoke details</summary>
+
+Expanded details content should be indented and readable.
+
+</details>
+
+
+### Markdown Basics
+
+> Blockquote smoke text.
+
+- [x] Completed task
+- [ ] Pending task
+
+Inline formatting: **bold**, *italic*, ~~strike~~, and `inline code`.
+
+---
+
+
+### Basic HTML Table
+
+<table>
+    <thead>
+        <tr><th>Key</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Smoke</td><td>OK</td></tr>
+    </tbody>
+</table>
+
+
 
 
 ## Content Plugins
@@ -48,10 +100,10 @@ Smoke testing (hover)
 
 ### tables.js ([tests](_tests/tables.md))
 
-| S   | M   | O   | K   | E   |
+| S   | M   | !! O   | K   | E   |
 | --- | --- | --- | --- | --- |
 | 1   | 2   | 3   | 4   | 4   |
-| T   | E   | S   | T   | ! |
+| !! T   | E   | S   | T   | ! |
 
 
 
