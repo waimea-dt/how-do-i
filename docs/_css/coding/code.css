@@ -114,9 +114,11 @@
 
 /* Block and inline code containers */
 .markdown-section pre[class*="language-"] {
-    margin: 0.5em 0;
+    margin: var(--margin-block) 0;
     overflow: auto;
     border-radius: var(--border-radius);
+    font-size: var(--code-font-size);
+    line-height: var(--code-line-height) !important;
 }
 
 .markdown-section code[class*="language-"] {

@@ -1,0 +1,33 @@
+.markdown-section .prism-line-highlight-marker {
+    display: none;
+}
+
+/* Let absolute .line-highlight divs extend beyond the visible scroll area */
+.markdown-section pre[data-line] {
+    overflow: visible;
+}
+
+/* Move horizontal scrolling to the code element so text still scrolls */
+.markdown-section pre[data-line] > code {
+    display: block;
+    overflow-x: auto;
+}
+
+.markdown-section pre[data-line] .line-highlight {
+    margin-top: 1.4em;
+    padding-block: 0.1em;
+    width: 100%;
+    backdrop-filter: brightness(1.2) saturate(1.5);
+    background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--code-hl-color) 15%, transparent) 0%,
+        color-mix(in srgb, var(--code-hl-color) 10%, transparent) 80%,
+        transparent 100%
+    );
+    border-left: 0.2rem solid color-mix(in srgb, var(--code-hl-color) 55%, transparent);
+}
+
+.markdown-section pre[data-line] .line-highlight::before,
+.markdown-section pre[data-line] .line-highlight::after {
+    display: none;
+}

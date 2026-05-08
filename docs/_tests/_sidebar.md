@@ -11,13 +11,14 @@
     - [Plugin Smoke](_tests/_smoke.md)
 
 - <i data-lucide="binary"></i>Coding
-    - [Scratch Blocks & Stage](_tests/scratch.md)
+    - [Code](_tests/code.md)
     - [PseudoCode](_tests/pseudo.md)
     - [Python Runner](_tests/python.md)
     - [Python Coverage](_tests/coverage.md)
     - [Kotlin Runner](_tests/kotlin.md)
     - [PRIMM Widget](_tests/primm.md)
     - [Trace Table](_tests/trace-table.md)
+    - [Scratch Blocks & Stage](_tests/scratch.md)
 
 - <i data-lucide="database"></i>Databases
     - [Database Schema](_tests/dbs.md)

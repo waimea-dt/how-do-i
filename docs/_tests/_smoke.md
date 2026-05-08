@@ -5,8 +5,7 @@ One smoke entry per plugin under docs/_plugins.
 
 ## Core Rendering (Non-Plugin)
 
-Quick checks for markdown/HTML/CSS behavior that should always work, even if plugins fail to load.
-
+Quick checks for markdown/HTML/CSS behaviour that should always work, even if plugins fail to load.
 
 ### Aside Styling (native HTML)
 
@@ -333,6 +332,17 @@ A[Smoke] --> B[Test]
 
 Inline code `print("Smoke!")`(python) testing
 
+
+### Code Blocks via Prism ([tests](_tests/code.md))
+
+```python [4]
+print("Hello, Smoke!")
+
+for i in range(10):
+    print(f"Number: {i}...")
+
+print("Done!")
+```
 
 ### python-runner.js ([tests](_tests/python.md))
 

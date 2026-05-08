@@ -1,0 +1,60 @@
+# Code Tests
+
+
+## Python
+
+```python
+print("Hello, World!")
+
+for i in range(10):
+    print(f"Number: {i}...")
+```
+
+```css
+h1 {
+    color: hotpink;
+    font-size: 2rem;
+}
+
+#hero {
+    width: 100%;
+    height: 20rem;
+    background-color: #369;
+}
+```
+
+
+## JS
+
+```js
+hook.doneEach(function () {
+    const placeholders = document.querySelectorAll('.slides-placeholder')
+    if (!placeholders.length) return
+
+    placeholders.forEach((placeholder) => {
+        const index = placeholder.getAttribute('data-index')
+        placeholder.outerHTML = buildRevealHTML(index)
+    })
+
+    initDecks()
+})
+```
+
+## JS with Highlights
+
+Should render the `pre` with `data-line="2-3, 5, 10"`.
+
+```js [2-3, 5, 10]
+hook.doneEach(function () {
+    const placeholders = document.querySelectorAll('.slides-placeholder')
+    if (!placeholders.length) return
+
+    placeholders.forEach((placeholder) => {
+        const index = placeholder.getAttribute('data-index')
+        placeholder.outerHTML = buildRevealHTML(index)
+    })
+
+    initDecks()
+})
+```
+
