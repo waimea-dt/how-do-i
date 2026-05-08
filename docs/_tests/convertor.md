@@ -26,6 +26,8 @@ Interactive converter for learning binary, decimal, and hexadecimal number syste
 
 <convertor from="bin" to="hex" value="10101111" bits="8" nibbles></convertor>
 
+<convertor from="bin" to="hex" value="1010" bits="4" nibbles></convertor>
+
 ## Hexadecimal to Binary
 
 <convertor from="hex" to="bin" value="C5" bits="8"></convertor>

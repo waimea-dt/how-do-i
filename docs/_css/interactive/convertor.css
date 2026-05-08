@@ -34,14 +34,23 @@
     --place-operator-color:     var(--color-mono-6);
 
     /* Button colors */
-    --butt-bg:                   var(--butt-bg);
-    --butt-bg-hover:             var(--butt-bg-hover);
-    --butt-color:                var(--butt-text);
+    --butt-bg:                  var(--butt-bg);
+    --butt-bg-hover:            var(--butt-bg-hover);
+    --butt-color:               var(--butt-text);
 
     /* Typography - base size for scaling */
     --convertor-base-font-size: 0.45rem;
     --convertor-note-font-size: var(--font-small);
     --convertor-font-mono:      var(--font-family-mono);
+
+    /* Bits used */
+    --convertor-bits:           8;
+    --nibble-gap:               var(--gap);
+
+    &[bits="4"] {
+        --convertor-bits:       4;
+        --nibble-gap:           0rem;
+    }
 
     display: block;
     margin: var(--margin-block) 0;
@@ -118,7 +127,7 @@
     .convertor-wrapper[data-convert-from="bin"][data-convert-to="hex"] {
         .convertor-section[data-base="bin"] {
             .convertor-place-value:nth-of-type(4n):not(:last-of-type) {
-                margin-right: var(--gap);
+                margin-right: var(--nibble-gap);
             }
         }
     }
@@ -209,7 +218,7 @@
 
         .convertor-nibble-row {
             display: grid;
-            grid-template-columns: 1fr calc((8 * 5.2cqw) + var(--gap)) 1fr;
+            grid-template-columns: 1fr calc((var(--convertor-bits) * 5.2cqw) + var(--nibble-gap)) 1fr;
             align-items: center;
             gap: var(--gap);
 
