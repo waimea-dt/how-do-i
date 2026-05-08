@@ -431,17 +431,18 @@
     // Main Processing Function
     // -------------------------------------------------------------------------
 
-    function processDBs() {
+    function processDBs(root) {
+        const scope = root || document
         // Process schema tables
-        const schemaBlocks = document.querySelectorAll('db-schema')
+        const schemaBlocks = scope.querySelectorAll('db-schema')
         schemaBlocks.forEach(block => formatSchemaTables(block))
 
         // Process data tables
-        const dataBlocks = document.querySelectorAll('db-data')
+        const dataBlocks = scope.querySelectorAll('db-data')
         dataBlocks.forEach(block => formatDataTables(block))
 
         // Process relationships
-        const relBlocks = document.querySelectorAll('db-relationship')
+        const relBlocks = scope.querySelectorAll('db-relationship')
         relBlocks.forEach(block => formatRelationships(block))
     }
 
@@ -452,6 +453,11 @@
     var docsifyDatabase = function (hook) {
         hook.doneEach(function () {
             processDBs()
+        })
+        hook.ready(function () {
+            window.DocsifyUtils.onSlidesRendered(function (root) {
+                processDBs(root)
+            })
         })
     }
 

@@ -14,8 +14,10 @@
  */
 
 ;(function () {
-  function processSequences() {
-    const sequenceBlocks = document.querySelectorAll('.markdown-section sequence')
+  function processSequences(root) {
+    const scope = root || document
+    const selector = root ? 'sequence' : '.markdown-section sequence'
+    const sequenceBlocks = scope.querySelectorAll(selector)
 
     sequenceBlocks.forEach((sequenceBlock) => {
       // Find the OL element inside the sequence tag
@@ -47,6 +49,11 @@
   var docsifySequence = function (hook) {
     hook.doneEach(function () {
       processSequences()
+    })
+    hook.ready(function () {
+      window.DocsifyUtils.onSlidesRendered(function (root) {
+        processSequences(root)
+      })
     })
   }
 

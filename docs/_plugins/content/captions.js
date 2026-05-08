@@ -16,8 +16,9 @@
  */
 
 ;(function () {
-  function processCaptions() {
-    const captionBlocks = document.querySelectorAll('captioned')
+  function processCaptions(root) {
+    const scope = root || document
+    const captionBlocks = scope.querySelectorAll('captioned')
 
     captionBlocks.forEach((captionBlock) => {
       const img = captionBlock.querySelector('img')
@@ -55,6 +56,11 @@
 
   var docsifyCaptions = function (hook) {
     hook.doneEach(processCaptions)
+    hook.ready(function () {
+      window.DocsifyUtils.onSlidesRendered(function (root) {
+        processCaptions(root)
+      })
+    })
   }
 
   window.DocsifyUtils.registerPlugin(docsifyCaptions)

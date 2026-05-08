@@ -10,26 +10,87 @@
 
     /* Headings */
 
-    :is(h1, h2, h3, h4, h5, h6) {
-        border: none;
-    }
+    .slides > section {
+        :is(h1, h2, h3, h4, h5, h6) {
+            border: none;
+        }
 
-    /* Code blocks */
+        /* Images */
 
-    code[class*="language-"] {
-        padding: 1em;
-    }
+        img {
+            max-height: 85cqh;
+        }
 
-    .hljs-ln-numbers,
-    .reveal .hljs-ln {
-        display: none !important;
-    }
+        /* Code blocks */
 
-    .hljs-ln tr {
-        border-top: none !important;
+        pre.code-wrapper {
+            font-size: min(4cqh, 0.9em);
+            padding: 0;
+            overflow: auto;
+            background-color: var(--code-bg-color);
 
-        &:nth-child(even) {
-            background: none !important;
+            code[class*="language-"] {
+                padding: 1em;
+                overflow: visible;
+                max-height: 500px;
+
+                .hljs-ln {
+                    overflow: visible;
+                }
+            }
+        }
+
+        code {
+            font-size: inherit !important;
+            line-height: inherit !important;
+
+            .hljs-ln-numbers {
+                display: none !important;
+            }
+
+            .hljs-ln tr {
+                border-top: none !important;
+
+                &:nth-child(even) {
+                    background: none !important;
+                }
+            }
+        }
+
+        /* Mermaid diagrams */
+
+        .mermaid,
+        [data-slides-mermaid="true"] {
+            width: min(90%, 90cqw);
+            height: min(90%, 90cqh);
+            max-width: 90%;
+            max-height: 90%;
+            margin: 0 auto;
+            display: grid;
+            place-items: center;
+            overflow: visible;
+
+            svg {
+                width: 90% !important;
+                height: 90% !important;
+                max-width: 90% !important;
+                max-height: 90% !important;
+                margin: 0 auto !important;
+                overflow: visible;
+            }
+        }
+
+        /* Speech */
+
+        figure.speech figcaption {
+            font-size: unset;
+        }
+
+        /* Video embeds */
+
+        iframe.video {
+            max-width: 90%;
+            max-height: 90%;
         }
     }
 }

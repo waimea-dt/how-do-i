@@ -20,8 +20,10 @@
   const FOCUS_MARKER = '!! '
   const { extractMarker } = window.DocsifyUtils
 
-  function processStructures() {
-    const structureBlocks = document.querySelectorAll('.markdown-section structure')
+  function processStructures(root) {
+    const scope = root || document
+    const selector = root ? 'structure' : '.markdown-section structure'
+    const structureBlocks = scope.querySelectorAll(selector)
 
     structureBlocks.forEach((structureBlock) => {
       // Find the UL element inside the structure tag
@@ -67,6 +69,11 @@
   const docsifyStructure = function (hook) {
     hook.doneEach(function () {
       processStructures()
+    })
+    hook.ready(function () {
+      window.DocsifyUtils.onSlidesRendered(function (root) {
+        processStructures(root)
+      })
     })
   }
 

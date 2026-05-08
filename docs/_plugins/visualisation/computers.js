@@ -41,8 +41,9 @@
     // Main Processing Function
     // -------------------------------------------------------------------------
 
-    async function processComputers() {
-        const computers = document.querySelectorAll('computer')
+    async function processComputers(root) {
+        const scope = root || document
+        const computers = scope.querySelectorAll('computer')
 
         if (computers.length === 0) {
             return
@@ -108,6 +109,11 @@
     const docsifyComputers = function (hook) {
         hook.doneEach(function () {
             processComputers()
+        })
+        hook.ready(function () {
+            window.DocsifyUtils.onSlidesRendered(function (root) {
+                processComputers(root)
+            })
         })
     }
 

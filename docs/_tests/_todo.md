@@ -2,7 +2,6 @@
 
 ## Things to Fix
 
-- [ ] Code within reveal slides - size, bg, etc.
 
 
 ## Things to Change / Improve
@@ -15,6 +14,7 @@
 
 ## Completed
 
+- [x] Code within reveal slides - size, bg, etc.
 - [x] Asides
 - [x] Tidy up the data views - borders, etc.
 - [x] Mobile table char alignment still off

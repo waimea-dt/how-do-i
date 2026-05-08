@@ -33,7 +33,7 @@
 }
 
 /* Table styling */
-:is(.markdown-section table) {
+:is(.markdown-section table:not(.hljs-ln)) {
     --table-back-color:             var(--color-mono-1);
     --table-border-color:           var(--color-mono-5);
     --table-vert-border-color:      var(--color-mono-4);

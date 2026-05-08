@@ -17,6 +17,7 @@
  */
 
 ;(function () {
+  const { onSlidesRendered } = window.DocsifyUtils
   let fontIsReady = false
 
   function whenFontReady(callback) {
@@ -91,16 +92,20 @@
     })
   }
 
-  function revealSpeechFigures() {
-    document.querySelectorAll('figure.speech[data-speech-loading]')
+  function revealSpeechFigures(root) {
+    const scope = root || document
+
+    scope.querySelectorAll('figure.speech[data-speech-loading]')
       .forEach((fig) => fig.removeAttribute('data-speech-loading'))
   }
 
-  function runSpeechPass() {
-    processSpeechInDom(document)
+  function runSpeechPass(root) {
+    const scope = root || document
+
+    processSpeechInDom(scope)
 
     whenFontReady(function () {
-      revealSpeechFigures()
+      revealSpeechFigures(scope)
     })
   }
 
@@ -118,6 +123,10 @@
 
     hook.ready(function () {
       runSpeechPass()
+
+      onSlidesRendered(function (root) {
+        runSpeechPass(root)
+      })
     })
   }
 

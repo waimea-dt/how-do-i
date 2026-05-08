@@ -44,8 +44,8 @@
   }
 
   // Step 2: Convert properly closed videoembed tags to iframes
-  async function processVideoEmbeds() {
-    const videoEmbeds = document.querySelectorAll('videoembed')
+  async function processVideoEmbeds(root = document) {
+    const videoEmbeds = root.querySelectorAll('videoembed')
 
     for (const videoEmbed of videoEmbeds) {
       // Get the video ID from the id attribute
@@ -180,6 +180,10 @@
     hook.beforeEach(addClosingTags)
     // Convert to iframes after DOM is ready
     hook.doneEach(processVideoEmbeds)
+    // Hook into slide rendering
+    hook.ready(() => {
+      window.DocsifyUtils.onSlidesRendered(root => processVideoEmbeds(root))
+    })
   }
 
   window.DocsifyUtils.registerPlugin(docsifyVideoEmbed)

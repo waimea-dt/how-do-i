@@ -16,8 +16,10 @@
  */
 
 ;(function () {
-  function processCards() {
-    const cardBlocks = document.querySelectorAll('.markdown-section cards')
+  function processCards(root) {
+    const scope = root || document
+    const selector = root ? 'cards' : '.markdown-section cards'
+    const cardBlocks = scope.querySelectorAll(selector)
 
     cardBlocks.forEach((cardBlock) => {
       // Get all direct children
@@ -68,6 +70,11 @@
   var docsifyCards = function (hook) {
     hook.doneEach(function () {
       processCards()
+    })
+    hook.ready(function () {
+      window.DocsifyUtils.onSlidesRendered(function (root) {
+        processCards(root)
+      })
     })
   }
 

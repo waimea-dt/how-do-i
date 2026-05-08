@@ -36,10 +36,12 @@
 
     const TYPES = Object.keys(ICONS)
 
-    function processCallouts() {
+    function processCallouts(root) {
         // Docsify v5 natively renders [!TYPE] blockquotes into div.callout.<type>.
         // We just need to inject our p.title (with lucide icon) into each one.
-        document.querySelectorAll('.markdown-section .callout').forEach(function (callout) {
+        const scope = root || document
+        const selector = root ? '.callout' : '.markdown-section .callout'
+        scope.querySelectorAll(selector).forEach(function (callout) {
             // Skip if we've already processed this callout
             if (callout.querySelector('.title')) return
 
@@ -74,6 +76,11 @@
 
     const docsifyCallouts = function (hook) {
         hook.doneEach(processCallouts)
+        hook.ready(function () {
+            window.DocsifyUtils.onSlidesRendered(function (root) {
+                processCallouts(root)
+            })
+        })
     }
 
     window.DocsifyUtils.registerPlugin(docsifyCallouts)

@@ -15,7 +15,7 @@
 
 ;(function () {
 
-    const { resolveSourcePath, renderErrorBox } = window.DocsifyUtils
+    const { resolveSourcePath, renderErrorBox, onSlidesRendered } = window.DocsifyUtils
 
     const SCENE_CACHE = new Map()
     let exportToSvgPromise = null
@@ -126,8 +126,9 @@
         }
     }
 
-    function processExcalidrawBlocks() {
-        const blocks = document.querySelectorAll('excalidraw')
+    function processExcalidrawBlocks(root) {
+        const scope = root || document
+        const blocks = scope.querySelectorAll('excalidraw')
         if (blocks.length === 0) return
 
         blocks.forEach(block => {
@@ -138,6 +139,12 @@
     const docsifyExcalidraw = function (hook) {
         hook.doneEach(function () {
             processExcalidrawBlocks()
+        })
+
+        hook.ready(function () {
+            onSlidesRendered(function (root) {
+                processExcalidrawBlocks(root)
+            })
         })
     }
 

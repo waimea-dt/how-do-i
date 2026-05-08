@@ -21,8 +21,10 @@
   const FOCUS_MARKER = '!! '
   const { extractMarker } = window.DocsifyUtils
 
-  function processHierarchies() {
-    const hierarchyBlocks = document.querySelectorAll('.markdown-section hierarchy')
+  function processHierarchies(root) {
+    const scope = root || document
+    const selector = root ? 'hierarchy' : '.markdown-section hierarchy'
+    const hierarchyBlocks = scope.querySelectorAll(selector)
 
     hierarchyBlocks.forEach((hierarchyBlock) => {
       // Find the UL element inside the hierarchy tag
@@ -76,8 +78,11 @@
   const docsifyHierarchies = function (hook) {
     hook.doneEach(function () {
       processHierarchies()
-    })
-  }
+    })    hook.ready(function () {
+      window.DocsifyUtils.onSlidesRendered(function (root) {
+        processHierarchies(root)
+      })
+    })  }
 
   window.DocsifyUtils.registerPlugin(docsifyHierarchies)
 })()

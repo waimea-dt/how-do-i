@@ -21,8 +21,10 @@
  */
 
 ;(function () {
-  function processTimelines() {
-    const timelineBlocks = document.querySelectorAll('.markdown-section timeline')
+  function processTimelines(root) {
+    const scope = root || document
+    const selector = root ? 'timeline' : '.markdown-section timeline'
+    const timelineBlocks = scope.querySelectorAll(selector)
 
     timelineBlocks.forEach((timelineBlock) => {
       // Find the UL element inside the timeline tag
@@ -118,6 +120,11 @@
   var docsifyTimeline = function (hook) {
     hook.doneEach(function () {
       processTimelines()
+    })
+    hook.ready(function () {
+      window.DocsifyUtils.onSlidesRendered(function (root) {
+        processTimelines(root)
+      })
     })
   }
 

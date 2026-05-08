@@ -47,8 +47,10 @@
   const MIDDLE_MARKER = 'Middle: '
   const REQUEST_MARKER = 'Requests:'
 
-  function processRequests() {
-    const requestBlocks = document.querySelectorAll('.markdown-section requests')
+  function processRequests(root) {
+    const scope = root || document
+    const selector = root ? 'requests' : '.markdown-section requests'
+    const requestBlocks = scope.querySelectorAll(selector)
 
     requestBlocks.forEach((requestBlock) => {
       // Find the UL element inside
@@ -342,6 +344,11 @@
   var docsifyRequests = function (hook) {
     hook.doneEach(function () {
       processRequests()
+    })
+    hook.ready(function () {
+      window.DocsifyUtils.onSlidesRendered(function (root) {
+        processRequests(root)
+      })
     })
   }
 

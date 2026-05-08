@@ -319,8 +319,10 @@
         }
     }
 
-    function processImgNotes() {
-        document.querySelectorAll('.markdown-section img-notes:not(.img-notes-initialized)').forEach((el) => {
+    function processImgNotes(root) {
+        const scope = root || document
+        const selector = root ? 'img-notes:not(.img-notes-initialized)' : '.markdown-section img-notes:not(.img-notes-initialized)'
+        scope.querySelectorAll(selector).forEach((el) => {
             el.classList.add('img-notes-initialized')
 
             new ImgNotesWidget(el)
@@ -329,6 +331,11 @@
 
     function docsifyImgNotes(hook) {
         hook.doneEach(processImgNotes)
+        hook.ready(function () {
+            window.DocsifyUtils.onSlidesRendered(function (root) {
+                processImgNotes(root)
+            })
+        })
     }
 
     window.DocsifyUtils.registerPlugin(docsifyImgNotes)
