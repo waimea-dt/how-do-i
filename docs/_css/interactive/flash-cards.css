@@ -36,7 +36,7 @@
     --flash-overlay-color:          #000e;
 
     /* Layout */
-    margin: 2.5em 0 !important;
+    margin: var(--margin-block) 0 !important;
     padding: 0;
     width: 100%;
     display: grid !important;

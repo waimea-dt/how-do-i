@@ -302,9 +302,9 @@ A[Smoke] --> B[Test]
 
 <quiz>
 
-### Smoke Quiz
+# Smoke Quiz
 
-- # Smoke?
+- ## Smoke?
 
     Yes?
 
@@ -313,7 +313,7 @@ A[Smoke] --> B[Test]
     - [x] Yes
     - [ ] No
 
-- # Test?
+- ## Test?
 
     Yes?
 

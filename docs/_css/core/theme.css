@@ -223,6 +223,25 @@
         a:hover {
             text-decoration: none;
         }
+    }
+
+    /* Suppress heading anchor links inside specific containers.
+       Apply .no-heading-links to any wrapper, or add selectors here. */
+    :is(
+        aside,
+        details,
+        .quiz,
+        .flash-cards,
+        .reveal,
+        .no-heading-links
+    ) :is(h1, h2, h3, h4, h5, h6) a {
+        pointer-events: none;
+        cursor: default;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    :is(h1, h2, h3, h4, h5, h6) {
 
         &:is(h2) {
             padding-bottom: 0.25em;
