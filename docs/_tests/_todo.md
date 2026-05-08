@@ -2,7 +2,6 @@
 
 ## Things to Fix
 
-- [ ] Asides
 
 ## Things to Change / Improve
 
@@ -14,6 +13,7 @@
 
 ## Completed
 
+- [x] Asides
 - [x] Tidy up the data views - borders, etc.
 - [x] Mobile table char alignment still off
 - [x] Accessibility views rendered panel sizing
