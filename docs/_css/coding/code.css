@@ -251,27 +251,34 @@
 /* ------------------------------------------------------------- */
 /* Indent visualization */
 .markdown-section pre.show-indent .whitespace {
-    --code-indent1-color: color-mix(in srgb, var(--palette-color-1) 50%, transparent);
-    --code-indent2-color: color-mix(in srgb, var(--palette-color-3) 50%, transparent);
-    --code-indent3-color: color-mix(in srgb, var(--palette-color-5) 50%, transparent);
-    --code-indent4-color: color-mix(in srgb, var(--palette-color-9) 50%, transparent);
+    --code-indent1-color:       color-mix(in srgb, var(--palette-color-1) 50%, transparent);
+    --code-indent2-color:       color-mix(in srgb, var(--palette-color-3) 50%, transparent);
+    --code-indent3-color:       color-mix(in srgb, var(--palette-color-5) 50%, transparent);
+    --code-indent4-color:       color-mix(in srgb, var(--palette-color-9) 50%, transparent);
+    --code-indent1-color-light: color-mix(in srgb, var(--palette-color-1) 20%, transparent);
+    --code-indent2-color-light: color-mix(in srgb, var(--palette-color-3) 20%, transparent);
+    --code-indent3-color-light: color-mix(in srgb, var(--palette-color-5) 20%, transparent);
+    --code-indent4-color-light: color-mix(in srgb, var(--palette-color-9) 20%, transparent);
 
     /* Gradient pattern for indent levels */
     background-image: linear-gradient(
         to right,
 
-        transparent               0,
-        var(--code-indent1-color) calc(4ch - 4px),
-        transparent               calc(4ch - 4px),
-        transparent               4ch,
-        var(--code-indent2-color) calc(8ch - 4px),
-        transparent               calc(8ch - 4px),
-        transparent               8ch,
-        var(--code-indent3-color) calc(12ch - 4px),
-        transparent               calc(12ch - 4px),
-        transparent               12ch,
-        var(--code-indent4-color) calc(16ch - 4px),
-        transparent               calc(16ch - 4px),
-        transparent               16ch
+        var(--code-indent1-color-light) 0,
+        var(--code-indent1-color)       calc(4ch - 4px),
+        transparent                     calc(4ch - 4px),
+        transparent                     4ch,
+        var(--code-indent2-color-light) 4ch,
+        var(--code-indent2-color)       calc(8ch - 4px),
+        transparent                     calc(8ch - 4px),
+        transparent                     8ch,
+        var(--code-indent3-color-light) 8ch,
+        var(--code-indent3-color)       calc(12ch - 4px),
+        transparent                     calc(12ch - 4px),
+        transparent                     12ch,
+        var(--code-indent4-color-light) 12ch,
+        var(--code-indent4-color)       calc(16ch - 4px),
+        transparent                     calc(16ch - 4px),
+        transparent                     16ch
     );
 }
