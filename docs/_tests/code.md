@@ -58,3 +58,47 @@ hook.doneEach(function () {
 })
 ```
 
+## Indent Guides
+
+Should show coloured indent guides on leading whitespace.
+
+```python show-indent
+def greet(name):
+    if name:
+        message = f"Hello, {name}!"
+        print(message)
+        if name == "Bob":
+            print("Yo!")
+        else:
+            for i in range(3):
+                print("Beep!")
+    else:
+        print("Hello, world!")
+```
+
+```js show-indent
+hook.doneEach(function () {
+    const placeholders = document.querySelectorAll('.slides-placeholder')
+    if (!placeholders.length) return
+
+    placeholders.forEach((placeholder) => {
+        const index = placeholder.getAttribute('data-index')
+        placeholder.outerHTML = buildRevealHTML(index)
+    })
+
+    initDecks()
+})
+```
+
+## Indent Guides with Line Highlights
+
+Should show indent guides AND highlight lines 3-4 and 6.
+
+```python show-indent [3-4, 6]
+def greet(name):
+    if name:
+        message = f"Hello, {name}!"
+        print(message)
+    else:
+        print("Hello, world!")
+```

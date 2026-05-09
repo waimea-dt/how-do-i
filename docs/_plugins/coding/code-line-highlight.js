@@ -1,5 +1,5 @@
 /**
- * docsify-prism-line-highlight.js - Adds Prism line highlights to fenced code blocks.
+ * docsify-code-line-highlight.js - Adds Prism line highlights to fenced code blocks.
  *
  * Usage in markdown:
  *   ```js [2-3|5|10|1-99]

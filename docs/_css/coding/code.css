@@ -6,7 +6,7 @@
     /* Typography */
     --code-font-family:          var(--font-family-mono);
     --code-font-size:            var(--font-base);
-    --code-line-height:          1.3;
+    --code-line-height:          1.2;
     --code-output-line-height:   1.1;
 
     /* Base colors */
@@ -38,7 +38,7 @@
     --code-warning-color:       var(--color-important);
     --code-error-color:         var(--color-attention);
 
-    --code-high-mark:           var(--theme-color);
+    --code-high-mark:           var(--highlight-color);
     --code-high-back:           color-mix(in srgb, var(--code-high-mark) 20%, transparent);
 
     --code-popup-color:          var(--code-color-normal);
@@ -154,6 +154,8 @@
     text-shadow: none;
 }
 
+
+/* ------------------------------------------------------------- */
 /* Token highlighting */
 .token.comment                  { color: var(--code-hl-comment-color); }
 .token.prolog                   { color: var(--code-hl-comment-color); }
@@ -206,3 +208,70 @@
 .token.entity       { cursor: help; }
 
 .token.namespace    { opacity: 0.8; }
+
+
+/* ------------------------------------------------------------- */
+/* Code line highlighting */
+
+.markdown-section .code-line-highlight-marker {
+    display: none;
+}
+
+/* Let absolute .line-highlight divs extend beyond the visible scroll area */
+.markdown-section pre[data-line] {
+    overflow: visible;
+}
+
+/* Move horizontal scrolling to the code element so text still scrolls */
+.markdown-section pre[data-line] > code {
+    display: block;
+    overflow-x: auto;
+}
+
+.markdown-section pre[data-line] .line-highlight {
+    margin-top: 1.5em;
+    /* padding-block: 0.1em; */
+    width: 100%;
+    backdrop-filter: brightness(1.2) saturate(1.5);
+    background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--code-hl-color) 15%, transparent) 0%,
+        color-mix(in srgb, var(--code-hl-color) 10%, transparent) 80%,
+        transparent 100%
+    );
+    border-left: 0.2rem solid color-mix(in srgb, var(--code-hl-color) 55%, transparent);
+}
+
+.markdown-section pre[data-line] .line-highlight::before,
+.markdown-section pre[data-line] .line-highlight::after {
+    display: none;
+}
+
+
+/* ------------------------------------------------------------- */
+/* Indent visualization */
+.markdown-section pre.show-indent .whitespace {
+    --code-indent1-color: color-mix(in srgb, var(--palette-color-1) 50%, transparent);
+    --code-indent2-color: color-mix(in srgb, var(--palette-color-3) 50%, transparent);
+    --code-indent3-color: color-mix(in srgb, var(--palette-color-5) 50%, transparent);
+    --code-indent4-color: color-mix(in srgb, var(--palette-color-9) 50%, transparent);
+
+    /* Gradient pattern for indent levels */
+    background-image: linear-gradient(
+        to right,
+
+        transparent               0,
+        var(--code-indent1-color) calc(4ch - 4px),
+        transparent               calc(4ch - 4px),
+        transparent               4ch,
+        var(--code-indent2-color) calc(8ch - 4px),
+        transparent               calc(8ch - 4px),
+        transparent               8ch,
+        var(--code-indent3-color) calc(12ch - 4px),
+        transparent               calc(12ch - 4px),
+        transparent               12ch,
+        var(--code-indent4-color) calc(16ch - 4px),
+        transparent               calc(16ch - 4px),
+        transparent               16ch
+    );
+}
