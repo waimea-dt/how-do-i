@@ -8,6 +8,10 @@ Interactive calculator for exploring binary arithmetic and bitwise operations wi
 
 <calculator>01100100 + 01111011</calculator>
 
+### Addition (Animation Disabled Initially)
+
+<calculator animated="false">01100100 + 01111011</calculator>
+
 ### Subtraction
 
 <calculator>11001000 - 01001011</calculator>

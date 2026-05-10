@@ -6,6 +6,7 @@
  *
  * Usage in markdown:
  *   <calculator>01100100 + 01111011</calculator>
+ *   <calculator animated="false">01100100 + 01111011</calculator>
  *   <calculator>01100100 or 01111011</calculator>
  *   <calculator>not 01111011</calculator>
  *   <calculator>01100100 << 11</calculator>
@@ -2087,6 +2088,19 @@
         return { value1: 0, value2: 0, op: 'add' }
     }
 
+    /**
+     * Parse an element animated attribute.
+     * Default is true. False-like values: false, 0, no, off.
+     */
+    function parseAnimatedAttribute(element) {
+        const raw = element.getAttribute('animated')
+        if (raw === null) {
+            return true
+        }
+
+        return !/^(false|0|no|off)$/i.test(raw.trim())
+    }
+
     // -------------------------------------------------------------------------
     // Main Plugin Function
     // -------------------------------------------------------------------------
@@ -2101,15 +2115,24 @@
             // Parse expression from element content
             const expression = element.textContent || ''
             const { value1, value2, op } = parseCalculatorExpression(expression)
+            const animateEnabled = parseAnimatedAttribute(element)
 
             // Clear the original text content
             element.textContent = ''
 
             const state = new CalcState(value1, value2, op)
+            state.animateEnabled = animateEnabled
             const calcResult = state.calculate()
             state.result = calcResult.result
             state.steps = calcResult.steps
             state.resultBeforeMask = calcResult.resultBeforeMask
+
+            if (!state.animateEnabled) {
+                // Start in completed state when animation is disabled on the tag.
+                state.animationHasRun = true
+                state.animationStep = -1
+                state.animationPhase = 'complete'
+            }
 
             // Initialize arrays for real-time animation
             if (state.op === 'add') {
@@ -2124,23 +2147,28 @@
 
             setupCalcInteractivity(ui, state)
 
-            // Start animation on initial load after debounce delay
-            if (state.op === 'add') {
-                state.debounceTimer = setTimeout(() => {
-                    startAdditionAnimation(ui, state)
-                }, ANIMATION_DEBOUNCE_MS)
-            } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
-                state.debounceTimer = setTimeout(() => {
-                    startBitwiseAnimation(ui, state)
-                }, ANIMATION_DEBOUNCE_MS)
-            } else if (state.op === 'neg') {
-                state.debounceTimer = setTimeout(() => {
-                    startNegateAnimation(ui, state)
-                }, ANIMATION_DEBOUNCE_MS)
-            } else if (['<<', '>>', '>>>'].includes(state.op)) {
-                state.debounceTimer = setTimeout(() => {
-                    startShiftAnimation(ui, state)
-                }, ANIMATION_DEBOUNCE_MS)
+            // Start animation on initial load after debounce delay if enabled.
+            if (state.animateEnabled) {
+                if (state.op === 'add') {
+                    state.debounceTimer = setTimeout(() => {
+                        startAdditionAnimation(ui, state)
+                    }, ANIMATION_DEBOUNCE_MS)
+                } else if (['and', 'or', 'xor', 'not'].includes(state.op)) {
+                    state.debounceTimer = setTimeout(() => {
+                        startBitwiseAnimation(ui, state)
+                    }, ANIMATION_DEBOUNCE_MS)
+                } else if (state.op === 'neg') {
+                    state.debounceTimer = setTimeout(() => {
+                        startNegateAnimation(ui, state)
+                    }, ANIMATION_DEBOUNCE_MS)
+                } else if (['<<', '>>', '>>>'].includes(state.op)) {
+                    state.debounceTimer = setTimeout(() => {
+                        startShiftAnimation(ui, state)
+                    }, ANIMATION_DEBOUNCE_MS)
+                }
+            } else {
+                populateImmediateState(state)
+                updateCalcUI(ui, state)
             }
         })
     }
