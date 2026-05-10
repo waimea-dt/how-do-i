@@ -79,6 +79,20 @@ Creative brands often choose bold, unique colours:
 
 These colours stand out and reflect creativity and innovation.
 
+## Header Customisation
+
+### No Header
+
+<colours header="false"></colours>
+
+### Custom Title
+
+<colours title="Pick Your Palette"></colours>
+
+### Custom Title and Subtitle
+
+<colours title="Brand Colours" sub-title="Choose colours that reflect your identity"></colours>
+
 ### Gaming Brands
 
 Gaming brands use vibrant, energetic colours:

@@ -322,3 +322,29 @@ while (true) {
 println(num!!)
 ```
 
+## Header Customisation
+
+### Custom Title
+
+```python trace title="Variable Tracking"
+x = 1
+y = 2
+z = x + y
+```
+
+### Custom Title and Subtitle
+
+```python trace title="Loop Trace" sub-title="Follow the variable values at each step"
+total = 0
+for i in range(3):
+    total += i
+```
+
+### No Header
+
+```python trace header="false"
+a = 10
+b = 20
+c = a + b
+```
+

@@ -12,6 +12,8 @@
  * - mode: screen-reader | low-vision | colour-blind | motor-impairment | contrast
  * - theme: blue | red | lowcontrast | colourful1 | colourful2
  * - header: true | false (show widget title/subtitle)
+ * - title: custom header title text
+ * - sub-title: custom header subtitle text
  * - audit: true | false (screen-reader mode only; checklist + reading order panel)
  *
  * Authoring pattern:
@@ -1296,7 +1298,8 @@ ${html}
         const headerEnabled = block.header !== false
         const theme = block.theme || 'blue'
         const srcdoc = createIframeDocument(block.html, theme)
-        const headerPanel = renderHeaderPanel(ACCESSIBILITY_CONFIG.ui.contrastTitle, ACCESSIBILITY_CONFIG.ui.contrastSubtitle, headerEnabled)
+        const { title, subtitle } = resolveHeaderStrings(block, ACCESSIBILITY_CONFIG.ui.contrastTitle, ACCESSIBILITY_CONFIG.ui.contrastSubtitle)
+        const headerPanel = renderHeaderPanel(title, subtitle, headerEnabled)
 
         el.innerHTML = `
             <div class="accessibility-wrapper accessibility-wrapper--contrast">
@@ -1442,12 +1445,19 @@ ${headerPanel}
 
     function renderHeaderPanel(title, subtitle, isEnabled) {
         if (!isEnabled) return ''
+        const subtitleHtml = subtitle ? `<p class="accessibility-subtitle">${escapeHtml(subtitle)}</p>` : ''
         return `
             <div class="accessibility-header">
                 <p class="accessibility-title">${escapeHtml(title)}</p>
-                <p class="accessibility-subtitle">${escapeHtml(subtitle)}</p>
+                ${subtitleHtml}
             </div>
         `
+    }
+
+    function resolveHeaderStrings(block, defaultTitle, defaultSubtitle) {
+        const title = block.customTitle ?? defaultTitle
+        const subtitle = block.customSubtitle !== null ? block.customSubtitle : (block.customTitle !== null ? '' : defaultSubtitle)
+        return { title, subtitle }
     }
 
     function getSimulationModeMeta(mode) {
@@ -1485,7 +1495,8 @@ ${headerPanel}
             ? analyseScreenReader(block.html)
             : { checklist: [], announcements: [] }
         const srcdoc = createIframeDocument(block.html, theme)
-        const headerPanel = renderHeaderPanel(ACCESSIBILITY_CONFIG.ui.title, ACCESSIBILITY_CONFIG.ui.subtitle, headerEnabled)
+        const { title, subtitle } = resolveHeaderStrings(block, ACCESSIBILITY_CONFIG.ui.title, ACCESSIBILITY_CONFIG.ui.subtitle)
+        const headerPanel = renderHeaderPanel(title, subtitle, headerEnabled)
         const layoutClass = auditEnabled
             ? 'accessibility-layout accessibility-layout--screen-reader'
             : 'accessibility-layout accessibility-layout--screen-reader accessibility-layout--screen-reader-no-audit'
@@ -1949,7 +1960,8 @@ ${auditPanels}
         const theme = block.theme || 'blue'
         const srcdoc = createIframeDocument(block.html, theme)
         const modeMeta = getSimulationModeMeta(mode)
-        const headerPanel = renderHeaderPanel(modeMeta.title, modeMeta.subtitle, headerEnabled)
+        const { title, subtitle } = resolveHeaderStrings(block, modeMeta.title, modeMeta.subtitle)
+        const headerPanel = renderHeaderPanel(title, subtitle, headerEnabled)
         const layoutClass = 'accessibility-layout accessibility-layout--simulation'
 
         el.innerHTML = `
@@ -2029,6 +2041,8 @@ ${headerPanel}
                     mode,
                     audit: parseBooleanAttribute(attrs.audit, true),
                     header: parseBooleanAttribute(attrs.header, true),
+                    customTitle: attrs.title ?? null,
+                    customSubtitle: attrs['sub-title'] ?? attrs.subtitle ?? null,
                     theme: parseThemeAttribute(attrs.theme, 'blue'),
                     html: rawHtml.trim()
                 }

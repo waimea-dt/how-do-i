@@ -25,6 +25,13 @@
  *     ```python trace blank
  *     ...
  *     ```
+ * - Header customisation:
+ *     ```python trace header="false"
+ *     ...
+ *     ```
+ *     ```python trace title="My Trace" sub-title="Custom subtitle"
+ *     ...
+ *     ```
  * - Simulated input directive on input assignments:
  *     name = input("Name: ")    # INPUT: Bob
  *
@@ -1292,6 +1299,19 @@
         return escapeHtml(String(value))
     }
 
+    function parseFenceHeaderConfig(preEl) {
+        const dataLang = preEl.getAttribute('data-lang') || ''
+        const show = !/\bheader=["']?false["']?\b/.test(dataLang)
+        const titleMatch = dataLang.match(/\btitle="([^"]*)"/) || dataLang.match(/\btitle='([^']*)'/);
+        const subtitleMatch = dataLang.match(/\bsub-title="([^"]*)"/) || dataLang.match(/\bsub-title='([^']*)'/) ||
+                              dataLang.match(/\bsubtitle="([^"]*)"/) || dataLang.match(/\bsubtitle='([^']*)'/);
+        return {
+            show,
+            title: titleMatch ? titleMatch[1] : null,
+            subtitle: subtitleMatch ? subtitleMatch[1] : null
+        }
+    }
+
     function getTraceRenderOptions(preEl, codeEl) {
         const hideClass = TRACE_TABLE_CONFIG.blockAttributes.hide
         const blankClass = TRACE_TABLE_CONFIG.blockAttributes.blank
@@ -1300,7 +1320,8 @@
         return {
             hideUntilRun: preEl.classList.contains(hideClass) || codeEl.classList.contains(hideClass),
             blankTemplate: preEl.classList.contains(blankClass) || codeEl.classList.contains(blankClass),
-            sourceLanguage
+            sourceLanguage,
+            headerConfig: parseFenceHeaderConfig(preEl)
         }
     }
 
@@ -1360,8 +1381,14 @@
 
         const header = document.createElement('div')
         header.className = 'trace-table-header'
-        header.innerHTML = `<h3 class="trace-table-title">${escapeHtml(TRACE_TABLE_CONFIG.uiText.title)}</h3><p class="trace-table-subtitle">${escapeHtml(TRACE_TABLE_CONFIG.uiText.subtitle)}</p>`
-        wrapper.appendChild(header)
+        const headerConfig = options.headerConfig || { show: true, title: null, subtitle: null }
+        if (headerConfig.show) {
+            const titleText = headerConfig.title ?? TRACE_TABLE_CONFIG.uiText.title
+            const subtitleText = headerConfig.subtitle !== null ? headerConfig.subtitle : TRACE_TABLE_CONFIG.uiText.subtitle
+            const subtitleHtml = subtitleText ? `<p class="trace-table-subtitle">${escapeHtml(subtitleText)}</p>` : ''
+            header.innerHTML = `<h3 class="trace-table-title">${escapeHtml(titleText)}</h3>${subtitleHtml}`
+            wrapper.appendChild(header)
+        }
 
         const content = document.createElement('div')
         content.className = 'trace-table-content'

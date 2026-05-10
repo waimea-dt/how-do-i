@@ -11,6 +11,9 @@
  * Attributes:
  *   - value: The number to visualize (default: 19, range: 0-100)
  *   - mod: The modulus (default: 5, range: 2-20)
+ *   - header: "true" or "false" (default: true)
+ *   - title: custom header title text
+ *   - sub-title: custom header subtitle text
  *
  * The animation shows the clock hand jumping around the clock "value" times,
  * demonstrating visually how modulo arithmetic wraps around.
@@ -316,14 +319,20 @@
     // UI Builder
     // -------------------------------------------------------------------------
 
-    function buildUI(initialValue, initialMod) {
+    function buildUI(initialValue, initialMod, headerConfig = { show: true, title: null, subtitle: null }) {
+        const defaultTitle = 'Modulo Arithmetic Visualizer';
+        const defaultSubtitle = 'Watch how numbers wrap around like a clock';
+        const titleText = headerConfig.title ?? defaultTitle;
+        const subtitleText = headerConfig.subtitle !== null ? headerConfig.subtitle : (headerConfig.title !== null ? '' : defaultSubtitle);
+        const subtitleHtml = subtitleText ? `<div class="mod-subtitle">${subtitleText}</div>` : '';
+        const headerHtml = headerConfig.show
+            ? `<div class="mod-header"><div class="mod-title">${titleText}</div>${subtitleHtml}</div>`
+            : '';
+
         const wrapper = document.createElement('div')
         wrapper.className = 'mod-wrapper'
         wrapper.innerHTML = `
-            <div class="mod-header">
-                <div class="mod-title">Modulo Arithmetic Visualizer</div>
-                <div class="mod-subtitle">Watch how numbers wrap around like a clock</div>
-            </div>
+            ${headerHtml}
 
             <div class="mod-controls">
                 <div class="mod-control-group">
@@ -496,6 +505,7 @@
         document.querySelectorAll('.markdown-section modulus').forEach(el => {
             const value = parseInt(el.getAttribute('value')) || 30
             const mod = parseInt(el.getAttribute('mod')) || 12
+            const headerConfig = window.DocsifyUtils.parseHeaderConfig(el)
 
             // Validate parameters
             if (value < 0 || value > 100) {
@@ -508,7 +518,7 @@
                 return
             }
 
-            const ui = buildUI(value, mod)
+            const ui = buildUI(value, mod, headerConfig)
             el.innerHTML = ''
             el.appendChild(ui)
 

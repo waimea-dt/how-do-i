@@ -12,11 +12,19 @@
  *   <algo-race type="search" size="100" target="25"></algo-race>
  *   <algo-race type="sort"></algo-race>
  *   <algo-race type="sort" size="100"></algo-race>
+ *
+ * Attributes:
+ *   - type: "search" or "sort" (default: search)
+ *   - size: initial array size (default: 30)
+ *   - target: initial search target (search mode only)
+ *   - header: "true" or "false" (default: true)
+ *   - title: custom header title text
+ *   - sub-title: custom header subtitle text
  */
 
 ;(function () {
 
-    const { shuffleArray } = window.DocsifyUtils
+    const { shuffleArray, parseHeaderConfig } = window.DocsifyUtils
 
     const UI_TEXT = {
         // Search mode
@@ -582,7 +590,7 @@
 
     let instanceCounter = 0
 
-    function buildUI(mode, initialSize, instanceId, initialTarget) {
+    function buildUI(mode, initialSize, instanceId, initialTarget, headerConfig = { show: true, title: null, subtitle: null }) {
         const wrapper = document.createElement('div')
         wrapper.className = 'ar-wrapper'
 
@@ -598,8 +606,14 @@
             : null
 
         // Mode-specific titles
-        const title = mode === 'sort' ? UI_TEXT.sortTitle : UI_TEXT.searchTitle
-        const subtitle = mode === 'sort' ? UI_TEXT.sortSubtitle : UI_TEXT.searchSubtitle
+        const defaultTitle = mode === 'sort' ? UI_TEXT.sortTitle : UI_TEXT.searchTitle
+        const defaultSubtitle = mode === 'sort' ? UI_TEXT.sortSubtitle : UI_TEXT.searchSubtitle
+        const titleText = headerConfig.title ?? defaultTitle
+        const subtitleText = headerConfig.subtitle !== null ? headerConfig.subtitle : (headerConfig.title !== null ? '' : defaultSubtitle)
+        const subtitleHtml = subtitleText ? `<p class="ar-subtitle">${subtitleText}</p>` : ''
+        const headerHtml = headerConfig.show
+            ? `<div class="ar-header"><div class="ar-header-text"><h3 class="ar-title">${SVG_ICONS.race} ${titleText}</h3>${subtitleHtml}</div></div>`
+            : ''
 
         // Target input row (only for search mode)
         const targetRowHTML = mode === 'search' ? `
@@ -642,12 +656,7 @@
             ${createTrackHTML(UI_TEXT.mergeTitle, UI_TEXT.mergeCategory, 'is-merge ar-track-2', instanceId, 'merge', mode)}`
 
         wrapper.innerHTML = `
-            <div class="ar-header">
-                <div class="ar-header-text">
-                    <h3 class="ar-title">${SVG_ICONS.race} ${title}</h3>
-                    <p class="ar-subtitle">${subtitle}</p>
-                </div>
-            </div>
+            ${headerHtml}
 
             <div class="ar-content">
                 <!-- Controls -->
@@ -1079,8 +1088,9 @@
             const initialTarget = parseInt(this.element.getAttribute('target')) || null
             const mode = this.element.getAttribute('type') || 'search'
             this.mode = mode
+            const headerConfig = parseHeaderConfig(this.element)
 
-            const { wrapper, array, target, instanceId } = buildUI(mode, initialSize, this.instanceId, initialTarget)
+            const { wrapper, array, target, instanceId } = buildUI(mode, initialSize, this.instanceId, initialTarget, headerConfig)
             this.wrapper = wrapper
             this.array = array
             this.target = target

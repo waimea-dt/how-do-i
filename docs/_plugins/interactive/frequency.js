@@ -13,6 +13,9 @@
  *   - sort: Sort order for the bar chart (default: az)
  *     - az: Alphabetical order (A-Z)
  *     - freq: Frequency order (high to low)
+ *   - header: "true" or "false" (default: true)
+ *   - title: custom header title text
+ *   - sub-title: custom header subtitle text
  *
  * Reusable API (available globally):
  *   window.FrequencyChart.analyse(text)
@@ -212,10 +215,11 @@
     // -------------------------------------------------------------------------
 
     class FrequencyVisualizer {
-        constructor(container, initialText, initialSort) {
+        constructor(container, initialText, initialSort, headerConfig) {
             this.container = container;
             this.currentSort = initialSort || DEFAULT_SORT;
             this.analyser = new FrequencyAnalyser(initialText);
+            this.headerConfig = headerConfig || { show: true, title: null, subtitle: null };
 
             this.render();
             this.attachEventListeners();
@@ -226,14 +230,20 @@
             // Clear the container first
             this.container.innerHTML = '';
 
+            const defaultTitle = 'Letter Frequency Analysis';
+            const defaultSubtitle = 'Counting the number of times each letter appears in a block of text.';
+            const titleText = this.headerConfig.title ?? defaultTitle;
+            const subtitleText = this.headerConfig.subtitle !== null ? this.headerConfig.subtitle : (this.headerConfig.title !== null ? '' : defaultSubtitle);
+            const subtitleHtml = subtitleText ? `<p class="frequency-subtitle">${subtitleText}</p>` : '';
+            const headerHtml = this.headerConfig.show
+                ? `<div class="frequency-header"><h3 class="frequency-title">${titleText}</h3>${subtitleHtml}</div>`
+                : '';
+
             // Create wrapper
             const wrapper = document.createElement('div');
             wrapper.className = 'frequency-wrapper';
             wrapper.innerHTML = `
-                <div class="frequency-header">
-                    <h3 class="frequency-title">Letter Frequency Analysis</h3>
-                    <p class="frequency-subtitle">Counting the number of times each letter appears in a block of text.</p>
-                </div>
+                ${headerHtml}
                 <div class="frequency-content">
                     <div class="frequency-input-section">
                         <textarea class="frequency-textarea" rows="8" placeholder="Enter text to analyse...">${this.analyser.text}</textarea>
@@ -346,7 +356,8 @@
             }
 
             const sort = el.getAttribute('sort') || DEFAULT_SORT;
-            new FrequencyVisualizer(el, text, sort);
+            const headerConfig = window.DocsifyUtils.parseHeaderConfig(el);
+            new FrequencyVisualizer(el, text, sort, headerConfig);
         });
     }
 

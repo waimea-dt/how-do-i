@@ -22,6 +22,12 @@
  *   print(c)
  *   </primm>
  *
+ * Attributes:
+ *   - language: "python" or "kotlin" (default: python)
+ *   - header: "true" or "false" (default: true)
+ *   - title: custom header title text
+ *   - sub-title: custom header subtitle text
+ *
  * Or with Kotlin:
  *   <primm language="kotlin">
  *   fun main() {
@@ -31,12 +37,13 @@
  */
 
 (function () {
-    const { generateId, escapeHtml: escapeHtmlStrict } = window.DocsifyUtils
+    const { generateId, escapeHtml: escapeHtmlStrict, parseHeaderConfig } = window.DocsifyUtils
 
     const FENCED_BLOCK_REGEX = /```([a-zA-Z0-9_+-]+)?\s*\n([\s\S]*?)\n```/
 
     const UI_TEXT = {
         title: 'PRIMM: Predict & Run',
+        subtitle: '',
         predict: 'What do you predict this code will do?',
         savePrediction: 'Save Prediction',
         statusWaiting: 'Waiting for your prediction...',
@@ -52,7 +59,7 @@
             const parsedContent = this.parseContent(el, fallbackLanguage)
             this.language = parsedContent.language
             this.code = parsedContent.code
-            this.showHeader = el.getAttribute('header') !== 'false'
+            this.headerConfig = parseHeaderConfig(el)
             this.predictionSaved = false
             this.codeBlockEl = null
             this.predictionInputEl = null
@@ -73,9 +80,13 @@
 
             const escapedCode = this.escapeHtml(this.code)
 
+            const titleText = this.headerConfig.title ?? UI_TEXT.title
+            const subtitleText = this.headerConfig.subtitle !== null ? this.headerConfig.subtitle : UI_TEXT.subtitle
+            const subtitleHtml = subtitleText ? `<p class="primm-subtitle">${subtitleText}</p>` : ''
+
             const html = `
                 <div class="primm-wrapper">
-                    ${this.showHeader ? `<div class="primm-header"><h3 class="primm-title">${UI_TEXT.title}</h3></div>` : ''}
+                    ${this.headerConfig.show ? `<div class="primm-header"><h3 class="primm-title">${titleText}</h3>${subtitleHtml}</div>` : ''}
 
                     <div class="primm-body">
                         <!-- Code Display Section -->

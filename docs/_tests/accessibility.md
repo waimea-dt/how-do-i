@@ -580,6 +580,66 @@ Use this plugin to compare visual similarity with accessibility quality.
 
 </accessibility>
 
+## Header Customisation
+
+### Custom Title
+
+<accessibility mode="screen-reader" title="Screen Reader Simulation">
+
+```html
+<header>
+    <h1>Riverside Art College</h1>
+    <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#courses">Courses</a>
+    </nav>
+</header>
+<main>
+    <h2>Welcome</h2>
+    <p>Access your timetable below.</p>
+</main>
+```
+
+</accessibility>
+
+### Custom Title and Subtitle
+
+<accessibility mode="screen-reader" title="Semantic HTML Checker" sub-title="Compare how a screen reader navigates each version">
+
+```html
+<div class="header">
+    <div class="big-title">Riverside Art College</div>
+</div>
+<div class="content">
+    <div class="title">Welcome</div>
+    <p>Access your timetable below.</p>
+</div>
+```
+
+</accessibility>
+
+### No Header (contrast mode)
+
+<accessibility mode="contrast" header="false" theme="lowcontrast">
+
+```html
+<header>
+    <h1>Riverside Art College</h1>
+    <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#courses">Courses</a>
+    </nav>
+</header>
+<main>
+    <h2>Welcome</h2>
+    <p>Check your timetable and upcoming assignments.</p>
+</main>
+```
+
+</accessibility>
+
+---
+
 ## Syntax
 
 ````html

@@ -127,6 +127,22 @@ Letter frequency analysis has many practical uses:
 - Letter frequency can help identify coded messages
 - Even without spaces, you can often identify language by letter frequency alone
 
+## Header Customisation
+
+### Custom Title
+
+<frequency title="Cipher Frequency Analysis">NKTA BT GJN KJ ZEK BTRKX OAZZ</frequency>
+
+### Custom Title and Subtitle
+
+<frequency title="Letter Distribution" sub-title="Spot the most common letters to start decoding">The quick brown fox jumps over the lazy dog</frequency>
+
+### No Header
+
+<frequency header="false">Hello World</frequency>
+
+---
+
 ## Reusable API
 
 The frequency chart can be used by other plugins via the global `window.FrequencyChart` object:

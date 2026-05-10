@@ -10,6 +10,11 @@
  * Usage in markdown:
  *   <colours></colours>
  *
+ * Attributes:
+ *   - header: "true" or "false" (default: true)
+ *   - title: custom header title text
+ *   - sub-title: custom header subtitle text
+ *
  * The preview website uses only:
  *   - Black, white, and shades of grey
  *   - Primary colour and its shades
@@ -17,7 +22,7 @@
  */
 
 (function () {
-    const { hexToRgb, rgbToHex } = window.DocsifyUtils
+    const { hexToRgb, rgbToHex, parseHeaderConfig } = window.DocsifyUtils
 
     const UI_TEXT = {
         title: 'Colour Scheme Designer',
@@ -268,6 +273,7 @@
     class ColourPickerVisualizer {
         constructor(element) {
             this.element = element
+            this.headerConfig = parseHeaderConfig(element)
             this.primaryColour = '#1c71d8'
             this.accentColour = generateComplementaryColour(this.primaryColour)
             this.accentLinked = true
@@ -360,7 +366,7 @@
 
             // Header
             const header = this.renderHeader()
-            wrapper.appendChild(header)
+            if (header) wrapper.appendChild(header)
 
             // Content container
             const content = document.createElement('div')
@@ -383,13 +389,18 @@
         }
 
         renderHeader() {
+            if (!this.headerConfig.show) return null
+            const titleText = this.headerConfig.title ?? UI_TEXT.title
+            const subtitleText = this.headerConfig.subtitle !== null ? this.headerConfig.subtitle : UI_TEXT.subtitle
+            const subtitleHtml = subtitleText ? `<p class="cp-subtitle">${subtitleText}</p>` : ''
+
             const header = document.createElement('div')
             header.className = 'cp-header'
 
             header.innerHTML = `
                 <div class="cp-header-text">
-                    <h3 class="cp-title">${SVG_ICONS.palette} ${UI_TEXT.title}</h3>
-                    <p class="cp-subtitle">${UI_TEXT.subtitle}</p>
+                    <h3 class="cp-title">${SVG_ICONS.palette} ${titleText}</h3>
+                    ${subtitleHtml}
                 </div>
             `
 

@@ -28,6 +28,7 @@
  *   dispatchSlidesRendered(root)        - Dispatch shared slide-render event
  *   onSlidesRendered(callback)          - Listen for shared slide-render event
  *   registerPlugin(fn, prepend)         - Register a Docsify plugin function
+ *   parseHeaderConfig(el, defaults)     - Parse header/title/sub-title attributes from a plugin element
  */
 ;(function () {
     'use strict'
@@ -318,6 +319,23 @@
         return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
     }
 
+    /**
+     * Parse header configuration from a plugin element's attributes.
+     * Reads: header (bool), title (string or null), sub-title / subtitle (string or null).
+     * Removes the 'title' attribute from the element when present to avoid browser tooltips.
+     *
+     * @param {Element} el
+     * @param {{ show?: boolean }} defaults
+     * @returns {{ show: boolean, title: string|null, subtitle: string|null }}
+     */
+    function parseHeaderConfig(el, defaults = {}) {
+        const show = parseBoolean(el.getAttribute('header'), defaults.show !== false)
+        const title = el.getAttribute('title') ?? null
+        const subtitle = el.getAttribute('sub-title') ?? el.getAttribute('subtitle') ?? null
+        if (title != null) el.removeAttribute('title')
+        return { show, title, subtitle }
+    }
+
     // -------------------------------------------------------------------------
     // ID generation
     // -------------------------------------------------------------------------
@@ -400,6 +418,7 @@
         dispatchSlidesRendered,
         onSlidesRendered,
         registerPlugin,
+        parseHeaderConfig,
     })
 
     window.DocsifyUtils = docsifyUtils

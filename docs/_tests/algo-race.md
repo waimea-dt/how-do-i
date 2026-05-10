@@ -58,6 +58,22 @@ Test with 200 items to see the dramatic efficiency difference between Bubble Sor
 
 <algo-race type="sort" size="200"></algo-race>
 
+---
+
+## Header Customisation
+
+### Custom Title (Search)
+
+<algo-race type="search" title="Search Race"></algo-race>
+
+### Custom Title and Subtitle (Sort)
+
+<algo-race type="sort" title="Sorting Challenge" sub-title="Which algorithm reaches the finish line first?"></algo-race>
+
+### No Header
+
+<algo-race type="search" header="false"></algo-race>
+
 ### Small Array
 
 Even with small arrays (30 items), Merge Sort is more efficient than Bubble Sort.

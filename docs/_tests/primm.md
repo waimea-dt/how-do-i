@@ -145,3 +145,41 @@ numbers.forEach { num ->
 ```
 
 </primm>
+
+### Custom Title
+
+<primm title="Check Your Understanding">
+
+```python
+x = 5
+y = x * 2
+print(y)
+```
+
+</primm>
+
+### Custom Title and Subtitle
+
+When a custom `title` is set, the default subtitle is suppressed unless `sub-title` is also provided.
+
+<primm title="Predict the Output" sub-title="Think carefully before you run the code">
+
+```python
+for i in range(1, 4):
+    print(i ** 2)
+```
+
+</primm>
+
+### Title Only (No Subtitle)
+
+Custom title with an empty `sub-title` hides the subtitle row.
+
+<primm title="Quick Quiz" sub-title="">
+
+```python
+result = 10 // 3
+print(result)
+```
+
+</primm>

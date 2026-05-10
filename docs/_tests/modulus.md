@@ -58,4 +58,20 @@ Modulo arithmetic appears everywhere in computing:
 Use the sliders above to explore:
 - What happens when the value is less than the modulus?
 - What happens when the value is exactly divisible by the modulus?
+
+---
+
+## Header Customisation
+
+### Custom Title
+
+<modulus value="15" mod="7" title="Remainder Challenge"></modulus>
+
+### Custom Title and Subtitle
+
+<modulus value="17" mod="5" title="Clock Maths" sub-title="Count forward and see where you land"></modulus>
+
+### No Header
+
+<modulus value="10" mod="3" header="false"></modulus>
 - How many complete rotations do you make with large values?
