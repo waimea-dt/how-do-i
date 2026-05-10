@@ -73,9 +73,6 @@
                 display: flex;
                 gap: var(--erd-gap-small);
                 align-items: center;
-
-                .erd-btn {
-                }
             }
         }
 
@@ -153,34 +150,6 @@
                         text-align: center;
                         padding: 2rem;
                     }
-                }
-            }
-        }
-
-        /* ---- Responsive adjustments ---- */
-        @container (max-width: 768px) {
-            .erd-header {
-                padding: var(--erd-padding-small);
-
-                .erd-title {
-                    font-size: 1.1rem;
-                }
-
-                .erd-subtitle {
-                    font-size: 0.85rem;
-                }
-            }
-
-            .erd-content {
-                .erd-diagram-section {
-                    .erd-diagram-container {
-                        padding: var(--erd-padding-small);
-                    }
-                }
-
-                .erd-editor-section,
-                .erd-diagram-section {
-                    min-height: 300px;
                 }
             }
         }
