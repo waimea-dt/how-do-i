@@ -39,7 +39,7 @@ No matter how short or long the input is, SHA-256 always produces exactly 64 hex
 
 ## Salted Hash
 
-A **salt** is a random value added to the input before hashing. This means two users with the same password get different hashes - defeating rainbow table attacks.
+A **salt** is a random value combined with the password before hashing using `salt:password`. This means two users with the same password get different hashes - defeating rainbow table attacks.
 
 <hasher value="password" salted></hasher>
 

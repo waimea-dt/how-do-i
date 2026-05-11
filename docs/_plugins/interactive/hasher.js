@@ -61,6 +61,11 @@
             .join('')
     }
 
+    function buildSaltedText(text, salt = '') {
+        if (!salt) return text
+        return `${salt}:${text}`
+    }
+
     // -------------------------------------------------------------------------
     // UI Construction
     // -------------------------------------------------------------------------
@@ -88,9 +93,15 @@
                         <span>Add salt</span>
                     </label>
                     <div class="hasher-salt-display"${saltChecked ? '' : ' hidden'}>
-                        <span class="hasher-salt-label">Salt:</span>
+                        <span class="hasher-label hasher-salt-label">Salt:</span>
                         <code class="hasher-salt-value"></code>
-                        <button class="hasher-salt-refresh-btn" title="Generate new salt">↺ New</button>
+                        <button class="hasher-salt-refresh-btn btn-reset btn-bordered" title="Generate new salt">New</button>
+                    </div>
+                    <div class="hasher-salted-input-display"${saltChecked ? '' : ' hidden'}>
+                        <span class="hasher-label hasher-salted-input-label">Salted Text</span>
+                        <code class="hasher-salted-input-value">
+                            <span class="hasher-salted-salt"></span><span class="hasher-salted-colon">:</span><span class="hasher-salted-password"></span>
+                        </code>
                     </div>
                 </div>
             </div>
@@ -99,7 +110,7 @@
                 <div class="hasher-label">
                     SHA-256 hash
                     <span class="hasher-label-note">· 256 bits · 64 hex chars</span>
-                    <button class="hasher-copy-btn" title="Copy hash">Copy</button>
+                    <button class="hasher-copy-btn btn-copy btn-bordered" title="Copy hash">Copy</button>
                 </div>
                 <div class="hasher-output" aria-live="polite">
                     <code class="hasher-hash"></code>
@@ -136,7 +147,7 @@
             return null
         }
 
-        const hash = await sha256(salt + text)
+        const hash = await sha256(buildSaltedText(text, salt))
 
         // Re-trigger the flash animation on every update
         hashEl.classList.remove('is-updated')
@@ -174,7 +185,7 @@
                 const label = text.length > 16 ? text.slice(0, 15) + '…' : text
                 line += `<span class="input-value">${label.padEnd(16)}</span> → `
                 if (hasSalt) {
-                    line += `<span class="salt-value">${salt}</span><span class="input-value">${label.padEnd(16)}</span> → `
+                    line += `<span class="salt-value">${salt}</span><span class="hasher-separator">:</span><span class="input-value">${label.padEnd(16)}</span> → `
                 }
                 line += `<span class="hash-value">${hash}</span>`
                 lines.push(line)
@@ -234,12 +245,26 @@
             const saltDisp  = el.querySelector('.hasher-salt-display')
             const saltValEl = el.querySelector('.hasher-salt-value')
             const saltRefr  = el.querySelector('.hasher-salt-refresh-btn')
+            const saltedInputDisp     = el.querySelector('.hasher-salted-input-display')
+            const saltedInputSaltEl   = el.querySelector('.hasher-salted-salt')
+            const saltedInputPassEl   = el.querySelector('.hasher-salted-password')
+
+            function updateSaltedInputDisplay() {
+                if (!saltedInputDisp) return
+                const showSaltedInput = !!(saltCheck && saltCheck.checked)
+                saltedInputDisp.hidden = !showSaltedInput
+                if (!showSaltedInput) return
+                saltedInputSaltEl.textContent = currentSalt
+                saltedInputPassEl.textContent = input.value
+            }
 
             let currentSalt = saltMode === true ? generateSalt() : ''
             if (saltMode === true) saltValEl.textContent = currentSalt
+            updateSaltedInputDisplay()
 
             updateHash(input, hashEl, currentSalt).then(h => { updateBinary(h); pushHistory(input.value, currentSalt, h) })
             input.addEventListener('input', async () => {
+                updateSaltedInputDisplay()
                 const h = await updateHash(input, hashEl, currentSalt)
                 updateBinary(h)
                 pushHistory(input.value, currentSalt, h)
@@ -254,6 +279,7 @@
                     currentSalt = ''
                     saltDisp.hidden = true
                 }
+                updateSaltedInputDisplay()
                 const h = await updateHash(input, hashEl, currentSalt)
                 updateBinary(h)
                 pushHistory(input.value, currentSalt, h)
@@ -262,6 +288,7 @@
             saltRefr.addEventListener('click', async () => {
                 currentSalt = generateSalt()
                 saltValEl.textContent = currentSalt
+                updateSaltedInputDisplay()
                 const h = await updateHash(input, hashEl, currentSalt)
                 updateBinary(h)
                 pushHistory(input.value, currentSalt, h)
