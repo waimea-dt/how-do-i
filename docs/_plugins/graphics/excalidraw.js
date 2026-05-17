@@ -15,6 +15,10 @@
 
 ;(function () {
 
+    function resolveScope(root) {
+        return root && typeof root.querySelectorAll === 'function' ? root : document
+    }
+
     const { resolveSourcePath, renderErrorBox, onSlidesRendered } = window.DocsifyUtils
 
     const SCENE_CACHE = new Map()
@@ -127,7 +131,7 @@
     }
 
     function processExcalidrawBlocks(root) {
-        const scope = root || document
+        const scope = resolveScope(root)
         const blocks = scope.querySelectorAll('excalidraw')
         if (blocks.length === 0) return
 

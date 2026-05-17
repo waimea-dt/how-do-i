@@ -20,9 +20,13 @@
   const FOCUS_MARKER = '!! '
   const { extractMarker } = window.DocsifyUtils
 
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function processStructures(root) {
-    const scope = root || document
-    const selector = root ? 'structure' : '.markdown-section structure'
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section structure' : 'structure'
     const structureBlocks = scope.querySelectorAll(selector)
 
     structureBlocks.forEach((structureBlock) => {

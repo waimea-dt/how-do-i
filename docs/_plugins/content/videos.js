@@ -15,6 +15,10 @@
  */
 
 ;(function () {
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function getIframeAllowValue() {
     const ua = navigator.userAgent || ''
     const isFirefox = /firefox/i.test(ua)
@@ -44,8 +48,10 @@
   }
 
   // Step 2: Convert properly closed videoembed tags to iframes
-  async function processVideoEmbeds(root = document) {
-    const videoEmbeds = root.querySelectorAll('videoembed')
+  async function processVideoEmbeds(root) {
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section videoembed' : 'videoembed'
+    const videoEmbeds = scope.querySelectorAll(selector)
 
     for (const videoEmbed of videoEmbeds) {
       // Get the video ID from the id attribute
@@ -179,7 +185,11 @@
     // Add closing tags before markdown is parsed
     hook.beforeEach(addClosingTags)
     // Convert to iframes after DOM is ready
-    hook.doneEach(processVideoEmbeds)
+    // Docsify v5 doneEach may pass a lifecycle object instead of a DOM root.
+    // Call without arguments so processVideoEmbeds resolves document scope.
+    hook.doneEach(function () {
+      processVideoEmbeds()
+    })
     // Hook into slide rendering
     hook.ready(() => {
       window.DocsifyUtils.onSlidesRendered(root => processVideoEmbeds(root))

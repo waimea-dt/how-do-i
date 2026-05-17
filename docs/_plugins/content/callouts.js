@@ -12,6 +12,10 @@
  *   > Careful with this step.
  */
 (function () {
+    function resolveScope(root) {
+        return root && typeof root.querySelectorAll === 'function' ? root : document
+    }
+
     const ICONS = {
         NOTE:      'info',
         TIP:       'lightbulb',
@@ -39,8 +43,8 @@
     function processCallouts(root) {
         // Docsify v5 natively renders [!TYPE] blockquotes into div.callout.<type>.
         // We just need to inject our p.title (with lucide icon) into each one.
-        const scope = root || document
-        const selector = root ? '.callout' : '.markdown-section .callout'
+        const scope = resolveScope(root)
+        const selector = scope === document ? '.markdown-section .callout' : '.callout'
         scope.querySelectorAll(selector).forEach(function (callout) {
             // Skip if we've already processed this callout
             if (callout.querySelector('.title')) return
@@ -75,7 +79,10 @@
     }
 
     const docsifyCallouts = function (hook) {
-        hook.doneEach(processCallouts)
+        // Docsify v5 doneEach may pass a lifecycle object instead of a DOM root.
+        hook.doneEach(function () {
+            processCallouts()
+        })
         hook.ready(function () {
             window.DocsifyUtils.onSlidesRendered(function (root) {
                 processCallouts(root)

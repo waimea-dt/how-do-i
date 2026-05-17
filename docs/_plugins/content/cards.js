@@ -16,9 +16,13 @@
  */
 
 ;(function () {
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function processCards(root) {
-    const scope = root || document
-    const selector = root ? 'cards' : '.markdown-section cards'
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section cards' : 'cards'
     const cardBlocks = scope.querySelectorAll(selector)
 
     cardBlocks.forEach((cardBlock) => {

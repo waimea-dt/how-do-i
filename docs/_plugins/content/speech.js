@@ -20,6 +20,10 @@
   const { onSlidesRendered } = window.DocsifyUtils
   let fontIsReady = false
 
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function whenFontReady(callback) {
     if (fontIsReady) {
       callback()
@@ -83,7 +87,7 @@
   }
 
   function processSpeechInDom(root) {
-    const scope = root || document
+    const scope = resolveScope(root)
 
     scope.querySelectorAll('speak').forEach((speakEl) => {
       const figure = convertSpeakElement(speakEl, speakEl.ownerDocument)
@@ -93,14 +97,14 @@
   }
 
   function revealSpeechFigures(root) {
-    const scope = root || document
+    const scope = resolveScope(root)
 
     scope.querySelectorAll('figure.speech[data-speech-loading]')
       .forEach((fig) => fig.removeAttribute('data-speech-loading'))
   }
 
   function runSpeechPass(root) {
-    const scope = root || document
+    const scope = resolveScope(root)
 
     processSpeechInDom(scope)
 

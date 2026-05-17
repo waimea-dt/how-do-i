@@ -16,6 +16,10 @@
 ;(function () {
     const { escapeHtml } = window.DocsifyUtils
 
+    function resolveScope(root) {
+        return root && typeof root.querySelectorAll === 'function' ? root : document
+    }
+
     const DEFAULT_ALT = 'Annotated image'
     const HOTSPOT_EVENTS_ACTIVATE = ['mouseenter', 'focus', 'click']
     const HOTSPOT_EVENTS_DEACTIVATE = ['mouseleave', 'blur']
@@ -320,8 +324,8 @@
     }
 
     function processImgNotes(root) {
-        const scope = root || document
-        const selector = root ? 'img-notes:not(.img-notes-initialized)' : '.markdown-section img-notes:not(.img-notes-initialized)'
+        const scope = resolveScope(root)
+        const selector = scope === document ? '.markdown-section img-notes:not(.img-notes-initialized)' : 'img-notes:not(.img-notes-initialized)'
         scope.querySelectorAll(selector).forEach((el) => {
             el.classList.add('img-notes-initialized')
 
@@ -330,7 +334,10 @@
     }
 
     function docsifyImgNotes(hook) {
-        hook.doneEach(processImgNotes)
+        // Docsify v5 doneEach may pass a lifecycle object instead of a DOM root.
+        hook.doneEach(function () {
+            processImgNotes()
+        })
         hook.ready(function () {
             window.DocsifyUtils.onSlidesRendered(function (root) {
                 processImgNotes(root)

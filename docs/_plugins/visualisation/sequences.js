@@ -14,9 +14,13 @@
  */
 
 ;(function () {
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function processSequences(root) {
-    const scope = root || document
-    const selector = root ? 'sequence' : '.markdown-section sequence'
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section sequence' : 'sequence'
     const sequenceBlocks = scope.querySelectorAll(selector)
 
     sequenceBlocks.forEach((sequenceBlock) => {

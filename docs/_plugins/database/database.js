@@ -17,6 +17,10 @@
 
 (function () {
 
+    function resolveScope(root) {
+        return root && typeof root.querySelectorAll === 'function' ? root : document
+    }
+
     // -------------------------------------------------------------------------
     // Constants
     // -------------------------------------------------------------------------
@@ -432,7 +436,7 @@
     // -------------------------------------------------------------------------
 
     function processDBs(root) {
-        const scope = root || document
+        const scope = resolveScope(root)
         // Process schema tables
         const schemaBlocks = scope.querySelectorAll('db-schema')
         schemaBlocks.forEach(block => formatSchemaTables(block))

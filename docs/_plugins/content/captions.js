@@ -16,9 +16,14 @@
  */
 
 ;(function () {
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function processCaptions(root) {
-    const scope = root || document
-    const captionBlocks = scope.querySelectorAll('captioned')
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section captioned' : 'captioned'
+    const captionBlocks = scope.querySelectorAll(selector)
 
     captionBlocks.forEach((captionBlock) => {
       const img = captionBlock.querySelector('img')
@@ -55,7 +60,11 @@
   }
 
   var docsifyCaptions = function (hook) {
-    hook.doneEach(processCaptions)
+    // Docsify v5 doneEach may pass a lifecycle object instead of a DOM root.
+    // Call without arguments so processCaptions uses document scope safely.
+    hook.doneEach(function () {
+      processCaptions()
+    })
     hook.ready(function () {
       window.DocsifyUtils.onSlidesRendered(function (root) {
         processCaptions(root)

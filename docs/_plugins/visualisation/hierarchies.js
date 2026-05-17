@@ -21,9 +21,13 @@
   const FOCUS_MARKER = '!! '
   const { extractMarker } = window.DocsifyUtils
 
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function processHierarchies(root) {
-    const scope = root || document
-    const selector = root ? 'hierarchy' : '.markdown-section hierarchy'
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section hierarchy' : 'hierarchy'
     const hierarchyBlocks = scope.querySelectorAll(selector)
 
     hierarchyBlocks.forEach((hierarchyBlock) => {
@@ -78,11 +82,14 @@
   const docsifyHierarchies = function (hook) {
     hook.doneEach(function () {
       processHierarchies()
-    })    hook.ready(function () {
+    })
+
+    hook.ready(function () {
       window.DocsifyUtils.onSlidesRendered(function (root) {
         processHierarchies(root)
       })
-    })  }
+    })
+  }
 
   window.DocsifyUtils.registerPlugin(docsifyHierarchies)
 })()

@@ -11,6 +11,10 @@
 
 ;(function () {
 
+    function resolveScope(root) {
+        return root && typeof root.querySelectorAll === 'function' ? root : document
+    }
+
     // -------------------------------------------------------------------------
     // SVG Cache and Loading
     // -------------------------------------------------------------------------
@@ -42,7 +46,7 @@
     // -------------------------------------------------------------------------
 
     async function processComputers(root) {
-        const scope = root || document
+        const scope = resolveScope(root)
         const computers = scope.querySelectorAll('computer')
 
         if (computers.length === 0) {

@@ -21,9 +21,13 @@
  */
 
 ;(function () {
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   function processTimelines(root) {
-    const scope = root || document
-    const selector = root ? 'timeline' : '.markdown-section timeline'
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section timeline' : 'timeline'
     const timelineBlocks = scope.querySelectorAll(selector)
 
     timelineBlocks.forEach((timelineBlock) => {

@@ -42,14 +42,18 @@
  */
 
 ;(function () {
+  function resolveScope(root) {
+    return root && typeof root.querySelectorAll === 'function' ? root : document
+  }
+
   const LEFT_MARKER = 'Left: '
   const RIGHT_MARKER = 'Right: '
   const MIDDLE_MARKER = 'Middle: '
   const REQUEST_MARKER = 'Requests:'
 
   function processRequests(root) {
-    const scope = root || document
-    const selector = root ? 'requests' : '.markdown-section requests'
+    const scope = resolveScope(root)
+    const selector = scope === document ? '.markdown-section requests' : 'requests'
     const requestBlocks = scope.querySelectorAll(selector)
 
     requestBlocks.forEach((requestBlock) => {
