@@ -18,6 +18,7 @@
     --stage-ques-accent-color:   #b4f;
     --stage-ques-glow-color:     #b4f8;
     --stage-ques-text-color:     #222;
+    --stage-error-color:         #f00;
 
     /* Stage item defaults */
     --stage-item-x:       0;
@@ -145,6 +146,15 @@
         }
 
         /* -----------------------------------------------------------------------
+           Keys
+           ----------------------------------------------------------------------- */
+
+        &.keys {
+            background-image: var(--stage-item-image);
+            background-size: cover;
+        }
+
+        /* -----------------------------------------------------------------------
            Marker Shapes
            ----------------------------------------------------------------------- */
 
@@ -183,8 +193,8 @@
         &.line,
         &.arrow {
             width: 0;
-            border-right: 3px dashed var(--stage-item-colour);
-            left:   calc((100% * ((240 + var(--stage-item-x)) / 480)) - 1.5px);
+            border-right: 5px solid var(--stage-item-colour);
+            left:   calc((100% * ((240 + var(--stage-item-x)) / 480)) - 2.5px);
             bottom: calc(100% * ((180 + var(--stage-item-y)) / 360));
             transform-origin: bottom center;
             transform: rotate(calc(1deg * var(--stage-item-angle)));
@@ -192,11 +202,12 @@
             &::before {
                 content: '';
                 position: absolute;
-                bottom: -0.35em;
-                left: calc(-0.35em + 1.5px);
-                width: 0.7em;
-                height: 0.7em;
+                bottom: -0.5em;
+                left: calc(-0.5em + 2.5px);
+                width: 1em;
+                height: 1em;
                 background-color: var(--stage-item-colour);
+                border: 1px solid #0008;
                 border-radius: 1em;
             }
         }
@@ -204,8 +215,8 @@
         &.arrow::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: calc(-0.5em + 1.5px);
+            top: -0.2em;
+            left: calc(-0.5em + 2.5px);
             width: 1em;
             height: 1.2em;
             background-color: var(--stage-item-colour);
@@ -309,6 +320,11 @@
                 animation: scratchBlinkCaret 0.75s step-end infinite;
             }
         }
+    }
+
+    .error {
+        color: var(--stage-error-color);
+        text-shadow: 0 0 0.1rem #0008;
     }
 }
 

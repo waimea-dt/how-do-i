@@ -74,6 +74,12 @@
                 break
 
             // Stage Markers
+            case 'keys':
+                block.type     = 'stage-item'
+                block.category = 'keys'
+                block.props    = ['key', 'opacity']
+                break
+
             case 'arrow':
                 block.type     = 'stage-item'
                 block.category = 'arrow'
@@ -135,7 +141,7 @@
             return `Command unrecognised: ${token.op}`
         // Incorrect number of args
         if (block.props.length !== token.args.length)
-            return `<p>ERROR: ${token.op} ${token.args.join(' ')}
+            return `<p class="error">ERROR: ${token.op} ${token.args.join(' ')}
                     &lt;&lt;&lt; wrong arg count (${token.args.length})<br>
                     Usage: ${token.op} ${block.props.join(' ')}</p>`
 
@@ -172,6 +178,13 @@
                         styling += `--stage-item-${prop}:${cleanedVal}; `
                         propInfos += `<div class="value ${prop}">${cleanedVal}</div>`
                     }
+                    break
+
+                case 'key':
+                    styling += `--stage-item-x:150; `
+                    styling += `--stage-item-y:-120; `
+                    styling += `--stage-item-size:150; `
+                    styling += `--stage-item-image:url('../../_assets/scratch/keys/${val}.svg'); `
                     break
 
                 case 'image':

@@ -46,4 +46,9 @@
     .sb3-comment-label {
         fill: #333;
     }
+
+    .sb3-grey {
+        fill: #666;
+        stroke: #444;
+    }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="480" height="360" viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip_path_1">
+      <rect width="480" height="360" />
+    </clipPath>
+    <linearGradient id="gradient_2" gradientUnits="userSpaceOnUse" x1="182.5" y1="0" x2="182.5" y2="1007">
+      <stop offset="0" stop-color="#25619C" />
+      <stop offset="1" stop-color="#79ABDB" />
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clip_path_1)">
+    <rect width="480" height="360" fill="#000000" fill-rule="evenodd" />
+    <rect width="365" height="1007" fill="url(#gradient_2)" fill-rule="evenodd" transform="translate(0 -275)" />
+  </g>
+</svg>

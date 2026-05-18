@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="480" height="360" viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient_1" gradientUnits="userSpaceOnUse" x1="225" y1="0" x2="225" y2="330">
+      <stop offset="0" stop-color="#25619C" />
+      <stop offset="1" stop-color="#79ABDB" />
+    </linearGradient>
+  </defs>
+  <g>
+    <rect width="480" height="360" fill="#000000" fill-rule="evenodd" />
+    <rect width="450" height="330" fill="url(#gradient_1)" fill-rule="evenodd" transform="translate(15 15)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(34 210)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(70 210)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(106 210)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(142 210)" />
+    <path d="M10 -3.8147e-06L20 20L0 20L10 -3.8147e-06Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 162 35)" />
+    <path d="M9.99999 -3.8147e-06L20 20L7.62939e-06 20L9.99999 -3.8147e-06Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 126 35)" />
+    <path d="M9.99999 -3.8147e-06L20 20L7.62939e-06 20L9.99999 -3.8147e-06Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 90 35)" />
+    <path d="M9.99999 -3.8147e-06L20 20L3.8147e-06 20L9.99999 -3.8147e-06Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 54 35)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 449 151)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 413 151)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 377 151)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="matrix(-1 0 -0 -1 341 151)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(321 325)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(357 325)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(393 325)" />
+    <path d="M10 0L20 20L0 20L10 0Z" fill="#FF0000" fill-rule="evenodd" transform="translate(429 325)" />
+    <rect width="357" height="15" fill="#000000" fill-rule="evenodd" transform="translate(11 230)" />
+    <rect width="357" height="15" fill="#000000" fill-rule="evenodd" transform="translate(113 116)" />
+  </g>
+</svg>
