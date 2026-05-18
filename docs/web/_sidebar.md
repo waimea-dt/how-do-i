@@ -11,4 +11,5 @@
 - [<i data-lucide="book-open"></i>Cookbook](web/cookbook/)
 - [<i data-lucide="zap"></i>HTMX](web/htmx/)
 - [<i class="si si-flask"></i>Flask](web/flask/)
+- [<i class="si si-docker"></i>Docker](web/docker/)
 
