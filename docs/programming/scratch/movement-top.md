@@ -40,9 +40,6 @@ end
 A press of the key makes the sprite move...
 
 
-This has the effect of giving the sprite a 'boost' upwards...
-
-
 ```scratch-stage
 stage space #036
     arrow 50 50 120 225 #39f 1.0
