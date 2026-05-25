@@ -149,6 +149,8 @@ showScore(72)
 
 ## Revision Flash Cards
 
+<flashcards>
+
 - # What is the difference between `val` and `var`?
 
     ---
@@ -226,6 +228,6 @@ showScore(72)
     Keep variables as **local as possible** - declare them in the smallest block where they are needed to prevent accidental changes.
 
 
-<flash-cards>
+</flashcards>
 
 
