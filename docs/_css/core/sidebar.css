@@ -161,13 +161,13 @@
     li a:has(img, svg, i.si) {
         align-items: center;
         display: flex;
-        gap: 0;
+        gap: 0.5em;
     }
 
     li:has(> svg),
     li a:has(img, svg, i.si) {
         img, svg, i.si {
-            margin-right: 0.5em;
+            /* margin-right: 0.5em; */
         }
     }
 
