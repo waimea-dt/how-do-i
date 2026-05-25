@@ -1,3 +1,4 @@
+- [<i data-lucide="smile"></i>Welcome!](/)
 - [<i data-lucide="braces"></i>Programming](programming/)
 - [<i data-lucide="layout-template"></i>Web Development](web/)
 - [<i data-lucide="database"></i>SQL Databases](sql/)

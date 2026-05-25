@@ -25,6 +25,10 @@
     --sidebar-border-color:           var(--border-color);
 
     --sidebar-link-spacing:           0;
+
+    --sidebar-link-padding-block:     var(--padding-small);
+    --sidebar-link-padding-inline:    var(--padding-med);
+
     --sidebar-group-spacing:          var(--gap);
     --sidebar-group-border:           1px solid var(--sidebar-border-color);
 
@@ -37,7 +41,9 @@
     --sidebar-sub-link-color:         var(--secondary-color-6);
     --sidebar-sub-link-color-hover:   var(--secondary-color-8);
     --sidebar-sub-link-color-active:  var(--theme-color-5);
-    --sidebar-sub-link-color-muted:   var(--theme-color-4);
+    --sidebar-sub-link-color-muted:   var(--color-mono-5);
+
+    --sidebar-link-indent:            calc(var(--_sidebar-list-inset) * 0.5);
     --sidebar-sub-link-indent:        calc(var(--_sidebar-list-inset) * 3.8);
 
     --plugin-search-input-bg:         var(--color-bg) !important;
@@ -99,6 +105,9 @@
 
     /* Navigation links */
     a[href] {
+        text-decoration: none;
+        transition: all 150ms;
+
         &:hover {
             color: var(--sidebar-link-color-hover);
             text-decoration: none;
@@ -108,54 +117,69 @@
             color: var(--sidebar-sub-link-color-muted);
         }
     }
-
-    li[aria-current] > a {
-        background-color: var(--sidebar-link-color-active-bg);
-        font-weight: 600;
-    }
 }
 
 /* Navigation groups and icons */
 :is(.app-nav-merged, .sidebar-nav) {
-    /* Navigation links */
-    > ul > li,
-    > ul > li > ul > li {
-        &[aria-current] {
-            background-color: var(--sidebar-link-color-active-bg);
-            border-radius: var(--border-radius);
-            padding: var(--padding-tiny);
-            margin-block: var(--gap-tiny);
-        }
 
-        > a[href]:hover {
-            background-color: var(--sidebar-link-color-hover-bg);
-            text-decoration: none;
+    margin-right: var(--_sidebar-list-inset);
+
+    /* Current page */
+    li[aria-current] {
+        background-color: var(--sidebar-link-color-active-bg);
+        border-radius: var(--border-radius);
+        padding: var(--sidebar-link-padding-block) var(--sidebar-link-padding-inline);
+        margin-block: var(--gap-tiny);
+    }
+
+    > ul ul {
+        padding-left: var(--sidebar-link-indent);
+    }
+
+    /* Navigation links */
+    > ul > li:not([aria-current]) > a[href] {
+        padding: var(--sidebar-link-padding-block) var(--sidebar-link-padding-inline);
+    }
+
+    > ul > li > ul > li:not([aria-current]) > a[href] {
+        padding: 0 var(--sidebar-link-padding-inline);
+
+        &:hover {
+            padding-block: var(--sidebar-link-padding-block);
+            /* margin-block: var(--gap-tiny); */
         }
     }
 
-    > ul > li > a[href] { padding: 0.5em 0.8em; }
-    > ul > li > ul > li > a[href] { padding: 0.25em 0.5em; }
+    > ul > li,
+    > ul > li > ul > li {
+        &:not([aria-current]) > a[href] {
+            &:hover {
+                background-color: var(--sidebar-link-color-hover-bg);
+                text-decoration: none;
+            }
+        }
+    }
+
+    > ul > li,
+    > ul > li > ul > li {
+        &[aria-current] > a[href] {
+            padding: 0;
+        }
+    }
 
     /* Group items */
-    > ul > li {
-        /* padding-bottom: var(--sidebar-group-spacing); */
-        padding-left: var(--_sidebar-inset);
-        padding-right: var(--gap-med);
-        margin-left: 0;
+    > ul > li.group {
+        padding-top: calc(0.5 * var(--sidebar-group-spacing));
+        padding-bottom: var(--sidebar-group-spacing);
+        font-size: var(--font-large);
+        color: var(--secondary-color);
 
-        &.group {
-            padding-top: calc(0.5 * var(--sidebar-group-spacing));
-            padding-bottom: var(--sidebar-group-spacing);
-            font-size: var(--font-large);
-            color: var(--secondary-color);
-
-            /* Group headings */
-            > p {
-                display: flex;
-                align-items: center;
-                gap: 0.5em;
-                margin-bottom: var(--gap-tiny);
-            }
+        /* Group headings */
+        > p {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            margin-bottom: var(--gap-tiny);
         }
     }
 
