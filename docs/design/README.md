@@ -1,2 +1,2 @@
-# Design Theory
+# What is Good Design?
 
