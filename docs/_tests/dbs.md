@@ -9,7 +9,7 @@
 | users |       |         |
 | ----- | ----- | ------- |
 | PK    | id    | INTEGER |
-|       | name | TEXT    |
+|       | name  | TEXT    |
 |       | dob   | DATE    |
 |       | email | TEXT    |
 
@@ -205,17 +205,17 @@
 |        | completed |
 
 | contains ++ |          |
-| -------- | -------- |
-| FK PK    | order_id |
-| FK PK    | prod_id  |
-|          | quantity |
+| ----------- | -------- |
+| FK PK       | order_id |
+| FK PK       | prod_id  |
+|             | quantity |
 
 | products -- |             |
-| -------- | ----------- |
-| PK       | id          |
-|          | name        |
-|          | price       |
-|          | description |
+| ----------- | ----------- |
+| PK          | id          |
+|             | name        |
+|             | price       |
+|             | description |
 
 </db-schema>
 
@@ -226,12 +226,12 @@
 
 <db-schema>
 
-| customers !! |         |         |
-| ------------ | ------- | ------- |
-| PK           | id      | INTEGER |
-|              | name    | TEXT    |
-|              | email   | TEXT    |
-|              | address | TEXT    |
+| customers !!! |         |         |
+| ------------- | ------- | ------- |
+| PK            | id      | INTEGER |
+|               | name    | TEXT    |
+|               | email   | TEXT    |
+|               | address | TEXT    |
 
 | orders |           |         |
 | ------ | --------- | ------- |
@@ -252,12 +252,12 @@
 |           | email   | TEXT    |
 |           | address | TEXT    |
 
-| orders !! |           |         |
-| --------- | --------- | ------- |
-| PK        | id        | INTEGER |
-|           | date      | DATE    |
-| FK        | cust_id   | INTEGER |
-|           | completed | BOOLEAN |
+| orders !!! |           |         |
+| ---------- | --------- | ------- |
+| PK         | id        | INTEGER |
+|            | date      | DATE    |
+| FK         | cust_id   | INTEGER |
+|            | completed | BOOLEAN |
 
 </db-schema>
 
@@ -269,7 +269,7 @@
 | users |       |         |
 | ----- | ----- | ------- |
 | PK    | id    | INTEGER |
-| !!    | name  | TEXT    |
+| !!!   | name  | TEXT    |
 |       | dob   | DATE    |
 |       | email | TEXT    |
 
@@ -277,12 +277,12 @@
 
 <db-schema>
 
-| users |       |         |
-| ----- | ----- | ------- |
-| PK !! | id    | INTEGER |
-|       | name  | TEXT    |
-|       | dob   | DATE    |
-|       | email | TEXT    |
+| users  |       |         |
+| ------ | ----- | ------- |
+| PK !!! | id    | INTEGER |
+|        | name  | TEXT    |
+|        | dob   | DATE    |
+|        | email | TEXT    |
 
 </db-schema>
 
@@ -294,7 +294,7 @@
 | PK    | id    | INTEGER |
 |       | name  | TEXT    |
 |       | dob   | DATE    |
-| !!    | email | TEXT    |
+| !!!   | email | TEXT    |
 
 </db-schema>
 
@@ -303,7 +303,7 @@
 
 | customers |         |         |
 | --------- | ------- | ------- |
-| PK  !!    | id      | INTEGER |
+| PK !!!    | id      | INTEGER |
 |           | name    | TEXT    |
 |           | email   | TEXT    |
 |           | address | TEXT    |
@@ -312,7 +312,7 @@
 | ------ | --------- | ------- |
 | PK     | id        | INTEGER |
 |        | date      | DATE    |
-| FK !!  | cust_id   | INTEGER |
+| FK !!! | cust_id   | INTEGER |
 |        | completed | BOOLEAN |
 
 </db-schema>
@@ -375,13 +375,13 @@
 | 4         | Nigel  | ADM     |                   |
 | 5         | Sheila | MRK     |                   |
 
-| departments !! |                |            |
-| -------------- | -------------- | ---------- |
-| PK code        | name           | manager    |
-| -----------    | -------------- | ---------- |
-| ADM            | Administration | Tim Smith  |
-| ENG            | Engineering    | Lucy Pivot |
-| MRK            | Marketing      | Mandy Hero |
+| departments !!! |                |            |
+| --------------- | -------------- | ---------- |
+| PK code         | name           | manager    |
+| -----------     | -------------- | ---------- |
+| ADM             | Administration | Tim Smith  |
+| ENG             | Engineering    | Lucy Pivot |
+| MRK             | Marketing      | Mandy Hero |
 
 </db-data>
 
@@ -396,7 +396,7 @@
 | --------- | ------ | ------- | ----------------- |
 | 1         | Dave   | ENG     | Great at Python   |
 | 2         | Karen  | MRK     |                   |
-| 3 !!      | Pierre | ENG     | DB architect      |
+| 3 !!!     | Pierre | ENG     | DB architect      |
 | 4         | Nigel  | ADM     |                   |
 | 5         | Sheila | MRK     |                   |
 
@@ -407,30 +407,30 @@
 
 <db-data>
 
-| employees |         |         |                 |
-| --------- | ------- | ------- | --------------- |
-| PK id     | name !! | FK dept | notes           |
-| --------- | ------  | ------- | --------------- |
-| 1         | Dave    | ENG     | Great at Python |
-| 2         | Karen   | MRK     |                 |
-| 3         | Pierre  | ENG     | DB architect    |
-| 4         | Nigel   | ADM     |                 |
-| 5         | Sheila  | MRK     |                 |
+| employees |          |         |                 |
+| --------- | -------- | ------- | --------------- |
+| PK id     | name !!! | FK dept | notes           |
+| --------- | ------   | ------- | --------------- |
+| 1         | Dave     | ENG     | Great at Python |
+| 2         | Karen    | MRK     |                 |
+| 3         | Pierre   | ENG     | DB architect    |
+| 4         | Nigel    | ADM     |                 |
+| 5         | Sheila   | MRK     |                 |
 
 </db-data>
 
 
 <db-data>
 
-| employees |        |            |                 |
-| --------- | ------ | ---------- | --------------- |
-| PK id     | name   | FK dept !! | notes           |
-| --------- | ------ | -------    | --------------- |
-| 1         | Dave   | ENG        | Great at Python |
-| 2         | Karen  | MRK        |                 |
-| 3         | Pierre | ENG        | DB architect    |
-| 4         | Nigel  | ADM        |                 |
-| 5         | Sheila | MRK        |                 |
+| employees |        |             |                 |
+| --------- | ------ | ----------- | --------------- |
+| PK id     | name   | FK dept !!! | notes           |
+| --------- | ------ | -------     | --------------- |
+| 1         | Dave   | ENG         | Great at Python |
+| 2         | Karen  | MRK         |                 |
+| 3         | Pierre | ENG         | DB architect    |
+| 4         | Nigel  | ADM         |                 |
+| 5         | Sheila | MRK         |                 |
 
 </db-data>
 
@@ -439,15 +439,15 @@
 
 <db-data>
 
-| employees |         |         |                 |
-| --------- | ------- | ------- | --------------- |
-| PK id     | name !! | FK dept | notes           |
-| --------- | ------  | ------- | --------------- |
-| 1         | Dave    | ENG     | Great at Python |
-| 2         | Karen   | MRK     |                 |
-| 3 !!      | Pierre  | ENG     | DB architect    |
-| 4         | Nigel   | ADM     |                 |
-| 5         | Sheila  | MRK     |                 |
+| employees |          |         |                 |
+| --------- | -------- | ------- | --------------- |
+| PK id     | name !!! | FK dept | notes           |
+| --------- | ------   | ------- | --------------- |
+| 1         | Dave     | ENG     | Great at Python |
+| 2         | Karen    | MRK     |                 |
+| 3 !!!     | Pierre   | ENG     | DB architect    |
+| 4         | Nigel    | ADM     |                 |
+| 5         | Sheila   | MRK     |                 |
 
 </db-data>
 
@@ -730,17 +730,17 @@ Schema...
 |        | completed |
 
 | contains ++ |          |
-| -------- | -------- |
-| FK PK    | order_id |
-| FK PK    | prod_id  |
-|          | quantity |
+| ----------- | -------- |
+| FK PK       | order_id |
+| FK PK       | prod_id  |
+|             | quantity |
 
 | products -- |             |
-| -------- | ----------- |
-| PK       | id          |
-|          | name        |
-|          | price       |
-|          | description |
+| ----------- | ----------- |
+| PK          | id          |
+|             | name        |
+|             | price       |
+|             | description |
 
 </db-schema>
 
@@ -759,15 +759,15 @@ Example Data...
 | 4         | Nigel  | beast@...  | 1 The Avenue   |
 | 5         | Sheila | lady@...   | 15 Bellevue    |
 
-| orders |            |         |           |
-| ------ | ---------- | ------- | --------- |
+| orders |            |            |           |
+| ------ | ---------- | ---------- | --------- |
 | PK id  | date       | FK cust_id | completed |
-| ------ | ---------- | ------- | --------- |
-| 1      | 2025-01-01 | 3       | true      |
-| 2      | 2025-02-12 | 1       | true      |
-| 3      | 2025-05-10 | 5       | false     |
-| 4      | 2025-05-30 | 1       | true      |
-| 5      | 2025-06-01 | 2       | false     |
+| ------ | ---------- | -------    | --------- |
+| 1      | 2025-01-01 | 3          | true      |
+| 2      | 2025-02-12 | 1          | true      |
+| 3      | 2025-05-10 | 5          | false     |
+| 4      | 2025-05-30 | 1          | true      |
+| 5      | 2025-06-01 | 2          | false     |
 
 | contains ++ |            |     |
 | ----------- | ---------- | :-: |
@@ -788,9 +788,9 @@ Example Data...
 | --------    | -------- | ----- | ----------- |
 | 101         | Cat      |    10 | Mangy       |
 | 223         | Hat      |    20 | Tall        |
-| 333  !!       | Goat     |    50 | Stinks      |
+| 333  !!     | Goat     |    50 | Stinks      |
 | 369         | Trousers |    45 | Short       |
-| 402  !!       | Cheese   |    12 | Delicious   |
+| 402  !!     | Cheese   |    12 | Delicious   |
 | 501         | Pickles  |     8 | Lumpy       |
 
 </db-data>

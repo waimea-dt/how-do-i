@@ -17,6 +17,7 @@
  *   hexToRgb(hex)                       - Convert #RRGGBB to {r,g,b}
  *   rgbToHex(r,g,b)                     - Convert RGB channels to #RRGGBB
  *   extractMarker(text, marker)         - Remove marker prefix and report match
+ *   extractTrailingMarker(text, marker) - Remove marker suffix and report match
  *   renderErrorBox(container, msg, cls) - Render a standard inline error box
  *   processBlocks(lang, fn, options)    - Iterate docsify language blocks safely
  *   processVisualBlocks(lang, fn, opts) - Process visual blocks with mode flags
@@ -163,6 +164,18 @@
         return {
             hasMarker,
             cleanText: hasMarker ? value.slice(marker.length) : value
+        }
+    }
+
+    /**
+     * Remove marker suffix from text and report whether marker was found.
+     */
+    function extractTrailingMarker(text, marker = '!!') {
+        const value = String(text ?? '').trim()
+        const hasMarker = value.endsWith(marker)
+        return {
+            hasMarker,
+            cleanText: hasMarker ? value.slice(0, -marker.length).trim() : value
         }
     }
 
@@ -407,6 +420,7 @@
         hexToRgb,
         rgbToHex,
         extractMarker,
+        extractTrailingMarker,
         renderErrorBox,
         processBlocks,
         processVisualBlocks,

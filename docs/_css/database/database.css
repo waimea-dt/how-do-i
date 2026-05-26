@@ -166,15 +166,22 @@ table.db-schema {
 
     /* Row highlighting */
     td.focus-row {
-        border-top: var(--schema-focus-width) solid var(--schema-highlight-color);
-        border-bottom: var(--schema-focus-width) solid var(--schema-highlight-color);
+        box-shadow:
+            inset 0 var(--schema-focus-width) 0 0 var(--schema-highlight-color),
+            inset 0 calc(-1 * var(--schema-focus-width)) 0 0 var(--schema-highlight-color);
 
         &:first-of-type {
-            border-left: var(--schema-focus-width) solid var(--schema-highlight-color);
+            box-shadow:
+                inset var(--schema-focus-width) 0 0 0 var(--schema-highlight-color),
+                inset 0 var(--schema-focus-width) 0 0 var(--schema-highlight-color),
+                inset 0 calc(-1 * var(--schema-focus-width)) 0 0 var(--schema-highlight-color);
         }
 
         &:last-of-type {
-            border-right: var(--schema-focus-width) solid var(--schema-highlight-color);
+            box-shadow:
+                inset calc(-1 * var(--schema-focus-width)) 0 0 0 var(--schema-highlight-color),
+                inset 0 var(--schema-focus-width) 0 0 var(--schema-highlight-color),
+                inset 0 calc(-1 * var(--schema-focus-width)) 0 0 var(--schema-highlight-color);
         }
     }
 }
@@ -254,6 +261,13 @@ table.db-data {
         box-shadow: inset 0 0 0 var(--db-focus-width) var(--db-highlight-color) !important;
         background-color: var(--db-highlight-cell-color);
         font-weight: 600;
+    }
+
+    td.focus-cell,
+    td.focus-cell.focus-col,
+    td.focus-cell.focus-row {
+        box-shadow: inset 0 0 0 var(--db-focus-width) var(--db-highlight-color) !important;
+        background-color: var(--db-highlight-cell-color);
     }
 }
 

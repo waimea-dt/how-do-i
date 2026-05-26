@@ -4,33 +4,51 @@
 
 Databases contain **tables** of data, arranged into rows and columns. For example, here is a table of student data...
 
-| num   | forename | surname  | dob        | house |
-| ----- | -------- | -------- | ---------- | ----- |
-| 17034 | Dave     | McPickle | 2001-01-01 | Ru    |
-| 17037 | Karen    | Cheeto   | 2005-06-02 | Co    |
-| 17041 | Pierre   | Fromage  | 2003-12-24 | Ru    |
+<db-data>
+
+| students  |          |          |            |       |
+| --------- | -------- | -------- | ---------- | ----- |
+| num       | forename | surname  | dob        | house |
+| -----     | -------- | -------- | ---------- | ----- |
+| 17034 !!! | Dave     | McPickle | 2001-01-01 | Ru    |
+| 17037     | Karen    | Cheeto   | 2005-06-02 | Co    |
+| 17041     | Pierre   | Fromage  | 2003-12-24 | Ru    |
+
+</db-data>
 
 
 ## Records
 
 Each row of data in the table is known a **record** - data connected with one person / thing. For example, this is the record for Karen Cheeto, student number 17037...
 
+<db-data>
+
+| students  |          |          |            |       |
+| --------- | -------- | -------- | ---------- | ----- |
 | num       | forename | surname  | dob        | house |
 | --------- | -------- | -------- | ---------- | ----- |
-| 17034     | Dave     | McPickle | 2001-01-01 | Ru    |
+| 17034     | Dave !!  | McPickle | 2001-01-01 | Ru    |
 | 17037 !!! | Karen    | Cheeto   | 2005-06-02 | Co    |
 | 17041     | Pierre   | Fromage  | 2003-12-24 | Ru    |
+
+</db-data>
 
 
 ## Fields
 
 The columns in the table are known a **fields**, and each has a **fieldname** at the top. For example, this is the forename column / field...
 
-| num   | forename !! | surname  | dob        | house |
-| ----- | ----------- | -------- | ---------- | ----- |
-| 17034 | Dave        | McPickle | 2001-01-01 | Ru    |
-| 17037 | Karen       | Cheeto   | 2005-06-02 | Co    |
-| 17041 | Pierre      | Fromage  | 2003-12-24 | Ru    |
+<db-data>
+
+| students |              |          |            |       |
+| -------- | ------------ | -------- | ---------- | ----- |
+| num      | forename !!! | surname  | dob        | house |
+| -----    | -----------  | -------- | ---------- | ----- |
+| 17034    | Dave         | McPickle | 2001-01-01 | Ru    |
+| 17037    | Karen        | Cheeto   | 2005-06-02 | Co    |
+| 17041    | Pierre       | Fromage  | 2003-12-24 | Ru    |
+
+</db-data>
 
 
 ## Data Type
@@ -42,11 +60,17 @@ Each field contains a particular type of data: forename is **TEXT**, num is **IN
 
 Every record in a table needs to have a value that **uniquely identifies** it. These field containing these values is called the **primary key** field. In the student table, the primary key is the student number - every student has a unique number...
 
-| num !! | forename | surname  | dob        | house |
-| ------ | -------- | -------- | ---------- | ----- |
-| 17034  | Dave     | McPickle | 2001-01-01 | Ru    |
-| 17037  | Karen    | Cheeto   | 2005-06-02 | Co    |
-| 17041  | Pierre   | Fromage  | 2003-12-24 | Ru    |
+<db-data>
+
+| students |          |          |            |       |
+| -------- | -------- | -------- | ---------- | ----- |
+| num !!!  | forename | surname  | dob        | house |
+| ------   | -------- | -------- | ---------- | ----- |
+| 17034    | Dave     | McPickle | 2001-01-01 | Ru    |
+| 17037    | Karen    | Cheeto   | 2005-06-02 | Co    |
+| 17041    | Pierre   | Fromage  | 2003-12-24 | Ru    |
+
+</db-data>
 
 
 ## Foreign Keys
@@ -57,14 +81,14 @@ For example, here is a table of houses. The code is the primary key of the table
 
 <db-data>
 
-| houses     |            |      |
-| ---------- | ---------- | ---- |
-| PK code !! | name       | dean |
-| -------    | ---------- | ---- |
-| Ca         | Carrington | KTY  |
-| Co         | Cooper     | LGT  |
-| Hi         | Hillary    | MRQ  |
-| Ru         | Rutherford | SDW  |
+| houses      |            |      |
+| ----------- | ---------- | ---- |
+| PK code !!! | name       | dean |
+| -------     | ---------- | ---- |
+| Ca          | Carrington | KTY  |
+| Co          | Cooper     | LGT  |
+| Hi          | Hillary    | MRQ  |
+| Ru          | Rutherford | SDW  |
 
 </db-data>
 
@@ -72,13 +96,13 @@ When these codes are used in the students table, they are foreign keys, and link
 
 <db-data>
 
-| students |          |          |            |             |
-| -------- | -------- | -------- | ---------- | ----------- |
-| num      | forename | surname  | dob        | FK house !! |
-| -----    | -------- | -------- | ---------- | ----------- |
-| 17034    | Dave     | McPickle | 2001-01-01 | Ru          |
-| 17037    | Karen    | Cheeto   | 2005-06-02 | Co          |
-| 17041    | Pierre   | Fromage  | 2003-12-24 | Ru          |
+| students |          |          |            |              |
+| -------- | -------- | -------- | ---------- | ------------ |
+| num      | forename | surname  | dob        | FK house !!! |
+| -----    | -------- | -------- | ---------- | -----------  |
+| 17034    | Dave     | McPickle | 2001-01-01 | Ru           |
+| 17037    | Karen    | Cheeto   | 2005-06-02 | Co           |
+| 17041    | Pierre   | Fromage  | 2003-12-24 | Ru           |
 
 </db-data>
 

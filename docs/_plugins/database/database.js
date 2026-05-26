@@ -31,9 +31,10 @@
     }
 
     const DB_MARKERS = {
-        HIGHLIGHT:  '!!',
-        SKIP_ONE:   '++',
-        PREV_ONE:   '--'
+        HIGHLIGHT:      '!!!',
+        ITEM_HIGHLIGHT: '!!',
+        SKIP_ONE:       '++',
+        PREV_ONE:       '--'
     }
 
     const DB_RELATIONSHIP_TYPES = {
@@ -54,6 +55,15 @@
 
     function createIcon(type) {
         return `<span class="icon ${type}">${KEY_ICON}</span>`
+    }
+
+    const extractTrailingMarker = window.DocsifyUtils?.extractTrailingMarker || function (text, marker = '!!') {
+        const value = String(text ?? '').trim()
+        const hasMarker = value.endsWith(marker)
+        return {
+            hasMarker,
+            cleanText: hasMarker ? value.slice(0, -marker.length).trim() : value
+        }
     }
 
     function parseTableName(name, index) {
@@ -188,9 +198,11 @@
                 const keyCell = cells[0]
                 let isHighlighted = false
 
-                // Check for highlight marker
-                if (keyCell.textContent.includes(DB_MARKERS.HIGHLIGHT)) {
+                // Check for row highlight marker
+                const rowHighlight = extractTrailingMarker(keyCell.textContent, DB_MARKERS.HIGHLIGHT)
+                if (rowHighlight.hasMarker) {
                     isHighlighted = true
+                    keyCell.textContent = rowHighlight.cleanText
                     cells.forEach(cell => cell.classList.add('focus-row'))
                 }
 
@@ -218,11 +230,6 @@
 
                         linkIndex++
                     }
-                }
-
-                // Remove highlight marker from text
-                if (isHighlighted) {
-                    keyCell.innerHTML = keyCell.innerHTML.replace(DB_MARKERS.HIGHLIGHT, '')
                 }
             }
         })
@@ -302,8 +309,8 @@
             })
 
             // Process keys and highlights
-            processKeys(table, fieldnames, PK_ICON, FK_ICON)
             processHighlights(table, fieldnames, bodyRows)
+            processKeys(table, fieldnames, PK_ICON, FK_ICON)
         })
     }
 
@@ -327,22 +334,42 @@
     function processHighlights(table, fieldnames, bodyRows) {
         // Process highlighted columns
         for (const fieldname of fieldnames) {
-            if (fieldname.textContent.includes(DB_MARKERS.HIGHLIGHT)) {
+            const columnHighlight = extractTrailingMarker(fieldname.textContent, DB_MARKERS.HIGHLIGHT)
+            if (columnHighlight.hasMarker) {
                 const highCol = fieldname.dataset.colNum
                 const highData = table.querySelectorAll(`td[data-col-num="${highCol}"]`)
                 highData.forEach(cell => cell.classList.add('focus-col'))
-                fieldname.innerHTML = fieldname.innerHTML.replace(DB_MARKERS.HIGHLIGHT, '')
+                fieldname.textContent = columnHighlight.cleanText
             }
         }
 
-        // Process highlighted rows
+        // Process highlighted rows and cells
         for (const row of bodyRows) {
-            const firstCell = row.children[0]
-            if (firstCell && firstCell.textContent.includes(DB_MARKERS.HIGHLIGHT)) {
-                const highData = row.querySelectorAll('td')
-                highData.forEach(cell => cell.classList.add('focus-row'))
-                firstCell.innerHTML = firstCell.innerHTML.replace(DB_MARKERS.HIGHLIGHT, '')
+            const cells = row.querySelectorAll('td')
+            if (cells.length === 0) continue
+
+            const firstCell = cells[0]
+            let rowHighlighted = false
+
+            if (firstCell) {
+                const rowHighlight = extractTrailingMarker(firstCell.textContent, DB_MARKERS.HIGHLIGHT)
+                if (rowHighlight.hasMarker) {
+                    rowHighlighted = true
+                    firstCell.textContent = rowHighlight.cleanText
+                }
             }
+
+            cells.forEach(cell => {
+                const cellHighlight = extractTrailingMarker(cell.textContent, DB_MARKERS.ITEM_HIGHLIGHT)
+                if (cellHighlight.hasMarker) {
+                    cell.textContent = cellHighlight.cleanText
+                    cell.classList.add('focus-cell')
+                }
+
+                if (rowHighlighted) {
+                    cell.classList.add('focus-row')
+                }
+            })
         }
     }
 
@@ -424,7 +451,7 @@
         }
 
         // Add focus class if highlighted
-        if (relDesc.length > 1 && relDesc[1] === DB_MARKERS.HIGHLIGHT) {
+        if (relDesc.length > 1 && relDesc[1] === DB_MARKERS.ITEM_HIGHLIGHT) {
             relBlock.classList.add('focus')
         }
 

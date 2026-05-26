@@ -18,15 +18,15 @@
  *   <td data-col-num="2">Worst</td>  <!-- as their TH -->
  *   <td data-col-num="3">100ms</td>
  *
- * Detects !! suffix in headers to mark columns for highlighting.
+ * Detects !!! suffix in headers to mark columns for highlighting.
  * Detects !! suffix in cells to mark individual cells for highlighting.
  * Detects !!! suffix in first cell to mark entire row for highlighting.
  * Wraps tables in a scroll container for horizontal overflow.
  *
  * Usage in markdown:
- *   | Name !! | Score |
- *   |--------|-------|
- *   | Ada !!! | 98 !! |
+ *   | Name !!! | Score |
+ *   |----------|-------|
+ *   | Ada !!!  | 98 !! |
  *
  * This enables CSS :has() selectors to highlight entire columns on hover.
  *
@@ -42,218 +42,238 @@
  */
 
 ;(function () {
-  function processTables() {
-    const tables = document.querySelectorAll('.markdown-section table')
+    const TABLE_MARKERS = {
+        HIGHLIGHT: '!!!',
+        ITEM_HIGHLIGHT: '!!'
+    }
 
-    tables.forEach((table) => {
-      // Skip database plugin source blocks before they are transformed
-      if (table.closest('db-data') || table.closest('db-schema')) {
-        return
-      }
+    const extractTrailingMarker = window.DocsifyUtils?.extractTrailingMarker || function (text, marker = '!!') {
+        const value = String(text ?? '').trim()
+        const hasMarker = value.endsWith(marker)
+        return {
+            hasMarker,
+            cleanText: hasMarker ? value.slice(0, -marker.length).trim() : value
+        }
+    }
 
-      // Skip tables already processed by database plugin
-      if (table.closest('.database-scroll') || table.classList.contains('db-schema')) {
-        return
-      }
+    function processTables() {
+        const tables = document.querySelectorAll('.markdown-section table')
 
-      // Skip logic tables (they're wrapped by the logic plugin)
-      if (table.classList.contains('logic-table') || table.closest('.display-logic')) {
-        return
-      }
+        tables.forEach((table) => {
+            // Skip database plugin source blocks before they are transformed
+            if (table.closest('db-data') || table.closest('db-schema')) {
+                return
+            }
 
-      const rows = table.querySelectorAll('tr')
-      if (rows.length === 0) return
+            // Skip tables already processed by database plugin
+            if (table.closest('.database-scroll') || table.classList.contains('db-schema')) {
+                return
+            }
 
-      // Track which columns should be highlighted (by TH index)
-      const highlightColumns = new Set()
+            // Skip logic tables (they're wrapped by the logic plugin)
+            if (table.classList.contains('logic-table') || table.closest('.display-logic')) {
+                return
+            }
 
-      // Build a mapping from physical column position to TH index
-      const colPositionToThIndex = new Map()
+            const rows = table.querySelectorAll('tr')
+            if (rows.length === 0) return
 
-      // First pass: process header row
-      if (rows.length > 0) {
-        const headerCells = rows[0].querySelectorAll('th')
-        let physicalCol = 1 // Track physical column position
+            // Track which columns should be highlighted (by TH index)
+            const highlightColumns = new Set()
 
-        headerCells.forEach((cell, thIndex) => {
-          const text = cell.textContent.trim()
-          const colspan = parseInt(cell.getAttribute('colspan')) || 1
-          const thNum = thIndex + 1 // TH index (1-based)
+            // Build a mapping from physical column position to TH index
+            const colPositionToThIndex = new Map()
 
-          // Map all physical columns this TH spans to its index
-          for (let i = 0; i < colspan; i++) {
-            colPositionToThIndex.set(physicalCol + i, thNum)
-          }
+            // First pass: process header row
+            if (rows.length > 0) {
+                const headerCells = rows[0].querySelectorAll('th')
+                let physicalCol = 1 // Track physical column position
 
-          // Set data-col-num on the TH itself
-          cell.dataset.colNum = thNum
+                headerCells.forEach((cell, thIndex) => {
+                    const text = cell.textContent.trim()
+                    const colspan = parseInt(cell.getAttribute('colspan')) || 1
+                    const thNum = thIndex + 1 // TH index (1-based)
+                    const colHighlight = extractTrailingMarker(text, TABLE_MARKERS.HIGHLIGHT)
 
-          if (text.endsWith('!!')) {
-            // Mark this TH index for highlighting
-            highlightColumns.add(thNum)
-            // Remove the !! suffix from the header text
-            cell.textContent = text.slice(0, -2).trim()
-            // Add highlight-col class to the TH itself
-            cell.classList.add('highlight-col')
-          }
+                    // Map all physical columns this TH spans to its index
+                    for (let i = 0; i < colspan; i++) {
+                        colPositionToThIndex.set(physicalCol + i, thNum)
+                    }
 
-          physicalCol += colspan
+                    // Set data-col-num on the TH itself
+                    cell.dataset.colNum = thNum
+
+                    if (colHighlight.hasMarker) {
+                        // Mark this TH index for highlighting
+                        highlightColumns.add(thNum)
+                        // Remove the !!! suffix from the header text
+                        cell.textContent = colHighlight.cleanText
+                        // Add highlight-col class to the TH itself
+                        cell.classList.add('highlight-col')
+                    }
+
+                    physicalCol += colspan
+                })
+            }
+
+            // Second pass: add data attributes to body rows
+            for (let y = 1; y < rows.length; y++) {
+                rows[y].dataset.rowNum = y
+
+                const cells = rows[y].querySelectorAll('td, th')
+                if (cells.length === 0) continue
+
+                let physicalCol = 1 // Track physical column position
+                for (let x = 0; x < cells.length; x++) {
+                    const colspan = parseInt(cells[x].getAttribute('colspan')) || 1
+
+                    // Get the TH index this cell belongs to
+                    const thIndex = colPositionToThIndex.get(physicalCol) || physicalCol
+                    cells[x].dataset.colNum = thIndex
+
+                    const cellText = cells[x].textContent.trim()
+                    const rowHighlight = extractTrailingMarker(cellText, TABLE_MARKERS.HIGHLIGHT)
+                    const cellHighlight = extractTrailingMarker(cellText, TABLE_MARKERS.ITEM_HIGHLIGHT)
+
+                    // Check if first cell has !!! marker for row highlighting
+                    if (physicalCol === 1 && rowHighlight.hasMarker) {
+                        // Remove the !!! suffix and add highlight-row class to the row
+                        cells[x].textContent = rowHighlight.cleanText
+                        rows[y].classList.add('highlight-row')
+                    }
+                    // Check if this individual cell has !! marker
+                    else if (cellHighlight.hasMarker) {
+                        // Remove the !! suffix and add highlight-cell class
+                        cells[x].textContent = cellHighlight.cleanText
+                        cells[x].classList.add('highlight-cell')
+                    }
+
+                    // Add highlight-col class if this TH was marked
+                    if (highlightColumns.has(thIndex)) {
+                        cells[x].classList.add('highlight-col')
+                    }
+
+                    physicalCol += colspan
+                }
+            }
+
+            // Also set data-row-num on header row
+            if (rows.length > 0) {
+                rows[0].dataset.rowNum = 0
+            }
+
+            // Wrap table in scroll container
+            const scrollWrapper = document.createElement('div')
+            scrollWrapper.classList.add('table-scroll')
+            table.parentNode.insertBefore(scrollWrapper, table)
+            scrollWrapper.appendChild(table)
         })
-      }
-
-      // Second pass: add data attributes to body rows
-      for (let y = 1; y < rows.length; y++) {
-        rows[y].dataset.rowNum = y
-
-        const cells = rows[y].querySelectorAll('td, th')
-        if (cells.length === 0) continue
-
-        let physicalCol = 1 // Track physical column position
-        for (let x = 0; x < cells.length; x++) {
-          const colspan = parseInt(cells[x].getAttribute('colspan')) || 1
-
-          // Get the TH index this cell belongs to
-          const thIndex = colPositionToThIndex.get(physicalCol) || physicalCol
-          cells[x].dataset.colNum = thIndex
-
-          const cellText = cells[x].textContent.trim()
-
-          // Check if first cell has !!! marker for row highlighting
-          if (physicalCol === 1 && cellText.endsWith('!!!')) {
-            // Remove the !!! suffix and add highlight-row class to the row
-            cells[x].textContent = cellText.slice(0, -3).trim()
-            rows[y].classList.add('highlight-row')
-          }
-          // Check if this individual cell has !! marker
-          else if (cellText.endsWith('!!')) {
-            // Remove the !! suffix and add highlight-cell class
-            cells[x].textContent = cellText.slice(0, -2).trim()
-            cells[x].classList.add('highlight-cell')
-          }
-
-          // Add highlight-col class if this TH was marked
-          if (highlightColumns.has(thIndex)) {
-            cells[x].classList.add('highlight-col')
-          }
-
-          physicalCol += colspan
-        }
-      }
-
-      // Also set data-row-num on header row
-      if (rows.length > 0) {
-        rows[0].dataset.rowNum = 0
-      }
-
-      // Wrap table in scroll container
-      const scrollWrapper = document.createElement('div')
-      scrollWrapper.classList.add('table-scroll')
-      table.parentNode.insertBefore(scrollWrapper, table)
-      scrollWrapper.appendChild(table)
-    })
-  }
-
-  var docsifyTables = function (hook) {
-    hook.doneEach(processTables)
-  }
-
-  // Expose processTables globally for dynamic table generation
-  window.processTableAttributes = function(table) {
-    // Skip database plugin source blocks before they are transformed
-    if (table.closest('db-data') || table.closest('db-schema')) {
-      return
     }
 
-    // Skip tables already processed by database plugin
-    if (table.closest('.database-scroll') || table.classList.contains('db-schema')) {
-      return
+    var docsifyTables = function (hook) {
+        hook.doneEach(processTables)
     }
 
-    // Skip logic tables
-    if (table.classList.contains('logic-table') || table.closest('.display-logic')) {
-      return
+    // Expose processTables globally for dynamic table generation
+    window.processTableAttributes = function (table) {
+        // Skip database plugin source blocks before they are transformed
+        if (table.closest('db-data') || table.closest('db-schema')) {
+            return
+        }
+
+        // Skip tables already processed by database plugin
+        if (table.closest('.database-scroll') || table.classList.contains('db-schema')) {
+            return
+        }
+
+        // Skip logic tables
+        if (table.classList.contains('logic-table') || table.closest('.display-logic')) {
+            return
+        }
+
+        const rows = table.querySelectorAll('tr')
+        if (rows.length === 0) return
+
+        // Track which columns should be highlighted (by TH index)
+        const highlightColumns = new Set()
+
+        // Build a mapping from physical column position to TH index
+        const colPositionToThIndex = new Map()
+
+        // First pass: process header row
+        if (rows.length > 0) {
+            const headerCells = rows[0].querySelectorAll('th')
+            let physicalCol = 1 // Track physical column position
+
+            headerCells.forEach((cell, thIndex) => {
+                const text = cell.textContent.trim()
+                const colspan = parseInt(cell.getAttribute('colspan')) || 1
+                const thNum = thIndex + 1 // TH index (1-based)
+                const colHighlight = extractTrailingMarker(text, TABLE_MARKERS.HIGHLIGHT)
+
+                // Map all physical columns this TH spans to its index
+                for (let i = 0; i < colspan; i++) {
+                    colPositionToThIndex.set(physicalCol + i, thNum)
+                }
+
+                // Set data-col-num on the TH itself
+                cell.dataset.colNum = thNum
+
+                if (colHighlight.hasMarker) {
+                    // Mark this TH index for highlighting
+                    highlightColumns.add(thNum)
+                    cell.textContent = colHighlight.cleanText
+                    // Add highlight-col class to the TH itself
+                    cell.classList.add('highlight-col')
+                }
+
+                physicalCol += colspan
+            })
+        }
+
+        // Second pass: add data attributes to body rows
+        for (let y = 1; y < rows.length; y++) {
+            rows[y].dataset.rowNum = y
+
+            const cells = rows[y].querySelectorAll('td, th')
+            if (cells.length === 0) continue
+
+            let physicalCol = 1 // Track physical column position
+            for (let x = 0; x < cells.length; x++) {
+                const colspan = parseInt(cells[x].getAttribute('colspan')) || 1
+
+                // Get the TH index this cell belongs to
+                const thIndex = colPositionToThIndex.get(physicalCol) || physicalCol
+                cells[x].dataset.colNum = thIndex
+
+                const cellText = cells[x].textContent.trim()
+                const rowHighlight = extractTrailingMarker(cellText, TABLE_MARKERS.HIGHLIGHT)
+                const cellHighlight = extractTrailingMarker(cellText, TABLE_MARKERS.ITEM_HIGHLIGHT)
+
+                if (physicalCol === 1 && rowHighlight.hasMarker) {
+                    cells[x].textContent = rowHighlight.cleanText
+                    rows[y].classList.add('highlight-row')
+                }
+                else if (cellHighlight.hasMarker) {
+                    cells[x].textContent = cellHighlight.cleanText
+                    cells[x].classList.add('highlight-cell')
+                }
+
+                // Add highlight-col class if this TH was marked
+                if (highlightColumns.has(thIndex)) {
+                    cells[x].classList.add('highlight-col')
+                }
+
+                physicalCol += colspan
+            }
+        }
+
+        // Also set data-row-num on header row
+        if (rows.length > 0) {
+            rows[0].dataset.rowNum = 0
+        }
     }
 
-    const rows = table.querySelectorAll('tr')
-    if (rows.length === 0) return
-
-    // Track which columns should be highlighted (by TH index)
-    const highlightColumns = new Set()
-
-    // Build a mapping from physical column position to TH index
-    const colPositionToThIndex = new Map()
-
-    // First pass: process header row
-    if (rows.length > 0) {
-      const headerCells = rows[0].querySelectorAll('th')
-      let physicalCol = 1 // Track physical column position
-
-      headerCells.forEach((cell, thIndex) => {
-        const text = cell.textContent.trim()
-        const colspan = parseInt(cell.getAttribute('colspan')) || 1
-        const thNum = thIndex + 1 // TH index (1-based)
-
-        // Map all physical columns this TH spans to its index
-        for (let i = 0; i < colspan; i++) {
-          colPositionToThIndex.set(physicalCol + i, thNum)
-        }
-
-        // Set data-col-num on the TH itself
-        cell.dataset.colNum = thNum
-
-        if (text.endsWith('!!')) {
-          // Mark this TH index for highlighting
-          highlightColumns.add(thNum)
-          cell.textContent = text.slice(0, -2).trim()
-          // Add highlight-col class to the TH itself
-          cell.classList.add('highlight-col')
-        }
-
-        physicalCol += colspan
-      })
-    }
-
-    // Second pass: add data attributes to body rows
-    for (let y = 1; y < rows.length; y++) {
-      rows[y].dataset.rowNum = y
-
-      const cells = rows[y].querySelectorAll('td, th')
-      if (cells.length === 0) continue
-
-      let physicalCol = 1 // Track physical column position
-      for (let x = 0; x < cells.length; x++) {
-        const colspan = parseInt(cells[x].getAttribute('colspan')) || 1
-
-        // Get the TH index this cell belongs to
-        const thIndex = colPositionToThIndex.get(physicalCol) || physicalCol
-        cells[x].dataset.colNum = thIndex
-
-        const cellText = cells[x].textContent.trim()
-
-        if (physicalCol === 1 && cellText.endsWith('!!!')) {
-          cells[x].textContent = cellText.slice(0, -3).trim()
-          rows[y].classList.add('highlight-row')
-        }
-        else if (cellText.endsWith('!!')) {
-          cells[x].textContent = cellText.slice(0, -2).trim()
-          cells[x].classList.add('highlight-cell')
-        }
-
-        // Add highlight-col class if this TH was marked
-        if (highlightColumns.has(thIndex)) {
-          cells[x].classList.add('highlight-col')
-        }
-
-        physicalCol += colspan
-      }
-    }
-
-    // Also set data-row-num on header row
-    if (rows.length > 0) {
-      rows[0].dataset.rowNum = 0
-    }
-  }
-
-  window.DocsifyUtils.registerPlugin(docsifyTables)
+    window.DocsifyUtils.registerPlugin(docsifyTables)
 })()
 
