@@ -24,10 +24,10 @@
     --sidebar-bg:                     var(--color-mono-1);
     --sidebar-border-color:           var(--border-color);
 
-    --sidebar-link-spacing:           0;
-
-    --sidebar-link-padding-block:     var(--padding-small);
-    --sidebar-link-padding-inline:    var(--padding-med);
+    --sidebar-link-spacing:                 0;
+    --sidebar-link-padding-block:           var(--padding-micro);
+    --sidebar-link-padding-block-active:    var(--padding-small);
+    --sidebar-link-padding-inline:          var(--padding-med);
 
     --sidebar-group-spacing:          var(--gap);
     --sidebar-group-border:           1px solid var(--sidebar-border-color);
@@ -128,7 +128,7 @@
     li[aria-current] {
         background-color: var(--sidebar-link-color-active-bg);
         border-radius: var(--border-radius);
-        padding: var(--sidebar-link-padding-block) var(--sidebar-link-padding-inline);
+        padding: var(--sidebar-link-padding-block-active) var(--sidebar-link-padding-inline);
         margin-block: var(--gap-tiny);
     }
 
@@ -138,14 +138,14 @@
 
     /* Navigation links */
     > ul > li:not([aria-current]) > a[href] {
-        padding: var(--sidebar-link-padding-block) var(--sidebar-link-padding-inline);
+        padding: var(--sidebar-link-padding-block-active) var(--sidebar-link-padding-inline);
     }
 
-    > ul > li > ul > li:not([aria-current]) > a[href] {
-        padding: 0 var(--sidebar-link-padding-inline);
+    > ul > li > ul:not(.app-sub-sidebar) > li:not([aria-current]) > a[href] {
+        padding: var(--sidebar-link-padding-block) var(--sidebar-link-padding-inline);
 
         &:hover {
-            padding-block: var(--sidebar-link-padding-block);
+            padding-block: var(--sidebar-link-padding-block-active);
             /* margin-block: var(--gap-tiny); */
         }
     }

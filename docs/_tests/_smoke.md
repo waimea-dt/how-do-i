@@ -99,10 +99,10 @@ Smoke testing (hover)
 
 ### tables.js ([tests](_tests/tables.md))
 
-| S   | M   | !! O   | K   | E   |
+| S   | M   | O !!   | K   | E   |
 | --- | --- | --- | --- | --- |
 | 1   | 2   | 3   | 4   | 4   |
-| !! T   | E   | S   | T   | ! |
+| T !!   | E   | S   | T   | ! |
 
 
 

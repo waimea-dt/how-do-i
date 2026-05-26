@@ -18,15 +18,15 @@
  *   <td data-col-num="2">Worst</td>  <!-- as their TH -->
  *   <td data-col-num="3">100ms</td>
  *
- * Detects !! prefix in headers to mark columns for highlighting.
- * Detects !! prefix in cells to mark individual cells for highlighting.
- * Detects !!! prefix in first cell to mark entire row for highlighting.
+ * Detects !! suffix in headers to mark columns for highlighting.
+ * Detects !! suffix in cells to mark individual cells for highlighting.
+ * Detects !!! suffix in first cell to mark entire row for highlighting.
  * Wraps tables in a scroll container for horizontal overflow.
  *
  * Usage in markdown:
- *   | !!Name | Score |
+ *   | Name !! | Score |
  *   |--------|-------|
- *   | !!!Ada | !!98  |
+ *   | Ada !!! | 98 !! |
  *
  * This enables CSS :has() selectors to highlight entire columns on hover.
  *
@@ -46,6 +46,11 @@
     const tables = document.querySelectorAll('.markdown-section table')
 
     tables.forEach((table) => {
+      // Skip database plugin source blocks before they are transformed
+      if (table.closest('db-data') || table.closest('db-schema')) {
+        return
+      }
+
       // Skip tables already processed by database plugin
       if (table.closest('.database-scroll') || table.classList.contains('db-schema')) {
         return
@@ -83,11 +88,11 @@
           // Set data-col-num on the TH itself
           cell.dataset.colNum = thNum
 
-          if (text.startsWith('!!')) {
+          if (text.endsWith('!!')) {
             // Mark this TH index for highlighting
             highlightColumns.add(thNum)
-            // Remove the !! prefix from the header text
-            cell.textContent = text.substring(2).trim()
+            // Remove the !! suffix from the header text
+            cell.textContent = text.slice(0, -2).trim()
             // Add highlight-col class to the TH itself
             cell.classList.add('highlight-col')
           }
@@ -114,15 +119,15 @@
           const cellText = cells[x].textContent.trim()
 
           // Check if first cell has !!! marker for row highlighting
-          if (physicalCol === 1 && cellText.startsWith('!!!')) {
-            // Remove the !!! prefix and add highlight-row class to the row
-            cells[x].textContent = cellText.substring(3).trim()
+          if (physicalCol === 1 && cellText.endsWith('!!!')) {
+            // Remove the !!! suffix and add highlight-row class to the row
+            cells[x].textContent = cellText.slice(0, -3).trim()
             rows[y].classList.add('highlight-row')
           }
           // Check if this individual cell has !! marker
-          else if (cellText.startsWith('!!')) {
-            // Remove the !! prefix and add highlight-cell class
-            cells[x].textContent = cellText.substring(2).trim()
+          else if (cellText.endsWith('!!')) {
+            // Remove the !! suffix and add highlight-cell class
+            cells[x].textContent = cellText.slice(0, -2).trim()
             cells[x].classList.add('highlight-cell')
           }
 
@@ -154,6 +159,11 @@
 
   // Expose processTables globally for dynamic table generation
   window.processTableAttributes = function(table) {
+    // Skip database plugin source blocks before they are transformed
+    if (table.closest('db-data') || table.closest('db-schema')) {
+      return
+    }
+
     // Skip tables already processed by database plugin
     if (table.closest('.database-scroll') || table.classList.contains('db-schema')) {
       return
@@ -191,10 +201,10 @@
         // Set data-col-num on the TH itself
         cell.dataset.colNum = thNum
 
-        if (text.startsWith('!!')) {
+        if (text.endsWith('!!')) {
           // Mark this TH index for highlighting
           highlightColumns.add(thNum)
-          cell.textContent = text.substring(2).trim()
+          cell.textContent = text.slice(0, -2).trim()
           // Add highlight-col class to the TH itself
           cell.classList.add('highlight-col')
         }
@@ -220,12 +230,12 @@
 
         const cellText = cells[x].textContent.trim()
 
-        if (physicalCol === 1 && cellText.startsWith('!!!')) {
-          cells[x].textContent = cellText.substring(3).trim()
+        if (physicalCol === 1 && cellText.endsWith('!!!')) {
+          cells[x].textContent = cellText.slice(0, -3).trim()
           rows[y].classList.add('highlight-row')
         }
-        else if (cellText.startsWith('!!')) {
-          cells[x].textContent = cellText.substring(2).trim()
+        else if (cellText.endsWith('!!')) {
+          cells[x].textContent = cellText.slice(0, -2).trim()
           cells[x].classList.add('highlight-cell')
         }
 

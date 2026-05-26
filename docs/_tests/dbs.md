@@ -269,7 +269,7 @@
 | users |       |         |
 | ----- | ----- | ------- |
 | PK    | id    | INTEGER |
-|    !!   | name | TEXT    |
+| !!    | name  | TEXT    |
 |       | dob   | DATE    |
 |       | email | TEXT    |
 
@@ -279,8 +279,8 @@
 
 | users |       |         |
 | ----- | ----- | ------- |
-| PK !!   | id    | INTEGER |
-|       | name | TEXT    |
+| PK !! | id    | INTEGER |
+|       | name  | TEXT    |
 |       | dob   | DATE    |
 |       | email | TEXT    |
 
@@ -292,9 +292,9 @@
 | users |       |         |
 | ----- | ----- | ------- |
 | PK    | id    | INTEGER |
-|       | name | TEXT    |
+|       | name  | TEXT    |
 |       | dob   | DATE    |
-|  !!     | email | TEXT    |
+| !!    | email | TEXT    |
 
 </db-schema>
 
@@ -466,15 +466,15 @@
 | 4         | Nigel  | beast@...  | 1 The Avenue   |
 | 5         | Sheila | lady@...   | 15 Bellevue    |
 
-| orders |            |         |           |
-| ------ | ---------- | ------- | --------- |
+| orders |            |            |           |
+| ------ | ---------- | ---------- | --------- |
 | PK id  | date       | FK cust_id | completed |
-| ------ | ---------- | ------- | --------- |
-| 1      | 2025-01-01 | 3       | true      |
-| 2      | 2025-02-12 | 1       | true      |
-| 3      | 2025-05-10 | 5       | false     |
-| 4      | 2025-05-30 | 1       | true      |
-| 5      | 2025-06-01 | 2       | false     |
+| ------ | ---------- | -------    | --------- |
+| 1      | 2025-01-01 | 3          | true      |
+| 2      | 2025-02-12 | 1          | true      |
+| 3      | 2025-05-10 | 5          | false     |
+| 4      | 2025-05-30 | 1          | true      |
+| 5      | 2025-06-01 | 2          | false     |
 
 | contains    |            |     |
 | ----------- | ---------- | :-: |
