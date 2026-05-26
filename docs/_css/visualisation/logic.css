@@ -24,7 +24,8 @@
 .logic-scroll {
     overflow-x: auto;
     overflow-y: visible;
-    margin: var(--margin-block) auto;
+    margin-block: var(--margin-block);
+    margin-inline: auto;
     width: fit-content;
     max-width: 100%;
     padding: 0 var(--padding-small);
@@ -337,6 +338,12 @@
     tr:has(td.out.true) td.in.true {
         font-weight: bold;
     }
+}
+
+/* Override global table margin reset in tables.css */
+.markdown-section .display-logic table.logic-table {
+    margin-block: var(--margin-block);
+    margin-inline: auto;
 }
 
 /* ========================================================================
