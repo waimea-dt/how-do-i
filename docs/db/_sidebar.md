@@ -10,9 +10,12 @@
     - [<i data-lucide="circle-question-mark"></i>What is a Database?](db/)
     - [<i data-lucide="square-split-horizontal"></i>Database Normalisation](db/normal.md)
     - [<i data-lucide="database-zap"></i>What is a 'CRUD' App?](db/crud.md)
-    - [<i data-lucide="circle-question-mark"></i>What is SQL?](db/sql/)
 
-- <i data-lucide="table"></i>Setup Database Tables
+- <i data-lucide="database-search"></i>SQL Intro
+    - [<i data-lucide="circle-question-mark"></i>What is SQL?](db/sql/)
+    - [<i data-lucide="square-arrow-right-enter"></i>SQL Injection](db/sql/injection.md)
+
+- <i data-lucide="table"></i>Creating Database Tables
     - [<i data-lucide="grid-2x2-plus"></i>Creating a Table](db/sql/create.md)
     - [<i data-lucide="link"></i>Foreign Keys](db/sql/foreign.md)
 

@@ -1,28 +1,40 @@
 # SQL Injection Attacks
 
-[![XKCD SQL injection comic](media/xkcd-sql.png)](https://xkcd.com/327/)
+[![XKCD SQL injection comic](_assets/xkcd-sql.png)](https://xkcd.com/327/)
 
 ## What is SQL Injection?
 
 Imagine a form to login to a web application. It asks for a username...
 
-![Username form](media/form.png)
+<form class="demo-form">
+    <label>
+        Username
+        <input value='jsmith'>
+    </label>
+    <button>Continue</button>
+</form>
 
-When this form is submitted, we need to take the form data and use it within an SQL query. If we naively took the form data and **concatenated it directly into the query**...
+When this form is submitted, we need to take the form data and use it within an SQL query. If we naively took the form data and **placed it directly into the query**...
 
-```php
-$query = 'SELECT * FROM users WHERE username="' . $_POST['username'] . '"';
+```python
+username = request.form.get('username', '')
+with connect_db() as db:
+    sql = f'SELECT * FROM users WHERE username = "{username}"'
+    records = db.execute(sql)
 ```
 
-... we have just introduced a potential **security issue** since we are assuming that users will only enter valid names and nothing else.
+> [!TIP]
+> NEVER do this with any data that has come from an untrusted user!
 
-If the user enters a real username:
 
-```
-jsmith
-```
+We have just introduced a potential **security issue**, opening us up to a type of database attack called **SQL Injection**.
 
-... then the SQL query would become...
+We have assumed that users will only enter valid names and nothing else, but what if that is not true? What if an attacker wants to compromise our server, wants to access data they should not have access to, or wants to modify / delete the data?
+
+
+## Valid User Input Data
+
+If the user enters a real username: `jsmith`, then the SQL query would become...
 
 ```sql
 SELECT * FROM users WHERE username="jsmith"
@@ -30,18 +42,20 @@ SELECT * FROM users WHERE username="jsmith"
 
 No issues there. A single user record would be returned.
 
-But... What if an attacker is attempting to compromise our server. They might try to access data they should not have access to, or they might try to modify the data in some way.
-
-An attacker might not just type a username, they might type some **malicious SQL** into the form...
+But...
 
 
-## Example of SQL Injection - Accessing Data
+## SQL Injection Attack 1
 
-The attacker types this into the form:
+What if the attacker types this snippet of text / SQL into the form:
 
-```
-jsmith" OR ""="
-```
+<form class="demo-form">
+    <label>
+        Username
+        <input value='jsmith" OR ""="'>
+    </label>
+    <button>Continue</button>
+</form>
 
 What effect does this have? Let's look at what out query now becomes...
 
@@ -49,29 +63,54 @@ What effect does this have? Let's look at what out query now becomes...
 SELECT * FROM users WHERE username="jsmith" OR ""=""
 ```
 
-Since "" does equal "", the WHERE clause will always be true, so *every* user record will be returned.
-
-This is BAD! The attacker potentially has access to everyone's account data.
+`""=""`(sql)... What does that do? Well, since "" does equal "", this equates to `TRUE`(sql), and so the WHERE clause will **always be True**. And `WHERE TRUE`(sql) will result in *every* user record being returned. This is BAD! The attacker has just gained access to everyone's account data!
 
 
-## Example of SQL Injection - Deleting Data
+## SQL Injection Attack 2
 
-The attacker types this into the form:
+What if the attacker types this more complex snippet of SQL into the form:
 
-```
-jsmith"; DROP TABLE users; --
-```
+<form class="demo-form">
+    <label>
+        Username
+        <input value='jsmith"; DROP TABLE users; --'>
+    </label>
+    <button>Continue</button>
+</form>
 
-What effect does this have? Let's look at what out query now becomes...
+What effect does this have? Let's look at what our query now becomes...
 
 ```sql
 SELECT * FROM users WHERE username="jsmith"; DROP TABLE users; --"
 ```
 
-The query now contains not just our intended query, but also the attacker's DROP TABLE query.
+The query now contains not just our intended query, but also the attacker's `DROP TABLE users`(sql) query. This is BAD! They have just **deleted the whole users table**. We just lost everyone's accounts!
 
-This is BAD! They have just deleted the whole of our user table, with everyone's accounts!
+> [!NOTE]
+> The `;`(sql) ends the first command, allowing a second to be started. And `--`(sql) indicates an SQL comment, here commenting out the final " and preventing an error
 
-?> The `;` ends the first command, allowing a second to be started. And `--` indicates an SQL comment, here commenting out the final " and preventing an error*
+
+## Preventing SQL Injection
+
+The solution to these attacks is to use something called **prepared statements** for all queries. Instead of adding any user data directly into a query, we instead place a `?` marker in the query where we want the user data to go, and supply the user data as parameters.
 
 
+```python
+username = request.form.get('username', '')
+with connect_db() as db:
+    sql = "SELECT * FROM users WHERE username = ?"   # note the ? marker for data
+    params = (username,)                             # supply user data as parameters
+    records = db.execute(sql, params)                # safe prepared statement call
+```
+
+When executing the query, the prepared statement places the data where the `?` marker is in such a way that any SQL the use provides won't be run. This is called **data sanitisation**.
+
+> [!IMPORTANT]
+> You must supply data values in the **correct order** to match the `?` markers...
+> ```python
+> sql = """
+>     SELECT * FROM classes
+>     WHERE teacher = ? AND subject = ? AND level = ?
+> """
+> params = (teacher_code, subject_code, class_level)   # data params in correct order
+> ```
