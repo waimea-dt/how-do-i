@@ -8,10 +8,11 @@
 
 - <i data-lucide="database"></i>Databases
     - [<i data-lucide="circle-question-mark"></i>What is a Database?](db/)
-    - [<i data-lucide="list"></i>Database Terminology](db/terms.md)
+    - [<i data-lucide="square-split-horizontal"></i>Database Normalisation](db/normal.md)
+    - [<i data-lucide="database-zap"></i>What is a 'CRUD' App?](db/crud.md)
     - [<i data-lucide="circle-question-mark"></i>What is SQL?](db/sql/)
 
-- <i data-lucide="table"></i>Database Tables
+- <i data-lucide="table"></i>Setup Database Tables
     - [<i data-lucide="grid-2x2-plus"></i>Creating a Table](db/sql/create.md)
     - [<i data-lucide="link"></i>Foreign Keys](db/sql/foreign.md)
 

@@ -124,6 +124,10 @@
 
     margin-right: var(--_sidebar-list-inset);
 
+    > ul {
+        margin-bottom: calc(2 * var(--margin-block));
+    }
+
     /* Current page */
     li[aria-current] {
         background-color: var(--sidebar-link-color-active-bg);
