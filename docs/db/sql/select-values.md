@@ -1,10 +1,22 @@
-# SELECT Queries Using Supplied Data Values
+# Using Parameters in SQL Queries
 
-When values come from users, use placeholders (`?`) and parameters.
+## Parameterised Queries
 
-This is safer than putting user text straight into SQL.
+When values come from users, use **placeholders** (`?`) and **parameters** instead of putting user text directly into SQL queries. The syntax is:
 
-## Demo 1: Find One Player
+```sql
+SELECT field_name, field_name, ...
+FROM table_name
+WHERE field_name = ?
+```
+
+> [!IMPORTANT]
+> Always use parameterised queries with user-supplied data to prevent **SQL injection attacks**. Never concatenate user input directly into SQL strings!
+
+
+## Example - Single Parameter
+
+Find one player by their id:
 
 ```sql
 SELECT name, level
@@ -12,10 +24,14 @@ FROM players
 WHERE id = ?
 ```
 
-Parameter example: `(3,)`
+Parameters: `3`
+
+The `?`(sql) placeholder is replaced with the value `3` safely.
 
 
-## Demo 2: Filter by Two Values
+## Example - Multiple Parameters
+
+Filter by two values:
 
 ```sql
 SELECT name, level
@@ -24,16 +40,29 @@ WHERE class = ?
   AND level >= ?
 ```
 
-Parameter example: `('Wizard', 10)`
+Parameters: `'Wizard'` and `10`
+
+Parameters must be supplied in the **correct order** to match the `?`(sql) placeholders.
 
 
-## Demo 3: Search by Text
+## Example - Wildcards
+
+Search using pattern matching with `%` and `LIKE`(sql):
 
 ```sql
 SELECT name, level
 FROM players
-WHERE name LIKE ? OR class LIKE ?
+WHERE name LIKE ?
 ```
 
-Parameter example: `('%code%', '%code%')`
+Parameters: `'A%'`
+
+The `LIKE`(sql) operator allows **pattern matching** with `%` as a wildcard:
+- `A%` means that the data must start with `A`, but can be followed by anything
+- `%N` means that the data can start with anything, but must end with `N`
+- `%S%` means that anything can be at the start/end of the data, but it must contain `S`
+
+> [!TIP]
+> This is great for search queries - the search term is placed between wildcards:
+> `search_param = f"%{search_term}%"`(python)
 

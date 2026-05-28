@@ -1,18 +1,22 @@
-# Getting Summary Information About Records in a Table [GROUP BY]
+# Getting Summary Data with SQL
 
-Summary queries give totals, counts, and averages.
+## The GROUP BY Clause
 
-Useful functions:
+Summary queries use **aggregate functions** to calculate totals, counts, and averages. The syntax is:
 
-- `COUNT()`(sql)
-- `SUM()`(sql)
-- `AVG()`(sql)
-- `MIN()`(sql)
-- `MAX()`(sql)
+```sql
+SELECT field_name, FUNCTION(field_name)
+FROM table_name
+GROUP BY field_name
+```
 
-## Simple Demo
+> [!TIP]
+> Common aggregate functions include `COUNT()`(sql), `SUM()`(sql), `AVG()`(sql), `MIN()`(sql), and `MAX()`(sql)
 
-How many players in each class:
+
+## Example - Count Records
+
+Count how many players are in each class:
 
 ```sql
 SELECT class, COUNT(*) AS total_players
@@ -20,11 +24,18 @@ FROM players
 GROUP BY class
 ```
 
-Average level in each class:
+The `COUNT(*)`(sql) function counts the **number of records** in each group.
+
+
+## Example - Calculate Average
+
+Calculate the average level in each class:
 
 ```sql
 SELECT class, AVG(level) AS avg_level
 FROM players
 GROUP BY class
 ```
+
+The `AVG()`(sql) function calculates the **average value** of the `level`(sql) field for each group.
 

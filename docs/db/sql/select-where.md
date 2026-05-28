@@ -1,12 +1,22 @@
-# Filtering Records when Selecting [WHERE]
+# Filtering Data with SQL
 
-`WHERE` filters rows.
+## The WHERE Clause
 
-Without `WHERE`, SQL returns all rows.
+`WHERE`(sql) filters rows based on specific **criteria**. The syntax is:
 
-## Simple Demo
+```sql
+SELECT field_name, field_name, ...
+FROM table_name
+WHERE criteria
+```
 
-Only players at level 10 or higher:
+> [!NOTE]
+> Without a `WHERE`(sql) clause, SQL returns **all rows** from the table
+
+
+## Example - Simple Filter
+
+Only return players at level 10 or higher:
 
 ```sql
 SELECT name, level
@@ -14,15 +24,21 @@ FROM players
 WHERE level >= 10
 ```
 
-Players in Wizard class at level 10 or higher:
+Only records matching `level >= 10`(sql) will be returned.
+
+
+## Example - Multiple Conditions
+
+Return players in the Wizard class at level 10 or higher:
 
 ```sql
-SELECT name, level, house
+SELECT name, level, class
 FROM players
 WHERE class = 'Wizard'
   AND level >= 10
 ```
 
-Use `AND` when all conditions must be true.
-Use `OR` when either condition can be true.
+> [!TIP]
+> Use `AND`(sql) when **all conditions** must be true
+> Use `OR`(sql) when **either condition** can be true
 

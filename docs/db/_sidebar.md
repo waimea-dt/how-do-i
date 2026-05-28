@@ -13,6 +13,7 @@
 
 - <i data-lucide="database-search"></i>SQL Intro
     - [<i data-lucide="circle-question-mark"></i>What is SQL?](db/sql/)
+    - [<i data-lucide="file-text"></i>SQL Cheatsheet](db/sql/cheatsheet.md)
     - [<i data-lucide="square-arrow-right-enter"></i>SQL Injection](db/sql/injection.md)
 
 - <i data-lucide="table"></i>Creating Database Tables

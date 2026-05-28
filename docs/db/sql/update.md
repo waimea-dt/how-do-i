@@ -1,10 +1,22 @@
-# Updating Values in Records [UPDATE]
+# Updating Records in a Table with SQL
 
-`UPDATE` changes existing rows.
+## The UPDATE Command
 
-## Simple Demo
+`UPDATE`(sql) changes existing rows in a table. The syntax is:
 
-Change one player's level:
+```sql
+UPDATE table_name
+SET field_name = value
+WHERE criteria
+```
+
+> [!WARNING]
+> If you skip the `WHERE`(sql) clause, e.g. `UPDATE table_name SET field = value`(sql), **every** record will be updated! Be careful!
+
+
+## Example - Updating a Single Record
+
+Use the **primary key** value (e.g. the id) to identify and update one specific record:
 
 ```sql
 UPDATE players
@@ -12,7 +24,12 @@ SET level = 20
 WHERE id = 2
 ```
 
-Change multiple player's level:
+Only the **single record** with `id = 2`(sql) will be changed.
+
+
+## Example - Updating Multiple Records
+
+Specify some **criteria** to update a set of matching records:
 
 ```sql
 UPDATE players
@@ -20,7 +37,12 @@ SET level = 20
 WHERE class = 'Wizard'
 ```
 
-Change two columns at once:
+**Multiple records** that match `class = 'Wizard'`(sql) will be updated.
+
+
+## Example - Updating Multiple Fields
+
+Change two columns at once in a single record:
 
 ```sql
 UPDATE players
@@ -29,7 +51,5 @@ SET level = 21,
 WHERE id = 2
 ```
 
-## Important
-
-If you skip `WHERE`, every row is updated.
+Both `level`(sql) and `class`(sql) fields are updated for the record with `id = 2`(sql).
 

@@ -40,9 +40,7 @@ If the user enters a real username: `jsmith`, then the SQL query would become...
 SELECT * FROM users WHERE username="jsmith"
 ```
 
-No issues there. A single user record would be returned.
-
-But...
+No issues there. A single user record would be returned. But...
 
 
 ## SQL Injection Attack 1

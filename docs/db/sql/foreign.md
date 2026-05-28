@@ -1,12 +1,24 @@
-# Defining Foreign Keys [FOREIGN KEY]
+# Linking Tables with Foreign Keys
 
-A foreign key links one table to another.
+## The FOREIGN KEY Constraint
 
-It stops data from pointing to rows that do not exist.
+A **foreign key** links one table to another and ensures **referential integrity**. The syntax is:
 
-## Simple Demo
+```sql
+CREATE TABLE table_name (
+	field_name TYPE,
+	...
+	FOREIGN KEY (field_name) REFERENCES other_table(primary_key)
+)
+```
 
-Create teams first:
+> [!NOTE]
+> Foreign keys prevent data from pointing to rows that do not exist, maintaining data integrity across related tables
+
+
+## Example - Creating Linked Tables
+
+Create the parent table first:
 
 ```sql
 CREATE TABLE teams (
@@ -16,7 +28,7 @@ CREATE TABLE teams (
 )
 ```
 
-Then create players with a foreign key:
+Then create the child table with a **foreign key**:
 
 ```sql
 CREATE TABLE players (
@@ -27,14 +39,9 @@ CREATE TABLE players (
 
 	team_id INTEGER,
 
-	FOREIGN KEY (class_id) REFERENCES classes(id)
+	FOREIGN KEY (team_id) REFERENCES teams(id)
 )
 ```
 
-Now each `players.team_id` must match a real `teams.id`.
-
-
-## Why This Helps
-
-Without foreign keys, you can end up with broken links in your data.
+Now each `players.team_id`(sql) value must match an existing `teams.id`(sql) value. This prevents **broken links** in your data.
 

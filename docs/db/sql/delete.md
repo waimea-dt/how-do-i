@@ -1,23 +1,39 @@
-# Deleting a Record from a Table [DELETE]
+# Deleting a Record from a Table with SQL
 
-`DELETE` removes rows from a table.
+## The DELETE Command
 
-## Simple Demo
+`DELETE`(sql) removes rows from a table. The syntax is:
 
-Remove one player by id:
+```sql
+DELETE FROM table_name
+WHERE criteria
+```
+
+> [!WARNING]
+> If you skip the `WHERE`(sql) clause, e.g. `DELETE FROM table_name`(sql), **every** record will be deleted! Be careful!
+
+
+## Example - Deleting a Single Record
+
+Use the **primary key** value (e.g. the id) to identify and remove one specific record:
 
 ```sql
 DELETE FROM players
 WHERE id = 3
 ```
 
-Only the row with `id = 3` is removed.
+Only the **single record** with `id = 3`(sql) will be removed.
 
 
-## Important
+## Example - Deleting a Set of Records
 
-If you skip `WHERE`, every row is deleted:
+Specify some **criteria** to remove a set of matching records:
 
 ```sql
 DELETE FROM players
+WHERE level < 5
 ```
+
+**Multiple records** that match `level < 5`(sql) will be removed.
+
+

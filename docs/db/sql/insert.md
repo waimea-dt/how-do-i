@@ -1,17 +1,33 @@
-# Creating / Adding Records to a Table [INSERT]
+# Adding Records to a Table with SQL
 
-`INSERT` adds new rows to a table.
+## The INSERT Command
 
-## Simple Demo
+`INSERT`(sql) adds new rows to a table. The syntax is:
 
-Add one row:
+```sql
+INSERT INTO table_name (field_name, field_name, ...)
+VALUES (data_value, data_value, ...)
+```
+
+> [!TIP]
+> Always list the column names to ensure your values go into the correct fields
+
+
+## Example - Adding a Single Record
+
+Add one row to the players table:
 
 ```sql
 INSERT INTO players (id, name, level, class)
 VALUES (1, 'PixelKnight', 12, 'Brute')
 ```
 
-Add many rows at once:
+This creates **one new record** with the specified values.
+
+
+## Example - Adding Multiple Records
+
+Add multiple rows at once:
 
 ```sql
 INSERT INTO players (id, name, level, class)
@@ -20,4 +36,4 @@ VALUES
 	(3, 'BugHunter', 15, 'Thief')
 ```
 
-List columns so your values go into the right places.
+This creates **multiple records** in a single `INSERT`(sql) statement.
