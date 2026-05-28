@@ -31,9 +31,9 @@ Specify some **criteria** to remove a set of matching records:
 
 ```sql
 DELETE FROM players
-WHERE level < 5
+WHERE rank < 5
 ```
 
-**Multiple records** that match `level < 5`(sql) will be removed.
+**Multiple records** that match `rank < 5`(sql) will be removed.
 
 

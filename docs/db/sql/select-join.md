@@ -18,7 +18,7 @@ JOIN table2 ON table1.foreign_key = table2.primary_key
 
 Given these tables:
 
-- `players(id, name, level, notes, team_id)`
+- `players(id, name, rank, notes, team_id)`
 - `teams(id, name, notes)`
 
 Get each player with their team name:

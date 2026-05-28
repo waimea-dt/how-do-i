@@ -29,13 +29,13 @@ The `COUNT(*)`(sql) function counts the **number of records** in each group.
 
 ## Example - Calculate Average
 
-Calculate the average level in each class:
+Calculate the average rank in each class:
 
 ```sql
-SELECT class, AVG(level) AS avg_level
+SELECT class, AVG(rank) AS avg_rank
 FROM players
 GROUP BY class
 ```
 
-The `AVG()`(sql) function calculates the **average value** of the `level`(sql) field for each group.
+The `AVG()`(sql) function calculates the **average value** of the `rank`(sql) field for each group.
 

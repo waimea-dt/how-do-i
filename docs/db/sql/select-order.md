@@ -16,28 +16,28 @@ ORDER BY field_name ASC|DESC
 
 ## Example - Ascending Order
 
-Sort by level from smallest to largest:
+Sort by rank from smallest to largest:
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-ORDER BY level ASC
+ORDER BY rank ASC
 ```
 
-Results are sorted in **ascending** order by the `level`(sql) field.
+Results are sorted in **ascending** order by the `rank`(sql) field.
 
 
 ## Example - Descending Order
 
-Sort by level from largest to smallest:
+Sort by rank from largest to smallest:
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-ORDER BY level DESC
+ORDER BY rank DESC
 ```
 
-Results are sorted in **descending** order by the `level`(sql) field.
+Results are sorted in **descending** order by the `rank`(sql) field.
 
 
 ## Example - Multiple Sort Columns
@@ -45,10 +45,10 @@ Results are sorted in **descending** order by the `level`(sql) field.
 Sort by multiple columns:
 
 ```sql
-SELECT name, level, class
+SELECT name, rank, class
 FROM players
-ORDER BY class ASC, level DESC
+ORDER BY class ASC, rank DESC
 ```
 
-Results are first sorted by `class`(sql) in ascending order, then by `level`(sql) in descending order within each class.
+Results are first sorted by `class`(sql) in ascending order, then by `rank`(sql) in descending order within each class.
 

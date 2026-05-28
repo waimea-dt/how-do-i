@@ -19,7 +19,7 @@ WHERE field_name = ?
 Find one player by their id:
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 WHERE id = ?
 ```
@@ -34,10 +34,10 @@ The `?`(sql) placeholder is replaced with the value `3` safely.
 Filter by two values:
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 WHERE class = ?
-  AND level >= ?
+  AND rank >= ?
 ```
 
 Parameters: `'Wizard'` and `10`
@@ -50,7 +50,7 @@ Parameters must be supplied in the **correct order** to match the `?`(sql) place
 Search using pattern matching with `%` and `LIKE`(sql):
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 WHERE name LIKE ?
 ```
