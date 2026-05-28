@@ -30,9 +30,9 @@ The `*`(sql) means **all columns** will be returned.
 Get specific columns only:
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 ```
 
-Only the `name`(sql) and `level`(sql) columns are returned. Selecting fewer columns can make results easier to read and improves query performance.
+Only the `name`(sql) and `rank`(sql) columns are returned. Selecting fewer columns can make results easier to read and improves query performance.
 

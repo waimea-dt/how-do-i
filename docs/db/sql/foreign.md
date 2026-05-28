@@ -32,10 +32,10 @@ Then create the child table with a **foreign key**:
 
 ```sql
 CREATE TABLE players (
-	id      INTEGER PRIMARY KEY,
-	name    TEXT NOT NULL,
-    level   INTEGER DEFAULT 1,
-    class   TEXT NOT NULL,
+	id    INTEGER PRIMARY KEY,
+	name  TEXT NOT NULL,
+    rank  INTEGER DEFAULT 1,
+    class TEXT NOT NULL,
 
 	team_id INTEGER,
 

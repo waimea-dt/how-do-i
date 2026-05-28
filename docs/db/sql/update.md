@@ -20,7 +20,7 @@ Use the **primary key** value (e.g. the id) to identify and update one specific 
 
 ```sql
 UPDATE players
-SET level = 20
+SET rank = 20
 WHERE id = 2
 ```
 
@@ -33,7 +33,7 @@ Specify some **criteria** to update a set of matching records:
 
 ```sql
 UPDATE players
-SET level = 20
+SET rank = 20
 WHERE class = 'Wizard'
 ```
 
@@ -46,10 +46,10 @@ Change two columns at once in a single record:
 
 ```sql
 UPDATE players
-SET level = 21,
+SET rank = 21,
 	class = 'Thief'
 WHERE id = 2
 ```
 
-Both `level`(sql) and `class`(sql) fields are updated for the record with `id = 2`(sql).
+Both `rank`(sql) and `class`(sql) fields are updated for the record with `id = 2`(sql).
 

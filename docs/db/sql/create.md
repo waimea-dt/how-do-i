@@ -24,7 +24,7 @@ Create a table to store player data:
 CREATE TABLE players (
 	id    INTEGER PRIMARY KEY,
 	name  TEXT    NOT NULL,
-	level INTEGER DEFAULT 1,
+	rank  INTEGER DEFAULT 1,
 	class TEXT    NOT NULL
 )
 ```

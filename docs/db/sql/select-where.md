@@ -16,26 +16,26 @@ WHERE criteria
 
 ## Example - Simple Filter
 
-Only return players at level 10 or higher:
+Only return players at rank 10 or higher:
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-WHERE level >= 10
+WHERE rank >= 10
 ```
 
-Only records matching `level >= 10`(sql) will be returned.
+Only records matching `rank >= 10`(sql) will be returned.
 
 
 ## Example - Multiple Conditions
 
-Return players in the Wizard class at level 10 or higher:
+Return players in the Wizard class at rank 10 or higher:
 
 ```sql
-SELECT name, level, class
+SELECT name, rank, class
 FROM players
 WHERE class = 'Wizard'
-  AND level >= 10
+  AND rank >= 10
 ```
 
 > [!TIP]

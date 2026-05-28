@@ -18,7 +18,7 @@ VALUES (data_value, data_value, ...)
 Add one row to the players table:
 
 ```sql
-INSERT INTO players (id, name, level, class)
+INSERT INTO players (id, name, rank, class)
 VALUES (1, 'PixelKnight', 12, 'Brute')
 ```
 
@@ -30,7 +30,7 @@ This creates **one new record** with the specified values.
 Add multiple rows at once:
 
 ```sql
-INSERT INTO players (id, name, level, class)
+INSERT INTO players (id, name, rank, class)
 VALUES
 	(2, 'CodeNinja', 9,  'Wizard'),
 	(3, 'BugHunter', 15, 'Thief')

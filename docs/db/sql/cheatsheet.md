@@ -6,7 +6,7 @@
 CREATE TABLE players (
 	id    INTEGER PRIMARY KEY,
 	name  TEXT    NOT NULL,
-	level INTEGER DEFAULT 1,
+	rank  INTEGER DEFAULT 1,
 	class TEXT    NOT NULL
 )
 ```
@@ -24,14 +24,14 @@ CREATE TABLE players (
 **Add a single record:**
 
 ```sql
-INSERT INTO players (id, name, level, class)
+INSERT INTO players (id, name, rank, class)
 VALUES (1, 'PixelKnight', 12, 'Brute')
 ```
 
 **Add multiple records at once:**
 
 ```sql
-INSERT INTO players (id, name, level, class)
+INSERT INTO players (id, name, rank, class)
 VALUES
 	(2, 'CodeNinja', 9,  'Wizard'),
 	(3, 'BugHunter', 15, 'Thief')
@@ -53,7 +53,7 @@ FROM players
 **Select specific columns:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 ```
 
@@ -61,7 +61,7 @@ FROM players
 
 ```sql
 SELECT name AS player_name,
-       level AS player_level
+       rank AS player_rank
 FROM players
 ```
 
@@ -71,9 +71,9 @@ FROM players
 **Filter with simple condition:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-WHERE level >= 10
+WHERE rank >= 10
 ```
 
 **Comparison operators:**
@@ -106,9 +106,9 @@ WHERE class IN ('Wizard', 'Thief', 'Brute')
 **Range checking with BETWEEN:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-WHERE level BETWEEN 10 AND 20     -- 10 ≤ level ≤ 20
+WHERE rank BETWEEN 10 AND 20     -- 10 ≤ rank ≤ 20
 ```
 
 **Check for NULL values:**
@@ -128,10 +128,10 @@ WHERE notes IS NOT NULL      -- field has a value
 **Multiple conditions with AND / OR:**
 
 ```sql
-SELECT name, level, class
+SELECT name, rank, class
 FROM players
 WHERE class = 'Wizard'    -- BOTH criteria must match
-  AND level >= 10
+  AND rank >= 10
 ```
 
 ```sql
@@ -167,25 +167,25 @@ WHERE name LIKE 'A_____'     -- starts with "A", six chars total
 **Sort ascending (smallest to largest):**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-ORDER BY level ASC
+ORDER BY rank ASC
 ```
 
 **Sort descending (largest to smallest):**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-ORDER BY level DESC
+ORDER BY rank DESC
 ```
 
 **Sort by multiple columns:**
 
 ```sql
-SELECT name, level, class
+SELECT name, rank, class
 FROM players
-ORDER BY class ASC, level DESC    -- class A-Z, then level within each class
+ORDER BY class ASC, rank DESC    -- class A-Z, then rank within each class
 ```
 
 
@@ -194,18 +194,18 @@ ORDER BY class ASC, level DESC    -- class A-Z, then level within each class
 **Limit number of results:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-ORDER BY level DESC
-LIMIT 5                           -- top 5 highest levels
+ORDER BY rank DESC
+LIMIT 5                           -- top 5 highest ranks
 ```
 
 **Pagination with OFFSET:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-ORDER BY level DESC
+ORDER BY rank DESC
 LIMIT 10 OFFSET 20                -- skip first 20, get next 10
 ```
 
@@ -234,8 +234,8 @@ JOIN teams ON players.team_id = teams.id
 
 ```sql
 JOIN         -- inner join - only matching rows
-LEFT JOIN    -- all rows from left table + matching from right (NULL if no match)
-RIGHT JOIN   -- all rows from right table + matching from left (NULL if no match)
+LEFT JOIN    -- all rows from left table + matching / NULL from right
+RIGHT JOIN   -- all rows from right table + matching / NULL from left
 ```
 
 
@@ -245,7 +245,7 @@ RIGHT JOIN   -- all rows from right table + matching from left (NULL if no match
 
 ```sql
 UPDATE players
-SET level = 20
+SET rank = 20
 WHERE id = 2
 ```
 
@@ -253,7 +253,7 @@ WHERE id = 2
 
 ```sql
 UPDATE players
-SET level = 20
+SET rank = 20
 WHERE class = 'Wizard'
 ```
 
@@ -261,7 +261,7 @@ WHERE class = 'Wizard'
 
 ```sql
 UPDATE players
-SET level = 21,
+SET rank = 21,
     class = 'Thief'
 WHERE id = 2
 ```
@@ -283,7 +283,7 @@ WHERE id = 3
 
 ```sql
 DELETE FROM players
-WHERE level < 5
+WHERE rank < 5
 ```
 
 > [!WARNING]
@@ -315,9 +315,9 @@ MAX(field)    -- largest value
 
 ```sql
 SELECT class,
-       COUNT(*)   AS total,
-       AVG(level) AS avg_level,
-       MAX(level) AS max_level
+       COUNT(*)  AS total,
+       AVG(rank) AS avg_rank,
+       MAX(rank) AS max_rank
 FROM players
 GROUP BY class
 ```
@@ -337,7 +337,7 @@ HAVING COUNT(*) > 5               -- filter groups (use HAVING, not WHERE)
 **Single parameter:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 WHERE id = ?
 ```
@@ -348,16 +348,16 @@ WHERE id = ?
 **Multiple parameters:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 WHERE class = ?
-  AND level >= ?
+  AND rank >= ?
 ```
 
 **Parameters are supplied separately in code:**
 
 ```python
-sql = "SELECT * FROM players WHERE class = ? AND level >= ?"
+sql = "SELECT * FROM players WHERE class = ? AND rank >= ?"
 params = ('Wizard', 10)           # values in correct order
 records = db.execute(sql, params)
 ```
@@ -365,7 +365,7 @@ records = db.execute(sql, params)
 **Pattern matching with parameters:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
 WHERE name LIKE ?                 -- parameter: '%code%'
 ```
@@ -389,7 +389,7 @@ CREATE TABLE teams (
 CREATE TABLE players (
 	id      INTEGER PRIMARY KEY,
 	name    TEXT NOT NULL,
-	level   INTEGER DEFAULT 1,
+	rank    INTEGER DEFAULT 1,
 	class   TEXT NOT NULL,
 	team_id INTEGER,
 
@@ -445,9 +445,9 @@ HAVING COUNT(*) > 1
 **Get top N results:**
 
 ```sql
-SELECT name, level
+SELECT name, rank
 FROM players
-ORDER BY level DESC
+ORDER BY rank DESC
 LIMIT 10                          -- top 10
 ```
 
@@ -470,7 +470,7 @@ FROM players
 ```sql
 SELECT name, class
 FROM players
-WHERE name LIKE '%knight%'
+WHERE name  LIKE '%knight%'
    OR class LIKE '%knight%'
 ```
 
