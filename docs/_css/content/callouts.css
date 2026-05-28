@@ -38,7 +38,7 @@
     margin: var(--margin-block) 0;
     color: var(--text-color);
 
-    .title {
+    .callout-title {
         display: flex;
         align-items: center;
         gap: 0.5em;
@@ -58,7 +58,7 @@
         }
     }
 
-    & > p.title + p {
+    & > p.callout-title + p {
         margin-top: 0.7em;
     }
 
