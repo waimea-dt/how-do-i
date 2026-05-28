@@ -76,22 +76,6 @@ FROM players
 WHERE level >= 10
 ```
 
-**Multiple conditions with AND / OR:**
-
-```sql
-SELECT name, level, class
-FROM players
-WHERE class = 'Wizard'
-  AND level >= 10
-```
-
-```sql
-SELECT name
-FROM players
-WHERE class = 'Wizard'
-   OR class = 'Thief'
-```
-
 **Comparison operators:**
 
 ```sql
@@ -111,17 +95,20 @@ FROM players
 WHERE class IS 'Wizard'      -- same as: WHERE class = 'Wizard'
 ```
 
-**Pattern matching with LIKE:**
+**Range checking with IN:**
 
 ```sql
-SELECT name
+SELECT name, class
 FROM players
-WHERE name LIKE '%code%'     -- contains "code"
+WHERE class IN ('Wizard', 'Thief', 'Brute')
 ```
 
+**Range checking with BETWEEN:**
+
 ```sql
-%      -- matches any sequence of characters
-_      -- matches exactly one character
+SELECT name, level
+FROM players
+WHERE level BETWEEN 10 AND 20     -- 10 ≤ level ≤ 20
 ```
 
 **Check for NULL values:**
@@ -138,20 +125,40 @@ FROM players
 WHERE notes IS NOT NULL      -- field has a value
 ```
 
-**Range checking with IN:**
+**Multiple conditions with AND / OR:**
 
 ```sql
-SELECT name, class
+SELECT name, level, class
 FROM players
-WHERE class IN ('Wizard', 'Thief', 'Brute')
+WHERE class = 'Wizard'    -- BOTH criteria must match
+  AND level >= 10
 ```
 
-**Range checking with BETWEEN:**
+```sql
+SELECT name
+FROM players
+WHERE class = 'Wizard'    -- EITHER criteria can match
+   OR class = 'Thief'
+```
+
+**Pattern matching with LIKE:**
+
+Wildcards:
+```sql
+%      -- matches any sequence of characters
+_      -- matches exactly one character
+```
 
 ```sql
-SELECT name, level
+SELECT name
 FROM players
-WHERE level BETWEEN 10 AND 20     -- 10 ≤ level ≤ 20
+WHERE name LIKE '%code%'     -- contains "code"
+```
+
+```sql
+SELECT name
+FROM players
+WHERE name LIKE 'A_____'     -- starts with "A", six chars total
 ```
 
 
