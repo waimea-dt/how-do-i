@@ -1,7 +1,8 @@
 <div class="breadcrumbs">
 
 [Home](/)
-→ [Web Development](web/)
+→ [Web Dev](web/)
+→ [Front-End](web/front-end.md)
 → **JavaScript**
 
 </div>
