@@ -20,4 +20,14 @@
     - [<i data-lucide="link"></i>Adding Links](web/html/basics/links.md)
 
 - <i data-lucide="layout-template"></i>HTML Structure
+    - [<i data-lucide="file-text"></i>Document Structure](web/html/structure/document.md)
     - [<i data-lucide="square-dashed"></i>Page Structure Blocks](web/html/structure/blocks.md)
+    - [<i data-lucide="component"></i>Semantic HTML](web/html/structure/semantic.md)
+    - [<i data-lucide="table"></i>Tables](web/html/structure/tables.md)
+
+- <i data-lucide="form-input"></i>Forms
+    - [<i data-lucide="list-checks"></i>Form Basics](web/html/forms/intro.md)
+    - [<i data-lucide="shield-check"></i>Validation](web/html/forms/validation.md)
+
+- <i data-lucide="accessibility"></i>Accessibility
+    - [<i data-lucide="eye"></i>Accessible HTML](web/html/accessibility.md)

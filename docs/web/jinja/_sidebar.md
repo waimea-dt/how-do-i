@@ -20,3 +20,10 @@
     - [<i data-lucide="between-horizontal-start"></i>Adding in Data](web/jinja/basics/data.md)
     - [<i data-lucide="repeat-2"></i>Lists of Data and Loops](web/jinja/basics/loops.md)
     - [<i data-lucide="split"></i>Conditional Blocks](web/jinja/basics/conditional.md)
+    - [<i data-lucide="funnel"></i>Filters](web/jinja/basics/filters.md)
+
+- <i data-lucide="puzzle"></i>Reusable Templates
+    - [<i data-lucide="copy-plus"></i>Includes and Partials](web/jinja/basics/includes.md)
+
+- <i data-lucide="shield"></i>Template Safety
+    - [<i data-lucide="shield-check"></i>Escaping and Safe Output](web/jinja/security/escaping.md)

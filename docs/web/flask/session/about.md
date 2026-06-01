@@ -1,18 +1,28 @@
-# What is a PHP Session?
+# What is a Session?
 
+A session stores small user-specific data between requests.
 
-## What Can Sessions be Used For?
+HTTP is stateless, so each request arrives with no memory.
+Sessions add memory for each user.
 
+## Typical session data
 
+- `user_id` after login
+- selected theme
+- temporary flash messages
 
-### Example 1 - User Login State
+## Flask example
 
+```python
+from flask import session
 
+@app.route('/set-level/<int:level>')
+def set_level(level):
+    session['level'] = level
+    return 'Level saved'
+```
 
-### Example 2 - Task Progress
+## Important rule
 
-
-
-### Example 3 - Shopping Cart
-
-
+Use sessions for small state only.
+Do not store large data or secrets in plain text.
