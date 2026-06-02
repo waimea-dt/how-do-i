@@ -181,7 +181,7 @@
                     return '<div class="codapi-runner">' +
                            cleaned +
                            '</div>' +
-                           `<codapi-snippet id="${snippetId}" sandbox="sqlite" editor="external"${dependsAttr}></codapi-snippet>`
+                           `<codapi-snippet id="${snippetId}" sandbox="sqlite" editor="external" exec-timeout="15000"${dependsAttr}></codapi-snippet>`
                 }
             )
         })
