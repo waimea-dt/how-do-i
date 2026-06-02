@@ -304,7 +304,7 @@
             vSplit = Split(paneEls, {
                 direction: 'vertical',
                 sizes: defaultSizes,
-                minSize: 30,
+                minSize: 28,
                 gutterSize: 10,
                 gutterAlign: 'center',
                 gutter: () => createGutter('vertical'),
