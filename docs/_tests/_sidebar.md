@@ -19,6 +19,7 @@
     - [PRIMM Widget](_tests/primm.md)
     - [Trace Table](_tests/trace-table.md)
     - [Scratch Blocks & Stage](_tests/scratch.md)
+    - [Web Playground](_tests/web-playground.md)
 
 - <i data-lucide="database"></i>Databases
     - [Database Schema](_tests/dbs.md)

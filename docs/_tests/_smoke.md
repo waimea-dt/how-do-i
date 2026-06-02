@@ -451,13 +451,27 @@ ADD R0, 2
 
 ### web-playground.js ([tests](_tests/_components.md))
 
-<div
-    class="web-playground"
-    data-html="_demos/smoke.html"
-    data-css="_demos/smoke.css"
-    data-js="_demos/smoke.js"
-    data-height="20em"
-></div>
+<web-playground data-height="20em">
+
+```html
+<h1>Smoke Test</h1>
+
+<img src="_assets/macs/macintosh.svg">
+```
+
+```css
+body {
+    background-color: hotpink;
+    font-family: sans-serif;
+    text-align: center;
+}
+```
+
+```js
+console.log("Smoke!")
+```
+
+</web-playground>
 
 
 ### colours.js ([tests](_tests/colours.md))

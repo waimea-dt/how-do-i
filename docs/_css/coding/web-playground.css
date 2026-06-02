@@ -3,12 +3,21 @@
  * Responsive editor widget with split panes and live preview
  */
 
-.markdown-section .web-playground {
+.markdown-section web-playground {
+
+    --wp-panel-label:       var(--color-mono-7);
+    --wp-panel-label-bg:    var(--theme-color-2);
+    --wp-panel-gutter-bg:   var(--color-mono-0);
+
+    --wp-border-color:      var(--border-color);
+
+
     /* Mobile-first: editors stacked above preview */
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--wp-border-color);
     border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     overflow: hidden;
     margin: var(--space) 0;
 
@@ -18,22 +27,19 @@
         height: var(--wp-height, 20em);
     }
 
-    /* Vertical gutter between editor panes */
-    > .gutter {
-        flex-shrink: 0;
-        background: var(--color-bg);
-        border-top: 1px solid var(--border-color);
-        border-bottom: 1px solid var(--border-color);
-        cursor: row-resize;
+    .wp-gutter {
+        flex: 0 0 auto;
+        background: var(--wp-panel-gutter-bg);
+        touch-action: none;
+        user-select: none;
+        z-index: 2;
+    }
 
-        /* Horizontal gutter (wide screens only) */
-        @container (min-width: 900px) {
-            border-top: none;
-            border-bottom: none;
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            cursor: col-resize;
-        }
+    /* Horizontal gutter between editors and preview (wide screens only) */
+    > .wp-gutter-horizontal {
+        border-left: 1px solid var(--wp-border-color);
+        border-right: 1px solid var(--wp-border-color);
+        cursor: col-resize;
     }
 
     /* Editors column */
@@ -43,11 +49,18 @@
         min-height: 0;
         height: var(--wp-height, 20em);
         overflow: hidden;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--wp-border-color);
 
         @container (min-width: 900px) {
             border-bottom: none;
             height: 100%;
+        }
+
+        /* Vertical gutter between editor panes (HTML/CSS/JS) */
+        > .wp-gutter-vertical {
+            border-top: 1px solid var(--wp-border-color);
+            border-bottom: 1px solid var(--wp-border-color);
+            cursor: row-resize;
         }
 
         /* Individual editor pane */
@@ -57,19 +70,24 @@
             flex-direction: column;
             overflow: hidden;
 
+            /* Single pane: Split.js isn't used, so stretch it to fill the column */
+            &:only-child {
+                flex: 1;
+            }
+
             /* Per-pane language label */
             .wp-editor-label {
                 flex: 0 0 auto;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                background: var(--color-mono-1);
-                color: var(--color-mono-6);
+                background-color: var(--wp-panel-label-bg);
+                color: var(--wp-panel-label);
                 font-family: var(--font-family-mono);
                 font-size: var(--font-small);
                 font-weight: 700;
                 letter-spacing: 0.08em;
-                padding: var(--padding-tiny) var(--padding-small) var(--padding-tiny) var(--padding-med);
+                padding: var(--padding-tiny) var(--padding-med);
                 user-select: none;
             }
 
@@ -79,14 +97,21 @@
                 border: none;
                 color: inherit;
                 cursor: pointer;
-                font-size: var(--font-med);
                 line-height: 1;
                 padding: 0 var(--padding-micro);
                 opacity: 0.5;
                 transition: opacity 0.15s;
+                display: flex;
+                align-items: center;
 
                 &:hover {
                     opacity: 1;
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                    display: block;
                 }
             }
 

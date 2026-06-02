@@ -100,7 +100,7 @@ flowchart TD
 This is a runnable Python implementation of the **pre-order** algorithm...
 
 
-```python setup=example_tree
+```python id=example_tree
 #---------------------------------------
 # Define the tree
 
@@ -131,7 +131,7 @@ e.right = h
 root = a
 ```
 
-```python run setup=example_tree
+```python run depends=example_tree
 def depth_first_pre_order(node):
     """
     Perform a depth-first, pre-order traversal of a given tree
@@ -171,7 +171,7 @@ flowchart TD
 
 This is a runnable Python implementation of the **in-order** algorithm...
 
-```python run setup=example_tree
+```python run depends=example_tree
 def depth_first_in_order(node):
     """
     Perform a depth-first, in-order traversal of a given tree
@@ -212,7 +212,7 @@ flowchart TD
 
 This is a runnable Python implementation of the **post-order** algorithm...
 
-```python run setup=example_tree
+```python run depends=example_tree
 def depth_first_post_order(node):
     """
     Perform a depth-first, post-order traversal of a given tree
@@ -304,7 +304,7 @@ flowchart TD
     check -- Yes --> done
 ```
 
-```python run setup=example_tree
+```python run depends=example_tree
 from collections import deque
 
 def breadth_first(root):
