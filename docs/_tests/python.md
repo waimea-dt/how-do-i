@@ -140,3 +140,69 @@ def factorial(n):
 for i in range(1, 8):
     print(f"{i}! = {factorial(i)}")
 ```
+
+## Hidden Setup Code
+
+The Python runner supports hidden setup code that runs before visible code but isn't shown to students.
+
+```python setup=imports
+import math
+import random
+```
+
+```python setup=student_data
+students = [
+    {"name": "Alice", "score": 92},
+    {"name": "Bob", "score": 78},
+    {"name": "Charlie", "score": 85},
+]
+```
+
+### Example: Using Hidden Imports
+
+The `math` module is imported in hidden setup code above:
+
+```python run setup=imports
+radius = 5
+area = math.pi * radius ** 2
+circumference = 2 * math.pi * radius
+
+print(f"Circle with radius {radius}:")
+print(f"  Area: {area:.2f}")
+print(f"  Circumference: {circumference:.2f}")
+```
+
+### Example: Pre-loaded Data
+
+The `students` list is defined in hidden setup code:
+
+```python run setup=student_data
+total_score = sum(s["score"] for s in students)
+average = total_score / len(students)
+
+print(f"Class Average: {average:.1f}")
+print("\nGrades:")
+for student in students:
+    grade = "A" if student["score"] >= 90 else "B" if student["score"] >= 80 else "C"
+    print(f"  {student['name']}: {student['score']} ({grade})")
+```
+
+### Example: Multiple Setups Combined
+
+You can reference multiple setup blocks by chaining them:
+
+```python setup=helpers
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+```
+
+```python run setup=helpers
+primes = [n for n in range(2, 30) if is_prime(n)]
+print(f"Primes less than 30: {primes}")
+print(f"Count: {len(primes)}")
+```
