@@ -18,8 +18,10 @@
     border: 1px solid var(--wp-border-color);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    overflow: hidden;
+    overflow: auto;
     margin: var(--space) 0;
+    resize: vertical;
+    min-height: 10rem;
 
     /* Wide screens: side-by-side layout */
     @container (min-width: 900px) {
