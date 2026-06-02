@@ -4,7 +4,7 @@
 
 Create a table and populate it with data:
 
-```sql run setup=create
+```sql run id=create
 CREATE TABLE cats (
     id     INTEGER     PRIMARY KEY AUTOINCREMENT,
     name   VARCHAR(10) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE cats (
 
 Insert some data (depends on the table being created):
 
-```sql run setup=insert depends=create
+```sql run id=insert depends=create
 INSERT INTO cats (name, colour)
 VALUES
     ('Jane', 'Black'),

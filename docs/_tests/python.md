@@ -145,12 +145,12 @@ for i in range(1, 8):
 
 The Python runner supports hidden setup code that runs before visible code but isn't shown to students.
 
-```python setup=imports
+```python id=imports
 import math
 import random
 ```
 
-```python setup=student_data
+```python id=student_data
 students = [
     {"name": "Alice", "score": 92},
     {"name": "Bob", "score": 78},
@@ -162,7 +162,7 @@ students = [
 
 The `math` module is imported in hidden setup code above:
 
-```python run setup=imports
+```python run depends=imports
 radius = 5
 area = math.pi * radius ** 2
 circumference = 2 * math.pi * radius
@@ -176,7 +176,7 @@ print(f"  Circumference: {circumference:.2f}")
 
 The `students` list is defined in hidden setup code:
 
-```python run setup=student_data
+```python run depends=student_data
 total_score = sum(s["score"] for s in students)
 average = total_score / len(students)
 
@@ -191,7 +191,7 @@ for student in students:
 
 You can reference multiple setup blocks by chaining them:
 
-```python setup=helpers
+```python id=helpers
 def is_prime(n):
     if n < 2:
         return False
@@ -201,7 +201,7 @@ def is_prime(n):
     return True
 ```
 
-```python run setup=helpers
+```python run depends=helpers
 primes = [n for n in range(2, 30) if is_prime(n)]
 print(f"Primes less than 30: {primes}")
 print(f"Count: {len(primes)}")

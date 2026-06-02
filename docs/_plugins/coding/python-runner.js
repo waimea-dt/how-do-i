@@ -26,7 +26,7 @@
         return true
     }
 
-    function initPythonRunnerBlocks(root = document, setupBlocks = {}) {
+    function initPythonRunnerBlocks(root = document, hiddenBlocks = {}) {
         if (!ensurePythonLintRegistered()) return
 
         root.querySelectorAll('codapi-snippet[sandbox="python"][editor="external"]:not([data-python-runner-initialized])').forEach(snippet => {
@@ -42,13 +42,13 @@
             const code = pre.querySelector('code')
             if (!code) return
 
-            // Look up any named setup code for this snippet
-            const setupName = snippet.dataset.setup
-            const setupCode = setupName ? (setupBlocks[setupName] ?? '') : ''
+            // Look up any named hidden code for this snippet
+            const dependsName = snippet.dataset.depends
+            const hiddenCode = dependsName ? (hiddenBlocks[dependsName] ?? '') : ''
             const visibleCode = code.textContent
 
-            // Prepend setup code to what the runner sees, but not what the editor shows
-            if (setupCode) code.textContent = setupCode + '\n' + visibleCode
+            // Prepend hidden code to what the runner sees, but not what the editor shows
+            if (hiddenCode) code.textContent = hiddenCode + '\n' + visibleCode
 
             const cm = CodeMirror(function (editorEl) {
                 pre.parentNode.insertBefore(editorEl, pre)
@@ -69,7 +69,7 @@
 
             pre.style.display = 'none'
             cm.on('change', () => {
-                code.textContent = setupCode ? setupCode + '\n' + cm.getValue() : cm.getValue()
+                code.textContent = hiddenCode ? hiddenCode + '\n' + cm.getValue() : cm.getValue()
             })
         })
     }
@@ -186,23 +186,23 @@
 
     var docsifyPythonRunner = function (hook) {
 
-        // Named setup blocks extracted from the current page.
-        // Keys are setup names, values are the raw code strings.
+        // Named hidden code blocks extracted from the current page.
+        // Keys are block IDs, values are the raw code strings.
         // Reset on every page load in beforeEach.
-        let setupBlocks = {}
+        let hiddenBlocks = {}
 
         hook.beforeEach(function (content) {
-            setupBlocks = {}
+            hiddenBlocks = {}
             content = content.replace(/\r\n/g, '\n')
 
-            // Extract ```python setup=NAME blocks, store them, and remove from markdown
-            content = content.replace(/^```python setup=(\w+)\n([\s\S]*?)^```$/gm, (_, name, code) => {
-                setupBlocks[name] = code
+            // Extract ```python id=NAME blocks, store them, and remove from markdown
+            content = content.replace(/^```python id=(\w+)\n([\s\S]*?)^```$/gm, (_, name, code) => {
+                hiddenBlocks[name] = code
                 return ''
             })
 
-            // Transform ```python run setup=NAME and plain ```python run fence tags
-            content = content.replace(/^```python run setup=(\w+)$/gm, '```python-run-$1')
+            // Transform ```python run depends=NAME and plain ```python run fence tags
+            content = content.replace(/^```python run depends=(\w+)$/gm, '```python-run-$1')
             content = content.replace(/^```python run$/gm, '```python-run')
 
             return content
@@ -211,9 +211,9 @@
         hook.afterEach(function (html) {
             return html.replace(
                 /<pre\b[^>]*\blanguage-python-run(?:-(\w+))?\b[^>]*>[\s\S]*?<\/pre>/g,
-                function (preBlock, setupName) {
+                function (preBlock, dependsName) {
                     const cleaned = preBlock.replace(/\bpython-run(?:-\w+)?\b/g, 'python')
-                    const dataAttr = setupName ? ` data-setup="${setupName}"` : ''
+                    const dataAttr = dependsName ? ` data-depends="${dependsName}"` : ''
                     return '<div class="codapi-runner">' +
                            cleaned +
                            '</div>' +
@@ -223,7 +223,7 @@
         })
 
         hook.doneEach(function () {
-            initPythonRunnerBlocks(document, setupBlocks)
+            initPythonRunnerBlocks(document, hiddenBlocks)
         })
     }
 

@@ -2,7 +2,7 @@
  * docsify-sql-runner.js - Makes ```sql run blocks interactive using Codapi's SQLite sandbox.
  *
  * Usage in markdown:
- *   ```sql run setup=create
+ *   ```sql run id=create
  *   CREATE TABLE cats (id INTEGER PRIMARY KEY, name TEXT);
  *   ```
  *
@@ -11,8 +11,8 @@
  *   ```
  *
  * Supports dependencies between snippets:
- *   ```sql run setup=create    → creates a named setup block
- *   ```sql run depends=create  → depends on the setup block
+ *   ```sql run id=create    → creates a named snippet with ID
+ *   ```sql run depends=create  → depends on the named snippet
  *
  * Also enables real-time syntax error highlighting in the editor via
  * CodeMirror's lint addon (bracket matching, string tracking, etc.)
@@ -156,12 +156,12 @@
             content = content.replace(/\r\n/g, '\n')
 
             // Transform all variations of ```sql run to sql-run with attributes preserved
-            // Capture: setup=NAME, depends=NAME, or both, or neither
+            // Capture: id=NAME, depends=NAME, or both, or neither
             content = content.replace(
-                /^```sql run(?:\s+setup=(\w+))?(?:\s+depends=(\w+))?$/gm,
-                function(match, setupName, dependsName) {
+                /^```sql run(?:\s+id=(\w+))?(?:\s+depends=(\w+))?$/gm,
+                function(match, idName, dependsName) {
                     let className = 'sql-run'
-                    if (setupName) className += `-setup-${setupName}`
+                    if (idName) className += `-id-${idName}`
                     if (dependsName) className += `-depends-${dependsName}`
                     return '```' + className
                 }
@@ -172,10 +172,10 @@
 
         hook.afterEach(function (html) {
             return html.replace(
-                /<pre\b[^>]*\blanguage-sql-run(?:-setup-(\w+))?(?:-depends-(\w+))?\b[^>]*>[\s\S]*?<\/pre>/g,
-                function (preBlock, setupName, dependsName) {
-                    const cleaned = preBlock.replace(/\bsql-run(?:-setup-\w+)?(?:-depends-\w+)?\b/g, 'sql')
-                    const snippetId = setupName || `sql-snippet-${++snippetCounter}`
+                /<pre\b[^>]*\blanguage-sql-run(?:-id-(\w+))?(?:-depends-(\w+))?\b[^>]*>[\s\S]*?<\/pre>/g,
+                function (preBlock, idName, dependsName) {
+                    const cleaned = preBlock.replace(/\bsql-run(?:-id-\w+)?(?:-depends-\w+)?\b/g, 'sql')
+                    const snippetId = idName || `sql-snippet-${++snippetCounter}`
                     const dependsAttr = dependsName ? ` depends-on="${dependsName}"` : ''
 
                     return '<div class="codapi-runner">' +
