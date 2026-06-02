@@ -9,7 +9,7 @@
  * closetag addon to be loaded in index.html before this script runs.
  *
  * Usage in markdown:
- *   <web-playground data-height="40em" show-css max-html>
+ *   <web-playground data-height="40em" data-width="30%" show-css max-html>
  *
  *   ```html
  *   <h1>Hello!</h1>
@@ -44,6 +44,7 @@
  *
  * Attributes:
  *   data-height="40em"  - Set container height (default: 80vh)
+ *   data-width="30%"    - Set preview panel width in wide layout (default: 50%)
  *   show-html           - Show HTML panel with placeholder if no content provided
  *   show-css            - Show CSS panel with placeholder if no content provided
  *   show-js             - Show JS panel with placeholder if no content provided
@@ -63,6 +64,33 @@
     const DEFAULT_HTML_CONTENT = '<h1>Hello, World!</h1>\n<p>This is a test page</p>'
     const DEFAULT_CSS_CONTENT = '/* Add CSS rules here */'
     const DEFAULT_JS_CONTENT = '// Add JS code here'
+
+    // Parse CSS length value to percentage of container width
+    function parseCSSWidth(value, containerWidth) {
+        if (!value || value === '50%') return 50
+
+        const trimmed = value.trim()
+
+        if (trimmed.endsWith('%')) {
+            return parseFloat(trimmed)
+        }
+        if (trimmed.endsWith('px')) {
+            const px = parseFloat(trimmed)
+            return Math.min(Math.max((px / containerWidth) * 100, 10), 90)
+        }
+        if (trimmed.endsWith('rem')) {
+            const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
+            const px = parseFloat(trimmed) * rootFontSize
+            return Math.min(Math.max((px / containerWidth) * 100, 10), 90)
+        }
+        if (trimmed.endsWith('em')) {
+            const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
+            const px = parseFloat(trimmed) * rootFontSize
+            return Math.min(Math.max((px / containerWidth) * 100, 10), 90)
+        }
+
+        return 50
+    }
 
     // Extract the content of fenced code blocks (rendered by Docsify as
     // <pre><code class="lang-html/css/js">) from inside a <web-playground>.
@@ -151,7 +179,7 @@
     }
 
     // Push the current editor contents into the iframe.
-    // Uses contentDocument.write() for reliable cross-browser rendering.
+    // Uses iframe.srcdoc to ensure a fresh execution context on each update.
     // Combines hidden setup code with visible editor content.
     function renderPreview(iframe, editors, contentObjs) {
         const get = (key) => {
@@ -163,10 +191,7 @@
         const cssObj = get('css')
         const jsObj = get('js')
         const html = buildSrcdoc(htmlObj, cssObj, jsObj)
-        const doc = iframe.contentDocument || iframe.contentWindow.document
-        doc.open()
-        doc.write(html)
-        doc.close()
+        iframe.srcdoc = html
     }
 
     const CM_MODE = { html: 'htmlmixed', css: 'css', js: 'javascript' }
@@ -187,7 +212,7 @@
 
     // Build the widget: editors column on the left, live preview on the right.
     // All editors are always visible - no tabs.
-    function buildWidget(container, contents, contentObjs, initialMaxLang) {
+    function buildWidget(container, contents, contentObjs, initialMaxLang, previewWidth) {
         function createGutter(direction) {
             const gutter = document.createElement('div')
             gutter.className = `gutter wp-gutter ${direction === 'vertical' ? 'wp-gutter-vertical' : 'wp-gutter-horizontal'}`
@@ -323,9 +348,13 @@
         function syncHorizontalSplit() {
             const isWide = container.getBoundingClientRect().width >= WIDE_LAYOUT_BREAKPOINT_PX
             if (isWide && !hSplit) {
+                const containerWidth = container.getBoundingClientRect().width
+                const previewPercent = parseCSSWidth(previewWidth, containerWidth)
+                const editorPercent = 100 - previewPercent
+
                 hSplit = Split([editorsCol, previewCol], {
                     direction: 'horizontal',
-                    sizes: [50, 50],
+                    sizes: [editorPercent, previewPercent],
                     minSize: 120,
                     gutterSize: 10,
                     gutterAlign: 'center',
@@ -363,12 +392,13 @@
         container.dataset.initialized = 'true'
 
         const height = container.dataset.height ?? '80vh'
+        const width = container.dataset.width ?? '50%'
 
-        // Expose the height as a CSS custom property so the stylesheet can use it
-        // to size each section independently on narrow screens.
-        // On wide layouts the container height comes from the CSS media query;
-        // on mobile the container auto-expands to fit the stacked sections.
+        // Expose height and width as CSS custom properties for the stylesheet.
+        // Height sizes sections on narrow screens; on wide layouts uses CSS media query.
+        // Width sets the preview panel size in wide layout.
         container.style.setProperty('--wp-height', height)
+        container.style.setProperty('--wp-width', width)
 
         const contentObjs = parseContents(container, hiddenBlocks)
         container.innerHTML = ''
@@ -385,7 +415,7 @@
         else if (container.hasAttribute('max-css')) initialMaxLang = 'css'
         else if (container.hasAttribute('max-js')) initialMaxLang = 'js'
 
-        const { editors, iframe, hSplitRef, containerResizeObserver, removeResizeFallback } = buildWidget(container, contents, contentObjs, initialMaxLang)
+        const { editors, iframe, hSplitRef, containerResizeObserver, removeResizeFallback } = buildWidget(container, contents, contentObjs, initialMaxLang, width)
 
         // Ensure observer is disconnected if the widget is removed from the DOM.
         if (containerResizeObserver) {

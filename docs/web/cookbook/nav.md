@@ -3,7 +3,7 @@
 A simple, clean navigation menu with a UI suitable for mobile and for desktop.
 
 
-<web-playground data-height="40em">
+<web-playground data-height="40em" data-width="25em">
 
 ```html
 <header>
@@ -17,8 +17,6 @@ A simple, clean navigation menu with a UI suitable for mobile and for desktop.
             <a href="#part1">Part 1</a>
             <a href="#part2">Part 2</a>
             <a href="#part3">Part 3</a>
-            <a href="#part4">Part 4</a>
-            <a href="#part5">Part 5</a>
         </div>
     </nav>
 </header>
@@ -35,11 +33,6 @@ A simple, clean navigation menu with a UI suitable for mobile and for desktop.
     <h2 id="part3">Part 3</h2>
     <p>Et netus et malesuada fames ac turpis egestas. Tellus at urna condimentum mattis pellentesque id nibh tortor. Justo donec enim diam vulputate ut pharetra sit amet. Cum sociis natoque penatibus et magnis dis parturient.</p>
 
-    <h2 id="part4">Part 4</h2>
-    <p>Etiam tempor orci eu lobortis elementum nibh tellus molestie nunc. Et netus et malesuada fames ac turpis egestas. Tellus at urna condimentum mattis pellentesque id nibh tortor. Justo donec enim diam vulputate ut pharetra sit amet.</p>
-
-    <h2 id="part5">Part 5</h2>
-    <p>Sed augue lacus viverra vitae congue eu consequat ac felis. Nisl pretium fusce id velit ut. Aliquam ut porttitor leo a diam sollicitudin tempor id. Et ultrices neque ornare aenean euismod elementum.</p>
 </main>
 ```
 
@@ -210,11 +203,11 @@ Below is a minimal version - just enough content and styling to see how it works
         <nav id="main-menu">
             <button id="menu-open">☰</button>
 
-            <ul id="menu-links">
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
-            </ul>
+            <div id="menu-links">
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+            </div>
         </nav>
     </header>
 
