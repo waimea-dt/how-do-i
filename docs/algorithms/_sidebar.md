@@ -1,7 +1,6 @@
 <div class="breadcrumbs">
 
 [Home](/)
-→ [Programming](programming/)
 → **Algorithms**
 
 </div>

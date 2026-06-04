@@ -7,7 +7,7 @@
 
 - <i data-lucide="cpu"></i>Programming
     - [<i data-lucide="circle-question-mark"></i>What is Programming?](programming/)
-    - [<i data-lucide="workflow"></i>Algorithms](programming/algorithms/)
+    - [<i data-lucide=""></i>Code Layout](programming/indent.md)
 
 - <i data-lucide="braces"></i>Programming Languages
     - [<i class="si si-kotlin"></i>Kotlin Programming](programming/kotlin/)
