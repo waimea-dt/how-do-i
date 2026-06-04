@@ -156,6 +156,10 @@
     ul:not(.app-sub-sidebar) > li:not([aria-current]) > a[href] {
         padding: var(--sidebar-link-padding-block) var(--sidebar-link-padding-inline);
 
+        &[href$="/"] {
+            color: var(--sidebar-group-color);
+        }
+
         &:hover {
             padding-block: var(--sidebar-link-padding-block-active);
             background-color: var(--sidebar-link-color-hover-bg);
