@@ -290,7 +290,7 @@
     }
 
     function lucideIcon(name) {
-        return `<i data-lucide="${name}"></i>`
+        return `<i data-lucide="${name}"></i> `
     }
 
     const docsifyFlashCards = function (hook) {

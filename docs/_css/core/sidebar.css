@@ -1,5 +1,5 @@
 /** Sidebar Navigation
- * Layout, branding, breadcrumbs, and navigation structure
+ * Layout, branding, and navigation structure
  */
 
 :root {
@@ -21,34 +21,34 @@
 
 
 :is(.sidebar) {
-    --sidebar-bg:                     var(--color-mono-1);
-    --sidebar-border-color:           var(--border-color);
+    --sidebar-bg:                           var(--color-mono-1);
+    --sidebar-border-color:                 var(--border-color);
 
     --sidebar-link-spacing:                 0;
     --sidebar-link-padding-block:           var(--padding-micro);
     --sidebar-link-padding-block-active:    var(--padding-small);
     --sidebar-link-padding-inline:          var(--padding-med);
 
-    --sidebar-group-color:            var(--secondary-color);
-    --sidebar-group-spacing:          var(--gap);
-    --sidebar-group-border:           1px solid var(--sidebar-border-color);
+    --sidebar-group-color:                  var(--secondary-color);
+    --sidebar-group-spacing:                var(--gap);
+    --sidebar-group-border:                 1px solid var(--sidebar-border-color);
 
-    --sidebar-link-color:             var(--color-mono-7);
-    --sidebar-link-color-hover:       var(--color-text);
-    --sidebar-link-color-hover-bg:    var(--color-mono-0);
-    --sidebar-link-color-active:      var(--color-text);
-    --sidebar-link-color-active-bg:   var(--color-mono-0);
+    --sidebar-link-color:                   var(--color-mono-7);
+    --sidebar-link-color-hover:             var(--color-text);
+    --sidebar-link-color-hover-bg:          var(--color-mono-0);
+    --sidebar-link-color-active:            var(--color-text);
+    --sidebar-link-color-active-bg:         var(--color-mono-0);
 
-    --sidebar-sub-link-color:         var(--color-mono-7);
-    --sidebar-sub-link-color-hover:   var(--color-text);
-    --sidebar-sub-link-color-active:  var(--secondary-color-5);
-    --sidebar-sub-link-color-muted:   var(--color-mono-5);
+    --sidebar-sub-link-color:               var(--color-mono-7);
+    --sidebar-sub-link-color-hover:         var(--color-text);
+    --sidebar-sub-link-color-active:        var(--secondary-color-5);
+    --sidebar-sub-link-color-muted:         var(--color-mono-5);
 
-    --sidebar-link-indent:            calc(var(--_sidebar-list-inset) * 0.5);
-    --sidebar-sub-link-indent:        calc(var(--_sidebar-list-inset) * 3.8);
+    --sidebar-group-indent:                 var(--gap-small);
+    --sidebar-sub-link-indent:              var(--gap-large);
 
-    --plugin-search-input-bg:         var(--color-bg) !important;
-    --plugin-search-kbd-bg:           var(--color-mono-1) !important;
+    --plugin-search-input-bg:               var(--color-bg) !important;
+    --plugin-search-kbd-bg:                 var(--color-mono-1) !important;
 
     /* Flexbox layout */
     display: flex;
@@ -90,22 +90,6 @@
         }
     }
 
-
-    /* Breadcrumbs */
-    .breadcrumbs {
-        font-size: var(--font-small);
-        margin-bottom: var(--margin-block);
-
-        & > p {
-            margin: 0;
-
-            a[href] {
-                text-decoration: underline;
-            }
-        }
-    }
-
-
     /* Navigation links */
     a[href] {
         text-decoration: none;
@@ -136,8 +120,16 @@
         margin-bottom: calc(2 * var(--margin-block));
     }
 
+    > ul > li {
+        margin-left: var(--gap-small);
+    }
+
+    > ul ul li {
+        margin-left: var(--sidebar-group-indent);
+    }
+
     > ul ul {
-        padding-left: var(--sidebar-link-indent);
+        padding-left: 0;
     }
 
     /* Current page */
@@ -153,37 +145,43 @@
         }
     }
 
+    ul:not(.app-sub-sidebar) > li:not([aria-current]) > p > a[href],
     ul:not(.app-sub-sidebar) > li:not([aria-current]) > a[href] {
         padding: var(--sidebar-link-padding-block) var(--sidebar-link-padding-inline);
-
-        &[href$="/"] {
-            color: var(--sidebar-group-color);
-        }
 
         &:hover {
             padding-block: var(--sidebar-link-padding-block-active);
             background-color: var(--sidebar-link-color-hover-bg);
             text-decoration: none;
+            color: var(--sidebar-link-color-hover);
         }
     }
 
-    ul:not(.app-sub-sidebar) > li[aria-current] > a[href] {
-        /* padding: 0; */
+    > ul > li > a[href$="/"] {
+        color: var(--sidebar-group-color);
     }
 
     /* Group items */
-    > ul > li.group {
-        padding-top: calc(0.5 * var(--sidebar-group-spacing));
-        padding-bottom: var(--sidebar-group-spacing);
-        font-size: var(--font-large);
+    li.group {
+        margin-block: var(--sidebar-group-spacing);
+        padding-block: 0;
+        padding-left: var(--sidebar-link-padding-inline);
         color: var(--sidebar-group-color);
 
         /* Group headings */
         > p {
-            display: flex;
-            align-items: center;
-            gap: 0.5em;
+            font-size: var(--font-large);
             margin-bottom: var(--gap-tiny);
+        }
+    }
+
+    > ul > li.group {
+        margin-block: var(--sidebar-group-spacing);
+        padding-block: 0;
+        border: none;
+
+        &:last-child {
+            border: none;
         }
     }
 
@@ -219,13 +217,16 @@
     }
 
     /* Icons */
+    li.group > p,
     li a:has(img, svg, i.si) {
-        align-items: center;
         display: flex;
-        gap: 0.5em;
+        gap: var(--gap-small);
+        align-items: center;
     }
 
-    li a :is(.lucide.icon, i.si) {
+    :is(li a, li.group) :is(.lucide.icon, i.si) {
         color: var(--theme-color);
+        vertical-align: center;
+        display: inline-block;
     }
 }

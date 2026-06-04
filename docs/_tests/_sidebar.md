@@ -5,12 +5,12 @@
 
 </div>
 
-- <i data-lucide="smile"></i>General
+- <i data-lucide="smile"></i> General
     - [Components](_tests/_components.md)
     - [Utils Library](_tests/_utils.md)
     - [Plugin Smoke](_tests/_smoke.md)
 
-- <i data-lucide="binary"></i>Coding
+- <i data-lucide="binary"></i> Coding
     - [Code](_tests/code.md)
     - [PseudoCode](_tests/pseudo.md)
     - [Python Runner](_tests/python.md)
@@ -21,17 +21,17 @@
     - [Scratch Blocks & Stage](_tests/scratch.md)
     - [Web Playground](_tests/web-playground.md)
 
-- <i data-lucide="database"></i>Databases
+- <i data-lucide="database"></i> Databases
     - [Database Schema](_tests/dbs.md)
     - [SQL Runner Demo](_tests/sql.md)
     - [ERD Creator](_tests/erd.md)
 
-- <i data-lucide="image"></i>Graphics
+- <i data-lucide="image"></i> Graphics
     - [Image Notes](_tests/img-notes.md)
     - [Mermaid](_tests/mermaid.md)
     - [Excalidraw](_tests/excalidraw.md)
 
-- <i data-lucide="layout-panel-top"></i>Content
+- <i data-lucide="layout-panel-top"></i> Content
     - [Asides](_tests/asides.md)
     - [Captions](_tests/captions.md)
     - [Details](_tests/details.md)
@@ -42,7 +42,7 @@
     - [Definitions](_tests/definitions.md)
     - [Video Embeds](_tests/video-embed.md)
 
-- <i data-lucide="bar-chart-2"></i>Visualisation
+- <i data-lucide="bar-chart-2"></i> Visualisation
     - [Timeline](_tests/timeline.md)
     - [File List](_tests/file-list.md)
     - [Hierarchy](_tests/hierarchy.md)
@@ -55,7 +55,7 @@
     - [OOP Sim](_tests/oop-sim.md)
     - [SimCore](_tests/sim-core.md)
 
-- <i data-lucide="mouse-pointer-click"></i>Interactive
+- <i data-lucide="mouse-pointer-click"></i> Interactive
     - **General**
         - [Drag Drop Reorder](_tests/drag-drop.md)
         - [Flash Cards](_tests/flash-cards.md)
