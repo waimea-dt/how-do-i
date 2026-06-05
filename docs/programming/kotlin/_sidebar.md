@@ -1,5 +1,10 @@
 - [<i data-lucide="home"></i> Home](/)
+<i data-lucide="arrow-down"></i>
+
 - [<i data-lucide="cpu"></i> Programming](programming/)
+<i data-lucide="arrow-down"></i>
+
+<!-- -------------------------- -->
 
 - <i class="si si-kotlin"></i> Kotlin
     - [<i data-lucide="circle-question-mark"></i> The Kotlin Language](programming/kotlin/)

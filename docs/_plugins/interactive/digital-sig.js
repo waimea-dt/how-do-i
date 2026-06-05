@@ -1,5 +1,5 @@
 /**
- * digital-sig.js — Digital Signature Visualiser
+ * digital-sig.js - Digital Signature Visualiser
  *
  * Demonstrates how digital signatures prove file authenticity:
  *   - Alice hashes a file, signs the hash with her private key
@@ -13,7 +13,7 @@
  *
  * Attributes:
  *   - file:   Filename to display (default: "report.pdf")
- *   - tamper: Attacker modifies the file in transit — verification fails
+ *   - tamper: Attacker modifies the file in transit - verification fails
  *
  * Animation sequence:
  *   1. Alice has the document and her key pair; Bob has Alice's public key
@@ -39,7 +39,7 @@
 
     /**
      * FNV-1a hash of a string → 8-char hex.
-     * Teaching-only visualisation — not real SHA-256.
+     * Teaching-only visualisation - not real SHA-256.
      */
     function hashContent(content) {
         let h = 0x811c9dc5
@@ -77,7 +77,7 @@
             <div class="exchange-header">
                 <div class="exchange-header-content">
                     <div class="exchange-title">Digital Signatures</div>
-                    <div class="exchange-subtitle">Sign a file with a private key. Anyone with the public key can verify authenticity — but cannot forge a signature.</div>
+                    <div class="exchange-subtitle">Sign a file with a private key. Anyone with the public key can verify authenticity - but cannot forge a signature.</div>
                 </div>
                 <div class="ds-header-badge">
                     <span class="ds-file-icon">📄</span>
@@ -182,7 +182,7 @@
                         <div class="exchange-eve-icon">⚠️ Attacker modifies file</div>
                         <div class="exchange-eve-text">Original: <span class="ds-content">${originalContent}</span></div>
                         <div class="exchange-eve-text ds-tamper-change">Changed: <span class="ds-content ds-tampered">${tamperedContent}</span></div>
-                        <div class="exchange-eve-problem">Signature was computed from original content — verification will fail!</div>
+                        <div class="exchange-eve-problem">Signature was computed from original content - verification will fail!</div>
                     </div>
                     ` : ''}
                 </div>
@@ -431,7 +431,7 @@
         }
 
         async step3_signHash() {
-            this.setStatus('Alice encrypts the hash with her private key. This is the digital signature — only Alice could have created it.', 'info')
+            this.setStatus('Alice encrypts the hash with her private key. This is the digital signature - only Alice could have created it.', 'info')
 
             const stepEl = this.dom.alice.sig.closest('.exchange-step')
             this.activateStep(stepEl)
@@ -521,8 +521,8 @@
         async step7_verify() {
             const statusType = this.valid ? 'success' : 'warning'
             const statusMsg  = this.valid
-                ? 'Hashes match! The file is authentic — it came from Alice and was not modified.'
-                : 'Hashes do not match! The file was tampered with — Alice\'s signature is invalid for this content.'
+                ? 'Hashes match! The file is authentic - it came from Alice and was not modified.'
+                : 'Hashes do not match! The file was tampered with - Alice\'s signature is invalid for this content.'
             this.setStatus(statusMsg, statusType)
 
             const stepEl = this.dom.bob.verdict.closest('.exchange-step')

@@ -39,7 +39,7 @@ Eve intercepts both the key AND the message - disaster!
 
 ## Asymmetric Encryption Demo
 
-In asymmetric encryption, Bob generates a **public/private key pair**. He can share the public key openly — anyone can use it to encrypt messages, but only Bob's private key can decrypt them!
+In asymmetric encryption, Bob generates a **public/private key pair**. He can share the public key openly - anyone can use it to encrypt messages, but only Bob's private key can decrypt them!
 
 <sym-asym mode="asymmetric" message="I like cheese!"></sym-asym>
 

@@ -1,13 +1,12 @@
-<div class="breadcrumbs">
+- [<i data-lucide="home"></i> Home](/)
+<i data-lucide="arrow-down"></i>
 
-[Home](/)
-→ [Programming](programming/)
-→ **Scratch**
+- [<i data-lucide="cpu"></i> Programming](programming/)
+<i data-lucide="arrow-down"></i>
 
-</div>
+<!-- -------------------------- -->
 
-
-- <i class="si si-scratch"></i> Scratch Introduction
+- <i class="si si-scratch"></i> Scratch
     - [<i data-lucide="circle-question-mark"></i> What is Scratch?](programming/scratch/)
     - [<i data-lucide="blocks"></i> Project Structure](programming/scratch/structure.md)
 

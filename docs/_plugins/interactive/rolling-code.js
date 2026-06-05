@@ -1,5 +1,5 @@
 /**
- * rolling-code.js — Garage Door Rolling Code Visualiser
+ * rolling-code.js - Garage Door Rolling Code Visualiser
  *
  * Usage:
  *   <rolling-code></rolling-code>

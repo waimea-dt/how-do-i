@@ -177,7 +177,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
 - Coordinates are percentages, so the boxes scale with the image.
 - `x` and `y` are the top-left corner.
 - `w` and `h` are width and height.
-- Place the image as an `<img>` tag inside the block — it renders fine in plain markdown too.
+- Place the image as an `<img>` tag inside the block - it renders fine in plain markdown too.
 - `colour="1"` through `colour="10"` sets the hotspot/label colour using palette variables.
 - OL items show numbered labels on hotspots; UL items show no labels.
 - Bodies support paragraphs, headings, lists, links, emphasis, and fenced code blocks.

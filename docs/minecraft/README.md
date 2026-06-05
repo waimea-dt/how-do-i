@@ -1,2 +1,2 @@
-# Minecraft
+# Coding in Minecraft
 

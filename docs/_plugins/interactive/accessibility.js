@@ -298,7 +298,7 @@
 
     const ACCESSIBILITY_UI = {
             title: 'Screen Reader Simulation',
-            subtitle: 'Approximation only — not a real screen-reader emulator.',
+            subtitle: 'Approximation only - not a real screen-reader emulator.',
             lowVisionSubtitle: 'How the page might appear with reduced visual acuity.',
             colourBlindSubtitle: 'How the page might appear with a colour vision deficiency.',
             motorImpairmentSubtitle: 'How the page might feel to navigate with limited motor control.',

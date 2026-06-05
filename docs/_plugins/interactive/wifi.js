@@ -1,5 +1,5 @@
 /**
- * docsify-wifi.js — Interactive Wi-Fi Authentication Handshake Visualiser
+ * docsify-wifi.js - Interactive Wi-Fi Authentication Handshake Visualiser
  *
  * Helps students understand:
  *   - How a device authenticates to a Wi-Fi network
@@ -19,23 +19,23 @@
  *   - ssid:     Network name (default: 'SchoolWiFi')
  *   - intercept: Show an attacker capturing packets
  *
- * Animation sequence (WPA2 — 4-Way Handshake):
+ * Animation sequence (WPA2 - 4-Way Handshake):
  *   1. Device knows the password; Router knows the password
  *   2. Router sends a random challenge (ANonce) to Device
  *   3. Device generates its own random value (SNonce) and derives the Session Key (PTK)
  *   4. Device sends SNonce + a MIC (message integrity code) to Router
  *   5. Router derives the same Session Key (PTK) and verifies the MIC
  *   6. Router confirms: sends GTK (group key) + MIC to Device
- *   7. Device acknowledges — encrypted session begins!
+ *   7. Device acknowledges - encrypted session begins!
  *
- * Animation sequence (WPA3 — SAE Dragonfly Handshake):
+ * Animation sequence (WPA3 - SAE Dragonfly Handshake):
  *   1. Device and Router both know the password
  *   2. Device sends a Commit message (public value derived from password)
  *   3. Router sends its own Commit message (public value)
  *   4. Device sends a Confirm message (proves knowledge without revealing password)
  *   5. Router sends its Confirm message
  *   6. Both sides independently derive the same Session Key (PMK)
- *   7. Encrypted session begins — password never transmitted!
+ *   7. Encrypted session begins - password never transmitted!
  */
 
 ;(function () {
@@ -79,9 +79,9 @@
     function buildUI(security, ssid, showIntercept) {
         const isWPA3 = security === 'wpa3'
 
-        const titleText   = isWPA3 ? `WPA3 Handshake — ${ssid}` : `WPA2 Handshake — ${ssid}`
+        const titleText   = isWPA3 ? `WPA3 Handshake - ${ssid}` : `WPA2 Handshake - ${ssid}`
         const subtitleText = isWPA3
-            ? 'SAE (Dragonfly): password is never sent — both sides prove knowledge simultaneously'
+            ? 'SAE (Dragonfly): password is never sent - both sides prove knowledge simultaneously'
             : '4-Way Handshake: both sides prove they know the password without ever sending it'
 
         const wrapper = document.createElement('div')
@@ -274,7 +274,7 @@
                         <div class="exchange-eve-icon">👁️ Attacker captures packets</div>
                         <div class="exchange-eve-text">Can see: Commit &amp; Confirm messages</div>
                         <div class="exchange-eve-text">Cannot see: Password, Session Key</div>
-                        <div class="exchange-eve-problem">🔒 SAE commits are useless without the password — offline cracking is impossible!</div>
+                        <div class="exchange-eve-problem">🔒 SAE commits are useless without the password - offline cracking is impossible!</div>
                     </div>
                     ` : ''}
 
@@ -360,7 +360,7 @@
                         <div class="exchange-eve-icon">👁️ Attacker captures packets</div>
                         <div class="exchange-eve-text">Can see: ANonce, SNonce, MIC values</div>
                         <div class="exchange-eve-text">Cannot see: Password, PTK session key</div>
-                        <div class="exchange-eve-problem">⚠️ WPA2 handshake can be captured then attacked offline — a strong password is essential!</div>
+                        <div class="exchange-eve-problem">⚠️ WPA2 handshake can be captured then attacked offline - a strong password is essential!</div>
                     </div>
                     ` : ''}
                     `}
@@ -475,7 +475,7 @@
             <!-- Session established banner -->
             <div class="wifi-session-banner" data-session-banner>
                 <span class="wifi-session-icon">🔒</span>
-                <span class="wifi-session-text">Encrypted session established — all traffic is now protected</span>
+                <span class="wifi-session-text">Encrypted session established - all traffic is now protected</span>
             </div>
 
             <div class="exchange-footer">
@@ -723,7 +723,7 @@
         }
 
         async wpa2_step5_RouterDerivesKey() {
-            this.setStatus('Router derives the same PTK (using the password, ANonce and SNonce), then verifies the MIC — confirming the Device knows the password', 'info')
+            this.setStatus('Router derives the same PTK (using the password, ANonce and SNonce), then verifies the MIC - confirming the Device knows the password', 'info')
 
             const routerStep = this.dom.router.key.closest('.exchange-step')
             this.activateStep(routerStep)
@@ -763,7 +763,7 @@
         }
 
         async wpa2_step7_DeviceACK() {
-            this.setStatus('Device installs the keys and sends an ACK (Message 4) — handshake complete, session is encrypted!', 'success')
+            this.setStatus('Device installs the keys and sends an ACK (Message 4) - handshake complete, session is encrypted!', 'success')
 
             const deviceStep   = this.dom.device.ackResult?.closest('.exchange-step')
             const exchangeStep = this.dom.exchangeSteps[3]
@@ -790,7 +790,7 @@
             this.completeStep(deviceStep)
             this.completeStep(exchangeStep)
 
-            this.setStatus('✨ 4-Way Handshake complete! The password was never sent — both sides proved they knew it.', 'success')
+            this.setStatus('✨ 4-Way Handshake complete! The password was never sent - both sides proved they knew it.', 'success')
         }
 
         // -------------------------------------------------------------------------
@@ -819,7 +819,7 @@
         }
 
         async wpa3_step2_DeviceCommit() {
-            this.setStatus('WPA3 SAE: Device computes a Commit value — a public number derived from the password using elliptic curve maths', 'info')
+            this.setStatus('WPA3 SAE: Device computes a Commit value - a public number derived from the password using elliptic curve maths', 'info')
 
             const deviceStep = this.dom.device.commit.closest('.exchange-step')
             this.activateStep(deviceStep)
@@ -853,7 +853,7 @@
         }
 
         async wpa3_step4_RouterCommit() {
-            this.setStatus('Router computes its own Commit value and sends it back — both sides exchange commits simultaneously', 'info')
+            this.setStatus('Router computes its own Commit value and sends it back - both sides exchange commits simultaneously', 'info')
 
             const routerStep   = this.dom.router.commit.closest('.exchange-step')
             const exchangeStep = this.dom.exchangeSteps[1]
@@ -879,7 +879,7 @@
         }
 
         async wpa3_step5_DeviceConfirm() {
-            this.setStatus('Device sends a Confirm message — proves it knows the password without revealing it', 'info')
+            this.setStatus('Device sends a Confirm message - proves it knows the password without revealing it', 'info')
 
             const deviceStep   = this.dom.device.confirm.closest('.exchange-step')
             const exchangeStep = this.dom.exchangeSteps[2]
@@ -905,7 +905,7 @@
         }
 
         async wpa3_step6_RouterConfirm() {
-            this.setStatus('Router sends its Confirm message — mutual authentication complete', 'info')
+            this.setStatus('Router sends its Confirm message - mutual authentication complete', 'info')
 
             const routerStep   = this.dom.router.confirm.closest('.exchange-step')
             const exchangeStep = this.dom.exchangeSteps[3]
@@ -935,7 +935,7 @@
         }
 
         async wpa3_step7_DeriveKeys() {
-            this.setStatus('Both sides independently derive the same PMK (session key) from the password and exchanged commit values — session is secure!', 'info')
+            this.setStatus('Both sides independently derive the same PMK (session key) from the password and exchanged commit values - session is secure!', 'info')
 
             const deviceStep = this.dom.device.key.closest('.exchange-step')
             const routerStep = this.dom.router.key.closest('.exchange-step')
@@ -962,7 +962,7 @@
             this.completeStep(deviceStep)
             this.completeStep(routerStep)
 
-            this.setStatus('✨ SAE Handshake complete! The password was never transmitted — even captured packets cannot be cracked.', 'success')
+            this.setStatus('✨ SAE Handshake complete! The password was never transmitted - even captured packets cannot be cracked.', 'success')
         }
     }
 

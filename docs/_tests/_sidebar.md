@@ -1,9 +1,7 @@
-<div class="breadcrumbs">
+- [<i data-lucide="home"></i> Home](/)
+<i data-lucide="arrow-down"></i>
 
-[Home](/)
-→ **Testing**
-
-</div>
+<!-- -------------------------- -->
 
 - <i data-lucide="smile"></i> General
     - [Components](_tests/_components.md)

@@ -1,13 +1,12 @@
-<div class="breadcrumbs">
+- [<i data-lucide="home"></i> Home](/)
+<i data-lucide="arrow-down"></i>
 
-[Home](/)
-→ [Programming](programming/)
-→ **Python**
+- [<i data-lucide="cpu"></i> Programming](programming/)
+<i data-lucide="arrow-down"></i>
 
-</div>
+<!-- -------------------------- -->
 
-
-- <i class="si si-python"></i> Python Introduction
+- <i class="si si-python"></i> Python
     - [<i data-lucide="circle-question-mark"></i> The Python Language](programming/python/)
     - [<i data-lucide="info"></i> Python Cheatsheet](programming/python/cheatsheet.md)
 

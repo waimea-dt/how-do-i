@@ -1,5 +1,5 @@
 /**
- * docsify-sym-asym.js — Interactive Symmetric vs Asymmetric Encryption Comparison
+ * docsify-sym-asym.js - Interactive Symmetric vs Asymmetric Encryption Comparison
  *
  * Helps students understand:
  *   - The difference between symmetric and asymmetric encryption

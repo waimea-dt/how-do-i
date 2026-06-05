@@ -1,5 +1,5 @@
 /**
- * tls.js — Simplified TLS Handshake Visualiser
+ * tls.js - Simplified TLS Handshake Visualiser
  *
  * Demonstrates hybrid encryption in TLS:
  *   - Asymmetric crypto to establish shared secret

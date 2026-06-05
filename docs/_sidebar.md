@@ -7,9 +7,9 @@
 ---
 
 - [<i data-lucide="binary"></i> Computer Science](cs/)
-- [<i data-lucide="route"></i> The Design Process](design-proc/)
+- [<i data-lucide="route"></i> The Design Process](process/)
 - [<i data-lucide="workflow"></i> Algorithms](algorithms/)
-- [<i data-lucide="braces"></i> Programming](programming/)
+- [<i data-lucide="cpu"></i> Programming](programming/)
 - [<i data-lucide="monitor-smartphone"></i> User Interfaces (UIs)](ui/)
 - [<i data-lucide="globe"></i> Web Development](web/)
 - [<i data-lucide="database"></i> Databases and SQL](db/)

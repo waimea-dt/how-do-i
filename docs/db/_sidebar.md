@@ -1,10 +1,7 @@
-<div class="breadcrumbs">
+- [<i data-lucide="home"></i> Home](/)
+<i data-lucide="arrow-down"></i>
 
-[Home](/)
-→ **Databases & SQL**
-
-</div>
-
+<!-- -------------------------- -->
 
 - <i data-lucide="database"></i> Databases
     - [<i data-lucide="circle-question-mark"></i> What is a Database?](db/)
