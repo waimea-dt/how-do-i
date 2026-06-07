@@ -16,7 +16,7 @@
  *   <big-o best-worst></big-o>
  *
  * Attributes:
- *   - max: Maximum n shown in the table (default: 20, range: 10–1024)
+ *   - max: Maximum N shown in the table (default: 20, range: 10–1024)
  *   - algos: Space-separated list of algorithm IDs or category IDs to show (default: all)
  *            Category IDs: array, stack, search, sort, graph, tsp, knap, pack, crypt
  *   - enabled: Space-separated list of algorithm IDs initially enabled (default: search-linear search-binary)
@@ -47,33 +47,33 @@
             id: 'array-insert',
             name: 'Array: Insert at Index',
             category: 'array',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,  // worst case: insert at start
             complexityBest: 'O(1)',
             fnBest: n => 1,  // insert at end
-            complexityAvg: 'O(n/2) → O(n)',
+            complexityAvg: 'O(N/2) → O(N)',
             fnAvg: n => n / 2,  // insert at middle
         },
         {
             id: 'array-sorted',
             name: 'Array: Check if Sorted',
             category: 'array',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,  // worst case: fully sorted or last pair wrong
             complexityBest: 'O(1)',
             fnBest: n => 1,  // first two elements wrong
-            complexityAvg: 'O(n<em>/2</em>)',
+            complexityAvg: 'O(N<em>/2</em>)',
             fnAvg: n => n / 2,  // error in middle
         },
         {
             id: 'array-minmax',
             name: 'Array: Find Min/Max',
             category: 'array',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,  // must check every element
-            complexityBest: 'O(n)',
+            complexityBest: 'O(N)',
             fnBest: n => n,  // always same
-            complexityAvg: 'O(n)',
+            complexityAvg: 'O(N)',
             fnAvg: n => n,  // always same
         },
         {
@@ -89,22 +89,22 @@
             id: 'search-linear',
             name: 'Linear Search',
             category: 'search',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,  // worst case
             complexityBest: 'O(1)',
             fnBest: n => 1,
-            complexityAvg: 'O(n<em>/2</em>)',
+            complexityAvg: 'O(N<em>/2</em>)',
             fnAvg: n => n / 2,
         },
         {
             id: 'search-binary',
             name: 'Binary Search',
             category: 'search',
-            complexity: 'O(log n)',
+            complexity: 'O(log N)',
             fn: n => Math.log2(n),  // worst case
             complexityBest: 'O(1)',
             fnBest: n => 1,
-            complexityAvg: 'O(log n)',
+            complexityAvg: 'O(log N)',
             fnAvg: n => Math.log2(n),
         },
 
@@ -113,33 +113,33 @@
             id: 'sort-bubble',
             name: 'Bubble Sort',
             category: 'sort',
-            complexity: 'O(n<sup>2</sup>)',
+            complexity: 'O(N<sup>2</sup>)',
             fn: n => n * n,  // worst case: fully reversed
-            complexityBest: 'O(n)',
+            complexityBest: 'O(N)',
             fnBest: n => n,  // already sorted: one pass
-            complexityAvg: 'O(n<sup>2</sup><em>/2</em>)',
+            complexityAvg: 'O(N<sup>2</sup><em>/2</em>)',
             fnAvg: n => (n * n) / 2,  // average: ~half of worst
         },
         {
             id: 'sort-merge',
             name: 'Merge Sort',
             category: 'sort',
-            complexity: 'O(n log n)',
+            complexity: 'O(N log N)',
             fn: n => n * Math.log2(n),  // worst case
-            complexityBest: 'O(n log n)',
+            complexityBest: 'O(N log N)',
             fnBest: n => n * Math.log2(n),
-            complexityAvg: 'O(n log n)',
+            complexityAvg: 'O(N log N)',
             fnAvg: n => n * Math.log2(n),
         },
         {
             id: 'sort-insert',
             name: 'Insertion Sort',
             category: 'sort',
-            complexity: 'O(n<sup>2</sup>)',
+            complexity: 'O(N<sup>2</sup>)',
             fn: n => n * n,  // worst case: fully reversed
-            complexityBest: 'O(n)',
+            complexityBest: 'O(N)',
             fnBest: n => n,  // already sorted: just comparisons
-            complexityAvg: 'O(n<sup>2</sup><em>/2</em>)',
+            complexityAvg: 'O(N<sup>2</sup><em>/2</em>)',
             fnAvg: n => (n * n) / 2,  // average: ~half of worst
         },
 
@@ -148,21 +148,21 @@
             id: 'graph-bfs',
             name: 'Breadth-First Search (BFS)',
             category: 'graph',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,
         },
         {
             id: 'graph-dfs',
             name: 'Depth-First Search (DFS)',
             category: 'graph',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,
         },
         {
             id: 'graph-dijkstra',
             name: 'Dijkstra\'s Shortest Path',
             category: 'graph',
-            complexity: 'O(n<sup>2</sup>)',
+            complexity: 'O(N<sup>2</sup>)',
             fn: n => n * n,
             note: 'Simplification of O((V+E) log V)',
         },
@@ -172,7 +172,7 @@
             id: 'tsp-brute',
             name: 'TSP: Brute Force',
             category: 'tsp',
-            complexity: 'O(n!)',
+            complexity: 'O(N!)',
             fn: n => {
                 // Stirling's approximation for factorial
                 return Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n);
@@ -182,14 +182,14 @@
             id: 'tsp-nearest',
             name: 'TSP: Nearest Neighbour',
             category: 'tsp',
-            complexity: 'O(n<sup>2</sup>)',
+            complexity: 'O(N<sup>2</sup>)',
             fn: n => n * n,
         },
         {
             id: 'tsp-2opt',
             name: 'TSP: NN with 2-Opt',
             category: 'tsp',
-            complexity: 'O(n<sup>3</sup>)',
+            complexity: 'O(N<sup>3</sup>)',
             fn: n => n * n * n,
         },
 
@@ -198,22 +198,22 @@
             id: 'knap-brute',
             name: 'Knapsack: Brute Force',
             category: 'knap',
-            complexity: 'O(2<sup>n</sup>)',
+            complexity: 'O(2<sup>N</sup>)',
             fn: n => Math.pow(2, n),
         },
         {
             id: 'knap-dynamic',
             name: 'Knapsack: Dynamic Prog.',
             category: 'knap',
-            complexity: 'O(n<sup>2</sup>)',
+            complexity: 'O(N<sup>2</sup>)',
             fn: n => n * n,
-            note: 'Simplification of O(n × W)',
+            note: 'Simplification of O(N × W)',
         },
         {
             id: 'knap-greedy',
             name: 'Knapsack: Greedy',
             category: 'knap',
-            complexity: 'O(n log n)',
+            complexity: 'O(N log N)',
             fn: n => n * Math.log2(n),
         },
 
@@ -222,21 +222,21 @@
             id: 'pack-brute',
             name: 'Bin Packing: Brute Force',
             category: 'pack',
-            complexity: 'O(n<sup>n</sup>)',
+            complexity: 'O(N<sup>N</sup>)',
             fn: n => Math.pow(n, n)
         },
         {
             id: 'pack-next-fit',
             name: 'Bin Packing: Next Fit',
             category: 'pack',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,
         },
         {
             id: 'pack-best-fit',
             name: 'Bin Packing: Best Fit',
             category: 'pack',
-            complexity: 'O(n log n)',
+            complexity: 'O(N log N)',
             fn: n => n * Math.log2(n),
         },
 
@@ -253,7 +253,7 @@
             id: 'vigenere-brute',
             name: 'Vigenère: Brute Force',
             category: 'crypt',
-            complexity: 'O(26<sup>n</sup>)',
+            complexity: 'O(26<sup>N</sup>)',
             fn: n => Math.pow(26, n),
             note: 'N = key length in chars',
         },
@@ -261,7 +261,7 @@
             id: 'vigenere-freq',
             name: 'Vigenère: via Freq. Analysis',
             category: 'crypt',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => 26 * n,
             note: 'N = text length in chars',
         },
@@ -287,7 +287,7 @@
             id: 'des-encrypt',
             name: 'DES: Encrypt/Decrypt',
             category: 'crypt',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,
             note: 'N = message length in blocks (legitimate use)',
         },
@@ -304,7 +304,7 @@
             id: 'rsa-encrypt',
             name: 'RSA: Encrypt/Decrypt',
             category: 'crypt',
-            complexity: 'O(n<sup>2</sup>)',
+            complexity: 'O(N<sup>2</sup>)',
             fn: n => n * n,
             note: 'N = key size in bits (legitimate use)',
         },
@@ -312,7 +312,7 @@
             id: 'rsa-brute',
             name: 'RSA: Brute Force (via Division)',
             category: 'crypt',
-            complexity: 'O(2<sup>n</sup>)',
+            complexity: 'O(2<sup>N</sup>)',
             fn: n => Math.pow(2, n),
             note: 'N = key size in bits',
         },
@@ -320,7 +320,7 @@
             id: 'rsa-gnfs',
             name: 'RSA: Brute Force (via GNFS)',
             category: 'crypt',
-            complexity: 'O(2<sup>2.5×√n</sup>)',
+            complexity: 'O(2<sup>2.5×√N</sup>)',
             fn: n => Math.pow(2, 2.5 * Math.sqrt(n)),
             note: 'N = key size in bits (sub-exponential)',
         },
@@ -328,7 +328,7 @@
             id: 'dh-compute',
             name: 'DH: Compute (g<sup>a</sup> mod p)',
             category: 'crypt',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,
             note: 'N = exponent size in bits (legitimate use)',
         },
@@ -336,7 +336,7 @@
             id: 'dh-brute',
             name: 'DH: Brute Force (Discrete Log)',
             category: 'crypt',
-            complexity: 'O(2<sup>n</sup>)',
+            complexity: 'O(2<sup>N</sup>)',
             fn: n => Math.pow(2, n),
             note: 'N = exponent size in bits',
         },
@@ -344,7 +344,7 @@
             id: 'aes-encrypt',
             name: 'AES: Encrypt/Decrypt',
             category: 'crypt',
-            complexity: 'O(n)',
+            complexity: 'O(N)',
             fn: n => n,
             note: 'N = message length in blocks (legitimate use)',
         },
@@ -352,7 +352,7 @@
             id: 'aes-brute',
             name: 'AES: Brute Force',
             category: 'crypt',
-            complexity: 'O(2<sup>n</sup>)',
+            complexity: 'O(2<sup>N</sup>)',
             fn: n => Math.pow(2, n),
             note: 'N = key size in bits',
         },

@@ -291,6 +291,12 @@
             max-width: 90%;
         }
     }
+
+    /* Superscript */
+    sup {
+        font-size: 0.8em;
+        vertical-align: super;
+    }
 }
 
 /* Macintosh display images */

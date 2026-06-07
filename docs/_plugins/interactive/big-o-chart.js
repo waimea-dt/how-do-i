@@ -2,16 +2,16 @@
  * docsify-big-o-chart.js - Interactive Big-O complexity growth visualiser
  *
  * Helps students understand:
- *   - How different complexity classes grow as input size (n) increases
- *   - Why O(n²) and O(2ⁿ) become impractical for large n
- *   - The massive divergence between classes as n grows
+ *   - How different complexity classes grow as input size (N) increases
+ *   - Why O(N²) and O(2ⁿ) become impractical for large N
+ *   - The massive divergence between classes as N grows
  *
  * Usage in markdown:
  *   <big-o-chart></big-o-chart>
  *   <big-o-chart max="15"></big-o-chart>
  *
  * Attributes:
- *   - max: Maximum n shown on the slider (default: 10, range: 5–20)
+ *   - max: Maximum N shown on the slider (default: 10, range: 5–20)
  */
 
 ;(function () {
@@ -31,7 +31,7 @@
 		},
 		{
 			id:    'ologn',
-			label: 'O(log n)',
+			label: 'O(log N)',
 			title: 'Logarithmic',
 			fn:    n => Math.log2(n),
 			cssVar: '--bigo-chart-line-color-2',
@@ -39,7 +39,7 @@
 		},
 		{
 			id:    'on',
-			label: 'O(n)',
+			label: 'O(N)',
 			title: 'Linear',
 			fn:    n => n,
 			cssVar: '--bigo-chart-line-color-3',
@@ -47,7 +47,7 @@
 		},
 		{
 			id:    'onlogn',
-			label: 'O(n log n)',
+			label: 'O(N log N)',
 			title: 'Linear-Logarithmic',
 			fn:    n => n * Math.log2(n),
 			cssVar: '--bigo-chart-line-color-4',
@@ -55,7 +55,7 @@
 		},
 		{
 			id:    'on2',
-			label: 'O(n²)',
+			label: 'O(N<sup>2</sup>)',
 			title: 'Quadratic',
 			fn:    n => n * n,
 			cssVar: '--bigo-chart-line-color-5',
@@ -63,7 +63,7 @@
 		},
 		{
 			id:    'on3',
-			label: 'O(n³)',
+			label: 'O(N<sup>3</sup>)',
 			title: 'Cubic',
 			fn:    n => n * n * n,
 			cssVar: '--bigo-chart-line-color-6',
@@ -71,7 +71,7 @@
 		},
 		{
 			id:    'o2n',
-			label: 'O(2ⁿ)',
+			label: 'O(2<sup>N</sup>)',
 			title: 'Exponential',
 			fn:    n => Math.pow(2, n),
 			cssVar: '--bigo-chart-line-color-7',
@@ -79,9 +79,9 @@
 		},
 		{
 			id:    'ofact',
-			label: 'O(n!)',
-			title: 'Factorial',
-			// Stirling's approximation: n! ≈ √(2πn) · (n/e)ⁿ - smooth & accurate for n ≥ 2
+            label: 'O(N!)',
+            title: 'Factorial',
+            // Stirling's approximation: n! ≈ √(2πn) · (n/e)ⁿ - smooth & accurate for n ≥ 2
 			fn:    n => Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n),
 			cssVar: '--bigo-chart-line-color-8',
 			aliases: ['ofact', 'n!', 'factorial'],
@@ -132,11 +132,13 @@
 		return ticks
 	}
 
-	function fmtY(v) {
-		if (v >= 1e9) return (v / 1e9).toFixed(0) + 'B'
-		if (v >= 1e6) return (v / 1e6).toFixed(1).replace(/\.0$/, '') + 'M'
-		if (v >= 1e3) return (v / 1e3).toFixed(1).replace(/\.0$/, '') + 'k'
-		return Math.round(v).toString()
+	function fmtY(v, useAbbrev = false) {
+		if (useAbbrev) {
+			if (v >= 1e9) return (v / 1e9).toFixed(0) + 'B'
+			if (v >= 1e6) return (v / 1e6).toFixed(1).replace(/\.0$/, '') + 'M'
+			if (v >= 1e3) return (v / 1e3).toFixed(1).replace(/\.0$/, '') + 'k'
+		}
+		return Math.round(v).toLocaleString()
 	}
 
 	// -------------------------------------------------------------------------
@@ -177,7 +179,7 @@
 			</div>
 			<div class="bigo-legend">${legendHTML}</div>
 			<div class="bigo-controls">
-				<span class="bigo-ctrl-label">n =</span>
+			<span class="bigo-ctrl-label">N =</span>
 				<input type="range" class="bigo-slider" min="2" max="${maxN}" value="${initialValue}" step="1">
 				<span class="bigo-n-display">${initialValue}</span>
 			</div>
@@ -203,6 +205,10 @@
 		const curvesG  = wrapper.querySelector('.bigo-curves')
 		const markerG  = wrapper.querySelector('.bigo-marker')
 		const ticksG   = wrapper.querySelector('.bigo-tick-labels')
+
+		// Check container width to decide if we should abbreviate values
+		const containerWidth = wrapper.offsetWidth
+		const useAbbrev = containerWidth < 580
 
 		// ------------------------------------------------------------------
 		// 1. Compute y-axis scale from all visible classes at x=n
@@ -232,7 +238,7 @@
 			const [, sy] = dataToSVG(xMin, tv, xMin, xMax, yMax)
 			if (sy < PAD_T - 4 || sy > PAD_T + PLOT_H + 4) continue
 			gridHTML += `<line x1="${PAD_L}" y1="${sy.toFixed(1)}" x2="${PAD_L + PLOT_W}" y2="${sy.toFixed(1)}" class="bigo-gridline"/>`
-			tickLabelHTML += `<text x="${(PAD_L - 6).toFixed(1)}" y="${sy.toFixed(1)}" class="bigo-tick-y">${fmtY(tv)}</text>`
+			tickLabelHTML += `<text x="${(PAD_L - 6).toFixed(1)}" y="${sy.toFixed(1)}" class="bigo-tick-y">${fmtY(tv, useAbbrev)}</text>`
 		}
 
 		// X-axis: label every integer from 1 to n
@@ -332,7 +338,7 @@
 				continue
 			}
 			const v = c.fn(n)
-			valEl.textContent = isFinite(v) ? fmtY(Math.round(v)) : '∞'
+			valEl.textContent = isFinite(v) ? fmtY(Math.round(v), useAbbrev) : '∞'
 		}
 	}
 

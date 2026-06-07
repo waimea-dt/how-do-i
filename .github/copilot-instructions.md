@@ -43,6 +43,12 @@ Apply these rules when creating new or editing existing plugin files in this rep
 - Add brief comments only where behaviour is non-obvious.
 - Match existing file style when a local convention is already established.
 
+## Content Formatting
+
+- Use minus signs (-) instead of em-dashes (—) in documentation and markdown files.
+- For complexity notation, use HTML with **uppercase N**: **O(N)** with <sup> and <sub> tags, not LaTeX.
+  - Examples: **O(N)**, **O(N<sup>2</sup>)**, **O(log N)**, **O(N log N)**, **O(2<sup>N</sup>)**, **O(N!)**
+
 ## Shared Utils
 
 - Add to docs/_plugins/core/utils.js only if helper is general-purpose.
