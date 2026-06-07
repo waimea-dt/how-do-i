@@ -7,7 +7,7 @@
     /* Scrolling behavior */
     width: 100%;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: hidden;
     margin: var(--margin-block) 0;
     padding: var(--padding-small) 0;
     -webkit-overflow-scrolling: touch;
@@ -50,7 +50,6 @@
     border-collapse: collapse;
     border-style: solid;
     width: fit-content;
-    overflow: visible;
     margin: 0 auto;
     background-color: var(--table-back-color);
     border: 1px solid var(--table-border-color);
