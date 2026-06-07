@@ -6,7 +6,7 @@
 
 <!-- -------------------------- -->
 
-- <i data-lucide="chart-spline"></i> Complexity Basics
+- <i data-lucide="chart-spline"></i> Algorithmic Complexity
     - [<i data-lucide="circle-question-mark"></i> What is Complexity?](cs/complexity/)
     - [<i data-lucide="gauge"></i> Measuring Efficiency](cs/complexity/measuring.md)
     - [<i data-lucide="timer"></i> Time vs Space](cs/complexity/time-space.md)

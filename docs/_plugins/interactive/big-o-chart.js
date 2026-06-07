@@ -37,7 +37,7 @@
 			label: 'O(1)',
 			title: 'Constant',
 			fn:    () => 1,
-			maxN:  1000,
+			maxN:  10000,
 			cssVar: '--bigo-chart-line-color-1',
 			aliases: ['o1', '1', 'const'],
 		},
@@ -46,7 +46,7 @@
 			label: 'O(log N)',
 			title: 'Logarithmic',
 			fn:    n => Math.log2(n),
-			maxN:  1000,
+			maxN:  10000,
 			cssVar: '--bigo-chart-line-color-2',
 			aliases: ['ologn', 'logn', 'log', 'log n'],
 		},
@@ -55,7 +55,7 @@
 			label: 'O(N)',
 			title: 'Linear',
 			fn:    n => n,
-			maxN:  1000,
+			maxN:  10000,
 			cssVar: '--bigo-chart-line-color-3',
 			aliases: ['on', 'n', 'linear'],
 		},
@@ -64,7 +64,7 @@
 			label: 'O(N log N)',
 			title: 'Linear-Logarithmic',
 			fn:    n => n * Math.log2(n),
-			maxN:  1000,
+			maxN:  10000,
 			cssVar: '--bigo-chart-line-color-4',
 			aliases: ['onlogn', 'nlogn', 'n log n', 'linear-log'],
 		},
@@ -73,7 +73,7 @@
 			label: 'O(N<sup>2</sup>)',
 			title: 'Quadratic',
 			fn:    n => n * n,
-			maxN:  100,
+			maxN:  5000,
 			cssVar: '--bigo-chart-line-color-5',
 			aliases: ['on2', 'n2', 'n^2', 'quadratic'],
 		},
@@ -82,7 +82,7 @@
 			label: 'O(N<sup>3</sup>)',
 			title: 'Cubic',
 			fn:    n => n * n * n,
-			maxN:  50,
+			maxN:  1000,
 			cssVar: '--bigo-chart-line-color-6',
 			aliases: ['on3', 'n3', 'n^3', 'cubic'],
 		},
@@ -91,7 +91,7 @@
 			label: 'O(2<sup>N</sup>)',
 			title: 'Exponential',
 			fn:    n => Math.pow(2, n),
-			maxN:  20,
+			maxN:  25,
 			cssVar: '--bigo-chart-line-color-7',
 			aliases: ['o2n', '2n', '2^n', 'exp', 'exponential'],
 		},
@@ -123,13 +123,16 @@
 
 	/** Determine X-axis step based on N to prevent label overlap */
 	function getXAxisStep(n) {
-		if (n <= 20)  return 1
-		if (n <= 50)  return 2
-		if (n <= 100) return 5
-		if (n <= 200) return 10
-		if (n <= 500) return 20
-		if (n <= 1000) return 50
-		return 100
+		if (n <= 10)   return 1
+		if (n <= 20)   return 2
+		if (n <= 50)   return 5
+		if (n <= 100)  return 10
+		if (n <= 250)  return 25
+		if (n <= 500)  return 50
+		if (n <= 1000) return 100
+		if (n <= 2500) return 250
+		if (n <= 5000) return 500
+		return 1000
 	}
 
 	/** Pick 4-6 evenly-spaced y tick values given a nice upper bound */
@@ -259,7 +262,7 @@
 			const [, sy] = dataToSVG(xMin, tv, xMin, xMax, yMax)
 			if (sy < PAD_T - 4 || sy > PAD_T + PLOT_H + 4) continue
 			gridHTML += `<line x1="${PAD_L}" y1="${sy.toFixed(1)}" x2="${PAD_L + PLOT_W}" y2="${sy.toFixed(1)}" class="bigo-gridline"/>`
-			tickLabelHTML += `<text x="${(PAD_L - 6).toFixed(1)}" y="${sy.toFixed(1)}" class="bigo-tick-y">${fmtY(tv, useAbbrev)}</text>`
+			tickLabelHTML += `<text x="${(PAD_L - 6).toFixed(1)}" y="${sy.toFixed(1)}" class="bigo-tick-y">${fmtY(tv, true)}</text>`
 		}
 
 		// X-axis: label at appropriate steps to prevent overlap
