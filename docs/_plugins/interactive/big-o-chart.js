@@ -166,7 +166,7 @@
 
 		wrapper.innerHTML = `
 			<div class="bigo-chart-wrap">
-				<svg class="bigo-svg"
+			    <svg class="bigo-svg no-zoom"
 					 viewBox="0 0 ${SVG_W} ${SVG_H}"
 					 role="img"
 					 aria-label="Big-O complexity growth curves">
@@ -253,7 +253,7 @@
 		const titleY = PAD_T + 16
 		tickLabelHTML += `<text x="${titleX}" y="${titleY}" class="bigo-title" text-anchor="start">Comparison of Algorithmic Complexity</text>`
 
-		// X-axis label (centered below axis)
+		// X-axis label (centred below axis)
 		const sxMid = PAD_L + PLOT_W / 2
 		const xAxisLabelY = sy + 36
 		tickLabelHTML += `<text x="${sxMid.toFixed(1)}" y="${xAxisLabelY.toFixed(1)}" class="bigo-axis-label" text-anchor="middle">Size of Input Data, N</text>`
