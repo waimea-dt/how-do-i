@@ -1,7 +1,7 @@
 <!-- - [<i data-lucide="smile"></i> Welcome!](/) -->
-- [<i data-lucide="list"></i> Site Contents](/contents.md)
-- [<i data-lucide="graduation-cap"></i> DT Courses @ Waimea](/courses.md)
-- [<i data-lucide="pocket-knife"></i> Useful Tools](/tools.md)
+- [<i data-lucide="list"></i> Site Contents](_contents.md)
+- [<i data-lucide="graduation-cap"></i> DT Courses @ Waimea](courses/)
+- [<i data-lucide="pocket-knife"></i> Useful Tools](tools/)
 - [<i data-lucide="book-open"></i> Glossary of Terms](_glossary.md)
 
 ---
