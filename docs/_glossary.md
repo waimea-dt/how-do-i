@@ -631,6 +631,21 @@
     Software where anyone can view and modify the code
 
 
+### Design
+
+- palette
+
+    A collection of colours that work well together
+    
+- wireframe
+
+    A basic visual layout showing where elements go in a user interface
+
+- wireframing
+
+    Creating a basic visual layout of a user interface to test out ideas
+
+
 ### User Interfaces
 
 - UI
@@ -648,10 +663,6 @@
 - GUI
 
     Graphical User Interface - windows, buttons, and menus you click on screen
-
-- wireframe
-
-    A basic visual layout showing where elements go in a user interface
 
 - Swing
 
