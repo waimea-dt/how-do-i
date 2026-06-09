@@ -8,6 +8,17 @@
 
 /* Fix mobile toggle button sizing */
 .sidebar-toggle {
+    .sidebar-toggle-button[aria-expanded="true"] {
+        opacity: 0.2;
+        transition: opacity 250ms;
+    }
+
+    &:hover {
+        .sidebar-toggle-button[aria-expanded="true"] {
+            opacity: 1;
+        }
+    }
+
     @media screen and not (any-hover) {
         & {
             width: var(--sidebar-toggle-width);
