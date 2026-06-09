@@ -35,6 +35,7 @@
     - [Details](_tests/details.md)
     - [Speech](_tests/speech.md)
     - [Cards](_tests/cards.md)
+    - [Tool Lists](_tests/tool-lists.md)
     - [Callouts](_tests/callouts.md)
     - [Tables](_tests/tables.md)
     - [Definitions](_tests/definitions.md)

@@ -1,34 +1,21 @@
 # Useful Digital Tech. Tools
 
-This section contains curated lists of tools suitable for secondary school students learning programming and digital technologies.
+This section contains a list of great tools that can help support your learning with and about digital technologies.
 
 ## What Makes a Good Tool?
 
-When selecting tools for learning and project work, consider these criteria:
+Just like hammers and screwdrivers in a workshop, good tools are ones that:
 
-### Essential Criteria
+- **are easy to learn** - nobody wants to read instructions!
+- **feel good to use** - a tool should be a pleasure to use
+- **help you do things** - if it's not helping, what's the point?
 
-- **Free or low cost** - tools should be accessible to all students
-- **Cross-platform** - works on Windows, macOS and Linux, or available online
-- **Easy to learn** - simple interface without overwhelming features
-- **Well documented** - good tutorials and help available
-- **Safe and appropriate** - suitable for educational settings
+## So, Why These Tools?
 
-### Bonus Features
+Where possible, these tools are the best available and also:
 
-- **Open-source** - can learn from and modify the code
-- **Active community** - forums, tutorials, examples available
-- **Export options** - save work in standard formats
-- **Offline capability** - doesn't require constant internet access
-- **Educational licenses** - special features or pricing for schools
-
-## Tool Categories
-
-The tools are organised into categories based on their primary use:
-
-- **Coding Tools** - editors, IDEs, version control
-- **Database Tools** - design, editing, practice
-- **Design Tools** - wireframes, colours, fonts
-- **Image Tools** - editing and pixel art
-- **Media Libraries** - free images, sounds, game assets
+- **free or low cost** - great paid tools might exist, but free is better!
+- **cross-platform** - whatever device you have, these tools will work
+- **well documented** - good tutorials and help are available
+- **open-source** - developed by developers for developers
 

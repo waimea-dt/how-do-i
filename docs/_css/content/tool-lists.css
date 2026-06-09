@@ -1,0 +1,101 @@
+/* tool-lists.css - Styling for tool/resource lists with metadata badges */
+
+/* Tool list heading */
+.markdown-section .tools-heading {
+    /* Optional: add special styling for headings that introduce tool lists */
+}
+
+/* Tool list container */
+.markdown-section .tool-list {
+    --tool-list-item-bg:        var(--plugin-panel-bg);
+    --tool-list-border:         var(--plugin-panel-border);
+    --tool-list-border-hover:   var(--theme-color-4);
+    --tool-list-border-high:    var(--highlight-color);
+    --tool-list-muted:          var(--color-mono-6);
+
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 18rem);
+    gap: var(--gap);
+
+    /* Individual tool items */
+    > li {
+        border: 1px solid var(--tool-list-border);
+        border-radius: var(--border-radius);
+        background-color: var(--tool-list-item-bg);
+        box-shadow: var(--box-shadow-small);
+        padding: var(--padding);
+        margin: 0;
+        position: relative;
+        /* overflow: hidden; */
+        transition: border-color 250ms;
+
+        &:hover {
+            border-color: var(--tool-list-border-hover);
+        }
+
+        > :first-child {
+            margin-top: 0;
+        }
+
+        > :last-child {
+            margin-bottom: 0;
+        }
+
+        img {
+            width: 2.5rem;
+            position: absolute;
+            right: 0.75rem;
+            top: 0.75rem;
+            margin: 0;
+        }
+
+        /* Recommended items */
+        &.recommended {
+            /* border-color: var(--tool-list-border-high); */
+
+            &::before {
+                content: '★';
+                position: absolute;
+                left: -0.35em;
+                top: -0.35em;
+                color: var(--tool-list-border-high);
+                font-size: 2rem;
+                line-height: 1;
+                z-index: 1;
+            }
+        }
+
+        /* Sub-lists within tool items */
+        > ul {
+            margin: var(--gap-small) 0 0;
+            list-style: square;
+            display: flex;
+            flex-direction: column;
+
+            > li {
+                font-size: var(--font-med);
+                color: var(--tool-list-muted);
+                margin: 0;
+            }
+        }
+
+        /* Link styling in tool lists */
+        > p {
+            font-weight: 600;
+            font-size: var(--font-xlarge);
+            margin-bottom: var(--gap-tiny);
+            margin-right: 3rem;
+
+            > a {
+                text-decoration: underline;
+                text-decoration-color: var(--color-mono-3);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

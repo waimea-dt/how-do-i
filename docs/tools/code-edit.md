@@ -1,51 +1,56 @@
 # Code Editors and Integrated Development Environments (IDEs)
 
-
+<!-- tools -->
 ## General Code Editors
 
 - [Visual Studio Code](https://code.visualstudio.com/)
+    ![](_assets/code.svg)
     - **Recommended**
+    - **Free**
     - Very popular and powerful
-    - 1000s of extensions for Python, Kotlin, web dev, etc.
+    - Customise via extensions
     - Built-in Git support
-    - Free and open-source
 
 - [Zed Editor](https://zed.dev/)
+    ![](_assets/zed.png)
+    - **Free**
     - Clean, fast and modern
     - Good for web development
     - Still in development
 
-- [Sublime Text](https://www.sublimetext.com/)
-    - Fast and lightweight
-    - Good for quick edits
-
-
+<!-- tools -->
 ## Python IDEs
 
 - [Thonny](https://thonny.org/)
-    - **Recommended for beginners**
+    ![](_assets/thonny.png)
+    - **Free**
     - Simple interface
-    - Built-in debugger with variable view
+    - Built-in debugger
     - Perfect for learning Python
 
 - [Spyder](https://www.spyder-ide.org/)
+    ![](_assets/spyder.png)
+    - **Free**
     - Scientific Python IDE
     - Good for data analysis
     - Variable explorer
 
-- [PyCharm Community Edition](https://www.jetbrains.com/pycharm/)
+- [PyCharm](https://www.jetbrains.com/pycharm/)
+    ![](_assets/pycharm.svg)
+    - **Free**
+    - Free Community Edition
     - Professional IDE from JetBrains
-    - Free Community Edition available
-    - Excellent for Flask projects
+    - Excellent for larger projects
 
-
+<!-- tools -->
 ## Kotlin IDEs
 
-- [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/)
+- [IntelliJ IDEA](https://www.jetbrains.com/idea/)
+    ![](_assets/intellij.svg)
     - **Recommended**
+    - **Free**
+    - Free Community Edition
     - Professional IDE from JetBrains
-    - Free Community Edition available
     - Excellent Kotlin support
-    - Good for Swing UI projects
 
 

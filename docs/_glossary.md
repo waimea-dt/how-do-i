@@ -598,10 +598,6 @@
 
     Short for Visual Studio Code - a popular free code editor made by Microsoft
 
-- Visual Studio Code
-
-    A free, lightweight code editor made by Microsoft with support for many languages
-
 - JetBrains
 
     A company that makes professional developer tools like IntelliJ IDEA and PyCharm
@@ -636,7 +632,7 @@
 - palette
 
     A collection of colours that work well together
-    
+
 - wireframe
 
     A basic visual layout showing where elements go in a user interface
