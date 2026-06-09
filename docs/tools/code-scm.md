@@ -1,40 +1,49 @@
 # Source Code Management
 
+<!-- tool-lists -->
+
 ## Git
 
 - [Git](https://git-scm.com/)
-    - **Essential tool**
+    ![](_assets/git.svg)
+    - **Recommended**
     - Version control system
     - Track changes in code
     - Free and open-source
+
+
+## Git Help
+
+- [Git - The Simple Guide](https://rogerdudler.github.io/git-guide/)
+    - **Recommended**
+    - Overview of the basics
+    - clear and easy to follow
+
+
+- [Brief Intro to Git *(video)*](https://www.youtube.com/watch?v=r8jQ9hVA2qs)
+    - Video introduction to the basics
+    - Simple to follow
+
 
 - [Git Guide](https://github.com/git-guides)
     - Official GitHub guides
     - Good for learning Git basics
 
-- [Learn Git Branching](https://learngitbranching.js.org/)
-    - Interactive tutorial
-    - Visualises Git concepts
-    - Great for understanding branching
-
 
 ## Git GUI Clients
 
 - [GitHub Desktop](https://desktop.github.com/)
-    - **Recommended for beginners**
+    ![](_assets/github-desktop.svg)
+    - **Recommended**
     - Simple visual interface
     - Easy to use
-    - Free
-
-- [GitKraken](https://www.gitkraken.com/)
-    - Visual Git client
-    - Free for public repos
+    - Free, cross-platform
 
 
 ## Git Hosting
 
 - [GitHub](https://github.com/)
-    - **Most popular**
+    - **Recommended**
     - Free for public and private repos
     - Good for collaboration
     - Edu accounts available

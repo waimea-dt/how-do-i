@@ -1,5 +1,7 @@
 # Game Asset Libraries
 
+<!-- tool-lists -->
+
 ## Game Art and Sprites
 
 - [OpenGameArt.org](https://opengameart.org/)

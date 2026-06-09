@@ -1,20 +1,21 @@
 /**
  * tool-lists.js - Enhances lists following marked headings with semantic classes.
  *
- * Identifies tool/resource lists marked with <!-- tools --> comment before heading.
+ * Identifies tool/resource lists marked with <!-- tool-lists --> comment at page top.
+ * When marker is found, ALL h2 headings and their following ULs are styled as tool lists.
  * Adds classes to list items based on metadata found in sub-lists:
  *   - **Recommended** → adds "recommended" class
  *   - **Free** / **Paid** → adds "free" or "paid" class
  *   - **Beginner friendly** → adds "beginner-friendly" class
- *   - Custom badges like **Beta**, **Open Source**, etc.
  *
  * Usage:
- *   <!-- tools -->
+ *   # Page Title
+ *   <!-- tool-lists -->
+ *   
  *   ## Python IDEs
  *   - [Thonny](https://thonny.org/)
  *       - **Recommended**
- *       - **Beginner friendly**
- *       - Simple interface
+ *       - **Free**
  */
 
 ;(function () {
@@ -33,31 +34,36 @@
 
     function processToolLists(root) {
         const scope = resolveScope(root)
-        const selector = scope === document ? '.markdown-section h1, .markdown-section h2, .markdown-section h3' : 'h1, h2, h3'
-        const headings = scope.querySelectorAll(selector)
+        const container = scope === document ? document.querySelector('.markdown-section') : scope
 
-        headings.forEach(heading => {
-            // Check if heading is preceded by <!-- tools --> comment
-            let prevNode = heading.previousSibling
-            let hasToolsMarker = false
+        if (!container) return
 
-            // Walk backwards through siblings to find comment (skip text nodes with only whitespace)
-            while (prevNode) {
-                if (prevNode.nodeType === Node.COMMENT_NODE && prevNode.nodeValue.trim() === 'tools') {
-                    hasToolsMarker = true
-                    break
-                }
-                // Skip whitespace-only text nodes
-                if (prevNode.nodeType === Node.TEXT_NODE && prevNode.nodeValue.trim() === '') {
-                    prevNode = prevNode.previousSibling
-                    continue
-                }
-                // Stop if we hit other content
+        // Check if page has <!-- tool-lists --> marker anywhere near the top
+        let hasToolListsMarker = false
+        const walker = document.createTreeWalker(
+            container,
+            NodeFilter.SHOW_COMMENT,
+            null,
+            false
+        )
+
+        let commentNode
+        while ((commentNode = walker.nextNode())) {
+            if (commentNode.nodeValue.trim() === 'tool-lists') {
+                hasToolListsMarker = true
                 break
             }
+            // Stop searching after first h2 (marker should be before content)
+            if (commentNode.nextElementSibling?.tagName === 'H2') break
+        }
 
-            if (!hasToolsMarker) return
+        if (!hasToolListsMarker) return
 
+        // Process ALL h2 headings in the page
+        const selector = scope === document ? '.markdown-section h2' : 'h2'
+        const headings = container.querySelectorAll(selector)
+
+        headings.forEach(heading => {
             heading.classList.add('tools-heading')
 
             // Find the next sibling UL

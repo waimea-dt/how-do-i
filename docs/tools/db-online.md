@@ -1,5 +1,7 @@
 # Online Database Tools and Playgrounds
 
+<!-- tool-lists -->
+
 ## SQL Practice and Learning
 
 - [SQLite Online](https://sqliteonline.com/)

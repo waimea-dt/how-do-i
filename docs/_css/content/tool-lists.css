@@ -7,16 +7,18 @@
 
 /* Tool list container */
 .markdown-section .tool-list {
-    --tool-list-item-bg:        var(--plugin-panel-bg);
-    --tool-list-border:         var(--plugin-panel-border);
-    --tool-list-border-hover:   var(--theme-color-4);
-    --tool-list-border-high:    var(--highlight-color);
-    --tool-list-muted:          var(--color-mono-6);
+    --tool-list-item-bg:            var(--plugin-panel-bg);
+    --tool-list-border:             var(--plugin-panel-border);
+    --tool-list-border-hover:       var(--theme-color-4);
+    --tool-list-border-high:        color-mix(in srgb, var(--highlight-color) 50%, var(--plugin-panel-border));
+    --tool-list-border-high-hover:  var(--highlight-color);
+    --tool-list-muted:              var(--color-mono-6);
+    --tool-list-panel-width:        calc((var(--content-max-width) - (2 * var(--gap))) / 3);
 
     list-style: none;
     padding-left: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 18rem);
+    grid-template-columns: repeat(auto-fit, var(--tool-list-panel-width));
     gap: var(--gap);
 
     /* Individual tool items */
@@ -45,6 +47,7 @@
 
         img {
             width: 2.5rem;
+            height: 2.5rem;
             position: absolute;
             right: 0.75rem;
             top: 0.75rem;
@@ -53,17 +56,22 @@
 
         /* Recommended items */
         &.recommended {
-            /* border-color: var(--tool-list-border-high); */
+            border-color: var(--tool-list-border-high);
+
+            &:hover {
+                border-color: var(--tool-list-border-high-hover);
+            }
 
             &::before {
                 content: '★';
                 position: absolute;
-                left: -0.35em;
-                top: -0.35em;
-                color: var(--tool-list-border-high);
+                left: -0.4em;
+                top: -0.5em;
+                color: var(--highlight-color);
                 font-size: 2rem;
                 line-height: 1;
                 z-index: 1;
+                transform: rotate(-10deg);
             }
         }
 
@@ -83,18 +91,51 @@
 
         /* Link styling in tool lists */
         > p {
+            margin: 0;
+        }
+
+        > p > a,
+        > a {
+            display: block;
             font-weight: 600;
             font-size: var(--font-xlarge);
             margin-bottom: var(--gap-tiny);
-            margin-right: 3rem;
+            text-decoration: underline;
+            text-decoration-color: var(--color-mono-3);
+            color: var(--theme-color);
 
-            > a {
+            em {
+                font-weight: normal;
+                font-style: normal;
+                font-variant: all-small-caps;
+                font-size: 0.9em;
+            }
+
+            &:has(+ img) {
+                margin-right: 3rem;
+            }
+
+            &:hover {
                 text-decoration: underline;
-                text-decoration-color: var(--color-mono-3);
+            }
 
-                &:hover {
-                    text-decoration: underline;
-                }
+            &::after {
+                content: "";
+                display: inline-block;
+                width: 0.85em;
+                height: 0.85em;
+                margin-left: var(--gap-small);
+                margin-bottom: 0.1em;
+                background-color: currentColor;
+                mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>');
+                mask-size: contain;
+                mask-repeat: no-repeat;
+                mask-position: center;
+                -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>');
+                -webkit-mask-size: contain;
+                -webkit-mask-repeat: no-repeat;
+                -webkit-mask-position: center;
+                vertical-align: middle;
             }
         }
     }

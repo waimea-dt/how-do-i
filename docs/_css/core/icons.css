@@ -6,7 +6,7 @@ i.si::before {
     --icon-size: 1.2em;
 
     display: inline-block;
-    vertical-align: center;
+    vertical-align: middle;
     color: currentColor;
     font-size: var(--icon-size);
     width: 1em;

@@ -1,5 +1,7 @@
 # Font and Text Tools
 
+<!-- tool-lists -->
+
 ## Lorem Ipsum
 
 - [Lorem Generator](https://10015.io/tools/lorem-ipsum-generator)

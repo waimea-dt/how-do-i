@@ -1,5 +1,7 @@
 # Database Management and Editing Tools
 
+<!-- tool-lists -->
+
 ## SQLite Tools
 
 - [DB Browser for SQLite](https://sqlitebrowser.org/)

@@ -598,6 +598,10 @@
 
     Short for Visual Studio Code - a popular free code editor made by Microsoft
 
+- Visual Studio Code
+
+    A popular free code editor made by Microsoft
+
 - JetBrains
 
     A company that makes professional developer tools like IntelliJ IDEA and PyCharm

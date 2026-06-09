@@ -1,6 +1,7 @@
 # Code Editors and Integrated Development Environments (IDEs)
 
-<!-- tools -->
+<!-- tool-lists -->
+
 ## General Code Editors
 
 - [Visual Studio Code](https://code.visualstudio.com/)
@@ -18,7 +19,7 @@
     - Good for web development
     - Still in development
 
-<!-- tools -->
+
 ## Python IDEs
 
 - [Thonny](https://thonny.org/)
@@ -42,7 +43,7 @@
     - Professional IDE from JetBrains
     - Excellent for larger projects
 
-<!-- tools -->
+
 ## Kotlin IDEs
 
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/)
