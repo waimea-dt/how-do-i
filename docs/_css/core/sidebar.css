@@ -8,9 +8,13 @@
 
 /* Fix mobile toggle button sizing */
 .sidebar-toggle {
-    .sidebar-toggle-button[aria-expanded="true"] {
+    .sidebar-toggle-button {
         opacity: 0.2;
         transition: opacity 250ms;
+
+        &[aria-expanded="false"] {
+            opacity: 1;
+        }
     }
 
     &:hover {
