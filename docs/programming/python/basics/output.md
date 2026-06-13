@@ -38,7 +38,7 @@ print(first_name, last_name, "is", age, "years old")
 
 ## f-Strings
 
-The cleanest way to mix variables and text - see the [Working with Text](programming/python/basics/text.md) page for full details:
+The cleanest way to mix variables and text - see the [Working with Text](/programming/python/basics/text.md) page for full details:
 
 ```python
 name  = "Steve"

@@ -165,7 +165,7 @@ dependencies {
 }
 ```
 > [!TIP]
-> See the [Project Setup page](programming/kotlin/project.md) for details about working with Gradle
+> See the [Project Setup page](/programming/kotlin/project.md) for details about working with Gradle
 
 
 The `saveData()`(kotlin) and `loadData()`(kotlin) methods should be placed within the App/Game class:

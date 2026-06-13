@@ -40,7 +40,7 @@ println(score)
 
 ## String Templates
 
-The easiest way to mix variables and text is with **string templates** - see the [Working with Text](programming/kotlin/basics/text.md) page.
+The easiest way to mix variables and text is with **string templates** - see the [Working with Text](/programming/kotlin/basics/text.md) page.
 
 Prefix a variable name with `$`(kotlin) inside a string, and wrap expressions in `${...}`(kotlin):
 

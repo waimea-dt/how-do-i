@@ -1,6 +1,6 @@
 # Adding UI Elements to a Window
 
-Once you have a [window set up](programming/kotlin/gui/window.md), you can start adding things to it. Swing calls these things **components** - labels, buttons, text boxes, and so on.
+Once you have a [window set up](/programming/kotlin/gui/window.md), you can start adding things to it. Swing calls these things **components** - labels, buttons, text boxes, and so on.
 
 This page covers the three most common ones: `JLabel()`(kotlin), `JButton()`(kotlin), and `JTextField()`(kotlin).
 
@@ -60,7 +60,7 @@ titleLabel.text = "Hello, there!"
 
 ## JButton - A Clickable Button
 
-`JButton()`(kotlin) creates a button the user can **click**. You wire it up to do something on the [actions page](programming/kotlin/gui/actions.md).
+`JButton()`(kotlin) creates a button the user can **click**. You wire it up to do something on the [actions page](/programming/kotlin/gui/actions.md).
 
 ![Button demo](_assets/element-button.png)
 
@@ -181,7 +181,7 @@ class MainWindow {
 > [!TIP]
 > Declare all your components at the **class level** (not inside a function). This means you can access them from `setupLayout()`(kotlin), `setupStyles()`(kotlin), `setupActions()`(kotlin), and `updateUI()`(kotlin) - wherever they're needed.
 
-Next up: [Listening and Responding to User Actions](programming/kotlin/gui/actions.md)
+Next up: [Listening and Responding to User Actions](/programming/kotlin/gui/actions.md)
 
 
 ## More Components

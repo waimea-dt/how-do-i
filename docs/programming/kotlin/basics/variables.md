@@ -80,7 +80,7 @@ var likes cats = true        // Can't have spaces
 ```
 
 > [!NOTE]
-> Kotlin variables **cannot hold `null`(kotlin) by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](programming/kotlin/advanced/errors.md) page.
+> Kotlin variables **cannot hold `null`(kotlin) by default** - this is one of Kotlin's key safety features. You will learn more about this in the [Error Handling](/programming/kotlin/advanced/errors.md) page.
 
 
 ## Variable Scope

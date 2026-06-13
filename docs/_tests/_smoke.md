@@ -59,28 +59,28 @@ Inline formatting: **bold**, *italic*, ~~strike~~, and `inline code`.
 ## Content Plugins
 
 
-### definitions.js ([tests](_tests/definitions.md))
+### definitions.js ([tests](/_tests/definitions.md))
 
 Smoke testing (hover)
 
 
-### lucide-icons.js ([tests](_tests/_components.md))
+### lucide-icons.js ([tests](/_tests/_components.md))
 
 <i data-lucide="alarm-smoke"></i> <i data-lucide="flask-conical"></i> <i data-lucide="circle-check-big"></i>
 
 
-### tooltips.js ([tests](_tests/_components.md))
+### tooltips.js ([tests](/_tests/_components.md))
 
 <span data-tooltip="Smoke tip">hover me</span>
 
 
-### callouts.js ([tests](_tests/callouts.md))
+### callouts.js ([tests](/_tests/callouts.md))
 
 > [!NOTE]
 > Smoke test.
 
 
-### cards.js ([tests](_tests/cards.md))
+### cards.js ([tests](/_tests/cards.md))
 
 <cards>
 
@@ -97,7 +97,7 @@ Smoke testing (hover)
 </cards>
 
 
-### tables.js ([tests](_tests/tables.md))
+### tables.js ([tests](/_tests/tables.md))
 
 | S   | M   | O !!   | K   | E   |
 | --- | --- | --- | --- | --- |
@@ -109,7 +109,7 @@ Smoke testing (hover)
 
 ## Media Plugins
 
-### captions.js ([tests](_tests/captions.md))
+### captions.js ([tests](/_tests/captions.md))
 
 <captioned>
 
@@ -120,7 +120,7 @@ Smoke!
 </captioned>
 
 
-### speech.js ([tests](_tests/speech.md))
+### speech.js ([tests](/_tests/speech.md))
 
 <speak>
 
@@ -131,7 +131,7 @@ Smoke
 </speak>
 
 
-### img-notes.js ([tests](_tests/img-notes.md))
+### img-notes.js ([tests](/_tests/img-notes.md))
 
 <img-notes>
 
@@ -144,12 +144,12 @@ Smoke
 </img-notes>
 
 
-### excalidraw.js ([tests](_tests/excalidraw.md))
+### excalidraw.js ([tests](/_tests/excalidraw.md))
 
 <excalidraw src="_tests/_assets/smoke.excalidraw"></excalidraw>
 
 
-### svg-zoom.js ([tests](_tests/mermaid.md))
+### svg-zoom.js ([tests](/_tests/mermaid.md))
 
 ```mermaid
 graph TD
@@ -157,7 +157,7 @@ A[Smoke] --> B[Test]
 ```
 
 
-### videos.js ([tests](_tests/video-embed.md))
+### videos.js ([tests](/_tests/video-embed.md))
 
 <videoembed id="_u03uI-zCCk"></videoembed>
 
@@ -166,7 +166,7 @@ A[Smoke] --> B[Test]
 
 ## Visualisation Plugins
 
-### timelines.js ([tests](_tests/timeline.md))
+### timelines.js ([tests](/_tests/timeline.md))
 
 <timeline>
 
@@ -176,7 +176,7 @@ A[Smoke] --> B[Test]
 </timeline>
 
 
-### hierarchies.js ([tests](_tests/hierarchy.md))
+### hierarchies.js ([tests](/_tests/hierarchy.md))
 
 <hierarchy>
 
@@ -196,7 +196,7 @@ A[Smoke] --> B[Test]
 </hierarchy>
 
 
-### structures.js ([tests](_tests/structure.md))
+### structures.js ([tests](/_tests/structure.md))
 
 <structure>
 
@@ -209,7 +209,7 @@ A[Smoke] --> B[Test]
 </structure>
 
 
-### file-trees.js ([tests](_tests/file-list.md))
+### file-trees.js ([tests](/_tests/file-list.md))
 
 <filetree>
 
@@ -220,7 +220,7 @@ A[Smoke] --> B[Test]
 </filetree>
 
 
-### sequences.js ([tests](_tests/sequences.md))
+### sequences.js ([tests](/_tests/sequences.md))
 
 <sequence>
 
@@ -231,7 +231,7 @@ A[Smoke] --> B[Test]
 </sequence>
 
 
-### requests.js ([tests](_tests/requests.md))
+### requests.js ([tests](/_tests/requests.md))
 
 <requests>
 
@@ -246,7 +246,7 @@ A[Smoke] --> B[Test]
 </requests>
 
 
-### computers.js ([tests](_tests/computers.md))
+### computers.js ([tests](/_tests/computers.md))
 
 <computer type="laptop">
 
@@ -259,7 +259,7 @@ A[Smoke] --> B[Test]
 
 ## Activity Plugins
 
-### slides.js ([tests](_tests/slides.md))
+### slides.js ([tests](/_tests/slides.md))
 
 <slides>
 
@@ -272,7 +272,7 @@ A[Smoke] --> B[Test]
 </slides>
 
 
-### flash-cards.js ([tests](_tests/flash-cards.md))
+### flash-cards.js ([tests](/_tests/flash-cards.md))
 
 <flashcards>
 
@@ -285,7 +285,7 @@ A[Smoke] --> B[Test]
 </flashcards>
 
 
-### drag-drop.js ([tests](_tests/drag-drop.md))
+### drag-drop.js ([tests](/_tests/drag-drop.md))
 
 <drag-drop>
 
@@ -296,7 +296,7 @@ A[Smoke] --> B[Test]
 </drag-drop>
 
 
-### quizzes.js ([tests](_tests/quiz.md))
+### quizzes.js ([tests](/_tests/quiz.md))
 
 
 <quiz>
@@ -333,7 +333,7 @@ A[Smoke] --> B[Test]
 Inline code `print("Smoke!")`(python) testing
 
 
-### Code Blocks via Prism ([tests](_tests/code.md))
+### Code Blocks via Prism ([tests](/_tests/code.md))
 
 ```python [4]
 print("Hello, Smoke!")
@@ -344,19 +344,19 @@ for i in range(10):
 print("Done!")
 ```
 
-### python-runner.js ([tests](_tests/python.md))
+### python-runner.js ([tests](/_tests/python.md))
 
 ```python run
 print("Smoke!")
 ```
 
-### kotlin-runner.js ([tests](_tests/kotlin.md))
+### kotlin-runner.js ([tests](/_tests/kotlin.md))
 
 ```kotlin run
 println("smoke")
 ```
 
-### pseudo-highlighter.js ([tests](_tests/pseudo.md))
+### pseudo-highlighter.js ([tests](/_tests/pseudo.md))
 
 ```pseudo
 start
@@ -364,7 +364,7 @@ start
 end
 ```
 
-### primm.js ([tests](_tests/primm.md))
+### primm.js ([tests](/_tests/primm.md))
 
 <primm>
 
@@ -375,7 +375,7 @@ print("Smoke!")
 </primm>
 
 
-### trace-table.js ([tests](_tests/trace-table.md))
+### trace-table.js ([tests](/_tests/trace-table.md))
 
 ```python trace
 a = "Smoke"
@@ -384,7 +384,7 @@ print(a + " " + b)
 ```
 
 
-### python-test.js ([tests](_tests/coverage.md))
+### python-test.js ([tests](/_tests/coverage.md))
 
 ```python test
 def smoke(x):
@@ -398,14 +398,14 @@ def smoke(x):
 9  -> "No smoke"
 ```
 
-### scratch-blocks.js ([tests](_tests/scratch.md))
+### scratch-blocks.js ([tests](/_tests/scratch.md))
 
 ```scratch
 when green flag clicked
 say [Smoke test]
 ```
 
-### scratch-stage.js ([tests](_tests/scratch.md))
+### scratch-stage.js ([tests](/_tests/scratch.md))
 
 ```scratch-stage
 stage space #1a1a2e
@@ -414,13 +414,13 @@ endstage
 ```
 
 
-### logic.js ([tests](_tests/logic.md))
+### logic.js ([tests](/_tests/logic.md))
 
 ```logic
 GATE None AND A B OUT
 ```
 
-### oop-sim.js ([tests](_tests/oop-sim.md))
+### oop-sim.js ([tests](/_tests/oop-sim.md))
 
 ```oop-sim
 // Step: Class
@@ -429,7 +429,7 @@ class Smoke(val type: String)
 val test = Smoke("Test")
 ```
 
-### memory-sim.js ([tests](_tests/memory-sim.md))
+### memory-sim.js ([tests](/_tests/memory-sim.md))
 
 ```memory-sim
 // Step: One var
@@ -438,7 +438,7 @@ val x = 1
 val test = "Smoke"
 ```
 
-### cpu-sim.js ([tests](_tests/cpu-sim.md))
+### cpu-sim.js ([tests](/_tests/cpu-sim.md))
 
 ```cpu-sim
 LOAD R0, 1
@@ -449,14 +449,14 @@ ADD R0, 2
 
 ## Web Development Plugins
 
-### web-playground.js ([tests](_tests/_components.md))
+### web-playground.js ([tests](/_tests/_components.md))
 
 <web-playground data-height="20em">
 
 ```html
 <h1>Smoke Test</h1>
 
-<img src="_assets/macs/macintosh.svg">
+<img src="/_assets/macs/macintosh.svg">
 ```
 
 ```css
@@ -474,12 +474,12 @@ console.log("Smoke!")
 </web-playground>
 
 
-### colours.js ([tests](_tests/colours.md))
+### colours.js ([tests](/_tests/colours.md))
 
 <colours></colours>
 
 
-### accessibility.js ([tests](_tests/accessibility.md))
+### accessibility.js ([tests](/_tests/accessibility.md))
 
 <accessibility mode="screen-reader">
 
@@ -496,7 +496,7 @@ console.log("Smoke!")
 
 ## Database Plugins
 
-### database.js ([tests](_tests/dbs.md))
+### database.js ([tests](/_tests/dbs.md))
 
 <db-schema>
 
@@ -509,14 +509,14 @@ console.log("Smoke!")
 
 
 
-### sql-runner.js ([tests](_tests/sql.md))
+### sql-runner.js ([tests](/_tests/sql.md))
 
 ```sql run
 SELECT 1 AS smoke;
 ```
 
 
-### erd.js ([tests](_tests/erd.md))
+### erd.js ([tests](/_tests/erd.md))
 
 <erd>
 
@@ -534,17 +534,17 @@ CREATE TABLE smoke (
 
 ## Number Plugins
 
-### calc.js ([tests](_tests/calc.md))
+### calc.js ([tests](/_tests/calc.md))
 
 <calculator>01100100 + 01111011</calculator>
 
 
-### convertor.js ([tests](_tests/convertor.md))
+### convertor.js ([tests](/_tests/convertor.md))
 
 <convertor from="bin" to="hex" value="10101111" bits="8"></convertor>
 
 
-### data.js ([tests](_tests/binary.md))
+### data.js ([tests](/_tests/binary.md))
 
 ```data
 show dec 255 as hex-bytes
@@ -554,37 +554,37 @@ show dec 255 as hex-bytes
 
 ## Complexity Plugins
 
-### big-o-chart.js ([tests](_tests/big-o-chart.md))
+### big-o-chart.js ([tests](/_tests/big-o-chart.md))
 
 <big-o-chart></big-o-chart>
 
 
-### big-o.js ([tests](_tests/big-o.md))
+### big-o.js ([tests](/_tests/big-o.md))
 
 <big-o algos="search" max="10"></big-o>
 
 
-### algo-race.js ([tests](_tests/algo-race.md))
+### algo-race.js ([tests](/_tests/algo-race.md))
 
 <algo-race type="search" size="20"></algo-race>
 
 
-### p-np.js ([tests](_tests/p-np.md))
+### p-np.js ([tests](/_tests/p-np.md))
 
 <p-np markers></p-np>
 
 
-### tsp.js ([tests](_tests/tsp.md))
+### tsp.js ([tests](/_tests/tsp.md))
 
 <tsp></tsp>
 
 
-### knapsack.js ([tests](_tests/knapsack.md))
+### knapsack.js ([tests](/_tests/knapsack.md))
 
 <knapsack></knapsack>
 
 
-### bin-packing.js ([tests](_tests/bin-packing.md))
+### bin-packing.js ([tests](/_tests/bin-packing.md))
 
 <bin-packing></bin-packing>
 
@@ -593,7 +593,7 @@ show dec 255 as hex-bytes
 
 ## Encryption Plugins
 
-### frequency.js ([tests](_tests/frequency.md))
+### frequency.js ([tests](/_tests/frequency.md))
 
 <frequency>
 
@@ -602,54 +602,54 @@ Smoke
 </frequency>
 
 
-### modulus.js ([tests](_tests/modulus.md))
+### modulus.js ([tests](/_tests/modulus.md))
 
 <modulus></modulus>
 
 
-### sub-cypher.js ([tests](_tests/sub-cypher.md))
+### sub-cypher.js ([tests](/_tests/sub-cypher.md))
 
 <sub-cypher>
 Smoke Test
 </sub-cypher>
 
 
-### sym-asym.js ([tests](_tests/sym-asym.md))
+### sym-asym.js ([tests](/_tests/sym-asym.md))
 
 <sym-asym mode="asymmetric" message="Smoke Test!"></sym-asym>
 
 
-### diffie-hellman.js ([tests](_tests/diffie-hellman.md))
+### diffie-hellman.js ([tests](/_tests/diffie-hellman.md))
 
 <diffie-hellman></diffie-hellman>
 
 
-### digital-sig.js ([tests](_tests/digital-sig.md))
+### digital-sig.js ([tests](/_tests/digital-sig.md))
 
 <digital-sig></digital-sig>
 
 
-### rolling-code.js ([tests](_tests/rolling-code.md))
+### rolling-code.js ([tests](/_tests/rolling-code.md))
 
 <rolling-code></rolling-code>
 
 
-### tls.js ([tests](_tests/tls.md))
+### tls.js ([tests](/_tests/tls.md))
 
 <tls></tls>
 
 
-### wifi.js ([tests](_tests/wifi.md))
+### wifi.js ([tests](/_tests/wifi.md))
 
 <wifi></wifi>
 
 
-### hasher.js ([tests](_tests/hasher.md))
+### hasher.js ([tests](/_tests/hasher.md))
 
 <hasher value="smoke"></hasher>
 
 
-### rainbow.js ([tests](_tests/rainbow.md))
+### rainbow.js ([tests](/_tests/rainbow.md))
 
 <rainbow></rainbow>
 

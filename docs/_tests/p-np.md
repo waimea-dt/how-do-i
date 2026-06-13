@@ -172,9 +172,9 @@ That usually improves understanding rather than confusing students, as long as h
 ## Interactive Demonstrations
 
 Check out related visualizers:
-- [TSP Brute Force](tsp.md) - See factorial growth in action
-- [Knapsack Solver](knapsack.md) - Compare algorithms
-- [Big-O Growth](big-o.md) - Visualize complexity growth rates
+- [TSP Brute Force](/_tests/tsp.md) - See factorial growth in action
+- [Knapsack Solver](/_tests/knapsack.md) - Compare algorithms
+- [Big-O Growth](/_tests/big-o.md) - Visualize complexity growth rates
 
 ---
 

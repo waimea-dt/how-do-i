@@ -33,7 +33,7 @@ Use this plugin to compare visual similarity with accessibility quality.
         <a href="#assignments">View Assignment List</a>
     </nav>
 
-    <img src="_assets/macs/macintosh-happy.svg" alt="Smiling computer">
+    <img src="/////_assets/macs/macintosh-happy.svg" alt="Smiling computer">
 </main>
 ```
 
@@ -70,7 +70,7 @@ Use this plugin to compare visual similarity with accessibility quality.
         <a href="#assignments">Click Here</a> for assignments
     </nav>
 
-    <img src="_assets/macs/macintosh-happy.svg">
+    <img src="/////_assets/macs/macintosh-happy.svg">
 </div>
 ```
 
@@ -108,7 +108,7 @@ Use this plugin to compare visual similarity with accessibility quality.
         <a href="#assignments">Click Here</a>
     </nav>
 
-    <img src="_assets/macs/macintosh-happy.svg">
+    <img src="/////_assets/macs/macintosh-happy.svg">
 </div>
 ```
 
@@ -145,7 +145,7 @@ Use this plugin to compare visual similarity with accessibility quality.
         <a href="#assignments">Click Here</a>
     </nav>
 
-    <img src="_assets/macs/macintosh-happy.svg">
+    <img src="/////_assets/macs/macintosh-happy.svg">
 </div>
 ```
 
@@ -176,7 +176,7 @@ Use this plugin to compare visual similarity with accessibility quality.
         <a href="#assignments">View Assignment List</a>
     </section>
 
-    <img src="_assets/macs/macintosh-happy.svg" alt="Smiling computer">
+    <img src="/////_assets/macs/macintosh-happy.svg" alt="Smiling computer">
 </main>
 ```
 

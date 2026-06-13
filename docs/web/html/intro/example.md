@@ -11,7 +11,7 @@ example. This is a paragraph of text that is here as an example.</p>
 
 <h2>This is a Sub-Heading</h2>
 
-<img src="_assets/macs/macintosh.svg">
+<img src="/_assets/macs/macintosh.svg">
 
 <p>Here is a <a href="https://simple.wikipedia.org/wiki/HTML">link</a> to another website.</p>
 

@@ -27,7 +27,7 @@ FlatLAF is a drop-in replacement for Swing's default LAF. Your existing Swing co
 
 ## Applying FlatLAF
 
-To use FlatLAF, you first need to add it as a dependency in your project (see the [setup page](programming/kotlin/gui/setup.md) for how to do this).
+To use FlatLAF, you first need to add it as a dependency in your project (see the [setup page](/programming/kotlin/gui/setup.md) for how to do this).
 
 Then, call `FlatLightLaf.setup()`(kotlin) or `FlatDarkLaf.setup()`(kotlin) before creating your window:
 

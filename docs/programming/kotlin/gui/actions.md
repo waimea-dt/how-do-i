@@ -81,7 +81,7 @@ titleLabel.addMouseListener(object : MouseAdapter() {
 
 ## Putting It Together
 
-Here's the full example from the [elements page](programming/kotlin/gui/elements.md), now with actions wired up:
+Here's the full example from the [elements page](/programming/kotlin/gui/elements.md), now with actions wired up:
 
 
 ![Actions Demo](_assets/actions-demo.png)
@@ -168,6 +168,6 @@ class MainWindow {
 }
 ```
 
-Next up: [Styling Your UI](programming/kotlin/gui/styling.md)
+Next up: [Styling Your UI](/programming/kotlin/gui/styling.md)
 
 

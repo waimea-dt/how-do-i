@@ -50,7 +50,7 @@ print(f"Mana after:  {gandalf.mana}")
 ```
 
 > [!NOTE]
-> In Python, all attributes are mutable by default. If you want to prevent direct changes from outside the class, use the `_`(python) naming convention and provide methods to control access - see the [Creating Classes](programming/python/oop/classes.md) page.
+> In Python, all attributes are mutable by default. If you want to prevent direct changes from outside the class, use the `_`(python) naming convention and provide methods to control access - see the [Creating Classes](/programming/python/oop/classes.md) page.
 
 
 ## Creating Multiple Objects

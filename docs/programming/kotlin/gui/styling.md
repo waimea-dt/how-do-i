@@ -1,6 +1,6 @@
 # Styling UI Elements
 
-Once your [elements are on screen](programming/kotlin/gui/elements.md), you can control how they look - font, size, colour, alignment, and borders. All of this happens in `setupStyles()`(kotlin).
+Once your [elements are on screen](/programming/kotlin/gui/elements.md), you can control how they look - font, size, colour, alignment, and borders. All of this happens in `setupStyles()`(kotlin).
 
 
 ## Fonts
@@ -105,7 +105,7 @@ textLabel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8))
 
 ## Putting It Together
 
-Here's `setupStyles()`(kotlin) for a small app, following on from the [elements example](programming/kotlin/gui/elements.md):
+Here's `setupStyles()`(kotlin) for a small app, following on from the [elements example](/programming/kotlin/gui/elements.md):
 
 
 ![Styling Demo](_assets/styles-demo.png)

@@ -3,7 +3,7 @@
 Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `true`(kotlin) or `false`(kotlin).
 
 > [!TIP]
-> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/kotlin/basics/logic.md) page for a full reference.
+> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](/programming/kotlin/basics/logic.md) page for a full reference.
 
 
 ## If Statement

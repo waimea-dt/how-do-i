@@ -1,6 +1,6 @@
 # Creating a Window in Swing
 
-The [Swing intro page](programming/kotlin/gui/swing.md) showed the absolute bare minimum to get a window on screen. That's fine for a quick test, but a real app needs a bit more thought - choosing the right size, centering it on screen, making sure it closes properly, and keeping the code organised.
+The [Swing intro page](/programming/kotlin/gui/swing.md) showed the absolute bare minimum to get a window on screen. That's fine for a quick test, but a real app needs a bit more thought - choosing the right size, centering it on screen, making sure it closes properly, and keeping the code organised.
 
 This page shows how to structure a window the right way, ready for content to be added.
 
@@ -82,7 +82,7 @@ By default, Swing panels use a **layout manager** that automatically positions a
 private val panel = JPanel().apply { layout = null }
 ```
 
-Once the layout is null, every component you add needs its position and size set manually using `setBounds(x, y, width, height)`(kotlin). You'll see this in action on the [adding elements](programming/kotlin/gui/elements.md) page.
+Once the layout is null, every component you add needs its position and size set manually using `setBounds(x, y, width, height)`(kotlin). You'll see this in action on the [adding elements](/programming/kotlin/gui/elements.md) page.
 
 
 ## A Complete Starter Window
@@ -140,4 +140,4 @@ This gives you a clean, centred, correctly-sized window with a custom background
 > [!IMPORTANT]
 > The `init`(kotlin) block calls setup methods in order: layout first, then window configuration. This order matters - `setupWindow()`(kotlin) needs the panel to already have its `preferredSize`(kotlin) set before `pack()`(kotlin) is called.
 
-Next up: [Adding UI Elements](programming/kotlin/gui/elements.md)
+Next up: [Adding UI Elements](/programming/kotlin/gui/elements.md)

@@ -45,7 +45,7 @@ println("You chose: $choice")
 ```
 
 > [!IMPORTANT]
-> `.first()`(kotlin) will crash if the user presses Enter without typing anything. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to safely handle this with `.firstOrNull()`(kotlin).
+> `.first()`(kotlin) will crash if the user presses Enter without typing anything. See the [Error Handling](/programming/kotlin/advanced/errors.md) page for how to safely handle this with `.firstOrNull()`(kotlin).
 
 
 ## Reading Numbers
@@ -73,7 +73,7 @@ println("With tax: ${"%.2f".format(withTax)}")
 ```
 
 > [!IMPORTANT]
-> If the user types something that isn't a valid number, `.toInt()`(kotlin) and `.toDouble()`(kotlin) will crash. See the [Error Handling](programming/kotlin/advanced/errors.md) page for how to handle this safely.
+> If the user types something that isn't a valid number, `.toInt()`(kotlin) and `.toDouble()`(kotlin) will crash. See the [Error Handling](/programming/kotlin/advanced/errors.md) page for how to handle this safely.
 
 
 ## Reading Multiple Values

@@ -1,6 +1,6 @@
 # Graph Algorithms
 
-A **graph** is a data structure made up of **nodes** (also called vertices) connected by **edges**. Unlike a [tree](programming/algorithms/trees.md), a graph has no root, no hierarchy, and edges can form **cycles** - paths that loop back to a node you've already visited.
+A **graph** is a data structure made up of **nodes** (also called vertices) connected by **edges**. Unlike a [tree](/programming/algorithms/trees.md), a graph has no root, no hierarchy, and edges can form **cycles** - paths that loop back to a node you've already visited.
 
 ```mermaid
 flowchart LR
@@ -21,7 +21,7 @@ Graphs are used to model all sorts of real-world problems: road networks, social
 
 ## Depth-First Search (DFS)
 
-Depth-first search explores a graph by going **as deep as possible** along one path before backtracking. It uses a **stack** - either an explicit one, or the call stack via [recursion](programming/algorithms/recursion.md).
+Depth-first search explores a graph by going **as deep as possible** along one path before backtracking. It uses a **stack** - either an explicit one, or the call stack via [recursion](/programming/algorithms/recursion.md).
 
 Because graphs can contain cycles, DFS must track which nodes have already been **visited** to avoid looping forever.
 

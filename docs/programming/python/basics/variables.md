@@ -152,4 +152,4 @@ print(result)            # ✓ always safe
 ```
 
 > [!TIP]
-> See the [Code Blocks](programming/python/basics/blocks.md) page for more on how indentation defines blocks in Python.
+> See the [Code Blocks](/programming/python/basics/blocks.md) page for more on how indentation defines blocks in Python.

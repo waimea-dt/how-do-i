@@ -11,7 +11,7 @@ Sometimes a full page will be requested. Other times a small part of a page will
 
 In your site folder, create a new folder called **views**. This will contain the different 'views' that our site will deal with...
 
-![Views Folder](media/views.png)
+![Views Folder](/media/views.png)
 
 
 ## The Page Layout View
@@ -22,7 +22,7 @@ Within the views folder, create the following file:
 
 ?> Note the underscore at the start of the name - this is simply to make sure it is listed first in the list of files. We will use this naming style in a few other places.
 
-This template will act as a template for all full-page requests, and will contain meta data, header, nav menus, etc. We will add code to this file in the [next section](php/routing/layout.md).
+This template will act as a template for all full-page requests, and will contain meta data, header, nav menus, etc. We will add code to this file in the [next section](/jinja/templates.md).
 
 
 ## Views for Specific Routes
