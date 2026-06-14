@@ -48,7 +48,7 @@ print(f"With tax: £{with_tax:.2f}")
 ```
 
 > [!IMPORTANT]
-> If the user types something that isn't a valid number, `int()`(python) and `float()`(python) will crash. See the [Error Handling](programming/python/advanced/errors.md) page for how to handle this safely.
+> If the user types something that isn't a valid number, `int()`(python) and `float()`(python) will crash. See the [Error Handling](/programming/python/advanced/errors.md) page for how to handle this safely.
 
 
 ## Reading Multiple Values

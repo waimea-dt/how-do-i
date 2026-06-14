@@ -50,7 +50,7 @@ The logic is identical - but the second version makes the intent obvious at the 
 
 ### `.commas()`(kotlin) - Formatting numbers with separators
 
-Used to display large numbers readably (e.g. a score or a price). See the [working with numbers](programming/kotlin/basics/numbers.md) page for more on number formatting.
+Used to display large numbers readably (e.g. a score or a price). See the [working with numbers](/programming/kotlin/basics/numbers.md) page for more on number formatting.
 
 ```kotlin run
 fun Number.commas(): String = "%,d".format(this)
@@ -67,7 +67,7 @@ println(price.commas())    // 1,234
 
 ### `.scaled()`(kotlin) - Resizing an ImageIcon
 
-Used when displaying images in a GUI. See the [adding images](programming/kotlin/gui/images.md) page.
+Used when displaying images in a GUI. See the [adding images](/programming/kotlin/gui/images.md) page.
 
 ```kotlin
 fun ImageIcon.scaled(width: Int, height: Int): ImageIcon =

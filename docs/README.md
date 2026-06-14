@@ -1,4 +1,4 @@
-# Waimea College Digital Technologies[.](_tests/)
+# Waimea College Digital Technologies[.](/_tests/)
 
 How do you create cool things with a computer? How do you add colour to your website? How do you even create a website?!
 
@@ -6,7 +6,7 @@ This site has notes, tips, snippets of code, and all sorts of other useful thing
 
 <speak>
 
-![Mac](_assets/macs/macintosh-happy.svg)
+![Mac](/_assets/macs/macintosh-happy.svg)
 
 **Hello, Human!**
 

@@ -161,5 +161,5 @@ Recursion appears throughout computer science. Two examples from these notes:
 
 | Algorithm | How recursion is used |
 |-----------|-----------------------|
-| [Merge sort](programming/algorithms/sorting.md) | The list is split in half, and each half is sorted by calling the same function again |
-| [Tree traversal](programming/algorithms/trees.md) | Each node's children are visited by calling the same traversal function again |
+| [Merge sort](/programming/algorithms/sorting.md) | The list is split in half, and each half is sorted by calling the same function again |
+| [Tree traversal](/programming/algorithms/trees.md) | Each node's children are visited by calling the same traversal function again |

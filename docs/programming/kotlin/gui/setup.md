@@ -1,6 +1,6 @@
 # Setting up a Swing/FlatLAF GUI Project
 
-Follow the [Project Setup](programming/kotlin/project.md) to create a new Kotlin project that uses Gradle as the build system.
+Follow the [Project Setup](/programming/kotlin/project.md) to create a new Kotlin project that uses Gradle as the build system.
 
 ## Adding FlatLAF via Gradle
 

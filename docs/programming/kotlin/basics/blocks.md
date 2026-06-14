@@ -84,4 +84,4 @@ if (true) {
 ```
 
 > [!TIP]
-> See the [Variables & Types](programming/kotlin/basics/variables.md) page for a full explanation of scope.
+> See the [Variables & Types](/programming/kotlin/basics/variables.md) page for a full explanation of scope.

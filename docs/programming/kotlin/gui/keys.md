@@ -121,5 +121,5 @@ private fun gameLoop() {
 }
 ```
 
-See the [timers page](programming/kotlin/gui/timers.md) for how to set up a game loop timer that calls `gameLoop()`(kotlin) repeatedly.
+See the [timers page](/programming/kotlin/gui/timers.md) for how to set up a game loop timer that calls `gameLoop()`(kotlin) repeatedly.
 

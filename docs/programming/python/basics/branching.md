@@ -3,7 +3,7 @@
 Branching lets your program **make decisions** - running different blocks of code depending on whether a condition is `True`(python) or `False`(python).
 
 > [!NOTE]
-> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](programming/python/basics/logic.md) page for a full reference.
+> Conditions are built using **comparison** and **logical operators** - see the [Conditional Logic](/programming/python/basics/logic.md) page for a full reference.
 
 > [!IMPORTANT]
 > In Python, **indentation matters** - the block of code inside an `if`(python) statement must be indented (usually 4 spaces). There are no `{}`(python) braces like in other languages.

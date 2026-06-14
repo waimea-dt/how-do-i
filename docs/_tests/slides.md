@@ -59,13 +59,13 @@ A --> C[End]
 
 ---
 
-![](_assets/macs/macintosh.svg)
+![](//_assets/macs/macintosh.svg)
 
 ---
 
 <speak>
 
-![](_assets/macs/macintosh.svg)
+![](//_assets/macs/macintosh.svg)
 
 Hello, Human!
 

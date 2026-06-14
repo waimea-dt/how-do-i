@@ -86,4 +86,4 @@ for i in range(1, 4):
 Unlike many other languages, `if`(python) blocks and loops in Python do **not** create their own scope - a variable created inside one is accessible in the surrounding code. However, it only exists once that line has actually run.
 
 > [!NOTE]
-> For a full explanation of scope - including local vs global variables - see the [Variables & Types](programming/python/basics/variables.md) page.
+> For a full explanation of scope - including local vs global variables - see the [Variables & Types](/programming/python/basics/variables.md) page.
