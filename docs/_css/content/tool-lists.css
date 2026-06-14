@@ -13,13 +13,18 @@
     --tool-list-border-high:        color-mix(in srgb, var(--highlight-color) 50%, var(--plugin-panel-border));
     --tool-list-border-high-hover:  var(--highlight-color);
     --tool-list-muted:              var(--color-mono-6);
-    --tool-list-panel-width:        calc((var(--content-max-width) - (2 * var(--gap))) / 3);
+    /* --tool-list-panel-width:        calc((var(--content-max-width) - (5 * var(--gap))) / 3); */
+    --tool-list-panel-width:        18rem;
 
     list-style: none;
     padding-left: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, var(--tool-list-panel-width));
     gap: var(--gap);
+    grid-template-columns: repeat(auto-fit, var(--tool-list-panel-width));
+
+    /* grid-template-columns: 1fr;
+    @container (min-width: 35rem) { grid-template-columns: 1fr 1fr; }
+    @container (min-width: 50rem) { grid-template-columns: 1fr 1fr 1fr; } */
 
     /* Individual tool items */
     > li {
