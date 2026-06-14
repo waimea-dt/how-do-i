@@ -29,6 +29,6 @@ def add_task():
 
 ## partial template
 
-```jinja
+```jinja2
 <li>{{ task }}</li>
 ```

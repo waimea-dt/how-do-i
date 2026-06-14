@@ -9,10 +9,10 @@ def topics():
     return render_template('topics.html', items=items)
 ```
 
-```jinja
+```jinja2
 <ul>
-{% for item in items %}
-    <li>{{ item }}</li>
-{% endfor %}
+    {% for item in items %}
+        <li>{{ item }}</li>
+    {% endfor %}
 </ul>
 ```

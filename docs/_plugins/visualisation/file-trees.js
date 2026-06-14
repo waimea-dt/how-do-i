@@ -12,6 +12,10 @@
  *
  * Focus Marker:
  *   Prefix any item with "!! " to highlight it
+ *
+ * Inline Comments:
+ *   Append " // comment text" to any item to render the comment in a styled span
+ *   e.g. - __init__.py  // the main app with routing
  */
 
 ;(function () {
@@ -53,12 +57,27 @@
         // Remove all content nodes (text and formatted elements)
         contentNodes.forEach(node => node.remove())
 
-        // Add back as plain text node at the beginning
-        const textNode = document.createTextNode(markerInfo.cleanText)
+        // Split filename and inline comment (e.g. "file.js  // description")
+        const commentMatch = markerInfo.cleanText.match(/^(.*?)\s*\/\/\s*(.+)$/)
+        const labelText = commentMatch ? commentMatch[1].trimEnd() : markerInfo.cleanText
+        const commentText = commentMatch ? commentMatch[2] : null
+
+        const textNode = document.createTextNode(labelText)
         if (nestedUL) {
           item.insertBefore(textNode, nestedUL)
         } else {
           item.appendChild(textNode)
+        }
+
+        if (commentText) {
+          const commentSpan = document.createElement('span')
+          commentSpan.className = 'comment'
+          commentSpan.textContent = commentText
+          if (nestedUL) {
+            item.insertBefore(commentSpan, nestedUL)
+          } else {
+            item.appendChild(commentSpan)
+          }
         }
       })
 

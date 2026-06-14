@@ -26,7 +26,7 @@ def profile(username):
     return render_template('profile.html', user=user)
 ```
 
-```jinja
+```jinja2
 <h1>{{ user.username }}</h1>
 <p>Score: {{ user.score }}</p>
 ```

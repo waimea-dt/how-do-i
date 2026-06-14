@@ -31,7 +31,7 @@ def search():
 
 ## partial template
 
-```jinja
+```jinja2
 <ul>
 {% for item in matches %}
     <li>{{ item }}</li>

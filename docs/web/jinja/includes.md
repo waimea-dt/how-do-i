@@ -2,7 +2,7 @@
 
 Includes let you reuse small template pieces.
 
-```jinja
+```jinja2
 {% include 'partials/nav.html' %}
 ```
 

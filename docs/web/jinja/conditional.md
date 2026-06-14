@@ -2,13 +2,15 @@
 
 Use conditional logic to show different output.
 
-```jinja
+```jinja2
 {% if mark >= 80 %}
-<p>Excellence</p>
+    <p>Excellence</p>
 {% elif mark >= 65 %}
-<p>Merit</p>
+    <p>Merit</p>
+{% elif mark >= 50 %}
+    <p>Achieved</p>
 {% else %}
-<p>Keep practising</p>
+    <p>Not Achieved</p>
 {% endif %}
 ```
 
