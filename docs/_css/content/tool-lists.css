@@ -1,11 +1,7 @@
-/* tool-lists.css - Styling for tool/resource lists with metadata badges */
+/** Tool Lists
+ * Styling for tool/resource lists with metadata badges
+ */
 
-/* Tool list heading */
-.markdown-section .tools-heading {
-    /* Optional: add special styling for headings that introduce tool lists */
-}
-
-/* Tool list container */
 .markdown-section .tool-list {
     --tool-list-item-bg:            var(--plugin-panel-bg);
     --tool-list-border:             var(--plugin-panel-border);

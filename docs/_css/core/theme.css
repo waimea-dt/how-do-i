@@ -203,6 +203,10 @@
     --table-head-row-bg:          var(--color-mono-2);
     --table-row-alt-bg:           var(--color-mono-1);
 
+    --blockquote-color:           var(--theme-color-6);
+    --blockquote-bg:              var(--color-mono-0);
+    --blockquote-padding:         var(--padding);
+
     color-scheme: dark;
 }
 
@@ -297,6 +301,14 @@
         font-size: 0.8em;
         vertical-align: super;
     }
+
+    /* Block quote */
+
+    blockquote {
+        font-size: var(--font-xlarge);
+        font-style: italic;
+        overflow: hidden;
+    }
 }
 
 /* Macintosh display images */
@@ -313,134 +325,6 @@ em {
 .cover-main a.button.secondary {
     color: var(--color-text);
     border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* Button Components and Interactive Elements */
-
-/* a.button, button[type], input.button, input:is([type=button],[type=reset],[type=submit]) */
-
-/* Button base state - low specificity using :where() for better cascade control */
-:where(.markdown-section button, .markdown-section [role="button"]) {
-    --butt-action-color: var(--butt-bg);
-    --butt-action-color-hover: var(--butt-bg-hover);
-
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-
-    padding: var(--butt-padding-block) var(--butt-padding-inline);
-    border: 1px solid var(--butt-border);
-    border-radius: var(--butt-radius);
-
-    font-size: var(--butt-font-size);
-    font-weight: var(--butt-font-weight);
-    white-space: nowrap;
-
-    cursor: pointer;
-    transition: var(--butt-transition);
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-/* Button enabled state */
-:where(.markdown-section button:not(:disabled), .markdown-section [role="button"]:not(:disabled)) {
-    background: var(--butt-action-color);
-    border-color: var(--butt-action-color);
-    color: var(--butt-text);
-
-    &:hover {
-        background: var(--butt-action-color-hover);
-        border-color: var(--butt-action-color-hover);
-        color: var(--butt-text);
-    }
-
-    &:active {
-        transform: translateY(1px);
-    }
-}
-
-/* Button disabled state */
-:where(.markdown-section button:disabled, .markdown-section [role="button"]:disabled) {
-    background: var(--butt-bg-disabled);
-    border-color: var(--butt-bg-disabled);
-    color: color-mix(in srgb, var(--butt-text), transparent 35%);
-    cursor: not-allowed;
-    opacity: 0.8;
-}
-
-/* Semantic button colors - establish --butt-action-color for theme consistency */
-:where(.markdown-section .btn-go:not(:disabled)) {
-    --butt-action-color: var(--butt-go-bg);
-    --butt-action-color-hover: var(--butt-go-hover);
-}
-
-:where(.markdown-section .btn-stop:not(:disabled)) {
-    --butt-action-color: var(--butt-stop-bg);
-    --butt-action-color-hover: var(--butt-stop-hover);
-}
-
-:where(.markdown-section .btn-reset:not(:disabled)) {
-    --butt-action-color: var(--butt-reset-bg);
-    --butt-action-color-hover: var(--butt-reset-hover);
-}
-
-/* Icon button layout - flex alignment for text + icon combinations */
-:where(.markdown-section :is(.btn-go, .btn-stop, .btn-reset, .btn-step, .btn-next, .btn-shuffle, .btn-swap, .btn-sort, .btn-info, .btn-speak, .btn-save, .btn-copy, .btn-link, .btn-unlink, .btn-check)) {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45em;
-    min-block-size: calc((var(--line-height) * 1em) + (2 * var(--butt-padding-block)));
-}
-
-/* Icon-only button sizing */
-:where(.markdown-section :is(.btn-go, .btn-stop, .btn-reset, .btn-step, .btn-next, .btn-shuffle, .btn-swap, .btn-sort, .btn-info, .btn-speak, .btn-save, .btn-copy, .btn-link, .btn-unlink, .btn-check):empty) {
-    --butt-icon-size: 1.5em;
-    min-inline-size: calc((var(--line-height) * 1em) + (2 * var(--butt-padding-inline)));
-}
-
-/* Icon button base styling - uses CSS mask-image for all icon types */
-.markdown-section :is(.btn-go, .btn-stop, .btn-reset, .btn-step, .btn-next, .btn-shuffle, .btn-swap, .btn-sort, .btn-info, .btn-speak, .btn-save, .btn-copy, .btn-link, .btn-unlink, .btn-check)::before {
-    content: "";
-    inline-size: var(--butt-icon-size);
-    block-size: var(--butt-icon-size);
-    flex: 0 0 var(--butt-icon-size);
-    background-color: currentColor;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-}
-
-/* Icon assignments for button variants - modern CSS with single mask-image property */
-.markdown-section .btn-go::before { mask-image: var(--butt-icon-go); }
-.markdown-section .btn-go:is(.running, .playing, .is-playing)::before { mask-image: var(--butt-icon-pause); }
-.markdown-section .btn-stop::before { mask-image: var(--butt-icon-stop); }
-.markdown-section .btn-reset::before { mask-image: var(--butt-icon-reset); }
-.markdown-section .btn-step::before { mask-image: var(--butt-icon-step); }
-.markdown-section .btn-next::before { mask-image: var(--butt-icon-next); }
-.markdown-section .btn-shuffle::before { mask-image: var(--butt-icon-shuffle); }
-.markdown-section .btn-swap::before { mask-image: var(--butt-icon-swap); }
-.markdown-section .btn-sort::before { mask-image: var(--butt-icon-sort); }
-.markdown-section .btn-info::before { mask-image: var(--butt-icon-info); }
-.markdown-section .btn-speak::before { mask-image: var(--butt-icon-speak); }
-.markdown-section .btn-save::before { mask-image: var(--butt-icon-save); }
-.markdown-section .btn-copy::before { mask-image: var(--butt-icon-copy); }
-.markdown-section .btn-link::before { mask-image: var(--butt-icon-link); }
-.markdown-section .btn-unlink::before { mask-image: var(--butt-icon-unlink); }
-.markdown-section .btn-check::before { mask-image: var(--butt-icon-check); }
-
-/* Bordered button variant - uses --butt-action-color set by semantic button class
-   Border = action color; background = translucent 10% opaque; hover increases to 33% */
-:where(.markdown-section .btn-bordered:not(:disabled)) {
-    background: color-mix(in srgb, var(--butt-action-color) 10%, transparent) !important;
-    border-color: var(--butt-action-color) !important;
-    color: var(--butt-text) !important;
-
-    &:hover {
-        background: color-mix(in srgb, var(--butt-action-color) 33%, transparent) !important;
-        border-color: color-mix(in srgb, var(--butt-action-color), white 15%) !important;
-        color: var(--butt-text) !important;
-    }
 }
 
 /* Force light mode for iframes */

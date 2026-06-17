@@ -23,6 +23,9 @@
 
 - <i data-lucide="clipboard-list"></i> Documentation
     - [<i data-lucide="file-text"></i> Requirements Specification](/process/requirements.md)
+    - [<i data-lucide="file-text"></i> Relevant Implications](/process/implications.md)
+    - [<i data-lucide="file-text"></i> Usability Heuristics](/process/usability.md)
+    - [<i data-lucide="file-text"></i> User Experience (UX)](/process/ux.md)
     - [<i data-lucide="layout-template"></i> Design Documentation](/process/design-docs.md)
     - [<i data-lucide="book-open"></i> User Documentation](/process/user-docs.md)
     - [<i data-lucide="wrench"></i> Technical Documentation](/process/technical-docs.md)

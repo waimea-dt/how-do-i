@@ -52,6 +52,7 @@
     --sidebar-sub-link-color-hover:         var(--color-text);
     --sidebar-sub-link-color-active:        var(--secondary-color-5);
     --sidebar-sub-link-color-muted:         var(--color-mono-5);
+    --sidebar-sub-sub-link-color:           var(--theme-color-7);
 
     --sidebar-group-spacing:                var(--gap-med);
     --sidebar-group-indent:                 var(--gap);
@@ -142,6 +143,10 @@
 
     > ul ul li {
         margin-left: var(--sidebar-group-indent);
+    }
+
+    > ul ul ul ul li {
+        margin-left: 0;
     }
 
     > ul ul {
@@ -256,6 +261,15 @@
         }
     }
 
+    > ul ul ul.app-sub-sidebar ul {
+        a {
+            color: var(--sidebar-sub-sub-link-color);
+            font-style: italic;
+            font-size: var(--font-small);
+            font-weight: 300;
+        }
+    }
+
     /* Linking Arrows */
     p:has(.lucide-arrow-down) {
         margin: 0 0 0 1.35rem;
@@ -275,11 +289,15 @@
         display: flex;
         gap: var(--gap-small);
         align-items: center;
+
+        :is(img, svg, i.si) {
+            flex-shrink: 0;
+        }
     }
 
     :is(li a, li.group) :is(.lucide.icon, i.si) {
         color: var(--theme-color);
-        vertical-align: center;
+        vertical-align: middle;
         display: inline-block;
     }
 }
