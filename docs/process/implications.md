@@ -29,12 +29,18 @@ Good designers think about these things **before** they build, not after. Consid
 
 A system that works but is confusing or frustrating will fail its users. Good usability means anyone can pick it up and use it effectively.
 
-**Consider:**
+#### Consider:
 - Does it follow the [Usability Heuristics](process/usability.md)?
 - Can users avoid mistakes, and recover easily if they make one?
 - Does it use recognised conventions (e.g. a back button, a save icon)?
 - Does it match how things work in the real world?
 - Is the system status always visible - does the user know what's happening?
+
+> [!EXAMPLE]
+> I plan to make my site easy to use by:
+> - Keeping navigation and buttons consistent across all pages
+> - Showing clear feedback messages (e.g. loading, success, error)
+> - etc.
 
 
 
@@ -44,12 +50,18 @@ A system that works but is confusing or frustrating will fail its users. Good us
 
 Your product should be usable by as many people as possible, regardless of their abilities or the device they're using.
 
-**Consider:**
-- Is it accessible for users who are dyslexic, colourblind, autistic, or have impaired vision?
-- Does it work for users with physical disabilities (e.g. keyboard-only navigation)?
-- Can it be accessed on different devices - desktop, tablet, phone?
-- Does it meet accessibility standards (e.g. sufficient colour contrast, alt text for images)?
+#### Consider:
+- Is it accessible for users who are **dyslexic, colour-blind, or have impaired vision**?
+- Does it work for users with **physical disabilities** (e.g. keyboard-only navigation)?
+- Can it be accessed on **different devices** - desktop, tablet, phone?
+- Is there sufficient **colour contrast** between text and backgrounds?
+- Do all images have **alt text**?
 
+> [!EXAMPLE]
+> I plan to make my site fully accessible by:
+> - Using semantic HTML tags (header, main, nav, section, etc.)
+> - Adding 'alt' text to any images so a screen-reader can read this out
+> - etc.
 
 
 ## <i data-lucide="user"></i> End User
@@ -58,11 +70,17 @@ Your product should be usable by as many people as possible, regardless of their
 
 Your design should be built around the real people who will use it - not just what you think is good.
 
-**Consider:**
-- Does it actually do what the user needs it to do?
-- Is the language and reading level suitable for the target audience?
-- Does it appeal to the right demographic (age group, interests, background)?
-- Is it accessible on the devices your users are likely to have?
+#### Consider:
+- Does it actually do what the **user needs** it to do?
+- Is the **language and reading level** suitable for the target audience?
+- Does it appeal to the **right demographic** (age group, interests, background)?
+- Is it accessible on the **devices** your users are likely to have?
+
+> [!EXAMPLE]
+> I plan to meet end-user needs by:
+> - Writing content in simple language for my target age group
+> - Prioritising the main tasks users want to complete quickly
+> - etc.
 
 
 
@@ -72,10 +90,16 @@ Your design should be built around the real people who will use it - not just wh
 
 Visual design affects how users feel about a product and whether they trust it. First impressions matter.
 
-**Consider:**
+#### Consider:
 - Does it appeal to the right audience - does it look appropriate for its purpose?
 - Does it follow recognised design conventions (e.g. navigation at the top, logo top-left)?
 - Does it convey the right image and tone for the product or brand?
+
+> [!EXAMPLE]
+> I plan to improve aesthetics by:
+> - Using one consistent colour palette and font style across the site
+> - Keeping page layouts clean so important content stands out
+> - etc.
 
 
 ## <i data-lucide="wrench"></i> Functionality
@@ -84,11 +108,17 @@ Visual design affects how users feel about a product and whether they trust it. 
 
 A product that looks great but breaks, crashes, or loads slowly will frustrate users and damage trust.
 
-**Consider:**
+#### Consider:
 - Does it load quickly enough for users to stay engaged?
 - Are there any glitches, bugs, or broken features?
 - Do all links, buttons, and forms work correctly?
 - Will it work on all major browsers and devices?
+
+> [!EXAMPLE]
+> I plan to improve functionality by:
+> - Testing every button, form, and link before publishing updates
+> - Checking the site on mobile, tablet, and desktop devices
+> - etc.
 
 
 ## <i data-lucide="users"></i> Social
@@ -97,12 +127,18 @@ A product that looks great but breaks, crashes, or loads slowly will frustrate u
 
 Digital products reach large audiences and can influence how people think about the world. Designers have a responsibility to consider the social effect of their work.
 
-**Consider:**
+#### Consider:
 - Does it misrepresent or stereotype any social group?
 - Could it cause offence to any group of people?
 - Could it stigmatise or reinforce negative stereotypes?
 - Does it appeal fairly to all social groups?
 - Has consideration been given to age, gender, and ethnicity in the design and content?
+
+> [!EXAMPLE]
+> I plan to create a positive social impact by:
+> - Avoiding stereotypes in images, examples, and wording
+> - Reviewing content to make sure it is respectful and inclusive
+> - etc.
 
 
 ## <i data-lucide="globe"></i> Cultural
@@ -111,10 +147,16 @@ Digital products reach large audiences and can influence how people think about 
 
 Culture shapes how people interpret language, images, and symbols. What seems neutral or positive in one culture may be offensive or confusing in another.
 
-**Consider:**
+#### Consider:
 - Are any cultural references used respectfully and accurately?
 - Is Te Reo Māori used appropriately - with correct spelling, punctuation, and macrons?
 - Are all cultures represented fairly and without bias?
+
+> [!EXAMPLE]
+> I plan to make my project culturally appropriate by:
+> - Checking Te Reo Māori spelling and macrons before publishing
+> - Using examples that represent different cultures fairly
+> - etc.
 
 
 ## <i data-lucide="scale"></i> Ethical
@@ -123,11 +165,17 @@ Culture shapes how people interpret language, images, and symbols. What seems ne
 
 Ethics is about doing the right thing, even when the law doesn't require it. Some things can be legal but still harmful or exploitative.
 
-**Consider:**
+#### Consider:
 - Could the product cause harm to any individual or group?
 - Does it contain violent, inappropriate, or exploitative content?
 - Does it encourage users to make responsible, informed choices?
 - Does it exploit users - for example through manipulative design patterns or addictive features?
+
+> [!EXAMPLE]
+> I plan to design ethically by:
+> - Avoiding manipulative UI tricks such as misleading button labels
+> - Removing content that could cause unnecessary harm or distress
+> - etc.
 
 
 ## <i data-lucide="lock"></i> Privacy
@@ -136,11 +184,17 @@ Ethics is about doing the right thing, even when the law doesn't require it. Som
 
 If your product collects any personal information, you have a legal and ethical responsibility to handle it carefully.
 
-**Consider:**
+#### Consider:
 - Is any personal data collected, stored, or shared - and is it kept secure?
 - Are users clearly informed about what data is being collected and why?
 - Do you need permission (consent) from users before collecting their data?
 - If your product features real people or photos of individuals, do you have their permission?
+
+> [!EXAMPLE]
+> I plan to protect user privacy by:
+> - Collecting only the minimum personal data needed for the site to function
+> - Adding a clear privacy note explaining what data is collected and why
+> - etc.
 
 
 ## <i data-lucide="copyright"></i> Intellectual Property
@@ -149,11 +203,17 @@ If your product collects any personal information, you have a legal and ethical 
 
 Using someone else's creative work without permission is illegal. This includes images, music, code, text, logos, and designs.
 
-**Consider:**
+#### Consider:
 - Are all images, fonts, and media either created by you, licensed, or free to use?
 - Have you credited the original creators where required?
 - Have you protected your own original work with appropriate copyright or licensing?
 - Are any trademarks, brand names, or logos used without permission?
+
+> [!EXAMPLE]
+> I plan to manage intellectual property by:
+> - Using only original assets or media with a valid licence
+> - Keeping a source list with credits and licence details
+> - etc.
 
 
 ## <i data-lucide="gavel"></i> Legal
@@ -162,11 +222,17 @@ Using someone else's creative work without permission is illegal. This includes 
 
 Beyond intellectual property and privacy, a range of laws may apply depending on what your product does and who uses it.
 
-**Consider:**
+#### Consider:
 - Does it comply with copyright and intellectual property law?
 - Does it comply with data protection and privacy legislation?
 - Could any content be considered defamatory (libel) or harmful?
 - Does it comply with the Harmful Digital Communications Act - could it be used to bully, harass, or intimidate?
+
+> [!EXAMPLE]
+> I plan to meet legal requirements by:
+> - Checking all images, text, and media for copyright compliance
+> - Reviewing communication features so they cannot be used for harassment
+> - etc.
 
 
 ## <i data-lucide="calendar-clock"></i> Future Proofing
@@ -175,11 +241,17 @@ Beyond intellectual property and privacy, a range of laws may apply depending on
 
 Technology and user needs change. A well-designed product should be easy to maintain and adapt over time.
 
-**Consider:**
+#### Consider:
 - Is the content and codebase easy to update when things change?
 - Can parts of the system update automatically (e.g. pulling in live data)?
 - Can it be expanded with new features without having to rebuild from scratch?
 - Does any time-sensitive content have an expiry mechanism, or will it become outdated and misleading?
+
+> [!EXAMPLE]
+> I plan to future-proof my project by:
+> - Organising content so updates can be made quickly and safely
+> - Building pages/components in a modular way so new features can be added later
+> - etc.
 
 
 ## <i data-lucide="heart-pulse"></i> Health & Safety
@@ -188,7 +260,13 @@ Technology and user needs change. A well-designed product should be easy to main
 
 Some digital products can pose physical or psychological risks - particularly those involving physical interaction, augmented reality, or sensitive content.
 
-**Consider:**
+#### Consider:
 - Is the product safe to use physically (e.g. no flashing content that could trigger seizures)?
 - Does it encourage safe, responsible behaviour in users?
 - Should any content carry warnings (e.g. for distressing themes, flashing images, or adult content)?
+
+> [!EXAMPLE]
+> I plan to improve health and safety by:
+> - Avoiding flashing or rapid animation that could trigger seizures
+> - Adding clear content warnings where sensitive material appears
+> - etc.
