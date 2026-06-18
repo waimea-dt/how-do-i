@@ -207,6 +207,8 @@
     --blockquote-bg:              var(--color-mono-0);
     --blockquote-padding:         var(--padding);
 
+    --rule-color:                 var(--color-mono-4);
+
     color-scheme: dark;
 }
 
@@ -312,6 +314,12 @@
         font-size: var(--font-xlarge);
         font-style: italic;
         overflow: hidden;
+    }
+
+    /* Rules */
+    hr {
+        margin-block: 4rem;
+        border-bottom-color: var(--rule-color);
     }
 }
 
