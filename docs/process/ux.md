@@ -56,7 +56,7 @@ A user flow is the step-by-step path to complete a task. Each flow should be sho
 
 
 
-## <i data-lucide="layout-dashboard"></i> Keep It Clear and Consistent
+## <i data-lucide="layout-dashboard"></i> Consistent and Clear
 
 > Don't make users relearn where things are.
 
