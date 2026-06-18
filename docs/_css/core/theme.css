@@ -231,6 +231,10 @@
         }
     }
 
+    :is(h1, h2) {
+        margin-top: 4rem;
+    }
+
     /* Suppress heading anchor links inside specific containers.
        Apply .no-heading-links to any wrapper, or add selectors here. */
     :is(
