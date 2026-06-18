@@ -1,6 +1,7 @@
 # Requirements Specification
 
-Before you build anything, you need to know exactly what you're building - and why. That's what a requirements specification is for.
+Before you build anything, you need to know exactly what you're building, and why. That's what a requirements specification is for.
+
 
 ## What Is a Requirements Specification?
 
@@ -21,20 +22,22 @@ Without a requirements specification, projects go wrong - often in predictable w
 - Clients or end users are disappointed because their expectations weren't captured
 - Features get added late, blowing out the budget and timeline
 
-A good req spec prevents all of this by making expectations explicit and agreed upon from the start.
+A good requirements specification prevents all of this by **making expectations explicit and agreed upon** from the start.
+
 
 ## What Goes in a Requirements Specification?
 
 A typical req spec includes:
 
 - **Purpose** - what problem is being solved, and for whom
-- **Stakeholders** - who will use the system, and who has an interest in it
-- **Functional requirements** - a list of specific things the system must do
-- **Relevant implications** - social, ethical, legal, and other real-world considerations
+- **Stakeholders / End-Users** - who will use the system, and who has an interest in it
+- **Functional Requirements** - a list of specific things the system must do
+- **Relevant Implications** - social, ethical, legal, and other real-world considerations
+
 
 ## Requirements Must Be Testable
 
-A well-written requirement should be specific enough to test. Vague requirements cause problems:
+A well-written requirement should be **specific enough to test**. Vague requirements cause problems:
 
 | Vague | Specific and testable |
 |---|---|
