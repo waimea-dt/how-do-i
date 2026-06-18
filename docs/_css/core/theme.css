@@ -309,11 +309,13 @@
     }
 
     /* Block quote */
-
     blockquote {
-        font-size: var(--font-xlarge);
-        font-style: italic;
         overflow: hidden;
+
+        &:not(.callout) {
+            font-size: var(--font-xlarge);
+            font-style: italic;
+        }
     }
 
     /* Rules */

@@ -13,9 +13,6 @@ UX design considers everything a person encounters when using a product: the vis
 A product can be technically usable but still frustrating, confusing, or unpleasant - **good UX means the whole interaction feels smooth, satisfying, and right for the user**.
 
 
----
-
-
 # UX Core Principles
 
 Good UX can be summed up with a small set of practical rules. Keep these in mind while designing and testing.
