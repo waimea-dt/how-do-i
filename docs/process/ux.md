@@ -13,7 +13,10 @@ UX design considers everything a person encounters when using a product: the vis
 A product can be technically usable but still frustrating, confusing, or unpleasant - **good UX means the whole interaction feels smooth, satisfying, and right for the user**.
 
 
-## What Makes a Good User Experience?
+---
+
+
+# UX Core Principles
 
 Good UX can be summed up with a small set of practical rules. Keep these in mind while designing and testing.
 
@@ -21,9 +24,6 @@ Good UX can be summed up with a small set of practical rules. Keep these in mind
 > If you want to read more about good UX and the principles to follow, see [Laws of UX](https://lawsofux.com/), or this article from [UX Design Institute](https://www.uxdesigninstitute.com/blog/ux-design-principles-2026/)
 
 
-
-
-# UX Core Principles
 
 
 ## <i data-lucide="user-round"></i> Know Your User
