@@ -18,7 +18,6 @@ Ignoring implications can cause real harm:
 Good designers think about these things **before** they build, not after. Considering relevant implications is part of being a responsible creator.
 
 
----
 
 # The Implications to Consider
 

@@ -231,10 +231,28 @@
         a:hover {
             text-decoration: none;
         }
-    }
 
-    :is(h1, h2) {
-        margin-top: 4rem;
+        &:is(h1, h2) {
+            margin-top: 4rem;
+        }
+
+        &:is(h2) {
+            padding-bottom: 0.25em;
+            border-bottom: 1px solid var(--secondary-color-4);
+        }
+
+        &:is(h1) {
+            color: var(--theme-color);
+            font-weight: 600;
+        }
+
+        &:is(h2, h4, h6) {
+            color: var(--secondary-color);
+        }
+
+        &:is(h3, h5) {
+            color: var(--theme-color-6);
+        }
     }
 
     /* Suppress heading anchor links inside specific containers.
@@ -253,24 +271,6 @@
         text-decoration: none;
     }
 
-    :is(h1, h2, h3, h4, h5, h6) {
-
-        &:is(h2) {
-            padding-bottom: 0.25em;
-        }
-
-        &:is(h1) {
-            color: var(--theme-color);
-        }
-
-        &:is(h2, h4, h6) {
-            color: var(--secondary-color);
-        }
-
-        &:is(h3, h5) {
-            color: var(--theme-color-6);
-        }
-    }
 
     /* Paragraphs */
     p + p {
@@ -309,11 +309,13 @@
     }
 
     /* Block quote */
-
     blockquote {
-        font-size: var(--font-xlarge);
-        font-style: italic;
         overflow: hidden;
+
+        &:not(.callout) {
+            font-size: var(--font-xlarge);
+            font-style: italic;
+        }
     }
 
     /* Rules */
