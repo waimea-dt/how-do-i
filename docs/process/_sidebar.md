@@ -5,7 +5,7 @@
 
 - <i data-lucide="route"></i> The Design Process
     - [<i data-lucide="circle-question-mark"></i> What is the Design Process?](/process/)
-    - [<i data-lucide="lightbulb"></i> Why Use a Design Process?](/process/why.md)
+    <!-- - [<i data-lucide="lightbulb"></i> Why Use a Design Process?](/process/why.md) -->
 
 - <i data-lucide="workflow"></i> Process Stages
     - [<i data-lucide="search"></i> Research & Analysis](/process/research.md)
@@ -27,5 +27,5 @@
     - [<i data-lucide="file-text"></i> Usability Heuristics](/process/usability.md)
     - [<i data-lucide="file-text"></i> User Experience (UX)](/process/ux.md)
     - [<i data-lucide="layout-template"></i> Design Documentation](/process/design-docs.md)
-    - [<i data-lucide="book-open"></i> User Documentation](/process/user-docs.md)
-    - [<i data-lucide="wrench"></i> Technical Documentation](/process/technical-docs.md)
+    <!-- - [<i data-lucide="book-open"></i> User Documentation](/process/user-docs.md) -->
+    <!-- - [<i data-lucide="wrench"></i> Technical Documentation](/process/technical-docs.md) -->
