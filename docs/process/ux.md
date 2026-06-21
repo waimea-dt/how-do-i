@@ -36,6 +36,11 @@ The single biggest UX mistake is assuming your users think like you do. Differen
 - What is their main goal?
 - What device will they use most?
 
+> [!EXAMPLE]
+> To make sure that I know my users well, and that the system works well for them, I will:
+> - Talk to my end-users to discover specific needs they have
+> - Regularly test my ideas, designs and the system with the end-users to see what is working well or not
+> - etc.
 
 
 ## <i data-lucide="map"></i> Clear User Flows
@@ -51,6 +56,11 @@ A user flow is the step-by-step path to complete a task. Each flow should be sho
 - How many steps does each task take?
 - Where might users get stuck?
 
+> [!EXAMPLE]
+> To make sure that the user has clear interactions that 'flow' well, I will:
+> - Plan out key user flows early in the design and discuss them with end-users
+> - Regularly test the system with end users to ensure that they can intuitively perform tasks with minimal help
+> - etc.
 
 
 ## <i data-lucide="layout-dashboard"></i> Consistent and Clear
@@ -70,6 +80,11 @@ A great way to ensure consistency in your design is to use a design system (e.g.
 
 ![](_assets/ux/design-system.png)
 
+> [!EXAMPLE]
+> To make sure that create a system that is consistent and clear, I will:
+> - Come up with a design system that takes into account the needs of the end-users
+> - Discuss layouts and prototypes with end-users to ensure they are clear
+> - etc.
 
 
 ## <i data-lucide="timer"></i> Keep Tasks Quick
@@ -85,6 +100,11 @@ If tasks take too long, users give up. Reduce steps and remove unnecessary frict
 - Are loading times acceptable for your users?
 - Are forms as short as possible?
 
+> [!EXAMPLE]
+> To make sure that the system is as efficient as possible, I will:
+> - Design all actions to have the minimal number of steps / screens as possible
+> - Regularly test the system with end users to measure how easy / frustrating it is to perform key tasks
+> - etc.
 
 
 ## <i data-lucide="message-circle"></i> Clear, Helpful Language
@@ -100,7 +120,11 @@ Labels, button text, and error messages should be simple and direct.
 - Is the reading level appropriate for the target audience?
 - Do error messages explain what went wrong and how to fix it?
 
-
+> [!EXAMPLE]
+> To make sure that language is as helpful as possible, I will:
+> - Use text that meets the needs of my end-users in terms of reading level
+> - Check Māori translations of all text with a first-language speaker
+> - etc.
 
 
 ## <i data-lucide="test-tube-diagonal"></i> Test and Improve
@@ -115,4 +139,10 @@ Simple testing catches problems early. Even 2-3 users can reveal major issues.
 - Have people outside the design team tried to use it?
 - Were they able to complete core tasks without help?
 - What should you change based on their feedback?
+
+> [!EXAMPLE]
+> To make sure that the system gives the best possible UX for my users, I will:
+> - Regularly test the design and working system with end users to gather feedback
+> - Act upon the feedback to improve the system at every stage
+> - etc.
 
