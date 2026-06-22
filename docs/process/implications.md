@@ -21,12 +21,23 @@ Good designers think about these things **before** they build, not after. Consid
 
 # The Implications to Consider
 
+It is **essential** that you cover the following implications:
+- End-user
+- Functionality
+- Usability
+- Accessibility
+
+Aside from these, others may be more or less relevant to your end-users and your system. Think carefully about which these might be.
+
 
 ## <i data-lucide="mouse-pointer-click"></i> Usability
 
 > Is it easy to use?
 
 A system that works but is confusing or frustrating will fail its users. Good usability means anyone can pick it up and use it effectively.
+
+> [!IMPORTANT]
+> In this section, you **must** refer to **specific heuristics** - the ones that are **most relevant** to your end users and your system. You will be following these heuristics throughout your design and development, and at the end of your project, you should be able to show how these specific heuristics have impacted the system.
 
 #### Consider:
 - Does it follow the [Usability Heuristics](process/usability.md)?
