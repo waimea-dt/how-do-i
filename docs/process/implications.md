@@ -21,13 +21,14 @@ Good designers think about these things **before** they build, not after. Consid
 
 # The Implications to Consider
 
-It is **essential** that you cover the following implications:
-- End-user
-- Functionality
-- Usability
-- Accessibility
-
-Aside from these, others may be more or less relevant to your end-users and your system. Think carefully about which these might be.
+> [!IMPORTANT]
+> It is **essential** that you cover the following implications:
+> - **End-User**
+> - **Functionality**
+> - **Usability**
+> - **Accessibility**
+>
+> Aside from these, others may be more or less relevant to your end-users and your system. Think carefully about which these might be: **Aesthetics** is usually important; **Privacy**/**Legal** will be important if you're storing personal user data; etc.
 
 
 ## <i data-lucide="mouse-pointer-click"></i> Usability
