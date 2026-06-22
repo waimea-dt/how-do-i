@@ -37,15 +37,15 @@ Good designers think about these things **before** they build, not after. Consid
 
 A system that works but is confusing or frustrating will fail its users. Good usability means anyone can pick it up and use it effectively.
 
-> [!IMPORTANT]
-> In this section, you **must** refer to **specific heuristics** - the ones that are **most relevant** to your end users and your system. You will be following these heuristics throughout your design and development, and at the end of your project, you should be able to show how these specific heuristics have impacted the system.
-
 #### Consider:
 - Does it follow the [Usability Heuristics](process/usability.md)?
 - Can users avoid mistakes, and recover easily if they make one?
 - Does it use recognised conventions (e.g. a back button, a save icon)?
 - Does it match how things work in the real world?
 - Is the system status always visible - does the user know what's happening?
+
+> [!IMPORTANT]
+> In this section, you **must** refer to **specific heuristics** - the ones that are **most relevant** to your end users and your system. You will be following these heuristics throughout your design and development, and at the end of your project, you should be able to show how these specific heuristics have impacted the system.
 
 > [!EXAMPLE]
 > I plan to make my site easy to use by:
