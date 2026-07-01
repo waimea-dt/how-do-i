@@ -16,10 +16,13 @@ User interfaces are the point of interaction between users and digital systems. 
 
 ## An Overview of Good UI/UX Design
 
-World's Shortest UI/UX Design Course - This is a really good, quick intro to the design process and tools to use from concept to completed site/app
+**World's Shortest UI/UX Design Course** - This is a really good, quick intro to the design process and tools to use from concept to completed site/app...
 
 <videoembed id="wIuVvCuiJhU"></videoembed>
 
-Also, watch this short video that promotes simplicity in design: [Everything will be simpler and you WILL be happy](https://www.youtube.com/watch?v=04j-kUj1Zhg)
+Also, watch this short video that promotes simplicity in design: **Everything will be simpler and you WILL be happy**...
+
+<videoembed id="04j-kUj1Zhg"></videoembed>
+
 
 
