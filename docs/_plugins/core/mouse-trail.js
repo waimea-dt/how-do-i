@@ -19,7 +19,15 @@
         '../../_assets/scratch/sprites/cake.svg',
         '../../_assets/scratch/sprites/robot.svg',
         '../../_assets/scratch/sprites/bug1.svg',
-        '../../_assets/mac/macintosh-face.svg',
+        '../../_assets/scratch/sprites/alien3.svg',
+        '../../_assets/scratch/sprites/alien4.svg',
+        '../../_assets/scratch/sprites/bird.svg',
+        '../../_assets/scratch/sprites/icecream.svg',
+        '../../_assets/scratch/sprites/rocket1.svg',
+        '../../_assets/scratch/sprites/star.svg',
+        '../../_assets/scratch/sprites/turtle.svg',
+        '../../_assets/scratch/keys/arrows.svg',
+        '../../_assets/macs/macintosh-face.svg',
         '../../_assets/blobs/blob.svg',
     ]
 
