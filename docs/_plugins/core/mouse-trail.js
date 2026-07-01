@@ -6,7 +6,7 @@
 
     const TRAIL_CLASS = 'mouse-trail-item'
     const ROOT_CLASS = 'mouse-trail-root'
-    const ITEM_LIFETIME_MS = 500
+    const ITEM_LIFETIME_MS = 1000
     const ITEM_SPREAD_MAX = 30
     const ITEM_SIZE_MIN = 2
     const ITEM_SIZE_MAX = 5
@@ -19,14 +19,19 @@
         '../../_assets/scratch/sprites/cake.svg',
         '../../_assets/scratch/sprites/robot.svg',
         '../../_assets/scratch/sprites/bug1.svg',
+        '../../_assets/scratch/sprites/cat.svg',
+        '../../_assets/scratch/sprites/dog.svg',
+        '../../_assets/scratch/sprites/smile.svg',
+        '../../_assets/scratch/sprites/skull.svg',
+        '../../_assets/scratch/sprites/poop.svg',
+        '../../_assets/scratch/sprites/rainbow.svg',
+        '../../_assets/scratch/sprites/alien.svg',
         '../../_assets/scratch/sprites/alien3.svg',
         '../../_assets/scratch/sprites/alien4.svg',
         '../../_assets/scratch/sprites/bird.svg',
         '../../_assets/scratch/sprites/icecream.svg',
-        '../../_assets/scratch/sprites/rocket1.svg',
         '../../_assets/scratch/sprites/star.svg',
         '../../_assets/scratch/sprites/turtle.svg',
-        '../../_assets/scratch/keys/arrows.svg',
         '../../_assets/macs/macintosh-face.svg',
         '../../_assets/blobs/blob.svg',
     ]
