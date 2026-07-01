@@ -135,6 +135,7 @@
                 display: block;
                 max-height: 6rem;
                 margin: 1rem auto;
+                max-width: 100%;
             }
 
             input, button, textarea { font: inherit; }

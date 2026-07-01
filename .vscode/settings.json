@@ -18,5 +18,6 @@
         "activityBar.inactiveForeground": "#e7e7e799",
         "activityBarBadge.background": "#9d5342",
         "activityBarBadge.foreground": "#e7e7e7"
-    }
+    },
+    "liveServer.settings.port": 5501
 }

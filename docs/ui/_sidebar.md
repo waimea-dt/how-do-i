@@ -17,13 +17,13 @@
 - <i data-lucide="smartphone"></i> Platform-Specific UIs
     - [<i data-lucide="monitor"></i> Desktop Interfaces](/ui/desktop.md)
     - [<i data-lucide="smartphone"></i> Mobile Interfaces](/ui/mobile.md)
-    - [<i data-lucide="tablet"></i> Tablet Interfaces](/ui/tablet.md)
     - [<i data-lucide="monitor-smartphone"></i> Responsive Design](/ui/responsive.md)
 
 - <i data-lucide="users"></i> User-Centred Design
     - [<i data-lucide="user"></i> Understanding Users](/ui/understanding-users.md)
     - [<i data-lucide="layout-template"></i> Wireframing](/ui/wireframes.md)
     - [<i data-lucide="paintbrush"></i> Mockups & Prototypes](/ui/mockups.md)
+    - [<i data-lucide="palette"></i> Colour Palettes](/ui/colours.md)
     - [<i data-lucide="flask-conical"></i> Usability Testing](/ui/usability.md)
     - [<i data-lucide="accessibility"></i> Accessibility](/ui/accessibility.md)
 
