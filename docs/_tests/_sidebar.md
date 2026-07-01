@@ -7,6 +7,7 @@
     - [Components](/_tests/_components.md)
     - [Utils Library](/_tests/_utils.md)
     - [Plugin Smoke](/_tests/_smoke.md)
+    - [Mouse Trail](/_tests/mouse-trail.md)
 
 - <i data-lucide="binary"></i> Coding
     - [Code](/_tests/code.md)

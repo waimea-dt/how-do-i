@@ -1,0 +1,48 @@
+.mouse-trail-root {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+
+    --trail-lifetime: 1000ms;
+    --trail-size: 3rem;
+    --trail-angle-start: 0deg;
+    --trail-angle-end:   180deg;
+}
+
+.mouse-trail-item {
+    position: absolute;
+    width: var(--trail-size);
+    height: var(--trail-size);
+    margin-left: calc(var(--trail-size) * -0.5);
+    margin-top:  calc(var(--trail-size) * -0.5);
+
+    background-image: var(--trail-image, none);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    opacity: 0.5;
+    transform: translateZ(0) scale(1) rotate(var(--trail-angle-start));
+
+    animation: mouseTrailFade var(--trail-lifetime) ease-out forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes mouseTrailFade {
+    from {
+        opacity: 0.5;
+        transform:
+            translateZ(0)
+            scale(1.0)
+            rotate(var(--trail-angle-start));
+    }
+
+    to {
+        opacity: 0;
+        transform:
+            translateZ(0)
+            scale(0.1)
+            rotate(var(--trail-angle-end));
+    }
+}
