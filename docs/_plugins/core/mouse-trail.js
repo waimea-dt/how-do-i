@@ -10,35 +10,13 @@
     const ITEM_SPREAD_MAX = 30
     const ITEM_SIZE_MIN = 2
     const ITEM_SIZE_MAX = 5
-
-    const ITEMS = [
-        '../../_assets/scratch/sprites/banana.svg',
-        '../../_assets/scratch/sprites/fish.svg',
-        '../../_assets/scratch/sprites/heart.svg',
-        '../../_assets/scratch/sprites/chicken.svg',
-        '../../_assets/scratch/sprites/cake.svg',
-        '../../_assets/scratch/sprites/robot.svg',
-        '../../_assets/scratch/sprites/bug1.svg',
-        '../../_assets/scratch/sprites/cat.svg',
-        '../../_assets/scratch/sprites/dog.svg',
-        '../../_assets/scratch/sprites/smile.svg',
-        '../../_assets/scratch/sprites/skull.svg',
-        '../../_assets/scratch/sprites/poop.svg',
-        '../../_assets/scratch/sprites/rainbow.svg',
-        '../../_assets/scratch/sprites/alien.svg',
-        '../../_assets/scratch/sprites/alien3.svg',
-        '../../_assets/scratch/sprites/alien4.svg',
-        '../../_assets/scratch/sprites/bird.svg',
-        '../../_assets/scratch/sprites/icecream.svg',
-        '../../_assets/scratch/sprites/star.svg',
-        '../../_assets/scratch/sprites/turtle.svg',
-        '../../_assets/macs/macintosh-face.svg',
-        '../../_assets/blobs/blob.svg',
-    ]
+    const TRAILS_DIR = '_assets/trails/'
 
     let trailRoot = null
     let isListening = false
     let itemPath = null
+    let trailItemsPromise = null
+    let activationToken = 0
 
     function rand(min, max) {
         return (Math.random() * (max - min)) + min
@@ -46,6 +24,23 @@
 
     function randInt(min, max) {
         return Math.floor(rand(min, max))
+    }
+
+    async function loadTrailItems() {
+        if (!trailItemsPromise) {
+            trailItemsPromise = window.fetch(TRAILS_DIR, { cache: 'no-store' })
+                .then((response) => response.ok ? response.text() : '')
+                .then((html) => {
+                    const parser = new window.DOMParser()
+                    const doc = parser.parseFromString(String(html || ''), 'text/html')
+                    return Array.from(doc.querySelectorAll('a[href$=".svg"]'))
+                        .map((link) => link.getAttribute('href').split('/').pop())
+                        .map((filename) => new URL(`${TRAILS_DIR}${filename}`, document.baseURI).href)
+                })
+                .catch(() => [])
+        }
+
+        return trailItemsPromise
     }
 
     function isHomePath(path) {
@@ -65,6 +60,8 @@
     }
 
     function onPointerMove(event) {
+        if (!itemPath) return
+
         const root = createTrailRoot()
         const item = document.createElement('span')
 
@@ -82,16 +79,25 @@
         window.setTimeout(function () { item.remove() }, ITEM_LIFETIME_MS)
     }
 
-    function activate() {
+    async function activate() {
         if (isListening) return
 
+        const token = ++activationToken
+        const trailItems = await loadTrailItems()
+
+        if (token !== activationToken || isListening) return
+        if (!trailItems.length) return
+
+        itemPath = trailItems[randInt(0, trailItems.length)]
+
         isListening = true
-        itemPath = ITEMS[randInt(0, ITEMS.length)]
         createTrailRoot()
         window.addEventListener('pointermove', onPointerMove, { passive: true })
     }
 
     function deactivate() {
+        activationToken += 1
+
         if (!isListening && !trailRoot) return
 
         isListening = false
@@ -106,7 +112,7 @@
     function docsifyMouseTrail(hook, vm) {
         hook.doneEach(function () {
             if (isHomePath(vm?.route?.path)) {
-                activate()
+                void activate()
                 return
             }
 

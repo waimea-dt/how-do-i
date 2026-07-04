@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="705.128" height="705.128" viewBox="0 0 705.128 705.128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <g transform="translate(-0 -0)">
+      <g>
+        <rect width="655.128" height="655.128" fill="#F3DEC3" fill-rule="evenodd" transform="translate(25 25)" />
+        <path d="M705.128 0C705.128 0 0 0 0 0L0 705.128L705.128 705.128C705.128 705.128 705.128 0 705.128 0ZM680.128 25C680.128 25 25 25 25 25L25 680.128L680.128 680.128C680.128 680.128 680.128 25 680.128 25Z" fill="#000000" fill-rule="evenodd" />
+      </g>
+      <path d="M655.128 0C655.128 0 0 0 0 0L0 327.563L246.154 327.563L246.154 246.153L327.563 246.153L327.563 165.384L491.025 165.384L491.025 246.153L573.077 246.153L573.077 327.563L655.128 327.563C655.128 327.563 655.128 0 655.128 0Z" fill="#E98C3F" fill-rule="evenodd" transform="translate(25 25)" />
+      <g transform="translate(105.41 352.563)">
+        <rect width="165.384" height="83.333" fill="#FFFFFF" fill-rule="evenodd" transform="translate(329.847 0)" />
+        <rect width="165.384" height="83.333" fill="#FFFFFF" fill-rule="evenodd" />
+      </g>
+      <g transform="translate(188.102 352.563)">
+        <rect width="83.333" height="83.333" fill="#226433" fill-rule="evenodd" />
+        <rect width="83.333" height="83.333" fill="#226433" fill-rule="evenodd" transform="translate(247.155 0)" />
+      </g>
+      <rect width="162.821" height="82.052" fill="#EFBBAF" fill-rule="evenodd" transform="translate(272.435 516.025)" />
+    </g>
+  </g>
+</svg>

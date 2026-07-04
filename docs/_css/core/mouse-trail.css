@@ -5,7 +5,7 @@
     z-index: -1;
 
     --trail-lifetime: 1000ms;
-    --trail-size: 3rem;
+    --trail-size: 4rem;
     --trail-angle-start: 0deg;
     --trail-angle-end:   180deg;
 }
