@@ -11,6 +11,7 @@
     const ITEM_SIZE_MIN = 2
     const ITEM_SIZE_MAX = 5
     const TRAILS_DIR = '_assets/trails/'
+    const TRAILS_MANIFEST = `${TRAILS_DIR}index.json`
 
     let trailRoot = null
     let isListening = false
@@ -26,17 +27,27 @@
         return Math.floor(rand(min, max))
     }
 
+    function toTrailUrl(filename) {
+        return new URL(`${TRAILS_DIR}${filename}`, document.baseURI).href
+    }
+
+    function parseManifest(items) {
+        return Array.isArray(items)
+            ? items.filter((name) => typeof name === 'string' && name.endsWith('.svg'))
+            : []
+    }
+
+    async function fetchTrailManifest() {
+        const response = await window.fetch(TRAILS_MANIFEST, { cache: 'no-store' })
+        if (!response.ok) return []
+
+        const items = parseManifest(await response.json())
+        return items.map(toTrailUrl)
+    }
+
     async function loadTrailItems() {
         if (!trailItemsPromise) {
-            trailItemsPromise = window.fetch(TRAILS_DIR, { cache: 'no-store' })
-                .then((response) => response.ok ? response.text() : '')
-                .then((html) => {
-                    const parser = new window.DOMParser()
-                    const doc = parser.parseFromString(String(html || ''), 'text/html')
-                    return Array.from(doc.querySelectorAll('a[href$=".svg"]'))
-                        .map((link) => link.getAttribute('href').split('/').pop())
-                        .map((filename) => new URL(`${TRAILS_DIR}${filename}`, document.baseURI).href)
-                })
+            trailItemsPromise = fetchTrailManifest()
                 .catch(() => [])
         }
 
