@@ -1,13 +1,19 @@
+body:has(.mouse-trail-root) .content {
+    pointer-events: none;
+}
+
 .mouse-trail-root {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
 
     --trail-lifetime: 1000ms;
     --trail-size: 4rem;
     --trail-angle-start: 0deg;
     --trail-angle-end:   180deg;
+    --trail-vx: 0px;
+    --trail-vy: 0px;
 }
 
 .mouse-trail-item {
@@ -23,44 +29,59 @@
     background-size: contain;
 
     opacity: 0;
-    transform: translateZ(0) scale(0.1) rotate(var(--trail-angle-start));
+    transform:
+        translate3d(0, 0, 0)
+        scale(0.1)
+        rotate(var(--trail-angle-start));
 
-    animation: mouseTrailFade var(--trail-lifetime) ease-out forwards;
-    will-change: transform, opacity;
+    animation: mouseTrailFade var(--trail-lifetime) linear forwards;
+    will-change: transform, opacity, filter;
 
     filter: drop-shadow(0.2rem 0.5rem 1rem #0004);
 }
 
 @keyframes mouseTrailFade {
     0% {
-        opacity: 0;
+        opacity: 1;
+        filter:
+            drop-shadow(0.2rem 0.5rem 1rem #0004)
+            blur(0px);
         transform:
-            translateZ(0)
+            translate3d(0, 0, 0)
             scale(0.1)
             rotate(var(--trail-angle-start));
     }
 
-    10% {
-        opacity: 0.9;
+    25% {
+        opacity: 1;
+        filter:
+            drop-shadow(0.2rem 0.5rem 1rem #0004)
+            blur(0px);
         transform:
-            translateZ(0)
-            scale(1.0)
+            translate3d(calc(var(--trail-vx) * 0.25), calc(var(--trail-vy) * 0.25), 0)
+            scale(1.5)
             rotate(var(--trail-angle-start));
     }
 
-    20% {
-        opacity: 0.8;
+    75% {
+        opacity: 1;
+        filter:
+            drop-shadow(0.2rem 0.5rem 1rem #0004)
+            blur(0px);
         transform:
-            translateZ(0)
+            translate3d(calc(var(--trail-vx) * 0.75), calc(var(--trail-vy) * 0.75), 0)
             scale(1.0)
-            rotate(var(--trail-angle-start));
+            rotate(calc((var(--trail-angle-start) + var(--trail-angle-end)) * 0.5));
     }
 
     100% {
         opacity: 0;
+        filter:
+            drop-shadow(0 0 1rem #0000)
+            blur(5px);
         transform:
-            translateZ(0)
-            scale(0.1)
+            translate3d(var(--trail-vx), var(--trail-vy), 0)
+            scale(1.2)
             rotate(var(--trail-angle-end));
     }
 }

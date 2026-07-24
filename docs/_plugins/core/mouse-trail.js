@@ -6,15 +6,29 @@
 
     const TRAIL_CLASS = 'mouse-trail-item'
     const ROOT_CLASS = 'mouse-trail-root'
-    const ITEM_LIFETIME_MS = 1000
+
+    const ITEM_LIFETIME_MAX_MS = 1200
+    const ITEM_LIFETIME_MIN_MS = 600
     const ITEM_SPREAD_MIN = 0
     const ITEM_SPREAD_MAX = 30
     const ITEM_SIZE_MIN = 0.5
-    const ITEM_SIZE_MAX = 10
-    const SPEED_FOR_MAX_SIZE = 2      // pixels per sec
-    const SPEED_FOR_MAX_SPREAD = 2    // pixels per sec
+    const ITEM_SIZE_MAX = 8
+    const SPEED_FOR_MAX_SIZE = 3      // pixels per ms
+    const SPEED_FOR_MAX_SPREAD = 5    // pixels per ms
+    const SPEED_THRESHOLD = 1         // Low threshold to drop static ticks (px/ms)
+    const SPEED_SCALING = 100         // scale px/ms for CSS transform
     const SIZE_SMOOTHING = 0.1
     const SPREAD_SMOOTHING = 0.1
+
+    const BURST_COUNT_MIN = 10
+    const BURST_COUNT_MAX = 20
+    const BURST_SPEED_MIN = 2
+    const BURST_SPEED_MAX = 5
+    const BURST_SIZE_MIN = ITEM_SIZE_MAX * 0.3
+    const BURST_SIZE_MAX = ITEM_SIZE_MAX * 0.5
+    const BURST_SPAWN_SPREAD = 18
+    const UI_CLICK_EXCLUSION_SELECTOR = '.sidebar, .sidebar-toggle, .app-nav, nav, aside, [data-no-trail-burst]'
+
     const TRAILS_DIR = '_assets/trails/'
     const TRAILS_MANIFEST = `${TRAILS_DIR}index.json`
 
@@ -40,13 +54,23 @@
         return Math.max(min, Math.min(max, value))
     }
 
+    function speedRatioFromThreshold(speedPxPerMs, maxSpeedPxPerMs) {
+        const denominator = maxSpeedPxPerMs - SPEED_THRESHOLD
+        if (denominator <= 0) {
+            return speedPxPerMs >= SPEED_THRESHOLD ? 1 : 0
+        }
+
+        return clamp((speedPxPerMs - SPEED_THRESHOLD) / denominator, 0, 1)
+    }
+
+
     function sizeFromSpeed(speedPxPerMs) {
-        const ratio = clamp(speedPxPerMs / SPEED_FOR_MAX_SIZE, 0, 1)
+        const ratio = speedRatioFromThreshold(speedPxPerMs, SPEED_FOR_MAX_SIZE)
         return ITEM_SIZE_MIN + (ITEM_SIZE_MAX - ITEM_SIZE_MIN) * ratio
     }
 
     function spreadFromSpeed(speedPxPerMs) {
-        const ratio = clamp(speedPxPerMs / SPEED_FOR_MAX_SPREAD, 0, 1)
+        const ratio = speedRatioFromThreshold(speedPxPerMs, SPEED_FOR_MAX_SPREAD)
         return ITEM_SPREAD_MIN + (ITEM_SPREAD_MAX - ITEM_SPREAD_MIN) * ratio
     }
 
@@ -95,6 +119,12 @@
         return Boolean(target.closest('input, textarea, select, [contenteditable="true"]'))
     }
 
+    function isUiTarget(target) {
+        if (!(target instanceof Element)) return false
+
+        return Boolean(target.closest(UI_CLICK_EXCLUSION_SELECTOR))
+    }
+
     function isHomePath(path) {
         const cleanedPath = String(path || '/').replace(/\/+$/, '')
         return cleanedPath === '' || cleanedPath === '/'
@@ -111,43 +141,110 @@
         return root
     }
 
+    function appendTrailItem(x, y, options) {
+        if (!options.imagePath) return
+
+        const root = createTrailRoot()
+        const item = document.createElement('span')
+        const lifetimeMs = options.lifetimeMs || randInt(ITEM_LIFETIME_MIN_MS, ITEM_LIFETIME_MAX_MS)
+
+        item.className = TRAIL_CLASS
+        item.style.left = `${x}px`
+        item.style.top = `${y}px`
+
+        item.style.setProperty('--trail-image', `url("${options.imagePath}")`)
+        item.style.setProperty('--trail-size', `${options.sizeRem}rem`)
+        item.style.setProperty('--trail-angle-start', `${options.angleStartDeg}deg`)
+        item.style.setProperty('--trail-angle-end', `${options.angleEndDeg}deg`)
+        item.style.setProperty('--trail-lifetime', `${lifetimeMs}ms`)
+        item.style.setProperty('--trail-vx', `${options.vxPx}px`)
+        item.style.setProperty('--trail-vy', `${options.vyPx}px`)
+
+        root.appendChild(item)
+        window.setTimeout(function () { item.remove() }, lifetimeMs)
+    }
+
+    function spawnClickBurst(event) {
+        const burstCount = randInt(BURST_COUNT_MIN, BURST_COUNT_MAX + 1)
+        let lastBurstItemPath = itemPath
+
+        for (let i = 0; i < burstCount; i += 1) {
+            const angle = rand(0, Math.PI * 2)
+            const speedPxPerMs = rand(BURST_SPEED_MIN, BURST_SPEED_MAX)
+            const speedPx = speedPxPerMs * SPEED_SCALING
+            const spawnX = event.clientX + rand(-BURST_SPAWN_SPREAD, BURST_SPAWN_SPREAD)
+            const spawnY = event.clientY + rand(-BURST_SPAWN_SPREAD, BURST_SPAWN_SPREAD)
+            const burstItemPath = pickRandomTrailItem() || itemPath
+            lastBurstItemPath = burstItemPath
+
+            appendTrailItem(spawnX, spawnY, {
+                imagePath: burstItemPath,
+                sizeRem: rand(BURST_SIZE_MIN, BURST_SIZE_MAX),
+                angleStartDeg: rand(-180, 180),
+                angleEndDeg: rand(-180, 180),
+                vxPx: Math.cos(angle) * speedPx,
+                vyPx: Math.sin(angle) * speedPx,
+                lifetimeMs: randInt(ITEM_LIFETIME_MIN_MS, ITEM_LIFETIME_MAX_MS)
+            })
+        }
+
+        return lastBurstItemPath
+    }
+
     function onPointerMove(event) {
         if (!itemPath) return
 
         const nowMs = typeof event.timeStamp === 'number' ? event.timeStamp : performance.now()
         let speedPxPerMs = 0
+        let vx = 0
+        let vy = 0
 
         if (lastPointer) {
             const dt = nowMs - lastPointer.timeMs
-            if (dt > 0) {
+
+            if (dt > 0 && dt < 100) {
                 const dx = event.clientX - lastPointer.x
                 const dy = event.clientY - lastPointer.y
                 speedPxPerMs = Math.hypot(dx, dy) / dt
+
+                vx = (dx / dt) * SPEED_SCALING
+                vy = (dy / dt) * SPEED_SCALING
             }
         }
 
         lastPointer = { x: event.clientX, y: event.clientY, timeMs: nowMs }
+
+        if (speedPxPerMs < SPEED_THRESHOLD) return
 
         const targetSize = sizeFromSpeed(speedPxPerMs)
         const targetSpread = spreadFromSpeed(speedPxPerMs)
         currentTrailSize += (targetSize - currentTrailSize) * SIZE_SMOOTHING
         currentTrailSpread += (targetSpread - currentTrailSpread) * SPREAD_SMOOTHING
 
-        const root = createTrailRoot()
-        const item = document.createElement('span')
+        appendTrailItem(
+            event.clientX + rand(-currentTrailSpread, currentTrailSpread),
+            event.clientY + rand(-currentTrailSpread, currentTrailSpread),
+            {
+                imagePath: itemPath,
+                sizeRem: currentTrailSize,
+                angleStartDeg: rand(-45, 45),
+                angleEndDeg: rand(-135, 135),
+                vxPx: vx,
+                vyPx: vy,
+                lifetimeMs: randInt(ITEM_LIFETIME_MIN_MS, ITEM_LIFETIME_MAX_MS)
+            }
+        )
+    }
 
-        item.className = TRAIL_CLASS
-        item.style.left = `${event.clientX + rand(-currentTrailSpread, currentTrailSpread)}px`
-        item.style.top  = `${event.clientY + rand(-currentTrailSpread, currentTrailSpread)}px`
+    function onClick(event) {
+        if (!isListening || !itemPath) return
+        if (isEditableTarget(event.target)) return
+        if (isUiTarget(event.target)) return
 
-        item.style.setProperty('--trail-image',       `url("${itemPath}")`)
-        item.style.setProperty('--trail-size',        `${currentTrailSize}rem`)
-        item.style.setProperty('--trail-angle-start', `${rand(-45, 45)}deg`)
-        item.style.setProperty('--trail-angle-end',   `${rand(-135, 135)}deg`)
-        item.style.setProperty('--trail-lifetime',    `${ITEM_LIFETIME_MS}ms`)
-
-        root.appendChild(item)
-        window.setTimeout(function () { item.remove() }, ITEM_LIFETIME_MS)
+        const nextItemPath = spawnClickBurst(event)
+        if (nextItemPath) {
+            itemPath = nextItemPath
+        }
     }
 
     function onKeyDown(event) {
@@ -177,6 +274,7 @@
         isListening = true
         createTrailRoot()
         window.addEventListener('pointermove', onPointerMove, { passive: true })
+        window.addEventListener('click', onClick, { passive: true })
         window.addEventListener('keydown', onKeyDown)
     }
 
@@ -190,6 +288,7 @@
 
         isListening = false
         window.removeEventListener('pointermove', onPointerMove)
+        window.removeEventListener('click', onClick)
         window.removeEventListener('keydown', onKeyDown)
 
         if (trailRoot) {
