@@ -133,7 +133,7 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 ![O(N!) curve](_assets/factorial.png)
 
 ### Examples:
-- Brute-force travelling salesman (checking all routes)
+- Brute-force Travelling Salesperson (checking all routes)
 - Generating all permutations
 - Some scheduling problems
 

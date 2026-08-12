@@ -1,8 +1,8 @@
-# The Travelling Salesman Problem
+# The Travelling Salesperson Problem
 
 ## The Classic Challenge
 
-The **Travelling Salesman Problem (TSP)** is one of the most famous problems in computer science:
+The **Travelling Salesperson Problem (TSP)** is one of the most famous problems in computer science:
 
 > Given a list of cities and the distances between them, what is the shortest route that visits each city exactly once and returns to the starting point?
 

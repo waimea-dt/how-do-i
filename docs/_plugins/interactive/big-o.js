@@ -167,7 +167,7 @@
             note: 'Simplification of O((V+E) log V)',
         },
 
-        // Complex Problems - Travelling Salesman
+        // Complex Problems - Travelling Salesperson
         {
             id: 'tsp-brute',
             name: 'TSP: Brute Force',
@@ -365,7 +365,7 @@
         { id: 'search', name: 'Searching' },
         { id: 'sort',   name: 'Sorting' },
         { id: 'graph',  name: 'Graphs' },
-        { id: 'tsp',    name: 'Travelling Salesman' },
+        { id: 'tsp',    name: 'Travelling Salesperson' },
         { id: 'knap',   name: 'Knapsack' },
         { id: 'pack',   name: 'Bin Packing' },
         { id: 'crypt',  name: 'Cryptography' },

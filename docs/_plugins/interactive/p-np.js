@@ -306,7 +306,7 @@
             problems: [
                 {
                     id: 'tsp-opt',
-                    name: 'Travelling Salesman - Optimal Route',
+                    name: 'Travelling Salesperson - Optimal Route',
                     description: 'Find shortest route that visits every one of n cities',
                     solveTime: 'O(n!)',
                     verifyTime: 'O(n!)',

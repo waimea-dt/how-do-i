@@ -25,7 +25,7 @@
 - <i data-lucide="puzzle"></i> Classic Problems
     - [<i data-lucide="shuffle"></i> Sorting Complexity](/cs/complexity/sorting.md)
     - [<i data-lucide="search"></i> Search Complexity](/cs/complexity/searching.md)
-    - [<i data-lucide="map-pin"></i> Travelling Salesman](/cs/complexity/tsp.md)
+    - [<i data-lucide="map-pin"></i> Travelling Salesperson](/cs/complexity/tsp.md)
     - [<i data-lucide="package"></i> Knapsack Problem](/cs/complexity/knapsack.md)
 
 - <i data-lucide="lightbulb"></i> Optimization Strategies

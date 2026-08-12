@@ -45,7 +45,7 @@ For NP-Complete problems:
 - ✓ **Verifying** a solution is fast (polynomial time)
 - ⏰ **Finding** the best solution requires testing exponentially many possibilities
 
-This is why problems like the Travelling Salesman Problem are so difficult—we can quickly check if a route is under a certain length, but finding the optimal route requires checking factorial combinations!
+This is why problems like the Travelling Salesperson Problem are so difficult—we can quickly check if a route is under a certain length, but finding the optimal route requires checking factorial combinations!
 
 ## What if P = NP?
 
@@ -98,7 +98,7 @@ These problems require exponential time to solve optimally, but solutions can be
 
 | Problem | Solving Time | Verification Time | Why It's Hard |
 |---------|-------------|------------------|---------------|
-| 🚚 Travelling Salesman | O((n-1)!) | O(n) | Must check factorial routes |
+| 🚚 Travelling Salesperson | O((n-1)!) | O(n) | Must check factorial routes |
 | 🎒 0/1 Knapsack | O(2ⁿ) | O(n) | Exponential combinations |
 | 🎨 Graph Coloring | O(kⁿ) | O(n²) | Many possible colorings |
 | 📦 Bin Packing | O(2ⁿ) | O(n) | Combinatorial item placement |

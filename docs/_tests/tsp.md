@@ -1,10 +1,10 @@
 # TSP Visualizer
 
-> Interactive brute-force Travelling Salesman Problem solver
+> Interactive brute-force Travelling Salesperson Problem solver
 
 ## What is the TSP?
 
-The **Travelling Salesman Problem** asks: given a list of cities, what is the shortest route that visits each city exactly once and returns to the starting point?
+The **Travelling Salesperson Problem** asks: given a list of cities, what is the shortest route that visits each city exactly once and returns to the starting point?
 
 This is a classic **NP-hard** problem in computer science. The brute-force approach tests _every possible route_ to find the optimal solution. For N cities, there are **(N-1)! / 2** unique routes to check (we can fix the starting city and ignore direction).
 

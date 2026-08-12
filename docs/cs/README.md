@@ -31,7 +31,7 @@ For Complexity and Tractability, questions may cover:
 - Complexity classes (P, NP, NP-complete)
 - Solving complex problems (approximation algorithms / heuristics)
 - Algorithm design and optimisation
-- Optimal solutions (Travelling salesman / knapsack, etc.)
+- Optimal solutions (Travelling Salesperson / Knapsack, etc.)
 
 Candidates will be required to respond in short and / or extended answers (800–1500 words in total) to questions
 

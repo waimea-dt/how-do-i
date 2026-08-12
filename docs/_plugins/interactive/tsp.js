@@ -1,5 +1,5 @@
 /**
- * docsify-tsp.js - Travelling Salesman Problem visualizer
+ * docsify-tsp.js - Travelling Salesperson Problem visualizer
  *
  * Demonstrates TSP solving algorithms with interactive visualization:
  *   - Brute Force: Tests all (N-1)! permutations to find optimal solution
@@ -523,23 +523,23 @@
         // Customize title/subtitle based on solver mode
         const titles = {
             'brute': {
-                title: 'Travelling Salesman Problem: Brute Force',
+                title: 'Travelling Salesperson Problem: Brute Force',
                 subtitle: 'Finding the shortest route through all cities by testing every possibility'
             },
             'nn': {
-                title: 'Travelling Salesman Problem: Nearest Neighbour',
+                title: 'Travelling Salesperson Problem: Nearest Neighbour',
                 subtitle: 'Greedy heuristic: always visit the nearest unvisited city'
             },
             'compare-nn': {
-                title: 'Travelling Salesman Problem: Comparing NN to Brute Force',
+                title: 'Travelling Salesperson Problem: Comparing NN to Brute Force',
                 subtitle: 'Nearest Neighbour (fast heuristic) vs. Brute Force (guaranteed optimal)'
             },
             '2opt': {
-                title: 'Travelling Salesman Problem: 2-Opt Local Search',
+                title: 'Travelling Salesperson Problem: 2-Opt Local Search',
                 subtitle: 'Iteratively swap edge pairs to find local optimum (may not be globally optimal)'
             },
             'compare-2opt': {
-                title: 'Travelling Salesman Problem: Comparing NN/2-Opt to Brute Force',
+                title: 'Travelling Salesperson Problem: Comparing NN/2-Opt to Brute Force',
                 subtitle: '2-Opt (fast, finds local optimum) vs. Brute Force (slow, guaranteed global optimum)'
             }
         };

@@ -75,11 +75,11 @@ For tiny arrays (~5-10 items), Insertion Sort is often faster in practice!
 
 Compare different algorithm categories side-by-side:
 
-<big-o algos="search" max="200"></big-o>
+<big-o algos="search" max="1024" step="x2"></big-o>
 
 Toggle linear vs binary search to see their operation counts diverge.
 
-<big-o algos="sort" max="100"></big-o>
+<big-o algos="sort" max="1024" step="x2"></big-o>
 
 Compare different sorting approaches.
 
@@ -185,7 +185,7 @@ Make sure you're comparing fairly:
 
 Explore algorithms across categories:
 
-<big-o algos="search sort tsp knap" max="30"></big-o>
+<big-o algos="" max="1024" step="x2"></big-o>
 
 Notice how:
 - Search algorithms (**O(N)** and **O(log N)**) stay manageable
