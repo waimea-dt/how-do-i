@@ -1,6 +1,6 @@
 # Measuring Efficiency
 
-## How do we measure 'effort'?
+## How to Measure 'Effort'?
 
 When we talk about algorithmic efficiency, we need a way to measure how much work an algorithm does. We could measure:
 
@@ -10,7 +10,11 @@ When we talk about algorithmic efficiency, we need a way to measure how much wor
 
 All of these are related - more operations means more instructions, which takes more time.
 
-## Why not just use seconds?
+> [!TIP]
+> An 'operation' simply means any simple action that the computer / algorithm has to perform: comparing two values, swapping to values, adding two values, etc. Each operation takes time / effort
+
+
+## Why Not Just Use Seconds?
 
 You might think we could just time algorithms with a stopwatch. But this has problems:
 
@@ -19,6 +23,39 @@ You might think we could just time algorithms with a stopwatch. But this has pro
 - Small inputs complete so quickly it's hard to measure accurately
 
 Instead, computer scientists **count operations** as the input size grows.
+
+
+## Counting What Matters
+
+We focus on the **dominant operation** - the one that happens most often:
+
+- For **searching**: counting comparisons
+- For **sorting**: counting comparisons or swaps
+- For **graph algorithms**: counting edge or node visits
+
+
+## Best, Average, and Worst Case
+
+Algorithms can perform differently depending on the input. For example, when searching for a value in an unsorted list:
+
+| Case        | Description                              | Example                                             |
+| ----------- | ---------------------------------------- | --------------------------------------------------- |
+| **Best**    | The luckiest scenario                    | The item you're searching for is the first one      |
+| **Average** | Typical performance across random inputs | On average, you find it halfway through             |
+| **Worst**   | The unluckiest scenario                  | The item is the very last one (or not there at all) |
+
+
+> [!IMPORTANT]
+> We usually focus on **worst case** because it guarantees performance - you know it won't be any slower than that.
+
+
+## Key Insight
+
+What matters most is **how the effort grows as N increases**, not the exact number of operations. An algorithm that needs 1000N operations is much better than one that needs N<sup>2</sup> operations once N gets large enough!
+
+> [!TIP]
+> Think of complexity as **how an algorithm scales** rather than how fast it runs on any particular input.
+
 
 ## Example: Finding a value in a list
 
@@ -36,7 +73,8 @@ Imagine searching for a specific number in a list:
 
 Notice how binary search barely grows compared to linear search!
 
-## Try it yourself
+
+### Try it Yourself
 
 Watch how these two search algorithms race against each other:
 
@@ -44,29 +82,3 @@ Watch how these two search algorithms race against each other:
 
 Adjust the size to see how the gap widens as N increases.
 
-## Counting what matters
-
-We focus on the **dominant operation** - the one that happens most often:
-
-- For **searching**: counting comparisons
-- For **sorting**: counting comparisons or swaps
-- For **graph algorithms**: counting edge or node visits
-
-## Best, Average, and Worst Case
-
-Algorithms can perform differently depending on the input:
-
-| Case | Description | Example |
-|------|-------------|---------|
-| **Best** | The luckiest scenario | The item you're searching for is the first one |
-| **Average** | Typical performance across random inputs | On average, you find it halfway through |
-| **Worst** | The unluckiest scenario | The item is the very last one (or not there at all) |
-
-We usually focus on **worst case** because it guarantees performance - you know it won't be any slower than that.
-
-## Key Insight
-
-What matters most is **how the effort grows as N increases**, not the exact number of operations. An algorithm that needs 1000N operations is much better than one that needs N<sup>2</sup> operations once N gets large enough!
-
-> [!TIP]
-> Think of complexity as **how an algorithm scales** rather than how fast it runs on any particular input.

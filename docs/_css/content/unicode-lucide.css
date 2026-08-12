@@ -1,0 +1,13 @@
+/** Unicode Lucide
+ * Inline icon alignment for unicode-to-lucide replacements
+ */
+.markdown-section {
+    i.unicode-lucide,
+    svg.unicode-lucide {
+        display: inline-flex;
+        width: 1em;
+        height: 1em;
+        margin-inline: 0.1em;
+        vertical-align: -0.12em;
+    }
+}

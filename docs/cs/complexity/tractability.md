@@ -56,7 +56,7 @@ Modern encryption relies on intractable problems!
 - Factoring a 2048-bit number would take longer than the age of the universe with current computers
 - If factoring becomes tractable (e.g., with quantum computers), our security breaks!
 
-<big-o algos="rsa-brute rsa-gnfs aes-brute" max="128" step="8"></big-o>
+<big-o algos="rsa-brute rsa-gnfs aes-brute" max="2048" step="x2"></big-o>
 
 ### Optimization Problems
 Many real-world problems are intractable:

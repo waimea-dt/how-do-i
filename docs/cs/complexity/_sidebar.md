@@ -9,7 +9,7 @@
 - <i data-lucide="chart-spline"></i> Algorithmic Complexity
     - [<i data-lucide="circle-question-mark"></i> What is Complexity?](/cs/complexity/)
     - [<i data-lucide="gauge"></i> Measuring Efficiency](/cs/complexity/measuring.md)
-    - [<i data-lucide="timer"></i> Time vs Space](/cs/complexity/time-space.md)
+    - [<i data-lucide="lightbulb"></i> Real-World Examples](/cs/complexity/examples.md)
 
 - <i data-lucide="trending-up"></i> Big-O Notation
     - [<i data-lucide="chart-line"></i> Understanding Big-O](/cs/complexity/big-o.md)

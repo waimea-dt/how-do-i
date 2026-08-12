@@ -43,7 +43,7 @@ Adjust the size slider - notice how binary search stays fast even with huge arra
 
 ## Visual Comparison: Sorting
 
-Compare quadratic vs linearithmic sorting:
+Compare quadratic vs log-linear sorting:
 
 <algo-race type="sort" size="100"></algo-race>
 

@@ -613,7 +613,7 @@
     function processBigO() {
         document.querySelectorAll('.markdown-section big-o').forEach(el => {
             const rawMax = parseInt(el.getAttribute('max') ?? '20', 10);
-            const maxN = Math.max(10, Math.min(1024, isNaN(rawMax) ? 20 : rawMax));
+            const maxN = Math.max(10, Math.min(4096, isNaN(rawMax) ? 20 : rawMax));
 
             // Parse step attribute
             const stepAttr = el.getAttribute('step');

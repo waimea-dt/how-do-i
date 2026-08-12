@@ -1,6 +1,12 @@
 # Algorithmic Complexity
 
-## One in a Million
+## What is 'Complexity'?
+
+A **complex** problem is one where a **large amount of timer / effort** is required to solve it.
+
+**Algorithmic complexity** measures the change in the amount of work an **algorithm** has to do as **the size of the input data (N) increases**.
+
+## An Example - One in a Hundred
 
 Imagine your friend has picked a random number from 1 to 100, and you have to guess what it is. You could:
 
@@ -9,15 +15,11 @@ Imagine your friend has picked a random number from 1 to 100, and you have to gu
 
 Which approach is better? That's exactly what the study of **algorithmic complexity** helps us answer.
 
-## What is 'Complexity'?
-
-A **complex** problem is one where a **large amount of effort** is required to solve it.
-
-**Algorithmic complexity** measures the change in the amount of work an **algorithm** has to do as **the size of the input data increases**.
-
 When guessing your friend's number, imagine you can make 1 guess every 2 seconds:
-- Checking 100 numbers one-by-one? That's likely to take a couple of minutes.
+- Checking 100 numbers one-by-one? That's likely to take a few minutes.
 - Mid-way guessing and higher/lower? Will take a maximum of 7 guesses - 14 seconds!
+
+### Try It Out Yourself
 
 See the two algorithms running side-by-side:
 
@@ -26,13 +28,15 @@ See the two algorithms running side-by-side:
 > [!TIP]
 > Try doubling N to 200. You should see that the second algorithm only needs one more step on average.
 
-So, we say that the second algorithm (its correct name is a 'binary search') has a lower complexity than the first. In fact, we can name the complexity of each algorithm:
+## Measuring Complexity
+
+The second algorithm above (its correct name is a 'binary search') require less effort to solve, so we say it has a lower complexity than the first. In fact, we can name the complexity of each algorithm:
 - Checking one-by-one - the effort increases linearly as N increases: **Linear** complexity
 - Binary search - the effort goes up by just one as N doubles: **Logarithmic** complexity
 
 Here is a chart with these two complexities highlighted:
 
-<big-o-chart max="1000" value="10" enabled="on ologn"></big-o-chart>
+<big-o-chart max="1000" value="5" enabled="on ologn"></big-o-chart>
 
 > [!TIP]
 > Use the slider above to see how the effort required for the two different complexities changes as **N** (the input size) grows. Notice the growing difference between **Linear, O(N)** and **Logarithmic, O(log N)**
@@ -41,14 +45,13 @@ Here is a chart with these two complexities highlighted:
 
 When we discuss algorithms, **N** represents the **size of the input data**:
 
-| Task | What is N? | Example |
-|------|------------|---------|
-| Sorting a list | Number of items | N = 100 for a list of 100 numbers |
-| Searching for a name | Number of entries | N = 1,000 for a phonebook with 1,000 contacts |
-| Finding shortest path | Number of locations | N = 50 cities to visit |
-| Breaking encryption | Key length in bits | N = 256 for AES-256 |
+| Task                  | What is N?          | Example                                       |
+| --------------------- | ------------------- | --------------------------------------------- |
+| Sorting a list        | Number of items     | N = 100 for a list of 100 numbers             |
+| Searching for a name  | Number of entries   | N = 1,000 for a phonebook with 1,000 contacts |
+| Finding shortest path | Number of locations | N = 50 cities to visit                        |
+| Breaking encryption   | Key length in bits  | N = 256 for AES-256                           |
 
-As N grows, some algorithms stay fast while others become impossibly slow.
 
 ## Computational 'Effort'
 
@@ -60,43 +63,6 @@ For a computer algorithm, we might measure
 
 > [!NOTE]
 > In a computer, every step / operation takes time, so **more steps = more time**. This is why measuring steps / operations is called **time** complexity.
-
-
-## A Real-World Example
-
-Let's find duplicates in a list of 1,000 numbers:
-
-**Approach 1: Compare every number to every other number**
-
-```pseudo
-for each number:
-    for each other number:
-        compare the two numbers
-        if they're equal:
-            output "Found a duplicate:", number
-```
-
-- Operations: 1,000 (values) × 1,000 (checks) = **1,000,000 comparisons** - Ouch!
-- Complexity: **O(N<sup>2</sup>)**
-
-**Approach 2: Sort first, then compare neighbours**
-
-```pseudo
-// sorting takes approx. 10,000 operations
-sort the list
-
-for each number:
-    compare to the next one
-    if they're equal:
-        output "Found a duplicate:", number
-```
-
-- Operations: 10,000 (sorting) + 1,000 (checks) = **11,000 operations** - Better!
-- Complexity: **O(N log N)**
-
-The second approach is **90× faster** - and the difference gets even bigger with larger lists. Explore the two complexities here:
-
-<big-o-chart max="1000" value="10" enabled="on2 onlogn"></big-o-chart>
 
 
 ## Why is Complexity Interesting?

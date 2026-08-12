@@ -39,6 +39,7 @@
     - [Tool Lists](/_tests/tool-lists.md)
     - [Callouts](/_tests/callouts.md)
     - [Tables](/_tests/tables.md)
+    - [Unicode Lucide](/_tests/unicode-lucide.md)
     - [Definitions](/_tests/definitions.md)
     - [Video Embeds](/_tests/video-embed.md)
 

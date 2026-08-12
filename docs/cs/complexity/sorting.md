@@ -11,7 +11,7 @@ Simple but inefficient for large datasets.
 
 **Examples**: Bubble Sort, Selection Sort, Insertion Sort
 
-### Fast Sorts: **O(N log N)** - Linearithmic
+### Fast Sorts: **O(N log N)** - Log-Linear
 Optimal for comparison-based sorting.
 
 **Examples**: Merge Sort, Quick Sort, Heap Sort
