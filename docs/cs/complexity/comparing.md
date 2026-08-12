@@ -174,7 +174,7 @@ Make sure you're comparing fairly:
 ### ✅ Fair:
 - Both algorithms solve the **same problem**
 - Measured on the **same inputs**
-- Focus on **large n** for asymptotic behavior
+- Focus on **large n** for asymptotic behaviour
 
 ### ❌ Unfair:
 - Comparing different problems (sorting vs searching)

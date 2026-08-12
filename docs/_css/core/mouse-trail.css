@@ -1,12 +1,14 @@
-body:has(.mouse-trail-root) .content {
-    pointer-events: none;
+body:has(.mouse-trail-root) .content,
+body:has(.mouse-trail-root) .content * {
+    /* pointer-events: none; */
+    user-select: none;
 }
 
 .mouse-trail-root {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 0;
+    z-index: -1;
 
     --trail-lifetime: 1000ms;
     --trail-size: 4rem;

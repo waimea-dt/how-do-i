@@ -10,7 +10,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
 
 <img src="_tests/_assets/ui-demo.png" alt="UI shop demo screen">
 
-- Brand area [1.5, 1, 10, 5]
+- Brand area [1.5, 2, 10, 5]
 
     The **brand block** anchors the page quickly.
 
@@ -18,7 +18,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Short product brand name
     - Strong top-left placement
 
-- Product title and summary [57, 12, 33, 20]
+- Product title and summary [57, 12.5, 33, 20.5]
 
     This section carries the main sales message.
 
@@ -26,7 +26,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Large product name next
     - Short supporting text after that
 
-- Size selector [57, 41, 21, 18]
+- Size selector [57, 42, 21, 18]
 
     Good example of a compact control group.
 
@@ -34,11 +34,11 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Plenty of whitespace
     - Easy scan across rows
 
-- Colour choices [57, 60, 16, 11]
+- Colour choices [57, 61, 16, 11]
 
     Colour is shown with **plain swatches** instead of text-heavy controls.
 
-- Add to cart CTA [57, 74, 25, 9]
+- Add to cart CTA [57, 75, 25, 9]
 
     This is the main action, so it gets the strongest contrast.
 
@@ -46,7 +46,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Dark fill
     - Clear icon + label
 
-- Floating model toggle [42, 74, 6, 9]
+- Floating model toggle [42.5, 75, 6, 9]
 
     Small secondary action sitting over the image. Nice for a quick *3D / preview* affordance.
 
@@ -59,7 +59,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
 
 <img src="_tests/_assets/ui-demo.png" alt="UI shop demo screen">
 
-1. Brand area [1.5, 1, 10, 5]
+1. Brand area [1.5, 2, 10, 5]
 
     The **brand block** anchors the page quickly.
 
@@ -67,7 +67,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Short product brand name
     - Strong top-left placement
 
-2. Product title and summary [57, 12, 33, 20]
+2. Product title and summary [57, 12.5, 33, 20.5]
 
     This section carries the main sales message.
 
@@ -75,7 +75,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Large product name next
     - Short supporting text after that
 
-3. Size selector [57, 41, 21, 18]
+3. Size selector [57, 42, 21, 18]
 
     Good example of a compact control group.
 
@@ -83,11 +83,11 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Plenty of whitespace
     - Easy scan across rows
 
-4. Colour choices [57, 60, 16, 11]
+4. Colour choices [57, 61, 16, 11]
 
     Colour is shown with **plain swatches** instead of text-heavy controls.
 
-5. Add to cart CTA [57, 74, 25, 9]
+5. Add to cart CTA [57, 75, 25, 9]
 
     This is the main action, so it gets the strongest contrast.
 
@@ -95,7 +95,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Dark fill
     - Clear icon + label
 
-6. Floating model toggle [42, 74, 6, 9]
+6. Floating model toggle [42.5, 75, 6, 9]
 
     Small secondary action sitting over the image. Nice for a quick *3D / preview* affordance.
 
@@ -108,7 +108,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
 
 <img src="_tests/_assets/ui-demo.png" alt="UI shop demo screen">
 
-1. Brand area [1.5, 1, 10, 5]
+1. Brand area [1.5, 2, 10, 5]
 
     The **brand block** anchors the page quickly.
 
@@ -116,7 +116,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Short product brand name
     - Strong top-left placement
 
-2. Product title and summary [57, 12, 33, 20]
+2. Product title and summary [57, 12.5, 33, 20.5]
 
     This section carries the main sales message.
 
@@ -124,7 +124,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Large product name next
     - Short supporting text after that
 
-3. Size selector [57, 41, 21, 18]
+3. Size selector [57, 42, 21, 18]
 
     Good example of a compact control group.
 
@@ -132,11 +132,11 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Plenty of whitespace
     - Easy scan across rows
 
-- Colour choices [57, 60, 16, 11]
+- Colour choices [57, 61, 16, 11]
 
     Colour is shown with **plain swatches** instead of text-heavy controls.
 
-- Add to cart CTA [57, 74, 25, 9]
+- Add to cart CTA [57, 75, 25, 9]
 
     This is the main action, so it gets the strongest contrast.
 
@@ -144,7 +144,7 @@ Image notes let you mark parts of an image with percentage-based boxes. Hover or
     - Dark fill
     - Clear icon + label
 
-- Floating model toggle [42, 74, 6, 9]
+- Floating model toggle [42.5, 75, 6, 9]
 
     Small secondary action sitting over the image. Nice for a quick *3D / preview* affordance.
 
