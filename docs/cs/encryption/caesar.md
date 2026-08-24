@@ -2,82 +2,90 @@
 
 The **Caesar cipher** is one of the oldest known encryption methods, named after Julius Caesar who reportedly used it to protect military messages.
 
-<videoembed id="UXt0C5o4hj4"></videoembed>
+The Caesar Cipher is an example of a simple **monoalphabetic substitution cipher**...
 
-## How It Works
+## What is a Substitution Cipher?
 
-Every letter in the plaintext is shifted a fixed number of places along the alphabet. This shift amount is the **key**.
+A **substitution cipher** replaces each letter (or symbol) in a message with a different one, according to a fixed rule. The rule is the **key** - if you know it, you can decrypt the message by reversing the substitution process.
+
+For example, replacing every `A` with `D`, every `B` with `E`, and so on, is a substitution cipher.
+
+## What is Monoalphabetic Substitution?
+
+If one letter always maps to the same letter in a cipher, we say that it always uses the same 'alphabet', and so is a **monoalphabetic cipher** ('mono' means 'one').
+
+
+## How The Caesar Cipher Works
+
+Every letter in the plaintext is **shifted a fixed number of places** along the alphabet. This shift amount is the **key**.
 
 For a shift of 3: `A` becomes `D`, `B` becomes `E`, and so on. To decrypt, just shift back the other way.
 
 Try changing the shift value below and watch both directions update:
 
-<sub-cypher scheme="caesar" key="3">
+<sub-cipher scheme="caesar" key="3">
 HELLO WORLD
-</sub-cypher>
-
-## Encrypting and Decrypting
-
-| Step | Plaintext | Shift | Ciphertext |
-|---|---|---|---|
-| Encrypt | `ATTACK AT DAWN` | +3 | `DWWDFN DW GDZQ` |
-| Decrypt | `DWWDFN DW GDZQ` | -3 | `ATTACK AT DAWN` |
+</sub-cipher>
 
 > [!NOTE]
+> Each of the letters `L` in `Hello` and `World` are always substituted with the **same letter** every time
+
+### Encrypting and Decrypting
+
+To decrypt the ciphertext, we simply reverse the shift, so an encryption of **+3**, means a decryption of **-3**
+
+| Step    | Plaintext        | Shift | Ciphertext       |
+| ------- | ---------------- | ----- | ---------------- |
+| Encrypt | `ATTACK AT DAWN` | +3    | `DWWDFN DW GDZQ` |
+| Decrypt | `DWWDFN DW GDZQ` | -3    | `ATTACK AT DAWN` |
+
+> [!TIP]
 > A shift of 13 is called **ROT13** - it's its own reverse, since shifting by 13 twice gets you back to 26 (a full loop of the alphabet)!
 
-<sub-cypher scheme="caesar" key="13">
-ROT13 IS ITS OWN INVERSE
-</sub-cypher>
 
-## Why It's Weak
+## Why the Caesar Cipher is Weak
 
-There are only **25 possible shifts** (26 letters, minus the "no shift" option). A computer - or even a patient human - can try every single one in seconds. See [Breaking the Caesar Cipher](/cs/encryption/breaking-caesar.md).
+In the Caesar Cipher, there are only **25 possible shifts** (26 letters, minus the "no shift" option). We say that the size of the **keyspace** of the Caesar Cipher is **25** - this is **very small**! A computer - or even a patient human - can try every single one in seconds.
 
-## Test Your Knowledge: Encrypting with Caesar
+The Caesar Cipher is also very suseptible to **frequency analysis** attacks.
 
-Drag these steps into the correct order for encrypting a message with a Caesar cipher:
-
-<drag-drop>
-
-1. Agree on a shift value (the key) with the recipient
-
-2. Take the first letter of the plaintext
-
-3. Shift it forward through the alphabet by the key value
-
-4. Wrap around to the start of the alphabet if you go past Z
-
-5. Repeat for every remaining letter in the message
-
-6. Send the resulting ciphertext
-
-</drag-drop>
+See [Breaking the Caesar Cipher](/cs/encryption/breaking-caesar.md).
 
 ## Key Terms
 
 <flashcards>
 
-- # What is the "key" in a Caesar cipher?
+- # The "**key**" in a Caesar Cipher
 
     ---
 
-    The shift amount - how many places each letter moves along the alphabet.
+    The **shift** amount - how many places each letter moves along the alphabet.
 
-- # What is ROT13?
-
-    ---
-
-    A Caesar cipher with a shift of 13 - applying it twice returns the original text, since 13 + 13 = 26 (a full loop).
-
-- # How many possible shifts does a Caesar cipher have?
+- # Substitution cipher
 
     ---
 
-    25 (26 letters, minus the "no shift" option) - few enough to brute-force in seconds.
+    A cipher that **replaces each letter** (or symbol) in a message with a different one, according to a fixed rule
+
+- # Monoalphabetic cipher
+
+    ---
+
+    A substitution cipher where each letter **always maps to the same replacement** letter
+
+- # Size of the **keyspace** in the Caesar Cipher
+
+    ---
+
+    **25** (26 letters, minus the "no shift" option)
+
+    Few enough to easily brute-force
 
 </flashcards>
 
 ## Further Reading
 
 - [Khan Academy - The Caesar Cipher](https://www.khanacademy.org/computing/computer-science/cryptography/crypt/v/caesar-cipher) - short video walkthrough
+- [GeeksforGeeks - Substitution Cipher](https://www.geeksforgeeks.org/ethical-hacking/caesar-cipher-in-cryptography/) - technical breakdown with worked examples
+
+

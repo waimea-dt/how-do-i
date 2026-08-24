@@ -2,8 +2,6 @@
 
 Cryptography is thousands of years old - long before computers existed, people needed to hide messages from enemies.
 
-<videoembed id="g3WUVO5-SnA"></videoembed>
-
 ## A Quick Timeline
 
 <timeline>
@@ -16,29 +14,49 @@ Cryptography is thousands of years old - long before computers existed, people n
 
     Julius Caesar shifted each letter of his messages by a fixed number of places to hide military plans from enemies.
 
-- 1467: The Vigenere Cipher
+- 1467: The Vigenère Cipher
 
     A polyalphabetic cipher using a keyword, far harder to crack than a single-shift cipher. It went unbroken for 300 years.
 
+- 19th Century: Transposition Ciphers
+
+    As cryptography evolved, cryptographers shifted toward methods that broke words into letter pairs (digraphs) and combined substitution with rearranging (transposition ciphers)
+
 - 1918-1945: The Enigma Machine
 
-    Germany used a rotor-based electromechanical cipher machine believed to be unbreakable, protecting military communications in WW2.
+    Germany used a rotor-based electromechanical cipher machine believed to be unbreakable, protecting military communications in World War 2.
 
 - 1939-1945: Bletchley Park
 
-    Alan Turing and a team of codebreakers built machines (the Bombe) to crack Enigma, shortening the war and founding modern computer science.
+    Alan Turing and a team of codebreakers built machines (the Bombe) to crack Enigma, shortening the war and also founding modern Computer Science.
+
+- Cold War Era: Advanced Rotor Machines
+
+    The post-war era saw much more complex, secure versions of Enigma-type stepping-wheel machines: The KL-7, introduced by the US in the 1950s used 8 to 12 rotors and was used by NATO until the 1970s. Fialka (M-125) was the Soviet Union's answer to the KL-7, using 10 rotors that rotated in opposite directions and hopped tracks. It also utilized a punched card to rapidly change daily key settings.
+
+- 1960s: All Electronic Cipher Machines
+
+    KW-26 (Romulus), introduced in the 1960s by the US, an all-electronic, vacuum-tube-driven (and later transistorised) cipher system. It completely removed moving mechanical parts, automatically securing military teletype circuits at high speeds.
+
+- 1971: Early Electronic Digital Ciphers
+
+    Lucifer (1971) was one of the earliest digital block ciphers. Instead of turning wheels, it used complex maths to scramble digital blocks of data.
 
 - 1976: Diffie-Hellman Key Exchange
 
-    The first practical method letting two people agree a secret key over a public channel, without ever having met.
+    The first practical method that allowed two parties to obtain a shared secret key using an open and public channel, without ever having met.
+
+- 1977: Data Encryption Standard (DES)
+
+    Modified from IBM's Lucifer with assistance from the NSA, DES became the first widely adopted cryptographic standard for businesses and banks. It was a symmetric cipher, using a 56-bit symmetric key to encrypt digital data blocks.
 
 - 1977: RSA Algorithm
 
-    The first practical public-key cryptosystem, still used to secure the modern internet.
+    The first practical public-key, asymmetric cryptosystem, using mathematically-linked key-pairs. RSA is still used to secure the modern internet.
 
-- 2001: AES Adopted
+- 2001: Advanced Encryption Standard (AES) Adopted
 
-    The Advanced Encryption Standard replaced older ciphers as the global standard for symmetric encryption.
+    The Advanced Encryption Standard replaced older symmetric ciphers such as DES as the global standard for symmetric encryption.
 
 </timeline>
 
@@ -47,57 +65,14 @@ Cryptography is thousands of years old - long before computers existed, people n
 Every cipher in this timeline was eventually broken or replaced - not because the maths failed, but because computing power, mistakes, or new techniques caught up with it.
 
 > [!NOTE]
-> This is the golden rule of cryptography: **no cipher stays secure forever**. Today's "unbreakable" encryption (like AES) is only secure because breaking it would take longer than the age of the universe with current computers.
+> This is the golden rule of cryptography: **no cipher stays secure forever**. Today's "unbreakable" encryption (like AES) is only secure because breaking it would take longer than the age of the universe with current computers, but that might change if new cracking techniques are developed.
 
-## Test Your Knowledge: Put These in Order
 
-Drag these milestones into the correct chronological order (oldest first):
+## Video Overviews of the History of Cryptography
 
-<drag-drop>
+<videoembed id="ZLCEBFJP1ew"></videoembed>
 
-1. Julius Caesar uses a simple letter-shifting cipher for military messages
-
-2. Blaise de Vigenere's polyalphabetic cipher is considered unbreakable for 300 years
-
-3. Germany uses the rotor-based Enigma machine to protect WW2 communications
-
-4. Diffie and Hellman publish the first practical public key exchange method
-
-5. RSA becomes the first practical public-key cryptosystem
-
-6. AES is adopted as the global standard for symmetric encryption
-
-</drag-drop>
-
-## Key Terms
-
-<flashcards>
-
-- # Why did Enigma seem unbreakable?
-
-    ---
-
-    It had over 150 million million million possible settings, changed daily - far too many to try by hand.
-
-- # What broke Enigma?
-
-    ---
-
-    The Bombe machine, built by Alan Turing's team at Bletchley Park, combined with predictable message patterns and a flaw meaning no letter could ever encrypt to itself.
-
-- # What is the "golden rule" of cryptography history?
-
-    ---
-
-    No cipher stays secure forever - every historical cipher was eventually broken or replaced as computing power and techniques improved.
-
-- # What did Diffie-Hellman solve in 1976?
-
-    ---
-
-    How two people can agree on a shared secret key over a public channel, without ever having met.
-
-</flashcards>
+<videoembed id="g3WUVO5-SnA"></videoembed>
 
 ## Further Reading
 

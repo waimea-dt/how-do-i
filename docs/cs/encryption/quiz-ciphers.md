@@ -1,6 +1,6 @@
 # Quiz: Historical Substitution Ciphers
 
-Test your understanding of Caesar, Vigenere, and Enigma ciphers - and how each was eventually broken.
+Test your understanding of Caesar, Vigenère, and Enigma ciphers - and how each was eventually broken.
 
 <quiz>
 
@@ -34,7 +34,7 @@ Test your understanding of Caesar, Vigenere, and Enigma ciphers - and how each w
     - [x] **Correct!** Both brute force (25 shifts) and frequency analysis make it trivial to crack today.
     - [ ] **Not quite.** Caesar ciphers use tiny keyspaces, not large binary keys.
 
-- # What makes the Vigenere cipher stronger than Caesar?
+- # What makes the Vigenère cipher stronger than Caesar?
 
     ---
 
@@ -46,9 +46,9 @@ Test your understanding of Caesar, Vigenere, and Enigma ciphers - and how each w
     ---
 
     - [x] **Correct!** Different shifts at different positions flatten the letter-frequency pattern.
-    - [ ] **Not quite.** Vigenere is still a classical substitution cipher, not asymmetric or hash-based.
+    - [ ] **Not quite.** Vigenère is still a classical substitution cipher, not asymmetric or hash-based.
 
-- # What method finally broke the Vigenere cipher?
+- # What method finally broke the Vigenère cipher?
 
     ---
 
@@ -60,7 +60,7 @@ Test your understanding of Caesar, Vigenere, and Enigma ciphers - and how each w
     ---
 
     - [x] **Correct!** Once the keyword length is known, each position can be attacked like a simple Caesar cipher.
-    - [ ] **Not quite.** The Bombe was built for Enigma, not Vigenere.
+    - [ ] **Not quite.** The Bombe was built for Enigma, not Vigenère.
 
 - # What was the key weakness that let codebreakers crack Enigma?
 

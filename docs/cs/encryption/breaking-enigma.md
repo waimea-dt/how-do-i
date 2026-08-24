@@ -39,28 +39,6 @@ Historians estimate that breaking Enigma shortened WW2 by **two to four years**,
 
 </timeline>
 
-## Test Your Knowledge: The Codebreaking Process
-
-Drag these steps into the order Bletchley Park used to break daily Enigma settings:
-
-<drag-drop>
-
-1. Intercept an encrypted German radio message
-
-2. Guess a likely piece of plaintext (a "crib"), like a standard greeting
-
-3. Feed the crib and ciphertext into the Bombe machine
-
-4. Bombe rules out settings where a letter would map to itself
-
-5. Remaining candidate settings are tested by hand
-
-6. A setting that produces readable German is confirmed
-
-7. The full day's messages are decrypted using that setting
-
-</drag-drop>
-
 ## Key Terms
 
 <flashcards>
