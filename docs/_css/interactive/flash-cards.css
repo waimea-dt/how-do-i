@@ -150,6 +150,12 @@
 
         p { margin: 0; }
 
+        .card-instructions {
+            color: inherit;
+            font-size: 0.7em;
+            font-style: italic;
+        }
+
         .card-controls {
             display: flex;
             align-items: center;

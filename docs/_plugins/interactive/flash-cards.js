@@ -66,6 +66,8 @@
 
             const cardInfo = document.createElement('p')
             cardInfo.textContent = `Card 1 of ${numCards}`
+            const cardInstruct = document.createElement('p')
+            cardInstruct.textContent = `Move LEFT / RIGHT. Click or UP to flip`
 
             const changeCard = (offset) => {
                 const currentNum = parseInt(cardList.dataset.currentCard)
@@ -77,7 +79,7 @@
 
                 cardList.dataset.currentCard = targetNum
                 cardList.style.setProperty('--current-card', targetNum)
-                cardInfo.textContent = `Card ${targetNum} of ${numCards}`
+                cardInfo.innerHTML = `Card ${targetNum} of ${numCards}`
                 cardList.dataset.finalCard = targetNum < numCards ? 'false' : 'true'
             }
 
@@ -127,7 +129,7 @@
                 convertImagesToParaBacks(card)
             })
 
-            addControls(cardList, cardInfo, changeCard)
+            addControls(cardList, cardInfo, cardInstruct, changeCard)
 
             const keyHandler = (e) => {
                 switch (e.code) {
@@ -248,7 +250,7 @@
         if (document.fullscreenElement) document.exitFullscreen()
     }
 
-    function addControls(cardList, cardInfo, changeCard) {
+    function addControls(cardList, cardInfo, cardInstruct, changeCard) {
         const controlPanel = document.createElement('div')
         const controls     = document.createElement('p')
         const firstButton  = document.createElement('span')
@@ -258,6 +260,7 @@
 
         controlPanel.classList.add('card-control-panel')
         cardInfo.classList.add('card-info')
+        cardInstruct.classList.add('card-instructions')
         controls.classList.add('card-controls')
         firstButton.classList.add('control', 'card-first')
         prevButton.classList.add('control', 'card-previous')
@@ -265,7 +268,7 @@
         zoomButton.classList.add('control', 'card-zoom')
 
         cardList.append(controlPanel)
-        controlPanel.append(cardInfo, controls)
+        controlPanel.append(cardInfo, cardInstruct, controls)
         controls.append(firstButton, prevButton, nextButton, zoomButton)
 
         firstButton.innerHTML = lucideIcon(ICONS.FIRST)
