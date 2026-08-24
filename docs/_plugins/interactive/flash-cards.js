@@ -284,7 +284,11 @@
 
         if (window.lucide) {
             lucide.createIcons({
-                attrs: { class: ['icon'], 'stroke-width': 2, stroke: 'currentColor' },
+                attrs: {
+                    class: ['icon', 'no-zoom'],
+                    'stroke-width': 2,
+                    stroke: 'currentColor'
+                },
             })
         }
     }

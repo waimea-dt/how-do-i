@@ -16,7 +16,7 @@
 
             lucide.createIcons({
                 attrs: {
-                    class: ['icon'],
+                    class: ['icon', 'no-zoom'],
                     'stroke-width': 2,
                     stroke: 'currentColor'
                 },
