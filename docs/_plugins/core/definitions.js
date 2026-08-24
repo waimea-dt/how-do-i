@@ -134,8 +134,8 @@
           replaced = true;
         }
       } else if (node.nodeType === Node.ELEMENT_NODE) {
-        // Skip code blocks, pre tags, and existing abbr tags
-        const skipTags = ['CODE', 'PRE', 'ABBR', 'SCRIPT', 'STYLE'];
+        // Skip code blocks, existing abbr tags, and quiz/flashcard content (would leak answers via tooltips)
+        const skipTags = ['CODE', 'PRE', 'ABBR', 'SCRIPT', 'STYLE', 'QUIZ', 'FLASHCARDS'];
         if (skipTags.includes(node.tagName)) {
           return;
         }
