@@ -10,30 +10,47 @@
     - [<i data-lucide="circle-question-mark"></i> What is Encryption?](/cs/encryption/)
     - [<i data-lucide="key"></i> Why Encryption Matters](/cs/encryption/why.md)
     - [<i data-lucide="history"></i> History of Encryption](/cs/encryption/history.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Encryption Basics](/cs/encryption/quiz-basics.md)
 
-- <i data-lucide="replace"></i> Classical Ciphers
-    - [<i data-lucide="shuffle"></i> Substitution Ciphers](/cs/encryption/substitution.md)
-    - [<i data-lucide="arrow-right-left"></i> Transposition Ciphers](/cs/encryption/transposition.md)
-    - [<i data-lucide="shield-x"></i> Breaking Classical Ciphers](/cs/encryption/breaking.md)
+- <i data-lucide="replace"></i> Historical Substitution Ciphers
+    - [<i data-lucide="shuffle"></i> What is a Substitution Cipher?](/cs/encryption/substitution.md)
+    - [<i data-lucide="arrow-right-left"></i> The Caesar Cipher](/cs/encryption/caesar.md)
+    - [<i data-lucide="shield-x"></i> Breaking the Caesar Cipher](/cs/encryption/breaking-caesar.md)
+    - [<i data-lucide="arrow-right-left"></i> Polyalphabetic Ciphers](/cs/encryption/polyalphabetic.md)
+    - [<i data-lucide="arrow-right-left"></i> The Vigenere Cipher](/cs/encryption/vigenere.md)
+    - [<i data-lucide="shield-x"></i> Breaking the Vigenere Cipher](/cs/encryption/breaking-vigenere.md)
+    - [<i data-lucide="arrow-right-left"></i> The Enigma Cipher](/cs/encryption/enigma.md)
+    - [<i data-lucide="shield-x"></i> Breaking the Enigma Cipher](/cs/encryption/breaking-enigma.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Historical Ciphers](/cs/encryption/quiz-ciphers.md)
 
 - <i data-lucide="key-round"></i> Symmetric Encryption
     - [<i data-lucide="circle-question-mark"></i> What is Symmetric Encryption?](/cs/encryption/symmetric.md)
-    - [<i data-lucide="shield"></i> AES Algorithm](/cs/encryption/aes.md)
-    - [<i data-lucide="key"></i> Key Management](/cs/encryption/keys.md)
+    - [<i data-lucide="shield"></i> The Key Distribution Problem](/cs/encryption/key-distribution.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Symmetric Encryption](/cs/encryption/quiz-symmetric.md)
 
 - <i data-lucide="key-square"></i> Asymmetric Encryption
     - [<i data-lucide="circle-question-mark"></i> What is Asymmetric Encryption?](/cs/encryption/asymmetric.md)
     - [<i data-lucide="lock-keyhole"></i> Public Key Cryptography](/cs/encryption/public-key.md)
-    - [<i data-lucide="shield-check"></i> RSA Algorithm](/cs/encryption/rsa.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Asymmetric Encryption](/cs/encryption/quiz-asymmetric.md)
+
+- <i data-lucide="cpu"></i> Modern Cryptography
+    - [<i data-lucide="shield"></i> AES - Symmetric Cipher](/cs/encryption/aes.md)
+    - [<i data-lucide="shield-check"></i> RSA - Asymmetric Cipher](/cs/encryption/rsa.md)
     - [<i data-lucide="handshake"></i> Diffie-Hellman Key Exchange](/cs/encryption/diffie-hellman.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Modern Cryptography](/cs/encryption/quiz-modern.md)
 
 - <i data-lucide="hash"></i> Hashing & Digital Signatures
     - [<i data-lucide="hash"></i> Hash Functions](/cs/encryption/hashing.md)
-    - [<i data-lucide="salt"></i> Salting Passwords](/cs/encryption/salting.md)
+    - [<i data-lucide="droplets"></i> Salting Passwords](/cs/encryption/salting.md)
     - [<i data-lucide="pen-line"></i> Digital Signatures](/cs/encryption/signatures.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Hashing & Signatures](/cs/encryption/quiz-hashing.md)
 
-- <i data-lucide="shield-alert"></i> Modern Applications
+- <i data-lucide="shield-alert"></i> Applications Using Encryption
     - [<i data-lucide="globe-lock"></i> HTTPS & TLS](/cs/encryption/https.md)
+    - [<i data-lucide="route"></i> Virtual Private Networks (VPNs)](/cs/encryption/vpn.md)
     - [<i data-lucide="wifi"></i> WiFi Security](/cs/encryption/wifi.md)
-    - [<i data-lucide="message-circle-lock"></i> End-to-End Encryption](/cs/encryption/e2e.md)
+    - [<i data-lucide="hard-drive"></i> Device Encryption](/cs/encryption/bitlocker.md)
+    - [<i data-lucide="vault"></i> Password Managers](/cs/encryption/password-manager.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Applications](/cs/encryption/quiz-applications.md)
+
 
