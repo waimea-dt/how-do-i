@@ -831,9 +831,13 @@
 
     A way to prove a message really came from you using encryption
 
-- cypher
+- cipher
 
     An algorithm for encrypting or decrypting data
+
+- cryptography
+
+    The science of securing data via encryption
 
 - malware
 

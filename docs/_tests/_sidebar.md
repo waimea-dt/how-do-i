@@ -74,7 +74,7 @@
         - [Logical Operations](/_tests/logic.md)
     - **Encryption**
         - [Letter Frequency Analysis](/_tests/frequency.md)
-        - [Substitution Cypher](/_tests/sub-cypher.md)
+        - [Substitution Cipher](/_tests/sub-cipher.md)
         - [Symmetric vs Asymmetric](/_tests/sym-asym.md)
         - [Hash Function Demo](/_tests/hasher.md)
         - [Rainbow Table Attack](/_tests/rainbow.md)

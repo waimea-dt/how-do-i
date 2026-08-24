@@ -607,11 +607,11 @@ Smoke
 <modulus></modulus>
 
 
-### sub-cypher.js ([tests](/_tests/sub-cypher.md))
+### sub-cipher.js ([tests](/_tests/sub-cipher.md))
 
-<sub-cypher>
+<sub-cipher>
 Smoke Test
-</sub-cypher>
+</sub-cipher>
 
 
 ### sym-asym.js ([tests](/_tests/sym-asym.md))

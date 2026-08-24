@@ -61,3 +61,33 @@
     **C**ascading **S**tyle**S**heet
 
 </flashcards>
+
+## Shuffled
+
+<flashcards shuffle>
+
+- # Card A
+
+    ---
+
+    Back A
+
+- # Card B
+
+    ---
+
+    Back B
+
+- # Card C
+
+    ---
+
+    Back C
+
+- # Card D
+
+    ---
+
+    Back D
+
+</flashcards>
