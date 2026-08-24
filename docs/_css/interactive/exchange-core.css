@@ -87,7 +87,7 @@
         border-bottom: 2px solid var(--plugin-wrapper-border);
         background-color: var(--plugin-header-bg);
 
-        @container (min-width: 1024px) {
+        @container (min-width: 960px) {
             flex-direction: row;
             align-items: center;
         }
@@ -130,7 +130,7 @@
                 "exchange exchange";
         }
 
-        @container (min-width: 1024px) {
+        @container (min-width: 960px) {
             grid-template-columns: 1fr 320px 1fr;
             grid-template-areas: "party1 exchange party2";
         }
@@ -201,7 +201,7 @@
     /* ==================== Steps ==================== */
 
     .exchange-spacer {
-        @container (min-width: 1024px) {
+        @container (min-width: 960px) {
             height: var(--exchange-gap-big);
         }
     }
@@ -533,7 +533,7 @@
         border-top: 2px solid var(--plugin-wrapper-border);
         background: var(--plugin-panel-bg);
 
-        @container (min-width: 1024px) {
+        @container (min-width: 960px) {
             flex-direction: row;
             align-items: center;
         }
@@ -548,7 +548,7 @@
             color: var(--exchange-text-secondary);
             line-height: 1.5;
 
-            @container (min-width: 1024px) {
+            @container (min-width: 960px) {
                 flex: 1;
                 border-left: 2px solid var(--plugin-wrapper-border);
             }

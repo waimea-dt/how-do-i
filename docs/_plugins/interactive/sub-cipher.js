@@ -316,7 +316,7 @@
                 <div class="sub-cipher-header">
                     <div class="sub-cipher-header-text">
                         <h3 class="sub-cipher-title">${schemeTitle}</h3>
-                        <p class="sub-cipher-subtitle">Interactive substitution cipher with ${this.state.scheme === 'caesar' ? 'fixed shift' : 'repeating keystream'}</p>
+                        <p class="sub-cipher-subtitle">Interactive substitution cipher with ${this.state.scheme === 'caesar' ? 'simple shift' : 'repeating keystream'}</p>
                     </div>
                     <div class="sub-cipher-controls">
                         <div class="sub-cipher-control-group">
