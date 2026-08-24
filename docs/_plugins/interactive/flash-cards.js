@@ -13,10 +13,13 @@
  *     ---
  *     Back of card 2
  *   </flashcards>
+ *
+ * Attributes:
+ *   shuffle - if present, cards are shown in a randomised order.
  */
 (function () {
 
-    const { clamp } = window.DocsifyUtils
+    const { clamp, shuffleArray } = window.DocsifyUtils
 
     const ICONS = {
         FIRST:      'chevrons-left',
@@ -51,10 +54,15 @@
 
             cardList.classList.add('flash-cards')
 
-            const cards = [...cardList.children]
+            let cards = [...cardList.children]
 
             if (cards.length === 0) {
                 return
+            }
+
+            if (trigger.hasAttribute('shuffle')) {
+                cards = shuffleArray(cards)
+                cards.forEach((card) => cardList.append(card))
             }
 
             const numCards = cards.length
