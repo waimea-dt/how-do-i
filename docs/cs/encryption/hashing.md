@@ -5,7 +5,7 @@ A **hash function** takes any input - a word, a file, a password - and produces 
 > [!NOTE]
 > **Type:** Neither symmetric nor asymmetric - hashing uses no key at all and cannot be reversed | **Common algorithms:** SHA-256, SHA-3 | **Best for:** Password storage, integrity checks, signatures
 
-<videoembed id="Qc66OJx28no"></videoembed>
+<videoembed id="cczlpiiu42M"></videoembed>
 
 ## Try It Yourself
 

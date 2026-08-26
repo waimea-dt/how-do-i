@@ -78,6 +78,10 @@
                 font-size: var(--font-xlarge);
                 font-weight: 600;
                 color: var(--sub-cipher-title-color);
+
+                .sub-cipher-title-decrypt {
+                    color: var(--sub-cipher-highlight-color);
+                }
             }
 
             .sub-cipher-subtitle {

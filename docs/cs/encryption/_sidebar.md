@@ -19,7 +19,6 @@
     - [<i data-lucide="arrow-right-left"></i> The Vigenère Cipher](/cs/encryption/vigenere.md)
     - [<i data-lucide="shield-x"></i> Breaking the Vigenère Cipher](/cs/encryption/breaking-vigenere.md)
     - [<i data-lucide="arrow-right-left"></i> The Enigma Cipher](/cs/encryption/enigma.md)
-    - [<i data-lucide="shield-x"></i> Breaking the Enigma Cipher](/cs/encryption/breaking-enigma.md)
     - [<i data-lucide="list-checks"></i> Quiz: Historical Ciphers](/cs/encryption/quiz-ciphers.md)
 
 - <i data-lucide="key-round"></i> Symmetric Encryption

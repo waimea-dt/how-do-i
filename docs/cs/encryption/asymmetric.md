@@ -5,7 +5,9 @@
 > [!NOTE]
 > **Type:** Asymmetric | **Common algorithms:** RSA, Elliptic Curve Cryptography (ECC) | **Speed:** Slow | **Best for:** Key exchange, signatures, identity verification
 
-<videoembed id="YYWMV4iPsmI"></videoembed>
+<videoembed id="AQDCe585Lnc"></videoembed>
+
+<videoembed id="6-JjHa-qLPk"></videoembed>
 
 ## How It Works
 
@@ -27,12 +29,12 @@ Try it with Eve watching - notice she can see the public key and the encrypted m
 
 ## The Trade-off
 
-| | Symmetric | Asymmetric |
-|---|---|---|
-| Keys | One shared key | Public + private key pair |
-| Speed | Fast | Much slower |
-| Key sharing problem? | Yes | No |
-| Common use | Bulk data (files, WiFi) | Key exchange, signatures |
+|                      | Symmetric               | Asymmetric                |
+| -------------------- | ----------------------- | ------------------------- |
+| Keys                 | One shared key          | Public + private key pair |
+| Speed                | Fast                    | Much slower               |
+| Key sharing problem? | Yes                     | No                        |
+| Common use           | Bulk data (files, WiFi) | Key exchange, signatures  |
 
 In practice, most secure systems (like HTTPS) use **both**: asymmetric encryption to safely share a key, then symmetric encryption for the actual data. See [HTTPS & TLS](/cs/encryption/https.md).
 

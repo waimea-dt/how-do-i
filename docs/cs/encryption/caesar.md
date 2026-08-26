@@ -1,16 +1,28 @@
 # The Caesar Cipher
 
+<aside narrow>
+
+<captioned>
+
+![Julius Caesar](_assets/caesar.png ':size=150')
+
+Julius Caesar
+
+</captioned>
+
+</aside>
+
 The **Caesar cipher** is one of the oldest known encryption methods, named after Julius Caesar who reportedly used it to protect military messages.
 
 The Caesar Cipher is an example of a simple **monoalphabetic substitution cipher**...
 
-## What is a Substitution Cipher?
+#### What is a Substitution Cipher?
 
 A **substitution cipher** replaces each letter (or symbol) in a message with a different one, according to a fixed rule. The rule is the **key** - if you know it, you can decrypt the message by reversing the substitution process.
 
 For example, replacing every `A` with `D`, every `B` with `E`, and so on, is a substitution cipher.
 
-## What is Monoalphabetic Substitution?
+#### What is Monoalphabetic Substitution?
 
 If one letter always maps to the same letter in a cipher, we say that it always uses the same 'alphabet', and so is a **monoalphabetic cipher** ('mono' means 'one').
 
@@ -85,6 +97,8 @@ See [Breaking the Caesar Cipher](/cs/encryption/breaking-caesar.md).
 
 ## Further Reading
 
+- [Wikipedia - Caesar Cipher](https://simple.wikipedia.org/wiki/Caesar_cipher) - Simple explanation
+- [Wikipedia - Substitution Cipher](https://simple.wikipedia.org/wiki/Substitution_cipher) - Simple explanation
 - [Khan Academy - The Caesar Cipher](https://www.khanacademy.org/computing/computer-science/cryptography/crypt/v/caesar-cipher) - short video walkthrough
 - [GeeksforGeeks - Substitution Cipher](https://www.geeksforgeeks.org/ethical-hacking/caesar-cipher-in-cryptography/) - technical breakdown with worked examples
 

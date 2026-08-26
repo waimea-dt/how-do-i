@@ -4,6 +4,9 @@
 
 <videoembed id="hm8s6FAc4pg"></videoembed>
 
+<videoembed id="wXB-V_Keiu8"></videoembed>
+
+
 ## The Core Idea: Easy One Way, Hard the Other
 
 RSA relies on a simple fact: **multiplying two large prime numbers is easy, but factoring the result back into those two primes is incredibly hard.**

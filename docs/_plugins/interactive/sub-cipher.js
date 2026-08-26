@@ -120,12 +120,13 @@
     // -------------------------------------------------------------------------
 
     class SubCipherState {
-        constructor(scheme, key, plaintext, showFrequency) {
+        constructor(scheme, key, plaintext, showFrequency, isDecrypt) {
             this.scheme = scheme || 'caesar';
             this.key = key || (this.scheme === 'caesar' ? DEFAULT_CAESAR_KEY : DEFAULT_VIGENERE_KEY);
             this.plaintext = sanitizeText(plaintext || '');
             this.ciphertext = '';
             this.showFrequency = showFrequency;
+            this.isDecrypt = isDecrypt;
             this.plaintextSort = 'az'; // Sort mode for plaintext frequency chart
             this.ciphertextSort = 'az'; // Sort mode for ciphertext frequency chart
             this.updateCiphertext();
@@ -135,7 +136,8 @@
             if (this.scheme === 'caesar') {
                 this.ciphertext = caesarEncrypt(this.plaintext, this.key);
             } else {
-                this.ciphertext = vigenereEncrypt(this.plaintext, this.key);
+                // Vigenère keystream letters are encrypt shifts; decrypt mode needs them negated.
+                this.ciphertext = this.isDecrypt ? vigenereDecrypt(this.plaintext, this.key) : vigenereEncrypt(this.plaintext, this.key);
             }
         }
 
@@ -143,7 +145,7 @@
             if (this.scheme === 'caesar') {
                 this.plaintext = caesarDecrypt(this.ciphertext, this.key);
             } else {
-                this.plaintext = vigenereDecrypt(this.ciphertext, this.key);
+                this.plaintext = this.isDecrypt ? vigenereEncrypt(this.ciphertext, this.key) : vigenereDecrypt(this.ciphertext, this.key);
             }
         }
 
@@ -165,7 +167,8 @@
                 const keystream = sanitizeText(this.key).replace(/ /g, '');
                 if (!keystream) return 0;
                 const keyChar = keystream[position % keystream.length];
-                return letterToIndex(keyChar);
+                const shift = letterToIndex(keyChar);
+                return this.isDecrypt ? -shift : shift;
             }
         }
     }
@@ -213,7 +216,9 @@
 
         const activeKeyIndex = currentPosition % keystream.length;
         const currentKeyChar = keystream[activeKeyIndex];
-        const currentShift = letterToIndex(currentKeyChar);
+        // Keystream letters are encrypt shifts; decrypt mode applies them negated.
+        const rawShift = letterToIndex(currentKeyChar);
+        const currentShift = isDecrypt ? -rawShift : rawShift;
 
         let gridHTML = '<div class="sub-cipher-grid sub-cipher-grid-vigenere">';
 
@@ -243,7 +248,7 @@
         let bottomRow = `<div class="sub-cipher-grid-row sub-cipher-grid-row-cipher${swapClass}">`;
         bottomRow += `<div class="sub-cipher-grid-label">${bottomLabel}</div>`;
         for (let i = 0; i < 26; i++) {
-            const cipherIndex = (i + currentShift) % 26;
+            const cipherIndex = ((i + currentShift) % 26 + 26) % 26;
             bottomRow += `<div class="sub-cipher-grid-cell" data-cipher="${ALPHABET[cipherIndex]}" data-plain="${ALPHABET[i]}">${ALPHABET[cipherIndex]}</div>`;
         }
         bottomRow += '</div>';
@@ -261,7 +266,7 @@
     class SubCipherVisualizer {
         constructor(container, scheme, key, plaintext, showFrequency, isDecrypt) {
             this.container = container;
-            this.state = new SubCipherState(scheme, key, plaintext, showFrequency);
+            this.state = new SubCipherState(scheme, key, plaintext, showFrequency, isDecrypt);
             this.currentCursorPosition = 0;
             this.isDecrypt = isDecrypt;
 
@@ -278,6 +283,9 @@
             wrapper.className = 'sub-cipher-wrapper';
 
             const schemeTitle = this.state.scheme === 'caesar' ? 'Caesar Cipher' : 'Vigenère Cipher';
+            const titleHTML = this.isDecrypt
+                ? `${schemeTitle} <span class="sub-cipher-title-decrypt">Decrypt</span>`
+                : schemeTitle;
 
             // Decrypt mode only swaps the labels/colours - the top box always holds the tag's text
             const topLabel = this.isDecrypt ? 'Ciphertext' : 'Plaintext';
@@ -315,7 +323,7 @@
             wrapper.innerHTML = `
                 <div class="sub-cipher-header">
                     <div class="sub-cipher-header-text">
-                        <h3 class="sub-cipher-title">${schemeTitle}</h3>
+                        <h3 class="sub-cipher-title">${titleHTML}</h3>
                         <p class="sub-cipher-subtitle">Interactive substitution cipher with ${this.state.scheme === 'caesar' ? 'simple shift' : 'repeating keystream'}</p>
                     </div>
                     <div class="sub-cipher-controls">
