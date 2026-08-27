@@ -508,7 +508,7 @@
 
     function fmtEffort(v) {
         if (!isFinite(v)) return '∞';
-        if (v >= 1e9) return v.toExponential(1).replace('e+', '<span class="exponent">×10<sup>') + '</sup></span>';
+        if (v >= 1e7) return v.toExponential(1).replace('e+', '<span class="exponent">×10<sup>') + '</sup></span>';
         // if (v >= 1e27) return (v / 1e27).toFixed(0) + 'Oc';
         // if (v >= 1e24) return (v / 1e24).toFixed(0) + 'Sp';
         // if (v >= 1e21) return (v / 1e21).toFixed(0) + 'Sx';

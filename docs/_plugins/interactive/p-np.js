@@ -98,11 +98,12 @@
             knapsack: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>',
             binPacking: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg>',
             graphColouring: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
+            sudoku: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>',
             travellingSalesman: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 6v5a1 1 0 0 0 1 1h6.102a1 1 0 0 1 .712.298l.898.91a1 1 0 0 1 .288.702V17a1 1 0 0 1-1 1h-3"/><path d="M5 18H3a1 1 0 0 1-1-1V8a2 2 0 0 1 2-2h12c1.1 0 2.1.8 2.4 1.8l1.176 4.2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>'
         },
         ui: {
             solving: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" de-calculator"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>',
-            verifying: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" n lucide-square-check-big"><path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344"/><path d="m9 11 3 3L22 4"/></svg>'
+            verifying: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" N lucide-square-check-big"><path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344"/><path d="m9 11 3 3L22 4"/></svg>'
         }
     }
 
@@ -118,7 +119,7 @@
             defaultProblemId: 'linear-search',
             verify: {
                 solvingClass: 'pnp-solving-poly',
-                solvingNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> solution - easy for large n`,
+                solvingNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> solution - easy for large N`,
                 verifyClass: 'pnp-verify-poly',
                 verifyNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> verification - always fast`
             },
@@ -126,8 +127,8 @@
                 {
                     id: 'linear-search',
                     name: 'Linear Search',
-                    description: 'Scan list of n items from start until target is found',
-                    solveTime: 'O(n)',
+                    description: 'Scan list of N items from start until target is found',
+                    solveTime: 'O(N)',
                     verifyTime: 'O(1)',
                     example: 'Finding a name in an unsorted list',
                     icon: SVG_ICONS.problem.linearSearch,
@@ -139,8 +140,8 @@
                 {
                     id: 'binary-search',
                     name: 'Binary Search',
-                    description: 'Find an item in a sorted list of n items',
-                    solveTime: 'O(log n)',
+                    description: 'Find an item in a sorted list of N items',
+                    solveTime: 'O(log N)',
                     verifyTime: 'O(1)',
                     example: 'Searching in phone book',
                     icon: SVG_ICONS.problem.binarySearch,
@@ -152,9 +153,9 @@
                 {
                     id: 'sorting',
                     name: 'Sorting',
-                    description: 'Sort a list of n items',
-                    solveTime: 'O(n log n)',
-                    verifyTime: 'O(n)',
+                    description: 'Sort a list of N items',
+                    solveTime: 'O(N log N)',
+                    verifyTime: 'O(N)',
                     example: 'Merge Sort, Quick Sort',
                     icon: SVG_ICONS.problem.sorting,
                     marker: {
@@ -165,9 +166,9 @@
                 {
                     id: 'palindrome',
                     name: 'Palindrome Check',
-                    description: 'Check if string of length n reads same forwards and backwards',
-                    solveTime: 'O(n)',
-                    verifyTime: 'O(n)',
+                    description: 'Check if string of length N reads same forwards and backwards',
+                    solveTime: 'O(N)',
+                    verifyTime: 'O(N)',
                     example: 'racecar, level',
                     icon: SVG_ICONS.problem.palindrome,
                     marker: {
@@ -178,9 +179,9 @@
                 {
                     id: 'shortest-path',
                     name: 'Shortest Path',
-                    description: 'Find shortest route between two nodes in a graph of n nodes',
-                    solveTime: 'O(n²)',
-                    verifyTime: 'O(n)',
+                    description: 'Find shortest route between two nodes in a graph of N nodes',
+                    solveTime: 'O(N<sup>2</sup>)',
+                    verifyTime: 'O(N)',
                     example: 'Dijkstra\'s Algorithm',
                     icon: SVG_ICONS.problem.shortestPath,
                     marker: {
@@ -192,8 +193,8 @@
                     id: 'matrix-mult',
                     name: 'Matrix Multiplication',
                     description: 'Multiply two n×n matrices',
-                    solveTime: 'O(n³)',
-                    verifyTime: 'O(n²)',
+                    solveTime: 'O(N<sup>3</sup>)',
+                    verifyTime: 'O(N<sup>2</sup>)',
                     example: 'Graphics transformations',
                     icon: SVG_ICONS.problem.matrixMultiplication,
                     marker: {
@@ -222,8 +223,8 @@
                     id: 'factoring',
                     name: 'Factorisation by Division',
                     description: 'Use division to find a non-trivial factor of number value n',
-                    solveTime: 'O(√n)',
-                    verifyTime: 'O(log n)',
+                    solveTime: 'O(√N)',
+                    verifyTime: 'O(log N)',
                     example: 'Try 2, 3, 4... until a divisor is found',
                     icon: SVG_ICONS.problem.factorisation,
                     marker: {
@@ -243,7 +244,7 @@
             legendOrder: 3,
             verify: {
                 solvingClass: 'pnp-solving-exp',
-                solvingNote: `${SVG_ICONS.status.warning} <strong>Exponential time</strong> solution - intractable for large n`,
+                solvingNote: `${SVG_ICONS.status.warning} <strong>Exponential time</strong> solution - intractable for large N`,
                 verifyClass: 'pnp-verify-poly',
                 verifyNote: `${SVG_ICONS.status.check} <strong>Polynomial time</strong> verification - always fast`
             },
@@ -251,9 +252,9 @@
                 {
                     id: 'knapsack',
                     name: '0/1 Knapsack',
-                    description: 'Select out of n items to maximize value within a limit',
-                    solveTime: 'O(2ⁿ)',
-                    verifyTime: 'O(n)',
+                    description: 'Select out of N items to maximize value within a limit',
+                    solveTime: 'O(2<sup>N</sup>)',
+                    verifyTime: 'O(N)',
                     example: 'Cargo loading',
                     icon: SVG_ICONS.problem.knapsack,
                     marker: {
@@ -264,9 +265,9 @@
                 {
                     id: 'bin-packing',
                     name: 'Bin Packing',
-                    description: 'Pack n items into minimum number of bins',
-                    solveTime: 'O(2ⁿ)',
-                    verifyTime: 'O(n)',
+                    description: 'Pack N items into minimum number of bins',
+                    solveTime: 'O(2<sup>N</sup>)',
+                    verifyTime: 'O(N)',
                     example: 'Shipping container allocation',
                     icon: SVG_ICONS.problem.binPacking,
                     marker: {
@@ -277,14 +278,27 @@
                 {
                     id: 'graph-colouring',
                     name: 'Graph Colouring',
-                    description: 'Colour graph of n nodes so adjacent nodes differ',
-                    solveTime: 'O(kⁿ)',
-                    verifyTime: 'O(n²)',
+                    description: 'Colour graph of N nodes so adjacent nodes differ',
+                    solveTime: 'O(2<sup>N</sup>)',
+                    verifyTime: 'O(N<sup>2</sup>)',
                     example: 'Timetable scheduling',
                     icon: SVG_ICONS.problem.graphColouring,
                     marker: {
-                        standard: { x: 250, y: 315 },
-                        collapse: { x: 250, y: 315 }
+                        standard: { x: 210, y: 315 },
+                        collapse: { x: 210, y: 315 }
+                    }
+                },
+                {
+                    id: 'sudoku',
+                    name: 'Sudoku',
+                    description: 'Solving a N by N sudoku puzzle',
+                    solveTime: 'O(2<sup>N</sup>)',
+                    verifyTime: 'O(N<sup>2</sup>)',
+                    example: 'Sudoku puzzle',
+                    icon: SVG_ICONS.problem.sudoku,
+                    marker: {
+                        standard: { x: 290, y: 315 },
+                        collapse: { x: 290, y: 315 }
                     }
                 },
             ],
@@ -299,7 +313,7 @@
             legendOrder: 4,
             verify: {
                 solvingClass: 'pnp-solving-exp',
-                solvingNote: `${SVG_ICONS.status.warning} <strong>Exponential time</strong> solution - intractable for large n`,
+                solvingNote: `${SVG_ICONS.status.warning} <strong>Exponential time</strong> solution - intractable for large N`,
                 verifyClass: 'pnp-verify-exp',
                 verifyNote: `${SVG_ICONS.status.warning} <strong>No known polynomial time</strong> verification`
             },
@@ -307,9 +321,9 @@
                 {
                     id: 'tsp-opt',
                     name: 'Travelling Salesperson - Optimal Route',
-                    description: 'Find shortest route that visits every one of n cities',
-                    solveTime: 'O(n!)',
-                    verifyTime: 'O(n!)',
+                    description: 'Find shortest route that visits every one of N cities',
+                    solveTime: 'O(N!)',
+                    verifyTime: 'O(N!)',
                     example: 'Delivery route optimization',
                     icon: SVG_ICONS.problem.travellingSalesman,
                     marker: {
@@ -763,7 +777,7 @@
             const showCard = (marker, event) => {
                 markerCard.innerHTML = `
                     <div class="pnp-marker-title">${marker.icon} <span>${marker.name}</span></div>
-                    <div class="pnp-marker-class">Category: <strong>${marker.category}</strong></div>
+                    <div class="pnp-marker-class">Class: <strong>${marker.category}</strong></div>
                     <p>${marker.description}</p>
                     <p>Solve: <strong>${marker.solveTime}</strong> | Verify: <strong>${marker.verifyTime}</strong></p>
                 `
