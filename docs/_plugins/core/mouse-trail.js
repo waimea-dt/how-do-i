@@ -13,17 +13,17 @@
     const ITEM_SPREAD_MAX = 30
     const ITEM_SIZE_MIN = 0.5
     const ITEM_SIZE_MAX = 8
-    const SPEED_FOR_MAX_SIZE = 3      // pixels per ms
-    const SPEED_FOR_MAX_SPREAD = 5    // pixels per ms
-    const SPEED_THRESHOLD = 1         // Low threshold to drop static ticks (px/ms)
-    const SPEED_SCALING = 100         // scale px/ms for CSS transform
+    const SPEED_FOR_MAX_SIZE = 8      // pixels per ms
+    const SPEED_FOR_MAX_SPREAD = 8    // pixels per ms
+    const SPEED_THRESHOLD = 4         // Low threshold to drop static ticks (px/ms)
+    const SPEED_SCALING = 50          // scale px/ms for CSS transform
     const SIZE_SMOOTHING = 0.1
     const SPREAD_SMOOTHING = 0.1
 
     const BURST_COUNT_MIN = 10
     const BURST_COUNT_MAX = 20
-    const BURST_SPEED_MIN = 2
-    const BURST_SPEED_MAX = 5
+    const BURST_SPEED_MIN = 3
+    const BURST_SPEED_MAX = 6
     const BURST_SIZE_MIN = ITEM_SIZE_MAX * 0.3
     const BURST_SIZE_MAX = ITEM_SIZE_MAX * 0.5
     const BURST_SPAWN_SPREAD = 18
@@ -166,7 +166,7 @@
 
     function spawnClickBurst(event) {
         const burstCount = randInt(BURST_COUNT_MIN, BURST_COUNT_MAX + 1)
-        let lastBurstItemPath = itemPath
+        const burstItemPath = pickRandomTrailItem() || itemPath
 
         for (let i = 0; i < burstCount; i += 1) {
             const angle = rand(0, Math.PI * 2)
@@ -174,8 +174,6 @@
             const speedPx = speedPxPerMs * SPEED_SCALING
             const spawnX = event.clientX + rand(-BURST_SPAWN_SPREAD, BURST_SPAWN_SPREAD)
             const spawnY = event.clientY + rand(-BURST_SPAWN_SPREAD, BURST_SPAWN_SPREAD)
-            const burstItemPath = pickRandomTrailItem() || itemPath
-            lastBurstItemPath = burstItemPath
 
             appendTrailItem(spawnX, spawnY, {
                 imagePath: burstItemPath,
@@ -188,7 +186,7 @@
             })
         }
 
-        return lastBurstItemPath
+        return burstItemPath
     }
 
     function onPointerMove(event) {
