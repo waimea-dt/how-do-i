@@ -2,7 +2,7 @@
 
 ## Why growth rate matters most
 
-When analyzing algorithms, the **rate at which complexity grows** matters far more than the actual number of operations for small inputs.
+When analysing algorithms, the **rate at which complexity grows** matters far more than the actual number of operations for small inputs.
 
 Two algorithms might take similar time for N=10, but have wildly different performance for N=10,000.
 
@@ -24,23 +24,25 @@ Notice how:
 
 Let's compare specific complexity classes:
 
-### Slow vs Fast Growth
+### Slow Growth - Easy to Solve
 
 <big-o-chart enabled="o1 ologn on"></big-o-chart>
 
 These three grow so slowly that they remain practical even for huge datasets.
 
-### The Polynomial Family
+### Polynomial Growth - Reasonable to Solve
 
 <big-o-chart enabled="on on2 on3"></big-o-chart>
 
 See how **O(N<sup>2</sup>)** and **O(N<sup>3</sup>)** pull away from linear? This is why we avoid nested loops when possible!
 
-### The Impossible Zone
+But... it is still possible to find solutions to these problems in a 'reasonable' time, simply by using faster and/or more computers.
+
+### Non-Polynomial Growth - The 'Impossible' Zone
 
 <big-o-chart enabled="on on2 o2n ofact"></big-o-chart>
 
-Exponential and factorial complexities become impractical almost immediately. They're only viable for tiny inputs.
+Exponential and factorial complexities become impractical almost immediately. They're only viable for tiny inputs, and this is what makes finding solutions practically impossible for larger values of N.
 
 ## Crossover Points
 
@@ -128,7 +130,7 @@ See how the N<sup>3</sup> term becomes 99%+ of the total? That's why we ignore t
 
 ## Interactive Exploration
 
-<big-o algos="array search sort tsp knap" step="x2" max="1024"></big-o>
+<big-o algos="array-access search sort-bubble tsp-brute knap-brute" step="x2" max="1024"></big-o>
 
 Try doubling steps (`x2`) to see exponential exploration of the space!
 
