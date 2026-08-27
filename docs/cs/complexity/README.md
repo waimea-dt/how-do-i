@@ -2,9 +2,23 @@
 
 ## What is 'Complexity'?
 
-A **complex** problem is one where a **large amount of timer / effort** is required to solve it.
+A **complex** problem is one where a **large amount of time / effort** is required to solve it.
 
-**Algorithmic complexity** measures the change in the amount of work an **algorithm** has to do as **the size of the input data (N) increases**.
+**Algorithmic complexity** measures how the amount of work an **algorithm** does changes as **the size of the input data (N) increases**.
+
+## What You'll Learn
+
+The notes here cover everything you need for [AS91908](/ncea/91908/as91908.pdf): Demonstrate understanding of a computer science concept - Complexity and tractability.
+
+- **Big-O notation** - the maths shorthand for describing growth rates
+- **Best, worst, and average case** time complexity
+- **Complexity classes** - P, NP, and NP-complete
+- **Approximation algorithms and heuristics** for solving "impossible" problems
+- **Algorithm design and optimisation** strategies
+- Classic hard problems: the **Travelling Salesperson** and **Knapsack** problems
+
+> [!TIP]
+> Each section has a **quiz** at the end - use it to check your understanding before moving on.
 
 ## An Example - One in a Hundred
 

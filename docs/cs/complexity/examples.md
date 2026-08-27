@@ -1,14 +1,44 @@
-# Real-World Comparison of Complexity
+# Worked Examples
 
-## The Problem
+## Searching: Linear vs Binary
 
-Let's find duplicates in a list of 1,000 numbers:
+**Linear search** checks every item one by one - **O(N)**.
+
+**Binary search** repeatedly halves a **sorted** list - **O(log N)**.
+
+<algo-race type="search" size="100" target="67"></algo-race>
+
+| Array Size    | Linear (worst) | Binary (worst) |
+| ------------- | -------------- | -------------- |
+| 100           | 100            | 7              |
+| 1,000         | 1,000          | 10             |
+| 1,000,000     | 1,000,000      | 20             |
+
+> [!TIP]
+> Binary search only works on **sorted** data - sorting first is only worth it if you'll search **many times**.
+
+<big-o algos="search" max="1024" step="x2"></big-o>
+
+## Sorting: Quadratic vs Log-Linear
+
+**Bubble sort** compares neighbouring pairs repeatedly - **O(N<sup>2</sup>)**.
+
+**Merge sort** splits the list in half, sorts each half, then merges - **O(N log N)**.
+
+<algo-race type="sort" size="100"></algo-race>
+
+<big-o algos="sort-bubble sort-merge" max="1024" step="x2"></big-o>
+
+> [!NOTE]
+> You can never sort by comparing items faster than **O(N log N)** in the worst case - this is the best possible complexity for a general-purpose sort.
+
+## Finding Duplicates in a List
+
+Given 1,000 random numbers, how do we find duplicates?
 
 > 81, 14, 3, 94, 35, 31, 28, 17, 94, 13, 86, 94, 69, 11, 75, 54, 4, 3, 11, 27,
 29, 64, 77, 3, 71, 25, 91, 83, 89, 69, 53, 28, 57, 75, 35, 0, 97, 20, 89, 54,
 43, 35, 19, 27, 97, 43, 13, 11, 48, 12, 45, 44, 77, 33, 5, 93, 58, 68, 15, 48, etc.
-
-How would you go about doing this?
 
 
 ## Possible Approaches
@@ -33,10 +63,7 @@ endfor
 
 So, how many operations or actions did we need to do?
 
-1,000 (values) × 1,000 (checks) = **1,000,000 comparisons** - Ouch!
-
-> [!NOTE]
-> The complexity of this algorithm is: **O(N<sup>2</sup>)**
+1,000 (values) × 1,000 (checks) = **1,000,000 comparisons** - this is **O(N<sup>2</sup>)**
 
 
 ### Approach 2: Sort first, then compare neighbours
@@ -62,20 +89,44 @@ for each number:
 endfor
 ```
 
-So, how many operations or actions did we need to do?
+10,000 (sorting) + 1,000 (checks) = **11,000 operations** - this is **O(N log N)**.
 
-10,000 (sorting) + 1,000 (checks) = **11,000 operations** - Better!
-
-> [!NOTE]
-> The complexity of this algorithm is: **O(N log N)**
-
-
-### Comparison
-
-The second approach is **90× faster** - and the difference gets even bigger with larger lists.
+The second approach is around **90x faster**, and the gap grows with bigger lists:
 
 Here is a visual comparison of the work required for each approach, or rather a comparison of their complexity:
 
 <big-o-chart max="1000" value="10" enabled="on2 onlogn"></big-o-chart>
+
+
+
+## Key Takeaways
+
+<flashcards>
+
+- # Linear search complexity
+
+    ---
+
+    **O(N)** - checks every item, works on unsorted data.
+
+- # Binary search complexity
+
+    ---
+
+    **O(log N)** - requires **sorted** data, halves the search space each step.
+
+- # Best possible comparison-sort complexity
+
+    ---
+
+    **O(N log N)** - no comparison-based sort can beat this in the worst case.
+
+- # Why sort before searching for duplicates?
+
+    ---
+
+    Sorting (**O(N log N)**) then checking neighbours (**O(N)**) beats comparing every pair (**O(N<sup>2</sup>)**).
+
+</flashcards>
 
 
