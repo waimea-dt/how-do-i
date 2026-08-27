@@ -10,6 +10,11 @@
 (function () {
     var docsifyScrollToTop = function (hook) {
         hook.doneEach(function () {
+            var hashQuery = window.location.hash.split('?')[1] || '';
+            var hasHeadingLink = new URLSearchParams(window.location.search).has('id')
+                || new URLSearchParams(hashQuery).has('id');
+            if (hasHeadingLink) return;
+
             // Use requestAnimationFrame to ensure this runs after all DOM updates
             // and other plugins have finished their work
             requestAnimationFrame(function () {
