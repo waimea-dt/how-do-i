@@ -8,6 +8,7 @@
 
     --theme-color:                #68bef8;
     --secondary-color:            #f2d297;
+    --tertiary-color:             #ff9d7a;
 
     /* Theme color variants */
     --color-mono-0:               color-mix(in srgb, var(--color-mono-min),  #000                10%);
@@ -197,7 +198,7 @@
     --mark-color:                 var(--color-bg);
 
     --em-color:                   var(--secondary-color-6);
-    --strong-color:               var(--theme-color-6);
+    --strong-color:               var(--tertiary-color);
     --strong-font-weight:         600;
 
     --table-head-row-bg:          var(--color-mono-2);
@@ -238,21 +239,19 @@
 
         &:is(h2) {
             padding-bottom: 0.25em;
-            border-bottom: 1px solid var(--secondary-color-4);
+            border-bottom: 1px solid var(--secondary-color-3);
         }
 
         &:is(h1) {
-            color: var(--theme-color);
             font-weight: 600;
         }
 
-        &:is(h2, h4, h6) {
-            color: var(--secondary-color);
-        }
-
-        &:is(h3, h5) {
-            color: var(--theme-color-6);
-        }
+        &:is(h1) { color: var(--theme-color); }
+        &:is(h2) { color: var(--secondary-color); }
+        &:is(h3) { color: var(--theme-color-5); }
+        &:is(h4) { color: var(--secondary-color-5); }
+        &:is(h5) { color: var(--theme-color-6); }
+        &:is(h6) { color: var(--secondary-color-6); }
     }
 
     /* Suppress heading anchor links inside specific containers.

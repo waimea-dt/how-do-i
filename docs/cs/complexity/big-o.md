@@ -29,16 +29,16 @@ Here are the most common Big-O complexities you'll encounter, from fastest to sl
 
 | Notation             | Name                                                              | Example                                                         | When N doubles, the effort... |
 | -------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------- |
-| **O(1)**             | [Constant](/cs/complexity/common?id=o1---constant-time)           | Array access by index                                           | ✅ No change                  |
-| **O(log N)**         | [Logarithmic](/cs/complexity/common?id=olog-n---logarithmic-time) | Binary search                                                   | ✅ Just 1 extra step          |
-| **O(N)**             | [Linear](/cs/complexity/common?id=on---linear-time)               | Linear search                                                   | ✅ Doubles                    |
-| **O(N log N)**       | [Log-Linear](/cs/complexity/common?id=on-log-n---log-linear-time) | Merge sort                                                      | ✅ Slightly more than doubles |
-| **O(N<sup>k</sup>)** | [Polynomial](/cs/complexity/common?id=on2---quadratic-time)       | Nested loops (**O(N<sup>2</sup>)**, **O(N<sup>3</sup>)**, etc.) | ⚠️ Quadruples, 8x, etc.             |
-| **O(2<sup>N</sup>)** | [Exponential](/cs/complexity/common?id=o2n---exponential-time)    | Trying every subset of a list                                   | ⚠️ Squares                    |
-| **O(N!)**            | [Factorial](/cs/complexity/common?id=on---factorial-time)         | Trying every ordering of a list                                 | ❌ Astronomically worse       |
+| **O(1)**             | [Constant Time](/cs/complexity/common?id=o1---constant-time)           | Array access by in**x                                           | ✅ No change                  |
+| **O(log N)**         | [Logarithmic Time](/cs/complexity/common?id=olog-n---logarithmic-time) | Binary se**ch                                                   | ✅ Just 1 extra step          |
+| **O(N)**             | [Linear Time](/cs/complexity/common?id=on---linear-time)               | Linear se**ch                                                   | ✅ Doubles                    |
+| **O(N log N)**       | [Log-Linear Time](/cs/complexity/common?id=on-log-n---log-linear-time) | Merge so**                                                      | ✅ Slightly more than doubles |
+| **O(N<sup>k</sup>)** | [Polynomial Time](/cs/complexity/common?id=on2---quadratic-time)       | Nested loops (**O(N<sup>2</sup>)**, **O(N<sup>3</sup>)**, etc.) | ⚠️ Quadruples, 8x, etc.             |
+| **O(2<sup>N</sup>)** | [Exponential Time](/cs/complexity/common?id=o2n---exponential-time)    | Trying every subset of a li**                                   | ⚠️ Squares                    |
+| **O(N!)**            | [Factorial Time](/cs/complexity/common?id=on---factorial-time)         | Trying every ordering of a list                                 | ❌ Astronomically worse       |
 
 > [!TIP]
-> **O(N<sup>k</sup>)** is read "polynomial time" - it covers **O(N<sup>2</sup>)**, **O(N<sup>3</sup>)**, and so on, for any fixed power **k**.
+> **O(N<sup>k</sup>)** is read 'Polynomial Time' - it covers **O(N<sup>2</sup>)**, **O(N<sup>3</sup>)**, and so on, for any fixed power **k**.
 
 
 ## Polynomial vs Non-Polynomial

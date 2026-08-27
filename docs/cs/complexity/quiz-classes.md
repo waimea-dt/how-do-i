@@ -1,10 +1,10 @@
-# Quiz: Complexity Classes & Optimisation
+# Quiz: Complexity Classes
 
-Test your understanding of P, NP, NP-complete, tractability, and algorithm design strategies.
+Test your understanding of P, NP, NP-complete, HP-Hard and tractability
 
 <quiz>
 
-## Complexity Classes & Optimisation Quiz
+## Complexity Classes Quiz
 
 - # What does it mean for a problem to be "tractable"?
 
@@ -89,33 +89,5 @@ Test your understanding of P, NP, NP-complete, tractability, and algorithm desig
 
     - [x] **Correct!** If factoring became easy (P = NP), most current encryption would break.
     - [ ] **Not quite.** Encryption's security specifically depends on factoring being hard to reverse.
-
-- # A greedy algorithm makes its decisions by...
-
-    ---
-
-    - [ ] Trying every possible option before choosing
-    - [x] Picking the best choice available right now, without looking back
-    - [ ] Randomly guessing an answer
-    - [ ] Remembering every previous subproblem's answer
-
-    ---
-
-    - [x] **Correct!** Greedy algorithms commit to the locally best choice at each step and never backtrack.
-    - [ ] **Not quite.** That describes brute force, random search, or dynamic programming instead.
-
-- # Dynamic programming is most useful when a problem has...
-
-    ---
-
-    - [ ] Completely independent subproblems
-    - [x] Overlapping subproblems that would otherwise be recalculated
-    - [ ] No subproblems at all
-    - [ ] Only one possible solution
-
-    ---
-
-    - [x] **Correct!** DP saves time by remembering answers to subproblems that show up again and again.
-    - [ ] **Not quite.** Independent subproblems are better suited to divide and conquer.
 
 </quiz>

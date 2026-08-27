@@ -46,12 +46,12 @@ Here is a chart with these two complexities highlighted:
 
 When we discuss algorithms, **N** represents the **size of the input data**:
 
-| Task                  | What is N?          | Example                                       |
-| --------------------- | ------------------- | --------------------------------------------- |
-| Sorting a list        | Number of items     | N = 100 for a list of 100 numbers             |
-| Searching for a name  | Number of entries   | N = 1,000 for a phonebook with 1,000 contacts |
-| Finding shortest path | Number of locations | N = 50 cities to visit                        |
-| Breaking encryption   | Key length in bits  | N = 256 for AES-256                           |
+| Task                  | What is N?              | Example                                       |
+| --------------------- | ----------------------- | --------------------------------------------- |
+| Sorting a list        | Number of **items**     | N = 100 for a list of 100 numbers             |
+| Searching for a name  | Number of **entries**   | N = 1,000 for a phonebook with 1,000 contacts |
+| Finding shortest path | Number of **locations** | N = 50 cities to visit                        |
+| Breaking encryption   | **Key length** in bits  | N = 256 for AES-256                           |
 
 
 ## Computational 'Effort'
