@@ -6,6 +6,18 @@
 
 The question: **If we can quickly check that a solution is correct, can we also quickly find that solution?**
 
+
+## Why This Matters: The P vs NP Question
+
+**Can every problem we can check quickly also be solved quickly?** Nobody knows! It's one of the [Millennium Prize Problems](https://en.wikipedia.org/wiki/Millennium_Prize_Problems), worth **$1,000,000** to whoever proves it either way.
+
+Most computer scientists believe **P ≠ NP** - that some problems really are fundamentally hard, not just unsolved.
+
+> [!IMPORTANT]
+> Modern encryption (like RSA) relies on **P ≠ NP** being true. Factoring huge numbers is believed to be intractable - if it turned out to be easy, most internet security would break.
+
+
+
 ## Understanding the Classes
 
 ### P (Polynomial Time)
@@ -20,7 +32,7 @@ Problems where we can **find** a solution efficiently (in polynomial time).
 Problems where we can **verify** a solution efficiently, but we don't know how to **find** it efficiently.
 
 **Examples**:
-- Traveling Salesman: Easy to check if a route is under a certain length, hard to find the shortest route
+- Travelling Salesperson: Easy to check if a route is under a certain length, hard to find the shortest route
 - Sudoku: Easy to check if a completed puzzle is correct, hard to solve it
 - Factoring: Easy to verify 143 = 11 × 13, hard to factor large numbers
 

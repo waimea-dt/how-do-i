@@ -6,19 +6,6 @@ A **complex** problem is one where a **large amount of time / effort** is requir
 
 **Algorithmic complexity** measures how the amount of work an **algorithm** does changes as **the size of the input data (N) increases**.
 
-## What You'll Learn
-
-The notes here cover everything you need for [AS91908](/ncea/91908/as91908.pdf): Demonstrate understanding of a computer science concept - Complexity and tractability.
-
-- **Big-O notation** - the maths shorthand for describing growth rates
-- **Best, worst, and average case** time complexity
-- **Complexity classes** - P, NP, and NP-complete
-- **Approximation algorithms and heuristics** for solving "impossible" problems
-- **Algorithm design and optimisation** strategies
-- Classic hard problems: the **Travelling Salesperson** and **Knapsack** problems
-
-> [!TIP]
-> Each section has a **quiz** at the end - use it to check your understanding before moving on.
 
 ## An Example - One in a Hundred
 
@@ -44,7 +31,7 @@ See the two algorithms running side-by-side:
 
 ## Measuring Complexity
 
-The second algorithm above (its correct name is a 'binary search') require less effort to solve, so we say it has a lower complexity than the first. In fact, we can name the complexity of each algorithm:
+The second algorithm above (its correct name is a 'Binary Search') require less effort to solve, so we say it has a lower complexity than the first. In fact, we can name the complexity of each algorithm:
 - Checking one-by-one - the effort increases linearly as N increases: **Linear** complexity
 - Binary search - the effort goes up by just one as N doubles: **Logarithmic** complexity
 

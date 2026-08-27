@@ -1,4 +1,4 @@
-# Worked Examples
+# Some Worked Examples
 
 ## Searching: Linear vs Binary
 
@@ -8,16 +8,10 @@
 
 <algo-race type="search" size="100" target="67"></algo-race>
 
-| Array Size    | Linear (worst) | Binary (worst) |
-| ------------- | -------------- | -------------- |
-| 100           | 100            | 7              |
-| 1,000         | 1,000          | 10             |
-| 1,000,000     | 1,000,000      | 20             |
-
 > [!TIP]
-> Binary search only works on **sorted** data - sorting first is only worth it if you'll search **many times**.
+> Binary search only works on **sorted** data - sorting first is only worth it if you'll search **many times**, since sorting is 'expensive'.
 
-<big-o algos="search" max="1024" step="x2"></big-o>
+<big-o algos="search" max="1000000" step="x10"></big-o>
 
 ## Sorting: Quadratic vs Log-Linear
 
@@ -27,7 +21,7 @@
 
 <algo-race type="sort" size="100"></algo-race>
 
-<big-o algos="sort-bubble sort-merge" max="1024" step="x2"></big-o>
+<big-o algos="sort-bubble sort-merge" max="1000000" step="x10"></big-o>
 
 > [!NOTE]
 > You can never sort by comparing items faster than **O(N log N)** in the worst case - this is the best possible complexity for a general-purpose sort.
@@ -47,7 +41,7 @@ We can take two different approaches to solve this problem...
 
 ### Approach 1: Compare every number to every other number
 
-We can loop through every number and then compare it to every other number - so one loop inside another:
+We can loop through every number and then compare it to every other number - so one loop inside another (or 'nested' loops):
 
 ```pseudo
 for each number:
@@ -61,9 +55,10 @@ for each number:
 endfor
 ```
 
-So, how many operations or actions did we need to do?
+1,000 (values) × 1,000 (checks) = **1,000,000 comparisons**
 
-1,000 (values) × 1,000 (checks) = **1,000,000 comparisons** - this is **O(N<sup>2</sup>)**
+> [!IMPORTANT]
+> This approach has complexity **O(N<sup>2</sup>)**
 
 
 ### Approach 2: Sort first, then compare neighbours
@@ -89,13 +84,21 @@ for each number:
 endfor
 ```
 
-10,000 (sorting) + 1,000 (checks) = **11,000 operations** - this is **O(N log N)**.
+10,000 (sorting) + 1,000 (checks) = **11,000 operations**.
 
-The second approach is around **90x faster**, and the gap grows with bigger lists:
+> [!IMPORTANT]
+> This approach has complexity **O(N log N)**
 
-Here is a visual comparison of the work required for each approach, or rather a comparison of their complexity:
 
-<big-o-chart max="1000" value="10" enabled="on2 onlogn"></big-o-chart>
+### Comparison
+
+The second approach is around **90x faster** for N of 1000, and the gap grows with bigger lists:
+
+<big-o algos="big-o-quadratic big-o-log-linear" max="1000000000" step="x10"></big-o>
+
+Here is a visual comparison of the complexities of the two approaches:
+
+<big-o-chart max="10000" value="10" enabled="on2 onlogn"></big-o-chart>
 
 
 

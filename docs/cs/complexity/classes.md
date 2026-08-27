@@ -1,38 +1,90 @@
-# Complexity Classes
+# P, NP, NP-Complete, NP-Hard
 
-## P, NP, NP-Complete
+Computer scientists sort problems into classes based on how hard they are to **solve** and to **verify**:
 
-Computer scientists sort problems into classes based on how hard they are:
+> [!NOTE]
+> **Verifying** means checking that a solution is the correct one, so for a Sudoku puzzle, verifying the numbers are all in the correct place, or for the TSP, verifying that the route found is actually the shortest possible.
 
-| Class            | Meaning                                                        | Example                                  |
-| ----------------- | ----------------------------------------------------------------- | ------------------------------------------ |
-| **P**             | Can be **solved** quickly (polynomial time)                       | Sorting, binary search, shortest path       |
-| **NP**            | Can be **checked/verified** quickly, even if hard to solve         | Sudoku, Travelling Salesperson, Knapsack     |
-| **NP-Complete**   | The **hardest** problems in NP - solve one fast, and you could solve them all fast | Travelling Salesperson, Knapsack (0/1), Sudoku |
+
+| Class           | Meaning                                                                            |
+| --------------- | ---------------------------------------------------------------------------------- |
+| **P**           | **Easy to solve** (in polynomial time)                                     |
+| **NP**          | **Easy to verify** (even if hard to solve)                         |
+| **NP-Hard**     | **Hard to solve** (easy to verify if in NP, or hard if not)                             |
+| **NP-Complete** | **Hard to solve** but **easy to verify** |
+
+> [!TIP]
+> **NP** does not mean 'non-polynomial', it means '**non-deterministic polynomial time**'
+
+This is the relationship between the classes:
 
 <p-np></p-np>
 
-> [!NOTE]
-> Every problem in **P** is also in **NP** (if you can solve it fast, you can obviously check it fast). The big open question is whether **P = NP** - can everything we can *check* quickly also be *solved* quickly?
 
-### Verifying vs Finding
+## Understanding the Classes
 
-The key idea behind NP: **checking** an answer is easy, **finding** one is hard.
+### P (**P**olynomial Time)
 
-| Problem | Verifying a solution | Finding a solution |
-| ------- | --------------------- | -------------------- |
-| Sudoku | Check the grid follows the rules - fast | Solve the empty grid - slow |
-| Travelling Salesperson | Add up a route's distance - fast | Find the shortest route - slow |
-| Factoring a number | Multiply two factors together - fast | Find the factors of a huge number - slow |
+Problems where we can **easily find** a solution efficiently (in polynomial time).
 
-## Why This Matters: The P vs NP Question
+**Examples**:
+- Searching a random list: **O(N)**
+- Sorting a list: **O(N log N)**
+- Multiplying matrices: **O(N<sup>3</sup>)**
 
-**Can every problem we can check quickly also be solved quickly?** Nobody knows! It's one of the [Millennium Prize Problems](https://en.wikipedia.org/wiki/Millennium_Prize_Problems), worth **$1,000,000** to whoever proves it either way.
+### NP (**N**on-deterministic **P**olynomial Time)
 
-Most computer scientists believe **P ≠ NP** - that some problems really are fundamentally hard, not just unsolved.
+Problems where we can **easily verify** a solution, but we don't always know how to **find** it efficiently.
+
+**Examples**:
+- Sorting a list: easy to check it is in order: **O(N)**
+- Sudoku: easy to check if a completed puzzle is correct: **O(N<sup>2</sup>)** (even if it hard to solve it in the first place: **O(2<sup>N</sup>)**)
+- Factoring large numbers: easy to verify that 945,076,421 = 12347 × 76543 (even if much harder to find those factors in the first place)
 
 > [!IMPORTANT]
-> Modern encryption (like RSA) relies on **P ≠ NP** being true. Factoring huge numbers is believed to be intractable - if it turned out to be easy, most internet security would break.
+> Every problem in **P** is also in **NP** (if you can solve it fast, you can obviously check it fast).
+
+### NP-Hard (Intractable Problems)
+
+Problems that are **intractable**: we don't know of any efficient, polynomial time solution - they are **hard to solve**.
+
+**Examples**:
+- TSP optimal / shortest route: **O(N!)**
+- Knapsack problem: **O(2<sup>N</sup>)**
+
+### NP-Complete (Intractable Problems, Easy to Verify)
+
+Problems that are **intractable** / **hard to solve**, but which are **easy to verify** once a solution has been found.
+
+**Examples**:
+- Sudoku:
+  - Easy to check if a completed puzzle is correct: **O(N<sup>2</sup>)**
+  - Very hard to solve it in the first place: **O(2<sup>N</sup>)**
+- 0/1 Knapsack Problem:
+  - Easy to check if a solution is the best one: **O(N)**
+  - Very hard to find the optimal solution: **O(2<sup>N</sup>)**
+
+
+## Classes and Example Problems
+
+<p-np markers></p-np>
+
+> [!NOTE]
+> The big open question is whether **P = NP** - can everything we can *check* quickly also be *solved* quickly? This is the unsolved [P vs NP question](/cs/complexity/p-vs-np.md)
+
+
+## Real-World Problems
+
+Explore examples of problems in each complexity class:
+
+<p-np mode="problems"></p-np>
+
+### Solving vs Verifying
+
+See why each problem fits into a particular class by looking at finding a solution vs verifying a solution:
+
+<p-np mode="verify"></p-np>
+
 
 ## Real-World Impact of Intractability
 

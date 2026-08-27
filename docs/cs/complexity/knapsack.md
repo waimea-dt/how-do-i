@@ -25,10 +25,10 @@ Watch the brute force approach test every subset of items to find the optimal co
 For N items, there are **2<sup>N</sup>** possible subsets to check - each item is either "in" or "out":
 
 | Items | Subsets to Check |
-| ----- | -------------------- |
-| 10    | 1,024                 |
-| 20    | 1,048,576              |
-| 30    | 1,073,741,824           |
+| ----- | ---------------- |
+| 10    | 1,024            |
+| 20    | 1,048,576        |
+| 30    | 1,073,741,824    |
 
 <big-o algos="knap" max="30"></big-o>
 
