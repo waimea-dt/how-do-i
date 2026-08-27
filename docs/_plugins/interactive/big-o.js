@@ -68,6 +68,13 @@
             fn: n => n * n,
         },
         {
+            id: 'big-o-cubic',
+            name: 'Cubic Time',
+            category: 'big-o',
+            complexity: 'O(N<sup>3</sup>)',
+            fn: n => n * n * n,
+        },
+        {
             id: 'big-o-exponential',
             name: 'Exponential Time',
             category: 'big-o',
