@@ -428,7 +428,7 @@
 			const absoluteMax = (userMaxN && !isNaN(userMaxN)) ? userMaxN : 1000
 
 			// Calculate max N as the minimum of all enabled classes' maxN values
-			let calculatedMaxN = 1000  // Default to highest possible
+			let calculatedMaxN = 10000  // Default to highest possible
 			for (const classId of enabledSet) {
 				const cls = CLASSES.find(c => c.id === classId)
 				if (cls && cls.maxN) {
@@ -460,7 +460,7 @@
 			// Function to calculate max N based on currently enabled classes
 			// Respects absoluteMax as ceiling
 			function calculateMaxN(enabledSet) {
-				let calculatedMaxN = 1000  // Default to highest possible
+				let calculatedMaxN = 10000  // Default to highest possible
 				for (const classId of enabledSet) {
 					const cls = CLASSES.find(c => c.id === classId)
 					if (cls && cls.maxN) {

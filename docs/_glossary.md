@@ -86,11 +86,7 @@
 
 - float
 
-    Floating point number - numbers with decimal points, similar to Double
-
-- double
-
-    Numbers with decimal points like 3.14 or 2.5
+    Floating point number - numbers with decimal points
 
 - integer overflow
 

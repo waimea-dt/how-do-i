@@ -16,7 +16,7 @@
  *   <big-o best-worst></big-o>
  *
  * Attributes:
- *   - max: Maximum N shown in the table (default: 20, range: 10–1024)
+ *   - max: Maximum N shown in the table (default: 20, range: 10–MAX_N)
  *   - algos: Space-separated list of algorithm IDs or category IDs to show (default: all)
  *            Category IDs: array, stack, search, sort, graph, tsp, knap, pack, crypt
  *   - enabled: Space-separated list of algorithm IDs initially enabled (default: search-linear search-binary)
@@ -31,6 +31,60 @@
     // -------------------------------------------------------------------------
 
     const ALGORITHMS = [
+        // Big-O - Not specific algos
+        {
+            id: 'big-o-constant',
+            name: 'Constant Time',
+            category: 'big-o',
+            complexity: 'O(1)',
+            fn: n => 1,
+        },
+        {
+            id: 'big-o-log',
+            name: 'Logarithmic Time',
+            category: 'big-o',
+            complexity: 'O(log N)',
+            fn: n => Math.log2(n),
+        },
+        {
+            id: 'big-o-linear',
+            name: 'Linear Time',
+            category: 'big-o',
+            complexity: 'O(N)',
+            fn: n => n,
+        },
+        {
+            id: 'big-o-log-linear',
+            name: 'Log-Linear Time',
+            category: 'big-o',
+            complexity: 'O(N log N)',
+            fn: n => n * Math.log2(n),
+        },
+        {
+            id: 'big-o-quadratic',
+            name: 'Quadratic Time',
+            category: 'big-o',
+            complexity: 'O(N<sup>2</sup>)',
+            fn: n => n * n,
+        },
+        {
+            id: 'big-o-exponential',
+            name: 'Exponential Time',
+            category: 'big-o',
+            complexity: 'O(2<sup>N</sup>)',
+            fn: n => Math.pow(2, n),
+        },
+        {
+            id: 'big-o-factorial',
+            name: 'Factorial Time',
+            category: 'big-o',
+            complexity: 'O(N!)',
+            fn: n => {
+                // Stirling's approximation for factorial
+                return Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n);
+            },
+        },
+
         // Basic - Data Structures
         {
             id: 'array-access',
@@ -360,6 +414,7 @@
 
     // Categories mapping (short ID to full name)
     const CATEGORIES = [
+        { id: 'big-o',  name: 'Time Complexity' },
         { id: 'array',  name: 'Arrays / Lists' },
         { id: 'stack',  name: 'Stacks' },
         { id: 'search', name: 'Searching' },
@@ -371,6 +426,7 @@
         { id: 'crypt',  name: 'Cryptography' },
     ];
 
+    const MAX_N = 1e9
     const TRACTABLE_LIMIT = 1e20
     const NEAR_TRACTABLE_LIMIT = 1e15
 
@@ -445,7 +501,7 @@
 
     function fmtEffort(v) {
         if (!isFinite(v)) return '∞';
-        if (v >= 1e6) return v.toExponential(1).replace('e+', '<span class="exponent">×10<sup>') + '</sup></span>';
+        if (v >= 1e9) return v.toExponential(1).replace('e+', '<span class="exponent">×10<sup>') + '</sup></span>';
         // if (v >= 1e27) return (v / 1e27).toFixed(0) + 'Oc';
         // if (v >= 1e24) return (v / 1e24).toFixed(0) + 'Sp';
         // if (v >= 1e21) return (v / 1e21).toFixed(0) + 'Sx';
@@ -552,7 +608,8 @@
         // Build rows (one per N value)
         let rowsHTML = '';
         for (const n of nValues) {
-            let cellsHTML = `<td class="bigo-td-n">${n}</td>`;
+            let nFmt = n.toLocaleString()
+            let cellsHTML = `<td class="bigo-td-n">${nFmt}</td>`;
 
             for (const algo of enabledAlgos) {
                 // If algorithm has a 'show' value, only display when N matches
@@ -613,7 +670,7 @@
     function processBigO() {
         document.querySelectorAll('.markdown-section big-o').forEach(el => {
             const rawMax = parseInt(el.getAttribute('max') ?? '20', 10);
-            const maxN = Math.max(10, Math.min(4096, isNaN(rawMax) ? 20 : rawMax));
+            const maxN = Math.max(10, Math.min(MAX_N, isNaN(rawMax) ? 20 : rawMax));
 
             // Parse step attribute
             const stepAttr = el.getAttribute('step');
