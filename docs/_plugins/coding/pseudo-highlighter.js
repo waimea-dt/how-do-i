@@ -132,7 +132,9 @@
             case 'do':
             case 'forever':
             case 'for':
+            case 'loop':
             case 'endfor':
+            case 'endloop':
             case 'next':
             case 'break':
             case 'continue':
