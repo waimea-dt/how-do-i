@@ -506,9 +506,18 @@
     // Formatting helpers
     // -------------------------------------------------------------------------
 
-    function fmtEffort(v) {
+    // Scientific notation kicks in earlier as more data columns are shown,
+    // since wider tables have less room per cell for long numbers.
+    function getSciThreshold(visibleColCount) {
+        if (visibleColCount <= 1) return 1e27;
+        if (visibleColCount === 2) return 1e21;
+        if (visibleColCount === 3) return 1e15;
+        return 1e9;
+    }
+
+    function fmtEffort(v, visibleColCount) {
         if (!isFinite(v)) return '∞';
-        if (v >= 1e7) return v.toExponential(1).replace('e+', '<span class="exponent">×10<sup>') + '</sup></span>';
+        if (v > getSciThreshold(visibleColCount)) return v.toExponential(1).replace('e+', '<span class="exponent">×10<sup>') + '</sup></span>';
         // if (v >= 1e27) return (v / 1e27).toFixed(0) + 'Oc';
         // if (v >= 1e24) return (v / 1e24).toFixed(0) + 'Sp';
         // if (v >= 1e21) return (v / 1e21).toFixed(0) + 'Sx';
@@ -556,6 +565,20 @@
             <h3 class="bigo-title">Comparison of Computational Effort</h3>
             <div class="bigo-controls">
                 <div class="bigo-categories">${categoriesHTML}</div>
+                <div class="bigo-key">
+                    <div class="bigo-key-item">
+                        <span class="bigo-key-swatch"></span>
+                        <span class="bigo-key-label">Tractable</span>
+                    </div>
+                    <div class="bigo-key-item">
+                        <span class="bigo-key-swatch is-warning"></span>
+                        <span class="bigo-key-label">Near-Intractable</span>
+                    </div>
+                    <div class="bigo-key-item">
+                        <span class="bigo-key-swatch is-huge"></span>
+                        <span class="bigo-key-label">Intractable</span>
+                    </div>
+                </div>
             </div>
             <div class="bigo-table-wrap">
                 <table class="bigo-table">
@@ -633,7 +656,7 @@
                     const effortWorst = algo.fn(n);  // fn is worst case
 
                     for (const effort of [effortBest, effortAvg, effortWorst]) {
-                        const formatted = fmtEffort(effort);
+                        const formatted = fmtEffort(effort, enabledAlgos.length);
                         let classes = 'bigo-td-effort';
                         if (effort >= TRACTABLE_LIMIT) {
                             classes += ' is-huge';
@@ -645,7 +668,7 @@
                 } else {
                     // Show single column (worst case only)
                     const effort = algo.fn(n);
-                    const formatted = fmtEffort(effort);
+                    const formatted = fmtEffort(effort, enabledAlgos.length);
                     let classes = 'bigo-td-effort';
                     if (effort >= TRACTABLE_LIMIT) {
                         classes += ' is-huge';

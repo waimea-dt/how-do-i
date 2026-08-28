@@ -8,6 +8,7 @@
     /* ---- Design tokens ---- */
     --bigo-bg:               var(--color-mono-0);
     --bigo-border:           var(--color-mono-3);
+    --bigo-border-high:      var(--color-mono-5);
     --bigo-cat-bg:           var(--color-mono-0);
     --bigo-card-bg:          var(--color-mono-1);
     --bigo-card-hover:       var(--color-mono-0);
@@ -20,7 +21,7 @@
 
     --bigo-font-mono:        var(--font-family-mono);
 
-    --bigo-color-tractable:         color-mix(in srgb, var(--color-good),      transparent 100%);
+    --bigo-color-tractable:         color-mix(in srgb, var(--color-good),      transparent 90%);
     --bigo-color-near-intractable:  color-mix(in srgb, var(--highlight-color), transparent 80%);
     --bigo-color-intractable:       color-mix(in srgb, var(--color-attention), transparent 70%);
 
@@ -55,36 +56,81 @@
         margin: 0;
     }
 
-    /* ---- Categories & Algorithm Cards ---- */
-
-    .bigo-categories {
-        grid-area: categories;
+    .bigo-controls {
         display: flex;
-        min-width: 250px;
+        height: 100%;
         flex-direction: column;
-        gap: var(--gap-med);
-    }
+        /* justify-content: space-between; */
+        gap: var(--gap-large);
 
-    .bigo-category {
-        display: flex;
-        flex-direction: column;
-        gap: var(--gap-tiny);
-    }
+        /* ---- Categories & Algorithm Cards ---- */
+        .bigo-categories {
+            grid-area: categories;
+            display: flex;
+            min-width: 250px;
+            flex-direction: column;
+            gap: var(--gap-med);
 
-    .bigo-category-title {
-        font-size: var(--font-med);
-        font-weight: 500;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--bigo-title-color);
-        margin: 0;
-        padding: 0;
-    }
+            .bigo-category {
+                display: flex;
+                flex-direction: column;
+                gap: var(--gap-tiny);
 
-    .bigo-category-algos {
-        display: flex;
-        flex-direction: column;
-        gap: var(--gap-tiny);
+                .bigo-category-title {
+                    font-size: var(--font-med);
+                    font-weight: 500;
+                    letter-spacing: 0.05em;
+                    text-transform: uppercase;
+                    color: var(--bigo-title-color);
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .bigo-category-algos {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--gap-tiny);
+                }
+            }
+        }
+
+        /* ---- Key ---- */
+
+        .bigo-key {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: var(--gap-med);
+
+            @container (min-width: 800px) {
+                flex-direction: column;
+            }
+
+            .bigo-key-item {
+                display: flex;
+                align-items: center;
+                gap: var(--gap-small);
+                font-size: var(--font-med);
+                color: var(--bigo-muted);
+
+                .bigo-key-swatch {
+                    width: 1.5em;
+                    height: 1.5em;
+                    flex-shrink: 0;
+                    border: 1px solid var(--bigo-border-high);
+                    border-radius: calc(var(--border-radius) * 0.5);
+                    background-color: var(--bigo-color-tractable);
+
+                    &.is-warning {
+                        background-color: var(--bigo-color-near-intractable);
+                    }
+
+                    &.is-huge {
+                        background-color: var(--bigo-color-intractable);
+                    }
+                }
+            }
+        }
     }
 
     .bigo-algo-card {
