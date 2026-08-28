@@ -2,49 +2,57 @@
 
 ## The Classic Challenge
 
-> Given a list of cities and the distances between them, what is the shortest route that visits each city exactly once and returns to the start?
+The **Travelling Salesperson Problem** asks: given a list of cities, what is the **shortest route that visits each city** exactly once and returns to the starting point?
 
-This is one of the most famous problems in computer science - it shows up in delivery routing, circuit board drilling, and scheduling.
+This is one of the most famous problems in computer science.
 
-## Why It's Hard
-
-- **Checking** a route's total distance is easy: **O(N)**
-- **Finding** the shortest route (brute force) means trying every possible order: **O(N!)**
-
-## Try It Yourself
-
-<tsp cities="8"></tsp>
-
-Start with 8 cities, then try increasing to 10 or 11 - watch how quickly it becomes impractical!
-
-## Why So Many Routes?
-
-For N cities (fixing the start city, and treating each direction as the same route), there are **(N-1)!/2** possible routes.
-
-| Cities | Routes to Check       |
-| ------ | ------------------------ |
-| 5      | 12                        |
-| 8      | 2,520                     |
-| 10     | 181,440                   |
-| 12     | 19,958,400                |
-| 15     | 43,589,145,600             |
-
-<big-o algos="tsp-brute" max="15"></big-o>
-
-## A Faster (But Imperfect) Approach
-
-Since brute force is only practical for tiny N, we use a **heuristic** instead: the **nearest neighbour** approach - always travel to the closest unvisited city.
-
-- **Time**: **O(N<sup>2</sup>)** - much faster
-- **Quality**: typically about 25% longer than the optimal route
-
-See [Approximation Algorithms & Heuristics](approximation.md) for more on this trade-off.
-
-## Real-World Uses
+## Real-World Applications of the TSP
 
 - **Logistics**: delivery route planning (courier companies, food delivery)
 - **Manufacturing**: minimising tool movement when drilling circuit boards
 - **Scheduling**: ordering telescope observations to minimise movement
+
+
+## Why It's Hard
+
+The TSP is **NP-hard**. To find the optimal solution requires a **brute-force** approach: we need to test _every possible route_. For N cities, there are **(N-1)!/2** unique routes to check (we can fix the starting city and ignore direction) - giving a complexity of **O(N!)**.
+
+<big-o algos="tsp-brute" max="25" step=5></big-o>
+
+> [!NOTE]
+> With a complexity of **O(N!)** then effort required to solve the TSP **explodes** at relatively low values of N.
+
+### Try It Yourself
+
+<tsp cities="8" history></tsp>
+
+Start with 8 cities, then try increasing to 15 or 20 - watch how quickly it becomes impractical!
+
+
+## TSP Brute-Force Algorithm
+
+The only solution to the TSP is a **brute-force algorithm**:
+
+```pseudo
+start
+    // permutations for a list = N!
+    generate all possible permutations of cities
+
+    best route = None
+    shortest distance = Infinity
+
+    loop through each route permutation
+        calculate total distance for the route
+
+        if distance < shortest distance
+            best route = this route
+            shortest distance = distance
+        endif
+    next route
+
+    display best route and shortest distance
+end
+```
 
 ## Key Terms
 
@@ -69,10 +77,4 @@ See [Approximation Algorithms & Heuristics](approximation.md) for more on this t
     Always travel to the **closest unvisited city** - fast (**O(N<sup>2</sup>)**), but not always optimal.
 
 </flashcards>
-
-## Experiment With Different Sizes
-
-<tsp cities="10" history></tsp>
-
-Try adjusting the number of cities to see when brute force stops being practical!
 

@@ -28,9 +28,11 @@
 
 - <i data-lucide="puzzle"></i> Classic Hard Problems
     - [<i data-lucide="waypoints"></i> Travelling Salesperson](/cs/complexity/tsp.md)
-      - [<i data-lucide="equal-approximately"></i> TSP Approximations](/cs/complexity/tsp.md)
+    - [<i data-lucide="equal-approximately"></i> TSP Approximations](/cs/complexity/tsp-approx.md)
     - [<i data-lucide="backpack"></i> Knapsack Problem](/cs/complexity/knapsack.md)
     - [<i data-lucide="package-open"></i> Bin Packing Problem](/cs/complexity/bin-packing.md)
-    - [<i data-lucide="list-checks"></i> Quiz: Hard Problems](/cs/complexity/quiz-problems.md)
+    - [<i data-lucide="list-checks"></i> Quiz: The TSP](/cs/complexity/quiz-tsp.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Knapsack](/cs/complexity/quiz-knapsack.md)
+    - [<i data-lucide="list-checks"></i> Quiz: Bin Packing](/cs/complexity/quiz-bin.md)
 
 

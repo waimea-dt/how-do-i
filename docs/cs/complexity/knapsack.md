@@ -30,7 +30,7 @@ For N items, there are **2<sup>N</sup>** possible subsets to check - each item i
 | 20    | 1,048,576        |
 | 30    | 1,073,741,824    |
 
-<big-o algos="knap" max="30"></big-o>
+<big-o algos="knap-brute" max="80" step="10"></big-o>
 
 <knapsack speed="slow" capacity="25" items="2|3 3|4 4|5 5|8 7|9"></knapsack>
 
