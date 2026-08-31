@@ -44,25 +44,26 @@ Problems where we can **easily verify** a solution, but we don't always know how
 > [!IMPORTANT]
 > Every problem in **P** is also in **NP** (if you can solve it fast, you can obviously check it fast).
 
-### NP-Hard (Intractable Problems)
+### NP-Hard (The Hardest Problems)
 
-Problems that are **intractable**: we don't know of any efficient, polynomial time solution - they are **hard to solve**.
-
-**Examples**:
-- TSP optimal / shortest route: **O(N!)**
-- Knapsack problem: **O(2<sup>N</sup>)**
-
-### NP-Complete (Intractable Problems, Easy to Verify)
-
-Problems that are **intractable** / **hard to solve**, but which are **easy to verify** once a solution has been found.
+Problems where no exact, worst-case polynomial-time solution is known. NP-Hard problems are considered computationally **intractable** for exact solutions, though good approximations often exist (via heuristic solutions).
 
 **Examples**:
-- Sudoku:
+- TSP - optimal / shortest route: **O(N!)**
+- 0/1 Knapsack problem - optimal solution: **O(2<sup>N</sup>)**
+- Bin-Packing problem - optimal solution: **O(2<sup>N</sup>)**
+
+> [!NOTE]
+> Not all NP-Hard problems are in NP, and some are completely unsolvable (undecidable).
+
+### NP-Complete (The Hardest Problems in NP)
+
+Problems that are **hard to solve** (assumed to be **intractable**), but which are **easy to verify** once a solution has been found.
+
+**Examples**:
+- NxN Sudoku:
   - Easy to check if a completed puzzle is correct: **O(N<sup>2</sup>)**
   - Very hard to solve it in the first place: **O(2<sup>N</sup>)**
-- 0/1 Knapsack Problem:
-  - Easy to check if a solution is the best one: **O(N)**
-  - Very hard to find the optimal solution: **O(2<sup>N</sup>)**
 
 
 ## Classes and Example Problems

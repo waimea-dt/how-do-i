@@ -250,32 +250,6 @@
             },
             problems: [
                 {
-                    id: 'knapsack',
-                    name: '0/1 Knapsack',
-                    description: 'Select out of N items to maximize value within a limit',
-                    solveTime: 'O(2<sup>N</sup>)',
-                    verifyTime: 'O(N)',
-                    example: 'Cargo loading',
-                    icon: SVG_ICONS.problem.knapsack,
-                    marker: {
-                        standard: { x: 210, y: 205 },
-                        collapse: { x: 210, y: 205 }
-                    }
-                },
-                {
-                    id: 'bin-packing',
-                    name: 'Bin Packing',
-                    description: 'Pack N items into minimum number of bins',
-                    solveTime: 'O(2<sup>N</sup>)',
-                    verifyTime: 'O(N)',
-                    example: 'Shipping container allocation',
-                    icon: SVG_ICONS.problem.binPacking,
-                    marker: {
-                        standard: { x: 290, y: 205 },
-                        collapse: { x: 290, y: 205 }
-                    }
-                },
-                {
                     id: 'graph-colouring',
                     name: 'Graph Colouring',
                     description: 'Colour graph of N nodes so adjacent nodes differ',
@@ -284,21 +258,21 @@
                     example: 'Timetable scheduling',
                     icon: SVG_ICONS.problem.graphColouring,
                     marker: {
-                        standard: { x: 210, y: 315 },
-                        collapse: { x: 210, y: 315 }
+                        standard: { x: 210, y: 305 },
+                        collapse: { x: 210, y: 305 }
                     }
                 },
                 {
                     id: 'sudoku',
                     name: 'Sudoku',
                     description: 'Solving a N by N sudoku puzzle',
-                    solveTime: 'O(2<sup>N</sup>)',
+                    solveTime: 'O(N<sup>N<sup>2</sup></sup>)',
                     verifyTime: 'O(N<sup>2</sup>)',
                     example: 'Sudoku puzzle',
                     icon: SVG_ICONS.problem.sudoku,
                     marker: {
-                        standard: { x: 290, y: 315 },
-                        collapse: { x: 290, y: 315 }
+                        standard: { x: 290, y: 305 },
+                        collapse: { x: 290, y: 305 }
                     }
                 },
             ],
@@ -327,8 +301,34 @@
                     example: 'Delivery route optimization',
                     icon: SVG_ICONS.problem.travellingSalesman,
                     marker: {
-                        standard: { x: 410, y: 110 },
-                        collapse: { x: 410, y: 110 }
+                        standard: { x: 100, y: 100 },
+                        collapse: { x: 100, y: 100 }
+                    }
+                },
+                {
+                    id: 'knapsack',
+                    name: '0/1 Knapsack - Optimal Solution',
+                    description: 'Select out of N items to maximize value within a limit',
+                    solveTime: 'O(2<sup>N</sup>)',
+                    verifyTime: 'O(2<sup>N</sup>)',
+                    example: 'Cargo loading',
+                    icon: SVG_ICONS.problem.knapsack,
+                    marker: {
+                        standard: { x: 400, y: 140 },
+                        collapse: { x: 400, y: 140 }
+                    }
+                },
+                {
+                    id: 'bin-packing',
+                    name: 'Bin Packing - Optimal Solution',
+                    description: 'Pack N items into minimum number of bins',
+                    solveTime: 'O(2<sup>N</sup>)',
+                    verifyTime: 'O(2<sup>N</sup>)',
+                    example: 'Shipping container allocation',
+                    icon: SVG_ICONS.problem.binPacking,
+                    marker: {
+                        standard: { x: 410, y: 60 },
+                        collapse: { x: 410, y: 60 }
                     }
                 },
             ],
@@ -617,7 +617,7 @@
                 ctx.fillText(PROBLEMS.np.shortName, npCx - 160, npCy)
                 ctx.fillText(PROBLEMS.p.shortName, pCx, pCy)
                 ctx.fillText(PROBLEMS.nph.shortName, hardCx, hardCy - 150)
-                ctx.fillText(PROBLEMS.npc.shortName, npCx, npCy - 140)
+                ctx.fillText(PROBLEMS.npc.shortName, npCx, npCy - 150)
             }
             else {
                 const hardCx = 250
