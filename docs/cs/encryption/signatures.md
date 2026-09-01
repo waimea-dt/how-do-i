@@ -2,8 +2,6 @@
 
 A **digital signature** proves that a message or file really came from a specific person, and hasn't been tampered with since. It combines **hashing** and **asymmetric encryption**.
 
-<videoembed id="OZtmNEfQ6ag"></videoembed>
-
 ## How Signing Works
 
 1. The sender hashes the document, producing a unique fingerprint
@@ -80,6 +78,10 @@ Drag these steps into the correct order:
     Hashing creates a small, fixed-size fingerprint that's much faster to encrypt and verify than an entire large document.
 
 </flashcards>
+
+## Video Overview
+
+<videoembed id="OZtmNEfQ6ag"></videoembed>
 
 ## Further Reading
 

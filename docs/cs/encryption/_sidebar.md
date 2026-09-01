@@ -36,6 +36,7 @@
     - [<i data-lucide="shield"></i> AES - Symmetric Cipher](/cs/encryption/aes.md)
     - [<i data-lucide="shield-check"></i> RSA - Asymmetric Cipher](/cs/encryption/rsa.md)
     - [<i data-lucide="handshake"></i> Diffie-Hellman Key Exchange](/cs/encryption/diffie-hellman.md)
+    - [<i data-lucide="clock"></i> Modulo Arithmetic](/cs/encryption/modulo.md)
     - [<i data-lucide="list-checks"></i> Quiz: Modern Cryptography](/cs/encryption/quiz-modern.md)
 
 - <i data-lucide="hash"></i> Hashing & Digital Signatures

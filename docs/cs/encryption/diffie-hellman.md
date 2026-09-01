@@ -2,29 +2,32 @@
 
 **Diffie-Hellman** was the first practical method (1976) for two people to agree on a shared secret key over a public, insecure channel - without ever transmitting the secret itself.
 
-## The Numeric Version
 
-Diffie-Hellman uses modular arithmetic - numbers "wrapping around" like a clock - to make combining secrets easy, but reversing them practically impossible.
+## How Diffie-Hellman Key Exchange Works
+
+Diffie-Hellman uses [modulo arithmetic](/cs/encryption/modulo.md) - numbers 'wrapping around' like a clock - to make combining secrets easy, but reversing them practically impossible.
+
 
 <diffie-hellman p="17" g="5"></diffie-hellman>
 
-## With Eve Watching
+> [!IMPORTANT]
+> In reality, small numbers like `p = 17` as used above, are far too small for real security. Instead:
+> - The **Generator (g)** is usually set to **2 or 5**
+> - The **Prime Modulus (p)** is a **huge prime number**, typically 2048 or 4096 bits long
 
-Try it with interception enabled - Eve sees *everything* exchanged publicly, but still can't work out the shared secret:
+## Eavesdropping is Not a Problem
+
+If an eavesdropper, Eve, is monitoring the communications, she sees *everything* exchanged **publicly**, but still can't work out the shared secret without knowing Alice and Bob's private values...
 
 <diffie-hellman intercept></diffie-hellman>
 
 > [!NOTE]
-> Eve's problem is called the **discrete logarithm problem** - given the public numbers, working backwards to find the private ones is computationally intractable for large enough numbers.
+> The problem Eve needs to solve to crack Alice and Bob's private keys is called the **Discrete Logarithm Problem** - given the public numbers, working backwards to find the private ones is computationally intractable (effectively impossible) for large enough numbers.
 
-## Why This Matters
+## Why Diffie-Hellman Matters
 
-Before Diffie-Hellman, symmetric encryption suffered from the [key distribution problem](/cs/encryption/key-distribution.md) - there was no safe way to agree a key without meeting first. Diffie-Hellman made secure communication between strangers possible for the first time, laying the foundation for HTTPS, VPNs, and messaging apps.
+Before Diffie-Hellman Key Exchange, symmetric encryption suffered from the [key distribution problem](/cs/encryption/key-distribution.md) - there was no safe way to agree a key without meeting first. Diffie-Hellman made secure communication between strangers possible for the first time, laying the foundation for [HTTPS](/cs/encryption/https.md), [VPNs](/cs/encryption/vpn.md), and secure messaging apps.
 
-## In Your School
-
-- Every time your device connects to a school HTTPS site for the first time, a Diffie-Hellman-style exchange (or similar) can help agree a session key
-- VPN software used by staff working remotely uses key exchange methods based on this same idea (see [VPNs](/cs/encryption/vpn.md))
 
 ## Test Your Knowledge: The Exchange Process
 
@@ -38,11 +41,9 @@ Drag these steps into the correct order:
 
 3. Alice and Bob each combine their private number with the public numbers, and swap results
 
-4. Alice combines Bob's result with her own private number
+4. Alice combines Bob's result with her own private number; Bob combines Alice's result with his own private number
 
-5. Bob combines Alice's result with his own private number
-
-6. Both arrive at the same shared secret, without ever sending it
+5. Both Alice and Bob arrive at the same shared secret, without ever sending it
 
 </drag-drop>
 

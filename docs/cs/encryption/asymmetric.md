@@ -1,18 +1,25 @@
 # What is Asymmetric Encryption?
 
-**Asymmetric cryptography** uses mathematically linked public and private information. Unlike symmetric encryption, it does not begin with both people holding the same secret key.
+Asymmetric cryptography uses **mathematically linked public and private information** so that secret keys do not need to be exchanged publically, unlike symmetric cryptography.
 
-## Three Different Jobs
+> [!TIP]
+> - Keys: **Secret keys are never shared**, only public information
+> - Speed: ⚠️ **Slow** compared to symmetric encryption
+> - Benefits: ✅ **No Key Distribution Problem**
+> - Best for: **Small secrets**, not bulk data
 
-- **Public-key encryption** - Alice encrypts a message with Bob's public key. Only Bob's private key can decrypt it. RSA can do this.
-- **Key exchange** - Alice and Bob create the same shared secret without sending it. Diffie-Hellman does this.
-- **Digital signatures** - Bob uses his private key to prove that a message came from him.
+## Three Different Uses
 
-Key exchange usually creates a symmetric key. Symmetric encryption then protects the actual data.
+| Use                                                   | Description                                                                                                                                                                      | Application                                                               |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [Public-Key Encryption](/cs/encryption/public-key.md) | Key pairs are created: public and private. The public key can be shared freely. The public key is used to encrypt messages, but these can only be decrypted with the private key | [RSA](/cs/encryption/rsa.md) can do this                                  |
+| [Key Exchange](/cs/encryption/key-exchange.md)        | Two parties can end up with the same shared secret without actually sending it. Instead they publically share information that is used to generate the shared secret             | [Diffie-Hellman Key Exchange](/cs/encryption/diffie-hellman.md) does this |
+| [Digital Signatures](/cs/encryption/signatures.md)    | A private key can be used to 'sign' a document / message to prove that it came from a specific person and ensure it has not been tampered with                                   | **DSA** (Digital Signature Algorithm) is a common standard for this |
 
-See [Public-Key Encryption](/cs/encryption/public-key.md), [Key Exchange](/cs/encryption/key-exchange.md), and [Digital Signatures](/cs/encryption/signatures.md) for each job.
+> [!NOTE]
+> **Key exchange** is usually used to create a **shared symmetric key** and symmetric encryption is then used to protect the actual data.
 
-## Trade-Off Between Asymmetric and Symmetric
+## Asymmetric vs Symmetric Encryption
 
 |                  | Symmetric                   | Asymmetric                              |
 | ---------------- | --------------------------- | --------------------------------------- |
@@ -21,36 +28,14 @@ See [Public-Key Encryption](/cs/encryption/public-key.md), [Key Exchange](/cs/en
 | Speed            | ✅ Fast                     | ⚠️ Much slower                        |
 | Main use         | **Bulk** data - files, WiFi | Key exchange, encryption, signatures    |
 
-> [!TIP]
-> In practice, most secure systems (like HTTPS) use **key exchange** to safely agree a key, then symmetric encryption for the actual data. See [HTTPS & TLS](/cs/encryption/https.md).
-
-
 ## Where It's Used Today
 
-| Technology                                       | How it is Used                                                                                                                                                                       | Why it is Used                                                                                                                                  |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **HTTPS Handshake** (start of HTTPS session) | When you browse to an HTTPS website, your browser uses asymmetric encryption to safely agree a symmetric key with the website (see [HTTPS & TLS](/cs/encryption/https.md))           | Allows your browser and the website server to safely exchange a symmetric key so they can then continue with faster symmetric encryption        |
-| **Digital Signatures** (to authenticate data)    | Digital signatures are used to 'sign' software updates, emails, and documents (see [Digital Signatures](/cs/encryption/signatures.md))                                               | Signed documents are guaranteed to be authentic: they come from a known source and have not been altered.                                       |
-| **SSH** (Secure Shell)                           | SSH is used to securely log into remote servers. It is common for servers not to have a physical screen / keyboard - instead an operator used SSH to login via a network connection. | SSH allows server operators to run commands and monitor services on a server without revealing any sensitive information to other network users |
-| **Enterprise WiFi** (e.g. WPA3)                  | Symmetric encryption is used to verify a user's identity before granting network access (see [WiFi Security](/cs/encryption/wifi.md))                                                | Enterprice wifi is far more secure than typical home wifi, forcing users to authenticate before use. The login process is secured via encryption. |
-
-
-- **HTTPS** uses key exchange to create a session key, then symmetric encryption for web traffic.
-- **Digital signatures** check that software updates, emails, and documents are genuine.
-- **SSH** and **enterprise WiFi** use public-key cryptography to authenticate users and devices.
-
-
-## In Your School
-
-- The school's website/portal (**HTTPS**) uses key exchange to set up a secure connection before you log in
-- **WPA2/WPA3-Enterprise** WiFi uses certificates and public-key cryptography to check your identity before letting your device online
-- Software updates pushed to school devices are **digitally signed**, so the school's IT system can verify they haven't been tampered with
-
-## Video Overviews
-
-<videoembed id="AQDCe585Lnc"></videoembed>
-
-<videoembed id="6-JjHa-qLPk"></videoembed>
+| Technology                                    | How it is Used                                                                                                                                                                       | Why it is Used                                                                                                                                     |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **HTTPS Handshake** (setup of HTTPS session)  | When you browse to an HTTPS website, your browser uses **key exchange** to safely agree a symmetric key with the website (see [HTTPS & TLS](/cs/encryption/https.md))                | Allows your browser and the website server to continue with faster symmetric encryption for all subsequent web traffic                             |
+| **Digital Signatures** (to authenticate data) | Digital signatures are used to 'sign' software updates, emails, and documents (see [Digital Signatures](/cs/encryption/signatures.md))                                               | Signed documents can be validated to make sure they are authentic and haven't been tampered with, e.g. software updates for school devices                                                  |
+| **SSH** (Secure Shell)                        | SSH is used to securely log into remote servers. It is common for servers not to have a physical screen / keyboard - instead an operator used SSH to login via a network connection. | SSH allows server operators to login and run commands on a server without revealing any sensitive information to other network users               |
+| **WPA2/WPA3-Enterprise Wifi**                 | Enterprise-grade wifi uses certificates and public-key cryptography to check a user's identity before granting network access (see [WiFi Security](/cs/encryption/wifi.md))          | Enterprise wifi is far more secure than typical home wifi, forcing users to authenticate before use, preventing unauthorised use and securing data |
 
 ## Key Terms
 

@@ -3,11 +3,11 @@
 **Symmetric encryption** uses the *same* key to both encrypt and decrypt data. It's the oldest and **fastest** form of modern encryption.
 
 > [!TIP]
-> - Common algorithms: **AES**, **DES**
-> - Keys: **Same key** encrypts and decrypts
+> - Keys: **One key** encrypts and decrypts
 > - Speed: ✅ **Fast** - AES is ~1000x faster than RSA
 > - Issues: ⚠️ **Key distribution problem** - How do you share the key securely?
 > - Best for: **Bulk data** - whole hard drives, video streams, etc.
+> - Common algorithms: **AES**, **DES**
 
 ## How It Works
 

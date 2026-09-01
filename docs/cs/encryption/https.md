@@ -28,10 +28,13 @@ Before any data is sent, your browser and the website perform a **TLS handshake*
 
     1. L ---> R : Hello! Here are the encryption methods I support
     2. L <--- R : Hello! Let's use this method - here's my certificate
-    3. L ---> R : Here's my half of the shared secret
-    4. L <--- R : Here's my half - we now share a secret
-    5. L ---> R : **Encrypted with AES from here on**
-    6. L <--- R : **Encrypted with AES from here on**
+    3. L i)   R : Check the server certificate
+    4. L ---> R : Here's my half of the shared secret
+    5. L <--- R : Here's my half
+    6. L i)   R : I have the **Shared secret**
+    7. L   (i R : I have the **Shared secret**
+    8. L ---> R : Encrypted with **fast, symmetric AES** from here on
+    9. L <--- R : Encrypted with **fast, symmetric AES** from here on
 
 </requests>
 

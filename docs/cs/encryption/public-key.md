@@ -3,10 +3,11 @@
 **Public-key encryption** is a form of **asymmetric** cryptography. Bob shares a public key with everyone, but keeps its matching private key secret. Anyone can encrypt a message for Bob. Only Bob can decrypt it.
 
 > [!TIP]
-> - Common algorithm: **RSA**
 > - Keys: **Key pair**, **different keys** encrypt and decrypt
 > - Speed: ⚠️ **Slow** compared to symmetric encryption
-> - Best for: Small secrets, not bulk data
+> - Benefits: ✅ **No Key Distribution Problem**
+> - Best for: **Small secrets**, not bulk data
+> - Common Algorithms: [RSA](/cs/encryption/rsa.md)
 
 ## How It Works
 
@@ -47,24 +48,13 @@ Try it with Eve watching - notice she can see the public key and the encrypted m
 
 ## Compared With Symmetric Encryption
 
-|                      | Symmetric                       | Public-key encryption              |
-| -------------------- | ------------------------------- | ---------------------------------- |
-| Keys                 | **One** shared secret           | **Key pair**: public + private           |
-| Key Distribution                | ⚠️ Problem!                         | ✅ No problem                          |
-| Speed                | ✅ Fast                         | ⚠️ Much slower                     |
-| Main use             | **Bulk** data - files, WiFi     | Encrypting small secrets           |
+|                  | Symmetric                   | Public-key encryption          |
+| ---------------- | --------------------------- | ------------------------------ |
+| Keys             | **One** shared secret       | **Key pair**: public + private |
+| Key Distribution | ⚠️ Problem!               | ✅ No problem                  |
+| Speed            | ✅ Fast                     | ⚠️ Much slower               |
+| Main use         | **Bulk** data - files, WiFi | Encrypting **small secrets**       |
 
-## Trusting Public Keys
-
-Public key does not need to be secret, but it must be genuine. If Eve replaces Bob's public key with her own, Alice could encrypt her message for Eve instead.
-
-Digital certificates link a public key to an identity. They are used by HTTPS websites, enterprise WiFi, and SSH.
-
-## Related Topics
-
-- [RSA Algorithm](/cs/encryption/rsa.md) - public-key encryption using prime numbers
-- [Key Exchange](/cs/encryption/key-exchange.md) - agreeing a shared secret without sending it
-- [Digital Signatures](/cs/encryption/signatures.md) - proving who created a message
 
 ## Video Overviews
 

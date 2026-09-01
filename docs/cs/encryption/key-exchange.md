@@ -1,12 +1,12 @@
 # Key Exchange
 
-**Key exchange** lets two people who have never met agree on a shared secret over a public, insecure network - without ever sending that secret.
+Key exchange lets two people who have never met **agree on a shared secret** over a public, insecure network, **without ever sending that secret**.
 
-This solves [the key distribution problem](/cs/encryption/key-distribution.md). The shared secret becomes a key for fast symmetric encryption.
+This solves [the key distribution problem](/cs/encryption/key-distribution.md). The shared secret then becomes a key for fast symmetric encryption.
 
-## The Colour Mixing Analogy
+## Colour Mixing Analogy
 
-Imagine mixing paint instead of numbers:
+Instead of thinking about the maths, let's instead consider mixing paint...
 
 1. Alice and Bob publicly agree on a common paint colour (say, yellow) - Eve sees this too
 2. Alice privately mixes yellow with her own secret colour; Bob does the same with his own secret colour
@@ -21,16 +21,10 @@ Imagine mixing paint instead of numbers:
 
 ## The Real Version
 
-The colour analogy represents **Diffie-Hellman key exchange**. It uses numbers and modular arithmetic instead of paint - see [Diffie-Hellman Key Exchange](/cs/encryption/diffie-hellman.md) for the numeric version.
+This colour analogy represents **Diffie-Hellman key exchange**. It uses numbers and modulo arithmetic instead of paint - see [Diffie-Hellman Key Exchange](/cs/encryption/diffie-hellman.md) for the numeric version.
 
 > [!NOTE]
-> Key exchange is different from public-key encryption. With RSA, Alice encrypts a message using Bob's public key. With Diffie-Hellman, Alice and Bob both calculate the same shared secret.
-
-## Important Limitation
-
-Diffie-Hellman alone does not prove who Alice and Bob are. An attacker could pretend to be each person and create two separate shared secrets.
-
-HTTPS prevents this using digital certificates and signatures - see [Digital Signatures](/cs/encryption/signatures.md).
+> Key exchange is **different from public-key encryption**. With RSA, Alice encrypts a message using Bob's public key. With Diffie-Hellman, Alice and Bob both **calculate the same shared secret**.
 
 ## Key Terms
 

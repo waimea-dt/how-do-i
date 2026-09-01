@@ -23,7 +23,7 @@ XHG PYZXGXZCS HM XRI TEUVQKI NTHFSL BZ SXAMS BSQFKYIOTEA HBGXTFNMIU HT MO GTYTCE
 </frequency>
 
 > [!IMPORTANT]
-> Note how the very clear peaks (likely for `E`, `T` and `Ā`) in the Caesar ciphertext are not there in the Vigenere ciphertext - instead the frequency pattern is 'smoother', hiding the likely key. This is the strength of polyalphabetic ciphers.
+> Note how the very clear peaks (likely for `E`, `T` and `A`) in the Caesar ciphertext are not there in the Vigenere ciphertext - instead the frequency pattern is 'smoother', hiding the likely key. This is the strength of polyalphabetic ciphers.
 >
 > The longer and less repetitive the keyword, the flatter the frequency chart becomes - a keyword as long as the message itself flattens it completely. See [The Vigenère Cipher](/cs/encryption/vigenere.md) for how the keystream is built.
 
