@@ -1,20 +1,16 @@
-/* Required for custom tooltip positioning */
-[data-tooltip] {
-    --tooltip-back-color:   var(--theme-color-2);
+/*
+ * Tooltip box is a single shared element moved to <body> by tooltips.js
+ * so it can never be clipped by, or add scrollbars to, an overflow-hidden/auto
+ * ancestor such as a table wrapper.
+ */
+.dt-tooltip {
+    --tooltip-back-color:   var(--color-mono-0);
     --tooltip-text-color:   var(--color-mono-9);
-    --tooltip-border-color: var(--theme-color-3);
+    --tooltip-border-color: var(--secondary-color-5);
 
-    position: relative;
-}
-
-/* Custom tooltip - the tooltip box */
-[data-tooltip]::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: var(--space);
+    position: fixed;
+    top: 0;
+    left: 0;
     padding: var(--padding-small) 0.7rem var(--padding-small) 2.2rem;
 
     background: var(--tooltip-back-color);
@@ -22,9 +18,9 @@
     font-size: var(--font-med);
     font-weight: normal;
     line-height: 1.4;
-    border: 1px solid var(--tooltip-border-color);
+    border: 2px solid var(--tooltip-border-color);
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow-small);
+    box-shadow: var(--box-shadow);
 
     /* Text wrapping with viewport constraint */
     max-width: min(25ch, calc(100vw - var(--space-xlarge)));
@@ -48,23 +44,7 @@
     background-size: 1.2rem 1.2rem;
 }
 
-/* Tooltip alignment adjustments for edge cases */
-[data-tooltip-align="left"]::before {
-    left: 0;
-    transform: translateX(0);
-}
-
-[data-tooltip-align="right"]::before {
-    left: auto;
-    right: 0;
-    transform: translateX(0);
-}
-
-/* Center is default, no override needed */
-
-/* Show custom tooltip on hover */
-[data-tooltip]:hover::before,
-[data-tooltip]:hover::after {
+.dt-tooltip.is-visible {
     opacity: 1;
     visibility: visible;
 }

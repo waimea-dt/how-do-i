@@ -1,9 +1,13 @@
 /**
  * docsify-tooltips.js - Smart positioning for any element with data-tooltip
  *
- * This plugin provides intelligent tooltip positioning that prevents tooltips
- * from overflowing off the screen edges. It works with any element that has
- * a [data-tooltip] attribute, including dynamically added elements.
+ * This plugin renders a single shared tooltip element appended directly to
+ * <body> (a "portal") and positions it with fixed coordinates on hover,
+ * rather than using a CSS ::before pseudo-element on the trigger itself.
+ * A pseudo-element is clipped by (and stretches the scroll area of) any
+ * ancestor with overflow set, e.g. a table wrapper - portalling to <body>
+ * avoids that entirely, and also lets us measure the tooltip's real
+ * rendered size instead of estimating it.
  *
  * Features:
  * - Automatic edge detection and alignment adjustment
@@ -19,59 +23,53 @@
  */
 
 (function () {
-  function calculateTooltipPosition(element) {
-    // Use requestAnimationFrame to ensure tooltip pseudo-element is rendered
-    requestAnimationFrame(() => {
-      // Get container boundaries (section.content excludes sidebar)
-      const contentContainer = document.querySelector('section.content');
-      if (!contentContainer) return;
+  let tooltipEl = null;
 
-      const containerRect = contentContainer.getBoundingClientRect();
-      const elementRect = element.getBoundingClientRect();
-      const tooltipText = element.getAttribute('data-tooltip');
+  function getTooltipElement() {
+    if (tooltipEl) return tooltipEl;
 
-      if (!tooltipText) return;
+    tooltipEl = document.createElement('div');
+    tooltipEl.className = 'dt-tooltip';
+    document.body.appendChild(tooltipEl);
+    return tooltipEl;
+  }
 
-      // Match CSS max-width calculation: min(25ch, 100vw - 2rem)
-      const baseFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-      const remInPx = baseFontSize;
-      const maxWidthFromVw = window.innerWidth - (2 * remInPx);
-      const maxWidthFrom25Ch = 25 * baseFontSize;
-      const maxWidth = Math.min(maxWidthFrom25Ch, maxWidthFromVw);
+  function showTooltip(element) {
+    const tooltipText = element.getAttribute('data-tooltip');
+    if (!tooltipText) return;
 
-      // Better width estimation: using measured character width from CSS
-      // Approximate: 0.55ch per character for typical fonts at 0.9rem
-      const estimatedCharWidth = (0.9 * baseFontSize) * 0.55;
-      const tooltipPadding = 2.9 * remInPx; // Left padding includes icon space
+    const contentContainer = document.querySelector('section.content');
+    if (!contentContainer) return;
 
-      // Estimate actual width considering line wrapping
-      let estimatedWidth = (tooltipText.length * estimatedCharWidth) + tooltipPadding;
-      if (estimatedWidth > maxWidth) {
-        // Text will wrap, so width is capped
-        estimatedWidth = maxWidth;
-      }
+    const tooltip = getTooltipElement();
+    tooltip.textContent = tooltipText;
 
-      // Calculate where the tooltip edges would be if centered
-      const elementCenterX = elementRect.left + elementRect.width / 2;
-      const tooltipLeft = elementCenterX - estimatedWidth / 2;
-      const tooltipRight = elementCenterX + estimatedWidth / 2;
+    // Render (invisibly) first so we can measure its real size
+    tooltip.classList.remove('is-visible');
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const containerRect = contentContainer.getBoundingClientRect();
+    const baseFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const safetyMargin = baseFontSize * 0.5;
+    const gap = baseFontSize; // matches --space (1rem) used as the trigger-to-tooltip gap
 
-      // Check against content container boundaries (excludes sidebar area)
-      const safetyMargin = remInPx * 0.5;
+    // Centre under the trigger by default, then clamp to the content bounds
+    let left = elementRect.left + elementRect.width / 2 - tooltipRect.width / 2;
+    const minLeft = containerRect.left + safetyMargin;
+    const maxLeft = containerRect.right - safetyMargin - tooltipRect.width;
+    left = Math.min(Math.max(left, minLeft), maxLeft);
 
-      // Add data attributes to control positioning via CSS
-      // Only align to edges if there's actually not enough space
-      if (tooltipLeft < containerRect.left + safetyMargin) {
-        // Would overflow left edge of content area
-        element.setAttribute('data-tooltip-align', 'left');
-      } else if (tooltipRight > containerRect.right - safetyMargin) {
-        // Would overflow right edge of content area
-        element.setAttribute('data-tooltip-align', 'right');
-      } else {
-        // Center is fine - there's enough space
-        element.setAttribute('data-tooltip-align', 'center');
-      }
-    });
+    let top = elementRect.bottom + gap;
+
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
+    tooltip.classList.add('is-visible');
+  }
+
+  function hideTooltip() {
+    if (tooltipEl) {
+      tooltipEl.classList.remove('is-visible');
+    }
   }
 
   // Install plugin
@@ -84,37 +82,45 @@
 
       if (!contentContainer) return;
 
-      // Remove any existing listener to avoid duplicates
-      if (contentContainer._tooltipHandler) {
-        contentContainer.removeEventListener('mouseenter', contentContainer._tooltipHandler, true);
+      // Remove any existing listeners to avoid duplicates
+      if (contentContainer._tooltipEnterHandler) {
+        contentContainer.removeEventListener('mouseenter', contentContainer._tooltipEnterHandler, true);
+        contentContainer.removeEventListener('mouseleave', contentContainer._tooltipLeaveHandler, true);
       }
 
-      // Create handler for mouseenter events
-      const tooltipHandler = function(event) {
+      const tooltipEnterHandler = function (event) {
         const target = event.target;
-
-        // Check if the target or any parent has data-tooltip
         const tooltipElement = target.closest('[data-tooltip]');
-
         if (tooltipElement) {
-          calculateTooltipPosition(tooltipElement);
+          showTooltip(tooltipElement);
         }
       };
 
-      // Store handler reference for cleanup
-      contentContainer._tooltipHandler = tooltipHandler;
+      const tooltipLeaveHandler = function (event) {
+        const target = event.target;
+        if (target.closest('[data-tooltip]')) {
+          hideTooltip();
+        }
+      };
+
+      contentContainer._tooltipEnterHandler = tooltipEnterHandler;
+      contentContainer._tooltipLeaveHandler = tooltipLeaveHandler;
 
       // Use capture phase to ensure we catch the event early
-      contentContainer.addEventListener('mouseenter', tooltipHandler, true);
+      contentContainer.addEventListener('mouseenter', tooltipEnterHandler, true);
+      contentContainer.addEventListener('mouseleave', tooltipLeaveHandler, true);
     });
 
     // Clean up on route changes
     hook.beforeEach(function (content, next) {
       const contentContainer = document.querySelector('section.content');
-      if (contentContainer && contentContainer._tooltipHandler) {
-        contentContainer.removeEventListener('mouseenter', contentContainer._tooltipHandler, true);
-        contentContainer._tooltipHandler = null;
+      if (contentContainer && contentContainer._tooltipEnterHandler) {
+        contentContainer.removeEventListener('mouseenter', contentContainer._tooltipEnterHandler, true);
+        contentContainer.removeEventListener('mouseleave', contentContainer._tooltipLeaveHandler, true);
+        contentContainer._tooltipEnterHandler = null;
+        contentContainer._tooltipLeaveHandler = null;
       }
+      hideTooltip();
       next(content);
     });
   }
