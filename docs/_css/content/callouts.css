@@ -65,4 +65,12 @@
     & > :last-child {
         margin-bottom: 0;
     }
+
+    strong {
+        color: var(--strong-color);
+    }
+
+    em {
+        color: var(--em-color);
+    }
 }
