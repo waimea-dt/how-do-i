@@ -7,7 +7,7 @@
     --flash-answer-back-color:      var(--theme-color-1);
 
     /* Borders */
-    --flash-border-color:           var(--color-mono-3);
+    --flash-border-color:           var(--theme-color-3);
     --flash-border-width:           2px;
 
     /* Typography */
