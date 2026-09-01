@@ -22,7 +22,7 @@ Without encryption:
 
 Strong encryption can be undone by **weak human choices**:
 
-- **Convenience vs security**: people reuse passwords because remembering 50 unique ones is hard (which is why [password managers](password-managers.md) are good!)
+- **Convenience vs security**: people reuse passwords because remembering 50 unique ones is hard (which is why [password managers](/cs/encryption/password-manager.md) are good!)
 - **Trust**: users often can't tell a secure site from a fake one
 - **Access vs privacy**: governments and companies debate whether encrypted messages should have "backdoors" for law enforcement to be able to monitor criminal communications
 - **Digital divide**: not everyone can afford devices or software that keep encryption up to date

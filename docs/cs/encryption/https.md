@@ -2,17 +2,14 @@
 
 Every time you see a padlock icon in your browser, **TLS** (Transport Layer Security) is protecting that connection. HTTPS is simply HTTP running over TLS.
 
-## The Handshake
+## Key Features
 
-Before any data is sent, your browser and the website perform a **TLS handshake** - a mini version of everything you've already learned:
+- **Key exchange** agrees on a shared secret (like [Diffie-Hellman](/cs/encryption/diffie-hellman.md))
+- A **digital certificate** proves the website's identity (see [Digital Signatures](/cs/encryption/signatures.md))
+- Both sides switch to fast **symmetric encryption** (like [AES](/cs/encryption/aes.md)) for the actual data
+- **TLS 1.3** (2018) removed outdated, weaker options and reduced the handshake to fewer steps, making connections both faster and more secure than the older TLS 1.2
 
-1. Key exchange agrees on a shared secret (like [Diffie-Hellman](/cs/encryption/diffie-hellman.md))
-2. The website proves its identity using a **digital certificate** (see [Digital Signatures](/cs/encryption/signatures.md))
-3. Both sides switch to fast **symmetric encryption** (like [AES](/cs/encryption/aes.md)) for the actual data
-
-<tls domain="portal.school.nz"></tls>
-
-## The Handshake, Visualised
+## The Handshake, Simplified
 
 <requests>
 
@@ -38,23 +35,13 @@ Before any data is sent, your browser and the website perform a **TLS handshake*
 
 </requests>
 
-## TLS 1.2 vs TLS 1.3
+## Key Takeaways
 
-<tls version="1.3"></tls>
+- Even with full network access, an eavesdropper can see *which website* you're connecting to (the domain), but not the contents of your traffic
+- Never enter passwords or payment details on a site without HTTPS - browsers actively warn you with a "Not Secure" label if a site lacks it
+- A padlock only proves the connection is encrypted, not that the website itself is trustworthy
 
-> [!NOTE]
-> TLS 1.3 (2018) removed outdated, weaker options and reduced the handshake to fewer steps, making connections both faster and more secure than TLS 1.2.
-
-## What an Eavesdropper Can and Can't See
-
-<tls domain="payments.school.nz" intercept></tls>
-
-Even with full network access, an eavesdropper can see *which website* you're connecting to (the domain), but not the contents of your traffic.
-
-> [!TIP]
-> Never enter passwords or payment details on a site without HTTPS. Browsers now actively warn you with a "Not Secure" label if a site lacks it.
-
-## In Your School
+## Key Uses in Schools
 
 - The school's learning management system (e.g. Google Classroom) and student portal all rely on HTTPS to protect logins and grades in transit
 - School-managed devices often only allow HTTPS connections, blocking plain HTTP sites for safety

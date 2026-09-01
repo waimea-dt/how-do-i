@@ -4,23 +4,15 @@ WiFi networks broadcast data through the air, meaning anyone nearby with the rig
 
 <videoembed id="ZJS1bWzySxo"></videoembed>
 
-## WPA2
+## Key Features
 
-<wifi security="wpa2" ssid="SchoolWiFi"></wifi>
+WPA2 uses AES encryption and has protected WiFi networks since 2004. WPA3 is the newer upgrade, fixing WPA2's biggest weaknesses:
 
-WPA2 uses AES encryption and has protected WiFi networks since 2004. Its main weakness is the **4-way handshake**, which can be captured and attacked offline if the network password is weak.
-
-## WPA3: The Upgrade
-
-<wifi security="wpa3" ssid="SchoolWiFi-5G"></wifi>
-
-WPA3 fixes WPA2's biggest weaknesses:
-
-| Feature | WPA2 | WPA3 |
-|---|---|---|
-| Encryption | AES | AES (stronger implementation) |
-| Handshake | Vulnerable to offline attacks | Resistant to offline password guessing |
-| Open network protection | None | Encrypts even "open" public WiFi |
+| Feature                 | WPA2                                            | WPA3                                   |
+| ----------------------- | ----------------------------------------------- | -------------------------------------- |
+| Encryption              | AES                                             | AES (stronger implementation)          |
+| Handshake               | Vulnerable to offline password-guessing attacks | Resistant to offline password guessing |
+| Open network protection | None                                            | Encrypts even "open" public WiFi       |
 
 ## Personal vs Enterprise
 
@@ -39,7 +31,7 @@ WPA3 fixes WPA2's biggest weaknesses:
 > [!NOTE]
 > Schools typically use **Enterprise** mode so each student/staff member logs in with their own credentials - making it easy to revoke access without resetting WiFi for everyone, and letting IT staff see *who* used the network and *when*.
 
-## How WPA2/WPA3-Enterprise Actually Works
+## How WPA2/WPA3-Enterprise Works
 
 <requests>
 
@@ -64,11 +56,13 @@ WPA3 fixes WPA2's biggest weaknesses:
 
 </requests>
 
-## With an Eavesdropper Present
+## Key Takeaways
 
-<wifi security="wpa3" ssid="OfficeNet" intercept></wifi>
+- An eavesdropper nearby can see that traffic exists, but properly configured WPA2/WPA3 encryption prevents them from reading it
+- WPA3 closes off the offline password-guessing attacks that were possible against WPA2
+- Enterprise mode ties every connection to a real identity, unlike Personal mode where everyone shares one password
 
-## In Your School
+## Key Uses in Schools
 
 - Student and staff WiFi almost always runs **WPA2/WPA3-Enterprise**, so each person logs in with their own school account
 - If a student loses their laptop, IT can disable just that account - the WiFi password for everyone else stays the same
