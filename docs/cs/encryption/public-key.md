@@ -1,50 +1,107 @@
-# Public Key Cryptography
+# What is Public-Key Encryption?
 
-Public key cryptography lets two people who have **never met** agree on a shared secret, over a network that's being watched. It sounds impossible - but a simple colour-mixing analogy makes it click.
+**Public-key encryption** is a form of **asymmetric** cryptography. Bob shares a public key with everyone, but keeps its matching private key secret. Anyone can encrypt a message for Bob. Only Bob can decrypt it.
 
-## The Colour Mixing Analogy
+> [!TIP]
+> - Common algorithm: **RSA**
+> - Keys: **Key pair**, **different keys** encrypt and decrypt
+> - Speed: ⚠️ **Slow** compared to symmetric encryption
+> - Best for: Small secrets, not bulk data
 
-Imagine mixing paint instead of numbers:
+## How It Works
 
-1. Alice and Bob publicly agree on a common paint colour (say, yellow) - Eve sees this too
-2. Alice privately mixes yellow with her own secret colour; Bob does the same with his own secret colour
-3. They swap their mixed colours in public - Eve sees these too
-4. Each adds their *own* secret colour to the mixture they received
-5. Both arrive at the **same final colour** - but Eve can't reverse-mix paint to find the secret colours!
+1. Bob generates a **key pair**: a public key and a private key
+2. Bob **shares his public key** with *anyone*, including Alice
+3. Alice **encrypts** her message using Bob's **public key**
+4. Alice **sends** the ciphertext to Bob
+5. Bob **decrypts** the ciphertext using his **private key**
 
-<diffie-hellman colour intercept></diffie-hellman>
+<requests>
 
-> [!NOTE]
-> Mixing paint is easy, but *un-mixing* it is practically impossible. Public key cryptography uses the same idea with maths problems that are easy to do one way, but incredibly hard to reverse - like factoring huge numbers.
+- Left: **Alice**
 
-## The Real Version
+- Right: **Bob**
 
-The actual maths swaps paint colours for numbers and modular arithmetic - see [Diffie-Hellman Key Exchange](/cs/encryption/diffie-hellman.md) for the numeric version.
+- Requests:
+
+    1. L   (i R : Creates a **PUBLIC KEY** and **PRIVATE KEY** pair
+    2. L <--- R : Shares **PUBLIC KEY**
+    3. L i)   R : Encrypts PLAINTEXT message using Bob's **PUBLIC KEY**
+    4. L ---> R : Sends **CIPHERTEXT**
+    5. L   (i R : Decrypts CIPHERTEXT using the **PRIVATE KEY**
+
+</requests>
+
+## Try It Yourself
+
+<sym-asym mode="asymmetric" message="Meet at midnight!"></sym-asym>
+
+## Why Interception Doesn't Matter
+
+Try it with Eve watching - notice she can see the public key and the encrypted message, but still can't read it:
+
+<sym-asym mode="asymmetric" intercept intercept-key></sym-asym>
+
+> [!IMPORTANT]
+> This is the breakthrough: **the public key never needs to be secret.** Only the private key does, and that never has to travel anywhere.
+
+## Compared With Symmetric Encryption
+
+|                      | Symmetric                       | Public-key encryption              |
+| -------------------- | ------------------------------- | ---------------------------------- |
+| Keys                 | **One** shared secret           | **Key pair**: public + private           |
+| Key Distribution                | ⚠️ Problem!                         | ✅ No problem                          |
+| Speed                | ✅ Fast                         | ⚠️ Much slower                     |
+| Main use             | **Bulk** data - files, WiFi     | Encrypting small secrets           |
+
+## Trusting Public Keys
+
+Public key does not need to be secret, but it must be genuine. If Eve replaces Bob's public key with her own, Alice could encrypt her message for Eve instead.
+
+Digital certificates link a public key to an identity. They are used by HTTPS websites, enterprise WiFi, and SSH.
+
+## Related Topics
+
+- [RSA Algorithm](/cs/encryption/rsa.md) - public-key encryption using prime numbers
+- [Key Exchange](/cs/encryption/key-exchange.md) - agreeing a shared secret without sending it
+- [Digital Signatures](/cs/encryption/signatures.md) - proving who created a message
+
+## Video Overviews
+
+<videoembed id="AQDCe585Lnc"></videoembed>
+
+<videoembed id="6-JjHa-qLPk"></videoembed>
 
 ## Key Terms
 
 <flashcards>
 
-- # What is a public key?
+- # What is public-key encryption?
 
     ---
 
-    A key that can be shared with anyone and used to encrypt data - only the matching private key can decrypt it.
+    Encryption using a public key and its matching private key.
 
-- # What is a private key?
-
-    ---
-
-    A secret key kept only by its owner, used to decrypt data encrypted with the matching public key.
-
-- # Why is the colour-mixing analogy useful?
+- # Why doesn't the public key need to be secret?
 
     ---
 
-    It shows how two people can combine public and private information to reach the same shared secret, without ever sending the secret itself - even if someone is watching every exchange.
+    Because only the matching private key can decrypt data encrypted with it - anyone can see the public key safely.
+
+- # Why must a public key be genuine?
+
+    ---
+
+    An attacker could replace it with their own key and read messages sent to them.
+
+- # Why is public-key encryption not used for bulk data?
+
+    ---
+
+    It is much slower than symmetric encryption.
 
 </flashcards>
 
 ## Further Reading
 
-- [Cloudflare - How Does Public Key Encryption Work?](https://www.cloudflare.com/learning/ssl/how-does-public-key-encryption-work/) - technical explanation
+- [Cloudflare - What is Public Key Encryption?](https://www.cloudflare.com/learning/ssl/how-does-public-key-encryption-work/) - clear technical overview

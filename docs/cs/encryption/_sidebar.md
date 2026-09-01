@@ -28,7 +28,8 @@
 
 - <i data-lucide="key-square"></i> Asymmetric Encryption
     - [<i data-lucide="circle-question-mark"></i> What is Asymmetric Encryption?](/cs/encryption/asymmetric.md)
-    - [<i data-lucide="lock-keyhole"></i> Public Key Cryptography](/cs/encryption/public-key.md)
+    - [<i data-lucide="handshake"></i> Key Exchange](/cs/encryption/key-exchange.md)
+    - [<i data-lucide="lock"></i> Public-Key Encryption](/cs/encryption/public-key.md)
     - [<i data-lucide="list-checks"></i> Quiz: Asymmetric Encryption](/cs/encryption/quiz-asymmetric.md)
 
 - <i data-lucide="cpu"></i> Modern Cryptography

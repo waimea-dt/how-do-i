@@ -6,7 +6,7 @@ Every time you see a padlock icon in your browser, **TLS** (Transport Layer Secu
 
 Before any data is sent, your browser and the website perform a **TLS handshake** - a mini version of everything you've already learned:
 
-1. Asymmetric encryption agrees on a shared secret (like [Diffie-Hellman](/cs/encryption/diffie-hellman.md))
+1. Key exchange agrees on a shared secret (like [Diffie-Hellman](/cs/encryption/diffie-hellman.md))
 2. The website proves its identity using a **digital certificate** (see [Digital Signatures](/cs/encryption/signatures.md))
 3. Both sides switch to fast **symmetric encryption** (like [AES](/cs/encryption/aes.md)) for the actual data
 
@@ -69,7 +69,7 @@ Drag these steps into the correct order:
 
 3. Browser checks the certificate is valid and trusted
 
-4. Browser and server use asymmetric encryption to agree a shared secret
+4. Browser and server use key exchange to agree a shared secret
 
 5. Both sides switch to fast symmetric encryption for the rest of the session
 

@@ -48,18 +48,18 @@ Test your understanding of public-key cryptography.
     - [x] **Correct!** Asymmetric encryption is computationally slower, so it's typically used to exchange a key, not encrypt bulk data.
     - [ ] **Not quite.** Speed, not legality or weakness, is the reason it's paired with symmetric encryption for bulk data.
 
-- # In the colour-mixing analogy, what does the final matching colour represent?
+- # How is key exchange different from public-key encryption?
 
     ---
 
-    - [ ] The public colour exchanged between them
-    - [ ] The encrypted ciphertext sent between them
-    - [x] The shared secret key that both parties now hold
-    - [ ] The message Eve managed to intercept
+    - [ ] Key exchange sends a secret key; public-key encryption does not
+    - [x] Key exchange creates a shared secret; public-key encryption encrypts a message for a key owner
+    - [ ] Key exchange only works when Alice and Bob meet in person
+    - [ ] There is no difference between them
 
     ---
 
-    - [x] **Correct!** Both Alice and Bob reach the same final colour, representing a shared secret Eve cannot reproduce.
-    - [ ] **Not quite.** The colours exchanged in public represent public information, not the final shared secret itself.
+    - [x] **Correct!** Diffie-Hellman creates a shared secret. RSA can encrypt a message using the recipient's public key.
+    - [ ] **Not quite.** Key exchange creates a shared secret without sending it. Public-key encryption protects a message for a recipient.
 
 </quiz>
