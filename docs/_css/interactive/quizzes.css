@@ -7,6 +7,7 @@
     --quiz-title-back-color:            color-mix(in srgb, var(--theme-color-1), transparent 10%);
 
     --quiz-heading-color:               var(--theme-color);
+    --quiz-heading-num-color:           var(--theme-color-4);
 
     --quiz-back-color:                  var(--color-mono-0);
     --quiz-border-color:                var(--color-mono-3);
@@ -17,6 +18,7 @@
     --quiz-question-back-color:         var(--color-mono-1);
 
     --quiz-answer-color:                var(--theme-color);
+    --quiz-answer-num-color:            var(--secondary-color-5);
     --quiz-answer-back-color:           var(--color-mono-3);
     --quiz-answer-back-color--bright:   var(--theme-color-2);
     --quiz-answer-border-color:         var(--color-mono-3);
@@ -43,10 +45,12 @@
     padding: var(--quiz-padding);
     display: flex;
     flex-direction: column;
-    gap: var(--quiz-padding);
+    gap: calc(2 * var(--quiz-padding));
     background-color: var(--quiz-back-color);
     border: var(--quiz-border-width) solid var(--quiz-border-color);
     border-radius: calc(var(--border-radius) * 2.5);
+
+    counter-reset: questions;
 
     @container (min-width: 768px) {
         --quiz-padding: var(--padding);
@@ -154,6 +158,12 @@
             font-size: var(--font-xlarge);
             color: var(--quiz-heading-color);
             border: none;
+
+            &::before {
+                counter-increment: questions;
+                content: "Q" counter(questions) ". ";
+                color: var(--quiz-heading-num-color);
+            }
         }
 
         > hr {
@@ -169,6 +179,8 @@
             margin: var(--space-small) 0 0;
             list-style: none;
 
+            counter-reset: answers;
+
             /* 2 columns on larger screens */
             @container (min-width: 768px) {
                 grid-template-columns: repeat(2, 1fr);
@@ -179,7 +191,7 @@
                 background-color: var(--quiz-answer-back-color);
                 border-radius: calc(var(--border-radius) * 0.5);
                 box-shadow: var(--box-shadow-small);
-                padding: 0.5em 2.5em 0.5em 0.75em;
+                padding: 0.5em 2.5em 0.5em 2em;
                 margin: 0;
                 transition: all 150ms;
                 position: relative;
@@ -191,6 +203,14 @@
 
                 > :first-child {
                     margin-top: 0;
+
+                    &::before {
+                        position: absolute;
+                        left: 0.5rem;
+                        counter-increment: answers;
+                        content: counter(answers, upper-alpha) ". ";
+                        color: var(--quiz-answer-num-color);
+                    }
                 }
 
                 > :last-child {
