@@ -74,8 +74,8 @@
             problems: 'Problem examples by complexity class'
         },
         toggle: {
-            standard: 'Show P = NP (collapsed view)',
-            collapsed: 'Show P ≠ NP (standard view)'
+            standard: 'Show P = NP',
+            collapsed: 'Show P ≠ NP'
         },
         verify: {
             selectLabel: 'Select problem:'
@@ -98,6 +98,7 @@
             knapsack: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>',
             binPacking: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg>',
             graphColouring: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
+            discreteLog: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>',
             sudoku: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>',
             travellingSalesman: '<svg class="no-zoom" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 6v5a1 1 0 0 0 1 1h6.102a1 1 0 0 1 .712.298l.898.91a1 1 0 0 1 .288.702V17a1 1 0 0 1-1 1h-3"/><path d="M5 18H3a1 1 0 0 1-1-1V8a2 2 0 0 1 2-2h12c1.1 0 2.1.8 2.4 1.8l1.176 4.2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>'
         },
@@ -112,7 +113,10 @@
             shortName: "P",
             fullName: "P - Polynomial Time",
             class: "p",
-            description: "<strong>Easy to solve</strong>, and part of NP, so <strong>easy to verify</strong>",
+            description: {
+                standard: "<strong>Easy to solve</strong>, and part of NP, so <strong>easy to verify</strong>",
+                collapse: "If P = NP, this is now <em>identical</em> to NP, so both <strong>easy to solve</strong> and <strong>easy to verify</strong>"
+            },
             tabLabel: 'P Problems',
             tabOrder: 1,
             legendOrder: 2,
@@ -134,7 +138,7 @@
                     icon: SVG_ICONS.problem.linearSearch,
                     marker: {
                         standard: { x: 185, y: 465 },
-                        collapse: { x: 95, y: 410 }
+                        collapse: { x: 100, y: 370 }
                     }
                 },
                 {
@@ -147,7 +151,7 @@
                     icon: SVG_ICONS.problem.binarySearch,
                     marker: {
                         standard: { x: 250, y: 430 },
-                        collapse: { x: 115, y: 485 }
+                        collapse: { x: 100, y: 450 }
                     }
                 },
                 {
@@ -160,7 +164,7 @@
                     icon: SVG_ICONS.problem.sorting,
                     marker: {
                         standard: { x: 315, y: 465 },
-                        collapse: { x: 385, y: 485 }
+                        collapse: { x: 360, y: 520 }
                     }
                 },
                 {
@@ -173,7 +177,7 @@
                     icon: SVG_ICONS.problem.palindrome,
                     marker: {
                         standard: { x: 185, y: 535 },
-                        collapse: { x: 175, y: 535 }
+                        collapse: { x: 140, y: 520 }
                     }
                 },
                 {
@@ -186,7 +190,7 @@
                     icon: SVG_ICONS.problem.shortestPath,
                     marker: {
                         standard: { x: 250, y: 570 },
-                        collapse: { x: 250, y: 555 }
+                        collapse: { x: 210, y: 555 }
                     }
                 },
                 {
@@ -199,7 +203,7 @@
                     icon: SVG_ICONS.problem.matrixMultiplication,
                     marker: {
                         standard: { x: 315, y: 535 },
-                        collapse: { x: 325, y: 535 }
+                        collapse: { x: 290, y: 555 }
                     }
                 },
             ],
@@ -208,7 +212,10 @@
             shortName: "NP",
             fullName: "NP - Non-deterministic Polynomial Time",
             class: "np",
-            description: "<strong>Easy to verify</strong>",
+            description: {
+                standard: "<strong>Easy to verify</strong>",
+                collapse: "If P = NP, this is now <em>identical</em> to P, so both <strong>easy to verify</strong> and <strong>easy to solve</strong>"
+            },
             tabLabel: 'NP Problems',
             tabOrder: 2,
             legendOrder: 1,
@@ -228,8 +235,22 @@
                     example: 'Try 2, 3, 4... until a divisor is found',
                     icon: SVG_ICONS.problem.factorisation,
                     marker: {
-                        standard: { x: 415, y: 380 },
-                        collapse: { x: 405, y: 410 }
+                        standard: { x: 420, y: 430 },
+                        collapse: { x: 400, y: 450 }
+                    }
+                },
+                {
+                    // TODO: placeholder coords/icon - fine-tune position once real icon is added
+                    id: 'discrete-log',
+                    name: 'Discrete Logarithm',
+                    description: 'Find x given g<sup>x</sup> mod p, for a huge prime p',
+                    solveTime: 'O(√N)',
+                    verifyTime: 'O(log N)',
+                    example: 'Diffie-Hellman key exchange',
+                    icon: SVG_ICONS.problem.discreteLog,
+                    marker: {
+                        standard: { x: 420, y: 350 },
+                        collapse: { x: 400, y: 370 }
                     }
                 }
             ],
@@ -238,7 +259,10 @@
             shortName: "NP-Complete",
             fullName: "NP-Complete - Hardest problems in NP",
             class: "npc",
-            description: "<strong>Hard to solve</strong>, but part of NP, so <strong>easy to verify</strong>",
+            description: {
+                standard: "<strong>Hard to solve</strong>, but part of NP, so <strong>easy to verify</strong>",
+                collapse: "If P = NP, this category collapses since the 'Hardest to solve' are now <strong>easy to solve</strong>"
+            },
             tabLabel: 'NP-Complete',
             tabOrder: 3,
             legendOrder: 3,
@@ -259,7 +283,7 @@
                     icon: SVG_ICONS.problem.graphColouring,
                     marker: {
                         standard: { x: 210, y: 305 },
-                        collapse: { x: 210, y: 305 }
+                        collapse: { x: 210, y: 270 }
                     }
                 },
                 {
@@ -272,7 +296,7 @@
                     icon: SVG_ICONS.problem.sudoku,
                     marker: {
                         standard: { x: 290, y: 305 },
-                        collapse: { x: 290, y: 305 }
+                        collapse: { x: 290, y: 270 }
                     }
                 },
             ],
@@ -281,7 +305,10 @@
             shortName: "NP-Hard",
             fullName: "NP-Hard - Hard problems",
             class: "nph",
-            description: "<strong>Hard to solve</strong> and <strong>if outside of NP, hard to verify</strong>",
+            description: {
+                standard: "<strong>Hard to solve</strong> and <strong>if outside of NP, hard to verify</strong>",
+                collapse: "Problems outside of NP remain <strong>hard to solve</strong>, even if P = NP"
+            },
             tabLabel: 'NP-Hard',
             tabOrder: 4,
             legendOrder: 4,
@@ -360,6 +387,14 @@
                 .sort((a, b) => (a[orderKey] || 0) - (b[orderKey] || 0))
         }
 
+        getCategoryDescription(problemSet) {
+            const description = problemSet.description
+            if (typeof description === 'string') {
+                return description
+            }
+            return this.collapse ? description.collapse : description.standard
+        }
+
         getDefaultProblemValue(problemSets, selectElement) {
             const defaultSet = problemSets.find(problemSet => problemSet.defaultProblemId)
             if (defaultSet) {
@@ -375,7 +410,7 @@
             categoryHeader.className = `pnp-category-header pnp-class-${problemSet.class}`
             categoryHeader.innerHTML = `
                 <h4 class="pnp-category-title">${problemSet.fullName}</h4>
-                <p class="pnp-category-description">${problemSet.description}</p>
+                <p class="pnp-category-description">${this.getCategoryDescription(problemSet)}</p>
             `
             return categoryHeader
         }
@@ -529,7 +564,7 @@
                             <span class="pnp-legend-color"></span>
                             <div>
                                 <p class="pnp-legend-title">${problemSet.fullName}</p>
-                                <p>${problemSet.description}</p>
+                                <p>${this.getCategoryDescription(problemSet)}</p>
                             </div>
                         </div>
                     `
@@ -637,7 +672,7 @@
                 ctx.stroke()
 
                 // P
-                ctx.fillStyle = withAlpha(colorP, 0.7)
+                ctx.fillStyle = withAlpha(colorP, 0.9)
                 ctx.strokeStyle = colorP
                 ctx.lineWidth = 3
                 ctx.beginPath()
@@ -645,29 +680,32 @@
                 ctx.fill()
                 ctx.stroke()
 
-                // NPC
-                ctx.save()
-                ctx.beginPath()
-                ctx.arc(npCx, npCy + 1, npR, 0, Math.PI * 2)
-                ctx.clip()
-                ctx.beginPath()
-                ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
-                ctx.fillStyle = withAlpha(colorNPC, 0.8)
-                ctx.strokeStyle = colorNPH
-                ctx.lineWidth = 3
-                ctx.fill()
-                ctx.stroke()
-                ctx.restore()
+                // // NPC
+                // ctx.save()
+                // ctx.beginPath()
+                // ctx.arc(npCx, npCy + 1, npR, 0, Math.PI * 2)
+                // ctx.clip()
+                // ctx.beginPath()
+                // ctx.ellipse(hardCx, hardCy - hardR, hardR, hardR * 1.5, 0, 0, Math.PI)
+                // ctx.fillStyle = withAlpha(colorNPC, 0.8)
+                // ctx.strokeStyle = colorNPH
+                // ctx.lineWidth = 3
+                // ctx.fill()
+                // ctx.stroke()
+                // ctx.restore()
 
                 ctx.textAlign = 'center'
                 ctx.textBaseline = 'middle'
 
                 ctx.fillStyle = colorText
+                ctx.font = 'bold 40px system-ui, sans-serif'
+
+                ctx.fillText('P = NP', npCx, npCy + 0)
+
                 ctx.font = 'bold 30px system-ui, sans-serif'
 
-                ctx.fillText('P = NP', npCx, npCy + 50)
                 ctx.fillText(PROBLEMS.nph.shortName, hardCx, hardCy - 150)
-                ctx.fillText(PROBLEMS.npc.shortName, npCx, npCy - 140)
+                // ctx.fillText(PROBLEMS.npc.shortName, npCx, npCy - 150)
             }
 
             if (this.markers && markerCard) {
@@ -844,7 +882,7 @@
                         <div class="pnp-comparison-grid pnp-class-${problemSet.class}">
                             <div class="pnp-comparison-header">
                                 <h4 class="pnp-category-title">${problemSet.fullName}</h4>
-                                <p class="pnp-category-description">${problemSet.description}</p>
+                                <p class="pnp-category-description">${this.getCategoryDescription(problemSet)}</p>
                             </div>
                             <div class="pnp-comparison-card pnp-solving ${solvingClass}">
                                 <h5>
