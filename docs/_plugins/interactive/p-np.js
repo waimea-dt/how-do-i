@@ -320,8 +320,8 @@
                 },
                 {
                     id: 'bin-packing',
-                    name: 'Bin Packing - Optimal Solution',
-                    description: 'Pack N items into minimum number of bins',
+                    name: '1D Bin Packing - Optimal Solution',
+                    description: 'Pack N items into minimum number of 1-dimensional bins',
                     solveTime: 'O(N<sup>N</sup>)',
                     verifyTime: 'O(N<sup>N</sup>)',
                     example: 'Shipping container allocation',
