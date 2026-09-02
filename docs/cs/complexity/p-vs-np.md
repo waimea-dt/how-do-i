@@ -46,7 +46,7 @@ Most computer scientists believe **P ≠ NP** - that some problems really are fu
 Proving that P ≠ NP, though, is another matter - it means showing that **no possible algorithm** (not just the ones we've thought of) could *ever* solve these problems quickly. That's an *extremely* hard thing to prove.
 
 
-## What If P ≠ NP? (The World We Live In)
+## What If P ≠ NP? (The World Today)
 
 This is the assumption almost everything below relies on:
 
@@ -54,7 +54,7 @@ This is the assumption almost everything below relies on:
 - **Some problems will always need shortcuts** - see [Approximation Algorithms & Heuristics](/cs/complexity/approximation.md) and the [real-world impact of intractability](/cs/complexity/intractability.md)
 - **School timetables, bus routes, and exam schedules stay imperfect** - software can only ever find a *good* answer in reasonable time, never a provably perfect one
 
-## What If P = NP? (A Hypothetical World)
+## What If P = NP? (Hypothetically)
 
 In a hypothetical "P = NP" world, problems that were :
 

@@ -1,142 +1,137 @@
-# Approximate Solutions to The Travelling Salesperson Problem
+# Approximate Solutions to The TSP
 
 ## A Faster (But Imperfect) Approach
 
-Since brute force is only practical for tiny N, we use a **heuristic** instead: the **nearest neighbour** approach - always travel to the closest unvisited city.
+Since a brute-force solution to the TSP is only practical for tiny N, we instead try to get an **approximate** solution using a **heuristic** approach.
 
-- **Time**: **O(N<sup>2</sup>)** - much faster
-- **Quality**: typically about 25% longer than the optimal route
-
-See [Approximation Algorithms & Heuristics](approximation.md) for more on this trade-off.
+> [!TIP]
+> See [Approximation Algorithms & Heuristics](/cs/complexity/approximation.md) for more on this trade-off.
 
 
+## A Greedy Heuristic: Nearest Neighbour
+
+'Nearest Neighbour' is a **greedy heuristic** that's very fast to calculate, providing a **tractable** solution to the TSP.
+
+- Complexity: **O(N<sup>2</sup>)** - much faster that O(N!)
+- Quality: typically **about 25% longer** than the optimal route
+
+### The Algorithm
+
+```pseudo
+start
+    go to the starting city
+
+    repeat until all cities have been visited
+        visit the nearest, unvisited city
+    endrepeat
+end
+```
 
 
-## Nearest Neighbour: A Faster Alternative
+### See NN in Action
 
-Brute force guarantees the optimal solution, but becomes impossible for large problems. **Nearest Neighbour** is a greedy heuristic that's much faster:
+See how the algorithm builds a route very quickly by always choosing the nearest city:
 
-1. Start at a city
-2. Always visit the nearest unvisited city
-3. Return to start when all cities visited
+<tsp solve="nn" cities="20"></tsp>
 
-This runs in **O(n²)** time instead of **O(n!)** - meaning 30 cities takes milliseconds instead of billions of years!
-
-The trade-off? The route might not be optimal, but it's usually pretty good (typically 15-25% longer than optimal).
-
-### Try Nearest Neighbour
-
-See how it builds a route by always choosing the nearest city:
-
-<tsp solve="nn" cities="12"></tsp>
-
-Notice:
-- **Green highlighted city**: Current position
-- **Gray faded cities**: Not yet visited
-- **Normal cities**: Already visited
-- **Route building in real-time**: Watch the greedy choice at each step
-
-### Larger Problems Are No Problem
-
-With NN, even 30 cities is instant:
-
-<tsp solve="nn" cities="30"></tsp>
-
-For brute force, 30 cities would take longer than the age of the universe. With NN? Less than a second.
-
-### See the progress...
-
-<tsp solve="nn" cities="30" history></tsp>
+> [!NOTE]
+> A brute-force solution for 20 cities would take years to computer, whilst NN takes **milliseconds**. However, the solution is **far from optimal**.
 
 
----
+## Refining the Greedy Solution: 2-Opt
 
-## 2-Opt: Refining the Greedy Solution
+Nearest Neighbour gives us a quick solution, but it is far from optimal. We can improve the NN solution using a **refinement** algorithm: **2-Opt** is a local search algorithm that starts with the NN solution and iteratively improves it:
 
-**Nearest Neighbour** gives us a quick solution, but can we make it better without brute force?
+- Complexity: **O(N<sup>3</sup>)** (typical) to **O(N<sup>4</sup>)** (worst) - still tractable
+- Quality: typically **about 5% longer** than the optimal route
 
-**2-Opt** is a local search algorithm that starts with the NN solution and iteratively improves it:
+### The Algorithm
 
-1. Start with NN route
-2. For each pair of edges in the tour:
-   - Try swapping them (reversing the segment between them)
-   - If it reduces total distance, keep the swap
-3. Repeat until a full pass finds no improvements (local optimum reached)
+```pseudo
+start
+    generate a nearest-neighbour route
 
-The algorithm **stops** when it completes a full pass through all edge pairs without finding any improvement. This means it has reached a **local optimum**-no single 2-opt move can improve the solution further.
+    repeat until no further improvement is made
+        loop through each edge
+            loop through every other edge
+                delete both edges
+                reconnect the ends but swapped
 
-Key insight: 2-Opt systematically untangles crossing edges. Each swap that improves the tour removes at least one crossing, gradually refining the route.
+                if the route is now shorter
+                    keep the swap
+                else
+                    swap the edges back
+                end if
+            next
+        next
+    endrepeat
+end
+```
+
+> [!NOTE]
+> The algorithm stops when **no swaps** were made in the previous pass - the solution has reached a **local optimum**
 
 ### Watch 2-Opt in Action
 
-See how it builds an NN route, then refines it by testing edge swaps:
+See how we first build an NN route, then refine it by testing edge swaps. 2-Opt systematically '**untangles**' any crossing edges...
 
-<tsp solve="2opt" cities="15" history></tsp>
+<tsp solve="2opt" cities="20" history></tsp>
 
-Notice:
-- **Phase 1 (NN)**: Quick greedy construction
-- **Phase 2 (2-Opt)**: Edge swaps highlighted in orange (testing) or red (improving)
-- **History**: Shows both NN construction and 2-Opt refinements
-
-### Larger Problems
-
-2-Opt can handle much larger problems than brute force:
-
-<tsp solve="2opt" cities="25" history></tsp>
-
-For 25 cities, brute force would take longer than the age of the universe. 2-Opt? A few seconds.
-
----
 
 ## Comparing Algorithms
 
-### NN vs Brute Force
+### Brute-Force vs NN
 
-Let's compare NN and Brute Force head-to-head to see the speed vs. quality trade-off:
+Let's compare NN and Brute-Force head-to-head to see the speed vs. quality trade-off:
 
-<tsp solve="compare-nn" cities="10"></tsp>
+<tsp solve="compare-nn" cities="10" history></tsp>
 
-The comparison shows:
-- **NN distance & time**: How good was the greedy solution? How fast was it?
-- **Brute Force distance & time**: The guaranteed optimal solution (but slower)
-- **Difference**: How much longer is the NN route compared to optimal?
-
-Try it with 11 or 12 cities-NN finishes instantly, but brute force takes minutes!
-
-<tsp solve="compare-nn" cities="11" history></tsp>
-
-### 2-Opt vs Brute Force
+### Brute-Force vs 2-Opt
 
 Now let's see how 2-Opt (NN + refinement) compares to the optimal solution:
 
 <tsp solve="compare-2opt" cities="10" history></tsp>
 
-Notice how much closer 2-Opt gets to optimal compared to raw NN! The refinement phase typically gets within a few percent of optimal.
-
-Try larger problems:
-
-<tsp solve="compare-2opt" cities="11" history></tsp>
+> [!NOTE]
+> Notice how much closer 2-Opt gets to optimal compared to raw NN. The refinement phase typically gets within a few percent of optimal.
 
 ---
 
 ## Key Takeaways
 
 1. **Brute Force** is guaranteed optimal but becomes impossible beyond ~13 cities
-2. **Nearest Neighbour** is fast (works for any size) but not guaranteed optimal (typically 15-25% longer)
+2. **Nearest Neighbour** is very fast (works for any size) but not guaranteed optimal (typically 15-25% longer)
 3. **2-Opt refinement** significantly improves NN routes, often getting within a few percent of optimal
-4. For practical problems, heuristics like NN and local search are essential-perfection isn't worth billions of years
-5. Understanding algorithmic complexity (factorial vs. polynomial) is crucial for real-world programming
-
----
-
-**Challenge**: Run the comparisons with different city counts. At what point does 2-Opt become "good enough" given how much faster it is than brute force?
-
-
+4. For practical problems, heuristics like NN and 2-Opt search are essential to give **usable approximate solutions** - perfection isn't worth billions of years of computation
 
 
 ## Key Terms
 
-<flashcards>
+<flashcards shuffle>
+
+- # Heuristic
+
+    ---
+
+    An **approximate problem-solving method**, used to find 'good enough' solutions
+
+- # **Greedy** Heuristic
+
+    ---
+
+    A strategy that builds a solution **step-by-step**, making choices that **look best at that moment**
+
+- # Nearest Neighbour
+
+    ---
+
+    A **greedy heuristic** to the TSP that always looks ahead, picking the **nearest, unvisited city** each time
+
+- # Nearest Neighbour's Quality
+
+    ---
+
+    NN is typically around **25% longer than optimal**
 
 - # 2-Opt
 
@@ -150,17 +145,17 @@ Try larger problems:
 
     A **local optimum** - reached once a full pass finds no swap that shortens the route further.
 
-- # 2-Opt vs nearest neighbour
+- # 2-Opt's Quality
 
     ---
 
-    2-Opt typically gets **within a few percent of optimal** - much closer than nearest neighbour alone.
+    2-Opt typically gets **within a few percent of optimal**
 
 - # Practical brute-force limit for TSP
 
     ---
 
-    Around **13 cities** - beyond that, brute force takes longer than the age of the universe.
+    Around **13 cities** - beyond that, brute-force takes many millennia to run.
 
 </flashcards>
 

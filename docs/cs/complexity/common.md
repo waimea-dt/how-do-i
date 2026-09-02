@@ -4,13 +4,15 @@
 
 Here's a practical guide to the time complexities you'll encounter most often, with real-world examples.
 
-## **O(1)** - Constant Time
+<cards size="full">
 
-**The best possible complexity** - the algorithm takes the same time regardless of input size.
+### **O(1)** - Constant Time
 
 ![O(1) curve](_assets/constant.png)
 
-### Examples:
+**The best possible complexity** - the algorithm takes the same time regardless of input size.
+
+#### Examples:
 - Accessing the first element in an array: `arr[0]`
 - Accessing an array element by index: `arr[5]`
 - Checking if a number is even or odd
@@ -21,14 +23,15 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 > [!NOTE]
 > Constant doesn't mean "fast" - it means the time doesn't grow with N. **O(1)** could be 1 nanosecond or 1 hour, but it's the same for all input sizes.
 
+---
 
-## **O(log N)** - Logarithmic Time
-
-**Very efficient** - grows extremely slowly. Doubling N adds only one step.
+### **O(log N)** - Logarithmic Time
 
 ![O(log N) curve](_assets/log.png)
 
-### Examples:
+**Very efficient** - grows extremely slowly. Doubling N adds only one step.
+
+#### Examples:
 - Binary search in a sorted array
 - Finding an element in a balanced binary search tree
 - Operations on heaps (insert, extract-min)
@@ -37,14 +40,15 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 - 1000 items = ~10 steps
 - 1,000,000 items = ~20 steps
 
+---
 
-## **O(N)** - Linear Time
-
-**Proportional to input** - if you double the input, you double the time.
+### **O(N)** - Linear Time
 
 ![O(N) curve](_assets/linear.png)
 
-### Examples:
+**Proportional to input** - if you double the input, you double the time.
+
+#### Examples:
 - Linear search
 - Finding the maximum value in an unsorted array
 - Summing all elements in a list
@@ -54,14 +58,15 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 - 100 items = 100 ops
 - 1000 items = 1000 ops
 
+---
 
-## **O(N log N)** - Log-Linear Time
-
-**The "sweet spot" for sorting** - much better than **O(N<sup>2</sup>)** but not as good as **O(N)**.
+### **O(N log N)** - Log-Linear Time
 
 ![O(N log N) curve](_assets/log-linear.png)
 
-### Examples:
+**The "sweet spot" for sorting** - much better than **O(N<sup>2</sup>)** but not as good as **O(N)**.
+
+#### Examples:
 - Merge sort
 - Quick sort (average case)
 - Heap sort
@@ -70,14 +75,15 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 - 1000 items = ~10,000 ops
 - 1,000,000 items = ~20,000,000 ops
 
+---
 
-## **O(N<sup>2</sup>)** - Quadratic Time
-
-**Gets slow quickly** - doubling input quadruples the time. Tolerable for small N, impractical for large N.
+### **O(N<sup>2</sup>)** - Quadratic Time
 
 ![O(N^2) curve](_assets/quadratic.png)
 
-### Examples:
+**Gets slow quickly** - doubling input quadruples the time. Tolerable for small N, impractical for large N.
+
+#### Examples:
 - Bubble sort
 - Selection sort
 - Insertion sort
@@ -90,14 +96,15 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 > [!WARNING]
 > Be very careful with nested loops! Each additional nesting level adds another power of N.
 
+---
 
-## **O(N<sup>3</sup>)** - Cubic Time
-
-**Very slow** - three nested loops. Only practical for small datasets.
+### **O(N<sup>3</sup>)** - Cubic Time
 
 ![O(N^3) curve](_assets/cubic.png)
 
-### Examples:
+**Very slow** - three nested loops. Only practical for small datasets.
+
+#### Examples:
 - Matrix multiplication (naive approach)
 - Triple nested loops
 - Some graph algorithms
@@ -106,14 +113,15 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 - 100 items = 1,000,000 ops
 - 1000 items = 1,000,000,000 ops
 
+---
 
-## **O(2<sup>N</sup>)** - Exponential Time
-
-**Impractical for all but tiny inputs** - adding one item doubles the time!
+### **O(2<sup>N</sup>)** - Exponential Time
 
 ![O(2^N) curve](_assets/exponential.png)
 
-### Examples:
+**Impractical for all but tiny inputs** - adding one item doubles the time!
+
+#### Examples:
 - Generating all subsets of a set
 - Naive recursive Fibonacci
 
@@ -125,6 +133,7 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 > [!DANGER]
 > Exponential algorithms are **only usable for tiny inputs** (usually N < 25). Beyond that, they take longer than the age of the universe!
 
+---
 
 ## **O(N!)** - Factorial Time
 
@@ -145,6 +154,7 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 > [!DANGER]
 > Like exponential algorithms, factorial algorithms are **only usable for tiny inputs** (usually N < 20). Beyond that, they take longer than the age of the universe!
 
+</cards>
 
 ## Quick Reference
 

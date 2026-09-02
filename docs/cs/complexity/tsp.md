@@ -6,6 +6,11 @@ The **Travelling Salesperson Problem** asks: given a list of cities, what is the
 
 This is one of the most famous problems in computer science.
 
+> [!ATTENTION]
+> This is the **optimal solution** version of the TSP: *"What is the **shortest** route?"* In all these notes, it will always be this version that is discussed.
+>
+> You may come across videos, notes, etc. that discuss the **decision** version of the TSP: *"Is there a route that is **shorter than X**, yes/no?"* This is a quite different problem and not covered here.
+
 ## Real-World Applications of the TSP
 
 - **Logistics**: delivery route planning (courier companies, food delivery)

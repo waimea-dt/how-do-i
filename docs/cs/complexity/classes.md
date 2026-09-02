@@ -6,22 +6,24 @@ Computer scientists sort problems into classes based on how hard they are to **s
 > **Verifying** means checking that a solution is the correct one, so for a Sudoku puzzle, verifying the numbers are all in the correct place, or for the TSP, verifying that the route found is actually the shortest possible.
 
 
-| Class           | Meaning                                                                            |
+<!-- | Class           | Meaning                                                                            |
 | --------------- | ---------------------------------------------------------------------------------- |
 | **P**           | **Easy to solve** (in polynomial time)                                     |
 | **NP**          | **Easy to verify** (even if hard to solve)                         |
 | **NP-Hard**     | **Hard to solve** (easy to verify if in NP, or hard if not)                             |
-| **NP-Complete** | **Hard to solve** but **easy to verify** |
+| **NP-Complete** | **Hard to solve** but **easy to verify** | -->
+
+This is the relationship between the classes:
+
+<p-np header="false"></p-np>
 
 > [!TIP]
 > **NP** does not mean 'non-polynomial', it means '**non-deterministic polynomial time**'
 
-This is the relationship between the classes:
-
-<p-np></p-np>
-
 
 ## Understanding the Classes
+
+<cards size="full">
 
 ### P (**P**olynomial Time)
 
@@ -31,6 +33,8 @@ Problems where we can **easily find** a solution efficiently (in polynomial time
 - Searching a random list: **O(N)**
 - Sorting a list: **O(N log N)**
 - Multiplying matrices: **O(N<sup>3</sup>)**
+
+---
 
 ### NP (**N**on-deterministic **P**olynomial Time)
 
@@ -44,6 +48,8 @@ Problems where we can **easily verify** a solution, but we don't always know how
 > [!IMPORTANT]
 > Every problem in **P** is also in **NP** (if you can solve it fast, you can obviously check it fast).
 
+---
+
 ### NP-Hard (The Hardest Problems)
 
 Problems where no exact, worst-case polynomial-time solution is known. NP-Hard problems are considered computationally **intractable** for exact solutions, though good approximations often exist (via heuristic solutions).
@@ -56,6 +62,8 @@ Problems where no exact, worst-case polynomial-time solution is known. NP-Hard p
 > [!NOTE]
 > Not all NP-Hard problems are in NP, and some are completely unsolvable (undecidable).
 
+---
+
 ### NP-Complete (The Hardest Problems in NP)
 
 Problems that are **hard to solve** (assumed to be **intractable**), but which are **easy to verify** once a solution has been found.
@@ -65,13 +73,28 @@ Problems that are **hard to solve** (assumed to be **intractable**), but which a
   - Easy to check if a completed puzzle is correct: **O(N<sup>2</sup>)**
   - Very hard to solve it in the first place: **O(2<sup>N</sup>)**
 
+</cards>
+
 
 ## Classes and Example Problems
 
 <p-np markers></p-np>
 
-> [!NOTE]
-> The big open question is whether **P = NP** - can everything we can *check* quickly also be *solved* quickly? This is the unsolved [P vs NP question](/cs/complexity/p-vs-np.md)
+
+> [!ATTENTION]
+> The **TSP**, **Knapsack** and **Bin-Packing** problems above and discussed in these notes are specifically the **optimal solution** versions:
+> - TSP: *"What is the **shortest** route?"*
+> - Knapsack: *"What is the **maximum** value?"*
+> - Bin-Packing: *"What is the **minimum** number of bins?"*
+>
+> The optimal solution versions are **NP-Hard** and are **not in NP**
+>
+> You may come across videos, notes, etc. that describe these problems as being **NP-Complete**... They are referring to the **decision** versions of the problems:
+> - TSP: *"Is there a route that is **shorter than X**, yes/no?"*
+> - Knapsack: *"Is there a solution **worth more than X**, yes/no?"*
+> - Bin-Packing: *"Can these items **fit in X bins**, yes/no?"*
+>
+> These are quite different problems and *not* covered here.
 
 
 ## Real-World Problems
