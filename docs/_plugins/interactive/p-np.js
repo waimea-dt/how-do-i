@@ -322,8 +322,8 @@
                     id: 'bin-packing',
                     name: 'Bin Packing - Optimal Solution',
                     description: 'Pack N items into minimum number of bins',
-                    solveTime: 'O(2<sup>N</sup>)',
-                    verifyTime: 'O(2<sup>N</sup>)',
+                    solveTime: 'O(N<sup>N</sup>)',
+                    verifyTime: 'O(N<sup>N</sup>)',
                     example: 'Shipping container allocation',
                     icon: SVG_ICONS.problem.binPacking,
                     marker: {
