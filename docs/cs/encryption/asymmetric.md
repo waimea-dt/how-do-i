@@ -41,29 +41,35 @@ Asymmetric cryptography uses **mathematically linked public and private informat
 
 <flashcards>
 
-- # What is asymmetric cryptography used for?
+- # Asymmetric cryptography
 
     ---
 
-    Public-key encryption, key exchange, and digital signatures.
+    Uses **mathematically linked public and private** information, so secret keys never need to be shared.
 
-- # How is asymmetric cryptography different from symmetric encryption?
-
-    ---
-
-    Symmetric encryption uses one shared secret key. Asymmetric cryptography uses public and private information.
-
-- # Name one asymmetric algorithm.
+- # Three uses of asymmetric cryptography
 
     ---
 
-    RSA (or Elliptic Curve Cryptography).
+    **Public-key encryption**, **key exchange**, and **digital signatures**.
 
-- # Why do most systems also use symmetric encryption?
+- # Asymmetric vs symmetric speed
 
     ---
 
-    Symmetric encryption is much faster, so it handles the actual bulk data.
+    Asymmetric encryption is **much slower** - best for **small secrets**, not bulk data.
+
+- # Why asymmetric encryption avoids the key distribution problem
+
+    ---
+
+    **Private keys are never shared** - only public keys travel over the network.
+
+- # Common asymmetric algorithms
+
+    ---
+
+    **RSA** (public-key encryption), **Diffie-Hellman** (key exchange), **DSA** (digital signatures).
 
 </flashcards>
 

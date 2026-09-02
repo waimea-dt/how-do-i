@@ -63,23 +63,29 @@ If you reuse the same password across multiple sites, a single data breach at *a
 
 <flashcards>
 
-- # What is a master password?
+- # Master password
 
     ---
 
-    The single strong password used to unlock a password manager's encrypted vault of all other passwords.
+    The single strong password used to **unlock** a password manager's encrypted vault.
 
-- # What does "zero-knowledge" mean for a password manager?
-
-    ---
-
-    Even the company that makes the app cannot read your stored passwords - only you can, via your master password.
-
-- # Why is reusing passwords risky?
+- # Zero-knowledge design
 
     ---
 
-    A single data breach at one site can expose your account everywhere else you reused that password.
+    Even the company that made the app **cannot read** your stored passwords - only you can, via your master password.
+
+- # Risk of reusing passwords
+
+    ---
+
+    A single data breach at one site can expose your account **everywhere else** you reused that password.
+
+- # Single point of failure
+
+    ---
+
+    The master password - if it's **weak or stolen**, everything in the vault is exposed.
 
 </flashcards>
 

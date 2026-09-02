@@ -54,23 +54,23 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What is a salt?
+- # Salt
 
     ---
 
-    Random data added to a password before hashing, making every user's hash unique even for identical passwords.
+    **Random data** added to a password before hashing, making every hash unique - even for identical passwords.
 
 - # Is a salt secret?
 
     ---
 
-    No - it's stored alongside the hash. Its job is uniqueness, not secrecy.
+    **No** - it's stored alongside the hash. Its job is **uniqueness**, not secrecy.
 
-- # Why do salts defeat rainbow tables?
+- # Why salting defeats rainbow tables
 
     ---
 
-    Rainbow tables are pre-computed for unsalted hashes - a unique salt per user makes pre-computed tables useless.
+    Rainbow tables are pre-computed for **unsalted** hashes - a unique salt per user makes them useless.
 
 </flashcards>
 

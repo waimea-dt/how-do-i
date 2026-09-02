@@ -71,23 +71,29 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What does device encryption protect against?
+- # Device encryption
 
     ---
 
-    Someone reading your files by removing the drive or bypassing your login - it protects data "at rest".
+    Encrypts your **entire storage drive**, so files stay unreadable without the key - even if it's removed.
 
-- # What is a TPM?
-
-    ---
-
-    Trusted Platform Module - a security chip that helps protect the encryption key and verify the system hasn't been tampered with.
-
-- # What happens if you lose both your password and recovery key?
+- # TPM
 
     ---
 
-    Your encrypted data can become permanently unrecoverable - even to you.
+    **Trusted Platform Module** - a security chip that checks the system for tampering and protects the encryption key.
+
+- # Data "at rest"
+
+    ---
+
+    Data on a device that is **off or locked** - this is what device encryption protects. It doesn't protect data once you're **logged in**.
+
+- # Losing your recovery key
+
+    ---
+
+    If you lose **both** your password and recovery key, your data can become **permanently unrecoverable**.
 
 </flashcards>
 

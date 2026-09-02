@@ -27,21 +27,21 @@ Watch the avalanche effect - notice how tiny text changes scramble the entire ou
 
 <flashcards>
 
-- # What's the difference between encryption and hashing?
+- # Encryption vs hashing
 
     ---
 
     ## Encryption
 
-    - Reversible (decrypt to get original)
-    - Requires a key
-    - Used for confidentiality
+    - **Reversible** (decrypt to get original)
+    - Requires a **key**
+    - Used for **confidentiality**
 
     ## Hashing
 
-    - One-way (cannot reverse)
-    - No key needed
-    - Used for integrity/authentication
+    - **One-way** (cannot reverse)
+    - **No key** needed
+    - Used for **integrity/authentication**
 
 </flashcards>
 
@@ -64,29 +64,29 @@ Watch the avalanche effect - notice how tiny text changes scramble the entire ou
 
 <flashcards>
 
-- # What is a hash function?
+- # Hash function
 
     ---
 
-    A one-way function that turns any input into a fixed-length string (the hash), which cannot be reversed back to the original.
+    A **one-way** function that turns any input into a fixed-length **hash** (or digest) - it cannot be reversed.
 
-- # What is the avalanche effect?
-
-    ---
-
-    Changing even one character of the input completely changes the resulting hash.
-
-- # Why can't you "decrypt" a hash?
+- # Avalanche effect
 
     ---
 
-    Hashing isn't encryption - it's a one-way process with no key, designed specifically to be irreversible.
+    Changing even **one character** of input completely changes the resulting hash.
 
-- # What's a real-world weakness of unsalted password hashes?
+- # Deterministic
 
     ---
 
-    Identical passwords always produce identical hashes, making them vulnerable to pre-computed rainbow table attacks.
+    The **same input** always produces the **same hash**.
+
+- # Rainbow table
+
+    ---
+
+    A **pre-computed** table of common passwords and their hashes, used to instantly crack unsalted hashes.
 
 </flashcards>
 

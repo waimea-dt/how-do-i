@@ -29,17 +29,23 @@ In 1976, **Diffie-Hellman key exchange** solved this problem mathematically, let
 
 <flashcards>
 
-- # The Key Distribution Problem
+- # The key distribution problem
 
     ---
 
-    How can two parties securely share a symmetric key over a channel that is public, and the key could be intercepted?
+    How can two parties securely share a **symmetric key** over a channel that could be intercepted?
 
 - # Diffie-Hellman key exchange
 
     ---
 
-    A mathematical solution, originally created in 1976, that lets two strangers agree a shared secret over a public channel. The solution to the Key Distribution Problem
+    A mathematical solution (**1976**) letting two strangers agree a shared secret over a public channel - solves the key distribution problem.
+
+- # Historical key-sharing limits
+
+    ---
+
+    Meeting in person, courier codebooks, and pre-shared keys - all secure, but none **scale** to the internet.
 
 </flashcards>
 

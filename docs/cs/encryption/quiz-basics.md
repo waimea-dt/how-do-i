@@ -18,7 +18,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Encryption's core job is confidentiality - hiding data from anyone except the intended recipient.
-    - [ ] **Not quite.** Encryption doesn't reduce file size or speed up networks - it scrambles data for security.
+    - [ ] **Not quite.** Think about what happens to the actual content of a message, not its size or how fast it travels.
 
 - # In cryptography, who is "Eve"?
 
@@ -32,7 +32,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Alice sends, Bob receives, and Eve represents anyone trying to intercept or spy on the message.
-    - [ ] **Try again.** Alice is the sender and Bob is the receiver - Eve is the eavesdropper.
+    - [ ] **Try again.** Remember the classic three-person scenario used to explain cryptography - one sends, one receives, and one is listening in.
 
 - # What is "plaintext"?
 
@@ -46,7 +46,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Plaintext is the readable message you start with, before any encryption is applied.
-    - [ ] **Not quite.** That describes ciphertext, a cipher, or a key - not plaintext.
+    - [ ] **Not quite.** Think about the very first stage of the encryption process, before any scrambling has happened.
 
 - # What is "ciphertext"?
 
@@ -60,7 +60,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Ciphertext is what plaintext becomes once a cipher has scrambled it.
-    - [ ] **Not quite.** That describes plaintext, a key, or Bob - not ciphertext.
+    - [ ] **Not quite.** Think about what a message looks like *after* a cipher has scrambled it, not before.
 
 - # What is a "key" in cryptography?
 
@@ -74,7 +74,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** A key is the secret input a cipher needs to scramble or unscramble data.
-    - [ ] **Not quite.** That describes plaintext, ciphertext, or code-cracking software - not a key.
+    - [ ] **Not quite.** Think about what a cipher actually needs as an input to do its scrambling and unscrambling.
 
 - # What's the main difference between a public key and a private key?
 
@@ -88,7 +88,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Anyone can use your public key to encrypt data for you, but only your private key can decrypt it.
-    - [ ] **Not quite.** Both keys work together on the same data - neither is limited to images or signing alone.
+    - [ ] **Not quite.** Think about which of the two keys needs to be kept secret, and which one is safe to hand out to anyone.
 
 - # Which of these best describes "confidentiality" in encryption?
 
@@ -102,7 +102,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Confidentiality is about keeping a message secret from anyone except the intended recipient.
-    - [ ] **Not quite.** Those describe integrity, authenticity, or speed - not confidentiality.
+    - [ ] **Not quite.** Think about who is - and isn't - meant to be able to read a message.
 
 - # Which of these best describes "integrity" in encryption?
 
@@ -116,7 +116,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Integrity is about proving data hasn't been altered - a hash check is a classic example.
-    - [ ] **Not quite.** Those describe confidentiality, authenticity, or compression - not integrity.
+    - [ ] **Not quite.** Think about whether the data itself has stayed exactly the same since it was sent.
 
 - # Which of these best describes "authenticity" in encryption?
 
@@ -130,7 +130,7 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Authenticity is proven with things like digital signatures, confirming who really sent a message.
-    - [ ] **Not quite.** Those describe confidentiality, integrity, or network security - not authenticity.
+    - [ ] **Not quite.** Think about how you'd prove *who* really sent a message, rather than what happens to it afterwards.
 
 - # Which human factor can undermine even strong encryption?
 
@@ -144,6 +144,6 @@ Test your understanding of why encryption matters and where it came from.
     ---
 
     - [x] **Correct!** Even the strongest encryption can be undone by weak human choices, like reused or guessable passwords.
-    - [ ] **Not quite.** Algorithm speed, storage space, and traffic levels don't weaken encryption - human habits do.
+    - [ ] **Not quite.** Think about human habits and choices, rather than technical factors like speed, storage, or traffic.
 
 </quiz>

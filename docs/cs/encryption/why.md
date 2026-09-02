@@ -56,15 +56,13 @@ Use these flashcards to test if you know what each of these terms or concepts me
 
     Proof that a message or file really came from who it claims to be from.
 
-- # Why is encryption not "just maths"?
+- # Encryption's human & societal impact
 
     ---
 
-    **The Human & Societal Impact**
-
     **Human choices** - reusing passwords, trusting fake sites, ignoring updates - can undo strong encryption.
 
-    And strong encryption enables **privacy** (which is good), but also for **criminals** (which is bad).
+    Strong encryption enables **privacy** (which is good), but also protects **criminals** (which is bad).
 
 </flashcards>
 

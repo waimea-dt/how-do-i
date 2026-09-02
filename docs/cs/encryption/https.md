@@ -69,29 +69,35 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What does TLS stand for?
+- # TLS
 
     ---
 
-    Transport Layer Security.
+    **Transport Layer Security** - encrypts the connection behind the padlock icon in your browser.
 
-- # What is HTTPS?
-
-    ---
-
-    HTTP (the web's normal protocol) running over TLS for encryption and authentication.
-
-- # What does a digital certificate prove during the handshake?
+- # HTTPS
 
     ---
 
-    That the server is genuinely who it claims to be, verified by a trusted certificate authority.
+    HTTP running over **TLS**, adding encryption and authentication to normal web traffic.
 
-- # What can an eavesdropper still see on an HTTPS connection?
+- # Digital certificate (in HTTPS)
 
     ---
 
-    Which website/domain you're connecting to - but not the contents of your traffic.
+    Proves the server is **genuinely who it claims to be**, verified by a trusted certificate authority.
+
+- # What an eavesdropper can see on HTTPS
+
+    ---
+
+    The **domain** you're connecting to - but **not** the contents of your traffic.
+
+- # TLS 1.3
+
+    ---
+
+    The modern TLS version (**2018**) - fewer handshake steps, making connections **faster and more secure** than TLS 1.2.
 
 </flashcards>
 

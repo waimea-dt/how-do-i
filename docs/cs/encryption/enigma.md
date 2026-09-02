@@ -62,6 +62,47 @@ Despite its complexity, Enigma had exploitable flaws:
 
 These flaws were exploited at Bletchley Park and the Enigma Cipher was eventually broken.
 
+## Key Terms
+
+<flashcards shuffle>
+
+- # The Enigma Machine
+
+    ---
+
+    An **electromechanical cipher device** used by Germany in WW2, combining rotors, a plugboard, and a reflector.
+
+- # Enigma's **rotors**
+
+    ---
+
+    **Rotating wheels** that scrambled each letter differently and **advanced after every keypress**, like a car odometer.
+
+- # Enigma's key **weakness**
+
+    ---
+
+    A letter could **never encrypt to itself**, ruling out huge numbers of possible settings.
+
+- # The **Bombe**
+
+    ---
+
+    An electromechanical machine built at Bletchley Park to **rapidly test and rule out** impossible Enigma settings.
+
+- # Size of Enigma's **keyspace**
+
+    ---
+
+    Roughly **2<sup>64</sup>** with 3 rotors, growing to **2<sup>88</sup>** once a 4th rotor was added in 1942.
+
+- # Alan Turing
+
+    ---
+
+    A mathematician at **Bletchley Park** whose codebreaking work helped **found modern computer science**.
+
+</flashcards>
 
 ## Further Reading
 

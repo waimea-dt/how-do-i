@@ -66,29 +66,29 @@ Try it with Eve watching - notice she can see the public key and the encrypted m
 
 <flashcards>
 
-- # What is public-key encryption?
+- # Public-key encryption
 
     ---
 
-    Encryption using a public key and its matching private key.
+    Anyone can **encrypt** with the public key, but only the matching **private key** can decrypt.
 
-- # Why doesn't the public key need to be secret?
-
-    ---
-
-    Because only the matching private key can decrypt data encrypted with it - anyone can see the public key safely.
-
-- # Why must a public key be genuine?
+- # Why the public key can be shared safely
 
     ---
 
-    An attacker could replace it with their own key and read messages sent to them.
+    Only the **private key** can decrypt data encrypted with its matching public key.
 
-- # Why is public-key encryption not used for bulk data?
+- # Why a public key must be genuine
 
     ---
 
-    It is much slower than symmetric encryption.
+    An attacker could **swap in their own key**, tricking someone into encrypting messages only the attacker can read.
+
+- # Public-key encryption vs symmetric
+
+    ---
+
+    **Much slower**, and best for **small secrets** - not bulk data.
 
 </flashcards>
 

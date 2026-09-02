@@ -30,23 +30,23 @@ This colour analogy represents **Diffie-Hellman key exchange**. It uses numbers 
 
 <flashcards>
 
-- # What is key exchange?
+- # Key exchange
 
     ---
 
-    A way for two people to agree on a shared secret without sending that secret.
+    Lets two people **agree on a shared secret**, without ever sending that secret itself.
 
-- # What problem does key exchange solve?
-
-    ---
-
-    The key distribution problem - how to safely agree a symmetric key over an insecure network.
-
-- # Why is the colour-mixing analogy useful?
+- # Colour-mixing analogy
 
     ---
 
-    It shows how two people can reach the same shared secret without ever sending it, even if someone watches every exchange.
+    Mixing paint is easy, but **un-mixing** it is practically impossible - just like the maths behind Diffie-Hellman.
+
+- # Key exchange vs public-key encryption
+
+    ---
+
+    With RSA, Alice **encrypts using Bob's public key**. With Diffie-Hellman, Alice and Bob both **calculate the same shared secret**.
 
 </flashcards>
 

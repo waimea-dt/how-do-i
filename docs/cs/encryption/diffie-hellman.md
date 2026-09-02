@@ -51,23 +51,29 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What problem does Diffie-Hellman solve?
+- # Diffie-Hellman key exchange
 
     ---
 
-    How two people can agree on a shared secret key over a public, insecure channel.
+    A method (**1976**) for two people to agree a **shared secret** over a public channel, without ever sending the secret itself.
 
-- # What is the discrete logarithm problem?
-
-    ---
-
-    The mathematical problem of reversing modular exponentiation - easy to compute forwards, but extremely hard to reverse for large numbers.
-
-- # In what year was Diffie-Hellman published?
+- # Discrete logarithm problem
 
     ---
 
-    1976.
+    Working backwards from the public numbers to find the private ones - **easy forwards, practically impossible to reverse**.
+
+- # Generator (g) and Prime Modulus (p)
+
+    ---
+
+    Publicly shared numbers - the generator is usually **2 or 5**; the modulus is a **huge prime**, typically 2048 or 4096 bits.
+
+- # Why Diffie-Hellman matters
+
+    ---
+
+    It solved the **key distribution problem**, making secure communication between strangers possible for the first time.
 
 </flashcards>
 

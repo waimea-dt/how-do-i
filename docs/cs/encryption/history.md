@@ -74,6 +74,48 @@ Every cipher in this timeline was eventually broken or replaced - not because th
 
 <videoembed id="g3WUVO5-SnA"></videoembed>
 
+## Key Terms
+
+<flashcards shuffle>
+
+- # Golden rule of cryptography
+
+    ---
+
+    **No cipher stays secure forever** - every cipher in history was eventually broken or replaced.
+
+- # Lucifer
+
+    ---
+
+    One of the earliest **digital block ciphers** (1971), later modified by IBM and the NSA to become DES.
+
+- # DES
+
+    ---
+
+    **Data Encryption Standard** (1977) - a symmetric cipher using a **56-bit key**, now considered weak.
+
+- # 1976 vs 1977 breakthroughs
+
+    ---
+
+    **Diffie-Hellman key exchange** (1976) solved key sharing; **RSA** (1977) became the first practical public-key cryptosystem.
+
+- # AES adopted
+
+    ---
+
+    **2001** - replaced DES as the global symmetric encryption standard.
+
+- # Vigenère cipher's reign
+
+    ---
+
+    Considered unbreakable for about **300 years**, from **1467** until modern cryptanalysis caught up.
+
+</flashcards>
+
 ## Further Reading
 
 - [Wikipedia - Timeline of Cryptography](https://en.wikipedia.org/wiki/Timeline_of_cryptography) - a detailed year-by-year timeline

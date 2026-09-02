@@ -60,29 +60,29 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What does RSA stand for?
+- # RSA
 
     ---
 
-    Rivest, Shamir, and Adleman - the surnames of its three creators.
+    **Rivest, Shamir, Adleman** - the first practical public-key algorithm, published in **1977**.
 
-- # What mathematical problem is RSA built on?
-
-    ---
-
-    Multiplying two large prime numbers is easy, but factoring the result back into those primes is extremely hard.
-
-- # Is RSA symmetric or asymmetric?
+- # RSA's core maths
 
     ---
 
-    Asymmetric - it uses a public/private key pair.
+    Multiplying two large primes is **easy**; factoring the result back into those primes is **extremely hard**.
 
-- # Why is RSA considered at risk from quantum computers?
+- # Type of cipher RSA is
 
     ---
 
-    Quantum computers could potentially factor large numbers far faster than classical computers, breaking RSA's core assumption.
+    **Asymmetric** - it uses a public/private key pair.
+
+- # RSA and quantum computers
+
+    ---
+
+    Quantum computers could **factor large numbers far faster**, potentially breaking RSA's core assumption.
 
 </flashcards>
 

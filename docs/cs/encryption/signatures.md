@@ -59,23 +59,23 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What two guarantees does a digital signature provide?
+- # Digital signature
 
     ---
 
-    Authenticity (it really came from that person) and integrity (it hasn't been altered).
+    Proves a message really came from a specific person (**authenticity**) and hasn't been altered (**integrity**).
 
-- # What two techniques does a digital signature combine?
-
-    ---
-
-    Hashing and asymmetric encryption.
-
-- # Why hash the document before signing, instead of encrypting the whole thing?
+- # What a digital signature combines
 
     ---
 
-    Hashing creates a small, fixed-size fingerprint that's much faster to encrypt and verify than an entire large document.
+    **Hashing** and **asymmetric encryption**.
+
+- # Why sign the hash, not the whole document
+
+    ---
+
+    A hash is small and **fixed-size**, making it much faster to encrypt and verify than an entire document.
 
 </flashcards>
 

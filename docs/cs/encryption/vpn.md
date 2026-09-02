@@ -81,23 +81,23 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What does a VPN create between your device and a server?
+- # VPN
 
     ---
 
-    An encrypted "tunnel" that hides your traffic from your ISP and anyone else on the network.
+    Creates an **encrypted tunnel** between your device and a server, hiding traffic from your ISP or anyone snooping nearby.
 
-- # What can a VPN provider itself see?
-
-    ---
-
-    Your unencrypted traffic once it leaves their server - trusting a VPN means trusting who runs it.
-
-- # Why might a free VPN be risky?
+- # What a VPN provider can see
 
     ---
 
-    It could log and sell your browsing data - the opposite of the privacy you're trying to get.
+    Your **unencrypted traffic** once it leaves their server - trusting a VPN means trusting who runs it.
+
+- # Risk of free VPNs
+
+    ---
+
+    They could **log and sell** your browsing data - the opposite of the privacy you wanted.
 
 </flashcards>
 

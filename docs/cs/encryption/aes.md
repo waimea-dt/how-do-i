@@ -42,29 +42,35 @@ AES doesn't encrypt letter-by-letter like the historical ciphers - it works on 1
 
 <flashcards>
 
-- # What does AES stand for?
+- # AES
 
     ---
 
-    Advanced Encryption Standard.
+    **Advanced Encryption Standard** - the modern symmetric cipher used almost everywhere, from WiFi to BitLocker.
 
-- # Is AES symmetric or asymmetric?
-
-    ---
-
-    Symmetric - the same key encrypts and decrypts.
-
-- # What key sizes does AES support?
+- # Type of cipher AES is
 
     ---
 
-    128, 192, or 256 bits.
+    **Symmetric** - the same key encrypts and decrypts.
 
-- # Name two modern uses of AES.
+- # AES key sizes
 
     ---
 
-    WiFi security (WPA2/WPA3) and device encryption (BitLocker/FileVault) - also HTTPS and messaging apps.
+    **128, 192, or 256 bits**.
+
+- # Why DES was replaced
+
+    ---
+
+    Its **56-bit keys** became crackable by brute force as computers got faster.
+
+- # Modern uses of AES
+
+    ---
+
+    **WiFi security** (WPA2/WPA3), **device encryption** (BitLocker/FileVault), and the bulk of **HTTPS** traffic.
 
 </flashcards>
 

@@ -92,29 +92,29 @@ Drag these steps into the correct order:
 
 <flashcards>
 
-- # What's the main difference between WPA2 and WPA3?
+- # WPA2 vs WPA3
 
     ---
 
-    WPA3 is more resistant to offline password-guessing attacks and also encrypts "open" public WiFi - both can use AES encryption.
+    WPA3 is more resistant to **offline password-guessing** attacks and also encrypts **"open" public WiFi**.
 
-- # What's the difference between Personal and Enterprise WiFi security?
-
-    ---
-
-    Personal uses one shared password for everyone (PSK); Enterprise gives each user their own login, verified by a RADIUS server.
-
-- # Why do schools prefer Enterprise mode?
+- # Personal vs Enterprise WiFi
 
     ---
 
-    It lets IT staff revoke a single user's access without changing the password for everyone else, and track who used the network.
+    Personal uses **one shared password** (PSK); Enterprise gives each user their **own login**, checked by a RADIUS server.
 
-- # What does RADIUS do in Enterprise WiFi?
+- # Why schools prefer Enterprise mode
 
     ---
 
-    It's a separate server that checks each user's individual credentials before granting network access.
+    IT staff can **revoke a single user's access** without changing the password for everyone else.
+
+- # RADIUS server
+
+    ---
+
+    A separate server that **checks each user's individual credentials** before granting network access.
 
 </flashcards>
 
