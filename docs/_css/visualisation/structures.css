@@ -25,7 +25,7 @@
 
     --structure-gap: var(--gap);
     --structure-item-min-width: 30ch;
-    
+
     margin: var(--margin-block) auto !important;
     width: fit-content;
     padding: 0;
@@ -105,7 +105,7 @@
 
     /* Notes (non-first paragraphs) */
     > p:not(:first-child) {
-        font-size: var(--font-small);
+        font-size: var(--font-med);
     }
 }
 

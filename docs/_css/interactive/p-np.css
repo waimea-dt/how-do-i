@@ -8,6 +8,7 @@
     --pnp-label-color:      var(--color-text);
     --pnp-muted:            var(--color-mono-7);
 
+    --pnp-bg-canvas:        #111;
     --pnp-color-p:          var(--palette-color-5);
     --pnp-color-np:         var(--palette-color-3);
     --pnp-color-npc:        var(--palette-color-10);
@@ -107,6 +108,16 @@
         }
     }
 
+    /* ---- Standalone controls (used when header="false") ---- */
+
+    .pnp-standalone-selector {
+        padding: var(--pnp-padding);
+    }
+
+    .pnp-standalone-tabs {
+        padding: var(--pnp-padding) var(--pnp-padding) 0;
+    }
+
     .pnp-title {
         margin: 0 0 0.25rem 0;
         font-size: var(--font-xlarge);
@@ -141,10 +152,10 @@
     .pnp-venn-wrapper {
         position: relative;
         width: 100%;
-        background: var(--plugin-panel-bg);
+        background: var(--pnp-bg-canvas);
         border: 1px solid var(--plugin-wrapper-border);
         border-radius: var(--border-radius);
-        padding: var(--pnp-padding);
+        /* padding: var(--pnp-padding); */
     }
 
     .pnp-venn-canvas {

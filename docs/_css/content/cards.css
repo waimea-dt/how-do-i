@@ -36,6 +36,11 @@
 
         > :first-child {
             margin-top: 0;
+
+            &:is(h1, h2, h3) {
+                padding-bottom: 0.2em;
+                border-bottom: 1px solid var(--card-border-color);
+            }
         }
 
         > :last-child {

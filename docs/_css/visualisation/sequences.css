@@ -36,7 +36,7 @@
 .markdown-section .sequence > li.sequence-item {
     margin: 0;
     flex: 1;
-    padding: var(--padding-med);
+    padding: var(--padding-med) var(--padding);
     background-color: var(--sequence-block-back-color);
     border: 1px solid var(--sequence-block-border-color);
     border-radius: var(--border-radius-small);

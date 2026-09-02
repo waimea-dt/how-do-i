@@ -2,6 +2,7 @@
  * Styled blockquotes for notes, tips, warnings, and other highlighted content
  */
 .markdown-section .callout {
+    --callout-back-color:             #0003;
     --callout-note-color:             var(--secondary-color);
     --callout-tip-color:              var(--theme-color);
     --callout-question-color:         var(--palette-color-2);
@@ -32,6 +33,7 @@
 
     /* Base styling */
 
+    background-color: var(--callout-back-color);
     border-left: 4px solid color-mix(in srgb, var(--callout-color), var(--color-mono-min) 0%);
     border-radius: 0;
     padding: 0.9em 1.1em;
