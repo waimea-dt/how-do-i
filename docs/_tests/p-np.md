@@ -71,6 +71,16 @@ Explore examples of problems in each complexity class:
 
 <p-np mode="problems"></p-np>
 
+## Header Customisation
+
+### Custom Title and Subtitle
+
+<p-np title="P vs NP Explorer" sub-title="Explore complexity classes and their relationships"></p-np>
+
+### No Header
+
+<p-np header="false"></p-np>
+
 ## P Problems (Efficient to Solve)
 
 These problems have polynomial-time algorithms that work efficiently even for large inputs:

@@ -25,6 +25,9 @@
  *     - problems: Interactive problem cards to explore examples
  *   - collapse: Show P=NP collapsed view when attribute is present
  *   - markers: Show hoverable problem markers when attribute is present
+ *   - header: "true" or "false" (default: true)
+ *   - title: custom header title text
+ *   - sub-title: custom header subtitle text
  */
 
 (function () {
@@ -119,7 +122,7 @@
             },
             tabLabel: 'P Problems',
             tabOrder: 1,
-            legendOrder: 2,
+            legendOrder: 1,
             defaultProblemId: 'linear-search',
             verify: {
                 solvingClass: 'pnp-solving-poly',
@@ -218,7 +221,7 @@
             },
             tabLabel: 'NP Problems',
             tabOrder: 2,
-            legendOrder: 1,
+            legendOrder: 2,
             verify: {
                 solvingClass: 'pnp-solving-unknown',
                 solvingNote: `${SVG_ICONS.status.warning} <strong>No known polynomial time</strong> solution`,
@@ -363,11 +366,12 @@
     }
 
     class PNPVisualizer {
-        constructor(element, mode, collapse, markers) {
+        constructor(element, mode, collapse, markers, headerConfig) {
             this.element = element
             this.mode = mode || 'venn'
             this.collapse = Boolean(collapse)
             this.markers = Boolean(markers)
+            this.headerConfig = headerConfig || { show: true, title: null, subtitle: null }
             this.init()
         }
 
@@ -419,29 +423,38 @@
             const wrapper = document.createElement('div')
             wrapper.className = 'pnp-wrapper'
 
-            const header = this.renderHeader()
-            wrapper.appendChild(header)
+            const header = this.headerConfig.show ? this.renderHeader() : null
+            if (header) {
+                wrapper.appendChild(header)
+            }
 
             const content = document.createElement('div')
             content.className = 'pnp-content'
 
             if (this.mode === 'venn') {
                 content.appendChild(this.renderVennDiagram())
-                // Add toggle to header for venn mode
-                const toggleBtn = this.createToggleButton()
-                const headerToggle = document.createElement('div')
-                headerToggle.className = 'pnp-header-toggle'
-                headerToggle.appendChild(toggleBtn)
-                header.appendChild(headerToggle)
+                if (header) {
+                    // Add toggle to header for venn mode
+                    const toggleBtn = this.createToggleButton()
+                    const headerToggle = document.createElement('div')
+                    headerToggle.className = 'pnp-header-toggle'
+                    headerToggle.appendChild(toggleBtn)
+                    header.appendChild(headerToggle)
+                }
             } else if (this.mode === 'verify') {
                 const verifyContent = this.renderVerificationComparison()
                 content.appendChild(verifyContent)
-                // Add selector to header for verify mode
+                // Selector lives in the header when shown, otherwise above the comparison
                 const selectorEl = this.createProblemSelector()
-                const headerSelector = document.createElement('div')
-                headerSelector.className = 'pnp-header-selector'
-                headerSelector.appendChild(selectorEl)
-                header.appendChild(headerSelector)
+                if (header) {
+                    const headerSelector = document.createElement('div')
+                    headerSelector.className = 'pnp-header-selector'
+                    headerSelector.appendChild(selectorEl)
+                    header.appendChild(headerSelector)
+                } else {
+                    selectorEl.classList.add('pnp-standalone-selector')
+                    content.insertBefore(selectorEl, verifyContent)
+                }
                 // Store reference to selector for comparison updates
                 this.verifySelect = selectorEl.querySelector('.pnp-select')
                 this.verifySelect.addEventListener('change', () => verifyContent.updateComparisonFn.call(this))
@@ -450,10 +463,16 @@
                 const problemsExplorer = this.renderProblemsExplorer()
                 content.appendChild(problemsExplorer.container)
 
-                const headerTabs = document.createElement('div')
-                headerTabs.className = 'pnp-header-tabs'
-                headerTabs.appendChild(problemsExplorer.tabs)
-                header.appendChild(headerTabs)
+                // Tabs live in the header when shown, otherwise above the tab content
+                if (header) {
+                    const headerTabs = document.createElement('div')
+                    headerTabs.className = 'pnp-header-tabs'
+                    headerTabs.appendChild(problemsExplorer.tabs)
+                    header.appendChild(headerTabs)
+                } else {
+                    problemsExplorer.tabs.classList.add('pnp-standalone-tabs')
+                    problemsExplorer.container.insertBefore(problemsExplorer.tabs, problemsExplorer.container.firstChild)
+                }
 
                 problemsExplorer.showTab(problemsExplorer.defaultTabId)
             }
@@ -466,20 +485,29 @@
             const header = document.createElement('div')
             header.className = 'pnp-header'
 
-            const headerText = document.createElement('div')
-            headerText.className = 'pnp-header-text'
+            if (this.headerConfig.show) {
+                const headerText = document.createElement('div')
+                headerText.className = 'pnp-header-text'
 
-            const title = document.createElement('h3')
-            title.className = 'pnp-title'
-            title.textContent = UI_TEXT.title
+                const defaultSubtitle = UI_TEXT.subtitleByMode[this.mode] || UI_TEXT.subtitleByMode.venn
+                const titleText = this.headerConfig.title ?? UI_TEXT.title
+                const subtitleText = this.headerConfig.subtitle !== null ? this.headerConfig.subtitle : (this.headerConfig.title !== null ? '' : defaultSubtitle)
 
-            const subtitle = document.createElement('p')
-            subtitle.className = 'pnp-subtitle'
-            subtitle.textContent = UI_TEXT.subtitleByMode[this.mode] || UI_TEXT.subtitleByMode.venn
+                const title = document.createElement('h3')
+                title.className = 'pnp-title'
+                title.textContent = titleText
 
-            headerText.appendChild(title)
-            headerText.appendChild(subtitle)
-            header.appendChild(headerText)
+                headerText.appendChild(title)
+
+                if (subtitleText) {
+                    const subtitle = document.createElement('p')
+                    subtitle.className = 'pnp-subtitle'
+                    subtitle.textContent = subtitleText
+                    headerText.appendChild(subtitle)
+                }
+
+                header.appendChild(headerText)
+            }
 
             return header
         }
@@ -595,10 +623,10 @@
             if (!this.collapse) {
                 const hardCx = 250
                 const hardCy = 240
-                const hardR = 250
+                const hardR = 240
                 const npCx = 250
                 const npCy = 400
-                const npR = 240
+                const npR = 230
                 const pCx = 250
                 const pCy = 500
                 const pR = 120
@@ -657,10 +685,10 @@
             else {
                 const hardCx = 250
                 const hardCy = 240
-                const hardR = 250
+                const hardR = 240
                 const npCx = 250
                 const npCy = 400
-                const npR = 240
+                const npR = 230
 
                 // NPH
                 ctx.fillStyle = withAlpha(colorNPH, 0.5)
@@ -671,8 +699,17 @@
                 ctx.fill()
                 ctx.stroke()
 
+                // NP
+                ctx.fillStyle = withAlpha(colorNP, 0.7)
+                ctx.strokeStyle = colorNP
+                ctx.lineWidth = 3
+                ctx.beginPath()
+                ctx.arc(npCx, npCy, npR, 0, Math.PI * 2)
+                ctx.fill()
+                ctx.stroke()
+
                 // P
-                ctx.fillStyle = withAlpha(colorP, 0.9)
+                ctx.fillStyle = withAlpha(colorP, 0.7)
                 ctx.strokeStyle = colorP
                 ctx.lineWidth = 3
                 ctx.beginPath()
@@ -1019,7 +1056,8 @@
                     const mode = element.getAttribute('mode') || 'venn'
                     const collapse = element.hasAttribute('collapse')
                     const markers = element.hasAttribute('markers')
-                    new PNPVisualizer(element, mode, collapse, markers)
+                    const headerConfig = window.DocsifyUtils.parseHeaderConfig(element)
+                    new PNPVisualizer(element, mode, collapse, markers, headerConfig)
                     element.dataset.initialized = 'true'
                 }
             })
