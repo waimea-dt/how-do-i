@@ -1,26 +1,40 @@
-# Quiz: TSP, Knapsack & Approximation
+# Quiz: The Travelling Salesperson Problem
 
-Test your understanding of classic hard problems and how we solve them in practice.
+Test your understanding of the TSP, why it's hard, and how we solve it approximately in practice.
 
 <quiz>
 
-## Hard Problems Quiz
+## Travelling Salesperson Quiz
 
-- # In the Travelling Salesperson Problem, what makes finding the best route hard?
-
-    ---
-
-    - [ ] Adding up a route's distance takes too long
-    - [x] The number of possible routes grows factorially with the number of cities
-    - [ ] Computers can't store city names
-    - [ ] There's no way to check if a route is valid
+- # What does the Travelling Salesperson Problem ask you to find?
 
     ---
 
-    - [x] **Correct!** Checking one route is easy (**O(N)**), but trying every route is **O(N!)** - it explodes fast.
-    - [ ] **Not quite.** Checking a route is fast - it's the sheer number of possible routes that's the problem.
+    - [ ] The single closest city to a starting point
+    - [x] The shortest route that visits every city once and returns to the start
+    - [ ] The fastest way to sort a list of cities alphabetically
+    - [ ] Any route at all, regardless of length
 
-- # What complexity is the brute-force approach to TSP?
+    ---
+
+    - [x] **Correct!** TSP is about finding the shortest possible route that visits every city exactly once before returning home.
+    - [ ] **Not quite.** Think about what makes a route "the best" one, not just "a" valid one.
+
+- # Why is finding the optimal TSP route so hard?
+
+    ---
+
+    - [ ] Calculating a single route's total distance takes too long
+    - [x] The number of possible routes grows factorially as cities are added
+    - [ ] Computers can't store city coordinates
+    - [ ] There's no way to check whether a route is valid
+
+    ---
+
+    - [x] **Correct!** Checking one route is fast, but the sheer number of possible routes explodes as more cities are added.
+    - [ ] **Not quite.** Think about how many different orderings of cities exist, not how hard it is to measure just one of them.
+
+- # What is the complexity of the brute-force approach to TSP?
 
     ---
 
@@ -31,77 +45,105 @@ Test your understanding of classic hard problems and how we solve them in practi
 
     ---
 
-    - [x] **Correct!** Trying every possible ordering of cities is factorial time.
-    - [ ] **Not quite.** **O(N!)** is correct - checking every permutation of cities.
+    - [x] **Correct!** Brute force must check every possible ordering of cities - factorial time.
+    - [ ] **Not quite.** Think about how many different orderings exist for a list of N cities.
 
-- # What is the "nearest neighbour" heuristic for TSP?
-
-    ---
-
-    - [x] Always travel to the closest unvisited city
-    - [ ] Always travel to the furthest unvisited city
-    - [ ] Visit cities in alphabetical order
-    - [ ] Randomly pick the next city each time
+- # Which of these is a real-world application of TSP-style problems?
 
     ---
 
-    - [x] **Correct!** It's a fast, simple rule that usually gives a decent (but not always optimal) route.
-    - [ ] **Not quite.** Nearest neighbour specifically means choosing the closest unvisited city each step.
-
-- # In the 0/1 Knapsack Problem, what does "0/1" mean?
-
-    ---
-
-    - [x] Each item is either fully taken or not taken at all
-    - [ ] There are only 2 items to choose from
-    - [ ] The knapsack has zero capacity
-    - [ ] Items are worth either 0 or 1 points
+    - [x] Planning delivery routes for a courier company
+    - [ ] Alphabetising a list of customer names
+    - [ ] Checking whether a password has been leaked
+    - [ ] Compressing an image file
 
     ---
 
-    - [x] **Correct!** You can't take a fraction of an item - it's all or nothing for each one.
-    - [ ] **Not quite.** "0/1" refers to the all-or-nothing choice for each item, not item count or value.
+    - [x] **Correct!** Delivery routing, circuit board drilling, and telescope scheduling all involve finding an efficient order to visit many points.
+    - [ ] **Not quite.** Think about which of these tasks involves visiting many locations in the best possible order.
 
-- # Why does checking every subset for the Knapsack problem become impractical?
-
-    ---
-
-    - [ ] Because there's no way to calculate the total value
-    - [x] Because the number of subsets is **O(2<sup>N</sup>)**
-    - [ ] Because knapsacks can only hold 10 items
-    - [ ] Because it's impossible to weigh items accurately
+- # What does the "nearest neighbour" heuristic do?
 
     ---
 
-    - [x] **Correct!** Each item is either "in" or "out", giving 2<sup>N</sup> possible subsets to check.
-    - [ ] **Not quite.** The issue is the exponential number of subsets, not measuring weight or value.
-
-- # Why can a greedy (value-to-weight ratio) approach fail for Knapsack?
-
-    ---
-
-    - [x] Taking the best ratio first can block a better combination of smaller items
-    - [ ] Greedy algorithms are always slower than brute force
-    - [ ] Greedy algorithms can't calculate ratios
-    - [ ] Greedy only works when there's just one item
+    - [x] Always travels to the closest unvisited city next
+    - [ ] Always travels to the furthest unvisited city next
+    - [ ] Visits cities in alphabetical order
+    - [ ] Picks the next city completely at random
 
     ---
 
-    - [x] **Correct!** Locking in one "good" item early can leave no room for a better overall combination.
-    - [ ] **Not quite.** Greedy is fast, not slow - its problem is that it can miss the optimal combination.
+    - [x] **Correct!** It's a simple, fast rule: always head to whichever unvisited city is closest.
+    - [ ] **Not quite.** Think about which single, simple rule this heuristic follows at every step.
 
-- # What's the difference between an "approximation algorithm" and a "heuristic"?
-
-    ---
-
-    - [x] An approximation algorithm has a proven guarantee on how close it gets to optimal; a heuristic doesn't
-    - [ ] They are exactly the same thing
-    - [ ] A heuristic always finds the perfect answer
-    - [ ] An approximation algorithm is always slower than brute force
+- # How does nearest neighbour's route quality typically compare to the optimal route?
 
     ---
 
-    - [x] **Correct!** Approximation algorithms come with a mathematical guarantee, while heuristics are just practical rules of thumb.
-    - [ ] **Not quite.** The key difference is the formal guarantee, not speed or correctness.
+    - [ ] It always finds the exact optimal route
+    - [x] It's typically around 15-25% longer than optimal, but runs in **O(N<sup>2</sup>)**
+    - [ ] It's usually shorter than the optimal route
+    - [ ] It performs worse than checking routes at random
+
+    ---
+
+    - [x] **Correct!** Nearest neighbour trades some route quality for a huge speed advantage over brute force.
+    - [ ] **Not quite.** Think about the trade-off this heuristic makes between being fast and being perfect.
+
+- # What does the 2-Opt algorithm do to an initial nearest-neighbour route?
+
+    ---
+
+    - [ ] Deletes it and starts again from brute force
+    - [x] Iteratively swaps pairs of edges to reduce the total distance
+    - [ ] Sorts the cities alphabetically instead
+    - [ ] Doubles the number of cities visited
+
+    ---
+
+    - [x] **Correct!** 2-Opt looks for edge swaps that shorten the route, repeatedly refining the nearest-neighbour starting point.
+    - [ ] **Not quite.** Think about what small, repeated change 2-Opt makes to try to shorten an existing route.
+
+- # When does the 2-Opt algorithm stop improving a route?
+
+    ---
+
+    - [ ] After exactly one swap, regardless of the result
+    - [x] Once a full pass finds no swap that improves the route (a local optimum)
+    - [ ] As soon as it matches the brute-force optimal route
+    - [ ] After a fixed number of cities have been visited
+
+    ---
+
+    - [x] **Correct!** 2-Opt keeps swapping edges until no single swap can shorten the route any further.
+    - [ ] **Not quite.** Think about what condition would mean there's nothing left to improve.
+
+- # How does 2-Opt's route quality typically compare to nearest neighbour alone?
+
+    ---
+
+    - [ ] 2-Opt is always worse than nearest neighbour
+    - [x] 2-Opt typically gets within a few percent of the optimal route - closer than nearest neighbour alone
+    - [ ] They always produce exactly the same route
+    - [ ] 2-Opt is only usable for fewer than 5 cities
+
+    ---
+
+    - [x] **Correct!** By refining the nearest-neighbour route, 2-Opt closes much of the gap to the optimal solution.
+    - [ ] **Not quite.** Think about what refining an existing route, rather than starting fresh, might achieve.
+
+- # Roughly how many cities can brute-force TSP still handle in practical time?
+
+    ---
+
+    - [x] Around 13 cities
+    - [ ] Around 1,000 cities
+    - [ ] Around 1,000,000 cities
+    - [ ] Any number of cities
+
+    ---
+
+    - [x] **Correct!** Beyond around 13 cities, brute force quickly takes longer than the age of the universe to complete.
+    - [ ] **Not quite.** Think about how quickly **O(N!)** explodes, even for relatively small numbers of cities.
 
 </quiz>

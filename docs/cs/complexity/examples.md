@@ -124,7 +124,7 @@ Here is a visual comparison of the complexities of the two approaches:
 
     **O(N log N)** - no comparison-based sort can beat this in the worst case.
 
-- # Why sort before searching for duplicates?
+- # Sorting before searching for duplicates
 
     ---
 

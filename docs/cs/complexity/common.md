@@ -165,3 +165,39 @@ Here's a practical guide to the time complexities you'll encounter most often, w
 > [!TIP]
 > Aim for **O(N log N)** or better for any algorithm you expect to run on large datasets!
 
+## Key Terms
+
+<flashcards>
+
+- # O(1) - constant time
+
+    ---
+
+    Effort stays the **same** regardless of input size - the best possible complexity.
+
+- # O(log N) - logarithmic time
+
+    ---
+
+    Effort grows **very slowly** - doubling N only adds one extra step.
+
+- # O(N log N) - log-linear time
+
+    ---
+
+    The **"sweet spot"** for general-purpose sorting - better than quadratic, but not as fast as linear.
+
+- # O(N<sup>2</sup>) - quadratic time
+
+    ---
+
+    Common in **nested loops** - doubling N quadruples the effort.
+
+- # O(2<sup>N</sup>) and O(N!)
+
+    ---
+
+    **Exponential** and **factorial** time - practical only for tiny inputs (roughly N < 25 and N < 20).
+
+</flashcards>
+

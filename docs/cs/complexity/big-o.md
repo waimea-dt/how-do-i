@@ -109,7 +109,7 @@ A quick way to spot a complexity experimentally: double N, and see what happens 
 
     Complexities like **O(2<sup>N</sup>)**, **O(N!)** - only practical for tiny N.
 
-- # Why does Big-O ignore constants?
+- # Why Big-O ignores constants
 
     ---
 

@@ -1,107 +1,149 @@
-# Quiz: TSP, Knapsack & Approximation
+# Quiz: The Bin Packing Problem
 
-Test your understanding of classic hard problems and how we solve them in practice.
+Test your understanding of the Bin Packing Problem and how we solve it in practice.
 
 <quiz>
 
-## Hard Problems Quiz
+## Bin Packing Quiz
 
-- # In the Travelling Salesperson Problem, what makes finding the best route hard?
-
-    ---
-
-    - [ ] Adding up a route's distance takes too long
-    - [x] The number of possible routes grows factorially with the number of cities
-    - [ ] Computers can't store city names
-    - [ ] There's no way to check if a route is valid
+- # What is the goal of the Bin Packing Problem?
 
     ---
 
-    - [x] **Correct!** Checking one route is easy (**O(N)**), but trying every route is **O(N!)** - it explodes fast.
-    - [ ] **Not quite.** Checking a route is fast - it's the sheer number of possible routes that's the problem.
+    - [x] Pack every item into the fewest possible bins without exceeding any bin's capacity
+    - [ ] Pack as many bins as possible with a single item each
+    - [ ] Find the single largest item in the collection
+    - [ ] Sort the items from smallest to largest
 
-- # What complexity is the brute-force approach to TSP?
+    ---
+
+    - [x] **Correct!** The goal is to minimise the number of bins used, while respecting each bin's fixed capacity.
+    - [ ] **Not quite.** Think about what's being minimised - the number of bins, not the number or order of items.
+
+- # Which of these is a real-world example of Bin Packing?
+
+    ---
+
+    - [x] Loading the fewest possible delivery trucks with a set of packages
+    - [ ] Finding the shortest route between delivery addresses
+    - [ ] Alphabetising a list of customer names
+    - [ ] Checking whether a password has been leaked
+
+    ---
+
+    - [x] **Correct!** Loading trucks, memory allocation, and packing virtual machines onto servers are all Bin Packing problems.
+    - [ ] **Not quite.** Think about which of these tasks involves fitting a set of items into a limited number of fixed-size containers.
+
+- # Why is guaranteeing the fewest possible bins so hard?
+
+    ---
+
+    - [ ] Calculating one item's size takes too long
+    - [x] Brute force must try every possible way of arranging items into bins
+    - [ ] Computers can't store item sizes accurately
+    - [ ] There's no way to check whether a packing is valid
+
+    ---
+
+    - [x] **Correct!** Checking a single packing is fast - it's the sheer number of possible arrangements that explodes.
+    - [ ] **Not quite.** Think about how many different ways there are to group items into bins, not how hard it is to check just one grouping.
+
+- # What is the complexity of the brute-force approach to Bin Packing?
 
     ---
 
     - [ ] **O(N)**
-    - [ ] **O(N<sup>2</sup>)**
+    - [ ] **O(N log N)**
     - [ ] **O(2<sup>N</sup>)**
-    - [x] **O(N!)**
+    - [x] **O(N<sup>N</sup>)**
 
     ---
 
-    - [x] **Correct!** Trying every possible ordering of cities is factorial time.
-    - [ ] **Not quite.** **O(N!)** is correct - checking every permutation of cities.
+    - [x] **Correct!** Trying every possible assignment of items to bins is even worse than the Knapsack problem's **O(2<sup>N</sup>)**.
+    - [ ] **Not quite.** Think about how many different bins each item could potentially be assigned to.
 
-- # What is the "nearest neighbour" heuristic for TSP?
-
-    ---
-
-    - [x] Always travel to the closest unvisited city
-    - [ ] Always travel to the furthest unvisited city
-    - [ ] Visit cities in alphabetical order
-    - [ ] Randomly pick the next city each time
+- # What does the Next Fit heuristic do?
 
     ---
 
-    - [x] **Correct!** It's a fast, simple rule that usually gives a decent (but not always optimal) route.
-    - [ ] **Not quite.** Nearest neighbour specifically means choosing the closest unvisited city each step.
-
-- # In the 0/1 Knapsack Problem, what does "0/1" mean?
-
-    ---
-
-    - [x] Each item is either fully taken or not taken at all
-    - [ ] There are only 2 items to choose from
-    - [ ] The knapsack has zero capacity
-    - [ ] Items are worth either 0 or 1 points
+    - [x] Packs items in order, opening a new bin whenever the current item doesn't fit the current one
+    - [ ] Checks every open bin and picks the one with the least remaining space
+    - [ ] Sorts all items by size before packing any of them
+    - [ ] Tries every possible arrangement before choosing the best one
 
     ---
 
-    - [x] **Correct!** You can't take a fraction of an item - it's all or nothing for each one.
-    - [ ] **Not quite.** "0/1" refers to the all-or-nothing choice for each item, not item count or value.
+    - [x] **Correct!** Next Fit only ever looks at the single bin currently being filled - once it moves on, it never returns to an earlier bin.
+    - [ ] **Not quite.** Think about how many bins this heuristic actually considers at each step.
 
-- # Why does checking every subset for the Knapsack problem become impractical?
-
-    ---
-
-    - [ ] Because there's no way to calculate the total value
-    - [x] Because the number of subsets is **O(2<sup>N</sup>)**
-    - [ ] Because knapsacks can only hold 10 items
-    - [ ] Because it's impossible to weigh items accurately
+- # What is the time complexity of the Next Fit heuristic?
 
     ---
 
-    - [x] **Correct!** Each item is either "in" or "out", giving 2<sup>N</sup> possible subsets to check.
-    - [ ] **Not quite.** The issue is the exponential number of subsets, not measuring weight or value.
-
-- # Why can a greedy (value-to-weight ratio) approach fail for Knapsack?
-
-    ---
-
-    - [x] Taking the best ratio first can block a better combination of smaller items
-    - [ ] Greedy algorithms are always slower than brute force
-    - [ ] Greedy algorithms can't calculate ratios
-    - [ ] Greedy only works when there's just one item
+    - [x] **O(N)**
+    - [ ] **O(N log N)**
+    - [ ] **O(2<sup>N</sup>)**
+    - [ ] **O(N<sup>N</sup>)**
 
     ---
 
-    - [x] **Correct!** Locking in one "good" item early can leave no room for a better overall combination.
-    - [ ] **Not quite.** Greedy is fast, not slow - its problem is that it can miss the optimal combination.
+    - [x] **Correct!** Next Fit makes a single pass through the items, giving linear time.
+    - [ ] **Not quite.** Think about how many times each item needs to be looked at with this heuristic.
 
-- # What's the difference between an "approximation algorithm" and a "heuristic"?
-
-    ---
-
-    - [x] An approximation algorithm has a proven guarantee on how close it gets to optimal; a heuristic doesn't
-    - [ ] They are exactly the same thing
-    - [ ] A heuristic always finds the perfect answer
-    - [ ] An approximation algorithm is always slower than brute force
+- # What does the Best Fit heuristic do differently from Next Fit?
 
     ---
 
-    - [x] **Correct!** Approximation algorithms come with a mathematical guarantee, while heuristics are just practical rules of thumb.
-    - [ ] **Not quite.** The key difference is the formal guarantee, not speed or correctness.
+    - [x] It checks all currently open bins and places the item in the one with the least remaining space that still fits
+    - [ ] It always opens a brand new bin for every item
+    - [ ] It ignores bin capacity entirely
+    - [ ] It only works if there is exactly one bin
+
+    ---
+
+    - [x] **Correct!** By considering every open bin, Best Fit can reuse space that Next Fit would have skipped past.
+    - [ ] **Not quite.** Think about how many of the currently open bins get checked before placing each item.
+
+- # What is the time complexity of the Best Fit heuristic?
+
+    ---
+
+    - [ ] **O(N)**
+    - [x] **O(N log N)**
+    - [ ] **O(2<sup>N</sup>)**
+    - [ ] **O(N<sup>N</sup>)**
+
+    ---
+
+    - [x] **Correct!** Best Fit is still fast, just slightly slower than Next Fit due to comparing against open bins.
+    - [ ] **Not quite.** Think about how this heuristic's speed compares to Next Fit's simple single pass.
+
+- # Why can Best Fit still fail to find the truly optimal packing?
+
+    ---
+
+    - [x] It only ever makes the locally best choice for each item, without reconsidering earlier decisions
+    - [ ] It doesn't actually check bin capacity before placing items
+    - [ ] It's slower than brute force in every case
+    - [ ] It can only be used with exactly two bins
+
+    ---
+
+    - [x] **Correct!** Like other heuristics, Best Fit commits to a choice for each item as it goes, which can still waste space overall.
+    - [ ] **Not quite.** Think about whether this heuristic ever looks back and changes an earlier placement decision.
+
+- # Why is Bin Packing classed as NP-hard?
+
+    ---
+
+    - [x] It's easy to check whether a packing is valid, but hard to guarantee it uses the fewest bins possible
+    - [ ] It has never been solved by any computer
+    - [ ] It can only be solved using sorting algorithms
+    - [ ] It has no real-world applications
+
+    ---
+
+    - [x] **Correct!** Verifying a proposed packing is quick, but proving no better packing exists requires checking a huge number of arrangements.
+    - [ ] **Not quite.** Think about the difference between checking a proposed packing and proving it's the very best one possible.
 
 </quiz>

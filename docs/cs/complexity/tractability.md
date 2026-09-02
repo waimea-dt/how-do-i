@@ -48,5 +48,35 @@ Algorithms that have **non-polynomial time complexity** are *generally* consider
 
 <big-o-chart max="100" value="5" enabled="on o2n ofact"></big-o-chart>
 
+## Key Terms
+
+<flashcards>
+
+- # Tractable
+
+    ---
+
+    A problem solvable in **polynomial** time - practical for realistic input sizes.
+
+- # Intractable
+
+    ---
+
+    A problem needing **non-polynomial** time - impractical for large N.
+
+- # What decides tractability
+
+    ---
+
+    The **worst-case** performance when **N is large**.
+
+- # Higher-order polynomials
+
+    ---
+
+    Complexities like **O(N<sup>3</sup>)** are technically polynomial, but can still become impractical for large N.
+
+</flashcards>
+
 
 

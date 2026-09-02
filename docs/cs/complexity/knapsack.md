@@ -80,6 +80,12 @@ Capacity = 10. Greedy takes A first (value 6) and can't fit anything else. The *
 
     Pack items by best **value-to-weight ratio** first - fast, but can miss the optimal combination.
 
+- # Dynamic programming (Knapsack)
+
+    ---
+
+    Builds a table of **best value so far** for every weight limit - finds the exact optimal answer, faster than checking every subset.
+
 </flashcards>
 
 ## Complexity Comparison

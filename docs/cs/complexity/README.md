@@ -75,3 +75,33 @@ Some problems are *so complex*, they can't be solved in a **reasonable** amount 
 
 However, sometimes we *really need* a solution to these 'impossible' problems, and in some interesting cases, we *really don't* want solutions. This is what makes this topic interesting!
 
+## Key Terms
+
+<flashcards>
+
+- # Algorithmic complexity
+
+    ---
+
+    Measures how an algorithm's **effort** changes as the **input size (N)** increases.
+
+- # What N represents
+
+    ---
+
+    The **size of the input** - e.g. items in a list, entries in a phonebook, or cities on a route.
+
+- # Time complexity
+
+    ---
+
+    Measures the number of **steps/operations** an algorithm takes - more steps means more time.
+
+- # Space complexity
+
+    ---
+
+    Measures how much **memory** an algorithm needs, rather than how much time it takes.
+
+</flashcards>
+

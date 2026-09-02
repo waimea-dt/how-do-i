@@ -18,7 +18,7 @@ Test your understanding of P, NP, NP-complete, HP-Hard and tractability
     ---
 
     - [x] **Correct!** Tractable problems can be solved efficiently, even as N grows large.
-    - [ ] **Not quite.** Tractability is about solving time, not whether a solution exists or who can compute it.
+    - [ ] **Not quite.** Think about how long it takes to solve the problem, not who has attempted it or what kind of computer is used.
 
 - # A problem in class P is one that can be...
 
@@ -32,7 +32,7 @@ Test your understanding of P, NP, NP-complete, HP-Hard and tractability
     ---
 
     - [x] **Correct!** P problems can be **solved** efficiently, not just checked.
-    - [ ] **Not quite.** That description fits NP, not P.
+    - [ ] **Not quite.** Think about the difference between finding a solution and simply checking one that's already been proposed.
 
 - # A problem in class NP is one that can be...
 
@@ -46,7 +46,7 @@ Test your understanding of P, NP, NP-complete, HP-Hard and tractability
     ---
 
     - [x] **Correct!** NP problems may be hard to solve, but a proposed solution can be checked quickly.
-    - [ ] **Not quite.** NP is about fast verification, not fast solving or provable impossibility.
+    - [ ] **Not quite.** Think about the difference between finding a solution and simply checking one that's already been proposed.
 
 - # What is special about NP-Complete problems?
 
@@ -60,7 +60,7 @@ Test your understanding of P, NP, NP-complete, HP-Hard and tractability
     ---
 
     - [x] **Correct!** NP-Complete problems are all equally hard - an efficient solution to one solves them all.
-    - [ ] **Not quite.** NP-Complete problems show up in real logistics, scheduling, and packing problems.
+    - [ ] **Not quite.** Think about what all the problems in this class have in common with each other in terms of difficulty.
 
 - # What is the "P vs NP" question asking?
 
@@ -74,7 +74,7 @@ Test your understanding of P, NP, NP-complete, HP-Hard and tractability
     ---
 
     - [x] **Correct!** It's the unsolved question of whether checking and solving are equally easy for every problem.
-    - [ ] **Not quite.** It's specifically about the checking vs. solving gap.
+    - [ ] **Not quite.** Think about the gap between being able to check an answer and being able to find one.
 
 - # Why does modern encryption rely on **P ≠ NP**?
 
@@ -88,6 +88,62 @@ Test your understanding of P, NP, NP-complete, HP-Hard and tractability
     ---
 
     - [x] **Correct!** If factoring became easy (P = NP), most current encryption would break.
-    - [ ] **Not quite.** Encryption's security specifically depends on factoring being hard to reverse.
+    - [ ] **Not quite.** Think about what would happen to a "hard to solve, easy to verify" problem if it suddenly became easy to solve too.
+
+- # What does "intractable" mean for a problem?
+
+    ---
+
+    - [ ] It has multiple valid solutions
+    - [x] It needs non-polynomial time to solve exactly, making it impractical for large N
+    - [ ] It can only be solved with pen and paper
+    - [ ] It's a problem nobody has ever attempted
+
+    ---
+
+    - [x] **Correct!** Intractable problems become impractical almost immediately as N grows - which is why approximations and heuristics exist.
+    - [ ] **Not quite.** Think about how the required effort changes as the input size grows very large.
+
+- # Which of these is classed as NP-Hard because no efficient exact solution is known?
+
+    ---
+
+    - [ ] Sorting a list of numbers
+    - [ ] Searching an unsorted list
+    - [x] Finding the optimal route in the Travelling Salesperson Problem
+    - [ ] Checking if a number is even or odd
+
+    ---
+
+    - [x] **Correct!** TSP's optimal solution requires checking every route - **O(N!)** - along with Knapsack and Bin-Packing's **O(2<sup>N</sup>)**.
+    - [ ] **Not quite.** Think about which of these problems has no known fast way to find the *best* possible answer.
+
+- # Why is the P vs NP question considered so significant?
+
+    ---
+
+    - [ ] It has already been solved, but kept secret
+    - [x] It's an unsolved Millennium Prize Problem worth $1,000,000 to whoever proves it
+    - [ ] It only matters to mathematicians, not computer scientists
+    - [ ] It was solved by quantum computers in 2019
+
+    ---
+
+    - [x] **Correct!** The Clay Mathematics Institute offers $1,000,000 for a proof either way - and the answer would reshape cryptography and optimisation.
+    - [ ] **Not quite.** Think about how famous and unresolved this particular question still is.
+
+- # What is true about the relationship between P and NP?
+
+    ---
+
+    - [x] Every problem in P is also in NP
+    - [ ] P and NP share no problems in common
+    - [ ] Every problem in NP is also in P
+    - [ ] NP is a smaller class than P
+
+    ---
+
+    - [x] **Correct!** If you can solve a problem quickly, you can obviously also check a proposed solution quickly - so P is a subset of NP.
+    - [ ] **Not quite.** Think about whether being able to *solve* something quickly also means you could *check* an answer quickly.
 
 </quiz>

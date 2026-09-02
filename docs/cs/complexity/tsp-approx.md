@@ -138,23 +138,29 @@ Try larger problems:
 
 <flashcards>
 
-- # Travelling Salesperson Problem (TSP)
+- # 2-Opt
 
     ---
 
-    Find the **shortest route** that visits every city once and returns to the start.
+    A refinement algorithm that starts from a **nearest-neighbour** route and repeatedly **swaps pairs of edges** to shorten it.
 
-- # Why TSP is intractable
-
-    ---
-
-    Checking a route is **O(N)**, but finding the best one (brute force) is **O(N!)**.
-
-- # Nearest neighbour heuristic
+- # 2-Opt's stopping point
 
     ---
 
-    Always travel to the **closest unvisited city** - fast (**O(N<sup>2</sup>)**), but not always optimal.
+    A **local optimum** - reached once a full pass finds no swap that shortens the route further.
+
+- # 2-Opt vs nearest neighbour
+
+    ---
+
+    2-Opt typically gets **within a few percent of optimal** - much closer than nearest neighbour alone.
+
+- # Practical brute-force limit for TSP
+
+    ---
+
+    Around **13 cities** - beyond that, brute force takes longer than the age of the universe.
 
 </flashcards>
 

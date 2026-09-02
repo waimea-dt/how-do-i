@@ -180,3 +180,33 @@ Compare brute force (optimal but slow) vs heuristics (fast but approximate).
 
 > [!TIP]
 > When you encounter an NP-Complete problem, don't look for the perfect algorithm - it probably doesn't exist! Focus on approximations, heuristics, or restricting to special cases.
+
+## Key Terms
+
+<flashcards>
+
+- # P vs NP
+
+    ---
+
+    The unsolved question: can everything we can **verify** quickly also be **solved** quickly?
+
+- # The Millennium Prize
+
+    ---
+
+    The Clay Mathematics Institute offers **$1,000,000** for a proof of P vs NP, either way.
+
+- # P ⊆ NP
+
+    ---
+
+    Every problem we can **solve** quickly can also be **verified** quickly - but not necessarily the other way round.
+
+- # Why encryption depends on P ≠ NP
+
+    ---
+
+    Factoring large numbers is believed **intractable to solve** but **easy to verify** - if that changed, RSA encryption would break.
+
+</flashcards>

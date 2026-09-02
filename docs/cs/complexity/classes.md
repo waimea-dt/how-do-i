@@ -51,7 +51,7 @@ Problems where no exact, worst-case polynomial-time solution is known. NP-Hard p
 **Examples**:
 - TSP - optimal / shortest route: **O(N!)**
 - 0/1 Knapsack problem - optimal solution: **O(2<sup>N</sup>)**
-- Bin-Packing problem - optimal solution: **O(2<sup>N</sup>)**
+- Bin-Packing problem - optimal solution: **O(N<sup>N</sup>)**
 
 > [!NOTE]
 > Not all NP-Hard problems are in NP, and some are completely unsolvable (undecidable).
