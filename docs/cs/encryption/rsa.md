@@ -2,11 +2,6 @@
 
 **RSA** (Rivest-Shamir-Adleman) was the first practical public-key algorithm, published in 1977. It still secures much of the modern internet.
 
-<videoembed id="hm8s6FAc4pg"></videoembed>
-
-<videoembed id="wXB-V_Keiu8"></videoembed>
-
-
 ## The Core Idea: Easy One Way, Hard the Other
 
 RSA relies on a simple fact: **multiplying two large prime numbers is easy, but factoring the result back into those two primes is incredibly hard.**
@@ -85,6 +80,11 @@ Drag these steps into the correct order:
     Quantum computers could **factor large numbers far faster**, potentially breaking RSA's core assumption.
 
 </flashcards>
+
+## Video Overviews
+
+<videoembed id="wXB-V_Keiu8"></videoembed>
+
 
 ## Further Reading
 

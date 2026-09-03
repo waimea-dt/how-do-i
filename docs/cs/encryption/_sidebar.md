@@ -53,4 +53,9 @@
     - [<i data-lucide="vault"></i> Password Managers](/cs/encryption/password-manager.md)
     - [<i data-lucide="list-checks"></i> Quiz: Applications](/cs/encryption/quiz-applications.md)
 
+- <i data-lucide="shield-question-mark"></i> Impacts of Using Encryption
+    - [<i data-lucide="thumbs-up"></i> Benefits of Strong Encryption](/cs/encryption/benefits.md)
+    - [<i data-lucide="thumbs-down"></i> Downsides of Strong Encryption](/cs/encryption/downsides.md)
+    - [<i data-lucide="telescope"></i> The Future of Encryption](/cs/encryption/future.md)
+
 

@@ -14,6 +14,8 @@ Instead of thinking about the maths, let's instead consider mixing paint...
 4. Each adds their *own* secret colour to the mixture they received
 5. Both arrive at the **same final colour** - but Eve can't reverse-mix paint to find the secret colours!
 
+<videoembed id="YEBfamv-_do"></videoembed>
+
 <diffie-hellman colour intercept></diffie-hellman>
 
 > [!NOTE]

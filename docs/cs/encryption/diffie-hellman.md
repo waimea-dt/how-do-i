@@ -77,6 +77,13 @@ Drag these steps into the correct order:
 
 </flashcards>
 
+## Video Overviews
+
+<videoembed id="YEBfamv-_do"></videoembed>
+
+<videoembed id="NmM9HA2MQGI"></videoembed>
+
+
 ## Further Reading
 
 - [Khan Academy - Diffie-Hellman Key Exchange](https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/diffie-hellman-key-exchange-part-1) - the full mathematical walkthrough

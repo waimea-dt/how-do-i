@@ -2,11 +2,6 @@
 
 **AES** (Advanced Encryption Standard) is the symmetric encryption algorithm used almost everywhere today - from WiFi security to BitLocker to messaging apps.
 
-<videoembed id="XMNLDdv9ApE"></videoembed>
-
-<videoembed id="C4ATDMIz5wc"></videoembed>
-
-
 ## Key Facts
 
 | Property | Detail |
@@ -73,6 +68,12 @@ AES doesn't encrypt letter-by-letter like the historical ciphers - it works on 1
     **WiFi security** (WPA2/WPA3), **device encryption** (BitLocker/FileVault), and the bulk of **HTTPS** traffic.
 
 </flashcards>
+
+## Video Overviews
+
+<videoembed id="C4ATDMIz5wc"></videoembed>
+
+<videoembed id="O4xNJsjtN6E"></videoembed>
 
 ## Further Reading
 

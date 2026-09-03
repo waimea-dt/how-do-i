@@ -19,6 +19,15 @@ The notes here cover everything you need for [AS91898](/ncea/91898/as91898.pdf):
 > [!TIP]
 > Each section of these notes has its own **quiz** at the end - use them to check your understanding before moving on.
 
+
+## Video Overviews
+
+
+<videoembed id="yFZGF8FHSg"></videoembed>
+
+<videoembed id="NuyzuNBFWxQ"></videoembed>
+
+
 ## Further Reading
 
 - [Computer Science Field Guide - Encryption](https://www.csfieldguide.org.nz/en/chapters/coding-encryption/) - The CSFG chapter, covering some aspects of the topic
