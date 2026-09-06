@@ -16,7 +16,6 @@
 
 - <i data-lucide="boxes"></i> Complexity Classes
     - [<i data-lucide="check-circle"></i> Tractability](/cs/complexity/tractability.md)
-    - [<i data-lucide="circle-x"></i> Impact of Intractability](/cs/complexity/intractability.md)
     - [<i data-lucide="box"></i> P, NP, NP-Complete, NP-Hard](/cs/complexity/classes.md)
     - [<i data-lucide="message-circle-question-mark"></i> P vs NP - The Big Question](/cs/complexity/p-vs-np.md)
     - [<i data-lucide="list-checks"></i> Quiz: Classes](/cs/complexity/quiz-classes.md)
@@ -35,4 +34,6 @@
     - [<i data-lucide="list-checks"></i> Quiz: Knapsack](/cs/complexity/quiz-kanpsack.md)
     - [<i data-lucide="list-checks"></i> Quiz: Bin Packing](/cs/complexity/quiz-bin.md)
 
+- <i data-lucide="globe"></i> Tractability and the Real-World
+    - [<i data-lucide="circle-x"></i> Impact of Intractability](/cs/complexity/intractability.md)
 
