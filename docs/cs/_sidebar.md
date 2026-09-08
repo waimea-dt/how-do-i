@@ -5,6 +5,7 @@
 
 - <i data-lucide="binary"></i> Computer Science
     - [<i data-lucide="circle-question-mark"></i> What is CS?](/cs/)
+    - [<i data-lucide="list-checks"></i> The 2026 Exams](/cs/exam.md)
 
 
 - <i data-lucide="binary"></i> CS Topics

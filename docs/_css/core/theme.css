@@ -47,6 +47,17 @@
     --palette-color-9-dark:       color-mix(in srgb, var(--palette-color-9), var(--color-mono-min) 50%);
     --palette-color-10-dark:      color-mix(in srgb, var(--palette-color-10), var(--color-mono-min) 50%);
 
+    --palette-color-1-light:      color-mix(in srgb, var(--palette-color-1), var(--color-mono-max) 50%);
+    --palette-color-2-light:      color-mix(in srgb, var(--palette-color-2), var(--color-mono-max) 50%);
+    --palette-color-3-light:      color-mix(in srgb, var(--palette-color-3), var(--color-mono-max) 50%);
+    --palette-color-4-light:      color-mix(in srgb, var(--palette-color-4), var(--color-mono-max) 50%);
+    --palette-color-5-light:      color-mix(in srgb, var(--palette-color-5), var(--color-mono-max) 50%);
+    --palette-color-6-light:      color-mix(in srgb, var(--palette-color-6), var(--color-mono-max) 50%);
+    --palette-color-7-light:      color-mix(in srgb, var(--palette-color-7), var(--color-mono-max) 50%);
+    --palette-color-8-light:      color-mix(in srgb, var(--palette-color-8), var(--color-mono-max) 50%);
+    --palette-color-9-light:      color-mix(in srgb, var(--palette-color-9), var(--color-mono-max) 50%);
+    --palette-color-10-light:     color-mix(in srgb, var(--palette-color-10), var(--color-mono-max) 50%);
+
     /* Semantic colors */
     --color-good:                 #47dd97;
     --color-important:            #d8dd47;
