@@ -1,10 +1,10 @@
-# Waimea College Digital Technologies[.](/_tests/)
+# Waimea College Digital Technologies
 
 <speak>
 
 ![Mac](/_assets/macs/macintosh-happy.svg)
 
-**Hello, Human!**
+**Hello[,](/_tests/) Human!**
 
 We're going to have so much *fun* learning new things!
 
@@ -72,11 +72,11 @@ Learn how to create and design awesome websites
 
 [Link](/tools/)
 
-Find out about the coding and design tools
+Find out about the coding and design tools -->
 
-</menu> -->
+</menu>
 
 
 
-<!-- > [!TIP]
-> Use the **sidebar menu** to explore the site. If you can't find what you are looking for, try the **search box** -->
+> [!TIP]
+> If you can't find what you are looking for, try the **search box**
