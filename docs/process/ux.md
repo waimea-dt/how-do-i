@@ -22,6 +22,7 @@ Good UX can be summed up with a small set of practical rules. Keep these in mind
 
 
 
+<cards size="">
 
 ## <i data-lucide="user-round"></i> Know Your User
 
@@ -42,6 +43,7 @@ The single biggest UX mistake is assuming your users think like you do. Differen
 > - Regularly test my ideas, designs and the system with the end-users to see what is working well or not
 > - etc.
 
+---
 
 ## <i data-lucide="map"></i> Clear User Flows
 
@@ -62,6 +64,8 @@ A user flow is the step-by-step path to complete a task. Each flow should be sho
 > - Regularly test the system with end users to ensure that they can intuitively perform tasks with minimal help
 > - etc.
 
+
+---
 
 ## <i data-lucide="layout-dashboard"></i> Consistent and Clear
 
@@ -87,6 +91,8 @@ A great way to ensure consistency in your design is to use a design system (e.g.
 > - etc.
 
 
+---
+
 ## <i data-lucide="timer"></i> Keep Tasks Quick
 
 > Every extra click, wait, or step costs goodwill.
@@ -106,6 +112,8 @@ If tasks take too long, users give up. Reduce steps and remove unnecessary frict
 > - Regularly test the system with end users to measure how easy / frustrating it is to perform key tasks
 > - etc.
 
+
+---
 
 ## <i data-lucide="message-circle"></i> Clear, Helpful Language
 
@@ -127,6 +135,8 @@ Labels, button text, and error messages should be simple and direct.
 > - etc.
 
 
+---
+
 ## <i data-lucide="test-tube-diagonal"></i> Test and Improve
 
 > Your assumptions will be wrong. Testing shows you where.
@@ -145,4 +155,6 @@ Simple testing catches problems early. Even 2-3 users can reveal major issues.
 > - Regularly test the design and working system with end users to gather feedback
 > - Act upon the feedback to improve the system at every stage
 > - etc.
+
+</cards>
 

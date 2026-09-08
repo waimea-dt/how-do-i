@@ -21,6 +21,8 @@ In 1994, usability expert **Jakob Nielsen** published 10 general principles for 
 > These are called *heuristics*. They are not strict rules, but **useful guidelines** based on research into how people interact with technology
 
 
+<cards size="">
+
 ## <i data-lucide="loader"></i> Visibility of System Status
 
 > Keep users informed about what's going on.
@@ -35,6 +37,7 @@ The system should always tell users what it's doing. If you click a button, you 
 
 ![](_assets/usability/progress-status.png)
 
+---
 
 ## <i data-lucide="compass"></i> Match Between the System and the Real World
 
@@ -49,6 +52,8 @@ Use words, icons, and ideas that users already understand from everyday life. Av
 - The "trash can" icon for deleting files matches the real-world concept of throwing something away - no explanation needed.
 
 
+---
+
 ## <i data-lucide="undo-2"></i> User Control and Freedom
 
 > Always give users a way out.
@@ -61,6 +66,8 @@ People make mistakes. They need an easy way to undo actions and go back to where
 - When posting a message, the ability to edit it or delete it completely allows users to undo mistakes.
 - GMail's "Undo Send" button lets you cancel an email seconds after sending it - a lifesaver when you spot a typo!
 
+
+---
 
 ## <i data-lucide="list-checks"></i> Consistency and Standards
 
@@ -75,6 +82,8 @@ Buttons, icons, and words should mean the same thing throughout the app, and ide
 - The "hamburger" menu icon (☰) is used across countless apps - users already know what it does without being told.
 
 
+---
+
 ## <i data-lucide="shield-check"></i> Error Prevention
 
 > Stop mistakes before they happen.
@@ -87,6 +96,8 @@ The best error message is one that never has to appear. Design the system so tha
 - When the user searches for something, but mistypes it, don't just return an error - instead suggest fixes.
 - A date-picker that won't let you select a date in the past for a flight booking prevents an invalid entry from ever being submitted.
 
+
+---
 
 ## <i data-lucide="eye"></i> Recognition Rather Than Recall
 
@@ -101,6 +112,8 @@ Human short-term memory is limited. Instead of making users remember what to typ
 - Spotify shows your recent searches so you don't have to remember exactly what you were looking for.
 
 
+---
+
 ## <i data-lucide="fast-forward"></i> Flexibility and Efficiency of Use
 
 > Let beginners learn and experts work fast.
@@ -113,6 +126,8 @@ A system should work well for both new and experienced users. Beginners need cle
 - Most apps have full menus for beginners but also keyboard shortcuts (like `Ctrl+Z` to undo) that experts rely on heavily.
 - Many apps have an on-boarding tutorial for new users, but experienced users can skip it.
 
+---
+
 ## <i data-lucide="sparkles"></i> Aesthetic and Minimalist Design
 
 > Don't clutter the interface with things that aren't needed.
@@ -124,6 +139,8 @@ Every extra button, image, or piece of text competes for the user's attention. K
 #### Examples:
 - Google's homepage is famously minimal - just a search box - because that's the one thing users come to do.
 - Well designed apps show you just what you need to know, and nothing more.
+
+---
 
 ## <i data-lucide="triangle-alert"></i> Help Users Recognise, Diagnose, and Recover from Errors
 
@@ -138,6 +155,8 @@ When something goes wrong, the error message should say what happened in plain l
 - Instead of `Error 403`, a good message says: *"You don't have permission to view this page. Try signing in with a different account."*
 
 
+---
+
 ## <i data-lucide="book-open"></i> Help and Documentation
 
 > Sometimes people need a guide - make it easy to find.
@@ -150,7 +169,9 @@ Ideally, a system is so intuitive that no manual is needed. But when users do ne
 - Apps can have sidebars or collapsible help sections that give answers without leaving the page you're on.
 - Many apps include tooltips when you hover over UI elements so you can discover what they do
 
----
+</cards>
+
+
 
 ## <i data-lucide="play-circle"></i> Video Summaries
 
