@@ -36,6 +36,16 @@ Encryption is the study of how information can be hidden from those who should n
 
 ---
 
+### Data Representation
+
+<i data-lucide="binary"></i>
+
+[Link](/cs/data-rep/)
+
+Computers use a number system called binary, using just 0s and 1s. But how can they then store words, colours, sounds, etc.?
+
+---
+
 ### Formal Languages
 
 <i data-lucide="workflow"></i>

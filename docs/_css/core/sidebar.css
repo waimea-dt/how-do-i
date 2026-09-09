@@ -189,6 +189,7 @@
             background-color: var(--sidebar-link-color-hover-bg);
             text-decoration: none;
             color: inherit;
+            font-weight: 500;
         }
     }
 

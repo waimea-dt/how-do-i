@@ -7,9 +7,9 @@
     --topic-menu-back-color:         var(--theme-color-1);
     --topic-menu-text-color:         var(--color-mono-7);
     --topic-menu-icon-color:         var(--text-color);
-    --topic-menu-min-width:          15rem;
+    --topic-menu-min-width:          13rem;
     --topic-menu-icon-size:          3rem;
-    --topic-menu-spacing:            var(--gap-large);
+    --topic-menu-spacing:            var(--gap);
     --topic-menu-gap:                var(--gap);
 
     display: grid;
@@ -106,7 +106,7 @@
 
         > :first-child {
             grid-area: name;
-            color: var(--topic-menu-text-color);
+            color: var(--color-text);
             font-size: var(--font-xlarge);
             line-height: 1.1;
         }
@@ -135,6 +135,7 @@
             box-shadow: var(--box-shadow);
             transform: translateY(-5px);
             --topic-menu-text-color: var(--text-color);
+            filter: brightness(1.1);
         }
     }
 }

@@ -45,7 +45,7 @@ Follow the design process when working on large projects
 
 ---
 
-### User Interface Design
+### UI Design
 
 <i data-lucide="pencil-ruler"></i>
 

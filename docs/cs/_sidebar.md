@@ -14,8 +14,11 @@
 - [<i data-lucide="file lock"></i> Encryption](/cs/encryption/)
     - Learn how we keep things secret across open networks
 
+- [<i data-lucide="binary"></i> Data Representation](/cs/data-rep/)
+    - How does a computer store numbers, text, images, etc.?
+
 - [<i data-lucide="workflow"></i> Formal Languages](/cs/formal-langs/)
-    - how does a computer understand a programming language?
+    - How does a computer understand a programming language?
 
 ---
 
