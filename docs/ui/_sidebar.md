@@ -1,10 +1,15 @@
 - [<i data-lucide="home"></i> Home](/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="monitor-smartphone"></i> User Interfaces](/ui/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="monitor-smartphone"></i> User Interfaces
-    - [<i data-lucide="circle-question-mark"></i> What is a User Interface?](/ui/)
+    - [<i data-lucide="circle-question-mark"></i> What is a User Interface?](/ui/ui.md)
     - [<i data-lucide="brain"></i> Why UI Design Matters](/ui/importance.md)
 
 - <i data-lucide="layout-panel-left"></i> UI Basics

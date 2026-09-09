@@ -55,12 +55,21 @@ Learn how to design and create amazing user interfaces (UIs)
 
 ---
 
+### Databases
+
+<i data-lucide="database"></i>
+
+[Link](/db/)
+
+Learn how to store and organise data
+
+---
+
 ### Web Development
 
 <i data-lucide="globe"></i>
 
 [Link](/web/)
-
 
 Learn how to create and design awesome websites
 

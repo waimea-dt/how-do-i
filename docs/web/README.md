@@ -1,16 +1,50 @@
 # Web Development
 
-Web development is about building websites and web apps that people can use on phones, tablets, and computers.
+<speak>
 
-- [Front-End Development](/web/front-end.md): what users see and click
-    - [HTML](/web/html/) for structure
-    - [CSS](/web/css/) for styling and layout
-    - [JavaScript](/web/js/) for interactivity
-    - [Accessibility](/web/accessibility/) considerations
+![Mac](../_assets/macs/macintosh-face.svg)
 
-- [Back-End Development](/web/back-end.md): what server does behind scenes
-    - [Flask](/web/flask/) for server-side logic
-    - [Jinja](/web/jinja/) for templates
-    - [HTMX](/web/htmx/) for dynamic page updates
-    - [Docker](/web/docker/) for packaging and deployment
+Welcome to the World Wide Web!
+
+**Web Development** is how we build the websites and apps people use every day.
+
+</speak>
+
+
+Building for the web means writing code for both sides of the connection: the front-end that runs in the user's browser, and the back-end that runs on a server. These notes cover both sides, and the tools that connect them.
+
+
+<menu>
+
+### Web Development
+
+<i data-lucide="globe"></i>
+
+[Link](/web/web.md)
+
+Find out what web development is and how the front-end and back-end fit together
+
+---
+
+### Front-End Web Dev
+
+<i data-lucide="layout-template"></i>
+
+[Link](/web/front-end.md)
+
+Build what users see and interact with using HTML, CSS and JavaScript
+
+---
+
+### Back-End Web Dev
+
+<i data-lucide="server"></i>
+
+[Link](/web/back-end.md)
+
+Build what happens behind the scenes with Flask, Jinja and HTMX
+
+
+</menu>
+
 

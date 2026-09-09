@@ -336,8 +336,8 @@
 }
 
 /* Macintosh display images */
-img[src*="macintosh"] {
-    max-height: 10rem;
+.markdown-section figure img[src*="macintosh"] {
+    max-width: 8rem;
 }
 
 /* Text formatting */

@@ -1,10 +1,15 @@
 - [<i data-lucide="home"></i> Home](/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="globe"></i> Web Development](/web/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="globe"></i> Web Development
-    - [<i data-lucide="circle-question-mark"></i> What is Web Dev?](/web/)
+    - [<i data-lucide="circle-question-mark"></i> What is Web Dev?](/web/web.md)
     - [<i data-lucide="circle-question-mark"></i> How does the Web Work?](/web/how.md)
 
 - <i data-lucide="layout-template"></i> Front-End Web Dev

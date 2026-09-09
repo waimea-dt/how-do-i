@@ -4,9 +4,9 @@
 
 ![Mac](../_assets/macs/macintosh-happy.svg)
 
-**Computer Science**
+So, how do I work?!
 
-What an interesting subject!
+**Computer Science** is about the technologies behind computers and computing
 
 </speak>
 
@@ -20,7 +20,7 @@ Computer science is the study of how computers work and how we use them to solve
 
 <i data-lucide="chart-spline"></i>
 
-[Link](/cs/complexity)
+[Link](/cs/complexity/)
 
 Some problems are harder than others; learn why
 

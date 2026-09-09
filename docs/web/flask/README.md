@@ -1,68 +1,70 @@
 # Flask
 
-**Flask** is a lightweight web framework for Python. It lets you build websites and web applications using Python code to handle requests, generate pages, and manage data.
+<speak>
 
-## What is Flask For?
+![Mac](../../_assets/macs/macintosh-idea.svg)
 
-Flask handles the *server side* of a web application:
+Python, meet the web!
 
-- **Routing** - map URLs to Python functions
-- **Templating** - generate HTML pages dynamically using Jinja2
-- **Forms and data** - receive and process user input
-- **Sessions and security** - manage logged-in users and protect your app
+**Flask** is a lightweight framework for building web apps with Python.
 
-> [!NOTE]
-> Flask is called a *micro-framework* because it has a small core that you extend as needed, rather than including everything by default.
+</speak>
 
 
-## Minimal Flask App
+Flask handles everything on the server side of a web app: routing URLs, generating pages, and keeping users logged in securely. These notes cover routing, security, and sessions.
 
-Flask apps can be very simple...
 
-```python
-from flask import Flask
+<menu>
 
-app = Flask(__name__)
+### Flask
 
-@app.route('/')
-def home():
-    return '<h1>Hello, World!</h1>'
+<i class="si si-flask"></i>
 
-@app.route('/test')
-def test():
-    return '<h1>Test Page</h1>'
-```
+[Link](/web/flask/flask.md)
 
-In this minimal example:
-- `app = Flask(__name__)`(python) - create app instance
-- `@app.route(...)`(python) - define a URL path to match
-- `def home():`(python) - the function to run if route matches
-- `return ...`(python) - the content of the HTTP response
+Find out what Flask is and see a minimal app in action
 
-## Typical project structure
+---
 
-<filetree>
+### Flask Basics
 
-- app
-    - __init__.py           // the main app with routing
+<i data-lucide="route"></i>
 
-    - static                // content served up directly
-        - css
-            - styles.css
-        - images
-            - favicon.svg
-            - logo.svg
+[Link](/web/flask/setup.md)
 
-    - templates             // templates to build pages
-        - pages
-            - _base.jinja
-            - home.jinja
-            - user.jinja
-        - partials
-            - nav.jinja
-            - messages.jinja
-</filetree>
+Set up a Flask project and define your first routes
 
-> [!NOTE]
-> The template folder contains Jinja Template files - explore these in the [Jinja](/web/jinja/) section of the notes
+---
+
+### Flask Routing
+
+<i data-lucide="map"></i>
+
+[Link](/web/flask/about.md)
+
+Route URLs to views, pass parameters, and parse the URL
+
+---
+
+### Flask Security
+
+<i data-lucide="shield"></i>
+
+[Link](/web/flask/security.md)
+
+Hash passwords and manage logging users in and out
+
+---
+
+### Flask Sessions
+
+<i data-lucide="layers"></i>
+
+[Link](/web/flask/session.md)
+
+Store and remove data tied to a logged-in user
+
+
+</menu>
+
 

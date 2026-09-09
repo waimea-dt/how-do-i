@@ -7,10 +7,15 @@
 - [<i data-lucide="layout-template"></i> Front-End Web Dev](/web/front-end.md)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="accessibility"></i> Accessibility](/web/accessibility/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="accessibility"></i> Web Accessibility
-    - [<i data-lucide="circle-question-mark"></i> What is Accessibility?](/web/accessibility/)
+    - [<i data-lucide="circle-question-mark"></i> What is Accessibility?](/web/accessibility/accessibility.md)
     - [<i data-lucide="eye"></i> Accessibility Checklist](/web/accessibility/checklist.md)
 
 - <i data-lucide="check-circle"></i> WCAG Guidelines

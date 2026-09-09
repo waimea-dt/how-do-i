@@ -1,10 +1,15 @@
 - [<i data-lucide="home"></i> Home](/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="pocket-knife"></i> Useful Tools](/tools/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="pocket-knife"></i> Useful Tools
-    - [<i data-lucide="circle-question-mark"></i> What is a Good Tool?](/tools/)
+    - [<i data-lucide="circle-question-mark"></i> What is a Good Tool?](/tools/tools.md)
 
 - <i data-lucide="braces"></i> Coding Tools
     - [<i data-lucide="monitor-check"></i> Code Editors and IDEs](/tools/code-edit.md)

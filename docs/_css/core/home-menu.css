@@ -7,7 +7,7 @@
     --home-menu-back-color:         var(--theme-color-1);
     --home-menu-text-color:         var(--color-mono-7);
     --home-menu-icon-color:         var(--text-color);
-    --home-menu-min-width:          10rem;
+    --home-menu-min-width:          15rem;
     --home-menu-icon-size:          3rem;
     --home-menu-spacing:            var(--gap-large);
     --home-menu-gap:                var(--gap);
@@ -95,11 +95,14 @@
         > :last-child {
         }
 
-        svg.icon {
+        svg.icon,
+        i.si::before {
             width: var(--home-menu-icon-size);
             height: var(--home-menu-icon-size);
+            font-size: var(--home-menu-icon-size);
             color: var(--home-menu-text-color);
             opacity: 0.3;
+            margin-inline: auto;
         }
 
         p {

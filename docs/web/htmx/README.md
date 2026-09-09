@@ -1,25 +1,49 @@
 # HTMX
 
-**HTMX** is a lightweight library that lets you access modern browser features directly from HTML attributes - without writing any JavaScript. It makes it easy to build dynamic, interactive pages by adding behaviour directly to your HTML elements.
+<speak>
 
-```html
-<button hx-get="/greet" hx-target="#result">
-  Say Hello
-</button>
-<div id="result"></div>
-```
+![Mac](../../_assets/macs/macintosh-idea.svg)
 
-> [!TIP]
-> Use the sidebar to navigate the topics in this guide.
+No JavaScript required!
+
+**HTMX** adds dynamic behaviour to HTML using just a few attributes.
+
+</speak>
 
 
-## What is HTMX For?
+HTMX lets you fetch data and update part of a page straight from HTML attributes, without writing JavaScript. These notes cover the basics of requests and swaps, plus common patterns for building dynamic pages.
 
-HTMX extends HTML to support:
 
-- **AJAX requests** - fetch content from a server without a full page reload
-- **Partial page updates** - replace just part of the page with new content
-- **Events** - trigger requests on clicks, inputs, scrolls, and more
+<menu>
 
-> [!NOTE]
-> HTMX works especially well with server-side frameworks like Flask, letting you build interactive sites with very little JavaScript.
+### HTMX Introduction
+
+<i data-lucide="zap"></i>
+
+[Link](/web/htmx/htmx.md)
+
+Find out what HTMX is and see it in action
+
+---
+
+### HTMX Basics
+
+<i data-lucide="scooter"></i>
+
+[Link](/web/htmx/setup.md)
+
+Set up HTMX with Flask and send GET/POST requests
+
+---
+
+### HTMX Patterns
+
+<i data-lucide="puzzle"></i>
+
+[Link](/web/htmx/partials.md)
+
+Build partial templates, inline validation and loading states
+
+
+</menu>
+

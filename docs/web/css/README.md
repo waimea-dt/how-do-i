@@ -1,25 +1,69 @@
 # CSS
 
-**CSS** (Cascading Style Sheets) controls how HTML looks. While HTML defines *what* is on a page, CSS defines *how it appears* - colours, fonts, spacing, layout, and more.
+<speak>
 
-```css
-body {
-  background-color: steelblue;
-  font-family: sans-serif;
-}
-```
+![Mac](../../_assets/macs/macintosh-idea.svg)
 
-> [!TIP]
-> Use the sidebar to navigate the topics in this guide. If you're new to CSS, start with **CSS Introduction**.
+Let's make it pretty!
+
+**CSS** controls how a webpage looks: colours, fonts, spacing and layout.
+
+</speak>
 
 
-## What is CSS For?
+CSS separates how a page looks from what it contains, so you can restyle an entire site without touching the HTML. These notes cover core properties, interactivity, and the Flexbox and Grid layout systems.
 
-CSS separates **presentation** from **content**. This means you can change the entire look of a site by editing just the CSS, without touching the HTML.
 
-- **Styling** - colours, fonts, borders, backgrounds
-- **Layout** - position elements, create grids and flexible layouts
-- **Responsiveness** - adapt pages to different screen sizes
+<menu>
 
-> [!NOTE]
-> CSS works alongside HTML and JavaScript. Most real websites use all three together.
+### Cascading Style Sheets (CSS)
+
+<i class="si si-css3"></i>
+
+[Link](/web/css/css.md)
+
+Find out what CSS is and how selectors target HTML elements
+
+---
+
+### CSS Properties
+
+<i class="si si-css3"></i>
+
+[Link](/web/css/props.md)
+
+Style colour, text, spacing, borders and position
+
+---
+
+### Interactivity
+
+<i data-lucide="rows-3"></i>
+
+[Link](/web/css/hover.md)
+
+Add hover effects, transitions and animations
+
+---
+
+### Flexbox
+
+<i data-lucide="rows-3"></i>
+
+[Link](/web/css/flexbox.md)
+
+Lay out elements in a flexible row or column
+
+---
+
+### Grid
+
+<i data-lucide="rows-3"></i>
+
+[Link](/web/css/grid.md)
+
+Lay out elements in a two-dimensional grid
+
+
+</menu>
+

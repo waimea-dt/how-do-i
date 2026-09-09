@@ -4,13 +4,18 @@
 - [<i data-lucide="globe"></i> Web Development](/web/)
 <i data-lucide="arrow-down"></i>
 
-- [<i data-lucide="server"></i> Back-End Web Dev](/web/)
+- [<i data-lucide="server"></i> Back-End Web Dev](/web/back-end.md)
+<i data-lucide="arrow-down"></i>
+
+- [<i data-lucide="zap"></i> HTMX](/web/htmx/)
 <i data-lucide="arrow-down"></i>
 
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="zap"></i> HTMX Introduction
-    - [<i data-lucide="circle-question-mark"></i> What is HTMX?](/web/htmx/)
+    - [<i data-lucide="circle-question-mark"></i> What is HTMX?](/web/htmx/htmx.md)
 
 - <i data-lucide="scooter"></i> HTMX Basics
     - [<i data-lucide="settings"></i> Setup with Flask](/web/htmx/setup.md)

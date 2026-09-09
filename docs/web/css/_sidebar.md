@@ -7,10 +7,15 @@
 - [<i data-lucide="layout-template"></i> Front-End Web Dev](/web/front-end.md)
 <i data-lucide="arrow-down"></i>
 
+- [<i class="si si-css3"></i> CSS](/web/css/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i class="si si-css3"></i> Cascading Style Sheets (CSS)
-    - [<i data-lucide="circle-question-mark"></i> What is CSS?](/web/css/)
+    - [<i data-lucide="circle-question-mark"></i> What is CSS?](/web/css/css.md)
     - [<i data-lucide="circle-question-mark"></i> CSS Selectors](/web/css/selectors.md)
     - [<i data-lucide="crosshair"></i> Specificity](/web/css/specificity.md)
 

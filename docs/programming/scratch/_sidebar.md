@@ -4,10 +4,15 @@
 - [<i data-lucide="cpu"></i> Programming](/programming/)
 <i data-lucide="arrow-down"></i>
 
+- [<i class="si si-scratch"></i> Scratch](/programming/scratch/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i class="si si-scratch"></i> Scratch
-    - [<i data-lucide="circle-question-mark"></i> What is Scratch?](/programming/scratch/)
+    - [<i data-lucide="circle-question-mark"></i> What is Scratch?](/programming/scratch/scratch.md)
     - [<i data-lucide="blocks"></i> Project Structure](/programming/scratch/structure.md)
 
 - <i data-lucide="rocket"></i> Movement

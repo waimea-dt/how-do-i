@@ -1,157 +1,90 @@
-# What is a Database?
+# Databases
 
-A database is an **organised** collection of **data**. Data means items of information: names, phone numbers, prices, etc.
+<speak>
 
-## Tables
+![Mac](../_assets/macs/macintosh-face.svg)
 
-Databases contain **tables** of data, arranged into rows and columns. For example, here is a table of student data...
+Where do I put all this stuff?
 
-<db-data>
+**Databases** are how we store and organise data so it can be found again quickly.
 
-| students |          |          |            |       |
-| -------- | -------- | -------- | ---------- | ----- |
-| num      | forename | surname  | dob        | house |
-| -----    | -------- | -------- | ---------- | ----- |
-| 17034    | Dave     | McPickle | 2001-01-01 | Ru    |
-| 17037    | Karen    | Cheeto   | 2005-06-02 | Co    |
-| 17041    | Pierre   | Fromage  | 2003-12-24 | Ru    |
-
-</db-data>
+</speak>
 
 
-## Records
-
-Each row of data in the table is known a **record** - data connected with one person / thing. For example, this is the record for Karen Cheeto, student number 17037...
-
-<db-data>
-
-| students  |          |          |            |       |
-| --------- | -------- | -------- | ---------- | ----- |
-| num       | forename | surname  | dob        | house |
-| --------- | -------- | -------- | ---------- | ----- |
-| 17034     | Dave     | McPickle | 2001-01-01 | Ru    |
-| 17037 !!! | Karen    | Cheeto   | 2005-06-02 | Co    |
-| 17041     | Pierre   | Fromage  | 2003-12-24 | Ru    |
-
-</db-data>
+Almost every app and website relies on a database to store its data - user accounts, products, messages, scores. These notes cover how databases are structured, and how to use SQL to create, read, update and delete records.
 
 
-## Fields
+<menu>
 
-The columns in the table are known a **fields**, and each has a **fieldname** at the top. For example, this is the forename column / field...
+### Databases
 
-<db-data>
+<i data-lucide="database"></i>
 
-| students |              |          |            |       |
-| -------- | ------------ | -------- | ---------- | ----- |
-| num      | forename !!! | surname  | dob        | house |
-| -----    | -----------  | -------- | ---------- | ----- |
-| 17034    | Dave         | McPickle | 2001-01-01 | Ru    |
-| 17037    | Karen        | Cheeto   | 2005-06-02 | Co    |
-| 17041    | Pierre       | Fromage  | 2003-12-24 | Ru    |
+[Link](/db/db.md)
 
-</db-data>
+Learn what a database is: tables, records, fields and keys
 
+---
 
-## Data Type
+### SQL Intro
 
-Each field contains a particular type of data: forename is **TEXT**, num is **INTEGER**, etc. This is called the **data type** of the field.
+<i data-lucide="database-search"></i>
 
+[Link](/db/sql/)
 
-## Primary Key Field
+Meet SQL, the language used to talk to a database
 
-Every record in a table needs to have a value that **uniquely identifies** it. These field containing these values is called the **primary key** field. In the student table, the primary key is the student number - every student has a unique number...
+---
 
-<db-data>
+### Creating Database Tables
 
-| students   |          |          |            |       |
-| ---------- | -------- | -------- | ---------- | ----- |
-| PK num !!! | forename | surname  | dob        | house |
-| ------     | -------- | -------- | ---------- | ----- |
-| 17034      | Dave     | McPickle | 2001-01-01 | Ru    |
-| 17037      | Karen    | Cheeto   | 2005-06-02 | Co    |
-| 17041      | Pierre   | Fromage  | 2003-12-24 | Ru    |
+<i data-lucide="table"></i>
 
-</db-data>
+[Link](/db/sql/create.md)
 
+Define tables and their fields, keys and relationships
 
-## Foreign Keys
+---
 
-Sometimes values in one table **link** to records in another table. These values are known as **foreign keys** since they link to the primary key of an other table.
+### Creating Records [INSERT]
 
-In this example, the house code in the students table is a foreign keys - it links back to a record in a houses table...
+<i data-lucide="between-horizontal-start"></i>
 
-<db-data>
+[Link](/db/sql/insert.md)
 
-| students |          |          |            |              |
-| -------- | -------- | -------- | ---------- | ------------ |
-| PK num   | forename | surname  | dob        | FK house !!! |
-| -----    | -------- | -------- | ---------- | -----------  |
-| 17034    | Dave     | McPickle | 2001-01-01 | Ru           |
-| 17037    | Karen    | Cheeto   | 2005-06-02 | Co           |
-| 17041    | Pierre   | Fromage  | 2003-12-24 | Ru           |
+Add new records into a table with INSERT
 
-| houses      |            |      |
-| ----------- | ---------- | ---- |
-| PK code !!! | name       | dean |
-| -------     | ---------- | ---- |
-| Ca          | Carrington | KTY  |
-| Co          | Cooper     | LGT  |
-| Hi          | Hillary    | MRQ  |
-| Ru          | Rutherford | SDW  |
+---
 
-</db-data>
+### Reading Records [SELECT]
 
+<i data-lucide="search"></i>
 
-## Schema
+[Link](/db/sql/select-simple.md)
 
-The schema of a database is the definition of the database structure - the fields, the data types, the primary key, etc. For example, here is the schema of the students table...
+Query, filter, sort and summarise data with SELECT
 
-<db-schema>
+---
 
-| students |          |         |               |
-| -------- | -------- | ------- | ------------- |
-| PK       | num      | INTEGER | AUTOINCREMENT |
-|          | forename | TEXT    | NOT NULL      |
-|          | surname  | TEXT    | NOT NULL      |
-|          | dob      | DATE    | NOT NULL      |
-| FK       | house    | TEXT    | NOT NULL      |
+### Updating Records [UPDATE]
 
-</db-schema>
+<i data-lucide="replace"></i>
 
-> [!NOTE]
-> In this example, all fields are **required** so they are set to **NOT NULL**.
+[Link](/db/sql/update.md)
+
+Change existing records with UPDATE
+
+---
+
+### Deleting Records [DELETE]
+
+<i data-lucide="trash-2"></i>
+
+[Link](/db/sql/delete.md)
+
+Remove records from a table with DELETE
 
 
-## Relationships
+</menu>
 
-When a **foreign key** is one table **links** to another, this creates a **relationship**..
-
-<db-schema>
-
-| students |          |         |               |
-| -------- | -------- | ------- | ------------- |
-| PK       | num      | INTEGER | AUTOINCREMENT |
-|          | forename | TEXT    | NOT NULL      |
-|          | surname  | TEXT    | NOT NULL      |
-|          | dob      | DATE    | NOT NULL      |
-| FK !!!   | house    | TEXT    | NOT NULL      |
-
-| houses |      |      |                  |
-| ------ | ---- | ---- | ---------------- |
-| PK !!! | code | TEXT | NOT NULL, UNIQUE |
-|        | name | TEXT | NOT NULL         |
-|        | dean | TEXT | NOT NULL         |
-
-</db-schema>
-
-In this case, the relationship is a **one-to-many** relationship - one house has many students, and each student belongs to one house...
-
-<db-relationship>
-
-- students
-    - many-to-one !!
-- houses
-
-</db-relationship>
 

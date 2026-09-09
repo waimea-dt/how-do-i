@@ -4,10 +4,15 @@
 - [<i data-lucide="binary"></i> Computer Science](/cs/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="chart-spline"></i> Complexity & Tractability](/cs/complexity/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="chart-spline"></i> Algorithmic Complexity
-    - [<i data-lucide="circle-question-mark"></i> What is Complexity?](/cs/complexity/)
+    - [<i data-lucide="circle-question-mark"></i> What is Complexity?](/cs/complexity/complexity.md)
     - [<i data-lucide="component"></i> Big-O Notation](/cs/complexity/big-o.md)
     - [<i data-lucide="chart-spline"></i> Common Time Complexities](/cs/complexity/common.md)
     - [<i data-lucide="git-compare"></i> Best, Worst & Average Case](/cs/complexity/cases.md)
