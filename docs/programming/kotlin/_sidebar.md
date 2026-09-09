@@ -4,10 +4,15 @@
 - [<i data-lucide="cpu"></i> Programming](/programming/)
 <i data-lucide="arrow-down"></i>
 
+- [<i class="si si-kotlin"></i> Kotlin](/programming/kotlin/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i class="si si-kotlin"></i> Kotlin
-    - [<i data-lucide="circle-question-mark"></i> The Kotlin Language](/programming/kotlin/)
+    - [<i data-lucide="circle-question-mark"></i> The Kotlin Language](/programming/kotlin/kotlin.md)
     - [<i data-lucide="file-text"></i> Cheatsheet](/programming/kotlin/cheatsheet.md)
     - [<i data-lucide="folder-tree"></i> Project Setup](/programming/kotlin/project.md)
 

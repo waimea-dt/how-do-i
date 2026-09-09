@@ -1,14 +1,26 @@
 - [<i data-lucide="home"></i> Home](/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="binary"></i> Computer Science](/cs/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
-- <i data-lucide="binary"></i> Computer Science
-    - [<i data-lucide="circle-question-mark"></i> What is CS?](/cs/)
+#### Menu
 
+- [<i data-lucide="chart-spline"></i> Complexity & Tractability](/cs/complexity/)
+    - Some problems are harder than others; learn why
 
-- <i data-lucide="binary"></i> CS Topics
-    - [<i data-lucide="chart-spline"></i> Complexity & Tractability](/cs/complexity/)
-    - [<i data-lucide="file lock"></i> Encryption](/cs/encryption/)
-    - [<i data-lucide="workflow"></i> Formal Languages](/cs/formal-langs/)
+- [<i data-lucide="file lock"></i> Encryption](/cs/encryption/)
+    - Learn how we keep things secret across open networks
+
+- [<i data-lucide="binary"></i> Data Representation](/cs/data-rep/)
+    - How does a computer store numbers, text, images, etc.?
+
+- [<i data-lucide="workflow"></i> Formal Languages](/cs/formal-langs/)
+    - How does a computer understand a programming language?
+
+---
+
+- [<i data-lucide="list-checks"></i> The 2026 Exams](/cs/exam.md)
 

@@ -1,14 +1,40 @@
 # Docker
 
-**Docker** is
+<speak>
 
-![Docker logo](_assets/docker.png)
+![Mac](../../_assets/macs/macintosh-idea.svg)
 
-## Docker Compose
+Ship it in a box!
 
-**Docker compose** is
+**Docker** packages an app so it runs the same way everywhere.
 
-![Docker compose logo](_assets/compose.png)
+</speak>
 
-![Docker compose & Docker](_assets/docker-compose.png)
+
+Docker packages an app and everything it needs to run into a single container, so it behaves the same on your machine, a classmate's machine, or a server. These notes cover Docker itself, and Docker Compose for running multiple containers together.
+
+
+<menu>
+
+### Docker
+
+<i class="si si-docker"></i>
+
+[Link](/web/docker/docker.md)
+
+Find out what Docker is and why containers are useful
+
+---
+
+### Docker Compose
+
+<i class="si si-octopusdeploy"></i>
+
+[Link](/web/docker/compose.md)
+
+Run and connect multiple containers together with one config file
+
+
+</menu>
+
 

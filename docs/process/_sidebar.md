@@ -1,10 +1,15 @@
 - [<i data-lucide="home"></i> Home](/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="route"></i> The Design Process](/process/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="route"></i> The Design Process
-    - [<i data-lucide="circle-question-mark"></i> What is the Design Process?](/process/)
+    - [<i data-lucide="circle-question-mark"></i> What is the Design Process?](/process/process.md)
     <!-- - [<i data-lucide="lightbulb"></i> Why Use a Design Process?](/process/why.md) -->
 
 - <i data-lucide="workflow"></i> Process Stages

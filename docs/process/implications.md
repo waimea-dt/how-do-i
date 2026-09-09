@@ -31,6 +31,8 @@ Good designers think about these things **before** they build, not after. Consid
 > Aside from these, others may be more or less relevant to your end-users and your system. Think carefully about which these might be: **Aesthetics** is usually important; **Privacy**/**Legal** will be important if you're storing personal user data; etc.
 
 
+<cards size="">
+
 ## <i data-lucide="mouse-pointer-click"></i> Usability
 
 > Is it easy to use?
@@ -53,7 +55,7 @@ A system that works but is confusing or frustrating will fail its users. Good us
 > - Showing clear feedback messages (e.g. loading, success, error)
 > - etc.
 
-
+---
 
 ## <i data-lucide="accessibility"></i> Accessibility
 
@@ -74,6 +76,7 @@ Your product should be usable by as many people as possible, regardless of their
 > - Adding 'alt' text to any images so a screen-reader can read this out
 > - etc.
 
+---
 
 ## <i data-lucide="user"></i> End User
 
@@ -93,7 +96,7 @@ Your design should be built around the real people who will use it - not just wh
 > - Prioritising the main tasks users want to complete quickly
 > - etc.
 
-
+---
 
 ## <i data-lucide="palette"></i> Aesthetics
 
@@ -112,6 +115,7 @@ Visual design affects how users feel about a product and whether they trust it. 
 > - Keeping page layouts clean so important content stands out
 > - etc.
 
+---
 
 ## <i data-lucide="wrench"></i> Functionality
 
@@ -131,6 +135,7 @@ A product that looks great but breaks, crashes, or loads slowly will frustrate u
 > - Checking the site on mobile, tablet, and desktop devices
 > - etc.
 
+---
 
 ## <i data-lucide="users"></i> Social
 
@@ -151,6 +156,7 @@ Digital products reach large audiences and can influence how people think about 
 > - Reviewing content to make sure it is respectful and inclusive
 > - etc.
 
+---
 
 ## <i data-lucide="globe"></i> Cultural
 
@@ -169,6 +175,7 @@ Culture shapes how people interpret language, images, and symbols. What seems ne
 > - Using examples that represent different cultures fairly
 > - etc.
 
+---
 
 ## <i data-lucide="scale"></i> Ethical
 
@@ -188,6 +195,7 @@ Ethics is about doing the right thing, even when the law doesn't require it. Som
 > - Removing content that could cause unnecessary harm or distress
 > - etc.
 
+---
 
 ## <i data-lucide="lock"></i> Privacy
 
@@ -207,6 +215,7 @@ If your product collects any personal information, you have a legal and ethical 
 > - Adding a clear privacy note explaining what data is collected and why
 > - etc.
 
+---
 
 ## <i data-lucide="copyright"></i> Intellectual Property
 
@@ -226,6 +235,7 @@ Using someone else's creative work without permission is illegal. This includes 
 > - Keeping a source list with credits and licence details
 > - etc.
 
+---
 
 ## <i data-lucide="gavel"></i> Legal
 
@@ -245,8 +255,9 @@ Beyond intellectual property and privacy, a range of laws may apply depending on
 > - Reviewing communication features so they cannot be used for harassment
 > - etc.
 
+---
 
-## <i data-lucide="calendar-clock"></i> Future Proofing
+## <i data-lucide="calendar-clock"></i> Future-Proofing
 
 > Can it be kept up to date?
 
@@ -264,6 +275,7 @@ Technology and user needs change. A well-designed product should be easy to main
 > - Building pages/components in a modular way so new features can be added later
 > - etc.
 
+---
 
 ## <i data-lucide="heart-pulse"></i> Health & Safety
 
@@ -281,3 +293,6 @@ Some digital products can pose physical or psychological risks - particularly th
 > - Avoiding flashing or rapid animation that could trigger seizures
 > - Adding clear content warnings where sensitive material appears
 > - etc.
+
+</cards>
+

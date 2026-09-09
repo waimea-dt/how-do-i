@@ -4,10 +4,15 @@
 - [<i data-lucide="binary"></i> Computer Science](/cs/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="workflow"></i> Formal Languages](/cs/formal-langs/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="workflow"></i> Formal Languages Basics
-    - [<i data-lucide="circle-question-mark"></i> What is a Formal Language?](/cs/formal-langs/)
+    - [<i data-lucide="circle-question-mark"></i> What is a Formal Language?](/cs/formal-langs/formal-langs.md)
     - [<i data-lucide="book-a"></i> Alphabets & Strings](/cs/formal-langs/alphabets.md)
     - [<i data-lucide="braces"></i> Grammar & Syntax](/cs/formal-langs/grammar.md)
 

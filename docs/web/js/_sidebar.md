@@ -7,7 +7,12 @@
 - [<i data-lucide="layout-template"></i> Front-End Web Dev](/web/front-end.md)
 <i data-lucide="arrow-down"></i>
 
+- [<i class="si si-javascript"></i> JavaScript](/web/js/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
+
+#### Menu
 
 - <i class="si si-javascript"></i> JavaScript
     - [<i data-lucide="circle-question-mark"></i> What is JavaScript?](/web/js/intro/about.md)

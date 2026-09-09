@@ -1,77 +1,70 @@
-# The Python Programming Language
+# Python
 
-**Python** is one of the most popular programming languages in the world. It was created by Guido van Rossum and first released in 1991, with a focus on making code easy to read and write.
+<speak>
 
-```python
-print("Hello, World!")
-```
+![Mac](../../_assets/macs/macintosh-idea.svg)
 
-> [!TIP]
-> Use the sidebar to navigate the topics in this guide. If you're new to Python, start with **Python Basics** and work through the pages in order.
+Named after Monty Python, not the snake!
 
+**Python** is a beginner-friendly language used everywhere from scripts to AI.
 
-## Why Python?
-
-- **Beginner-friendly** - clean syntax that reads almost like plain English
-- **Versatile** - used for websites, games, data science, AI, automation, and more
-- **Huge community** - millions of users, libraries for almost everything
-- **Dynamically typed** - no need to declare variable types up front
-
-> [!NOTE]
-> Python is one of the most in-demand languages in the world. It's widely used in schools and universities, and is a favourite of scientists, engineers, and developers.
+</speak>
 
 
-## What Can You Build?
-
-- **Scripts and tools** - automate repetitive tasks
-- **Console programs** - text-based programs that run in a terminal
-- **Web apps** - using frameworks like Flask or Django
-- **Games** - using Pygame
-- **Data analysis and AI** - using libraries like NumPy, Pandas, and TensorFlow
-
-This guide focuses on **console programs** first to learn the fundamentals.
+Python's clean, readable syntax makes it one of the best languages to learn programming with - and one of the most widely used in the real world. These notes take you from the basics through to building your own object-oriented programs.
 
 
-## Hello World!
+<menu>
 
-Here is 'Hello, World' in Python:
+### Python
 
-```python run
-print("Hello, World!")
-```
+<i class="si si-python"></i>
 
-Wonderfully simple.
+[Link](/programming/python/python.md)
 
-For comparison, here is the same thing in a few other languages:
+Find out what Python is and why it's such a popular first language
 
-**Java**
+---
 
-```java
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
+### Python Basics
 
-**Kotlin**
+<i data-lucide="scooter"></i>
 
-```kotlin
-fun main() {
-    println("Hello, World!")
-}
-```
+[Link](/programming/python/basics/variables.md)
 
-**C++**
+Learn the fundamentals: variables, numbers, text, logic and loops
 
-```cpp
-#include <iostream>
+---
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
-```
+### Python Advanced
 
-Python's clean syntax is one of the reasons it's so popular for beginners - there's no boilerplate, no braces, no semicolons.
+<i data-lucide="rocket"></i>
+
+[Link](/programming/python/advanced/errors.md)
+
+Handle errors, write functions, and work with lists, dicts and tuples
+
+---
+
+### Python OOP
+
+<i data-lucide="shapes"></i>
+
+[Link](/programming/python/oop/intro.md)
+
+Build programs around classes and objects
+
+---
+
+### Python GUIs
+
+<i data-lucide="app-window"></i>
+
+[Link](/programming/python/gui/easygui.md)
+
+Build simple windowed apps using EasyGUI
+
+
+</menu>
+
 

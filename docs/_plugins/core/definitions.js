@@ -134,8 +134,8 @@
           replaced = true;
         }
       } else if (node.nodeType === Node.ELEMENT_NODE) {
-        // Skip code blocks, existing abbr tags, and quiz/flashcard content (would leak answers via tooltips)
-        const skipTags = ['CODE', 'PRE', 'ABBR', 'SCRIPT', 'STYLE', 'QUIZ', 'FLASHCARDS', 'DRAG-DROP'];
+        // Skip code blocks, existing abbr tags, menu cards, and quiz/flashcard content (would leak answers via tooltips)
+        const skipTags = ['CODE', 'PRE', 'ABBR', 'SCRIPT', 'STYLE', 'QUIZ', 'FLASHCARDS', 'DRAG-DROP', 'MENU'];
         if (skipTags.includes(node.tagName)) {
           return;
         }

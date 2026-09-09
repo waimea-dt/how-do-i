@@ -4,10 +4,15 @@
 - [<i data-lucide="cpu"></i> Programming](/programming/)
 <i data-lucide="arrow-down"></i>
 
+- [<i class="si si-python"></i> Python](/programming/python/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i class="si si-python"></i> Python
-    - [<i data-lucide="circle-question-mark"></i> The Python Language](/programming/python/)
+    - [<i data-lucide="circle-question-mark"></i> The Python Language](/programming/python/python.md)
     - [<i data-lucide="info"></i> Python Cheatsheet](/programming/python/cheatsheet.md)
 
 - <i data-lucide="scooter"></i> Python Basics

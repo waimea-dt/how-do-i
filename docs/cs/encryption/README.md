@@ -1,36 +1,99 @@
-# Cryptography - The Science of Keeping Secrets
+# Encryption
 
-Every time you check your bank balance, message a friend, or connect to school WiFi, **encryption** is quietly protecting you, keeping your data and messages secret, using clever algorithms. Modern encryption is so secure that not even the fastest supercomputers can crack it and read your data.
+<speak>
 
-## What You'll Learn
+![Mac](../../_assets/macs/macintosh-thinking.svg)
 
-The notes here cover everything you need for [AS91898](/ncea/91898/as91898.pdf): Demonstrate understanding of a computer science concept - Encryption.
+Shh! It's a secret...
 
-- The key **types of encryption**: symmetric, asymmetric, hashing
-- How **digital signatures** prove authenticity
-- How **WPA2 / WPA3** WiFi security works (Personal and Enterprise)
-- How **VPNs** protect your traffic
-- How **device encryption** like BitLocker protects data on your device
-- How **Password managers** work and why they are a good idea
+**Encryption** is how we keep information hidden from everyone except the people who should see it.
 
-> [!IMPORTANT]
-> For [AS91898 2026](/ncea/91898/91898-spc-2026.pdf), questions on the impact of encryption focus on **human factors and social impact** - not just the technical aspects: Think about *who* is affected when encryption succeeds or fails, and *why* people make risky security choices.
-
-> [!TIP]
-> Each section of these notes has its own **quiz** at the end - use them to check your understanding before moving on.
+</speak>
 
 
-## Video Overviews
+Encryption protects almost everything you do online - banking, messaging, browsing - by turning readable data into scrambled nonsense that only the right key can undo. These notes cover how encryption works, the maths behind it, and the impact it has on society.
 
 
-<videoembed id="yFZGF8FHSg"></videoembed>
+<menu>
 
-<videoembed id="NuyzuNBFWxQ"></videoembed>
+### Encryption Basics
+
+<i data-lucide="lock"></i>
+
+[Link](/cs/encryption/encryption.md)
+
+Learn the core vocabulary and ideas behind keeping data secret
+
+---
+
+### Historical Ciphers
+
+<i data-lucide="replace"></i>
+
+[Link](/cs/encryption/history.md)
+
+See how early ciphers like Caesar, Vigenère and Enigma worked - and broke
+
+---
+
+### Symmetric Encryption
+
+<i data-lucide="key-round"></i>
+
+[Link](/cs/encryption/symmetric.md)
+
+One shared key locks and unlocks the data - but how do you share it safely?
+
+---
+
+### Asymmetric Encryption
+
+<i data-lucide="key-square"></i>
+
+[Link](/cs/encryption/asymmetric.md)
+
+Public and private keys solve the key-sharing problem
+
+---
+
+### Modern Cryptography
+
+<i data-lucide="cpu"></i>
+
+[Link](/cs/encryption/aes.md)
+
+See the real algorithms - AES, RSA and Diffie-Hellman - protecting data today
+
+---
+
+### Hashing & Digital Signatures
+
+<i data-lucide="hash"></i>
+
+[Link](/cs/encryption/hashing.md)
+
+Fingerprint data to detect tampering and prove who sent it
+
+---
+
+### Applications Using Encryption
+
+<i data-lucide="shield-alert"></i>
+
+[Link](/cs/encryption/https.md)
+
+Encryption at work: HTTPS, VPNs, WiFi, device and password security
+
+---
+
+### Impacts of Using Encryption
+
+<i data-lucide="shield-question-mark"></i>
+
+[Link](/cs/encryption/benefits.md)
+
+Weigh up the benefits, downsides and future of strong encryption
 
 
-## Further Reading
-
-- [Computer Science Field Guide - Encryption](https://www.csfieldguide.org.nz/en/chapters/coding-encryption/) - The CSFG chapter, covering some aspects of the topic
-- [Khan Academy - Cryptography](https://www.khanacademy.org/computing/computer-science/cryptography) - a free, in-depth course covering ancient and modern cryptography
-- [GCFGlobal - Internet Safety](https://www.learnfree.org/en/internetsafety/) - practical, everyday security advice
+</menu>
 

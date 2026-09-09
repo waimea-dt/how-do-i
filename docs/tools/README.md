@@ -1,21 +1,80 @@
-# Useful Digital Tech. Tools
+# Useful Tools
 
-This section contains a list of great tools that can help support your learning with and about digital technologies.
+<speak>
 
-## What Makes a Good Tool?
+![Mac](../_assets/macs/macintosh-idea.svg)
 
-Just like hammers and screwdrivers in a workshop, good tools are ones that:
+The right tool for the job!
 
-- **are easy to learn** - nobody wants to read instructions!
-- **feel good to use** - a tool should be a pleasure to use
-- **help you do things** - if it's not helping, what's the point?
+**Useful Tools** are the software that makes learning digital technologies easier.
 
-## So, Why These Tools?
+</speak>
 
-Where possible, these tools are the best available and also:
 
-- **free or low cost** - great paid tools might exist, but free is better!
-- **cross-platform** - whatever device you have, these tools will work
-- **well documented** - good tutorials and help are available
-- **open-source** - developed by developers for developers
+Good tools get out of your way and let you focus on the work. This section lists tried-and-tested tools for coding, databases, design, and media - all free or low-cost, cross-platform, and well documented.
+
+
+<menu>
+
+### Useful Tools
+
+<i data-lucide="pocket-knife"></i>
+
+[Link](/tools/tools.md)
+
+Find out what makes a tool worth using
+
+---
+
+### Coding Tools
+
+<i data-lucide="braces"></i>
+
+[Link](/tools/code-edit.md)
+
+Editors, online playgrounds and source control for writing code
+
+---
+
+### Database Tools
+
+<i data-lucide="database"></i>
+
+[Link](/tools/db-design.md)
+
+Design, edit and generate data for your databases
+
+---
+
+### Design Tools
+
+<i data-lucide="paintbrush"></i>
+
+[Link](/tools/des-wire.md)
+
+Wireframe, choose colours and pick fonts for your projects
+
+---
+
+### Image Tools
+
+<i data-lucide="image-upscale"></i>
+
+[Link](/tools/image-edit.md)
+
+Edit images and create pixel art
+
+---
+
+### Media Libraries
+
+<i data-lucide="images"></i>
+
+[Link](/tools/media-image.md)
+
+Find free images, sounds and game assets to use in your projects
+
+
+</menu>
+
 

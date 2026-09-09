@@ -7,7 +7,12 @@
 - [<i data-lucide="layout-template"></i> Front-End Web Dev](/web/front-end.md)
 <i data-lucide="arrow-down"></i>
 
+- [<i class="si si-html5"></i> HTML](/web/html/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
+
+#### Menu
 
 - <i class="si si-html5"></i> HTML
     - [<i data-lucide="circle-question-mark"></i> What is HTML?](/web/html/intro/about.md)

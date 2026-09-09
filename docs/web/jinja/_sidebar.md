@@ -4,13 +4,18 @@
 - [<i data-lucide="globe"></i> Web Development](/web/)
 <i data-lucide="arrow-down"></i>
 
-- [<i data-lucide="server"></i> Back-End Web Dev](/web/)
+- [<i data-lucide="server"></i> Back-End Web Dev](/web/back-end.md)
+<i data-lucide="arrow-down"></i>
+
+- [<i class="si si-jinja"></i> Jinja Templates](/web/jinja/)
 <i data-lucide="arrow-down"></i>
 
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i class="si si-jinja"></i> Jinja Templates
-    - [<i data-lucide="circle-question-mark"></i> What is Jinja?](/web/jinja/)
+    - [<i data-lucide="circle-question-mark"></i> What is Jinja?](/web/jinja/jinja.md)
     - [<i data-lucide="layout-template"></i> How Do Templates Work?](/web/jinja/templates.md)
 
 - <i data-lucide="scooter"></i> Jinja Basics

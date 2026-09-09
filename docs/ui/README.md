@@ -1,28 +1,72 @@
-# User Interfaces (UIs)
+# User Interfaces
 
-User interfaces are the point of interaction between users and digital systems. A well-designed UI makes software intuitive, efficient, and enjoyable to use.
+<speak>
 
-## What Makes a Good UI?
+![Mac](../_assets/macs/macintosh-face.svg)
 
-- **Intuitive** - users can understand and navigate without extensive training
-- **Consistent** - similar elements behave in similar ways throughout the interface
-- **Responsive** - provides clear feedback for user actions
-- **Accessible** - works for users with different abilities and needs
-- **Efficient** - helps users complete tasks quickly and with minimal friction
+Nice to see you!
 
-> [!NOTE]
-> UI design draws on principles from human-computer interaction (HCI), psychology, and graphic design. Modern UIs often need to work across multiple devices and screen sizes.
+**User Interfaces (UIs)** are how people actually interact with the software we build.
+
+</speak>
 
 
-## An Overview of Good UI/UX Design
+A great UI feels invisible - it just works. These notes cover what makes an interface intuitive, how to design for different platforms, and how to put users at the centre of your design decisions.
 
-**World's Shortest UI/UX Design Course** - This is a really good, quick intro to the design process and tools to use from concept to completed site/app...
 
-<videoembed id="wIuVvCuiJhU"></videoembed>
+<menu>
 
-Also, watch this short video that promotes simplicity in design: **Everything will be simpler and you WILL be happy**...
+### User Interfaces
 
-<videoembed id="04j-kUj1Zhg"></videoembed>
+<i data-lucide="monitor-smartphone"></i>
+
+[Link](/ui/ui.md)
+
+Find out what a user interface is and what makes one good
+
+---
+
+### UI Basics
+
+<i data-lucide="layout-panel-left"></i>
+
+[Link](/ui/components.md)
+
+Learn the components and principles behind every interface
+
+---
+
+### Platform-Specific UIs
+
+<i data-lucide="smartphone"></i>
+
+[Link](/ui/desktop.md)
+
+See how UI design changes across desktop, mobile and responsive layouts
+
+---
+
+### User-Centred Design
+
+<i data-lucide="users"></i>
+
+[Link](/ui/understanding-users.md)
+
+Design and test your interface around the people who'll actually use it
+
+---
+
+### Common UI Patterns
+
+<i data-lucide="grid-2x2"></i>
+
+[Link](/ui/navigation.md)
+
+Explore tried-and-tested patterns for navigation, forms, data and alerts
+
+
+</menu>
+
 
 
 

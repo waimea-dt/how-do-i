@@ -1,10 +1,15 @@
 - [<i data-lucide="home"></i> Home](/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="database"></i> Databases](/db/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="database"></i> Databases
-    - [<i data-lucide="circle-question-mark"></i> What is a Database?](/db/)
+    - [<i data-lucide="circle-question-mark"></i> What is a Database?](/db/db.md)
     - [<i data-lucide="square-split-horizontal"></i> Database Normalisation](/db/normal.md)
     - [<i data-lucide="database-zap"></i> What is a 'CRUD' App?](/db/crud.md)
 

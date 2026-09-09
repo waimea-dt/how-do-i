@@ -1,81 +1,70 @@
-# The Kotlin Programming Language
+# Kotlin
 
-![Kotlin Logo](_assets/kotlin-logo.svg)
+<speak>
 
-**Kotlin** is a modern programming language created by JetBrains - the same company that makes IntelliJ IDEA. It was designed to be cleaner and safer than Java, while running on the same range of platforms (Windows, Mac, iOS, Android, Linux, all using the JVM - the Java Virtual Machine).
+![Mac](../../_assets/macs/macintosh-idea.svg)
 
-> [!TIP]
-> Use the sidebar to navigate the topics in this guide. If you're new to Kotlin, start with **Kotlin Basics** and work through the pages in order.
+Fun fact: Kotlin is named after an island!
 
+**Kotlin** is a modern, safe language for Android, desktop and server-side apps.
 
-## Why Kotlin?
-
-- **Concise** - less code to write than in many languages to get the same result
-- **Safe** - catches common errors (like null pointer crashes) before your code even runs
-- **Interoperable** - works seamlessly alongside Java code and libraries (there are 1000s)
-- **Versatile** - used for Android apps, desktop apps, server-side code, and more
-
-> [!NOTE]
-> Kotlin is the official language for **Android** development along with great front-end libraries like **Jetpack Compose**. Kotlin is taught in many schools and universities as a first language for object-oriented programming.
+</speak>
 
 
-## What Can You Build?
-
-- **Console programs** - text-based programs that run in a terminal
-- **Desktop GUIs** - windowed apps using Swing or Compose
-- **Android apps** - the language of choice for mobile development
-- **Web back-ends** - server-side apps using frameworks like Ktor
+Kotlin is a concise, null-safe language created by JetBrains that runs anywhere Java does. These notes take you from the basics through to building your own desktop GUI apps.
 
 
-## Hello World!
+<menu>
 
-Here is 'Hello, World' in Kotlin...
+### Kotlin
 
-```kotlin run
-fun main() {
-    println("Hello, World!")
-}
-```
+<i class="si si-kotlin"></i>
 
-Pretty clean and simple!
+[Link](/programming/kotlin/kotlin.md)
 
-For comparison, here it is in other common c-like languages...
+Find out what Kotlin is and why it's a great language to learn
 
-**Java**
+---
 
-```java
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
+### Kotlin Basics
 
-**C++**
+<i data-lucide="scooter"></i>
 
-```cpp
-#include <iostream>
+[Link](/programming/kotlin/basics/variables.md)
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
-```
+Learn the fundamentals: variables, numbers, text, logic and loops
 
-**C#**
+---
 
-```csharp
-using System;
+### Kotlin Advanced
 
-namespace HelloWorldApp
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
-    }
-}
-```
+<i data-lucide="rocket"></i>
+
+[Link](/programming/kotlin/advanced/errors.md)
+
+Handle errors, write functions, and work with lists and maps
+
+---
+
+### Kotlin OOP
+
+<i data-lucide="shapes"></i>
+
+[Link](/programming/kotlin/oop/intro.md)
+
+Build programs around classes and objects
+
+---
+
+### Kotlin GUIs
+
+<i data-lucide="app-window"></i>
+
+[Link](/programming/kotlin/gui/swing.md)
+
+Build windowed desktop apps using Swing
+
+
+</menu>
+
 

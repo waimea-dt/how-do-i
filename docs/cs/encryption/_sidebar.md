@@ -4,10 +4,15 @@
 - [<i data-lucide="binary"></i> Computer Science](/cs/)
 <i data-lucide="arrow-down"></i>
 
+- [<i data-lucide="lock"></i> Encryption](/cs/encryption/)
+<i data-lucide="arrow-down"></i>
+
 <!-- -------------------------- -->
 
+#### Menu
+
 - <i data-lucide="lock"></i> Encryption Basics
-    - [<i data-lucide="circle-question-mark"></i> What is Encryption?](/cs/encryption/)
+    - [<i data-lucide="circle-question-mark"></i> What is Encryption?](/cs/encryption/encryption.md)
     - [<i data-lucide="key"></i> Why Encryption Matters](/cs/encryption/why.md)
     - [<i data-lucide="list"></i> Cryptography Terms](/cs/encryption/terms.md)
     - [<i data-lucide="list-checks"></i> Quiz: Encryption Basics](/cs/encryption/quiz-basics.md)
