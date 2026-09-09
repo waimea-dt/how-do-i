@@ -15,7 +15,7 @@ figure.speech {
     --speech-border-color:      #000;
     --speech-text-color:        var(--color-bg);
     --speech-text-color-em:     var(--theme-color-3);
-    --speech-text-color-strong: var(--palette-color-4);
+    --speech-text-color-strong: var(--palette-color-10);
 
     container-type: inline-size;
     margin: var(--margin-block) auto;

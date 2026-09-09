@@ -22,7 +22,7 @@ Computer science is the study of how computers work and how we use them to solve
 
 [Link](/cs/complexity/)
 
-Some problems are harder than others; learn why
+Complexity is the study of how some computing problems are harder than others. In fact, some are so hard they are almost impossible to compute
 
 ---
 
@@ -32,7 +32,7 @@ Some problems are harder than others; learn why
 
 [Link](/cs/encryption/)
 
-Learn how we keep things secret across open networks
+Encryption is the study of how information can be hidden from those who should not have access to it, supporting privacy and online commerce
 
 ---
 
@@ -42,7 +42,6 @@ Learn how we keep things secret across open networks
 
 [Link](/cs/formal-langs/)
 
-how does a computer understand a programming language?
-
+Formal Languages describes how computer languages are defined and how computers are able to parse and understand them
 
 </menu>

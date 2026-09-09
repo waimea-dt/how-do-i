@@ -25,7 +25,7 @@ Learn about the technology and ideas that shape computing
 
 ---
 
-### Computer Programming
+### Programming
 
 <i data-lucide="braces"></i>
 

@@ -8,15 +8,17 @@
 
 #### Menu
 
+- [<i class="si si-kotlin"></i> Kotlin](/programming/kotlin/)
+    - Notes and guides for Kotlin
+- [<i class="si si-python"></i> Python](/programming/python/)
+    - Notes and guides for Python
+- [<i class="si si-scratch"></i> Scratch](/programming/scratch/)
+    - Help and examples for Scratch
+
 - <i data-lucide="cpu"></i> Programming Basics
     - [<i data-lucide="circle-question-mark"></i> What is Programming?](/programming/programming.md)
     - [<i data-lucide="brain"></i> Why Learn to Program?](/programming/important.md)
     - [<i data-lucide="workflow"></i> Problem Solving](/programming/problem-solving.md)
-
-- <i data-lucide="braces"></i> Programming Languages
-    - [<i class="si si-kotlin"></i> Kotlin](/programming/kotlin/)
-    - [<i class="si si-python"></i> Python](/programming/python/)
-    - [<i class="si si-scratch"></i> Scratch](/programming/scratch/)
 
 - <i data-lucide="blocks"></i> Core Concepts
     - [<i data-lucide="variable"></i> Variables & Data Types](/programming/variables.md)

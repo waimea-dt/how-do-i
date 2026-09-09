@@ -24,17 +24,28 @@
     --secondary-color-7:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 75%);
     --secondary-color-8:          color-mix(in srgb, var(--secondary-color), var(--color-mono-max) 90%);
 
-    /* Palette */
-    --palette-color-1:            #54c09a;   /* green */
-    --palette-color-2:            #a16ee8;   /* purple */
-    --palette-color-3:            #4cb3d5;   /* blue */
-    --palette-color-4:            #d9627b;   /* red/pink */
-    --palette-color-5:            #a5cf62;   /* lime */
-    --palette-color-6:            #d47ad9;   /* magenta */
-    --palette-color-7:            #6084ef;   /* deep blue */
-    --palette-color-8:            #f99d4d;   /* orange */
-    --palette-color-9:            #4fd3e6;   /* cyan */
-    --palette-color-10:           #ed61a7;   /* hot pink */
+    /* Palette: HEX fallback, then perceptually consistent OKLCH values */
+    --palette-color-1:            #24b6a1;
+    --palette-color-2:            #9b92e5;
+    --palette-color-3:            #de8269;
+    --palette-color-4:            #6eb26d;
+    --palette-color-5:            #64a2e7;
+    --palette-color-6:            #da7d9b;
+    --palette-color-7:            #a6a442;
+    --palette-color-8:            #1bb0ce;
+    --palette-color-9:            #c384c9;
+    --palette-color-10:           #cc9140;
+
+    --palette-color-1:            oklch(0.7 0.12 180);
+    --palette-color-2:            oklch(0.7 0.12 288);
+    --palette-color-3:            oklch(0.7 0.12  36);
+    --palette-color-4:            oklch(0.7 0.12 144);
+    --palette-color-5:            oklch(0.7 0.12 252);
+    --palette-color-6:            oklch(0.7 0.12   0);
+    --palette-color-7:            oklch(0.7 0.12 108);
+    --palette-color-8:            oklch(0.7 0.12 216);
+    --palette-color-9:            oklch(0.7 0.12 324);
+    --palette-color-10:           oklch(0.7 0.12  72);
 
     --palette-color-1-dark:       color-mix(in srgb, var(--palette-color-1), var(--color-mono-min) 50%);
     --palette-color-2-dark:       color-mix(in srgb, var(--palette-color-2), var(--color-mono-min) 50%);

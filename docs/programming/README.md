@@ -16,6 +16,36 @@ Programming is the skill of writing precise, step-by-step instructions that a co
 
 <menu>
 
+### Kotlin
+
+<i class="si si-kotlin"></i>
+
+[Link](/programming/kotlin/)
+
+Kotlin is a clean, modern language and is the recommended language for Android app development
+
+---
+
+### Python
+
+<i class="si si-python"></i>
+
+[Link](/programming/python/)
+
+Python is great for learning to program and also one of the most widely used in the real world
+
+---
+
+### Scratch
+
+<i class="si si-scratch"></i>
+
+[Link](/programming/scratch/)
+
+Scratch is a block-based programming language for building games, animations, stories, etc.
+
+---
+
 ### Programming Basics
 
 <i data-lucide="cpu"></i>

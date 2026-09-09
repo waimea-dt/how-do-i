@@ -1,5 +1,5 @@
 /**
- * home-menu.js - Renders <menu>...</menu> blocks as a responsive grid of cards with links.
+ * topic-menu.js - Renders <menu>...</menu> blocks as a responsive grid of cards with links.
  * Content is split by <hr> tags - each section becomes a card.
  *
  * Usage in markdown:

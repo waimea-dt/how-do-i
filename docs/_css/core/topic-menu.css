@@ -1,0 +1,141 @@
+/**
+ * Menu Grid System
+ * Responsive grid layout for topic menus
+ */
+
+.markdown-section .menu-container {
+    --topic-menu-back-color:         var(--theme-color-1);
+    --topic-menu-text-color:         var(--color-mono-7);
+    --topic-menu-icon-color:         var(--text-color);
+    --topic-menu-min-width:          15rem;
+    --topic-menu-icon-size:          3rem;
+    --topic-menu-spacing:            var(--gap-large);
+    --topic-menu-gap:                var(--gap);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--topic-menu-min-width), 1fr));
+    gap: var(--topic-menu-spacing);
+    margin: 2em auto;
+    width: 100%;
+
+    .menu-item:nth-child(1) {
+        --topic-menu-text-color: var(--palette-color-1-light);
+        --topic-menu-back-color: var(--palette-color-1-dark);
+        --topic-menu-border-color: var(--palette-color-1);
+    }
+
+    .menu-item:nth-child(2) {
+        --topic-menu-text-color: var(--palette-color-2-light);
+        --topic-menu-back-color: var(--palette-color-2-dark);
+        --topic-menu-border-color: var(--palette-color-2);
+    }
+
+    .menu-item:nth-child(3) {
+        --topic-menu-text-color: var(--palette-color-3-light);
+        --topic-menu-back-color: var(--palette-color-3-dark);
+        --topic-menu-border-color: var(--palette-color-3);
+    }
+
+    .menu-item:nth-child(4) {
+        --topic-menu-text-color: var(--palette-color-4-light);
+        --topic-menu-back-color: var(--palette-color-4-dark);
+        --topic-menu-border-color: var(--palette-color-4);
+    }
+
+    .menu-item:nth-child(5) {
+        --topic-menu-text-color: var(--palette-color-5-light);
+        --topic-menu-back-color: var(--palette-color-5-dark);
+        --topic-menu-border-color: var(--palette-color-5);
+    }
+
+    .menu-item:nth-child(6) {
+        --topic-menu-text-color: var(--palette-color-6-light);
+        --topic-menu-back-color: var(--palette-color-6-dark);
+        --topic-menu-border-color: var(--palette-color-6);
+    }
+
+    .menu-item:nth-child(7) {
+        --topic-menu-text-color: var(--palette-color-7-light);
+        --topic-menu-back-color: var(--palette-color-7-dark);
+        --topic-menu-border-color: var(--palette-color-7);
+    }
+
+    .menu-item:nth-child(8) {
+        --topic-menu-text-color: var(--palette-color-8-light);
+        --topic-menu-back-color: var(--palette-color-8-dark);
+        --topic-menu-border-color: var(--palette-color-8);
+    }
+
+    .menu-item:nth-child(9) {
+        --topic-menu-text-color: var(--palette-color-9-light);
+        --topic-menu-back-color: var(--palette-color-9-dark);
+        --topic-menu-border-color: var(--palette-color-9);
+    }
+
+    .menu-item:nth-child(10) {
+        --topic-menu-text-color: var(--palette-color-10-light);
+        --topic-menu-back-color: var(--palette-color-10-dark);
+        --topic-menu-border-color: var(--palette-color-10);
+    }
+
+    /* Individual card styling */
+    .menu-item a {
+        display: grid;
+        grid-template-areas:
+            "name icon"
+            "description description";
+        grid-template-columns: 1fr var(--topic-menu-icon-size);
+        gap: var(--topic-menu-gap);
+        padding: var(--topic-menu-gap);
+        height: 100%;
+        text-decoration: none;
+
+        color: var(--topic-menu-text-color);
+        background-color: var(--topic-menu-back-color);
+        border: 2px solid var(--topic-menu-border-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow-small);
+
+        transition: all 250ms;
+
+        > * {
+            transition: all 250ms;
+            margin: 0;
+            align-self: center;
+        }
+
+        > :first-child {
+            grid-area: name;
+            color: var(--topic-menu-text-color);
+            font-size: var(--font-xlarge);
+            line-height: 1.1;
+        }
+
+        > :has(svg.icon, i.si) {
+            grid-area: icon;
+
+            svg.icon,
+            i.si::before {
+                width: var(--topic-menu-icon-size);
+                height: var(--topic-menu-icon-size);
+                font-size: var(--topic-menu-icon-size);
+                color: var(--topic-menu-text-color);
+                opacity: 0.3;
+                margin-inline: auto;
+            }
+        }
+
+        > p:not(:has(svg.icon, i.si)) {
+            grid-area: description;
+            color: var(--topic-menu-text-color);
+            font-size: var(--font-small);
+        }
+
+        &:hover {
+            box-shadow: var(--box-shadow);
+            transform: translateY(-5px);
+            --topic-menu-text-color: var(--text-color);
+        }
+    }
+}
+
